@@ -16,18 +16,18 @@
 <div style="max-width: 25em;" class="mx-5 my-2">
     <h1>Just web analytics</h1>
     <p>
-    Webstats is a free web analytics tool for small to medium sized webapps. It's emphasisis on having the lowest possible barrier to get you started with basic web analytics for your project. 
+    Webstats is a free web analytics tool for small to medium sized webapps. It's emphasisis on having the lowest possible barrier to get you started with web analytics for your project. 
     </p>
 
-    <form>
+    <form method="POST" action="http://localhost:5000/board">
       <div class="form-group">
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username">
+        <input class="form-control" name="username" placeholder="Username">
       </div>
       <div class="form-group">
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        <input type="password" name="password" class="form-control" placeholder="Password">
       </div>
-      <button type="submit" class="btn btn-secondary">Login</button>
-      <button type="submit" class="btn btn-primary">Create Account</button>
+      <button type="submit" class="btn btn-secondary" name="action">Login</button>
+      <button type="submit" class="btn btn-primary" name="action" value="register">Create Account</button>
     </form>
 
     <br />

@@ -6,6 +6,7 @@ import json
 import time
 import datetime
 from urllib.parse import urlparse
+import hashlib
 
 from ua_parser import user_agent_parser
 
@@ -58,8 +59,26 @@ def unique(id):
 
     return ''
 
-@app.route('/fetch/<id>/')
-def fetch(id):
+@app.route('/board/', methods=["POST"])
+def board():
+
+    print(request.form)
+
+    username = request.form.get("username")
+    password = request.form.get("password")
+    hashed_password = hashlib.sha256(password.encode()).digest()
+    if not username or not password:
+        return "error_missing_input"
+
+    if request.form.get("action") == "register":
+        if not r.setnx(f'user:{username}', hashed_password):
+            return 'error_username_taken'
+    else:
+        db_hashed_password = r.get(f'user:{username}')
+        if not (db_hashed_password and db_hashed_password == hashed_password):
+            return 'wrong_user_or_password'
+            
+
     with r.pipeline() as pipe:
         pipe.zrange(f"referrer:{id}", 0, 10, withscores=True)
         pipe.zrange(f"os:{id}", 0, 10, withscores=True)
