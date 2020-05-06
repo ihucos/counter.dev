@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 app = Flask(__name__)
 
 import redis
@@ -59,10 +59,12 @@ def unique(id):
 
     return ''
 
-@app.route('/board/', methods=["POST"])
-def board():
+@app.route('/', methods=["POST", "GET"])
+def index():
 
-    print(request.form)
+    if request.method == "GET":
+        return render_template("index.html")
+
 
     username = request.form.get("username")
     password = request.form.get("password")
@@ -77,7 +79,8 @@ def board():
         db_hashed_password = r.get(f'user:{username}')
         if not (db_hashed_password and db_hashed_password == hashed_password):
             return 'wrong_user_or_password'
-            
+    
+    #refresh_keys(username)
 
     with r.pipeline() as pipe:
         pipe.zrange(f"referrer:{id}", 0, 10, withscores=True)
