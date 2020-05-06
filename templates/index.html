@@ -19,13 +19,20 @@
     Webstats is a free web analytics tool for small to medium sized webapps. It's emphasisis on having the lowest possible barrier to get you started with web analytics for your project. 
     </p>
 
-    <form method="POST" action="http://localhost:5000/board">
-      <div class="form-group">
-        <input class="form-control" name="username" placeholder="Username">
+    {% if error %}
+    <div class="alert alert-warning" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="POST" action="">
+      <div class="form-group has-error">
+        <input class="form-control" name="username" value="{{username|e}}" placeholder="Username">
       </div>
       <div class="form-group">
-        <input type="password" name="password" class="form-control" placeholder="Password">
+        <input type="password" name="password" value="{{password|e}}" class="form-control" placeholder="Password">
       </div>
+
       <button type="submit" class="btn btn-secondary" name="action">Login</button>
       <button type="submit" class="btn btn-primary" name="action" value="register">Create Account</button>
     </form>

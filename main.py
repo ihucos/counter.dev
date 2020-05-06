@@ -69,16 +69,30 @@ def index():
     username = request.form.get("username")
     password = request.form.get("password")
     hashed_password = hashlib.sha256(password.encode()).digest()
+
+
+    login_error = lambda msg: render_template("index.html",
+                error=msg,
+                username=username,
+                password=password)
+
     if not username or not password:
-        return "error_missing_input"
+        return login_error("Missing Input")
 
     if request.form.get("action") == "register":
+
+        if len(username) < 4:
+            return login_error("Username needs at least 4 charachters")
+
+        if len(password) < 8:
+            return login_error("Password needs at least 8 charachters")
+
         if not r.setnx(f'user:{username}', hashed_password):
-            return 'error_username_taken'
+            return login_error("Username already taken")
     else:
         db_hashed_password = r.get(f'user:{username}')
         if not (db_hashed_password and db_hashed_password == hashed_password):
-            return 'wrong_user_or_password'
+            return login_error("Wrong username or password")
     
     #refresh_keys(username)
 
@@ -89,13 +103,16 @@ def index():
         pipe.hgetall(f"days:{id}")
         vals = pipe.execute()
         referrer_zet, os_zet, browser_zet, days_hash = vals
-        return json.dumps(dict(
-            referrer=[(i.decode(), s) for i, s in referrer_zet],
-            os=[(i.decode(), s) for i, s in os_zet],
-            browser=[(i.decode(), s) for i, s in browser_zet],
-            days=dict((k.decode(), int(v)) for k, v in days_hash.items()),
-            
-        ))
+
+    stats = dict(
+        referrer=[(i.decode(), s) for i, s in referrer_zet],
+        os=[(i.decode(), s) for i, s in os_zet],
+        browser=[(i.decode(), s) for i, s in browser_zet],
+        days=dict((k.decode(), int(v)) for k, v in days_hash.items()),
+        
+    )
+
+    return render_template("board.html", stats=stats)
 
 
 app.run()
