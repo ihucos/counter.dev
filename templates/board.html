@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Your web dashboard</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+
+<body>
+
+  <div class="container">
+
+     <div class="row my-3">
+         <p>
+         logged in with: {{ username }}
+         </p>
+         <a class="btn btn-sm btn-light" href="/" role="button">Logout</a>
+     </div>
+
+     <div class="row my-3">
+       <div class="col-md-4 card" style="background-color: #ccc">
+       bla
+       </div>
+     </div>
+
+     <div class="row my-3">
+       <div class="col-md-4">
+         <canvas id="chart_referrer" height="200"></canvas>
+       </div>
+       <div class="col-md-4">
+         <canvas id="chart_browser" height="200"></canvas>
+       </div>
+       <div class="col-md-4">
+         <canvas id="chart_os" height="200"></canvas>
+       </div>
+     </div>
+
+     <div class="row my-3">
+       <div class="col-md-12">
+         <canvas id="chart_views" height="100"></canvas>
+       </div>
+   </div>
+
+
+<script>
+colors = ["#b590ca", "#a8d3da", "#f5cab3", "#f3ecb8"]
+
+legend = { position: 'top', labels: { usePointStyle: 'true' }, align: 'start' };
+
+
+
+new Chart(document.getElementById("chart_referrer"), {
+    type: 'pie',
+    data: {
+      labels: {{ ref_labels | tojson }},
+      datasets: [
+        {
+          backgroundColor: colors,
+          borderColor: "black",
+          data: {{ ref_values | tojson }},
+        },
+      ],
+    },
+    options: {
+      legend: legend,
+      cutoutPercentage: 70,
+      title: {
+          display: true,
+          text: 'Referers'
+      }
+    },
+  });
+
+new Chart(document.getElementById("chart_os"), {
+    type: 'pie',
+    data: {
+      labels: {{ os_labels | tojson }},
+      datasets: [
+        {
+          backgroundColor: colors,
+          borderColor: "black",
+          data: {{ os_values | tojson }},
+        },
+      ],
+    },
+    options: {
+      legend: legend,
+      cutoutPercentage: 70,
+      title: {
+          display: true,
+          text: 'Os'
+      }
+    },
+  });
+
+new Chart(document.getElementById("chart_browser"), {
+    type: 'pie',
+    data: {
+      labels: {{ browser_labels | tojson }},
+      datasets: [
+        {
+          backgroundColor: colors,
+          borderColor: "black",
+          data: {{ browser_values | tojson }},
+        },
+      ],
+    },
+    options: {
+      legend: legend,
+      cutoutPercentage: 70,
+      title: {
+          display: true,
+          text: 'Browser'
+      }
+    },
+  });
+
+
+new Chart(document.getElementById("chart_views"), {
+    type: 'line',
+    data: {
+      labels: {{ days_labels | tojson }},
+      datasets: [
+        {
+          backgroundColor: colors[1],
+          borderColor: "black",
+          data: {{ days_values | tojson }},
+        },
+      ],
+    },
+    options: {
+      legend: {display: false},
+      scales: {
+          xAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Date'
+              },
+              gridLines: {
+                  display:false
+              }
+          }],
+          yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Visitors'
+              },
+              gridLines: {
+                  display:false
+              }   
+          }]
+      }
+    },
+  });
+</script>
+
+
+</body>
+</html>
+
+
