@@ -41,7 +41,7 @@ def unique(uid):
             parsed = urlparse(request.referrer)
             pipe.zincrby(f"referrer:{uid}", 1, parsed.netloc[:MAXSIZE])
         else:
-            pipe.zincrby(f"referrer:{uid}", 1, "direct")
+            pipe.zincrby(f"referrer:{uid}", 1, "Direct")
 
         ua = request.headers.get('User-Agent')
         if ua:
@@ -108,6 +108,13 @@ def index():
         vals = pipe.execute()
         referrer_zet, os_zet, browser_zet, days_hash = vals
 
+    fst_day = min(days_hash.keys())
+    day = datetime.datetime.strptime(fst_day.decode(), "%Y-%m-%d")
+    day_before = str((day - datetime.timedelta(days=1)).date())
+    days_hash[day_before.encode()] = 0
+
+    days_hash = dict(sorted(days_hash.items()))
+
     templ_args = dict(
       ref_labels=[i.decode() for (i, _) in referrer_zet],
       ref_values=[i for (_, i) in referrer_zet],
@@ -117,12 +124,11 @@ def index():
 
       browser_labels=[i.decode() for (i, _) in browser_zet],
       browser_values=[i for (_, i) in browser_zet],
+
+      days_labels=[k for (k, v) in days_hash.items()],
+      days_values=[v for (k, v) in days_hash.items()],
     
     )
-    #referrer={i.decode(): s for i, s in referrer_zet},
-    #os={i.decode(): s for i, s in os_zet},
-    #browser={i.decode(): s for i, s in browser_zet},
-    #days={k.decode(): int(v) for k, v in days_hash.items()},
 
     return render_template("board.html",
                 username=username,
