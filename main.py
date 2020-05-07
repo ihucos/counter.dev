@@ -143,7 +143,7 @@ def index():
     
     stats = get_stats(username)
     chart = {
-            key: {'labels': list(val.keys()), 'values': list(val.values())}
+            key: {'labels': list(val.keys()), 'vals': list(val.values())}
             for (key, val) in stats.items()}
     return render_template("board.html",
                 username=username,
@@ -156,7 +156,7 @@ def get_stats(uid):
             if key in STORE_AS_HASH:
                 pipe.hgetall(f"{key}:{uid}")
             else:
-                pipe.zrange(f"{key}:{uid}", MAX_ZET_ENTRIES, 10, withscores=True)
+                pipe.zrange(f"{key}:{uid}", 0, MAX_ZET_ENTRIES, withscores=True)
 
         vals = pipe.execute()
 

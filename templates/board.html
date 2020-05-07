@@ -35,22 +35,15 @@
 
      <div class="row my-3">
        <div class="col-md-3">
-         <canvas id="chart_referrer" height="200"></canvas>
+         <canvas id="chart_dev" height="200"></canvas>
        </div>
        <div class="col-md-3">
          <canvas id="chart_browser" height="200"></canvas>
        </div>
        <div class="col-md-3">
-         <canvas id="chart_lang" height="200"></canvas>
-       </div>
-       <div class="col-md-3">
          <canvas id="chart_os" height="200"></canvas>
        </div>
-     </div>
-
-     <div class="row my-3">
        <div class="col-md-3">
-         <canvas id="chart_dev" height="200"></canvas>
        </div>
      </div>
 
@@ -63,29 +56,6 @@ colors = ["#b590ca", "#a8d3da", "#f5cab3", "#f3ecb8"]
 legend = { position: 'top', labels: { usePointStyle: 'true' }, align: 'start'}
 
 
-
-new Chart(document.getElementById("chart_referrer"), {
-    type: 'pie',
-    data: {
-      labels: {{ chart.ref.labels | tojson }},
-      datasets: [
-        {
-          backgroundColor: colors,
-          borderColor: "black",
-          data: {{ chart.ref.values | tojson }},
-        },
-      ],
-    },
-    options: {
-      legend: legend,
-      cutoutPercentage: 70,
-      title: {
-          display: true,
-          text: 'Referers'
-      }
-    },
-  });
-
 new Chart(document.getElementById("chart_os"), {
     type: 'pie',
     data: {
@@ -94,7 +64,7 @@ new Chart(document.getElementById("chart_os"), {
         {
           backgroundColor: colors,
           borderColor: "black",
-          data: {{ chart.os.values | tojson }},
+          data: {{ chart.os.vals | tojson }},
         },
       ],
     },
@@ -111,39 +81,15 @@ new Chart(document.getElementById("chart_os"), {
 
 
 
-new Chart(document.getElementById("chart_lang"), {
-    type: 'pie',
-    data: {
-      labels: {{ chart.lang.labels | tojson }},
-      datasets: [
-        {
-          backgroundColor: colors,
-          borderColor: "black",
-          data: {{ chart.lang.values | tojson }},
-        },
-      ],
-    },
-    options: {
-      legend: legend,
-      cutoutPercentage: 70,
-      title: {
-          display: true,
-          text: 'Language'
-      }
-    },
-  });
-
-
-
 new Chart(document.getElementById("chart_dev"), {
     type: 'pie',
     data: {
-      labels: {{ chart.dev.values | tojson }},
+      labels: {{ chart.dev.labels | tojson }},
       datasets: [
         {
           backgroundColor: colors,
           borderColor: "black",
-          data: {{ chart.dev.values | tojson }},
+          data: {{ chart.dev.vals | tojson }},
         },
       ],
     },
@@ -166,7 +112,7 @@ new Chart(document.getElementById("chart_browser"), {
         {
           backgroundColor: colors,
           borderColor: "black",
-          data: {{ chart.browser.values | tojson }},
+          data: {{ chart.browser.vals | tojson }},
         },
       ],
     },
@@ -189,7 +135,7 @@ new Chart(document.getElementById("chart_views"), {
         {
           backgroundColor: colors[1],
           borderColor: "black",
-          data: {{ chart.date.values | tojson }},
+          data: {{ chart.date.vals | tojson }},
         },
       ],
     },
@@ -197,10 +143,6 @@ new Chart(document.getElementById("chart_views"), {
       legend: {display: false},
       scales: {
           xAxes: [{
-              scaleLabel: {
-                display: true,
-                labelString: 'Date'
-              },
               gridLines: {
                   display:false
               }
@@ -208,7 +150,11 @@ new Chart(document.getElementById("chart_views"), {
           yAxes: [{
               scaleLabel: {
                 display: true,
-                labelString: 'Visitors'
+                labelString: 'Unique Views'
+              },
+              ticks: {
+                stepSize: 1,
+                beginAtZero: true
               },
               gridLines: {
                   display: true
