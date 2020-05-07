@@ -11,18 +11,19 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
-<body>
+<body style="background-color: black;">
 
 <img src="http://localhost:5000/user/track.svg"></img>
 
-<div class="container">
-  <div class="row">
+<div class="container" style="max-width: 40em;">
 
-    <div class="col-md-6">
+    <div class="card border-dark">
+    <div class="card-body">
+    <div class="card-title"><h4>Light Web Analytics</h4></div>
+    <h6 class="card-subtitle mb-2 text-muted">Free, DSGVO-Compliant, no user ids, real-time, easy integration.</h6>
 
-    <h1>Just web analytics</h1>
-    <p>
-    Webstats is a free web analytics tool for small to medium sized webapps. It's emphasisis on having the lowest possible barrier to get you started with web analytics for your project. 
+    <div class="card-text">
+    Is a free web analytics tool for small to medium sized webapps. It's emphasisis on having the lowest possible barrier to get you started with web analytics for your project. 
     </p>
 
     {% if error %}
@@ -40,25 +41,11 @@
       </div>
 
       <button type="submit" class="btn btn-secondary" name="action">Enter</button>
-      <button type="submit" class="btn btn-primary" name="action" value="register">Create Account</button>
+      <button type="submit" class="btn btn-secondary" name="action" value="register">Create Account</button>
     </form>
 
     </div>
-
-    <div class="col-md-6">
-
-    <h2>✓ Free</h2>
-    Webstats technical design allows us to offer this service for free.
-
-    <h2>✓ DSGVO-Compliant</h2>
-    No cookies. No user identifier based tracking. You don't need any banners.
-
-    <h2>✓ Fast Integration</h2>
-    Create Account. See your tracking Snippet. Use it.
-
     </div>
-
-  </div>
 </div>
 
 <script>
