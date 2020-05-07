@@ -28,28 +28,39 @@
      </div>
 
      <div class="row my-3">
-       <div class="col-md-4">
+       <div class="col-md-12">
+         <canvas id="chart_views" height="100"></canvas>
+       </div>
+      </div>
+
+     <div class="row my-3">
+       <div class="col-md-3">
          <canvas id="chart_referrer" height="200"></canvas>
        </div>
-       <div class="col-md-4">
+       <div class="col-md-3">
          <canvas id="chart_browser" height="200"></canvas>
        </div>
-       <div class="col-md-4">
+       <div class="col-md-3">
+         <canvas id="chart_lang" height="200"></canvas>
+       </div>
+       <div class="col-md-3">
          <canvas id="chart_os" height="200"></canvas>
        </div>
      </div>
 
      <div class="row my-3">
-       <div class="col-md-12">
-         <canvas id="chart_views" height="100"></canvas>
+       <div class="col-md-3">
+         <canvas id="chart_dev" height="200"></canvas>
        </div>
-   </div>
+     </div>
+
+</div>
 
 
 <script>
 colors = ["#b590ca", "#a8d3da", "#f5cab3", "#f3ecb8"]
 
-legend = { position: 'top', labels: { usePointStyle: 'true' }, align: 'start' };
+legend = { position: 'top', labels: { usePointStyle: 'true' }, align: 'start'};
 
 
 
@@ -96,6 +107,56 @@ new Chart(document.getElementById("chart_os"), {
       }
     },
   });
+
+
+
+
+new Chart(document.getElementById("chart_lang"), {
+    type: 'pie',
+    data: {
+      labels: {{ lang_labels | tojson }},
+      datasets: [
+        {
+          backgroundColor: colors,
+          borderColor: "black",
+          data: {{ lang_values | tojson }},
+        },
+      ],
+    },
+    options: {
+      legend: legend,
+      cutoutPercentage: 70,
+      title: {
+          display: true,
+          text: 'Language'
+      }
+    },
+  });
+
+
+
+new Chart(document.getElementById("chart_dev"), {
+    type: 'pie',
+    data: {
+      labels: {{ dev_labels | tojson }},
+      datasets: [
+        {
+          backgroundColor: colors,
+          borderColor: "black",
+          data: {{ dev_values | tojson }},
+        },
+      ],
+    },
+    options: {
+      legend: legend,
+      cutoutPercentage: 70,
+      title: {
+          display: true,
+          text: 'Device'
+      }
+    },
+  });
+
 
 new Chart(document.getElementById("chart_browser"), {
     type: 'pie',
@@ -150,7 +211,7 @@ new Chart(document.getElementById("chart_views"), {
                 labelString: 'Visitors'
               },
               gridLines: {
-                  display:false
+                  display: true
               }   
           }]
       }
