@@ -142,10 +142,12 @@ def index():
             return login_error("Wrong username or password")
     
     stats = get_stats(username)
-    assert 0, stats
+    chart = {
+            key: {'labels': list(val.keys()), 'values': list(val.values())}
+            for (key, val) in stats.items()}
     return render_template("board.html",
                 username=username,
-                **templ_args)
+                chart=chart)
 
 
 def get_stats(uid):

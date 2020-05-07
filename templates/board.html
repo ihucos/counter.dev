@@ -60,19 +60,19 @@
 <script>
 colors = ["#b590ca", "#a8d3da", "#f5cab3", "#f3ecb8"]
 
-legend = { position: 'top', labels: { usePointStyle: 'true' }, align: 'start'};
+legend = { position: 'top', labels: { usePointStyle: 'true' }, align: 'start'}
 
 
 
 new Chart(document.getElementById("chart_referrer"), {
     type: 'pie',
     data: {
-      labels: {{ ref_labels | tojson }},
+      labels: {{ chart.ref.labels | tojson }},
       datasets: [
         {
           backgroundColor: colors,
           borderColor: "black",
-          data: {{ ref_values | tojson }},
+          data: {{ chart.ref.values | tojson }},
         },
       ],
     },
@@ -89,12 +89,12 @@ new Chart(document.getElementById("chart_referrer"), {
 new Chart(document.getElementById("chart_os"), {
     type: 'pie',
     data: {
-      labels: {{ os_labels | tojson }},
+      labels: {{ chart.os.labels | tojson }},
       datasets: [
         {
           backgroundColor: colors,
           borderColor: "black",
-          data: {{ os_values | tojson }},
+          data: {{ chart.os.values | tojson }},
         },
       ],
     },
@@ -114,12 +114,12 @@ new Chart(document.getElementById("chart_os"), {
 new Chart(document.getElementById("chart_lang"), {
     type: 'pie',
     data: {
-      labels: {{ lang_labels | tojson }},
+      labels: {{ chart.lang.labels | tojson }},
       datasets: [
         {
           backgroundColor: colors,
           borderColor: "black",
-          data: {{ lang_values | tojson }},
+          data: {{ chart.lang.values | tojson }},
         },
       ],
     },
@@ -138,12 +138,12 @@ new Chart(document.getElementById("chart_lang"), {
 new Chart(document.getElementById("chart_dev"), {
     type: 'pie',
     data: {
-      labels: {{ dev_labels | tojson }},
+      labels: {{ chart.dev.values | tojson }},
       datasets: [
         {
           backgroundColor: colors,
           borderColor: "black",
-          data: {{ dev_values | tojson }},
+          data: {{ chart.dev.values | tojson }},
         },
       ],
     },
@@ -161,12 +161,12 @@ new Chart(document.getElementById("chart_dev"), {
 new Chart(document.getElementById("chart_browser"), {
     type: 'pie',
     data: {
-      labels: {{ browser_labels | tojson }},
+      labels: {{ chart.browser.labels | tojson }},
       datasets: [
         {
           backgroundColor: colors,
           borderColor: "black",
-          data: {{ browser_values | tojson }},
+          data: {{ chart.browser.values | tojson }},
         },
       ],
     },
@@ -184,12 +184,12 @@ new Chart(document.getElementById("chart_browser"), {
 new Chart(document.getElementById("chart_views"), {
     type: 'line',
     data: {
-      labels: {{ days_labels | tojson }},
+      labels: {{ chart.date.labels | tojson }},
       datasets: [
         {
           backgroundColor: colors[1],
           borderColor: "black",
-          data: {{ days_values | tojson }},
+          data: {{ chart.date.values | tojson }},
         },
       ],
     },
