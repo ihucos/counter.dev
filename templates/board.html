@@ -14,26 +14,21 @@
 
   <div class="container">
 
-     <div class="row my-3">
-         <p>
-         logged in with: {{ username }}
-         </p>
-         <a class="btn btn-sm btn-light" href="/" role="button">Logout</a>
-     </div>
-
-     <div class="row my-3">
-       <div class="col-md-4 card" style="background-color: #ccc">
-       bla
+     <div class="row my-5">
+       <div class="col-md-3">
+           <div class="card">
+             <div class="card-body">
+               <h5 class="card-title">Hello {{ username }},</h5>
+               <p class="card-text">Use the following snippset, to track users in your webapp.</p>
+<div class="input-group mb-3">
+  <input type="text" readonly=readonly class="form-control" value='<img src="http://localhost:5000/user/track.svg"></img>' aria-label="Recipient's username" aria-describedby="button-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Copy</button>
+  </div>
+</div>
+             </div>
+           </div>
        </div>
-     </div>
-
-     <div class="row my-3">
-       <div class="col-md-12">
-         <canvas id="chart_views" height="100"></canvas>
-       </div>
-      </div>
-
-     <div class="row my-3">
        <div class="col-md-3">
          <canvas id="chart_dev" height="200"></canvas>
        </div>
@@ -43,7 +38,50 @@
        <div class="col-md-3">
          <canvas id="chart_os" height="200"></canvas>
        </div>
-       <div class="col-md-3">
+     </div>
+
+     <div class="row my-5">
+       <div class="col-md-12">
+         <canvas id="chart_views" height="100"></canvas>
+       </div>
+      </div>
+
+     <div class="row my-5">
+       <div class="col-md-6">
+         <table class="table border">
+           <thead>
+             <tr>
+               <th scope="col">Unique Views</th>
+               <th scope="col">Path</th>
+             </tr>
+           </thead>
+           <tbody>
+             {% for (item, count) in stats.path.items() %}
+             <tr>
+               <th scope="row">{{count}}</th>
+               <td>{{item}}</td>
+             </tr>
+             {% endfor %}
+           </tbody>
+         </table>
+       </div>
+       <div class="col-md-6">
+         <table class="table border">
+           <thead>
+             <tr>
+               <th scope="col">Unique Views</th>
+               <th scope="col">Language</th>
+             </tr>
+           </thead>
+           <tbody>
+             {% for (item, count) in stats.lang.items() %}
+             <tr>
+               <th scope="row">{{count}}</th>
+               <td>{{item}}</td>
+             </tr>
+             {% endfor %}
+           </tbody>
+         </table>
        </div>
      </div>
 

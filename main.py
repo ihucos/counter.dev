@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, Response
+from werkzeug.http import http_date
 app = Flask(__name__)
 
 import redis
@@ -26,10 +27,6 @@ CHOICES = {
     "browser": ["internet explorer", "firefox", "chrome", "safari"],
 }
 
-resp = Response(SVG)
-resp.headers['Cache-Control'] = 'public,max-age=5000'
-resp.headers['Content-Type'] = 'image/svg+xml'
-
 def to_choice(key, value):
     print(key, value)
     if value.lower() in CHOICES[key]:
@@ -49,14 +46,11 @@ def get_current_date(request):
 
     now = datetime.datetime.utcnow()
     now += datetime.timedelta(hours=utcoffset)
-    date = str(now.date())
-    return date
+    return now.date()
 
 
 def get_insights(request):
     insights = {}
-
-    insights["date"] = get_current_date(request)
 
     ua = request.headers.get('User-Agent')
     if ua:
@@ -85,6 +79,13 @@ def unique(uid):
     
     insights = get_insights(request)
 
+    today = get_current_date(request)
+    insights["date"] = str(today)
+    tomorrow_date = today + datetime.timedelta(days=1)
+    tomorrow_datetime = datetime.datetime.combine(tomorrow_date, datetime.time(3, 0))
+    expires_at = http_date(tomorrow_datetime)
+
+
     with r.pipeline() as pipe:
 
         for key, value in insights.items():
@@ -104,6 +105,9 @@ def unique(uid):
 
         pipe.execute()
 
+    resp = Response(SVG)
+    resp.headers['Expires'] = expires_at
+    resp.headers['Content-Type'] = 'image/svg+xml'
     return resp
 
 @app.route('/', methods=["POST", "GET"])
@@ -146,7 +150,8 @@ def index():
             for (key, val) in stats.items()}
     return render_template("board.html",
                 username=username,
-                chart=chart)
+                chart=chart,
+                stats=stats)
 
 
 def get_stats(uid):
