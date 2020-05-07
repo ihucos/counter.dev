@@ -14,9 +14,11 @@ from device_detector import DeviceDetector
 r = redis.StrictRedis()
 
 
+ALL_KEYS = ["os", "dev", "browser", "date", "lang", "ref", "path"]
 STORE_AS_HASH = ["os", "dev", "browser", "date"]
+
 MAXSIZE = 64
-MAX_ENTRIES = 20
+MAX_ZET_ENTRIES = 20
 CHOICES = {
     "os": ["android", "ios", "windows", "linux"],
     "dev": ["desktop", "smartphone", "tablet"],
@@ -67,8 +69,12 @@ def get_insights(request):
     referrer = request.args.get("referrer") # passed with javascript!!
     if referrer:
         parsed = urlparse(request.referrer)
-        insights["refd"] = parsed.netloc
-        insights["refp"] = parsed.path
+        insights["ref"] = parsed.netloc
+
+    referrer = request.headers.get("Referer")
+    if referrer:
+        parsed = urlparse(request.referrer)
+        insights["path"] = parsed.path
 
     return insights
 
@@ -83,15 +89,16 @@ def unique(uid):
     with r.pipeline() as pipe:
 
         for key, value in insights.items():
+            value = value[:MAXSIZE]
             if key in STORE_AS_HASH:
                 pipe.hincrby(f"{key}:{uid}", value, 1)
             else:
                 pipe.zincrby(f"{key}:{uid}", 1, value)
 
         ## every 100s request with random
-        #pipe.zremrangebyrank(f"referrer:{uid}", 0, -1 * MAX_ENTRIES)
-        #pipe.zremrangebyrank(f"os:{uid}", 0, -1 * MAX_ENTRIES)
-        #pipe.zremrangebyrank(f"browser:{uid}", 0, -1 * MAX_ENTRIES)
+        #pipe.zremrangebyrank(f"referrer:{uid}", 0, -1 * MAX_ZET_ENTRIES)
+        #pipe.zremrangebyrank(f"os:{uid}", 0, -1 * MAX_ZET_ENTRIES)
+        #pipe.zremrangebyrank(f"browser:{uid}", 0, -1 * MAX_ZET_ENTRIES)
 
         ## every 10s request iwth random
         ##refresh_keys(username)
@@ -134,50 +141,34 @@ def index():
         if not (db_hashed_password and db_hashed_password == hashed_password):
             return login_error("Wrong username or password")
     
-    #refresh_keys(username)
-
-    with r.pipeline() as pipe:
-        pipe.zrange(f"referrer:{username}", 0, 10, withscores=True)
-        pipe.zrange(f"os:{username}", 0, 10, withscores=True)
-        pipe.zrange(f"browser:{username}", 0, 10, withscores=True)
-        pipe.zrange(f"lang:{username}", 0, 10, withscores=True)
-        pipe.zrange(f"dev:{username}", 0, 10, withscores=True)
-        pipe.hgetall(f"days:{username}")
-        vals = pipe.execute()
-        referrer_zet, os_zet, browser_zet, lang_zet, dev_zet, days_hash = vals
-
-    if days_hash:
-        fst_day = min(days_hash.keys())
-        day = datetime.datetime.strptime(fst_day.decode(), "%Y-%m-%d")
-        day_before = str((day - datetime.timedelta(days=1)).date())
-        days_hash[day_before.encode()] = 0
-
-    days_hash = dict(sorted(days_hash.items()))
-
-    templ_args = dict(
-      ref_labels=[i.decode() for (i, _) in referrer_zet],
-      ref_values=[i for (_, i) in referrer_zet],
-
-      os_labels=[i.decode() for (i, _) in os_zet],
-      os_values=[i for (_, i) in os_zet],
-
-      browser_labels=[i.decode() for (i, _) in browser_zet],
-      browser_values=[i for (_, i) in browser_zet],
-
-      lang_labels=[i.decode() for (i, _) in lang_zet],
-      lang_values=[i for (_, i) in lang_zet],
-
-      dev_labels=[i.decode() for (i, _) in dev_zet],
-      dev_values=[i for (_, i) in dev_zet],
-
-      days_labels=[k for (k, v) in days_hash.items()],
-      days_values=[v for (k, v) in days_hash.items()],
-    
-    )
-
+    stats = get_stats(username)
+    assert 0, stats
     return render_template("board.html",
                 username=username,
                 **templ_args)
+
+
+def get_stats(uid):
+    with r.pipeline() as pipe:
+        for key in ALL_KEYS:
+            if key in STORE_AS_HASH:
+                pipe.hgetall(f"{key}:{uid}")
+            else:
+                pipe.zrange(f"{key}:{uid}", MAX_ZET_ENTRIES, 10, withscores=True)
+
+        vals = pipe.execute()
+
+    normal_vals = []
+    for val in vals:
+        if isinstance(val, list):
+            normal_vals.append({fst.decode(): int(snd) for (fst, snd) in val})
+        elif isinstance(val, dict):
+            normal_vals.append({fst.decode(): int(snd) for (fst, snd) in val.items()})
+        else:
+            assert False, "got unexpected python type from redis"
+
+    return dict(zip(ALL_KEYS, normal_vals))
+
 
 
 app.config["TEMPLATES_AUTO_RELOAD"] = True
