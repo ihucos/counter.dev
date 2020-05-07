@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, Response
 app = Flask(__name__)
 
 import redis
@@ -10,11 +10,12 @@ import hashlib
 
 from device_detector import DeviceDetector
 
-
 r = redis.StrictRedis()
 
 
-ALL_KEYS = ["os", "dev", "browser", "date", "lang", "ref", "path"]
+SVG = '<?xml version="1.0" encoding="UTF-8" ?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1" height="1"></svg>'
+
+ALL_KEYS = ["os", "dev", "browser", "date", "lang", "path"]
 STORE_AS_HASH = ["os", "dev", "browser", "date"]
 
 MAXSIZE = 64
@@ -25,6 +26,9 @@ CHOICES = {
     "browser": ["internet explorer", "firefox", "chrome", "safari"],
 }
 
+resp = Response(SVG)
+resp.headers['Cache-Control'] = 'public,max-age=5000'
+resp.headers['Content-Type'] = 'image/svg+xml'
 
 def to_choice(key, value):
     print(key, value)
@@ -66,11 +70,6 @@ def get_insights(request):
         al = al.split('-')[0]
         insights["lang"] = al
 
-    referrer = request.args.get("referrer") # passed with javascript!!
-    if referrer:
-        parsed = urlparse(request.referrer)
-        insights["ref"] = parsed.netloc
-
     referrer = request.headers.get("Referer")
     if referrer:
         parsed = urlparse(request.referrer)
@@ -81,7 +80,7 @@ def get_insights(request):
 
 
 
-@app.route('/unique/<uid>/')
+@app.route('/user/<uid>.svg')
 def unique(uid):
     
     insights = get_insights(request)
@@ -105,7 +104,7 @@ def unique(uid):
 
         pipe.execute()
 
-    return ''
+    return resp
 
 @app.route('/', methods=["POST", "GET"])
 def index():
