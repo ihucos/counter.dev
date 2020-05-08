@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, Response
+from flask import Flask, request, render_template, Response, redirect
 from werkzeug.http import http_date
 app = Flask(__name__)
 
@@ -8,11 +8,15 @@ import time
 import datetime
 from urllib.parse import urlparse
 import hashlib
+import struct
+from base64 import b64encode
 
 from device_detector import DeviceDetector
 
 r = redis.StrictRedis()
 
+
+TRACKING_CODE='<img src="http://localhost:5000/track/{}" style="position: fixed; right: 0px; bottom: 0px"></img>'
 
 SVG = '<?xml version="1.0" encoding="UTF-8" ?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1" height="1"></svg>'
 
@@ -26,6 +30,12 @@ CHOICES = {
     "dev": ["desktop", "smartphone", "tablet"],
     "browser": ["internet explorer", "firefox", "chrome", "safari"],
 }
+
+def gen_uid():
+    binary = struct.pack('<d', time.time())
+    return b64encode(binary).decode().strip('=')
+print(gen_uid())
+print(gen_uid())
 
 def to_choice(key, value):
     print(key, value)
@@ -73,18 +83,16 @@ def get_insights(request):
 
 
 
-
-@app.route('/user/<uid>.svg')
-def unique(uid):
+@app.route('/track/<uid>')
+def track(uid):
     
     insights = get_insights(request)
 
     today = get_current_date(request)
     insights["date"] = str(today)
     tomorrow_date = today + datetime.timedelta(days=1)
-    tomorrow_datetime = datetime.datetime.combine(tomorrow_date, datetime.time(3, 0))
+    tomorrow_datetime = datetime.datetime.combine(tomorrow_date, datetime.time(0, 1))
     expires_at = http_date(tomorrow_datetime)
-
 
     with r.pipeline() as pipe:
 
@@ -106,9 +114,11 @@ def unique(uid):
         pipe.execute()
 
     resp = Response(SVG)
-    resp.headers['Expires'] = expires_at
+    resp.headers['Cache-Control'] = 'public'
+    #resp.headers['Expires'] = expires_at
     resp.headers['Content-Type'] = 'image/svg+xml'
     return resp
+
 
 @app.route('/', methods=["POST", "GET"])
 def index():
@@ -137,21 +147,30 @@ def index():
         if len(password) < 8:
             return login_error("Password needs at least 8 charachters")
 
-        if not r.setnx(f'user:{username}', hashed_password):
+        uid = gen_uid()
+        with r.pipeline() as pipe:
+            pipe.hsetnx(f'user:{username}', "pwhash", hashed_password)
+            pipe.hsetnx(f'user:{username}', "uid", uid)
+            #r.expire
+            s1, s2 = pipe.execute()
+        if not s1 or not s2:
             return login_error("Username already taken")
     else:
-        db_hashed_password = r.get(f'user:{username}')
-        if not (db_hashed_password and db_hashed_password == hashed_password):
+        user = r.hgetall(f'user:{username}')
+        assert hashed_password
+        if  hashed_password != user.get(b"pwhash"):
             return login_error("Wrong username or password")
+        uid = user[b"uid"].decode()
     
-    stats = get_stats(username)
+    stats = get_stats(uid)
     chart = {
             key: {'labels': list(val.keys()), 'vals': list(val.values())}
             for (key, val) in stats.items()}
     return render_template("board.html",
                 username=username,
                 chart=chart,
-                stats=stats)
+                stats=stats,
+                tracking_code=TRACKING_CODE.format(uid))
 
 
 def get_stats(uid):

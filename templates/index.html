@@ -11,19 +11,22 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
-<body style="background-color: black;">
+<body>
+<div style="background-color: #eb8034; min-height: 95vh;">
 
-<img src="http://localhost:5000/user/track.svg"></img>
+<img src="http://localhost:5000/track/1588964708.5805395" style="position: fixed; right: 0px; bottom: 0px"></img>
+<br/>
 
 <div class="container" style="max-width: 40em;">
 
     <div class="card border-dark">
     <div class="card-body">
-    <div class="card-title"><h4>Light Web Analytics</h4></div>
-    <h6 class="card-subtitle mb-2 text-muted">Free, DSGVO-Compliant, no user ids, real-time, easy integration.</h6>
+
+    <div class="card-title"><h2>Clean Web Analytics</h2></div>
+    <h6 class="card-subtitle mb-2 text-muted">No cookies, Free, easy integration.</h6>
 
     <div class="card-text">
-    Is a free web analytics tool for small to medium sized webapps. It's emphasisis on having the lowest possible barrier to get you started with web analytics for your project. 
+    A free web analytics tool for small to medium sized webapps. It's emphasisis on having the lowest possible barrier to get you started with web analytics for your project. 
     </p>
 
     {% if error %}
@@ -40,7 +43,7 @@
         <input type="password" name="password" class="form-control" placeholder="Password">
       </div>
 
-      <button type="submit" class="btn btn-secondary" name="action">Enter</button>
+      <button type="submit" class="btn btn-light" name="action">Enter</button>
       <button type="submit" class="btn btn-secondary" name="action" value="register">Create Account</button>
     </form>
 
@@ -51,6 +54,46 @@
 <script>
 document.getElementById("username").select();
 </script>
+</div>
+</div>
+
+<div class="container" style="margin-bottom: 5em;">
+
+<style>
+p.short {
+    max-width: 40em;
+
+}
+</style>
+
+<h1>Track what really matters</h1>
+<p class="short">
+We only show our users what they actually understand. Clean Web Analytics was
+carefully crafted to give you an uncluttered view. Everything is in one
+printable page. No hidden menus.  
+</p>
+
+<h1>No cookies</h1>
+<p class="short">
+We don't use cookies. We don't track with JavaScript. We don't do
+Fingerprinting. We don't assign user indentifiers to traffic at all. Privacy is
+baked in at the core technical design choices of Clean Web Analytics.
+</p>
+
+<h1>Realtime</h1>
+<p class="short">
+Your traffic is available at the moment it happens. See what is happening now, not yesterday.
+</p>
+
+<h1>Just simple</h1>
+<p class="short">
+Clean Web Analytics is uncompromisingly simple and tries very hard to stand out of your way.
+</p>
+
+</div>
+
+
+
 </body>
 
 
