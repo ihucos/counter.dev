@@ -9,19 +9,25 @@ import datetime
 from urllib.parse import urlparse
 import hashlib
 import struct
+import random
 from base64 import b64encode
 
 from device_detector import DeviceDetector
 
-r = redis.StrictRedis()
+pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
+r = redis.Redis(connection_pool=pool)
+
 
 
 TRACKING_CODE='<img src="http://localhost:5000/track/{}" style="position: fixed; right: 0px; bottom: 0px"></img>'
 
 SVG = '<?xml version="1.0" encoding="UTF-8" ?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1" height="1"></svg>'
 
-ALL_KEYS = ["os", "dev", "browser", "date", "lang", "path"]
+STORE_AS_ZET = ["lang", "path"]
 STORE_AS_HASH = ["os", "dev", "browser", "date"]
+# DELETE_ACCOUNT_AFTER = 60 * 60 * 24 * 30 * 12 # TEST THAT!
+
+ALL_KEYS = STORE_AS_HASH + STORE_AS_ZET
 
 MAXSIZE = 64
 MAX_ZET_ENTRIES = 20
@@ -34,11 +40,8 @@ CHOICES = {
 def gen_uid():
     binary = struct.pack('<d', time.time())
     return b64encode(binary).decode().strip('=')
-print(gen_uid())
-print(gen_uid())
 
 def to_choice(key, value):
-    print(key, value)
     if value.lower() in CHOICES[key]:
         return value
     return "Other"
@@ -103,14 +106,11 @@ def track(uid):
             else:
                 pipe.zincrby(f"{key}:{uid}", 1, value)
 
-        ## every 100s request with random
-        #pipe.zremrangebyrank(f"referrer:{uid}", 0, -1 * MAX_ZET_ENTRIES)
-        #pipe.zremrangebyrank(f"os:{uid}", 0, -1 * MAX_ZET_ENTRIES)
-        #pipe.zremrangebyrank(f"browser:{uid}", 0, -1 * MAX_ZET_ENTRIES)
-
-        ## every 10s request iwth random
-        ##refresh_keys(username)
-
+        # sometimes clean up too many zet entries
+        # that code is unfortanly no tested so often :-/
+        if not random.randint(0, 50):
+            for key in STORE_AS_ZET:
+                pipe.zremrangebyrank(f"{key}:{uid}", 0, -1 * MAX_ZET_ENTRIES)
         pipe.execute()
 
     resp = Response(SVG)
@@ -196,6 +196,7 @@ def get_stats(uid):
 
 
 
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.config["TESTING"] = True
-app.run()
+if __name__ == '__main__':
+    app.config["TEMPLATES_AUTO_RELOAD"] = True
+    app.config["TESTING"] = True
+    app.run()
