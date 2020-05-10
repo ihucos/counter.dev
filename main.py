@@ -13,6 +13,7 @@ import random
 from base64 import b64encode
 
 from device_detector import DeviceDetector
+import device_detector
 
 pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
 r = redis.Redis(connection_pool=pool)
