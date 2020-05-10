@@ -1,0 +1,23 @@
+#!/usr/bin/env plash-exec
+
+--from alpine:3.8
+
+--apk
+py3-pip
+py3-gunicorn
+
+--layer
+
+--run
+pip3 install flask
+pip3 install redispy
+
+--layer
+
+
+--entrypoint-script
+gunicorn main:app \
+  --bind 0.0.0.0:80 \
+  --log-file - \
+  --error-logfile - \
+  --access-logfile -

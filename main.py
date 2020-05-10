@@ -25,7 +25,6 @@ SVG = '<?xml version="1.0" encoding="UTF-8" ?><svg xmlns="http://www.w3.org/2000
 
 STORE_AS_ZET = ["lang", "path"]
 STORE_AS_HASH = ["os", "dev", "browser", "date"]
-# DELETE_ACCOUNT_AFTER = 60 * 60 * 24 * 30 * 12 # TEST THAT!
 
 ALL_KEYS = STORE_AS_HASH + STORE_AS_ZET
 
@@ -37,7 +36,7 @@ CHOICES = {
     "browser": ["internet explorer", "firefox", "chrome", "safari"],
 }
 
-def gen_uid():
+def gen_bid():
     binary = struct.pack('<d', time.time())
     return b64encode(binary).decode().strip('=')
 
@@ -86,8 +85,8 @@ def get_insights(request):
 
 
 
-@app.route('/track/<uid>')
-def track(uid):
+@app.route('/track/<bid>')
+def track(bid):
     
     insights = get_insights(request)
 
@@ -102,15 +101,15 @@ def track(uid):
         for key, value in insights.items():
             value = value[:MAXSIZE]
             if key in STORE_AS_HASH:
-                pipe.hincrby(f"{key}:{uid}", value, 1)
+                pipe.hincrby(f"{key}:{bid}", value, 1)
             else:
-                pipe.zincrby(f"{key}:{uid}", 1, value)
+                pipe.zincrby(f"{key}:{bid}", 1, value)
 
         # sometimes clean up too many zet entries
         # that code is unfortanly no tested so often :-/
         if not random.randint(0, 50):
             for key in STORE_AS_ZET:
-                pipe.zremrangebyrank(f"{key}:{uid}", 0, -1 * MAX_ZET_ENTRIES)
+                pipe.zremrangebyrank(f"{key}:{bid}", 0, -1 * MAX_ZET_ENTRIES)
         pipe.execute()
 
     resp = Response(SVG)
@@ -147,11 +146,10 @@ def index():
         if len(password) < 8:
             return login_error("Password needs at least 8 charachters")
 
-        uid = gen_uid()
+        bid = gen_bid()
         with r.pipeline() as pipe:
             pipe.hsetnx(f'user:{username}', "pwhash", hashed_password)
-            pipe.hsetnx(f'user:{username}', "uid", uid)
-            #r.expire
+            pipe.hsetnx(f'user:{username}', "bid", bid)
             s1, s2 = pipe.execute()
         if not s1 or not s2:
             return login_error("Username already taken")
@@ -160,9 +158,9 @@ def index():
         assert hashed_password
         if  hashed_password != user.get(b"pwhash"):
             return login_error("Wrong username or password")
-        uid = user[b"uid"].decode()
+        bid = user[b"bid"].decode()
     
-    stats = get_stats(uid)
+    stats = get_stats(bid)
     chart = {
             key: {'labels': list(val.keys()), 'vals': list(val.values())}
             for (key, val) in stats.items()}
@@ -170,16 +168,16 @@ def index():
                 username=username,
                 chart=chart,
                 stats=stats,
-                tracking_code=TRACKING_CODE.format(uid))
+                tracking_code=TRACKING_CODE.format(bid))
 
 
-def get_stats(uid):
+def get_stats(bid):
     with r.pipeline() as pipe:
         for key in ALL_KEYS:
             if key in STORE_AS_HASH:
-                pipe.hgetall(f"{key}:{uid}")
+                pipe.hgetall(f"{key}:{bid}")
             else:
-                pipe.zrange(f"{key}:{uid}", 0, MAX_ZET_ENTRIES, withscores=True)
+                pipe.zrange(f"{key}:{bid}", 0, MAX_ZET_ENTRIES, withscores=True)
 
         vals = pipe.execute()
 
