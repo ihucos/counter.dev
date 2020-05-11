@@ -9,6 +9,24 @@
     <title>Webstats</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+.clean {
+  color: #eb8034;
+}
+.btn-warning {
+  font-weight: bold;
+  background-color: #eb8034;
+  border-color: black;
+  color: white;
+  text-shadow: -1px 0 #e86e17, 0 1px  #e86e17, 1px 0 #e86e17, 0 -1px #e86e17;
+}
+
+.btn-light, .btn-light:hover {
+  border-color: black;
+}
+
+    </style>
 </head>
 
 <body>
@@ -22,11 +40,12 @@
     <div class="card border-dark">
     <div class="card-body">
 
-    <div class="card-title"><h2>Clean Web Analytics</h2></div>
-    <h6 class="card-subtitle mb-2 text-muted">No cookies, Free, easy integration.</h6>
+    <div class="card-title"><h2><b class="clean">Simple</b> Web Analytics</h2></div>
+    <h6 class="card-subtitle mb-2 text-muted">Instant Setup. No Cookies. Always Free.</h6>
 
     <div class="card-text">
-    A free web analytics tool for small to medium sized webapps. It's emphasisis on having the lowest possible barrier to get you started with web analytics for your project. 
+    <p>
+    The lowest possible barrier to get you started with web analytics.
     </p>
 
     {% if error %}
@@ -37,23 +56,22 @@
 
     <form method="POST" action="">
       <div class="form-group has-error">
-        <input id="username" class="form-control" name="username" value="{{username|e}}" placeholder="Username">
+        <input id="username" class="form-control" name="username" value="{{username|e}}" placeholder="User">
       </div>
       <div class="form-group">
         <input type="password" name="password" class="form-control" placeholder="Password">
       </div>
 
-      <button type="submit" class="btn btn-light" name="action">Enter</button>
-      <button type="submit" class="btn btn-secondary" name="action" value="register">Create Account</button>
+      <div class="btn-group mr-2" role="group" aria-label="First group">
+        <button type="submit" class="btn btn-light" name="action">Login</button>
+        <button type="submit" class="btn btn-dark" name="action" value="register">&nbsp;&nbsp;Register&nbsp;&nbsp;</button>
+      </div>
     </form>
 
     </div>
     </div>
 </div>
 
-<script>
-document.getElementById("username").select();
-</script>
 </div>
 </div>
 
@@ -66,18 +84,9 @@ p.short {
 }
 </style>
 
-<h1>Track what really matters</h1>
+<h1>Just Simple</h1>
 <p class="short">
-We only show our users what they actually understand. Clean Web Analytics was
-carefully crafted to give you an uncluttered view. Everything is in one
-printable page. No hidden menus.  
-</p>
-
-<h1>No cookies</h1>
-<p class="short">
-We don't use cookies. We don't track with JavaScript. We don't do
-Fingerprinting. We don't assign user indentifiers to traffic at all. Privacy is
-baked in at the core technical design choices of Clean Web Analytics.
+Clean Web Analytics is uncompromisingly simple and tries very hard to stand out of your way.
 </p>
 
 <h1>Realtime</h1>
@@ -85,9 +94,18 @@ baked in at the core technical design choices of Clean Web Analytics.
 Your traffic is available at the moment it happens. See what is happening now, not yesterday.
 </p>
 
-<h1>Just simple</h1>
+<h1>What Really Matters</h1>
 <p class="short">
-Clean Web Analytics is uncompromisingly simple and tries very hard to stand out of your way.
+We only show our users what they actually understand. Clean Web Analytics was
+carefully crafted to give you an uncluttered view. Everything is in one
+printable page. No hidden menus.  
+</p>
+
+<h1>Look <i>Ma</i> - No Cookies!</h1>
+<p class="short">
+We don't use cookies. We don't track with JavaScript. We don't do
+Fingerprinting. We don't assign user indentifiers to traffic at all. Privacy is
+baked in at the core technical design choices of Clean Web Analytics.
 </p>
 
 </div>
