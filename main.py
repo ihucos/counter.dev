@@ -173,7 +173,6 @@ def index():
     chart = {
             key: {'labels': list(val.keys()), 'vals': list(val.values())}
             for (key, val) in stats.items()}
-    assert 0, request.headers
     return render_template("board.html",
                 username=username,
                 chart=chart,
