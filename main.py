@@ -1,3 +1,6 @@
+from gevent import monkey
+monkey.patch_all()
+
 from flask import Flask, request, render_template, Response, redirect
 from werkzeug.http import http_date
 

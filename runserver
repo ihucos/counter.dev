@@ -13,6 +13,7 @@ pip3 install flask
 pip3 install redispy
 pip3 install device_detector
 pip3 install pycountry
+pip3 install gevent
 
 --layer
 
@@ -20,7 +21,4 @@ pip3 install pycountry
 --entrypoint-script
 mount -t tmpfs none ~/.local
 ls ~/.local
-gunicorn main:app \
-  --log-file - \
-  --error-logfile - \
-  --access-logfile -
+python3 main.py
