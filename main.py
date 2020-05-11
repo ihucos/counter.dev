@@ -19,7 +19,7 @@ r = redis.Redis(connection_pool=pool)
 
 
 
-TRACKING_CODE='<img src="http://{domain}/track/{bid}" style="position: fixed; right: 0px; bottom: 0px"></img>'
+TRACKING_CODE='<img src="https://{domain}/track/{bid}" style="position: fixed; right: 0px; bottom: 0px"></img>'
 
 SVG = '<?xml version="1.0" encoding="UTF-8" ?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1" height="1"></svg>'
 
