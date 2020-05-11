@@ -21,7 +21,6 @@ pip3 install pycountry
 mount -t tmpfs none ~/.local
 ls ~/.local
 gunicorn main:app \
-  --bind 0.0.0.0:8000 \
   --log-file - \
   --error-logfile - \
   --access-logfile -
