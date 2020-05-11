@@ -180,7 +180,7 @@ def index():
                 has_data=has_data,
                 tracking_code=TRACKING_CODE.format(
                     bid=bid,
-                    domain=request.hheaders["Host"]))
+                    domain=request.headers["Host"]))
 
 
 def get_stats(bid):
