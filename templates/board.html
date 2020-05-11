@@ -8,6 +8,27 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+<style>
+.dimmed {
+  position: relative;
+}
+
+.dimmed:after {
+  content: " ";
+  z-index: 10;
+  display: block;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  //background: rgba(255, 255, 255, 0.7);
+  background: rgba(100, 100, 100, 0.8);
+    box-shadow: 0px 0px 2px 2px rgba(100, 100, 100, 0.8);
+}
+</style>
+
 </head>
 
 <body>
@@ -16,7 +37,7 @@
 
      <div class="row my-5">
        <div class="col-md-3">
-           <div class="card">
+           <div class="card border-dark">
              <div class="card-body">
                <h5 class="card-title">Hello {{ username }},</h5>
                <p class="card-text">Use this snippset, to track users in your webapp.</p>
@@ -30,25 +51,33 @@
            </div>
        </div>
        <div class="col-md-3">
-         <canvas id="chart_dev" height="200"></canvas>
+         <div class="dimmed">
+           <canvas id="chart_dev" height="200"></canvas>
+         </div>
        </div>
        <div class="col-md-3">
-         <canvas id="chart_browser" height="200"></canvas>
+         <div class="dimmed">
+           <canvas id="chart_browser" height="200"></canvas>
+         </div>
        </div>
        <div class="col-md-3">
-         <canvas id="chart_os" height="200"></canvas>
+         <div class="dimmed">
+           <canvas id="chart_os" height="200"></canvas>
+         </div>
        </div>
      </div>
 
      <div class="row my-5">
        <div class="col-md-12">
-         <canvas id="chart_views" height="100"></canvas>
+         <div class="dimmed">
+           <canvas id="chart_views" height="100"></canvas>
+         </div>
        </div>
       </div>
 
      <div class="row my-5">
        <div class="col-md-6">
-         <table class="table border">
+         <table class="table border dimmed">
            <thead>
              <tr>
                <th scope="col">Daily Views</th>
@@ -66,7 +95,7 @@
          </table>
        </div>
        <div class="col-md-6">
-         <table class="table border">
+         <table class="table border dimmed">
            <thead>
              <tr>
                <th scope="col">Daily Views</th>
