@@ -12,6 +12,7 @@ gunicorn
 pip3 install flask
 pip3 install redispy
 pip3 install device_detector
+pip3 install pycountry
 
 --layer
 
