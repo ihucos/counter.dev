@@ -1,6 +1,3 @@
-from gevent import monkey
-monkey.patch_all()
-
 from flask import Flask, request, render_template, Response, redirect
 from werkzeug.http import http_date
 
@@ -114,7 +111,7 @@ def track(bid):
             if key in STORE_AS_HASH:
                 pipe.hincrby(f"{key}:{bid}", value, 1)
             else:
-                pipe.zincrby(f"{key}:{bid}", 1, value)
+                pipe.zincrby(f"{key}:{bid}", value, 1)
 
         # sometimes clean up too many zet entries
         # that code is unfortanly no tested so often :-/
