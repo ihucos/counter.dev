@@ -207,7 +207,11 @@ def get_stats(bid):
 
 
 if __name__ == '__main__':
-    app.config["TEMPLATES_AUTO_RELOAD"] = True
-    app.config["TESTING"] = True
-    app.debug = True
-    app.run()
+    from gevent.pywsgi import WSGIServer
+    WSGIServer(('127.0.0.1', 8000), app).serve_forever()
+
+#if __name__ == '__main__':
+    #app.config["TEMPLATES_AUTO_RELOAD"] = True
+    #app.config["TESTING"] = True
+    #app.debug = True
+    #app.run()
