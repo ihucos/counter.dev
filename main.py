@@ -1,6 +1,5 @@
 from flask import Flask, request, render_template, Response, redirect
 from werkzeug.http import http_date
-app = Flask(__name__)
 
 import redis
 import json
@@ -13,7 +12,7 @@ import random
 from base64 import b64encode
 
 from device_detector import DeviceDetector
-import device_detector
+from pycountry import languages
 
 pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
 r = redis.Redis(connection_pool=pool)
@@ -36,6 +35,14 @@ CHOICES = {
     "dev": ["desktop", "smartphone", "tablet"],
     "browser": ["internet explorer", "firefox", "chrome", "safari"],
 }
+
+app = Flask(__name__)
+@app.template_filter('lang')
+def lang(lang_code):
+    lang_obj = languages.get(alpha_2=lang_code)
+    if lang_obj is None:
+        return "Unknown"
+    return lang_obj.name
 
 def gen_bid():
     binary = struct.pack('<d', time.time())
@@ -162,6 +169,7 @@ def index():
         bid = user[b"bid"].decode()
     
     stats = get_stats(bid)
+    has_data = any(stats.values())
     chart = {
             key: {'labels': list(val.keys()), 'vals': list(val.values())}
             for (key, val) in stats.items()}
@@ -169,6 +177,7 @@ def index():
                 username=username,
                 chart=chart,
                 stats=stats,
+                has_data=has_data,
                 tracking_code=TRACKING_CODE.format(bid))
 
 
@@ -198,4 +207,5 @@ def get_stats(bid):
 if __name__ == '__main__':
     app.config["TEMPLATES_AUTO_RELOAD"] = True
     app.config["TESTING"] = True
+    app.debug = True
     app.run()

@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
+{% if not has_data %}
 <style>
-.dimmed {
+.dimmable {
   position: relative;
 }
-
-.dimmed:after {
+.dimmable:after {
   content: " ";
   z-index: 10;
   display: block;
@@ -24,10 +24,11 @@
   left: 0;
   right: 0;
   //background: rgba(255, 255, 255, 0.7);
-  background: rgba(100, 100, 100, 0.8);
-    box-shadow: 0px 0px 2px 2px rgba(100, 100, 100, 0.8);
+  background: rgba(200, 200, 200, 0.9);
+    box-shadow: 0px 0px 2px 2px rgba(200, 200, 200, 0.9);
 }
 </style>
+{% endif %}
 
 </head>
 
@@ -37,31 +38,31 @@
 
      <div class="row my-5">
        <div class="col-md-3">
-           <div class="card border-dark">
+           <div class="card {% if not has_data %}border-dark{% endif %}">
              <div class="card-body">
                <h5 class="card-title">Hello {{ username }},</h5>
-               <p class="card-text">Use this snippset, to track users in your webapp.</p>
+               <p class="card-text">Here is your tracking snippet</p>
 <div class="input-group mb-3">
   <input id="snippet" type="text" readonly=readonly class="form-control" value='{{ tracking_code | e }}' aria-label="Recipient's username" aria-describedby="button-addon2">
   <div class="input-group-append">
-    <button class="btn btn-dark" type="button" id="button-addon2" onclick="copy()">Copy Snippet</button>
+    <button class="btn btn-dark" type="button" id="button-addon2" onclick="copy()">Copy</button>
   </div>
 </div>
              </div>
            </div>
        </div>
        <div class="col-md-3">
-         <div class="dimmed">
+         <div class="dimmable">
            <canvas id="chart_dev" height="200"></canvas>
          </div>
        </div>
        <div class="col-md-3">
-         <div class="dimmed">
+         <div class="dimmable">
            <canvas id="chart_browser" height="200"></canvas>
          </div>
        </div>
        <div class="col-md-3">
-         <div class="dimmed">
+         <div class="dimmable">
            <canvas id="chart_os" height="200"></canvas>
          </div>
        </div>
@@ -69,44 +70,46 @@
 
      <div class="row my-5">
        <div class="col-md-12">
-         <div class="dimmed">
+         <div class="dimmable">
            <canvas id="chart_views" height="100"></canvas>
          </div>
        </div>
       </div>
 
      <div class="row my-5">
-       <div class="col-md-6">
-         <table class="table border dimmed">
+       <div class="col-md-6 dimmable">
+         <h3>Top Pages</h3>
+         <table class="table border">
            <thead>
              <tr>
-               <th scope="col">Daily Views</th>
-               <th scope="col">Path</th>
+               <th scope="col" class="text-muted">Daily Views</th>
+               <th scope="col" class="text-muted text-right">Page URL</th>
              </tr>
            </thead>
            <tbody>
              {% for (item, count) in stats.path.items() %}
              <tr>
                <th scope="row">{{count}}</th>
-               <td>{{item}}</td>
+               <td class="text-right">{{item}}</td>
              </tr>
              {% endfor %}
            </tbody>
          </table>
        </div>
-       <div class="col-md-6">
-         <table class="table border dimmed">
+       <div class="col-md-6 dimmable">
+         <h3>Top Languages</h3>
+         <table class="table border">
            <thead>
              <tr>
-               <th scope="col">Daily Views</th>
-               <th scope="col">Language</th>
+               <th scope="col" class="text-muted">Daily Views</th>
+               <th scope="col" class="text-muted text-right">Language Preference</th>
              </tr>
            </thead>
            <tbody>
              {% for (item, count) in stats.lang.items() %}
              <tr>
                <th scope="row">{{count}}</th>
-               <td>{{item}}</td>
+               <td class="text-right">{{item|lang}}</td>
              </tr>
              {% endfor %}
            </tbody>
@@ -114,7 +117,14 @@
        </div>
      </div>
 
+<h1>FAQ</h1>
+<h2>What is a Daily View?</h2>
+<p>
+A Daily View is a unique view at a given day.
+</p>
+
 </div>
+
 
 
 <script>
