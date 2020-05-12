@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, Response, redirect
 from werkzeug.http import http_date
 
 import redis
+import os
 import json
 import time
 import datetime
@@ -207,11 +208,11 @@ def get_stats(bid):
 
 
 if __name__ == '__main__':
-    from gevent.pywsgi import WSGIServer
-    WSGIServer(('127.0.0.1', 8000), app).serve_forever()
-
-#if __name__ == '__main__':
-    #app.config["TEMPLATES_AUTO_RELOAD"] = True
-    #app.config["TESTING"] = True
-    #app.debug = True
-    #app.run()
+    if not os.environ.get("DEBUG"):
+        from gevent.pywsgi import WSGIServer
+        WSGIServer(('127.0.0.1', 8000), app).serve_forever()
+    else:
+        app.config["TEMPLATES_AUTO_RELOAD"] = True
+        app.config["TESTING"] = True
+        app.debug = True
+        app.run()
