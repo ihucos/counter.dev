@@ -27,6 +27,8 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
+        fs := http.FileServer(http.Dir("./static"))
+        mux.Handle("/", fs)
 	mux.HandleFunc("/track", Track)
 	mux.HandleFunc("/register", Register)
 	mux.HandleFunc("/dashboard", Dashboard)
@@ -41,11 +43,9 @@ func hash(stri string) string {
 
 }
 
-
-func httpErr(w http.ResponseWriter, err error){
-    http.Error(w, err.Error(), 500)
+func httpErr(w http.ResponseWriter, err error) {
+	http.Error(w, err.Error(), 500)
 }
-
 
 func Track(w http.ResponseWriter, r *http.Request) {
 	conn := pool.Get()
@@ -73,13 +73,16 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	}
 
 	location, err := time.LoadLocation("UTC")
-        if (err != nil){httpErr(w, err); return }
+	if err != nil {
+		httpErr(w, err)
+		return
+	}
 	utcnow := time.Now().In(location)
 	now := utcnow.Add(time.Hour * time.Duration(utcoffset))
 	date := now.Format("2006-01-02")
 	conn.Send("HINCRBY", "date:"+uid, date, 1)
 
-        w.Header().Set("Content-Type", "image/svg+xml")
+	w.Header().Set("Content-Type", "image/svg+xml")
 	fmt.Fprintf(w, SVG)
 }
 
@@ -90,16 +93,29 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	user := r.FormValue("user")
 	password := r.FormValue("password")
 	if user == "" || password == "" {
-		http.Error(w, "Bad Request", http.StatusBadRequest)
+		http.Error(w, "Missing Input", http.StatusBadRequest)
 		return
 	}
 
 	res, err := redis.Int64(conn.Do("HSETNX", "users", user, hash(password)))
-        if (err != nil){httpErr(w, err); return }
+	if err != nil {
+		httpErr(w, err)
+		return
+	}
 	if res == 0 {
-		fmt.Fprintln(w, "user taken")
+		http.Error(w, "Username taken", http.StatusBadRequest)
 	} else {
-		fmt.Fprintln(w, "new user created")
+		userData, err := getData(user, conn)
+		if err != nil {
+			httpErr(w, err)
+			return
+		}
+		jsonString, err := json.Marshal(userData)
+		if err != nil {
+			httpErr(w, err)
+			return
+		}
+		fmt.Fprintln(w, string(jsonString))
 	}
 }
 
@@ -114,13 +130,18 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := redis.String(conn.Do("HGET", "users", user))
-        if (err != nil){httpErr(w, err); return }
+	res, _ := redis.String(conn.Do("HGET", "users", user))
 	if res == hash(password) {
 		userData, err := getData(user, conn)
-                if (err != nil){httpErr(w, err); return }
+		if err != nil {
+			httpErr(w, err)
+			return
+		}
 		jsonString, err := json.Marshal(userData)
-                if (err != nil){httpErr(w, err); return }
+		if err != nil {
+			httpErr(w, err)
+			return
+		}
 		fmt.Fprintln(w, string(jsonString))
 	} else {
 		fmt.Fprintln(w, "no login")
@@ -132,15 +153,21 @@ func getData(user string, conn redis.Conn) (map[string]map[string]int, error) {
 	m := make(map[string]map[string]int)
 
 	resp, err := redis.IntMap(conn.Do("HGETALL", "date:4"))
-        if (err != nil){return nil, err}
+	if err != nil {
+		return nil, err
+	}
 	m["date"] = resp
 
 	resp, err = redis.IntMap(conn.Do("ZRANGE", "loc:4", 0, -1, "WITHSCORES"))
-        if (err != nil){return nil, err}
+	if err != nil {
+		return nil, err
+	}
 	m["loc"] = resp
 
 	resp, err = redis.IntMap(conn.Do("ZRANGE", "ref:4", 0, -1, "WITHSCORES"))
-        if (err != nil){return nil, err}
+	if err != nil {
+		return nil, err
+	}
 	m["ref"] = resp
 
 	return m, nil

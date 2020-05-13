@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Your web dashboard</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+{% if not has_data %}
+<style>
+.dimmable {
+  position: relative;
+}
+.dimmable:after {
+  content: " ";
+  z-index: 10;
+  display: block;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  //background: rgba(255, 255, 255, 0.7);
+  background: rgba(200, 200, 200, 0.9);
+    box-shadow: 0px 0px 2px 2px rgba(200, 200, 200, 0.9);
+}
+</style>
+{% endif %}
+
+</head>
+
+<body>
+
+  <div class="container">
+
+     <div class="row my-5">
+       <div class="col-md-3">
+           <div class="card {% if not has_data %}border-dark{% endif %}">
+             <div class="card-body">
+               <h5 class="card-title">Hello {{ username }},</h5>
+               <p class="card-text">Here is your tracking snippet</p>
+<div class="input-group mb-3">
+  <input id="snippet" type="text" readonly=readonly class="form-control" value='{{ tracking_code | e }}' aria-label="Recipient's username" aria-describedby="button-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-dark" type="button" id="button-addon2" onclick="copy()">Copy</button>
+  </div>
+</div>
+             </div>
+           </div>
+       </div>
+       <div class="col-md-3">
+         <div class="dimmable">
+           <canvas id="chart_dev" height="200"></canvas>
+         </div>
+       </div>
+       <div class="col-md-3">
+         <div class="dimmable">
+           <canvas id="chart_browser" height="200"></canvas>
+         </div>
+       </div>
+       <div class="col-md-3">
+         <div class="dimmable">
+           <canvas id="chart_os" height="200"></canvas>
+         </div>
+       </div>
+     </div>
+
+     <div class="row my-5">
+       <div class="col-md-12">
+         <div class="dimmable">
+           <canvas id="chart_views" height="100"></canvas>
+         </div>
+       </div>
+      </div>
+
+     <div class="row my-5">
+       <div class="col-md-6 dimmable">
+         <h3>Top Pages</h3>
+         <table class="table border">
+           <thead>
+             <tr>
+               <th scope="col" class="text-muted">Daily Views</th>
+               <th scope="col" class="text-muted text-right">Page URL</th>
+             </tr>
+           </thead>
+           <tbody>
+             {% for (item, count) in stats.path.items() %}
+             <tr>
+               <th scope="row">{{count}}</th>
+               <td class="text-right">{{item}}</td>
+             </tr>
+             {% endfor %}
+           </tbody>
+         </table>
+       </div>
+       <div class="col-md-6 dimmable">
+         <h3>Top Languages</h3>
+         <table class="table border">
+           <thead>
+             <tr>
+               <th scope="col" class="text-muted">Daily Views</th>
+               <th scope="col" class="text-muted text-right">Language Preference</th>
+             </tr>
+           </thead>
+           <tbody>
+             {% for (item, count) in stats.lang.items() %}
+             <tr>
+               <th scope="row">{{count}}</th>
+               <td class="text-right">{{item|lang}}</td>
+             </tr>
+             {% endfor %}
+           </tbody>
+         </table>
+       </div>
+     </div>
+
+<h1>FAQ</h1>
+<h2>What is a Daily View?</h2>
+<p>
+A Daily View is a unique view at a given day.
+</p>
+
+</div>
+
+
+
+<script>
+
+function copy() {
+  var copyText = document.getElementById("snippet");
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+  document.execCommand("copy");
+}
+
+colors = ["#b590ca", "#a8d3da", "#f5cab3", "#f3ecb8"]
+
+legend = { position: 'top', labels: { usePointStyle: 'true' }, align: 'start'}
+
+
+new Chart(document.getElementById("chart_os"), {
+    type: 'pie',
+    data: {
+      labels: {{ chart.os.labels | tojson }},
+      datasets: [
+        {
+          backgroundColor: colors,
+          borderColor: "black",
+          data: {{ chart.os.vals | tojson }},
+        },
+      ],
+    },
+    options: {
+      legend: legend,
+      cutoutPercentage: 70,
+      title: {
+          display: true,
+          text: 'Operating System'
+      }
+    },
+  });
+
+
+
+
+new Chart(document.getElementById("chart_dev"), {
+    type: 'pie',
+    data: {
+      labels: {{ chart.dev.labels | tojson }},
+      datasets: [
+        {
+          backgroundColor: colors,
+          borderColor: "black",
+          data: {{ chart.dev.vals | tojson }},
+        },
+      ],
+    },
+    options: {
+      legend: legend,
+      cutoutPercentage: 70,
+      title: {
+          display: true,
+          text: 'Device'
+      }
+    },
+  });
+
+
+new Chart(document.getElementById("chart_browser"), {
+    type: 'pie',
+    data: {
+      labels: {{ chart.browser.labels | tojson }},
+      datasets: [
+        {
+          backgroundColor: colors,
+          borderColor: "black",
+          data: {{ chart.browser.vals | tojson }},
+        },
+      ],
+    },
+    options: {
+      legend: legend,
+      cutoutPercentage: 70,
+      title: {
+          display: true,
+          text: 'Browser'
+      }
+    },
+  });
+
+
+new Chart(document.getElementById("chart_views"), {
+    type: 'line',
+    data: {
+      labels: {{ chart.date.labels | tojson }},
+      datasets: [
+        {
+          backgroundColor: colors[1],
+          borderColor: "black",
+          data: {{ chart.date.vals | tojson }},
+        },
+      ],
+    },
+    options: {
+      legend: {display: false},
+      scales: {
+          xAxes: [{
+              gridLines: {
+                  display:false
+              }
+          }],
+          yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Daily Views'
+              },
+              ticks: {
+                beginAtZero: true
+              },
+              gridLines: {
+                  display: true
+              }   
+          }]
+      }
+    },
+  });
+</script>
+
+
+</body>
+</html>
+
+
