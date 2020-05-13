@@ -26,6 +26,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/track", Track)
 	mux.HandleFunc("/register", Register)
+	mux.HandleFunc("/dashboard", Dashboard)
 
 	log.Println("Listening...")
 	http.ListenAndServe("127.0.0.1:8000", mux)
@@ -77,16 +78,36 @@ func Register(w http.ResponseWriter, r *http.Request) {
     conn := pool.Get()
     defer conn.Close()
 
-    user := "user2"
-    password := "password1"
+    user := r.FormValue("user")
+    password := r.FormValue("password")
+    if (user == "" || password == ""){
+        http.Error(w, "Bad Request", http.StatusBadRequest)
+        return
+    }
 
-    conn.Send("MULTI")
-    conn.Send("HSETNX", "user:" + user, "bid", user)
-    conn.Send("HSETNX", "user:" + user, "pwhash",  hash(password))
-    res, _ := redis.Ints(conn.Do("EXEC"))
-    if (res[0] == 0 || res[1] == 0){
+    res, _ := redis.Int(conn.Do("HSETNX", "users", user, hash(password)))
+    if (res == 0){
         fmt.Fprintln(w, "user taken")
     } else {
         fmt.Fprintln(w, "new user created")
+    }
+}
+
+func Dashboard(w http.ResponseWriter, r *http.Request) {
+    conn := pool.Get()
+    defer conn.Close()
+
+    user := r.FormValue("user")
+    password := r.FormValue("password")
+    if (user == "" || password == ""){
+        http.Error(w, "Bad Request", http.StatusBadRequest)
+        return
+    }
+
+    res, _ := redis.String(conn.Do("HGET", "users", user))
+    if (res == hash(password)){
+        fmt.Fprintln(w, "login")
+    } else {
+        fmt.Fprintln(w, "no login")
     }
 }
