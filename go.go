@@ -7,6 +7,7 @@ import (
     "time"
     "strconv"
     "crypto/sha256"
+    "encoding/json"
 
     "github.com/gomodule/redigo/redis"
 )
@@ -85,7 +86,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    res, _ := redis.Int(conn.Do("HSETNX", "users", user, hash(password)))
+    res, _ := redis.Int64(conn.Do("HSETNX", "users", user, hash(password)))
     if (res == 0){
         fmt.Fprintln(w, "user taken")
     } else {
@@ -96,6 +97,25 @@ func Register(w http.ResponseWriter, r *http.Request) {
 func Dashboard(w http.ResponseWriter, r *http.Request) {
     conn := pool.Get()
     defer conn.Close()
+
+    m := make(map[string]map[string]int)
+
+    resp, _ := redis.IntMap(conn.Do("HGETALL", "date:4"))
+    m["date"] = resp
+
+    resp, _ = redis.IntMap(conn.Do("ZRANGE", "loc:4", 0, -1, "WITHSCORES"))
+    m["loc"] = resp
+
+    resp, _ = redis.IntMap(conn.Do("ZRANGE", "ref:4", 0, -1, "WITHSCORES"))
+    m["ref"] = resp
+
+
+    jsonString, _ := json.Marshal(m)
+    fmt.Fprintln(w, string(jsonString))
+    return
+  
+
+
 
     user := r.FormValue("user")
     password := r.FormValue("password")
