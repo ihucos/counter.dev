@@ -41,6 +41,12 @@ func hash(stri string) string {
 
 }
 
+
+func httpErr(w http.ResponseWriter, err error){
+    http.Error(w, err.Error(), 500)
+}
+
+
 func Track(w http.ResponseWriter, r *http.Request) {
 	conn := pool.Get()
 	defer conn.Close()
@@ -66,7 +72,8 @@ func Track(w http.ResponseWriter, r *http.Request) {
 		conn.Send("ZINCRBY", "loc:"+uid, 1, loc)
 	}
 
-	location, _ := time.LoadLocation("UTC")
+	location, err := time.LoadLocation("UTC")
+        if (err != nil){httpErr(w, err); return }
 	utcnow := time.Now().In(location)
 	now := utcnow.Add(time.Hour * time.Duration(utcoffset))
 	date := now.Format("2006-01-02")
@@ -87,7 +94,8 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, _ := redis.Int64(conn.Do("HSETNX", "users", user, hash(password)))
+	res, err := redis.Int64(conn.Do("HSETNX", "users", user, hash(password)))
+        if (err != nil){httpErr(w, err); return }
 	if res == 0 {
 		fmt.Fprintln(w, "user taken")
 	} else {
@@ -106,28 +114,34 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, _ := redis.String(conn.Do("HGET", "users", user))
+	res, err := redis.String(conn.Do("HGET", "users", user))
+        if (err != nil){httpErr(w, err); return }
 	if res == hash(password) {
-		userData := getData(user, conn)
-		jsonString, _ := json.Marshal(userData)
+		userData, err := getData(user, conn)
+                if (err != nil){httpErr(w, err); return }
+		jsonString, err := json.Marshal(userData)
+                if (err != nil){httpErr(w, err); return }
 		fmt.Fprintln(w, string(jsonString))
 	} else {
 		fmt.Fprintln(w, "no login")
 	}
 }
 
-func getData(user string, conn redis.Conn) map[string]map[string]int {
+func getData(user string, conn redis.Conn) (map[string]map[string]int, error) {
 
 	m := make(map[string]map[string]int)
 
-	resp, _ := redis.IntMap(conn.Do("HGETALL", "date:4"))
+	resp, err := redis.IntMap(conn.Do("HGETALL", "date:4"))
+        if (err != nil){return nil, err}
 	m["date"] = resp
 
-	resp, _ = redis.IntMap(conn.Do("ZRANGE", "loc:4", 0, -1, "WITHSCORES"))
+	resp, err = redis.IntMap(conn.Do("ZRANGE", "loc:4", 0, -1, "WITHSCORES"))
+        if (err != nil){return nil, err}
 	m["loc"] = resp
 
-	resp, _ = redis.IntMap(conn.Do("ZRANGE", "ref:4", 0, -1, "WITHSCORES"))
+	resp, err = redis.IntMap(conn.Do("ZRANGE", "ref:4", 0, -1, "WITHSCORES"))
+        if (err != nil){return nil, err}
 	m["ref"] = resp
 
-	return m
+	return m, nil
 }
