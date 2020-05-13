@@ -6,6 +6,7 @@ import (
     "net/http"
     "time"
     "strconv"
+    "crypto/sha256"
 
     "github.com/gomodule/redigo/redis"
 )
@@ -28,6 +29,12 @@ func main() {
 
 	log.Println("Listening...")
 	http.ListenAndServe("127.0.0.1:8000", mux)
+}
+
+func hash(stri string) string {
+    h := sha256.Sum256([]byte(stri))
+    return string(h[:])
+
 }
 
 func Track(w http.ResponseWriter, r *http.Request) {
@@ -70,12 +77,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
     conn := pool.Get()
     defer conn.Close()
 
-    user := "user1"
+    user := "user2"
     password := "password1"
 
     conn.Send("MULTI")
     conn.Send("HSETNX", "user:" + user, "bid", user)
-    conn.Send("HSETNX", "user:" + user, "pwhash", password)
+    conn.Send("HSETNX", "user:" + user, "pwhash",  hash(password))
     res, _ := redis.Ints(conn.Do("EXEC"))
     if (res[0] == 0 || res[1] == 0){
         fmt.Fprintln(w, "user taken")
