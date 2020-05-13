@@ -98,6 +98,27 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
     conn := pool.Get()
     defer conn.Close()
 
+
+    user := r.FormValue("user")
+    password := r.FormValue("password")
+    if (user == "" || password == ""){
+        http.Error(w, "Bad Request", http.StatusBadRequest)
+        return
+    }
+
+    res, _ := redis.String(conn.Do("HGET", "users", user))
+    if (res == hash(password)){
+        userData := getData(user, conn)
+        jsonString, _ := json.Marshal(userData)
+        fmt.Fprintln(w, string(jsonString))
+    } else {
+        fmt.Fprintln(w, "no login")
+    }
+}
+
+
+func getData(user string, conn redis.Conn) map[string]map[string]int {
+
     m := make(map[string]map[string]int)
 
     resp, _ := redis.IntMap(conn.Do("HGETALL", "date:4"))
@@ -109,25 +130,5 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
     resp, _ = redis.IntMap(conn.Do("ZRANGE", "ref:4", 0, -1, "WITHSCORES"))
     m["ref"] = resp
 
-
-    jsonString, _ := json.Marshal(m)
-    fmt.Fprintln(w, string(jsonString))
-    return
-  
-
-
-
-    user := r.FormValue("user")
-    password := r.FormValue("password")
-    if (user == "" || password == ""){
-        http.Error(w, "Bad Request", http.StatusBadRequest)
-        return
-    }
-
-    res, _ := redis.String(conn.Do("HGET", "users", user))
-    if (res == hash(password)){
-        fmt.Fprintln(w, "login")
-    } else {
-        fmt.Fprintln(w, "no login")
-    }
+    return m
 }
