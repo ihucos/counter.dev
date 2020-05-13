@@ -13,6 +13,7 @@ import (
 var pool *redis.Pool
 
 func main() {
+
 	pool = &redis.Pool{
 		MaxIdle:     10,
 		IdleTimeout: 240 * time.Second,
@@ -22,13 +23,14 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", HelloServer)
+	mux.HandleFunc("/track", Track)
+	mux.HandleFunc("/register", Register)
 
 	log.Println("Listening...")
 	http.ListenAndServe("127.0.0.1:8000", mux)
 }
 
-func HelloServer(w http.ResponseWriter, r *http.Request) {
+func Track(w http.ResponseWriter, r *http.Request) {
     conn := pool.Get()
     defer conn.Close()
 
@@ -60,5 +62,24 @@ func HelloServer(w http.ResponseWriter, r *http.Request) {
     date := now.Format("2006-01-02")
     conn.Send("HINCRBY", "date:" + uid, date, 1)
 
+
     fmt.Fprintf(w, "Ok")
+}
+
+func Register(w http.ResponseWriter, r *http.Request) {
+    conn := pool.Get()
+    defer conn.Close()
+
+    user := "user1"
+    password := "password1"
+
+    conn.Send("MULTI")
+    conn.Send("HSETNX", "user:" + user, "bid", user)
+    conn.Send("HSETNX", "user:" + user, "pwhash", password)
+    res, _ := redis.Ints(conn.Do("EXEC"))
+    if (res[0] == 0 || res[1] == 0){
+        fmt.Fprintln(w, "user taken")
+    } else {
+        fmt.Fprintln(w, "new user created")
+    }
 }
