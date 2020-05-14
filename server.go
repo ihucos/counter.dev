@@ -97,6 +97,16 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+        if len(user) < 4{
+                http.Error(w, "User must have at least 4 charachters", http.StatusBadRequest)
+                return
+        }
+
+        if len(password) < 8{
+                http.Error(w, "Password must have at least 4 charachters", http.StatusBadRequest)
+                return
+        }
+
 	res, err := redis.Int64(conn.Do("HSETNX", "users", user, hash(password)))
 	if err != nil {
 		httpErr(w, err)
@@ -126,7 +136,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	user := r.FormValue("user")
 	password := r.FormValue("password")
 	if user == "" || password == "" {
-		http.Error(w, "Bad Request", http.StatusBadRequest)
+		http.Error(w, "Missing Input", http.StatusBadRequest)
 		return
 	}
 
@@ -144,7 +154,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Fprintln(w, string(jsonString))
 	} else {
-		fmt.Fprintln(w, "no login")
+		http.Error(w, "Wrong username or password", http.StatusBadRequest)
 	}
 }
 

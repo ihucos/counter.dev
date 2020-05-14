@@ -10,6 +10,9 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
     <style>
 .clean {
   color: #eb8034;
@@ -31,6 +34,7 @@
 </head>
 
 <body>
+<div id="page-index">
 <div style="background-color: #eb8034; min-height: 100vh; padding-top: 5em;">
 
 <img src="http://localhost:5000/track/1588964708.5805395" style="position: fixed; right: 0px; bottom: 0px"></img>
@@ -61,7 +65,7 @@
       </div>
 
       <div class="btn-group mr-2" role="group" aria-label="First group">
-        <button type="submit" onclick="post('login'); return false" class="btn btn-light" name="action">Login</button>
+        <button type="submit" onclick="post('dashboard'); return false" class="btn btn-light" name="action">Login</button>
         <a href="#text-begin" class="btn btn-light">Read more</a>
       </div>
       <button type="submit" onclick="post('register'); return false" class="btn btn-dark float-right" name="action" value="register">&nbsp;&nbsp;Register&nbsp;&nbsp;</button>
@@ -112,10 +116,6 @@ baked in at the core technical design choices of Clean Web Analytics.
 
 <script>
 
-function showGraphs(data){
-  console.log(data)
-}
-
 
 function post(name){
  user = document.getElementById("user").value
@@ -132,6 +132,8 @@ function post(name){
         return resp.json()
       } else if (resp.status == 400){
         return resp.text()
+      } else {
+        return "Bad server status code: " + resp.status
       }
   }
 ).then(data => {
@@ -143,6 +145,151 @@ function post(name){
     }
   })
 }
+
+
+
+function showGraphs(data){
+  console.log(data)
+  document.getElementById("page-index").style.display = "none"
+  document.getElementById("page-graphs").style.display = "block"
+
+
+  new Chart(document.getElementById("graph"), {
+    type: 'line',
+    data: {
+      labels: ["2020-1-1", "2020-1-2", "2020-1-1", "2020-1-3", "2020-1-4"],
+      datasets: [
+        {
+          data: [40, 50, 46, 60, 50],
+          label: 'DAX',
+          backgroundColor: '#268bd2',
+          pointBackgroundColor: "rgba(0,0,0,0)",
+        },
+      ],
+    },
+    options: {
+      scales: {
+          yAxes: [{
+              ticks: {
+                  beginAtZero: true
+              }
+          }]
+      },
+      legend: {display: false},
+    },
+  })
+
+  new Chart(document.getElementById("mobile"), {
+    type: 'pie',
+    data: {
+      labels: [
+        'Mobile',
+        'Not Mobile',
+      ],
+      datasets: [
+        {
+          backgroundColor: [
+            "#d33682 ",
+            'white',
+          ],
+          borderColor: "#d33682 ",
+          data: [
+            30,
+            70,
+          ],
+        },
+      ],
+    },
+    options: {
+      legend: {display: false},
+    },
+  })
+
+
+
+}
+</script>
+</div>
+
+<style>
+li::marker {
+  font-weight: bold
+}
+</style>
+
+<div id="page-graphs" style="display: none">
+  <div class="container" style="max-width: 40em;">
+  <div class="row my-5">
+    <div class="col-md-12">
+      <h4>Users per day</h4>
+      <div class="border py-5 px-3">
+        <canvas id="graph" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row my-5">
+    <div class="col-md-6">
+      <h4>Top Referrers</h4>
+      <div class="border py-2">
+        <ol>
+          <li>facebook.com</li>
+          <li>google.com</li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ol>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h4>Top Pages</h4>
+      <div class="border py-2">
+        <ol>
+          <li>/</li>
+          <li>/post/why-bla-blu</li>
+          <li>/search</li>
+          <li>/dingsbums</li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row my-5" style="display: none">
+    <div class="col-md-6">
+      <h4>Mobile</h4>
+      <div class="border py-5">
+        <canvas id="mobile" />
+      </div>
+    </div>
+  </div>
+
+  <br />
+  <br />
+  <button>More Details</button>
+  <button onclick="post('dashboard')">Update Data</button>
+  <button>Print Page</button>
+
+  </div>
+</div>
+
+<script>
+document.getElementById("user").value = "asdf"
+document.getElementById("user").focus()
+document.getElementById("password").value = "asdfasdf"
+//document.forms[0].submit()
+
 </script>
 
 
@@ -150,4 +297,3 @@ function post(name){
 
 
 </html>
-
