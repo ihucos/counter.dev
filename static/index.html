@@ -179,29 +179,162 @@ function showGraphs(data){
     },
   })
 
-  new Chart(document.getElementById("mobile"), {
+
+
+  new Chart(document.getElementById("direct"), {
     type: 'pie',
     data: {
       labels: [
-        'Mobile',
-        'Not Mobile',
+        'A',
+        'B',
       ],
       datasets: [
         {
           backgroundColor: [
-            "#d33682 ",
+            "orange",
             'white',
           ],
-          borderColor: "#d33682 ",
+          borderColor: "orange",
           data: [
-            30,
-            70,
+            40,
+            60,
           ],
         },
       ],
     },
     options: {
       legend: {display: false},
+    },
+  })
+
+  new Chart(document.getElementById("mobile"), {
+    type: 'pie',
+    data: {
+      labels: [
+        'A',
+        'B',
+      ],
+      datasets: [
+        {
+          backgroundColor: [
+            "orange",
+            'white',
+          ],
+          borderColor: "orange",
+          data: [
+            20,
+            80,
+          ],
+        },
+      ],
+    },
+    options: {
+      legend: {display: false},
+    },
+  })
+
+  new Chart(document.getElementById("time"), {
+    type: 'horizontalBar',
+    data: {
+      labels: [
+        'Morning',
+        'Noon',
+        'Evening',
+        'Night',
+      ],
+      datasets: [
+        {
+          backgroundColor: [
+            "orange",
+            'orange',
+            'orange',
+            'orange',
+          ],
+          data: [
+            80,
+            20,
+            20,
+            30,
+          ],
+        },
+      ],
+    },
+    options: {
+      tooltips: {
+          mode: 'index'
+      },
+      legend: {display: false},
+      scales: {
+        xAxes: [
+          {
+            gridLines: {
+              display: false,
+            },
+            ticks: {display: false, beginAtZero: true}
+          },
+        ],
+        yAxes: [
+          {
+            gridLines: {
+              display: false,
+            },
+            ticks: {beginAtZero: true}
+          },
+        ],
+      },
+    },
+  })
+
+
+  new Chart(document.getElementById("weekday"), {
+    type: 'horizontalBar',
+    data: {
+      labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      datasets: [
+        {
+          backgroundColor: [
+            "orange",
+            'orange',
+            'orange',
+            'orange',
+            'orange',
+            'orange',
+            'orange',
+          ],
+          data: [
+            80,
+            20,
+            20,
+            30,
+            30,
+            70,
+            30,
+          ],
+        },
+      ],
+    },
+    options: {
+      tooltips: {
+          mode: 'index'
+      },
+      legend: {display: false},
+      scales: {
+        xAxes: [
+          {
+            gridLines: {
+              display: false,
+            },
+            ticks: {display: false, beginAtZero: true}
+          },
+        ],
+        yAxes: [
+          {
+            gridLines: {
+              display: false,
+            },
+          },
+        ],
+      },
     },
   })
 
@@ -212,18 +345,51 @@ function showGraphs(data){
 </div>
 
 <style>
-li::marker {
-  font-weight: bold
+li {
+  list-style: none
 }
+
+li span {
+
+}
+
 </style>
 
 <div id="page-graphs" style="display: none">
-  <div class="container" style="max-width: 40em;">
+  <div class="container" style="max-width: 50em;">
+
   <div class="row my-5">
     <div class="col-md-12">
-      <h4>Users per day</h4>
+      <h4>Uniques per day</h4>
       <div class="border py-5 px-3">
-        <canvas id="graph" />
+        <canvas height="100" id="graph" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row my-5">
+    <div class="col-md-3">
+      <h5 class="text-muted">Used referrer</h5>
+      <div class="border py-2">
+        <canvas id="direct" height=200 />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <h5 class="text-muted">Mobile</h5>
+      <div class="border py-2">
+        <canvas id="mobile" height=200 />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <h5 class="text-muted">Time</h5>
+      <div class="border py-2">
+        <canvas id="time"  height=200 />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <h5 class="text-muted">Weekday</h5>
+      <div class="border py-2">
+        <canvas id="weekday"  height=200 />
       </div>
     </div>
   </div>
@@ -231,55 +397,80 @@ li::marker {
   <div class="row my-5">
     <div class="col-md-6">
       <h4>Top Referrers</h4>
-      <div class="border py-2">
+      <div class="border py-3">
         <ol>
-          <li>facebook.com</li>
-          <li>google.com</li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
+          <li><span>facebook.com <small class="text-muted">(70473)</small></span></li>
+          <li><span>google.com <small class="text-muted">(89)</small></span></li>
         </ol>
       </div>
     </div>
     <div class="col-md-6">
       <h4>Top Pages</h4>
-      <div class="border py-2">
+      <div class="border py-3">
         <ol>
-          <li>/</li>
-          <li>/post/why-bla-blu</li>
-          <li>/search</li>
-          <li>/dingsbums</li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
+          <li><span>/post/why-bla-blu <small class="text-muted">(450)</small></span></li>
+          <li><span>/search <small class="text-muted">(68)</small><span></li>
+          <li><span>/dingsbums <small class="text-muted">(5)</small><span></li>
         </ol>
       </div>
     </div>
   </div>
 
 
-  <div class="row my-5" style="display: none">
+  <div class="row my-5">
     <div class="col-md-6">
-      <h4>Mobile</h4>
-      <div class="border py-5">
-        <canvas id="mobile" />
+      <h4>Browsers</h4>
+      <div class="border py-3">
+        <ol>
+          <li><span>facebook.com <small class="text-muted">(70473)</small></span></li>
+          <li><span>google.com <small class="text-muted">(89)</small></span></li>
+        </ol>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h4>Operating Systems</h4>
+      <div class="border py-3">
+        <ol>
+          <li><span>/post/why-bla-blu <small class="text-muted">(450)</small></span></li>
+          <li><span>/search <small class="text-muted">(68)</small><span></li>
+          <li><span>/dingsbums <small class="text-muted">(5)</small><span></li>
+        </ol>
       </div>
     </div>
   </div>
 
-  <br />
-  <br />
-  <button>More Details</button>
-  <button onclick="post('dashboard')">Update Data</button>
-  <button>Print Page</button>
+
+  <div class="row my-5">
+    <div class="col-md-12">
+      <h4>Last Users</h4>
+      <div class="border py-3">
+        <ol>
+          <li><span>facebook.com <small class="text-muted">(70473)</small></span></li>
+          <li><span>google.com <small class="text-muted">(89)</small></span></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+
+  <!--<button onclick="post('dashboard')">Update Data</button>-->
+  <hr>
+  </br>
+  </br>
+  </br>
+  </br>
+  </br>
+  </br>
+  </br>
+  </br>
+  </br>
+ <h1>Integration</h1>
+
+    <div class="col-md-12 alert-secondary">
+      <pre><code>&lt;p&gt;Sample text here...&lt;/p&gt;
+      &lt;p&gt;And another line of sample text here...&lt;/p&gt;
+      </code></pre>
+    </div>
 
   </div>
 </div>
