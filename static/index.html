@@ -66,9 +66,9 @@
 
       <div class="btn-group mr-2" role="group" aria-label="First group">
         <button type="submit" onclick="post('dashboard'); return false" class="btn btn-light" name="action">Login</button>
-        <a href="#text-begin" class="btn btn-light">Read more</a>
+        <a href="#" class="btn btn-light">Demo</a>
+      <button type="submit" onclick="post('register'); return false" class="btn btn-dark" name="action" value="register">&nbsp;&nbsp;Register&nbsp;&nbsp;</button>
       </div>
-      <button type="submit" onclick="post('register'); return false" class="btn btn-dark float-right" name="action" value="register">&nbsp;&nbsp;Register&nbsp;&nbsp;</button>
     </form>
 
     </div>
@@ -116,7 +116,6 @@ baked in at the core technical design choices of Clean Web Analytics.
 
 <script>
 
-
 function post(name){
  user = document.getElementById("user").value
  password = document.getElementById("password").value
@@ -153,6 +152,7 @@ function showGraphs(data){
   document.getElementById("page-index").style.display = "none"
   document.getElementById("page-graphs").style.display = "block"
 
+  orange = "#eb8034"
 
   new Chart(document.getElementById("graph"), {
     type: 'line',
@@ -162,7 +162,7 @@ function showGraphs(data){
         {
           data: [40, 50, 46, 60, 50],
           label: 'xxxxx',
-          backgroundColor: '#eb8034',
+          backgroundColor: '#268bd2',
           pointBackgroundColor: "rgba(0,0,0,0)",
         },
       ],
@@ -191,10 +191,10 @@ function showGraphs(data){
       datasets: [
         {
           backgroundColor: [
-            "orange",
+            orange,
             'white',
           ],
-          borderColor: "orange",
+          borderColor: orange,
           data: [
             40,
             60,
@@ -217,10 +217,10 @@ function showGraphs(data){
       datasets: [
         {
           backgroundColor: [
-            "orange",
+            orange,
             'white',
           ],
-          borderColor: "orange",
+          borderColor: orange,
           data: [
             20,
             80,
@@ -245,10 +245,10 @@ function showGraphs(data){
       datasets: [
         {
           backgroundColor: [
-            "orange",
-            'orange',
-            'orange',
-            'orange',
+            orange,
+            orange,
+            orange,
+            orange,
           ],
           data: [
             80,
@@ -293,13 +293,13 @@ function showGraphs(data){
       datasets: [
         {
           backgroundColor: [
-            "orange",
-            'orange',
-            'orange',
-            'orange',
-            'orange',
-            'orange',
-            'orange',
+            orange,
+            orange,
+            orange,
+            orange,
+            orange,
+            orange,
+            orange,
           ],
           data: [
             80,
@@ -349,45 +349,50 @@ li {
   list-style: none
 }
 
-li span {
+ul {
+  padding-left: 0px;
 
 }
+
 
 </style>
 
 <div id="page-graphs" style="display: none">
-  <div class="container" style="max-width: 50em;">
+  <div class="container" style="max-width: 45em;">
 
-  <div class="row my-5">
+  <br />
+  <br />
+
+  <hr>
+  <div class="row" style="margin-top: 5px">
     <div class="col-md-3">
-      <h5 class="text-muted">Used referrer</h5>
-      <div class="border py-2">
-        <canvas id="direct" height=200 />
+      <h5 class="text-muted">Median 7 days</h5>
+      <div class="text-monospace py-2">
+        <h4>40</h4>
       </div>
     </div>
     <div class="col-md-3">
-      <h5 class="text-muted">Mobile</h5>
-      <div class="border py-2">
-        <canvas id="mobile" height=200 />
+      <h5 class="text-muted">Two days ago</h5>
+      <div class="text-monospace py-2">
+        <h4>40</h4>
       </div>
     </div>
     <div class="col-md-3">
-      <h5 class="text-muted">Time</h5>
-      <div class="border py-2">
-        <canvas id="time"  height=200 />
+      <h5 class="text-muted">Yesterday</h5>
+      <div class="text-monospace py-2">
+        <h4>30</h4>
       </div>
     </div>
     <div class="col-md-3">
-      <h5 class="text-muted">Weekday</h5>
-      <div class="border py-2">
-        <canvas id="weekday"  height=200 />
+      <h5 class="text-muted">Today</h5>
+      <div class="text-monospace py-2">
+        <h4>50</h4>
       </div>
     </div>
   </div>
 
-  <div class="row my-5">
+  <div class="row" style="margin-bottom: 5px">
     <div class="col-md-12">
-      <h4>Uniques per day</h4>
       <div class="border py-5 px-3">
         <canvas height="100" id="graph" />
       </div>
@@ -396,64 +401,98 @@ li span {
 
   <div class="row my-5">
     <div class="col-md-6">
-      <h4>Top Referrers</h4>
-      <div class="border py-3">
-        <ol>
-          <li><span>facebook.com <small class="text-muted">(70473)</small></span></li>
-          <li><span>google.com <small class="text-muted">(89)</small></span></li>
-        </ol>
-      </div>
+      <h4 class="text-muted">Top Referrers</h4>
+        <ul>
+          <li>facebook.com <small class="text-muted">8k</small> <br/></li>
+          <li>google.com <small class="text-muted">80</small> <br/></li>
+          <li>yahoo.de <small class="text-muted">450</small> <br/></li>
+        </ul>
     </div>
     <div class="col-md-6">
-      <h4>Top Pages</h4>
-      <div class="border py-3">
-        <ol>
-          <li><span>/post/why-bla-blu <small class="text-muted">(450)</small></span></li>
-          <li><span>/search <small class="text-muted">(68)</small><span></li>
-          <li><span>/dingsbums <small class="text-muted">(5)</small><span></li>
-        </ol>
+      <h4 class="text-muted">Top Pages</h4>
+        <ul>
+          <li>/ <small class="text-muted">8k</small> <br/></li>
+          <li>/blog <small class="text-muted">80</small> <br/></li>
+          <li>/search <small class="text-muted">450</small> <br/></li>
+        </ul>
+    </div>
+  </div>
+
+<hr>
+
+  <div class="row my-5">
+    <div class="col-md-3">
+      <h5 class="text-muted">Weekday</h5>
+      <div class="py-2">
+        <canvas id="weekday"  height=200 />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <h5 class="text-muted">Time</h5>
+      <div class="py-2">
+        <canvas id="time"  height=200 />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <h5 class="text-muted">Has referrer</h5>
+      <div class="py-2">
+        <canvas id="direct" height=200 />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <h5 class="text-muted">Mobile</h5>
+      <div class="py-2">
+        <canvas id="mobile" height=200 />
       </div>
     </div>
   </div>
 
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+  <hr>
 
   <div class="row my-5">
     <div class="col-md-6">
-      <h4>Browsers</h4>
-      <div class="border py-3">
-        <ol>
-          <li><span>facebook.com <small class="text-muted">(70473)</small></span></li>
-          <li><span>google.com <small class="text-muted">(89)</small></span></li>
-        </ol>
-      </div>
+      <h4 class="text-muted">Top Browsers</h4>
+        <ul>
+          <li>facebook.com <small class="text-muted">8k</small> <br/></li>
+          <li>google.com <small class="text-muted">80</small> <br/></li>
+          <li>yahoo.de <small class="text-muted">450</small> <br/></li>
+        </ul>
     </div>
     <div class="col-md-6">
-      <h4>Operating Systems</h4>
-      <div class="border py-3">
-        <ol>
-          <li><span>/post/why-bla-blu <small class="text-muted">(450)</small></span></li>
-          <li><span>/search <small class="text-muted">(68)</small><span></li>
-          <li><span>/dingsbums <small class="text-muted">(5)</small><span></li>
-        </ol>
-      </div>
+      <h4 class="text-muted">Top Operating Systems</h4>
+        <ul>
+          <li>/ <small class="text-muted">8k</small> <br/></li>
+          <li>/blog <small class="text-muted">80</small> <br/></li>
+          <li>/search <small class="text-muted">450</small> <br/></li>
+        </ul>
     </div>
   </div>
+
+  <hr />
 
 
   <div class="row my-5">
     <div class="col-md-12">
-      <h4>Last Users</h4>
-      <div class="border py-3">
-        <ol>
-          <li><span>facebook.com <small class="text-muted">(70473)</small></span></li>
-          <li><span>google.com <small class="text-muted">(89)</small></span></li>
-        </ol>
-      </div>
+      <h4 class="text-muted">Last Access</h4>
+        <ul>
+          <li>facebook.com <small class="text-muted">8k</small> <br/></li>
+          <li>google.com <small class="text-muted">80</small> <br/></li>
+          <li>yahoo.de <small class="text-muted">450</small> <br/></li>
+        </ul>
+    </div>
+  </div>
+
+  <hr />
+
+
+  <div class="row my-5">
+    <div class="col-md-12">
+      <h4 class="text-muted">Language scores</h4>
+        <ul>
+          <li>facebook.com <small class="text-muted">8k</small> <br/></li>
+          <li>google.com <small class="text-muted">80</small> <br/></li>
+          <li>yahoo.de <small class="text-muted">450</small> <br/></li>
+        </ul>
     </div>
   </div>
 
