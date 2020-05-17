@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/gomodule/redigo/redis"
+        "github.com/avct/uasurfer"
 )
 
 var pool *redis.Pool
@@ -62,7 +63,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	if ref != "" {
 		conn.Send("ZINCRBY", "ref:"+uid, 1, ref)
 	}
-	utcoffset, err := strconv.Atoi("12")
+	utcoffset, err := strconv.Atoi(q.Get("utcoffset"))
 	if err != nil {
 		utcoffset = 0
 	}
@@ -79,8 +80,16 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	}
 	utcnow := time.Now().In(location)
 	now := utcnow.Add(time.Hour * time.Duration(utcoffset))
-	date := now.Format("2006-01-02")
-	conn.Send("HINCRBY", "date:"+uid, date, 1)
+	conn.Send("HINCRBY", "date:"+uid, now.Format("2006-01-02"), 1)
+	conn.Send("HINCRBY", "weekday:"+uid, int(now.Weekday()), 1)
+	conn.Send("HINCRBY", "hour:"+uid, now.Hour(), 1)
+
+	userAgent := r.Header.Get("User-Agent")
+        ua := uasurfer.Parse(userAgent)
+        conn.Send("HINCRBY", "browser:"+uid, ua.Browser.Name.StringTrimPrefix(), 1)
+        conn.Send("HINCRBY", "device:"+uid, ua.DeviceType.StringTrimPrefix(), 1)
+        conn.Send("HINCRBY", "platform:"+uid, ua.OS.Platform.StringTrimPrefix(), 1)
+
 
 	w.Header().Set("Content-Type", "image/svg+xml")
 	fmt.Fprintf(w, SVG)
@@ -107,6 +116,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
                 return
         }
 
+        // also delete anything saved by this user before!!
 	res, err := redis.Int64(conn.Do("HSETNX", "users", user, hash(password)))
 	if err != nil {
 		httpErr(w, err)
