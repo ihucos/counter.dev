@@ -137,7 +137,7 @@ function post(name){
   }
 ).then(data => {
     if (typeof(data) === "object"){
-      showGraphs(data)
+      draw(data)
     } else {
       document.getElementById("alert").style.display = "block"
       document.getElementById("alert").innerHTML = data
@@ -147,33 +147,42 @@ function post(name){
 
 
 
-function showGraphs(data){
+function draw(data){
+  window.D = data
   console.log(data)
   document.getElementById("page-index").style.display = "none"
   document.getElementById("page-graphs").style.display = "block"
 
   orange = "#eb8034"
 
-  function list(elem, title, items){
+  function makeList(key, title){
+    var elem = document.getElementById("list_" + key)
+
+
     elem.innerHTML = "<h4 class='text-muted'>" + title + "</h4>"
-    for (var i = 0; i < items.length; i++) { 
-      elem.innerHTML += '<li>' + items[i][0] + ' <small class="text-muted">' + items[i][1] + '</small> <br/></li>'
+    if (Object.keys(data[key]).length === 0 && data[key].constructor === Object){
+        elem.innerHTML += '<span class="text-muted">Empty</span>'
+        return
+    }
+
+    var list = [];
+    for (var vehicle in data[key]) {
+        list.push([vehicle, data[key][vehicle]]);
+    }
+    
+    list.sort(function(a, b) {
+        return a[1] - b[1];
+    });
+
+    for (var i = 0; i < list.length; i++) { 
+      elem.innerHTML += '<li>' + list[i][0] + ' <small class="text-muted">' + list[i][1] + '</small> <br/></li>'
     } 
-
-      //var node = document.createElement("h4");
-      //node.classList.add("text-muted")
-      //node.appendChild(document.createTextNode(title));
-      //elem.appendChild(node);
-
-      //<h4 class="text-muted">Top Referrers</h4>
-      //  <ul>
-       //   <li>facebook.com <small class="text-muted">8k</small> <br/></li>
-        //  <li>google.com <small class="text-muted">80</small> <br/></li>
-         // <li>yahoo.de <small class="text-muted">450</small> <br/></li>
-       // </ul>
   }
 
-  list(document.getElementById("referrer"), "Top Referrers", [["google.com", 50], ["facebook.com", 45]])
+  makeList("ref", "Top Referrers")
+  makeList("browser", "Top Browsers")
+  makeList("platform", "Top Platforms")
+  makeList("loc", "Top Pages")
 
   new Chart(document.getElementById("graph"), {
     type: 'line',
@@ -421,16 +430,9 @@ ul {
   </div>
 
   <div class="row my-5">
-    <div class="col-md-6">
-            <div id="referrer"></div>
+    <div id="list_ref" class="col-md-6">
     </div>
-    <div class="col-md-6">
-      <h4 class="text-muted">Top Pages</h4>
-        <ul>
-          <li>/ <small class="text-muted">8k</small> <br/></li>
-          <li>/blog <small class="text-muted">80</small> <br/></li>
-          <li>/search <small class="text-muted">450</small> <br/></li>
-        </ul>
+    <div id="list_loc" class="col-md-6">
     </div>
   </div>
 
@@ -466,21 +468,9 @@ ul {
   <hr>
 
   <div class="row my-5">
-    <div class="col-md-6">
-      <h4 class="text-muted">Top Browsers</h4>
-        <ul>
-          <li>facebook.com <small class="text-muted">8k</small> <br/></li>
-          <li>google.com <small class="text-muted">80</small> <br/></li>
-          <li>yahoo.de <small class="text-muted">450</small> <br/></li>
-        </ul>
+    <div id="list_browser" class="col-md-6">
     </div>
-    <div class="col-md-6">
-      <h4 class="text-muted">Top Operating Systems</h4>
-        <ul>
-          <li>/ <small class="text-muted">8k</small> <br/></li>
-          <li>/blog <small class="text-muted">80</small> <br/></li>
-          <li>/search <small class="text-muted">450</small> <br/></li>
-        </ul>
+    <div id="list_platform" class="col-md-6">
     </div>
   </div>
 
