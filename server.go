@@ -191,7 +191,7 @@ func getData(user string, conn redis.Conn) (map[string]map[string]int, error) {
 
 	m := make(map[string]map[string]int)
 
-	resp, err := redis.IntMap(conn.Do("HGETALL", "date:4"))
+	resp, err := redis.IntMap(conn.Do("HGETALL", "date:"+user))
 	if err != nil {
 		log.Println(user, err)
 		return nil, err

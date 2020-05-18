@@ -189,13 +189,15 @@ function draw(data){
   new Chart(document.getElementById("graph"), {
     type: 'line',
     data: {
-      labels: ["2020-1-1", "2020-1-2", "2020-1-1", "2020-1-3", "2020-1-4"],
+      //labels: ["2020-1-1", "2020-1-2", "2020-1-1", "2020-1-3", "2020-1-4"],
+      labels: Object.keys(data.date),
       datasets: [
         {
-          data: [40, 50, 46, 60, 50],
+          //data: [40, 50, 46, 60, 50],
+          data: Object.values(data.date),
           label: 'xxxxx',
           backgroundColor: '#268bd2',
-          pointBackgroundColor: "rgba(0,0,0,0)",
+          //pointBackgroundColor: "rgba(0,0,0,0)",
         },
       ],
     },
