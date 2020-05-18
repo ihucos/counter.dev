@@ -15,8 +15,6 @@ import (
 
 var pool *redis.Pool
 
-var SVG = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"1\" height=\"1\"></svg>"
-
 func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
@@ -61,14 +59,25 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	if ref != "" {
 		conn.Send("ZINCRBY", "ref:"+user, 1, ref)
 	}
+
+	lang := r.PostFormValue("language")
+	if lang != "" {
+		conn.Send("ZINCRBY", "lang:"+user, 1, ref)
+	}
+
 	utcoffset, err := strconv.Atoi(r.PostFormValue("utcoffset"))
 	if err != nil {
 		utcoffset = 0
 	}
 
-	loc := r.Header.Get("Location")
+	loc := r.PostFormValue("location")
 	if loc != "" {
 		conn.Send("ZINCRBY", "loc:"+user, 1, loc)
+	}
+
+	origin := r.Header.Get("Origin")
+	if origin != "" {
+		conn.Send("ZINCRBY", "origin:"+user, 1, origin)
 	}
 
 	location, err := time.LoadLocation("UTC")
@@ -88,9 +97,6 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	conn.Send("HINCRBY", "browser:"+user, ua.Browser.Name.StringTrimPrefix(), 1)
 	conn.Send("HINCRBY", "device:"+user, ua.DeviceType.StringTrimPrefix(), 1)
 	conn.Send("HINCRBY", "platform:"+user, ua.OS.Platform.StringTrimPrefix(), 1)
-
-	w.Header().Set("Content-Type", "image/svg+xml")
-	fmt.Fprint(w, SVG)
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
@@ -193,7 +199,19 @@ func getData(user string, conn redis.Conn) (map[string]map[string]int, error) {
 		return nil, err
 	}
 
+	m["lang"], err = redis.IntMap(conn.Do("ZRANGE", "lang:"+user, 0, -1, "WITHSCORES"))
+	if err != nil {
+		log.Println(user, err)
+		return nil, err
+	}
+
 	m["ref"], err = redis.IntMap(conn.Do("ZRANGE", "ref:"+user, 0, -1, "WITHSCORES"))
+	if err != nil {
+		log.Println(user, err)
+		return nil, err
+	}
+
+	m["origin"], err = redis.IntMap(conn.Do("ZRANGE", "origin:"+user, 0, -1, "WITHSCORES"))
 	if err != nil {
 		log.Println(user, err)
 		return nil, err

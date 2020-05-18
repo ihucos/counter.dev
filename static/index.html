@@ -37,7 +37,6 @@
 <div id="page-index">
 <div style="background-color: white; min-height: 100vh; padding-top: 5em;">
 
-<img src="http://localhost:5000/track/1588964708.5805395" style="position: fixed; right: 0px; bottom: 0px"></img>
 <br/>
 
 <div class="container" style="max-width: 37em;">
@@ -514,12 +513,12 @@ ul {
 //
 &lt;script&gt;
 const formData = new FormData();
-formData.append('uid', 'username');
+formData.append('site', 'username');
 formData.append('utcoffset', '0');
-fetch("https://simple-web-analytics.com/touch", {
-  method: "POST",
-  body: formData,
-})
+formData.append('referrer', document.referrer);
+formData.append('location', location.pathname);
+formData.append('language', navigator.language || navigator.userLanguage);
+fetch("http://localhost:8000/track", {method: "POST", body: formData})
 &lt;/script&gt;
 </pre></code>
       </div>
@@ -528,12 +527,13 @@ fetch("https://simple-web-analytics.com/touch", {
   </div>
 </div>
 
-
 <script>
 const formData = new FormData();
 formData.append('site', 'username');
 formData.append('utcoffset', '0');
 formData.append('referrer', document.referrer);
+formData.append('location', location.pathname);
+formData.append('language', navigator.language || navigator.userLanguage);
 fetch("http://localhost:8000/track", {
   method: "POST",
   body: formData,
