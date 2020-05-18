@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	"strconv"
 	"time"
-	"net/url"
 
 	"github.com/avct/uasurfer"
 	"github.com/gomodule/redigo/redis"
@@ -45,10 +45,19 @@ func hash(stri string) string {
 
 }
 
-func Track(w http.ResponseWriter, r *http.Request) {
-	conn := pool.Get()
-	defer conn.Close()
+func save(user string, data map[string]string){
+  conn := pool.Get()
+  defer conn.Close()
+  for key, value := range data { 
+    if value != "" {
+      conn.Send("ZINCRBY", fmt.Sprintf("%s:%s", user, key), 1, value)
+    }
+  }
+}
 
+func Track(w http.ResponseWriter, r *http.Request) {
+
+	data := make(map[string]string)
 
 	user := r.PostFormValue("site")
 	if user == "" {
@@ -56,52 +65,45 @@ func Track(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ref := r.Header.Get("Referrer")
-        parsedUrl, err := url.Parse(ref)
-	if err == nil && parsedUrl.Host != "" {
-		conn.Send("ZINCRBY", "ref:"+user, 1, parsedUrl.Host)
-	}
-
-	lang := r.PostFormValue("language")
-	if lang != "" {
-		conn.Send("ZINCRBY", "lang:"+user, 1, lang)
-	}
-
 	utcoffset, err := strconv.Atoi(r.PostFormValue("utcoffset"))
 	if err != nil {
 		utcoffset = 0
 	}
 
-	loc := r.PostFormValue("location")
-	if loc != "" {
-		conn.Send("ZINCRBY", "loc:"+user, 1, loc)
-	}
-
-	origin := r.Header.Get("Origin")
-	if origin != "" {
-		conn.Send("ZINCRBY", "origin:"+user, 1, origin)
-	}
-
 	location, err := time.LoadLocation("UTC")
 	if err != nil {
-		log.Println(user, err)
-		http.Error(w, err.Error(), 500)
-		return
+		panic(err)
 	}
+
 	utcnow := time.Now().In(location)
 	now := utcnow.Add(time.Hour * time.Duration(utcoffset))
-	conn.Send("HINCRBY", "date:"+user, now.Format("2006-01-02"), 1)
-	conn.Send("HINCRBY", "weekday:"+user, int(now.Weekday()), 1)
-	conn.Send("HINCRBY", "hour:"+user, now.Hour(), 1)
+
+
+	ref := r.Header.Get("Referrer")
+	parsedUrl, err := url.Parse(ref)
+	if err == nil && parsedUrl.Host != "" {
+		data["ref"] = parsedUrl.Host
+	}
+
+
+	data["lang"] = r.PostFormValue("language")
+	data["loc"] = r.PostFormValue("location")
+	data["origin"] = r.Header.Get("Origin")
+
+	data["date"] = now.Format("2006-01-02")
+	data["weekday"] = fmt.Sprintf("%d", now.Weekday())
+	data["hour"] = fmt.Sprintf("%d", now.Hour())
 
 	userAgent := r.Header.Get("User-Agent")
 	ua := uasurfer.Parse(userAgent)
-	conn.Send("HINCRBY", "browser:"+user, ua.Browser.Name.StringTrimPrefix(), 1)
-	conn.Send("HINCRBY", "device:"+user, ua.DeviceType.StringTrimPrefix(), 1)
-	conn.Send("HINCRBY", "platform:"+user, ua.OS.Platform.StringTrimPrefix(), 1)
+	data["browser"] = ua.Browser.Name.StringTrimPrefix()
+	data["device"] = ua.DeviceType.StringTrimPrefix()
+	data["platform"] = ua.OS.Platform.StringTrimPrefix()
 
-        last := fmt.Sprintf("%s,%s,%s,%s", now.Format("2006-01-02 15:04:05"), userAgent, r.FormValue("timezone"), loc)
-	conn.Send("ZADD", "last:"+user, now.Unix(), last)
+	//last := fmt.Sprintf("%s,%s,%s,%s", now.Format("2006-01-02 15:04:05"), userAgent, r.FormValue("timezone"), loc)
+	//data["last"] = last
+
+	save(user, data)
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
