@@ -499,7 +499,6 @@ ul {
 const formData = new FormData();
 formData.append('site', 'username');
 formData.append('utcoffset', '0');  // user configurable
-formData.append('referrer', document.referrer);
 formData.append('location', location.pathname);
 formData.append('language', navigator.language || navigator.userLanguage);
 formData.append('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone || "")

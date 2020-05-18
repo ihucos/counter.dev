@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+	"net/url"
 
 	"github.com/avct/uasurfer"
 	"github.com/gomodule/redigo/redis"
@@ -55,9 +56,10 @@ func Track(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ref := r.PostFormValue("referrer")
-	if ref != "" {
-		conn.Send("ZINCRBY", "ref:"+user, 1, ref)
+	ref := r.Header.Get("Referrer")
+        parsedUrl, err := url.Parse(ref)
+	if err == nil && parsedUrl.Host != "" {
+		conn.Send("ZINCRBY", "ref:"+user, 1, parsedUrl.Host)
 	}
 
 	lang := r.PostFormValue("language")
