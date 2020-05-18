@@ -503,27 +503,43 @@ ul {
   </div>
 
 
-  <!--<button onclick="post('dashboard')">Update Data</button>-->
-  <hr>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
- <h1>Integration</h1>
+  <hr />
 
-    <div class="col-md-12 alert-secondary">
-      <pre><code>&lt;p&gt;Sample text here...&lt;/p&gt;
-      &lt;p&gt;And another line of sample text here...&lt;/p&gt;
-      </code></pre>
+  <div class="row my-5">
+    <div class="col-md-12">
+      <h4 class="text-muted">Integration</h4>
+      <div class="bg-light px-3 py-3">
+        <pre><code>//
+// Simple Web Analytics
+//
+&lt;script&gt;
+const formData = new FormData();
+formData.append('uid', 'username');
+formData.append('utcoffset', '0');
+fetch("https://simple-web-analytics.com/touch", {
+  method: "POST",
+  body: formData,
+})
+&lt;/script&gt;
+</pre></code>
+      </div>
     </div>
-
+  </div>
   </div>
 </div>
+
+
+<script>
+const formData = new FormData();
+formData.append('site', 'username');
+formData.append('utcoffset', '0');
+formData.append('referrer', document.referrer);
+fetch("http://localhost:8000/track", {
+  method: "POST",
+  body: formData,
+})
+</script>
+
 
 <script>
 document.getElementById("user").value = "asdf"

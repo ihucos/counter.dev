@@ -4,10 +4,10 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
-	"log"
 
 	"github.com/avct/uasurfer"
 	"github.com/gomodule/redigo/redis"
@@ -19,7 +19,7 @@ var SVG = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><svg xmlns=\"http://www.w3
 
 func main() {
 
-        log.SetFlags(log.LstdFlags | log.Lshortfile)
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	pool = &redis.Pool{
 		MaxIdle:     10,
@@ -50,18 +50,18 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	conn := pool.Get()
 	defer conn.Close()
 
-	q := r.URL.Query()
-	user := q.Get("uid")
+
+	user := r.PostFormValue("site")
 	if user == "" {
 		http.Error(w, "missing uid", http.StatusBadRequest)
 		return
 	}
 
-	ref := q.Get("referrer")
+	ref := r.PostFormValue("referrer")
 	if ref != "" {
 		conn.Send("ZINCRBY", "ref:"+user, 1, ref)
 	}
-	utcoffset, err := strconv.Atoi(q.Get("utcoffset"))
+	utcoffset, err := strconv.Atoi(r.PostFormValue("utcoffset"))
 	if err != nil {
 		utcoffset = 0
 	}
@@ -73,7 +73,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	location, err := time.LoadLocation("UTC")
 	if err != nil {
-                log.Println(user, err)
+		log.Println(user, err)
 		http.Error(w, err.Error(), 500)
 		return
 	}
@@ -117,7 +117,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	// also delete anything saved by this user before!!
 	res, err := redis.Int64(conn.Do("HSETNX", "users", user, hash(password)))
 	if err != nil {
-                log.Println(user, err)
+		log.Println(user, err)
 		http.Error(w, err.Error(), 500)
 		return
 	}
@@ -126,13 +126,13 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	} else {
 		userData, err := getData(user, conn)
 		if err != nil {
-                        log.Println(user, err)
+			log.Println(user, err)
 			http.Error(w, err.Error(), 500)
 			return
 		}
 		jsonString, err := json.Marshal(userData)
 		if err != nil {
-                        log.Println(user, err)
+			log.Println(user, err)
 			http.Error(w, err.Error(), 500)
 			return
 		}
@@ -153,20 +153,20 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 
 	res, err := redis.String(conn.Do("HGET", "users", user))
 	if err != nil {
-                log.Println(user, err)
+		log.Println(user, err)
 		http.Error(w, err.Error(), 500)
 		return
 	}
 	if res == hash(password) {
 		userData, err := getData(user, conn)
 		if err != nil {
-                        log.Println(user, err)
+			log.Println(user, err)
 			http.Error(w, err.Error(), 500)
 			return
 		}
 		jsonString, err := json.Marshal(userData)
 		if err != nil {
-                        log.Println(user, err)
+			log.Println(user, err)
 			http.Error(w, err.Error(), 500)
 			return
 		}
@@ -182,50 +182,50 @@ func getData(user string, conn redis.Conn) (map[string]map[string]int, error) {
 
 	resp, err := redis.IntMap(conn.Do("HGETALL", "date:4"))
 	if err != nil {
-                log.Println(user, err)
+		log.Println(user, err)
 		return nil, err
 	}
 	m["date"] = resp
 
 	m["loc"], err = redis.IntMap(conn.Do("ZRANGE", "loc:"+user, 0, -1, "WITHSCORES"))
 	if err != nil {
-                log.Println(user, err)
+		log.Println(user, err)
 		return nil, err
 	}
 
 	m["ref"], err = redis.IntMap(conn.Do("ZRANGE", "ref:"+user, 0, -1, "WITHSCORES"))
 	if err != nil {
-                log.Println(user, err)
+		log.Println(user, err)
 		return nil, err
 	}
 
 	m["weekday"], err = redis.IntMap(conn.Do("HGETALL", "weekday:"+user))
 	if err != nil {
-                log.Println(user, err)
+		log.Println(user, err)
 		return nil, err
 	}
 
 	m["hour"], err = redis.IntMap(conn.Do("HGETALL", "hour:"+user))
 	if err != nil {
-                log.Println(user, err)
+		log.Println(user, err)
 		return nil, err
 	}
 
 	m["browser"], err = redis.IntMap(conn.Do("HGETALL", "browser:"+user))
 	if err != nil {
-                log.Println(user, err)
+		log.Println(user, err)
 		return nil, err
 	}
 
 	m["device"], err = redis.IntMap(conn.Do("HGETALL", "device:"+user))
 	if err != nil {
-                log.Println(user, err)
+		log.Println(user, err)
 		return nil, err
 	}
 
 	m["platform"], err = redis.IntMap(conn.Do("HGETALL", "platform:"+user))
 	if err != nil {
-                log.Println(user, err)
+		log.Println(user, err)
 		return nil, err
 	}
 
