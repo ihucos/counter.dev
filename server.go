@@ -16,6 +16,9 @@ import (
 
 var pool *redis.Pool
 
+var fieldsZet = []string{"lang", "origin", "ref", "loc"}
+var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device",}
+
 func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
@@ -48,11 +51,18 @@ func hash(stri string) string {
 func save(user string, data map[string]string) {
 	conn := pool.Get()
 	defer conn.Close()
-	for key, value := range data {
-		if value != "" {
-			conn.Send("ZINCRBY", fmt.Sprintf("%s:%s", key, user), 1, value)
-		}
-	}
+	for _, field := range fieldsZet {
+            val := data[field]
+            if val != "" {
+                conn.Send("ZINCRBY", fmt.Sprintf("%s:%s", field, user), 1, val)
+            }
+        }
+	for _, field := range fieldsHash {
+            val := data[field]
+            if val != "" {
+                conn.Send("HINCRBY", fmt.Sprintf("%s:%s", field, user), val, 1)
+            }
+        }
 }
 
 func Track(w http.ResponseWriter, r *http.Request) {
@@ -84,7 +94,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 		data["ref"] = parsedUrl.Host
 	}
 
-	data["lang"] = r.PostFormValue("language")
+	//data["lang"] = r.PostFormValue("language")
 	data["loc"] = r.PostFormValue("location")
 	data["origin"] = r.Header.Get("Origin")
 
@@ -191,10 +201,16 @@ func getData(user string, conn redis.Conn) (map[string]map[string]int, error) {
 
 	var err error
 	m := make(map[string]map[string]int)
-	fields := []string{"date", "weekday", "platform", "lang", "origin", "hour", "browser", "device", "ref", "loc"}
 
-	for _, field := range fields {
+	for _, field := range fieldsZet {
 		m[field], err = redis.IntMap(conn.Do("ZRANGE", fmt.Sprintf("%s:%s", field, user), 0, -1, "WITHSCORES"))
+		if err != nil {
+			log.Println(user, err)
+			return nil, err
+		}
+	}
+	for _, field := range fieldsHash {
+		m[field], err = redis.IntMap(conn.Do("HGETALL", fmt.Sprintf("%s:%s", field, user)))
 		if err != nil {
 			log.Println(user, err)
 			return nil, err
