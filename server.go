@@ -45,14 +45,14 @@ func hash(stri string) string {
 
 }
 
-func save(user string, data map[string]string){
-  conn := pool.Get()
-  defer conn.Close()
-  for key, value := range data { 
-    if value != "" {
-      conn.Send("ZINCRBY", fmt.Sprintf("%s:%s", user, key), 1, value)
-    }
-  }
+func save(user string, data map[string]string) {
+	conn := pool.Get()
+	defer conn.Close()
+	for key, value := range data {
+		if value != "" {
+			conn.Send("ZINCRBY", fmt.Sprintf("%s:%s", key, user), 1, value)
+		}
+	}
 }
 
 func Track(w http.ResponseWriter, r *http.Request) {
@@ -78,13 +78,11 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	utcnow := time.Now().In(location)
 	now := utcnow.Add(time.Hour * time.Duration(utcoffset))
 
-
 	ref := r.Header.Get("Referrer")
 	parsedUrl, err := url.Parse(ref)
 	if err == nil && parsedUrl.Host != "" {
 		data["ref"] = parsedUrl.Host
 	}
-
 
 	data["lang"] = r.PostFormValue("language")
 	data["loc"] = r.PostFormValue("location")
@@ -96,7 +94,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	userAgent := r.Header.Get("User-Agent")
 	ua := uasurfer.Parse(userAgent)
-	data["browser"] = ua.Browser.Name.StringTrimPrefix()
+	data["browser"] = fmt.Sprintf("%s %d", ua.Browser.Name.StringTrimPrefix(), ua.Browser.Version.Major)
 	data["device"] = ua.DeviceType.StringTrimPrefix()
 	data["platform"] = ua.OS.Platform.StringTrimPrefix()
 
@@ -191,74 +189,16 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 
 func getData(user string, conn redis.Conn) (map[string]map[string]int, error) {
 
+	var err error
 	m := make(map[string]map[string]int)
+	fields := []string{"date", "weekday", "platform", "lang", "origin", "hour", "browser", "device", "ref", "loc"}
 
-	resp, err := redis.IntMap(conn.Do("HGETALL", "date:"+user))
-	if err != nil {
-		log.Println(user, err)
-		return nil, err
+	for _, field := range fields {
+		m[field], err = redis.IntMap(conn.Do("ZRANGE", fmt.Sprintf("%s:%s", field, user), 0, -1, "WITHSCORES"))
+		if err != nil {
+			log.Println(user, err)
+			return nil, err
+		}
 	}
-	m["date"] = resp
-
-	m["loc"], err = redis.IntMap(conn.Do("ZRANGE", "loc:"+user, 0, -1, "WITHSCORES"))
-	if err != nil {
-		log.Println(user, err)
-		return nil, err
-	}
-
-	m["last"], err = redis.IntMap(conn.Do("ZRANGE", "last:"+user, 0, 10, "WITHSCORES"))
-	if err != nil {
-		log.Println(user, err)
-		return nil, err
-	}
-
-	m["lang"], err = redis.IntMap(conn.Do("ZRANGE", "lang:"+user, 0, -1, "WITHSCORES"))
-	if err != nil {
-		log.Println(user, err)
-		return nil, err
-	}
-
-	m["ref"], err = redis.IntMap(conn.Do("ZRANGE", "ref:"+user, 0, -1, "WITHSCORES"))
-	if err != nil {
-		log.Println(user, err)
-		return nil, err
-	}
-
-	m["origin"], err = redis.IntMap(conn.Do("ZRANGE", "origin:"+user, 0, -1, "WITHSCORES"))
-	if err != nil {
-		log.Println(user, err)
-		return nil, err
-	}
-
-	m["weekday"], err = redis.IntMap(conn.Do("HGETALL", "weekday:"+user))
-	if err != nil {
-		log.Println(user, err)
-		return nil, err
-	}
-
-	m["hour"], err = redis.IntMap(conn.Do("HGETALL", "hour:"+user))
-	if err != nil {
-		log.Println(user, err)
-		return nil, err
-	}
-
-	m["browser"], err = redis.IntMap(conn.Do("HGETALL", "browser:"+user))
-	if err != nil {
-		log.Println(user, err)
-		return nil, err
-	}
-
-	m["device"], err = redis.IntMap(conn.Do("HGETALL", "device:"+user))
-	if err != nil {
-		log.Println(user, err)
-		return nil, err
-	}
-
-	m["platform"], err = redis.IntMap(conn.Do("HGETALL", "platform:"+user))
-	if err != nil {
-		log.Println(user, err)
-		return nil, err
-	}
-
-	return m, nil
+	return m, err
 }

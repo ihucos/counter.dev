@@ -159,6 +159,7 @@ function draw(data){
 
 
     elem.innerHTML = "<h4 class='text-muted'>" + title + "</h4>"
+    console.log(key)
     if (Object.keys(data[key]).length === 0 && data[key].constructor === Object){
         elem.innerHTML += '<span class="text-muted">Empty</span>'
         return
@@ -184,7 +185,7 @@ function draw(data){
   makeList("loc", "Top Pages")
   makeList("lang", "Top Languages")
 
-  document.getElementById("access").innerHTML = Object.keys(data.last).join("\n")
+  //document.getElementById("access").innerHTML = Object.keys(data.last).join("\n")
 
   new Chart(document.getElementById("graph"), {
     type: 'line',
