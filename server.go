@@ -62,7 +62,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	lang := r.PostFormValue("language")
 	if lang != "" {
-		conn.Send("ZINCRBY", "lang:"+user, 1, ref)
+		conn.Send("ZINCRBY", "lang:"+user, 1, lang)
 	}
 
 	utcoffset, err := strconv.Atoi(r.PostFormValue("utcoffset"))
@@ -97,6 +97,9 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	conn.Send("HINCRBY", "browser:"+user, ua.Browser.Name.StringTrimPrefix(), 1)
 	conn.Send("HINCRBY", "device:"+user, ua.DeviceType.StringTrimPrefix(), 1)
 	conn.Send("HINCRBY", "platform:"+user, ua.OS.Platform.StringTrimPrefix(), 1)
+
+        last := fmt.Sprintf("%s,%s,%s,%s", now.Format("2006-01-02 15:04:05"), userAgent, r.FormValue("timezone"), loc)
+	conn.Send("ZADD", "last:"+user, now.Unix(), last)
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
@@ -194,6 +197,12 @@ func getData(user string, conn redis.Conn) (map[string]map[string]int, error) {
 	m["date"] = resp
 
 	m["loc"], err = redis.IntMap(conn.Do("ZRANGE", "loc:"+user, 0, -1, "WITHSCORES"))
+	if err != nil {
+		log.Println(user, err)
+		return nil, err
+	}
+
+	m["last"], err = redis.IntMap(conn.Do("ZRANGE", "last:"+user, 0, 10, "WITHSCORES"))
 	if err != nil {
 		log.Println(user, err)
 		return nil, err

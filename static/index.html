@@ -182,6 +182,9 @@ function draw(data){
   makeList("browser", "Top Browsers")
   makeList("platform", "Top Platforms")
   makeList("loc", "Top Pages")
+  makeList("lang", "Top Languages")
+
+  document.getElementById("access").innerHTML = Object.keys(data.last).join("\n")
 
   new Chart(document.getElementById("graph"), {
     type: 'line',
@@ -208,60 +211,6 @@ function draw(data){
     },
   })
 
-
-
-  new Chart(document.getElementById("direct"), {
-    type: 'pie',
-    data: {
-      labels: [
-        'A',
-        'B',
-      ],
-      datasets: [
-        {
-          backgroundColor: [
-            orange,
-            'white',
-          ],
-          borderColor: orange,
-          data: [
-            40,
-            60,
-          ],
-        },
-      ],
-    },
-    options: {
-      legend: {display: false},
-    },
-  })
-
-  new Chart(document.getElementById("mobile"), {
-    type: 'pie',
-    data: {
-      labels: [
-        'A',
-        'B',
-      ],
-      datasets: [
-        {
-          backgroundColor: [
-            orange,
-            'white',
-          ],
-          borderColor: orange,
-          data: [
-            20,
-            80,
-          ],
-        },
-      ],
-    },
-    options: {
-      legend: {display: false},
-    },
-  })
-
   function sumHours(arr){
       sum = 0
       arr.forEach(el => sum += (data.hour[el] || 0))
@@ -284,6 +233,60 @@ function draw(data){
               sumHours([12, 13, 14, 15]),
               sumHours([16, 17, 18, 19, 20, 21]),
               sumHours([22, 23, 24, 0, 1, 2, 3, 4]),
+          ],
+          backgroundColor: [
+            orange,
+            orange,
+            orange,
+            orange,
+          ],
+        },
+      ],
+    },
+    options: {
+      tooltips: {
+          mode: 'index'
+      },
+      legend: {display: false},
+      scales: {
+        xAxes: [
+          {
+            gridLines: {
+              display: false,
+            },
+            ticks: {display: false, beginAtZero: true}
+          },
+        ],
+        yAxes: [
+          {
+            gridLines: {
+              display: false,
+            },
+            ticks: {beginAtZero: true}
+          },
+        ],
+      },
+    },
+  })
+
+
+
+  new Chart(document.getElementById("device"), {
+    type: 'horizontalBar',
+    data: {
+      labels: [
+        'Computer',
+        'Phone',
+        'Tablet',
+        'Other',
+      ],
+      datasets: [
+        {
+          data: [
+              data.device["Computer"] || 0,
+              data.device["Phone"] || 0,
+              data.device["Tablet"] || 0,
+              ((data.device["TV"] || 0) + (data.device["Console"] || 0) + (data.device["Unknown"] || 0)),
           ],
           backgroundColor: [
             orange,
@@ -445,9 +448,9 @@ ul {
 
   <div class="row my-5">
     <div class="col-md-3">
-      <h5 class="text-muted">Weekday</h5>
+      <h5 class="text-muted">Devices</h5>
       <div class="py-2">
-        <canvas id="weekday"  height=200 />
+        <canvas id="device" height=200 />
       </div>
     </div>
     <div class="col-md-3">
@@ -457,15 +460,9 @@ ul {
       </div>
     </div>
     <div class="col-md-3">
-      <h5 class="text-muted">Has referrer</h5>
+      <h5 class="text-muted">Weekday</h5>
       <div class="py-2">
-        <canvas id="direct" height=200 />
-      </div>
-    </div>
-    <div class="col-md-3">
-      <h5 class="text-muted">Mobile</h5>
-      <div class="py-2">
-        <canvas id="mobile" height=200 />
+        <canvas id="weekday"  height=200 />
       </div>
     </div>
   </div>
@@ -473,40 +470,21 @@ ul {
   <hr>
 
   <div class="row my-5">
-    <div id="list_browser" class="col-md-6">
-    </div>
-    <div id="list_platform" class="col-md-6">
-    </div>
+    <div id="list_browser" class="col-md-4"></div>
+    <div id="list_platform" class="col-md-4"></div>
+    <div id="list_lang" class="col-md-4"></div>
   </div>
 
   <hr />
 
 
   <div class="row my-5">
-    <div class="col-md-12">
-      <h4 class="text-muted">Last Access</h4>
-        <ul>
-          <li>facebook.com <small class="text-muted">8k</small> <br/></li>
-          <li>google.com <small class="text-muted">80</small> <br/></li>
-          <li>yahoo.de <small class="text-muted">450</small> <br/></li>
-        </ul>
+    <div class="col-md-12" style="max-height: 50;">
+      <h4 class="text-muted">Access Log</h4>
+        <pre><code id="access">
+        </pre></code>
     </div>
   </div>
-
-  <hr />
-
-
-  <div class="row my-5">
-    <div class="col-md-12">
-      <h4 class="text-muted">Language scores</h4>
-        <ul>
-          <li>facebook.com <small class="text-muted">8k</small> <br/></li>
-          <li>google.com <small class="text-muted">80</small> <br/></li>
-          <li>yahoo.de <small class="text-muted">450</small> <br/></li>
-        </ul>
-    </div>
-  </div>
-
 
   <hr />
 
@@ -520,10 +498,11 @@ ul {
 &lt;script&gt;
 const formData = new FormData();
 formData.append('site', 'username');
-formData.append('utcoffset', '0');
+formData.append('utcoffset', '0');  // user configurable
 formData.append('referrer', document.referrer);
 formData.append('location', location.pathname);
 formData.append('language', navigator.language || navigator.userLanguage);
+formData.append('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone || "")
 fetch("http://localhost:8000/track", {method: "POST", body: formData})
 &lt;/script&gt;
 </pre></code>
@@ -535,15 +514,13 @@ fetch("http://localhost:8000/track", {method: "POST", body: formData})
 
 <script>
 const formData = new FormData();
-formData.append('site', 'username');
-formData.append('utcoffset', '0');
+formData.append('site', 'asdf');
+formData.append('utcoffset', '0');  // user configurable
 formData.append('referrer', document.referrer);
 formData.append('location', location.pathname);
 formData.append('language', navigator.language || navigator.userLanguage);
-fetch("http://localhost:8000/track", {
-  method: "POST",
-  body: formData,
-})
+formData.append('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone || "")
+fetch("http://localhost:8000/track", {method: "POST", body: formData})
 </script>
 
 
