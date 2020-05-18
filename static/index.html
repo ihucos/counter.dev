@@ -262,28 +262,34 @@ function draw(data){
     },
   })
 
+  function sumHours(arr){
+      sum = 0
+      arr.forEach(el => sum += (data.hour[el] || 0))
+      return sum
+  }
+
   new Chart(document.getElementById("time"), {
     type: 'horizontalBar',
     data: {
       labels: [
         'Morning',
-        'Noon',
+        'Afternoon',
         'Evening',
         'Night',
       ],
       datasets: [
         {
+          data: [
+              sumHours([5, 6, 7, 8, 9, 10, 11]),
+              sumHours([12, 13, 14, 15]),
+              sumHours([16, 17, 18, 19, 20, 21]),
+              sumHours([22, 23, 24, 0, 1, 2, 3, 4]),
+          ],
           backgroundColor: [
             orange,
             orange,
             orange,
             orange,
-          ],
-          data: [
-            80,
-            20,
-            20,
-            30,
           ],
         },
       ],
@@ -321,6 +327,15 @@ function draw(data){
       labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       datasets: [
         {
+          data: [
+            data['weekday'][0] || 0,
+            data['weekday'][1] || 0,
+            data['weekday'][2] || 0,
+            data['weekday'][3] || 0,
+            data['weekday'][4] || 0,
+            data['weekday'][5] || 0,
+            data['weekday'][6] || 0,
+          ],
           backgroundColor: [
             orange,
             orange,
@@ -329,15 +344,6 @@ function draw(data){
             orange,
             orange,
             orange,
-          ],
-          data: [
-            80,
-            20,
-            20,
-            30,
-            30,
-            70,
-            30,
           ],
         },
       ],
