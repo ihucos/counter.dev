@@ -164,7 +164,6 @@ function draw(data) {
                 //data: [40, 50, 46, 60, 50],
                 data: date_vals,
                 label: 'xxxxx',
-                barThickness: 10,
                 backgroundColor: '#194873',
                 //pointBackgroundColor: "rgba(0,0,0,0)",
             }, ],
@@ -205,7 +204,7 @@ function draw(data) {
                     sumHours([16, 17, 18, 19, 20, 21]),
                     sumHours([22, 23, 24, 0, 1, 2, 3, 4]),
                 ],
-                barThickness: 10,
+                barThickness: 7,
                 backgroundColor: [
                     orange,
                     orange,
@@ -261,7 +260,7 @@ function draw(data) {
                     data.device["Tablet"] || 0,
                     ((data.device["TV"] || 0) + (data.device["Console"] || 0) + (data.device["Unknown"] || 0)),
                 ],
-                barThickness: 10,
+                barThickness: 7,
                 backgroundColor: [
                     orange,
                     orange,
@@ -314,6 +313,7 @@ function draw(data) {
                     data['weekday'][5] || 0,
                     data['weekday'][6] || 0,
                 ],
+                barThickness: 7,
                 backgroundColor: [
                     orange,
                     orange,
