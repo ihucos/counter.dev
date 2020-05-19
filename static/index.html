@@ -1,226 +1,180 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="Measure how many people are using your webapp"> 
-    <title>Webstats</title>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-<script src="script.js"></script>
-
-    <style>
-.clean {
-  color: #268bd2;
-}
-.btn-warning {
-  font-weight: bold;
-  background-color: #268bd2;
-  border-color: black;
-  color: white;
-  text-shadow: -1px 0 #e86e17, 0 1px  #e86e17, 1px 0 #e86e17, 0 -1px #e86e17;
-}
-
-.btn-light, .btn-light:hover {
-  border-color: black;
-}
-
-
-    </style>
-</head>
-
-<body>
-<div id="page-index">
-<div style="background-color: white; min-height: 100vh; padding-top: 5em;">
-
-<br/>
-
-<div class="container" style="max-width: 37em;">
-
-    <div class="card border-dark bg-light">
-    <div class="card-body">
-
-    <div class="card-title"><h2><b class="clean">Simple</b> Web Analytics</h2></div>
-    <h6 class="card-subtitle mb-2 text-muted">Instant Setup. No Cookies. Always Free.</h6>
-
-    <div class="card-text">
-    <p>
-    The lowest possible barrier to get you started with web analytics.
-    </p>
-
-    <div id="alert" class="alert alert-warning" style="display: none;" role="alert">
-    </div>
-
-    <form method="POST" action="">
-      <div class="form-group has-error">
-        <input id="user" class="form-control" name="username" placeholder="Domain or username">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="Measure how many people are using your webapp">
+      <title>Webstats</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+      <script src="script.js"></script>
+      <style>
+         .simple {
+         color: #194873;
+         }
+         .btn-warning {
+         font-weight: bold;
+         background-color: #268bd2;
+         border-color: black;
+         color: white;
+         text-shadow: -1px 0 #e86e17, 0 1px  #e86e17, 1px 0 #e86e17, 0 -1px #e86e17;
+         }
+         .btn-light, .btn-light:hover {
+         border-color: black;
+         }
+      </style>
+   </head>
+   <body>
+      <div id="page-index">
+         <div style="background-color: white; min-height: 100vh; padding-top: 5em;">
+            <br/>
+            <div class="container" style="max-width: 37em;">
+               <div class="card border-dark bg-light">
+                  <div class="card-body">
+                     <div class="card-title">
+                        <h2><b class="simple">Simple</b> Web Analytics</h2>
+                     </div>
+                     <h6 class="card-subtitle mb-2 text-muted">Instant Setup. No Cookies. Always Free.</h6>
+                     <div class="card-text">
+                        <p>
+                           The lowest possible barrier to get you started with web analytics.
+                        </p>
+                        <div id="alert" class="alert alert-warning" style="display: none;" role="alert">
+                        </div>
+                        <form method="POST" action="">
+                           <div class="form-group has-error">
+                              <input id="user" class="form-control" name="username" placeholder="Domain or username">
+                           </div>
+                           <div class="form-group">
+                              <input id="password" type="password" name="password" class="form-control" placeholder="Password">
+                           </div>
+                           <div class="btn-group mr-2" role="group" aria-label="First group">
+                              <button type="submit" onclick="post('dashboard'); alwaysUpdate(); return false" class="btn btn-light" name="action">Login</button>
+                              <a href="#" class="btn btn-light">Demo</a>
+                              <button type="submit" onclick="post('register'); alwaysUpdate(); return false" class="btn btn-dark" name="action" value="register">&nbsp;&nbsp;Register&nbsp;&nbsp;</button>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="container" style="margin-bottom: 5em;">
+            <style>
+               p.short {
+               max-width: 40em;
+               }
+            </style>
+            <h1 id="text-begin">Just Simple</h1>
+            <p class="short">
+               Clean Web Analytics is uncompromisingly simple and tries very hard to stand out of your way.
+            </p>
+            <h1>Realtime</h1>
+            <p class="short">
+               Your is shown you as it happens. See what is happening now, not yesterday.
+            </p>
+            <h1>See What Really Matters</h1>
+            <p class="short">
+               We only show our users what they actually understand. Clean Web Analytics was
+               carefully crafted to give you an uncluttered view. Everything is in one
+               printable page. No hidden menus.  
+            </p>
+            <h1>No Cookies</h1>
+            <p class="short">
+               We don't use cookies. We don't track with JavaScript. We don't do
+               Fingerprinting. We don't assign user indentifiers to traffic at all. Privacy is
+               baked in at the core technical design choices of Clean Web Analytics.
+            </p>
+         </div>
       </div>
-      <div class="form-group">
-        <input id="password" type="password" name="password" class="form-control" placeholder="Password">
-      </div>
-
-      <div class="btn-group mr-2" role="group" aria-label="First group">
-        <button type="submit" onclick="post('dashboard'); alwaysUpdate(); return false" class="btn btn-light" name="action">Login</button>
-        <a href="#" class="btn btn-light">Demo</a>
-      <button type="submit" onclick="post('register'); alwaysUpdate(); return false" class="btn btn-dark" name="action" value="register">&nbsp;&nbsp;Register&nbsp;&nbsp;</button>
-      </div>
-    </form>
-
-    </div>
-    </div>
-</div>
-
-</div>
-</div>
-
-<div class="container" style="margin-bottom: 5em;">
-
-<style>
-p.short {
-    max-width: 40em;
-
-}
-</style>
-
-<h1 id="text-begin">Just Simple</h1>
-<p class="short">
-Clean Web Analytics is uncompromisingly simple and tries very hard to stand out of your way.
-</p>
-
-<h1>Realtime</h1>
-<p class="short">
-Your traffic is available at the moment it happens. See what is happening now, not yesterday.
-</p>
-
-<h1>See What Really Matters</h1>
-<p class="short">
-We only show our users what they actually understand. Clean Web Analytics was
-carefully crafted to give you an uncluttered view. Everything is in one
-printable page. No hidden menus.  
-</p>
-
-<h1>No Cookies</h1>
-<p class="short">
-We don't use cookies. We don't track with JavaScript. We don't do
-Fingerprinting. We don't assign user indentifiers to traffic at all. Privacy is
-baked in at the core technical design choices of Clean Web Analytics.
-</p>
-
-</div>
-
-
-</div>
-
-<style>
-li {
-  list-style: none
-}
-
-ul {
-  padding-left: 0px;
-
-}
-
-
-</style>
-
-<div id="page-graphs" style="display: none">
-  <div class="container" style="max-width: 45em;">
-
-  <br />
-  <br />
-
-  <hr>
-  <div class="row" style="margin-top: 5px">
-    <div class="col-md-3">
-      <h5 class="text-muted">Current</h5>
-      <div class="text-monospace py-2">
-        <h4 id="today">-</h4>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <h5 class="text-muted">Median <small>7 days</small></h5>
-      <div class="text-monospace py-2">
-        <h4 id="median">-</h4>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <h5 class="text-muted">Median <small>30 days</small></h5>
-      <div class="text-monospace py-2">
-        <h4 id="median_more">-</h4>
-      </div>
-    </div>
-  </div>
-
-  <div class="row" style="margin-bottom: 5px">
-    <div class="col-md-12">
-      <div class="border py-5 px-3">
-        <canvas height="100" id="graph" />
-      </div>
-    </div>
-  </div>
-
-  <div class="row my-5">
-    <div id="list_ref" class="col-md-6">
-    </div>
-    <div id="list_loc" class="col-md-6">
-    </div>
-  </div>
-
-<hr>
-
-  <div class="row my-5">
-    <div class="col-md-3">
-      <h5 class="text-muted">Devices</h5>
-      <div class="py-2">
-        <canvas id="device" height=200 />
-      </div>
-    </div>
-    <div class="col-md-3">
-      <h5 class="text-muted">Time</h5>
-      <div class="py-2">
-        <canvas id="time"  height=200 />
-      </div>
-    </div>
-    <div class="col-md-3">
-      <h5 class="text-muted">Weekday</h5>
-      <div class="py-2">
-        <canvas id="weekday"  height=200 />
-      </div>
-    </div>
-  </div>
-
-  <hr>
-
-  <div class="row my-5">
-    <div id="list_browser" class="col-md-4"></div>
-    <div id="list_platform" class="col-md-4"></div>
-    <div id="list_lang" class="col-md-4"></div>
-  </div>
-
-  <hr />
-
-
-  <div class="row my-5">
-    <div class="col-md-12" style="max-height: 50;">
-      <h4 class="text-muted">Access Log</h4>
-        <pre><code id="log">
-        </pre></code>
-    </div>
-  </div>
-
-  <hr />
-
-  <div class="row my-5">
-    <div class="col-md-12">
-      <h4 class="text-muted">Integration</h4>
-      <div class="bg-light px-3 py-3">
-        <pre><code>//
+      <style>
+         li {
+         list-style: none
+         }
+         ul {
+         padding-left: 0px;
+         }
+      </style>
+      <div id="page-graphs" style="display: none">
+         <div class="container" style="max-width: 45em; background-color: white;">
+            <br />
+            <br />
+            <hr>
+            <div class="row" style="margin-top: 5px">
+               <div class="col-md-3">
+                  <h5 class="text-muted">Current</h5>
+                  <div class="text-monospace py-2">
+                     <h4 id="today">-</h4>
+                  </div>
+               </div>
+               <div class="col-md-3">
+                  <h5 class="text-muted">Median <small>7 days</small></h5>
+                  <div class="text-monospace py-2">
+                     <h4 id="median">-</h4>
+                  </div>
+               </div>
+               <div class="col-md-3">
+                  <h5 class="text-muted">Median <small>30 days</small></h5>
+                  <div class="text-monospace py-2">
+                     <h4 id="median_more">-</h4>
+                  </div>
+               </div>
+            </div>
+            <div class="row" style="margin-bottom: 5px">
+               <div class="col-md-12">
+                  <div class="border py-5 px-3">
+                     <canvas height="100" id="graph" />
+                  </div>
+               </div>
+            </div>
+            <div class="row my-5">
+               <div id="list_ref" class="col-md-6">
+               </div>
+               <div id="list_loc" class="col-md-6">
+               </div>
+            </div>
+            <hr>
+            <div class="row my-5">
+               <div class="col-md-3">
+                  <h5 class="text-muted">Devices</h5>
+                  <div class="py-2">
+                     <canvas id="device" height=200 />
+                  </div>
+               </div>
+               <div class="col-md-3">
+                  <h5 class="text-muted">Time</h5>
+                  <div class="py-2">
+                     <canvas id="time"  height=200 />
+                  </div>
+               </div>
+               <div class="col-md-3">
+                  <h5 class="text-muted">Weekday</h5>
+                  <div class="py-2">
+                     <canvas id="weekday"  height=200 />
+                  </div>
+               </div>
+            </div>
+            <hr>
+            <div class="row my-5">
+               <div id="list_browser" class="col-md-4"></div>
+               <div id="list_platform" class="col-md-4"></div>
+               <div id="list_lang" class="col-md-4"></div>
+            </div>
+            <hr />
+            <div class="row my-5">
+               <div class="col-md-12" style="max-height: 50;">
+                  <h4 class="text-muted">Last Visits</h4>
+                  <pre><code id="log">
+        </pre>
+                  </code>
+               </div>
+            </div>
+            <hr />
+            <div class="row my-5">
+               <div class="col-md-12">
+                  <h4 class="text-muted">Integration</h4>
+                  <div class="bg-light px-3 py-3">
+                     <pre><code>//
 // Simple Web Analytics
 //
 &lt;script&gt;
@@ -232,35 +186,30 @@ formData.append('language', navigator.language || navigator.userLanguage);
 formData.append('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone || "")
 fetch("http://localhost:8000/track", {method: "POST", body: formData})
 &lt;/script&gt;
-</pre></code>
+</pre>
+                     </code>
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
-    </div>
-  </div>
-  </div>
-</div>
-
-<script>
-const formData = new FormData();
-formData.append('site', 'asdf');
-formData.append('utcoffset', '0');  // user configurable
-formData.append('referrer', document.referrer);
-formData.append('location', location.pathname);
-formData.append('language', navigator.language || navigator.userLanguage);
-formData.append('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone || "")
-fetch("http://localhost:8000/track", {method: "POST", body: formData})
-</script>
-
-
-<script>
-document.getElementById("user").value = "asdf"
-document.getElementById("user").focus()
-document.getElementById("password").value = "asdfasdf"
-//document.forms[0].submit()
-
-</script>
-
-
-</body>
-
-
+      <script>
+         const formData = new FormData();
+         formData.append('site', 'asdf');
+         formData.append('utcoffset', '0');  // user configurable
+         formData.append('referrer', document.referrer);
+         formData.append('location', location.pathname);
+         formData.append('language', navigator.language || navigator.userLanguage);
+         formData.append('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone || "")
+         fetch("http://localhost:8000/track", {method: "POST", body: formData})
+      </script>
+      <script>
+         document.getElementById("user").value = "asdf"
+         document.getElementById("user").focus()
+         document.getElementById("password").value = "asdfasdf"
+         //document.forms[0].submit()
+         
+      </script>
+   </body>
 </html>
+
