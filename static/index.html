@@ -148,7 +148,6 @@ function post(name){
 
 function draw(data){
   window.D = data
-  console.log(data)
   document.getElementById("page-index").style.display = "none"
   document.getElementById("page-graphs").style.display = "block"
 
@@ -159,7 +158,6 @@ function draw(data){
 
 
     elem.innerHTML = "<h4 class='text-muted'>" + title + "</h4>"
-    console.log(key)
     if (Object.keys(data[key]).length === 0 && data[key].constructor === Object){
         elem.innerHTML += '<span class="text-muted">Empty</span>'
         return
@@ -179,6 +177,40 @@ function draw(data){
     } 
   }
 
+  var daysRange = function(s, e) {
+    s = new Date(s)
+    e = new Date(e)
+    o = {}    
+    for (var a = [], d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
+            o[new Date(d).toISOString().substring(0, 10)] = 0;
+        }
+        return o;
+  };
+
+  keys = Object.keys(data.date)
+  keys.sort((a, b) => {
+      return a > b;
+  });
+  min = keys[0]
+  max = new Date().toISOString().substring(0, 10)
+  data_date = {...daysRange(min, max), ...data.date}
+
+
+function splitObject(obj, sort_index){
+  var sortable = [];
+  for (var key in obj) {
+      sortable.push([key, obj[key]]);
+  }
+  sortable.sort(function(a, b) {
+      return a[sort_index] - b[sort_index];
+  });
+
+  return [sortable.map(x => x[0]), sortable.map(x => x[1])]
+}
+
+  [date_keys, date_vals] = splitObject(data_date)
+
+
   makeList("ref", "Top Referrers")
   makeList("browser", "Top Browsers")
   makeList("platform", "Top Platforms")
@@ -191,11 +223,11 @@ function draw(data){
     type: 'line',
     data: {
       //labels: ["2020-1-1", "2020-1-2", "2020-1-1", "2020-1-3", "2020-1-4"],
-      labels: Object.keys(data.date),
+      labels: date_keys,
       datasets: [
         {
           //data: [40, 50, 46, 60, 50],
-          data: Object.values(data.date),
+          data: date_vals,
           label: 'xxxxx',
           backgroundColor: '#268bd2',
           //pointBackgroundColor: "rgba(0,0,0,0)",

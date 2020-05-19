@@ -48,13 +48,13 @@ func hash(stri string) string {
 
 }
 
-func save(user string, data map[string]string) {
-	conn := pool.Get()
-	defer conn.Close()
+func save(conn redis.Conn, user string, data map[string]string) {
 	for _, field := range fieldsZet {
+            //val := strconv.FormatInt(time.Now().UnixNano(), 10)
             val := data[field]
             if val != "" {
                 conn.Send("ZINCRBY", fmt.Sprintf("%s:%s", field, user), 1, val)
+                conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s", field, user), 0, -20)
             }
         }
 	for _, field := range fieldsHash {
@@ -65,17 +65,23 @@ func save(user string, data map[string]string) {
         }
 }
 
+func saveLog(conn redis.Conn, user string, entry string){
+        conn.Send("LPUSH", "log:"+user, entry)
+        conn.Send("LTRIM", "log:"+user, 0, 9)
+
+}
+
 func Track(w http.ResponseWriter, r *http.Request) {
 
 	data := make(map[string]string)
 
-	user := r.PostFormValue("site")
+	user := r.FormValue("site")
 	if user == "" {
 		http.Error(w, "missing uid", http.StatusBadRequest)
 		return
 	}
 
-	utcoffset, err := strconv.Atoi(r.PostFormValue("utcoffset"))
+	utcoffset, err := strconv.Atoi(r.FormValue("utcoffset"))
 	if err != nil {
 		utcoffset = 0
 	}
@@ -94,8 +100,8 @@ func Track(w http.ResponseWriter, r *http.Request) {
 		data["ref"] = parsedUrl.Host
 	}
 
-	//data["lang"] = r.PostFormValue("language")
-	data["loc"] = r.PostFormValue("location")
+	data["lang"] = r.FormValue("language")
+	data["loc"] = r.FormValue("location")
 	data["origin"] = r.Header.Get("Origin")
 
 	data["date"] = now.Format("2006-01-02")
@@ -111,7 +117,11 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	//last := fmt.Sprintf("%s,%s,%s,%s", now.Format("2006-01-02 15:04:05"), userAgent, r.FormValue("timezone"), loc)
 	//data["last"] = last
 
-	save(user, data)
+
+        conn := pool.Get()
+	defer conn.Close()
+	save(conn, user, data)
+        saveLog(conn, user, fmt.Sprintf("%s: %s", now.Format("2006-01-02 15:04:05"), userAgent))
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
@@ -145,7 +155,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if res == 0 {
 		http.Error(w, "Username taken", http.StatusBadRequest)
 	} else {
-		userData, err := getData(user, conn)
+		userData, err := getData(conn, user)
 		if err != nil {
 			log.Println(user, err)
 			http.Error(w, err.Error(), 500)
@@ -179,7 +189,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if res == hash(password) {
-		userData, err := getData(user, conn)
+		userData, err := getData(conn, user)
 		if err != nil {
 			log.Println(user, err)
 			http.Error(w, err.Error(), 500)
@@ -197,7 +207,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getData(user string, conn redis.Conn) (map[string]map[string]int, error) {
+func getData(conn redis.Conn, user string) (map[string]map[string]int, error) {
 
 	var err error
 	m := make(map[string]map[string]int)
@@ -217,4 +227,9 @@ func getData(user string, conn redis.Conn) (map[string]map[string]int, error) {
 		}
 	}
 	return m, err
+}
+
+func getLog(conn redis.Conn, user string) ([]string, error) {
+    return redis.Strings(conn.Do("LRANGE", "log:" + user, 0, -1))
+
 }
