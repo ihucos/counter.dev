@@ -185,12 +185,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := redis.String(conn.Do("HGET", "users", user))
-	if err != nil {
-		log.Println(user, err)
-		http.Error(w, err.Error(), 500)
-		return
-	}
+	res, _ := redis.String(conn.Do("HGET", "users", user))
 	if res == hash(password) {
 		userData, err := getData(conn, user)
 		if err != nil {

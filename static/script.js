@@ -132,11 +132,29 @@ function draw(data) {
         keys.sort((a, b) => {
             return a > b;
         });
-        min = keys[0]
+
+
+        calc_min = getUTCMinusElevenNow()
+        calc_min.setDate(calc_min.getDate() - 7)
+        calc_min = calc_min.toISOString().substring(0, 10)
+
+        if (keys.length != 0){
+            data_min = keys[0]
+            if (new Date(data_min).getTime() < new Date(calc_min).getTime()){
+                min = data_min 
+            } else {
+                min = calc_min
+            }
+        } else {
+            min = calc_min
+        }
+
+
         max = getUTCMinusElevenNow().toISOString().substring(0, 10)
         date_data = {...daysRange(min, max),
             ...data.date
         }
+
         return splitObject(date_data, true)
     }
 
@@ -151,7 +169,12 @@ function draw(data) {
     makeList("loc", "Top Pages")
     makeList("lang", "Top Languages")
 
-    document.getElementById("log").innerHTML = splitObject((data.log))[0].join("\n")
+    log_values = splitObject((data.log))[0]
+    if (log_values.length != 0){
+        document.getElementById("log").innerHTML = log_values.join("\n")
+    } else {
+        document.getElementById("log_container").innerHTML = '<span class="text-muted">Empty</span>'
+    }
 
     Chart.defaults.global.animation.duration = 0
 
@@ -164,7 +187,7 @@ function draw(data) {
                 //data: [40, 50, 46, 60, 50],
                 data: date_vals,
                 label: 'xxxxx',
-                backgroundColor: '#194873',
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
                 //pointBackgroundColor: "rgba(0,0,0,0)",
             }, ],
         },
@@ -247,6 +270,7 @@ function draw(data) {
     new Chart(document.getElementById("device"), {
         type: 'horizontalBar',
         data: {
+            fontSize:4,
             labels: [
                 'Computer',
                 'Phone',
@@ -287,6 +311,7 @@ function draw(data) {
                     }
                 }, ],
                 yAxes: [{
+                    ticks: {display: false},
                     gridLines: {
                         display: false,
                     },

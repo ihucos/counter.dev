@@ -56,9 +56,9 @@
                               <input id="password" type="password" name="password" class="form-control" placeholder="Password">
                            </div>
                            <div class="btn-group mr-2" role="group" aria-label="First group">
-                              <button type="submit" onclick="post('dashboard'); alwaysUpdate(); return false" class="btn btn-light" name="action">Login</button>
+                              <button type="submit" onclick="post('dashboard'); return false" class="btn btn-light" name="action">Login</button>
                               <a href="#" class="btn btn-light">Demo</a>
-                              <button type="submit" onclick="post('register'); alwaysUpdate(); return false" class="btn btn-dark" name="action" value="register">&nbsp;&nbsp;Register&nbsp;&nbsp;</button>
+                              <button type="submit" onclick="post('register'); return false" class="btn btn-dark" name="action" value="register">&nbsp;&nbsp;Register&nbsp;&nbsp;</button>
                            </div>
                         </form>
                      </div>
@@ -114,26 +114,26 @@
       <div id="page-graphs" style="display: none">
          <div class="container" style="max-width: 45em; background-color: white;">
             <br />
-            <h1 class="text-muted">simple-web-analytics.com</h1>
-            <h5 class="text-muted">Hello asdf</h5>
+            <h1 class="text-muted">Hello "asdf"</h1>
+            <h5 class="text-muted">simple-web-analytics.com</h5>
             <br />
             <hr>
             <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
                <div class="col-md-3">
                   <h5 class="">Current</h5>
-                  <div class="text-monospace info">
+                  <div class="tinfo">
                      <div id="today">-</div>
                   </div>
                </div>
                <div class="col-md-3">
-                  <h5>Median <small>7 days</small></h5>
-                  <div class="text-monospace info">
+                  <h5>Median <small class="text-dark">7 days</small></h5>
+                  <div class="info">
                      <div id="median">-</div>
                   </div>
                </div>
                <div class="col-md-3">
-                  <h5>Median <small>30 days</small></h5>
-                  <div class="text-monospace info">
+                  <h5>Median <small class="text-dark">30 days</small></h5>
+                  <div class="info">
                      <div id="median_more">-</div>
                   </div>
                </div>
@@ -182,9 +182,9 @@
             <div class="row my-5">
                <div class="col-md-12" style="max-height: 50;">
                   <h4>Last Visits</h4>
-                  <pre><code id="log">
-        </pre>
-                  </code>
+                  <div id="log_container">
+                  <pre><code id="log"></pre></code>
+                  </div>
                </div>
             </div>
             <hr />
