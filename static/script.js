@@ -181,14 +181,12 @@ function draw(data) {
     new Chart(document.getElementById("graph"), {
         type: 'line',
         data: {
-            //labels: ["2020-1-1", "2020-1-2", "2020-1-1", "2020-1-3", "2020-1-4"],
             labels: date_keys,
             datasets: [{
-                //data: [40, 50, 46, 60, 50],
                 data: date_vals,
-                label: 'xxxxx',
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-                //pointBackgroundColor: "rgba(0,0,0,0)",
+                label: 'Daily Views',
+                backgroundColor: "rgba(0, 0, 0, 0.175)",
+                borderColor: orange,
             }, ],
         },
         options: {
