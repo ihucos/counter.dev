@@ -9,7 +9,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
       <script src="script.js"></script>
       <style>
-         h1, .simple {
+         h1, h2, h3, h4, h5, h6, h7, .simple {
          color: #194873;
          font-weight: bold;
          }
@@ -39,7 +39,7 @@
                <div class="card border-dark bg-light">
                   <div class="card-body">
                      <div class="card-title">
-                        <h2><b class="simple">Simple</b> Web Analytics</h2>
+                        <h2><b class="simple">Simple</b> <span class="text-dark">Web Analytics<span></h2>
                      </div>
                      <h6 class="card-subtitle mb-2 text-muted">Instant Setup. No Cookies. Always Free.</h6>
                      <div class="card-text">
@@ -105,29 +105,36 @@
          ul {
          padding-left: 0px;
          }
+         .info {
+            margin-bottom: 0.75em;
+            font-size: 1.25em;
+         
+         }
       </style>
       <div id="page-graphs" style="display: none">
          <div class="container" style="max-width: 45em; background-color: white;">
             <br />
+            <h1 class="text-muted">simple-web-analytics.com</h1>
+            <h5 class="text-muted">Hello asdf</h5>
             <br />
             <hr>
-            <div class="row" style="margin-top: 5px">
+            <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
                <div class="col-md-3">
-                  <h5 class="text-muted">Current</h5>
-                  <div class="text-monospace py-2">
-                     <h4 id="today">-</h4>
+                  <h5 class="">Current</h5>
+                  <div class="text-monospace info">
+                     <div id="today">-</div>
                   </div>
                </div>
                <div class="col-md-3">
-                  <h5 class="text-muted">Median <small>7 days</small></h5>
-                  <div class="text-monospace py-2">
-                     <h4 id="median">-</h4>
+                  <h5>Median <small>7 days</small></h5>
+                  <div class="text-monospace info">
+                     <div id="median">-</div>
                   </div>
                </div>
                <div class="col-md-3">
-                  <h5 class="text-muted">Median <small>30 days</small></h5>
-                  <div class="text-monospace py-2">
-                     <h4 id="median_more">-</h4>
+                  <h5>Median <small>30 days</small></h5>
+                  <div class="text-monospace info">
+                     <div id="median_more">-</div>
                   </div>
                </div>
             </div>
@@ -147,19 +154,19 @@
             <hr>
             <div class="row my-5">
                <div class="col-md-3">
-                  <h5 class="text-muted">Devices</h5>
+                  <h5>Devices</h5>
                   <div class="py-2">
                      <canvas id="device" height=200 />
                   </div>
                </div>
                <div class="col-md-3">
-                  <h5 class="text-muted">Time</h5>
+                  <h5>Time</h5>
                   <div class="py-2">
                      <canvas id="time"  height=200 />
                   </div>
                </div>
                <div class="col-md-3">
-                  <h5 class="text-muted">Weekday</h5>
+                  <h5>Weekday</h5>
                   <div class="py-2">
                      <canvas id="weekday"  height=200 />
                   </div>
@@ -174,7 +181,7 @@
             <hr />
             <div class="row my-5">
                <div class="col-md-12" style="max-height: 50;">
-                  <h4 class="text-muted">Last Visits</h4>
+                  <h4>Last Visits</h4>
                   <pre><code id="log">
         </pre>
                   </code>
@@ -183,7 +190,7 @@
             <hr />
             <div class="row my-5">
                <div class="col-md-12">
-                  <h4 class="text-muted">Integration</h4>
+                  <h4>Integration</h4>
                   <div class="bg-light px-3 py-3">
                      <pre><code>//
 // Simple Web Analytics

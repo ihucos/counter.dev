@@ -72,7 +72,7 @@ function draw(data) {
     document.getElementById("page-index").style.display = "none"
     document.getElementById("page-graphs").style.display = "block"
 
-    orange = "#eb8034"
+    orange = "#5c5c5c"
 
 
     function splitObject(obj, sort_keys) {
@@ -97,7 +97,7 @@ function draw(data) {
         var elem = document.getElementById("list_" + key)
 
 
-        elem.innerHTML = "<h4 class='text-muted'>" + title + "</h4>"
+        elem.innerHTML = "<h4>" + title + "</h4>"
         if (Object.keys(data[key]).length === 0 && data[key].constructor === Object) {
             elem.innerHTML += '<span class="text-muted">Empty</span>'
             return
@@ -164,7 +164,8 @@ function draw(data) {
                 //data: [40, 50, 46, 60, 50],
                 data: date_vals,
                 label: 'xxxxx',
-                backgroundColor: '#268bd2',
+                barThickness: 10,
+                backgroundColor: '#194873',
                 //pointBackgroundColor: "rgba(0,0,0,0)",
             }, ],
         },
@@ -204,6 +205,7 @@ function draw(data) {
                     sumHours([16, 17, 18, 19, 20, 21]),
                     sumHours([22, 23, 24, 0, 1, 2, 3, 4]),
                 ],
+                barThickness: 10,
                 backgroundColor: [
                     orange,
                     orange,
@@ -259,6 +261,7 @@ function draw(data) {
                     data.device["Tablet"] || 0,
                     ((data.device["TV"] || 0) + (data.device["Console"] || 0) + (data.device["Unknown"] || 0)),
                 ],
+                barThickness: 10,
                 backgroundColor: [
                     orange,
                     orange,
