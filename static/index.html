@@ -146,12 +146,54 @@ function post(name){
 
 
 
+function getUTCMinusElevenNow(){
+    var date = new Date(); 
+    var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+      date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+    
+    d = new Date(now_utc);
+    d.setHours(d.getHours() - 11)
+    return d
+}
+
+
+function average(array) {
+    return array.reduce((acc, next) => acc + next) / array.length;
+}
+
+const median = arr => {
+  const mid = Math.floor(arr.length / 2),
+    nums = [...arr].sort((a, b) => a - b);
+  return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
+};
+
+function drawGraphHeader(numbers){
+    last_days = numbers.slice(-7)
+    document.getElementById("median").innerHTML = median(last_days)
+    document.getElementById("average").innerHTML = Math.round(average(last_days))
+    document.getElementById("today").innerHTML = last_days.slice(-1)[0]
+
+}
+
 function draw(data){
   window.D = data
   document.getElementById("page-index").style.display = "none"
   document.getElementById("page-graphs").style.display = "block"
 
   orange = "#eb8034"
+
+
+  function splitObject(obj, sort_index){
+    var sortable = [];
+    for (var key in obj) {
+        sortable.push([key, obj[key]]);
+    }
+    sortable.sort(function(a, b) {
+        return a[sort_index] - b[sort_index];
+    });
+  
+    return [sortable.map(x => x[0]), sortable.map(x => x[1])]
+  }
 
   function makeList(key, title){
     var elem = document.getElementById("list_" + key)
@@ -187,28 +229,20 @@ function draw(data){
         return o;
   };
 
-  keys = Object.keys(data.date)
-  keys.sort((a, b) => {
-      return a > b;
-  });
-  min = keys[0]
-  max = new Date().toISOString().substring(0, 10)
-  data_date = {...daysRange(min, max), ...data.date}
-
-
-function splitObject(obj, sort_index){
-  var sortable = [];
-  for (var key in obj) {
-      sortable.push([key, obj[key]]);
+  function getNormalizedDateData(){
+    keys = Object.keys(data.date)
+    keys.sort((a, b) => {
+        return a > b;
+    });
+    min = keys[0]
+    max = getUTCMinusElevenNow().toISOString().substring(0, 10)
+    date_data = {...daysRange(min, max), ...data.date}
+    return splitObject(date_data, 0)
   }
-  sortable.sort(function(a, b) {
-      return a[sort_index] - b[sort_index];
-  });
 
-  return [sortable.map(x => x[0]), sortable.map(x => x[1])]
-}
+  [date_keys, date_vals] = getNormalizedDateData()
 
-  [date_keys, date_vals] = splitObject(data_date)
+  drawGraphHeader(date_vals)
 
 
   makeList("ref", "Top Referrers")
@@ -439,27 +473,21 @@ ul {
   <hr>
   <div class="row" style="margin-top: 5px">
     <div class="col-md-3">
-      <h5 class="text-muted">Median 7 days</h5>
+      <h5 class="text-muted">Current</h5>
       <div class="text-monospace py-2">
-        <h4>40</h4>
+        <h4 id="today">-</h4>
       </div>
     </div>
     <div class="col-md-3">
-      <h5 class="text-muted">Two days ago</h5>
+      <h5 class="text-muted">Median <small>7 days</small></h5>
       <div class="text-monospace py-2">
-        <h4>40</h4>
+        <h4 id="median">-</h4>
       </div>
     </div>
     <div class="col-md-3">
-      <h5 class="text-muted">Yesterday</h5>
+      <h5 class="text-muted">Average <small>7 days</small></h5>
       <div class="text-monospace py-2">
-        <h4>30</h4>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <h5 class="text-muted">Today</h5>
-      <div class="text-monospace py-2">
-        <h4>50</h4>
+        <h4 id="average">-</h4>
       </div>
     </div>
   </div>
