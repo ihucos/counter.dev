@@ -48,7 +48,9 @@ func hash(stri string) string {
 
 }
 
-func save(conn redis.Conn, user string, data map[string]string) {
+func save(user string, data map[string]string, logLine string) {
+        conn := pool.Get()
+	defer conn.Close()
 	for _, field := range fieldsZet {
             //val := strconv.FormatInt(time.Now().UnixNano(), 10)
             val := data[field]
@@ -63,12 +65,10 @@ func save(conn redis.Conn, user string, data map[string]string) {
                 conn.Send("HINCRBY", fmt.Sprintf("%s:%s", field, user), val, 1)
             }
         }
-}
 
-func saveLog(conn redis.Conn, user string, entry string){
-        conn.Send("LPUSH", "log:"+user, entry)
-        conn.Send("LTRIM", "log:"+user, 0, 9)
 
+        conn.Send("ZADD", fmt.Sprintf("log:%s", user), time.Now().Unix(), logLine)
+        conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("log:%s", user), 0, -10)
 }
 
 func Track(w http.ResponseWriter, r *http.Request) {
@@ -118,10 +118,8 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	//data["last"] = last
 
 
-        conn := pool.Get()
-	defer conn.Close()
-	save(conn, user, data)
-        saveLog(conn, user, fmt.Sprintf("%s: %s", now.Format("2006-01-02 15:04:05"), userAgent))
+        logLine := fmt.Sprintf("[%s] %s", now.Format("2006-01-02 15:04:05"), userAgent)
+	save(user, data, logLine)
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
@@ -207,29 +205,31 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getData(conn redis.Conn, user string) (map[string]map[string]int, error) {
+func getData(conn redis.Conn, user string) (map[string]map[string]int64, error) {
 
 	var err error
-	m := make(map[string]map[string]int)
+	m := make(map[string]map[string]int64)
 
 	for _, field := range fieldsZet {
-		m[field], err = redis.IntMap(conn.Do("ZRANGE", fmt.Sprintf("%s:%s", field, user), 0, -1, "WITHSCORES"))
+		m[field], err = redis.Int64Map(conn.Do("ZRANGE", fmt.Sprintf("%s:%s", field, user), 0, -1, "WITHSCORES"))
 		if err != nil {
 			log.Println(user, err)
 			return nil, err
 		}
 	}
 	for _, field := range fieldsHash {
-		m[field], err = redis.IntMap(conn.Do("HGETALL", fmt.Sprintf("%s:%s", field, user)))
+		m[field], err = redis.Int64Map(conn.Do("HGETALL", fmt.Sprintf("%s:%s", field, user)))
 		if err != nil {
 			log.Println(user, err)
 			return nil, err
 		}
 	}
+
+	m["log"], err = redis.Int64Map(conn.Do("ZRANGE", fmt.Sprintf("log:%s", user), 0, -1, "WITHSCORES"))
+	if err != nil {
+		log.Println(user, err)
+		return nil, err
+	}
+
 	return m, err
-}
-
-func getLog(conn redis.Conn, user string) ([]string, error) {
-    return redis.Strings(conn.Do("LRANGE", "log:" + user, 0, -1))
-
 }

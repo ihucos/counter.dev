@@ -156,6 +156,9 @@ function getUTCMinusElevenNow(){
     return d
 }
 
+function commaFormat(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 function average(array) {
     return array.reduce((acc, next) => acc + next) / array.length;
@@ -168,29 +171,35 @@ const median = arr => {
 };
 
 function drawGraphHeader(numbers){
-    last_days = numbers.slice(-7)
-    document.getElementById("median").innerHTML = median(last_days)
-    document.getElementById("average").innerHTML = Math.round(average(last_days))
-    document.getElementById("today").innerHTML = last_days.slice(-1)[0]
+    document.getElementById("median").innerHTML = commaFormat(median(numbers.slice(-7)))
+    document.getElementById("median_more").innerHTML = commaFormat(median(numbers.slice(-30)))
+    document.getElementById("today").innerHTML = commaFormat(numbers.slice(-1)[0])
 
 }
 
 function draw(data){
-  window.D = data
+  window.data = data
+  console.log(data)
   document.getElementById("page-index").style.display = "none"
   document.getElementById("page-graphs").style.display = "block"
 
   orange = "#eb8034"
 
 
-  function splitObject(obj, sort_index){
+  function splitObject(obj, sort_keys){
     var sortable = [];
     for (var key in obj) {
         sortable.push([key, obj[key]]);
     }
-    sortable.sort(function(a, b) {
-        return a[sort_index] - b[sort_index];
-    });
+    if (sort_keys){
+        sortable.sort(function(a, b) {
+            return a[0] - b[0];
+        });
+    } else {
+        sortable.sort(function(a, b) {
+            return b[1] - a[1];
+        });
+    }
   
     return [sortable.map(x => x[0]), sortable.map(x => x[1])]
   }
@@ -237,7 +246,7 @@ function draw(data){
     min = keys[0]
     max = getUTCMinusElevenNow().toISOString().substring(0, 10)
     date_data = {...daysRange(min, max), ...data.date}
-    return splitObject(date_data, 0)
+    return splitObject(date_data, true)
   }
 
   [date_keys, date_vals] = getNormalizedDateData()
@@ -251,7 +260,7 @@ function draw(data){
   makeList("loc", "Top Pages")
   makeList("lang", "Top Languages")
 
-  //document.getElementById("access").innerHTML = Object.keys(data.last).join("\n")
+  document.getElementById("log").innerHTML = splitObject((data.log))[0].join("\n")
 
   new Chart(document.getElementById("graph"), {
     type: 'line',
@@ -485,9 +494,9 @@ ul {
       </div>
     </div>
     <div class="col-md-3">
-      <h5 class="text-muted">Average <small>7 days</small></h5>
+      <h5 class="text-muted">Median <small>30 days</small></h5>
       <div class="text-monospace py-2">
-        <h4 id="average">-</h4>
+        <h4 id="median_more">-</h4>
       </div>
     </div>
   </div>
@@ -544,7 +553,7 @@ ul {
   <div class="row my-5">
     <div class="col-md-12" style="max-height: 50;">
       <h4 class="text-muted">Access Log</h4>
-        <pre><code id="access">
+        <pre><code id="log">
         </pre></code>
     </div>
   </div>
