@@ -109,7 +109,14 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	userAgent := r.Header.Get("User-Agent")
 	ua := uasurfer.Parse(userAgent)
-	data["browser"] = fmt.Sprintf("%s %d", ua.Browser.Name.StringTrimPrefix(), ua.Browser.Version.Major)
+
+        var browser string
+        if ua.Browser.Version.Major != 0 {
+            browser = fmt.Sprintf("%s %d", ua.Browser.Name.StringTrimPrefix(), ua.Browser.Version.Major)
+        } else {
+            browser = fmt.Sprintf("%s", ua.Browser.Name.StringTrimPrefix())
+        }
+	data["browser"] =  browser
 	data["device"] = ua.DeviceType.StringTrimPrefix()
 	data["platform"] = ua.OS.Platform.StringTrimPrefix()
 
