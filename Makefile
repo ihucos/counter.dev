@@ -1,4 +1,9 @@
 
+
+format:
+	js-beautify --replace static/script.js
+	go fmt server.go
+
 logs:
 	ssh root@simple-web-analytics.com supervisorctl tail -f webstats stderr
 

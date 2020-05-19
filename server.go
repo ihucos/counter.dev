@@ -17,7 +17,7 @@ import (
 var pool *redis.Pool
 
 var fieldsZet = []string{"lang", "origin", "ref", "loc"}
-var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device",}
+var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device"}
 
 func main() {
 
@@ -49,26 +49,25 @@ func hash(stri string) string {
 }
 
 func save(user string, data map[string]string, logLine string) {
-        conn := pool.Get()
+	conn := pool.Get()
 	defer conn.Close()
 	for _, field := range fieldsZet {
-            //val := strconv.FormatInt(time.Now().UnixNano(), 10)
-            val := data[field]
-            if val != "" {
-                conn.Send("ZINCRBY", fmt.Sprintf("%s:%s", field, user), 1, val)
-                conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s", field, user), 0, -20)
-            }
-        }
+		//val := strconv.FormatInt(time.Now().UnixNano(), 10)
+		val := data[field]
+		if val != "" {
+			conn.Send("ZINCRBY", fmt.Sprintf("%s:%s", field, user), 1, val)
+			conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s", field, user), 0, -20)
+		}
+	}
 	for _, field := range fieldsHash {
-            val := data[field]
-            if val != "" {
-                conn.Send("HINCRBY", fmt.Sprintf("%s:%s", field, user), val, 1)
-            }
-        }
+		val := data[field]
+		if val != "" {
+			conn.Send("HINCRBY", fmt.Sprintf("%s:%s", field, user), val, 1)
+		}
+	}
 
-
-        conn.Send("ZADD", fmt.Sprintf("log:%s", user), time.Now().Unix(), logLine)
-        conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("log:%s", user), 0, -10)
+	conn.Send("ZADD", fmt.Sprintf("log:%s", user), time.Now().Unix(), logLine)
+	conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("log:%s", user), 0, -10)
 }
 
 func Track(w http.ResponseWriter, r *http.Request) {
@@ -117,8 +116,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	//last := fmt.Sprintf("%s,%s,%s,%s", now.Format("2006-01-02 15:04:05"), userAgent, r.FormValue("timezone"), loc)
 	//data["last"] = last
 
-
-        logLine := fmt.Sprintf("[%s] %s", now.Format("2006-01-02 15:04:05"), userAgent)
+	logLine := fmt.Sprintf("[%s] %s", now.Format("2006-01-02 15:04:05"), userAgent)
 	save(user, data, logLine)
 }
 
