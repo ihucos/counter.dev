@@ -74,6 +74,31 @@ function drawUsername(user){
     } 
 }
 
+function drawList(elem_id, data, title) {
+    var elem = document.getElementById(elem_id)
+
+
+    elem.innerHTML = "<h4>" + title + "</h4>"
+    if (Object.keys(data).length === 0 && data.constructor === Object) {
+        elem.innerHTML += '<span class="text-muted">Empty</span>'
+        return
+    }
+
+    var list = [];
+    for (var vehicle in data) {
+        list.push([vehicle, data[vehicle]]);
+    }
+
+    list.sort(function(a, b) {
+        return a[1] - b[1];
+    });
+
+    for (var i = 0; i < list.length; i++) {
+        elem.innerHTML += '<li>' + list[i][0] + ' <small class="text-muted">' + commaFormat(list[i][1]) + '</small> <br/></li>'
+    }
+}
+
+
 function draw(user, data) {
     window.data = data
     console.log(data)
@@ -101,30 +126,6 @@ function draw(user, data) {
         }
 
         return [sortable.map(x => x[0]), sortable.map(x => x[1])]
-    }
-
-    function makeList(key, title) {
-        var elem = document.getElementById("list_" + key)
-
-
-        elem.innerHTML = "<h4>" + title + "</h4>"
-        if (Object.keys(data[key]).length === 0 && data[key].constructor === Object) {
-            elem.innerHTML += '<span class="text-muted">Empty</span>'
-            return
-        }
-
-        var list = [];
-        for (var vehicle in data[key]) {
-            list.push([vehicle, data[key][vehicle]]);
-        }
-
-        list.sort(function(a, b) {
-            return a[1] - b[1];
-        });
-
-        for (var i = 0; i < list.length; i++) {
-            elem.innerHTML += '<li>' + list[i][0] + ' <small class="text-muted">' + commaFormat(list[i][1]) + '</small> <br/></li>'
-        }
     }
 
     var daysRange = function(s, e) {
@@ -171,13 +172,11 @@ function draw(user, data) {
     [date_keys, date_vals] = getNormalizedDateData()
 
     drawGraphHeader(date_vals)
-
-
-    makeList("ref", "Top Referrers")
-    makeList("loc", "Top Pages")
-    makeList("browser", "Top Browsers")
-    makeList("platform", "Top Platforms")
-    makeList("lang", "Top Languages")
+    drawList("list_ref", data.ref, "Top Referrers")
+    drawList("list_loc", data.loc, "Top Pages")
+    drawList("list_browser", data.browser, "Top Browsers")
+    drawList("list_platform", data.platform, "Top Platforms")
+    drawList("list_lang", data.lang, "Top Languages")
 
     log_values = splitObject((data.log))[0]
     if (log_values.length != 0) {
