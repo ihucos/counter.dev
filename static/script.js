@@ -18,7 +18,7 @@ function post(name) {
         }
     }).then(data => {
         if (typeof(data) === "object") {
-            draw(data)
+            draw(user, data)
         } else {
             document.getElementById("alert").style.display = "block"
             document.getElementById("alert").innerHTML = data
@@ -66,11 +66,21 @@ function drawGraphHeader(numbers) {
 
 }
 
-function draw(data) {
+function drawUsername(user){
+    var x = document.getElementsByClassName("username");
+    var i;
+    for (i = 0; i < x.length; i++) {
+      x[i].innerHTML = user // ESCAPE!!!!XXX
+    } 
+}
+
+function draw(user, data) {
     window.data = data
     console.log(data)
     document.getElementById("page-index").style.display = "none"
     document.getElementById("page-graphs").style.display = "block"
+
+    drawUsername(user)
 
     orange = "#5c5c5c"
 

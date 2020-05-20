@@ -114,7 +114,7 @@
       <div id="page-graphs" style="display: none">
          <div class="container" style="max-width: 45em; background-color: white;">
             <br />
-            <h1 class="text-muted">Hello "asdf"</h1>
+            <h1 class="text-muted">Hello "<span class="username">USERNAME</span>"</h1>
             <h5 class="text-muted">simple-web-analytics.com</h5>
             <br />
             <hr>
@@ -197,11 +197,11 @@
 //
 &lt;script&gt;
 const formData = new FormData();
-formData.append('site', 'username');
+formData.append('site', '<span class="username">USERNAME</span>');
 formData.append('utcoffset', '0');
 formData.append('referrer', document.referrer);
-formData.append('location', document.location.pathnamename);
-fetch("http://localhost:8000/track", {method: "POST", body: formData})
+formData.append('location', document.location.pathname);
+fetch("https://simple-web-analytics.com/track", {method: "POST", body: formData})
 &lt;/script&gt;
 </pre>
                      </code>
