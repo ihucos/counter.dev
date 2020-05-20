@@ -21,6 +21,8 @@ var pool *redis.Pool
 // to catch up with older ones and replace them at some point.
 const zetMaxSize = 30
 const zetTrimEveryCalls = 100
+const MaxRedisCahrs = 32
+const truncateAt = 128
 
 const loglines_keep = 10
 
@@ -56,6 +58,13 @@ func hash(stri string) string {
 
 }
 
+func truncate(stri string) string {
+    if len(stri) > truncateAt {
+         return stri[:truncateAt]
+    }
+    return stri
+}
+
 func save(user string, data map[string]string, logLine string) {
 	conn := pool.Get()
 	defer conn.Close()
@@ -63,7 +72,7 @@ func save(user string, data map[string]string, logLine string) {
 		//val := strconv.FormatInt(time.Now().UnixNano(), 10)
 		val := data[field]
 		if val != "" {
-			conn.Send("ZINCRBY", fmt.Sprintf("%s:%s", field, user), 1, val)
+			conn.Send("ZINCRBY", fmt.Sprintf("%s:%s", field, user), 1, truncate(val))
 			if rand.Intn(zetTrimEveryCalls) == 0 {
 				conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s", field, user), 0, -zetMaxSize)
 			}
@@ -73,13 +82,23 @@ func save(user string, data map[string]string, logLine string) {
 	for _, field := range fieldsHash {
 		val := data[field]
 		if val != "" {
-			conn.Send("HINCRBY", fmt.Sprintf("%s:%s", field, user), val, 1)
+			conn.Send("HINCRBY", fmt.Sprintf("%s:%s", field, user), truncate(val), 1)
 		}
 	}
 
-	conn.Send("ZADD", fmt.Sprintf("log:%s", user), time.Now().Unix(), logLine)
+	conn.Send("ZADD", fmt.Sprintf("log:%s", user), time.Now().Unix(), truncate(logLine))
 	conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("log:%s", user), 0, -loglines_keep)
 
+}
+
+func delUserData(conn redis.Conn, user string){
+	for _, field := range fieldsZet {
+            conn.Send("DEL", fmt.Sprintf("%s:%s", field, user))
+        }
+	for _, field := range fieldsHash {
+            conn.Send("DEL", fmt.Sprintf("%s:%s", field, user))
+        }
+        conn.Send("DEL", fmt.Sprintf("log:%s", user))
 }
 
 func Track(w http.ResponseWriter, r *http.Request) {
@@ -162,7 +181,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// also delete anything saved by this user before!!
-	res, err := redis.Int64(conn.Do("HSETNX", "users", user, hash(password)))
+	res, err := redis.Int64(conn.Do("HSETNX", "users", truncate(user), hash(password)))
 	if err != nil {
 		log.Println(user, err)
 		http.Error(w, err.Error(), 500)
@@ -171,6 +190,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if res == 0 {
 		http.Error(w, "Username taken", http.StatusBadRequest)
 	} else {
+                delUserData(conn, user)
 		userData, err := getData(conn, user)
 		if err != nil {
 			log.Println(user, err)
