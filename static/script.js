@@ -185,7 +185,7 @@ function draw(data) {
             datasets: [{
                 data: date_vals,
                 label: 'Daily Views',
-                backgroundColor: "rgba(0, 0, 0, 0.175)",
+                backgroundColor: "rgba(0, 0, 0, 0)",
                 borderColor: orange,
             }, ],
         },

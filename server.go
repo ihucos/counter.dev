@@ -9,12 +9,20 @@ import (
 	"net/url"
 	"strconv"
 	"time"
+	"math/rand"
 
 	"github.com/avct/uasurfer"
 	"github.com/gomodule/redigo/redis"
 )
 
 var pool *redis.Pool
+
+// set needs to overgrow sometimes so it does allow for "trending" new entries
+// to catch up with older ones and replace them at some point.
+const zetMaxSize = 30
+const zetTrimEveryCalls = 100
+
+const loglines_keep = 10
 
 var fieldsZet = []string{"lang", "origin", "ref", "loc"}
 var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device"}
@@ -56,9 +64,13 @@ func save(user string, data map[string]string, logLine string) {
 		val := data[field]
 		if val != "" {
 			conn.Send("ZINCRBY", fmt.Sprintf("%s:%s", field, user), 1, val)
-			conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s", field, user), 0, -20)
+                        if rand.Intn(zetTrimEveryCalls) == 0 {
+		        	conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s", field, user), 0, -zetMaxSize)
+                        }
 		}
 	}
+
+
 	for _, field := range fieldsHash {
 		val := data[field]
 		if val != "" {
@@ -67,7 +79,8 @@ func save(user string, data map[string]string, logLine string) {
 	}
 
 	conn.Send("ZADD", fmt.Sprintf("log:%s", user), time.Now().Unix(), logLine)
-	conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("log:%s", user), 0, -10)
+	conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("log:%s", user), 0, -loglines_keep)
+        
 }
 
 func Track(w http.ResponseWriter, r *http.Request) {
@@ -93,14 +106,15 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	utcnow := time.Now().In(location)
 	now := utcnow.Add(time.Hour * time.Duration(utcoffset))
 
-	ref := r.Header.Get("Referrer")
+	ref := r.FormValue("referrer")
 	parsedUrl, err := url.Parse(ref)
 	if err == nil && parsedUrl.Host != "" {
 		data["ref"] = parsedUrl.Host
 	}
 
-	data["lang"] = r.FormValue("language")
 	data["loc"] = r.FormValue("location")
+
+	data["lang"] = r.FormValue("language")
 	data["origin"] = r.Header.Get("Origin")
 
 	data["date"] = now.Format("2006-01-02")

@@ -50,7 +50,7 @@
                         </div>
                         <form method="POST" action="">
                            <div class="form-group has-error">
-                              <input id="user" class="form-control" name="username" placeholder="Domain or username">
+                              <input id="user" class="form-control" name="username" placeholder="Choose username">
                            </div>
                            <div class="form-group">
                               <input id="password" type="password" name="password" class="form-control" placeholder="Password">
@@ -198,10 +198,9 @@
 &lt;script&gt;
 const formData = new FormData();
 formData.append('site', 'username');
-formData.append('utcoffset', '0');  // user configurable
-formData.append('location', location.pathname);
-formData.append('language', navigator.language || navigator.userLanguage);
-formData.append('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone || "")
+formData.append('utcoffset', '0');
+formData.append('referrer', document.referrer);
+formData.append('location', document.location.pathnamename);
 fetch("http://localhost:8000/track", {method: "POST", body: formData})
 &lt;/script&gt;
 </pre>
