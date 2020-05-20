@@ -13,6 +13,7 @@ import (
 
 	"github.com/avct/uasurfer"
 	"github.com/gomodule/redigo/redis"
+        "golang.org/x/text/language"
 )
 
 var pool *redis.Pool
@@ -123,6 +124,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	utcnow := time.Now().In(location)
 	now := utcnow.Add(time.Hour * time.Duration(utcoffset))
+        w.Header().Set("Expires", now.Format("Mon, 2 Jan 2006") + " 23:59:59 GMT")
 
 	ref := r.FormValue("referrer")
 	parsedUrl, err := url.Parse(ref)
@@ -132,7 +134,11 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	data["loc"] = r.FormValue("location")
 
-	data["lang"] = r.FormValue("language")
+	tags, _, err := language.ParseAcceptLanguage(r.Header.Get("Accept-Language"))
+	if err == nil && len(tags) > 0{
+            data["lang"] = tags[0].String()
+	}
+
 	data["origin"] = r.Header.Get("Origin")
 
 	data["date"] = now.Format("2006-01-02")
@@ -151,9 +157,6 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	data["browser"] = browser
 	data["device"] = ua.DeviceType.StringTrimPrefix()
 	data["platform"] = ua.OS.Platform.StringTrimPrefix()
-
-	//last := fmt.Sprintf("%s,%s,%s,%s", now.Format("2006-01-02 15:04:05"), userAgent, r.FormValue("timezone"), loc)
-	//data["last"] = last
 
 	logLine := fmt.Sprintf("[%s] %s", now.Format("2006-01-02 15:04:05"), userAgent)
 	save(user, data, logLine)

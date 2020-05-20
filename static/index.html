@@ -196,12 +196,11 @@
 // Simple Web Analytics
 //
 &lt;script&gt;
-const formData = new FormData();
-formData.append('site', '<span class="username">USERNAME</span>');
-formData.append('utcoffset', '0');
-formData.append('referrer', document.referrer);
-formData.append('location', document.location.pathname);
-fetch("https://simple-web-analytics.com/track", {method: "POST", body: formData})
+fetch('https://simple-web-analytics.com/track?' + new URLSearchParams({
+    site: '<span class="username">USERNAME</span>',
+    utcoffset: 0,
+    referrer: document.referrer
+}))
 &lt;/script&gt;
 </pre>
                      </code>
@@ -211,14 +210,11 @@ fetch("https://simple-web-analytics.com/track", {method: "POST", body: formData}
          </div>
       </div>
       <script>
-         const formData = new FormData();
-         formData.append('site', 'asdf');
-         formData.append('utcoffset', '0');  // user configurable
-         formData.append('referrer', document.referrer);
-         formData.append('location', location.pathname);
-         formData.append('language', navigator.language || navigator.userLanguage);
-         formData.append('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone || "")
-         fetch("http://localhost:8000/track", {method: "POST", body: formData})
+         fetch('http://localhost:8000/track?' + new URLSearchParams({
+             site: 'asdf',
+             utcoffset: 0,
+             referrer: document.referrer
+         }))
       </script>
       <script>
          document.getElementById("user").value = "asdf"
