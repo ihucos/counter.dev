@@ -113,7 +113,7 @@ function draw(data) {
         });
 
         for (var i = 0; i < list.length; i++) {
-            elem.innerHTML += '<li>' + list[i][0] + ' <small class="text-muted">' + list[i][1] + '</small> <br/></li>'
+            elem.innerHTML += '<li>' + list[i][0] + ' <small class="text-muted">' + commaFormat(list[i][1]) + '</small> <br/></li>'
         }
     }
 
@@ -164,9 +164,9 @@ function draw(data) {
 
 
     makeList("ref", "Top Referrers")
+    makeList("loc", "Top Pages")
     makeList("browser", "Top Browsers")
     makeList("platform", "Top Platforms")
-    makeList("loc", "Top Pages")
     makeList("lang", "Top Languages")
 
     log_values = splitObject((data.log))[0]
