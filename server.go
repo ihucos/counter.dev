@@ -5,11 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"net/url"
 	"strconv"
 	"time"
-	"math/rand"
 
 	"github.com/avct/uasurfer"
 	"github.com/gomodule/redigo/redis"
@@ -64,12 +64,11 @@ func save(user string, data map[string]string, logLine string) {
 		val := data[field]
 		if val != "" {
 			conn.Send("ZINCRBY", fmt.Sprintf("%s:%s", field, user), 1, val)
-                        if rand.Intn(zetTrimEveryCalls) == 0 {
-		        	conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s", field, user), 0, -zetMaxSize)
-                        }
+			if rand.Intn(zetTrimEveryCalls) == 0 {
+				conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s", field, user), 0, -zetMaxSize)
+			}
 		}
 	}
-
 
 	for _, field := range fieldsHash {
 		val := data[field]
@@ -80,7 +79,7 @@ func save(user string, data map[string]string, logLine string) {
 
 	conn.Send("ZADD", fmt.Sprintf("log:%s", user), time.Now().Unix(), logLine)
 	conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("log:%s", user), 0, -loglines_keep)
-        
+
 }
 
 func Track(w http.ResponseWriter, r *http.Request) {
@@ -124,13 +123,13 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	userAgent := r.Header.Get("User-Agent")
 	ua := uasurfer.Parse(userAgent)
 
-        var browser string
-        if ua.Browser.Version.Major != 0 {
-            browser = fmt.Sprintf("%s %d", ua.Browser.Name.StringTrimPrefix(), ua.Browser.Version.Major)
-        } else {
-            browser = fmt.Sprintf("%s", ua.Browser.Name.StringTrimPrefix())
-        }
-	data["browser"] =  browser
+	var browser string
+	if ua.Browser.Version.Major != 0 {
+		browser = fmt.Sprintf("%s %d", ua.Browser.Name.StringTrimPrefix(), ua.Browser.Version.Major)
+	} else {
+		browser = fmt.Sprintf("%s", ua.Browser.Name.StringTrimPrefix())
+	}
+	data["browser"] = browser
 	data["device"] = ua.DeviceType.StringTrimPrefix()
 	data["platform"] = ua.OS.Platform.StringTrimPrefix()
 

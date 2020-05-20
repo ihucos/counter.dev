@@ -138,10 +138,10 @@ function draw(data) {
         calc_min.setDate(calc_min.getDate() - 7)
         calc_min = calc_min.toISOString().substring(0, 10)
 
-        if (keys.length != 0){
+        if (keys.length != 0) {
             data_min = keys[0]
-            if (new Date(data_min).getTime() < new Date(calc_min).getTime()){
-                min = data_min 
+            if (new Date(data_min).getTime() < new Date(calc_min).getTime()) {
+                min = data_min
             } else {
                 min = calc_min
             }
@@ -170,7 +170,7 @@ function draw(data) {
     makeList("lang", "Top Languages")
 
     log_values = splitObject((data.log))[0]
-    if (log_values.length != 0){
+    if (log_values.length != 0) {
         document.getElementById("log").innerHTML = log_values.join("\n")
     } else {
         document.getElementById("log_container").innerHTML = '<span class="text-muted">Empty</span>'
@@ -268,7 +268,7 @@ function draw(data) {
     new Chart(document.getElementById("device"), {
         type: 'horizontalBar',
         data: {
-            fontSize:4,
+            fontSize: 4,
             labels: [
                 'Computer',
                 'Phone',
@@ -309,7 +309,9 @@ function draw(data) {
                     }
                 }, ],
                 yAxes: [{
-                    ticks: {display: false},
+                    ticks: {
+                        display: false
+                    },
                     gridLines: {
                         display: false,
                     },
