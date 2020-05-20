@@ -21,7 +21,7 @@ function post(name) {
             draw(user, data)
         } else {
             document.getElementById("alert").style.display = "block"
-            document.getElementById("alert").innerHTML = data
+            document.getElementById("alert").innerHTML = escapeHtml(data)
         }
     })
 }
@@ -32,6 +32,17 @@ function alwaysUpdate() {
         post("dashboard")
     }, 5000);
 }
+
+
+function escapeHtml(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+ }
+
 
 
 
@@ -60,9 +71,9 @@ const median = arr => {
 };
 
 function drawGraphHeader(numbers) {
-    document.getElementById("median").innerHTML = commaFormat(median(numbers.slice(-7)))
-    document.getElementById("median_more").innerHTML = commaFormat(median(numbers.slice(-30)))
-    document.getElementById("today").innerHTML = commaFormat(numbers.slice(-1)[0])
+    document.getElementById("median").innerHTML = escapeHtml(commaFormat(median(numbers.slice(-7))))
+    document.getElementById("median_more").innerHTML = escapeHtml(commaFormat(median(numbers.slice(-30))))
+    document.getElementById("today").innerHTML = escapeHtml(commaFormat(numbers.slice(-1)[0]))
 
 }
 
@@ -70,7 +81,7 @@ function drawUsername(user){
     var x = document.getElementsByClassName("username");
     var i;
     for (i = 0; i < x.length; i++) {
-      x[i].innerHTML = user // ESCAPE!!!!XXX
+      x[i].innerHTML = escapeHtml(user)
     } 
 }
 
@@ -78,7 +89,7 @@ function drawList(elem_id, data, title) {
     var elem = document.getElementById(elem_id)
 
 
-    elem.innerHTML = "<h4>" + title + "</h4>"
+    elem.innerHTML = "<h4>" + escapeHtml(title) + "</h4>"
     if (Object.keys(data).length === 0 && data.constructor === Object) {
         elem.innerHTML += '<span class="text-muted">Empty</span>'
         return
@@ -94,7 +105,7 @@ function drawList(elem_id, data, title) {
     });
 
     for (var i = 0; i < list.length; i++) {
-        elem.innerHTML += '<li>' + list[i][0] + ' <small class="text-muted">' + commaFormat(list[i][1]) + '</small> <br/></li>'
+        elem.innerHTML += '<li>' + escapeHtml(list[i][0]) + ' <small class="text-muted">' + escapeHtml(commaFormat(list[i][1])) + '</small> <br/></li>'
     }
 }
 
@@ -180,7 +191,7 @@ function draw(user, data) {
 
     log_values = splitObject((data.log))[0]
     if (log_values.length != 0) {
-        document.getElementById("log").innerHTML = log_values.join("\n")
+        document.getElementById("log").innerHTML = escapeHtml(log_values.join("\n"))
     } else {
         document.getElementById("log_container").innerHTML = '<span class="text-muted">Empty</span>'
     }
