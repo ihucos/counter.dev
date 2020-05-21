@@ -14,6 +14,7 @@ import (
 	"github.com/avct/uasurfer"
 	"github.com/gomodule/redigo/redis"
         "golang.org/x/text/language"
+        "golang.org/x/text/language/display"
 )
 
 var pool *redis.Pool
@@ -136,7 +137,9 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	tags, _, err := language.ParseAcceptLanguage(r.Header.Get("Accept-Language"))
 	if err == nil && len(tags) > 0{
-            data["lang"] = tags[0].String()
+            region, _ := tags[0].Region()
+            country := display.English.Regions().Name(region)
+            data["lang"] = country
 	}
 
 	data["origin"] = r.Header.Get("Origin")

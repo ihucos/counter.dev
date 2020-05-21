@@ -113,11 +113,23 @@
       </style>
       <div id="page-graphs" style="display: none">
          <div class="container" style="max-width: 50em; background-color: white;">
-            <br />
-            <h1 class="text-muted">Hello "<span class="username">USERNAME</span>"</h1>
-            <h5 class="text-muted">simple-web-analytics.com</h5>
-            <br />
-            <hr>
+            <div class="row">
+               <div class="col-md-12 my-4">
+                    <h3 class="float-left">Hello "asdf"</h3>
+                    <a href="" class="btn btn-secondary float-right">logout</a>
+                </div>
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                    <h5>Tracking Code</h5>
+                     <pre class="bg-light border"><code class="text-muted">&lt;script&gt;
+fetch('https://simple-web-analytics.com/track?' + new URLSearchParams(
+    {site: '<span class="username">USERNAME</span>', utcoffset: 0, referrer: document.referrer}))
+&lt;/script&gt;</pre>
+                     </code>
+                </div>
+            </div>
+            <br/>
             <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
                <div class="col-md-3">
                   <h5 class="">Current</h5>
@@ -183,36 +195,19 @@
                <div class="col-md-12" style="max-height: 50;">
                   <h4>Last Visits</h4>
                   <div id="log_container">
-                  <pre><code id="log"></pre></code>
+                  <pre style="overflow: visible"><code id="log"></pre></code>
                   </div>
                </div>
             </div>
             <hr />
-            <div class="row my-5">
-               <div class="col-md-12">
-                  <h4>Integration</h4>
-                  <div class="bg-light px-3 py-3">
-                     <pre><code>//
-// Simple Web Analytics
-//
-&lt;script&gt;
-fetch('https://simple-web-analytics.com/track?' + new URLSearchParams({
-    site: '<span class="username">USERNAME</span>',
-    utcoffset: 0,
-    referrer: document.referrer
-}))
-&lt;/script&gt;
-</pre>
-                     </code>
-                  </div>
-               </div>
-            </div>
+         <br/>
+         <br/>
          </div>
       </div>
       <script>
          fetch('http://localhost:8000/track?' + new URLSearchParams({
              site: 'asdf',
-             utcoffset: 0,
+             utcoffset: 2,
              referrer: document.referrer
          }))
       </script>

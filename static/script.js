@@ -187,7 +187,8 @@ function draw(user, data) {
     drawList("list_loc", data.loc, "Top Pages")
     drawList("list_browser", data.browser, "Top Browsers")
     drawList("list_platform", data.platform, "Top Platforms")
-    drawList("list_lang", data.lang, "Top Languages")
+    drawList("list_lang", data.lang, "Top Countries")
+
 
     log_values = splitObject((data.log))[0]
     if (log_values.length != 0) {
