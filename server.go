@@ -26,7 +26,7 @@ const zetTrimEveryCalls = 100
 const MaxRedisCahrs = 32
 const truncateAt = 128
 
-const loglines_keep = 10
+const loglinesKeep = 30
 
 var fieldsZet = []string{"lang", "origin", "ref", "loc"}
 var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device"}
@@ -89,7 +89,7 @@ func save(user string, data map[string]string, logLine string) {
 	}
 
 	conn.Send("ZADD", fmt.Sprintf("log:%s", user), time.Now().Unix(), truncate(logLine))
-	conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("log:%s", user), 0, -loglines_keep)
+	conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("log:%s", user), 0, -loglinesKeep)
 
 }
 
