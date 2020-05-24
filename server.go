@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"strconv"
 	"time"
+	"os"
 
 	"github.com/avct/uasurfer"
 	"github.com/gomodule/redigo/redis"
@@ -34,6 +35,13 @@ var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "dev
 func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
+        f, err := os.OpenFile("log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0744)
+        if err != nil {
+            log.Fatalf("error opening file: %v", err)
+            return
+        }
+        defer f.Close()
+        log.SetOutput(f)
 
 	pool = &redis.Pool{
 		MaxIdle:     10,
@@ -50,8 +58,8 @@ func main() {
 	mux.HandleFunc("/register", Register)
 	mux.HandleFunc("/dashboard", Dashboard)
 
-	fmt.Println("Listening...")
-        err := http.ListenAndServeTLS(":443", "server.crt", "server.key", mux)
+	log.Println("Start")
+        err = http.ListenAndServeTLS(":443", "server.crt", "server.key", mux)
         if err != nil {
             log.Fatal("ListenAndServe: ", err)
         }
