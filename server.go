@@ -59,7 +59,7 @@ func main() {
 	mux.HandleFunc("/dashboard", Dashboard)
 
 	log.Println("Start")
-        err = http.ListenAndServeTLS(":443", "server.crt", "server.key", mux)
+        err = http.ListenAndServeTLS(":443", "keys/server.crt", "keys/server.key", mux)
         if err != nil {
             log.Fatal("ListenAndServe: ", err)
         }
