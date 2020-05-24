@@ -74,7 +74,7 @@ func main() {
 	mux.HandleFunc("/dashboard", Dashboard)
 
 	log.Println("Start")
-        err = http.ListenAndServeTLS(":443", "keys/server.crt", "keys/server.key", mux)
+        err = http.ListenAndServe(":80", mux)
         if err != nil {
             log.Fatal("ListenAndServe: ", err)
         }
@@ -144,7 +144,6 @@ func Track(w http.ResponseWriter, r *http.Request) {
 		utcoffset = 0
 	}
         utcoffset = max(min(utcoffset, 11), -11)
-        fmt.Println(utcoffset)
 
 	location, err := time.LoadLocation("UTC")
 	if err != nil {
@@ -153,8 +152,6 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	utcnow := time.Now().In(location)
 	now := utcnow.Add(time.Hour * time.Duration(utcoffset))
-        fmt.Println(utcoffset)
-        fmt.Println(now)
 	w.Header().Set("Expires", now.Format("Mon, 2 Jan 2006")+" 23:59:59 GMT")
 
 	ref := r.FormValue("referrer")

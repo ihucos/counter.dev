@@ -144,6 +144,11 @@ function drawMap(){
 }
 
 
+function drawTitle(user){
+    document.title = "Simple Web Analytics for " + user
+}
+
+
 function draw(user, data) {
     window.data = data
     console.log(data)
@@ -153,6 +158,7 @@ function draw(user, data) {
     drawUsername(user)
     drawUTCOffsetVar()
     drawMap()
+    drawTitle(user)
 
     orange = "#5c5c5c"
 
