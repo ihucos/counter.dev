@@ -51,7 +51,10 @@ func main() {
 	mux.HandleFunc("/dashboard", Dashboard)
 
 	fmt.Println("Listening...")
-	http.ListenAndServe("127.0.0.1:8000", mux)
+        err := http.ListenAndServeTLS(":443", "server.crt", "server.key", mux)
+        if err != nil {
+            log.Fatal("ListenAndServe: ", err)
+        }
 }
 
 func hash(stri string) string {
