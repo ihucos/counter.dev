@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"time"
 	"os"
+	"strings"
 
 	"github.com/avct/uasurfer"
 	"github.com/gomodule/redigo/redis"
@@ -30,7 +31,7 @@ const truncateAt = 128
 const loglinesKeep = 30
 
 var fieldsZet = []string{"lang", "origin", "ref", "loc"}
-var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device"}
+var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device", "country"}
 
 func main() {
 
@@ -153,6 +154,10 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data["origin"] = r.Header.Get("Origin")
+	country := r.Header.Get("CF-IPCountry")
+        if country != "" && country != "XX" {
+            data["country"] = strings.ToLower(country)
+        }
 
 	data["date"] = now.Format("2006-01-02")
 	data["weekday"] = fmt.Sprintf("%d", now.Weekday())

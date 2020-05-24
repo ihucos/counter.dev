@@ -109,7 +109,7 @@ function drawList(elem_id, dataItem, title) {
     }
 }
 
-function drawMap(countryData){
+function drawMap(){
       jQuery('#world').vectorMap({
             map: 'world_en',
             backgroundColor: '#fff',
@@ -120,12 +120,12 @@ function drawMap(countryData){
             showTooltip: true,
             borderOpacity: 0.8,
             color: '#eee',
-            values: {us: 4, ru: 3},
+            values: data.country,
             scaleColors: ['#C8EEFF', '#006491'],
             normalizeFunction: 'polynomial',
     onLabelShow: function(event, label, region)
     {
-        label[0].innerHTML += ' </br>' + region + " visits"
+        label[0].innerHTML += ' </br>' + (data.country[region] || "0") + " visits"
     }
   });
 }
@@ -138,7 +138,7 @@ function draw(user, data) {
     document.getElementById("page-graphs").style.display = "block"
 
     drawUsername(user)
-    drawMap(data.countries)
+    drawMap()
 
     orange = "#5c5c5c"
 

@@ -10,7 +10,7 @@ logs:
 deploy:
 	plash --from alpine:3.11 --apk go -- go build server.go
 	tar cf - keys static server | ssh root@172.104.148.60 tar xvf - -C /root
-	ssh root@172.104.148.60 "pkill server; sleep 5; dtach -n /tmp/dtach ./server"
+	ssh root@172.104.148.60 "pkill -x ./server; sleep 5; dtach -n /tmp/dtach ./server"
 
 
 #provision:
