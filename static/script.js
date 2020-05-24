@@ -29,7 +29,7 @@ function post(name) {
 
 function alwaysUpdate() {
     window.setInterval(function() {
-        post("dashboard")
+        post("dashboard", true)
     }, 5000);
 }
 
@@ -154,6 +154,11 @@ function draw(user, data) {
     console.log(data)
     document.getElementById("page-index").style.display = "none"
     document.getElementById("page-graphs").style.display = "block"
+
+    if (!window._timer){
+        alwaysUpdate()
+        window._timer = true
+    }
 
     drawUsername(user)
     drawUTCOffsetVar()
