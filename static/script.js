@@ -109,6 +109,27 @@ function drawList(elem_id, dataItem, title) {
     }
 }
 
+function drawMap(countryData){
+      jQuery('#world').vectorMap({
+            map: 'world_en',
+            backgroundColor: '#fff',
+            color: '#ffffff',
+            hoverOpacity: 0.7,
+            selectedColor: null,
+            enableZoom: false,
+            showTooltip: true,
+            borderOpacity: 0.8,
+            color: '#eee',
+            values: {us: 4, ru: 3},
+            scaleColors: ['#C8EEFF', '#006491'],
+            normalizeFunction: 'polynomial',
+    onLabelShow: function(event, label, region)
+    {
+        label[0].innerHTML += ' </br>' + region + " visits"
+    }
+  });
+}
+
 
 function draw(user, data) {
     window.data = data
@@ -117,6 +138,7 @@ function draw(user, data) {
     document.getElementById("page-graphs").style.display = "block"
 
     drawUsername(user)
+    drawMap(data.countries)
 
     orange = "#5c5c5c"
 
@@ -187,7 +209,7 @@ function draw(user, data) {
     drawList("list_loc", data.loc, "Top Pages")
     drawList("list_browser", data.browser, "Top Browsers")
     drawList("list_platform", data.platform, "Top Platforms")
-    drawList("list_lang", data.lang, "Top Countries")
+    drawList("list_lang", data.lang, "Top Languages")
 
 
     log_values = splitObject((data.log))[0]

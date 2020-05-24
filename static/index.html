@@ -6,7 +6,14 @@
       <meta name="description" content="Measure how many people are using your webapp">
       <title>Webstats</title>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
+
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
+
       <script src="script.js"></script>
       <style>
          h1, h2, h3, h4, h5, h6, h7, .simple {
@@ -190,9 +197,16 @@ fetch('https://simple-web-analytics.com/track?' + new URLSearchParams(
                <div id="list_platform" class="col-md-4"></div>
                <div id="list_lang" class="col-md-4"></div>
             </div>
+            <hr>
+          <h4>World Map</h4>
+         </div>
+         <div style="display: flex; justify-content: center;">
+              <div id="world" style="width: 800px; height: 400px;"></div>
+         </div>
+         <div class="container" style="max-width: 50em; background-color: white;">
             <hr />
             <div class="row my-5">
-               <div class="col-md-12" style="max-height: 50;">
+               <div class="col-md-12">
                   <h4>Last Visits</h4>
                   <div id="log_container">
                   <pre style="overflow: visible"><code id="log"></pre></code>
@@ -203,6 +217,7 @@ fetch('https://simple-web-analytics.com/track?' + new URLSearchParams(
          <br/>
          <br/>
          </div>
+
       </div>
       <script>
          fetch('http://localhost:8000/track?' + new URLSearchParams({
