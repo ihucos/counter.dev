@@ -33,6 +33,20 @@ const loglinesKeep = 30
 var fieldsZet = []string{"lang", "origin", "ref", "loc"}
 var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device", "country"}
 
+func min(x, y int) int {
+    if x < y {
+        return x
+    }
+    return y
+}
+
+func max(x, y int) int {
+    if x > y {
+        return x
+    }
+    return y
+}
+
 func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
@@ -121,7 +135,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	user := r.FormValue("site")
 	if user == "" {
-		http.Error(w, "missing uid", http.StatusBadRequest)
+		http.Error(w, "missing site param", http.StatusBadRequest)
 		return
 	}
 
@@ -129,6 +143,8 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		utcoffset = 0
 	}
+        utcoffset = max(min(utcoffset, 11), -11)
+        fmt.Println(utcoffset)
 
 	location, err := time.LoadLocation("UTC")
 	if err != nil {
@@ -178,7 +194,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	data["device"] = ua.DeviceType.StringTrimPrefix()
 	data["platform"] = ua.OS.Platform.StringTrimPrefix()
 
-	logLine := fmt.Sprintf("[%s] %s %s", country, now.Format("2006-01-02 15:04:05"), userAgent)
+	logLine := fmt.Sprintf("[%s] %s %s", now.Format("2006-01-02 15:04:05"), country, userAgent)
 	save(user, data, logLine)
 }
 
