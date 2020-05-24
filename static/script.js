@@ -36,12 +36,12 @@ function alwaysUpdate() {
 
 function escapeHtml(unsafe) {
     return unsafe
-         .replace(/&/g, "&amp;")
-         .replace(/</g, "&lt;")
-         .replace(/>/g, "&gt;")
-         .replace(/"/g, "&quot;")
-         .replace(/'/g, "&#039;");
- }
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 
 
 
@@ -77,31 +77,31 @@ function drawGraphHeader(numbers) {
 
 }
 
-function drawUsername(user){
+function drawUsername(user) {
     var x = document.getElementsByClassName("username");
     var i;
     for (i = 0; i < x.length; i++) {
-      x[i].innerHTML = escapeHtml(user)
-    } 
+        x[i].innerHTML = escapeHtml(user)
+    }
 }
 
-function drawList(elem_id, data, title) {
+function drawList(elem_id, dataItem, title) {
     var elem = document.getElementById(elem_id)
 
 
     elem.innerHTML = "<h4>" + escapeHtml(title) + "</h4>"
-    if (Object.keys(data).length === 0 && data.constructor === Object) {
+    if (Object.keys(dataItem).length === 0 && dataItem.constructor === Object) {
         elem.innerHTML += '<span class="text-muted">Empty</span>'
         return
     }
 
     var list = [];
-    for (var vehicle in data) {
-        list.push([vehicle, data[vehicle]]);
+    for (var key in dataItem) {
+        list.push([key, dataItem[key]]);
     }
 
     list.sort(function(a, b) {
-        return a[1] - b[1];
+        return b[1] - a[1];
     });
 
     for (var i = 0; i < list.length; i++) {

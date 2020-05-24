@@ -13,8 +13,8 @@ import (
 
 	"github.com/avct/uasurfer"
 	"github.com/gomodule/redigo/redis"
-        "golang.org/x/text/language"
-        "golang.org/x/text/language/display"
+	"golang.org/x/text/language"
+	"golang.org/x/text/language/display"
 )
 
 var pool *redis.Pool
@@ -61,10 +61,10 @@ func hash(stri string) string {
 }
 
 func truncate(stri string) string {
-    if len(stri) > truncateAt {
-         return stri[:truncateAt]
-    }
-    return stri
+	if len(stri) > truncateAt {
+		return stri[:truncateAt]
+	}
+	return stri
 }
 
 func save(user string, data map[string]string, logLine string) {
@@ -93,14 +93,14 @@ func save(user string, data map[string]string, logLine string) {
 
 }
 
-func delUserData(conn redis.Conn, user string){
+func delUserData(conn redis.Conn, user string) {
 	for _, field := range fieldsZet {
-            conn.Send("DEL", fmt.Sprintf("%s:%s", field, user))
-        }
+		conn.Send("DEL", fmt.Sprintf("%s:%s", field, user))
+	}
 	for _, field := range fieldsHash {
-            conn.Send("DEL", fmt.Sprintf("%s:%s", field, user))
-        }
-        conn.Send("DEL", fmt.Sprintf("log:%s", user))
+		conn.Send("DEL", fmt.Sprintf("%s:%s", field, user))
+	}
+	conn.Send("DEL", fmt.Sprintf("log:%s", user))
 }
 
 func Track(w http.ResponseWriter, r *http.Request) {
@@ -125,7 +125,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	utcnow := time.Now().In(location)
 	now := utcnow.Add(time.Hour * time.Duration(utcoffset))
-        w.Header().Set("Expires", now.Format("Mon, 2 Jan 2006") + " 23:59:59 GMT")
+	w.Header().Set("Expires", now.Format("Mon, 2 Jan 2006")+" 23:59:59 GMT")
 
 	ref := r.FormValue("referrer")
 	parsedUrl, err := url.Parse(ref)
@@ -136,10 +136,9 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	data["loc"] = r.FormValue("location")
 
 	tags, _, err := language.ParseAcceptLanguage(r.Header.Get("Accept-Language"))
-	if err == nil && len(tags) > 0{
-            region, _ := tags[0].Region()
-            country := display.English.Regions().Name(region)
-            data["lang"] = country
+	if err == nil && len(tags) > 0 {
+		lang := display.English.Languages().Name(tags[0])
+		data["lang"] = lang
 	}
 
 	data["origin"] = r.Header.Get("Origin")
@@ -196,7 +195,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if res == 0 {
 		http.Error(w, "Username taken", http.StatusBadRequest)
 	} else {
-                delUserData(conn, user)
+		delUserData(conn, user)
 		userData, err := getData(conn, user)
 		if err != nil {
 			log.Println(user, err)
