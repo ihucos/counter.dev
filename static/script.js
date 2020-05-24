@@ -44,6 +44,14 @@ function escapeHtml(unsafe) {
 }
 
 
+function demo(){
+       document.getElementById("user").value = "demo"
+       document.getElementById("user").focus()
+       document.getElementById("password").value = "demodemo"
+       document.getElementById("login_button").click()
+}
+
+
 
 
 function getUTCMinusElevenNow() {
@@ -83,6 +91,11 @@ function drawUsername(user) {
     for (i = 0; i < x.length; i++) {
         x[i].innerHTML = escapeHtml(user)
     }
+}
+
+function drawUTCOffsetVar(){
+    offset = Math.round(-1 * new Date().getTimezoneOffset()/60)
+    document.getElementById("utcoffset").innerHTML = offset
 }
 
 function drawList(elem_id, dataItem, title) {
@@ -138,6 +151,7 @@ function draw(user, data) {
     document.getElementById("page-graphs").style.display = "block"
 
     drawUsername(user)
+    drawUTCOffsetVar()
     drawMap()
 
     orange = "#5c5c5c"
@@ -418,7 +432,4 @@ function draw(user, data) {
             },
         },
     })
-
-
-
 }

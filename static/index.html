@@ -63,8 +63,8 @@
                               <input id="password" type="password" name="password" class="form-control" placeholder="Password">
                            </div>
                            <div class="btn-group mr-2" role="group" aria-label="First group">
-                              <button type="submit" onclick="post('dashboard'); return false" class="btn btn-light" name="action">Login</button>
-                              <a href="#" class="btn btn-light">Demo</a>
+                              <button type="submit" onclick="post('dashboard'); return false" class="btn btn-light" id="login_button" name="action">Login</button>
+                              <a class="btn btn-light" onclick="demo(); return false">Demo</a>
                               <button type="submit" onclick="post('register'); return false" class="btn btn-dark" name="action" value="register">&nbsp;&nbsp;Register&nbsp;&nbsp;</button>
                            </div>
                         </form>
@@ -131,7 +131,7 @@
                     <h5>Tracking Code</h5>
                      <pre class="bg-light border py-1 px-1"><code class="text-muted">&lt;script&gt;
 fetch('https://simple-web-analytics.com/track?' + new URLSearchParams(
-    {site: '<span class="username">USERNAME</span>', utcoffset: 0, referrer: document.referrer}))
+    {site: '<span class="username">USERNAME</span>', utcoffset: <span id="utcoffset">0</span>, referrer: document.referrer}))
 &lt;/script&gt;</pre>
                      </code>
                 </div>
@@ -219,20 +219,6 @@ fetch('https://simple-web-analytics.com/track?' + new URLSearchParams(
          </div>
 
       </div>
-      <script>
-         fetch('http://localhost:8000/track?' + new URLSearchParams({
-             site: 'asdf',
-             utcoffset: 2,
-             referrer: document.referrer
-         }))
-      </script>
-      <script>
-         document.getElementById("user").value = "asdf"
-         document.getElementById("user").focus()
-         document.getElementById("password").value = "asdfasdf"
-         //document.forms[0].submit()
-         
-      </script>
    </body>
 </html>
 

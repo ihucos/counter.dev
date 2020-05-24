@@ -137,6 +137,8 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	utcnow := time.Now().In(location)
 	now := utcnow.Add(time.Hour * time.Duration(utcoffset))
+        fmt.Println(utcoffset)
+        fmt.Println(now)
 	w.Header().Set("Expires", now.Format("Mon, 2 Jan 2006")+" 23:59:59 GMT")
 
 	ref := r.FormValue("referrer")
@@ -176,7 +178,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	data["device"] = ua.DeviceType.StringTrimPrefix()
 	data["platform"] = ua.OS.Platform.StringTrimPrefix()
 
-	logLine := fmt.Sprintf("[%s] %s", now.Format("2006-01-02 15:04:05"), userAgent)
+	logLine := fmt.Sprintf("[%s] %s %s", country, now.Format("2006-01-02 15:04:05"), userAgent)
 	save(user, data, logLine)
 }
 
