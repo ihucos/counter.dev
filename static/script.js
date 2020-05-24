@@ -65,7 +65,7 @@ function getUTCMinusElevenNow() {
 }
 
 function commaFormat(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return Math.round(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function average(array) {
@@ -80,7 +80,7 @@ const median = arr => {
 
 function drawGraphHeader(numbers) {
     document.getElementById("median").innerHTML = escapeHtml(commaFormat(median(numbers.slice(-7))))
-    document.getElementById("median_more").innerHTML = escapeHtml(commaFormat(median(numbers.slice(-30))))
+    document.getElementById("average").innerHTML = escapeHtml(commaFormat(average(numbers.slice(-7))))
     document.getElementById("today").innerHTML = escapeHtml(commaFormat(numbers.slice(-1)[0]))
 
 }
