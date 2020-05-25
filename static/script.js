@@ -83,8 +83,8 @@ const median = arr => {
 };
 
 function drawGraphHeader(numbers) {
-    document.getElementById("median").innerHTML = escapeHtml(commaFormat(median(numbers.slice(-7))))
-    document.getElementById("average").innerHTML = escapeHtml(commaFormat(average(numbers.slice(-7))))
+    document.getElementById("median").innerHTML = escapeHtml(kFormat(median(numbers.slice(-7))))
+    document.getElementById("average").innerHTML = escapeHtml(kFormat(average(numbers.slice(-7))))
     document.getElementById("today").innerHTML = escapeHtml(commaFormat(numbers.slice(-1)[0]))
 
 }
@@ -121,10 +121,19 @@ function drawList(elem_id, dataItem, title) {
         return b[1] - a[1];
     });
 
-    html = "<table>"
+    listTotal = 0
     for (var i = 0; i < list.length; i++) {
-        html += "<tr>"
-        html += '<th style="padding-right: 0.5em;">' + escapeHtml(kFormat(list[i][1])) + '</th><td>' + escapeHtml(list[i][0]) + '</td>'
+        listTotal += list[i][1]
+    }
+
+    html = '<table class="top">'
+    for (var i = 0; i < list.length; i++) {
+        html += '<tr>'
+        html += '<th style="padding-right: 0.5em;">' + escapeHtml(kFormat(list[i][1])) + '</th>'
+        html += '<td style="position: relative; z-axis: 100; width: 100%;">' 
+        percent = list[i][1] / listTotal * 100
+        html += '<div style="position: absolute; bottom: 0px; width: '+percent+'%; height: 2px; background-color: #2F6CA2"></div>'
+        html += escapeHtml(list[i][0]) + '</td>'
         html += "</tr>"
     }
     html += "</table>"
