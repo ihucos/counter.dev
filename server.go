@@ -184,7 +184,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	//
 	// build data map
 	//
-	ref := r.Header.Get("Referrer")
+	ref := r.Header.Get("Referer")
 	parsedUrl, err := url.Parse(ref)
 	if err == nil && parsedUrl.Host != "" {
 		data["ref"] = parsedUrl.Host
