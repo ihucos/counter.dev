@@ -184,13 +184,18 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	//
 	// build data map
 	//
-	ref := r.Header.Get("Referer")
-	parsedUrl, err := url.Parse(ref)
+
+	refParam := r.FormValue("referrer")
+	parsedUrl, err := url.Parse(refParam)
 	if err == nil && parsedUrl.Host != "" {
 		data["ref"] = parsedUrl.Host
 	}
 
-	data["loc"] = r.FormValue("location")
+	ref := r.Header.Get("Referer")
+	parsedUrl, err = url.Parse(ref)
+	if err == nil && parsedUrl.Path != "" {
+		data["loc"] = parsedUrl.Path
+	}
 
 	tags, _, err := language.ParseAcceptLanguage(r.Header.Get("Accept-Language"))
 	if err == nil && len(tags) > 0 {
