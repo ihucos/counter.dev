@@ -128,7 +128,7 @@ function drawList(elem_id, dataItem, title) {
         html += "</tr>"
     }
     html += "</table>"
-    elem.innerHTML = html
+    elem.innerHTML += html
 }
 
 function drawMap() {
