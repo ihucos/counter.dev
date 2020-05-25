@@ -137,7 +137,7 @@ function drawMap() {
         scaleColors: ['#C8EEFF', '#006491'],
         normalizeFunction: 'polynomial',
         onLabelShow: function(event, label, region) {
-            label[0].innerHTML += ' </br>' + (data.country[region] || "0") + " visits"
+            label[0].innerHTML += ' </br>' + (data.country[region] || "0") + " Daily Visit(s)"
         }
     });
 }
@@ -251,7 +251,7 @@ function draw(user, data) {
             labels: date_keys,
             datasets: [{
                 data: date_vals,
-                label: 'Daily Views',
+                label: 'Daily Visits',
                 backgroundColor: "rgba(0, 0, 0, 0)",
                 borderColor: orange,
             }, ],
