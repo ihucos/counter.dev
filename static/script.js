@@ -69,6 +69,7 @@ function commaFormat(x) {
 }
 
 function kFormat(num) {
+    num = Math.floor(num)
     return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'K' : Math.sign(num)*Math.abs(num) + ""
 }
 
@@ -106,7 +107,7 @@ function drawList(elem_id, dataItem, title) {
     var elem = document.getElementById(elem_id)
 
 
-    elem.innerHTML = "<h4>" + escapeHtml(title) + "</h4>"
+    elem.innerHTML = "<h5>" + escapeHtml(title) + "</h5>"
     if (Object.keys(dataItem).length === 0 && dataItem.constructor === Object) {
         elem.innerHTML += '<span class="text-muted">Empty</span>'
         return
@@ -182,7 +183,7 @@ function draw(user, data) {
     drawMap()
     drawTitle(user)
 
-    orange = "#5c5c5c"
+    orange = "#2F6CA2"
 
 
     function splitObject(obj, sort_keys) {
@@ -262,6 +263,8 @@ function draw(user, data) {
     }
 
     Chart.defaults.global.animation.duration = 0
+    normalFont = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
+    normalFontColor = '#212529'
 
     new Chart(document.getElementById("graph"), {
         type: 'line',
@@ -322,7 +325,6 @@ function draw(user, data) {
                     sumHours([16, 17, 18, 19, 20, 21]),
                     sumHours([22, 23, 24, 0, 1, 2, 3, 4]),
                 ],
-                barThickness: 7,
                 backgroundColor: [
                     orange,
                     orange,
@@ -345,7 +347,7 @@ function draw(user, data) {
                     },
                     ticks: {
                         display: false,
-                        beginAtZero: true
+                        beginAtZero: true,
                     }
                 }, ],
                 yAxes: [{
@@ -353,7 +355,10 @@ function draw(user, data) {
                         display: false,
                     },
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        fontFamily: normalFont,
+                        fontColor: normalFontColor,
+                        fontSize: 16,
                     }
                 }, ],
             },
@@ -379,7 +384,6 @@ function draw(user, data) {
                     data.device["Tablet"] || 0,
                     ((data.device["TV"] || 0) + (data.device["Console"] || 0) + (data.device["Unknown"] || 0)),
                 ],
-                barThickness: 7,
                 backgroundColor: [
                     orange,
                     orange,
@@ -413,7 +417,10 @@ function draw(user, data) {
                         display: false,
                     },
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        fontFamily: normalFont,
+                        fontColor: normalFontColor,
+                        fontSize: 16,
                     }
                 }, ],
             },
@@ -435,7 +442,6 @@ function draw(user, data) {
                     data['weekday'][5] || 0,
                     data['weekday'][6] || 0,
                 ],
-                barThickness: 7,
                 backgroundColor: [
                     orange,
                     orange,
@@ -468,6 +474,12 @@ function draw(user, data) {
                     gridLines: {
                         display: false,
                     },
+                    ticks: {
+                        beginAtZero: true,
+                        fontFamily: normalFont,
+                        fontColor: normalFontColor,
+                        fontSize: 16,
+                    }
                 }, ],
             },
         },

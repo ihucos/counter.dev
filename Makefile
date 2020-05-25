@@ -12,6 +12,8 @@ deploy:
 	tar cf - static server | ssh root@172.104.148.60 tar xvf - -C /root
 	ssh root@172.104.148.60 "pkill -x ./server; sleep 5; dtach -n /tmp/dtach ./server"
 
+deploy-static:
+	tar cf - static | ssh root@172.104.148.60 tar xvf - -C /root
 
 #provision:
 #	ssh root@172.104.148.60 sh -c ' \
