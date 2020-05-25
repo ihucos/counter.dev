@@ -173,40 +173,19 @@ fetch('https://simple-web-analytics.com/track?' + new URLSearchParams(
                </div>
             </div>
             <div class="row my-5">
-               <div id="list_ref" class="col-md-6">
+               <div id="list_ref" class="col-md-4">
                </div>
-               <div id="list_loc" class="col-md-6">
-               </div>
-            </div>
-            <hr>
-            <div class="row my-5">
-               <div class="col-md-4">
-                  <h5>Devices</h5>
-                  <div class="py-2">
-                     <canvas id="device" height=200 />
-                  </div>
-               </div>
-               <div class="col-md-4">
-                  <h5>Time</h5>
-                  <div class="py-2">
-                     <canvas id="time"  height=200 />
-                  </div>
-               </div>
-               <div class="col-md-4">
-                  <h5>Weekday</h5>
-                  <div class="py-2">
-                     <canvas id="weekday"  height=200 />
-                  </div>
+               <div id="list_loc" class="col-md-8">
                </div>
             </div>
             <hr>
             <div class="row my-5">
                <div id="list_browser" class="col-md-4"></div>
                <div id="list_platform" class="col-md-4"></div>
-               <div id="list_lang" class="col-md-4"></div>
+               <div id="list_device" class="col-md-4"></div>
             </div>
             <hr>
-          <h4>Geolocation</h4>
+          <h4>Countries</h4>
          </div>
          <div style="display: flex; justify-content: center;">
               <div id="world" style="width: 800px; height: 400px;"></div>
@@ -222,6 +201,25 @@ fetch('https://simple-web-analytics.com/track?' + new URLSearchParams(
                </div>
             </div>
             <hr />
+
+            <div class="row my-5">
+               <div class="col-md-4">
+                  <h5>Time</h5>
+                  <div class="py-2">
+                     <canvas id="time"  height=200 />
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <h5>Weekday</h5>
+                  <div class="py-2">
+                     <canvas id="weekday"  height=200 />
+                  </div>
+               </div>
+            </div>
+            <hr>
+
+
+
          <br/>
          <br/>
          </div>

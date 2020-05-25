@@ -252,7 +252,7 @@ function draw(user, data) {
     drawList("list_loc", data.loc, "Top Pages")
     drawList("list_browser", data.browser, "Top Browsers")
     drawList("list_platform", data.platform, "Top Platforms")
-    drawList("list_lang", data.lang, "Top Languages")
+    drawList("list_device", data.device, "Top Devices")
 
 
     log_values = splitObject((data.log))[0]
@@ -364,69 +364,6 @@ function draw(user, data) {
             },
         },
     })
-
-
-
-    new Chart(document.getElementById("device"), {
-        type: 'horizontalBar',
-        data: {
-            fontSize: 4,
-            labels: [
-                'Computer',
-                'Phone',
-                'Tablet',
-                'Other',
-            ],
-            datasets: [{
-                data: [
-                    data.device["Computer"] || 0,
-                    data.device["Phone"] || 0,
-                    data.device["Tablet"] || 0,
-                    ((data.device["TV"] || 0) + (data.device["Console"] || 0) + (data.device["Unknown"] || 0)),
-                ],
-                backgroundColor: [
-                    orange,
-                    orange,
-                    orange,
-                    orange,
-                ],
-            }, ],
-        },
-        options: {
-            tooltips: {
-                mode: 'index'
-            },
-            legend: {
-                display: false
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        display: false,
-                    },
-                    ticks: {
-                        display: false,
-                        beginAtZero: true
-                    }
-                }, ],
-                yAxes: [{
-                    ticks: {
-                        display: false
-                    },
-                    gridLines: {
-                        display: false,
-                    },
-                    ticks: {
-                        beginAtZero: true,
-                        fontFamily: normalFont,
-                        fontColor: normalFontColor,
-                        fontSize: 16,
-                    }
-                }, ],
-            },
-        },
-    })
-
 
     new Chart(document.getElementById("weekday"), {
         type: 'horizontalBar',
