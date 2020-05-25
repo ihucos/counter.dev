@@ -4,15 +4,15 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"math/rand"
 	"net/http"
 	"net/url"
-	"strconv"
-	"time"
 	"os"
+	"strconv"
 	"strings"
-	"io"
+	"time"
 
 	"github.com/avct/uasurfer"
 	"github.com/gomodule/redigo/redis"
@@ -35,29 +35,29 @@ var fieldsZet = []string{"lang", "origin", "ref", "loc"}
 var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device", "country"}
 
 func min(x, y int) int {
-    if x < y {
-        return x
-    }
-    return y
+	if x < y {
+		return x
+	}
+	return y
 }
 
 func max(x, y int) int {
-    if x > y {
-        return x
-    }
-    return y
+	if x > y {
+		return x
+	}
+	return y
 }
 
 func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-        logFile, err := os.OpenFile("log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0744)
-        if err != nil {
-            log.Fatalf("error opening file: %v", err)
-            return
-        }
-        defer logFile.Close()
-        log.SetOutput(io.MultiWriter(os.Stdout, logFile))
+	logFile, err := os.OpenFile("log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+		return
+	}
+	defer logFile.Close()
+	log.SetOutput(io.MultiWriter(os.Stdout, logFile))
 
 	pool = &redis.Pool{
 		MaxIdle:     10,
@@ -75,10 +75,10 @@ func main() {
 	mux.HandleFunc("/dashboard", Dashboard)
 
 	log.Println("Start")
-        err = http.ListenAndServe(":80", mux)
-        if err != nil {
-            log.Fatal("ListenAndServe: ", err)
-        }
+	err = http.ListenAndServe(":80", mux)
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
 }
 
 func hash(stri string) string {
@@ -130,7 +130,6 @@ func delUserData(conn redis.Conn, user string) {
 	conn.Send("DEL", fmt.Sprintf("log:%s", user))
 }
 
-
 func timeNow(utcOffset int) time.Time {
 	location, err := time.LoadLocation("UTC")
 	if err != nil {
@@ -139,7 +138,7 @@ func timeNow(utcOffset int) time.Time {
 
 	utcnow := time.Now().In(location)
 	now := utcnow.Add(time.Hour * time.Duration(utcOffset))
-        return now
+	return now
 
 }
 
@@ -147,9 +146,9 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	data := make(map[string]string)
 
-        //
-        // Input validation
-        //
+	//
+	// Input validation
+	//
 
 	user := r.FormValue("site")
 	if user == "" {
@@ -161,31 +160,30 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		utcOffset = 0
 	}
-        utcOffset = max(min(utcOffset, 11), -11)
+	utcOffset = max(min(utcOffset, 11), -11)
 
-        //
-        // variables
-        //
-        now := timeNow(utcOffset)
+	//
+	// variables
+	//
+	now := timeNow(utcOffset)
 	userAgent := r.Header.Get("User-Agent")
 	ua := uasurfer.Parse(userAgent)
 
-        //
-        // set expire
-        //
+	//
+	// set expire
+	//
 	w.Header().Set("Expires", now.Format("Mon, 2 Jan 2006")+" 23:59:59 GMT")
 
-        //
-        // drop if bot
-        //
-        if ua.IsBot() {
-                return
-        }
+	//
+	// drop if bot
+	//
+	if ua.IsBot() {
+		return
+	}
 
-
-        //
-        // build data map
-        //
+	//
+	// build data map
+	//
 	ref := r.FormValue("referrer")
 	parsedUrl, err := url.Parse(ref)
 	if err == nil && parsedUrl.Host != "" {
@@ -203,9 +201,9 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	data["origin"] = r.Header.Get("Origin")
 
 	country := r.Header.Get("CF-IPCountry")
-        if country != "" && country != "XX" {
-            data["country"] = strings.ToLower(country)
-        }
+	if country != "" && country != "XX" {
+		data["country"] = strings.ToLower(country)
+	}
 
 	data["date"] = now.Format("2006-01-02")
 
@@ -225,9 +223,9 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	data["platform"] = ua.OS.Platform.StringTrimPrefix()
 
-        //
-        // save data map
-        //
+	//
+	// save data map
+	//
 	logLine := fmt.Sprintf("[%s] %s %s", now.Format("2006-01-02 15:04:05"), country, userAgent)
 	save(user, data, logLine)
 }

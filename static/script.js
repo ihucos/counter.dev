@@ -44,11 +44,11 @@ function escapeHtml(unsafe) {
 }
 
 
-function demo(){
-       document.getElementById("user").value = "demo"
-       document.getElementById("user").focus()
-       document.getElementById("password").value = "demodemo"
-       document.getElementById("login_button").click()
+function demo() {
+    document.getElementById("user").value = "demo"
+    document.getElementById("user").focus()
+    document.getElementById("password").value = "demodemo"
+    document.getElementById("login_button").click()
 }
 
 
@@ -93,8 +93,8 @@ function drawUsername(user) {
     }
 }
 
-function drawUTCOffsetVar(){
-    offset = Math.round(-1 * new Date().getTimezoneOffset()/60)
+function drawUTCOffsetVar() {
+    offset = Math.round(-1 * new Date().getTimezoneOffset() / 60)
     document.getElementById("utcoffset").innerHTML = offset
 }
 
@@ -122,29 +122,28 @@ function drawList(elem_id, dataItem, title) {
     }
 }
 
-function drawMap(){
-      jQuery('#world').vectorMap({
-            map: 'world_en',
-            backgroundColor: '#fff',
-            color: '#ffffff',
-            hoverOpacity: 0.7,
-            selectedColor: null,
-            enableZoom: false,
-            showTooltip: true,
-            borderOpacity: 0.8,
-            color: '#eee',
-            values: data.country,
-            scaleColors: ['#C8EEFF', '#006491'],
-            normalizeFunction: 'polynomial',
-    onLabelShow: function(event, label, region)
-    {
-        label[0].innerHTML += ' </br>' + (data.country[region] || "0") + " visits"
-    }
-  });
+function drawMap() {
+    jQuery('#world').vectorMap({
+        map: 'world_en',
+        backgroundColor: '#fff',
+        color: '#ffffff',
+        hoverOpacity: 0.7,
+        selectedColor: null,
+        enableZoom: false,
+        showTooltip: true,
+        borderOpacity: 0.8,
+        color: '#eee',
+        values: data.country,
+        scaleColors: ['#C8EEFF', '#006491'],
+        normalizeFunction: 'polynomial',
+        onLabelShow: function(event, label, region) {
+            label[0].innerHTML += ' </br>' + (data.country[region] || "0") + " visits"
+        }
+    });
 }
 
 
-function drawTitle(user){
+function drawTitle(user) {
     document.title = "Simple Web Analytics for " + user
 }
 
@@ -155,7 +154,7 @@ function draw(user, data) {
     document.getElementById("page-index").style.display = "none"
     document.getElementById("page-graphs").style.display = "block"
 
-    if (!window._timer){
+    if (!window._timer) {
         alwaysUpdate()
         window._timer = true
     }
