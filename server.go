@@ -12,6 +12,7 @@ import (
 	"time"
 	"os"
 	"strings"
+	"io"
 
 	"github.com/avct/uasurfer"
 	"github.com/gomodule/redigo/redis"
@@ -50,13 +51,13 @@ func max(x, y int) int {
 func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-        f, err := os.OpenFile("log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0744)
+        logFile, err := os.OpenFile("log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0744)
         if err != nil {
             log.Fatalf("error opening file: %v", err)
             return
         }
-        defer f.Close()
-        log.SetOutput(f)
+        defer logFile.Close()
+        log.SetOutput(io.MultiWriter(os.Stdout, logFile))
 
 	pool = &redis.Pool{
 		MaxIdle:     10,
@@ -129,9 +130,26 @@ func delUserData(conn redis.Conn, user string) {
 	conn.Send("DEL", fmt.Sprintf("log:%s", user))
 }
 
+
+func timeNow(utcOffset int) time.Time {
+	location, err := time.LoadLocation("UTC")
+	if err != nil {
+		panic(err)
+	}
+
+	utcnow := time.Now().In(location)
+	now := utcnow.Add(time.Hour * time.Duration(utcOffset))
+        return now
+
+}
+
 func Track(w http.ResponseWriter, r *http.Request) {
 
 	data := make(map[string]string)
+
+        //
+        // Input validation
+        //
 
 	user := r.FormValue("site")
 	if user == "" {
@@ -139,21 +157,35 @@ func Track(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utcoffset, err := strconv.Atoi(r.FormValue("utcoffset"))
+	utcOffset, err := strconv.Atoi(r.FormValue("utcoffset"))
 	if err != nil {
-		utcoffset = 0
+		utcOffset = 0
 	}
-        utcoffset = max(min(utcoffset, 11), -11)
+        utcOffset = max(min(utcOffset, 11), -11)
 
-	location, err := time.LoadLocation("UTC")
-	if err != nil {
-		panic(err)
-	}
+        //
+        // variables
+        //
+        now := timeNow(utcOffset)
+	userAgent := r.Header.Get("User-Agent")
+	ua := uasurfer.Parse(userAgent)
 
-	utcnow := time.Now().In(location)
-	now := utcnow.Add(time.Hour * time.Duration(utcoffset))
+        //
+        // set expire
+        //
 	w.Header().Set("Expires", now.Format("Mon, 2 Jan 2006")+" 23:59:59 GMT")
 
+        //
+        // drop if bot
+        //
+        if ua.IsBot() {
+                return
+        }
+
+
+        //
+        // build data map
+        //
 	ref := r.FormValue("referrer")
 	parsedUrl, err := url.Parse(ref)
 	if err == nil && parsedUrl.Host != "" {
@@ -169,17 +201,17 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data["origin"] = r.Header.Get("Origin")
+
 	country := r.Header.Get("CF-IPCountry")
         if country != "" && country != "XX" {
             data["country"] = strings.ToLower(country)
         }
 
 	data["date"] = now.Format("2006-01-02")
-	data["weekday"] = fmt.Sprintf("%d", now.Weekday())
-	data["hour"] = fmt.Sprintf("%d", now.Hour())
 
-	userAgent := r.Header.Get("User-Agent")
-	ua := uasurfer.Parse(userAgent)
+	data["weekday"] = fmt.Sprintf("%d", now.Weekday())
+
+	data["hour"] = fmt.Sprintf("%d", now.Hour())
 
 	var browser string
 	if ua.Browser.Version.Major != 0 {
@@ -188,9 +220,14 @@ func Track(w http.ResponseWriter, r *http.Request) {
 		browser = fmt.Sprintf("%s", ua.Browser.Name.StringTrimPrefix())
 	}
 	data["browser"] = browser
+
 	data["device"] = ua.DeviceType.StringTrimPrefix()
+
 	data["platform"] = ua.OS.Platform.StringTrimPrefix()
 
+        //
+        // save data map
+        //
 	logLine := fmt.Sprintf("[%s] %s %s", now.Format("2006-01-02 15:04:05"), country, userAgent)
 	save(user, data, logLine)
 }
