@@ -68,6 +68,10 @@ function commaFormat(x) {
     return Math.round(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+function kFormat(num) {
+    return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'K' : Math.sign(num)*Math.abs(num) + ""
+}
+
 function average(array) {
     return array.reduce((acc, next) => acc + next) / array.length;
 }
@@ -117,9 +121,14 @@ function drawList(elem_id, dataItem, title) {
         return b[1] - a[1];
     });
 
+    html = "<table>"
     for (var i = 0; i < list.length; i++) {
-        elem.innerHTML += '<li>' + escapeHtml(list[i][0]) + ' <small class="text-muted">' + escapeHtml(commaFormat(list[i][1])) + '</small> <br/></li>'
+        html += "<tr>"
+        html += '<th style="padding-right: 0.5em;">' + escapeHtml(kFormat(list[i][1])) + '</th><td>' + escapeHtml(list[i][0]) + '</td>'
+        html += "</tr>"
     }
+    html += "</table>"
+    elem.innerHTML = html
 }
 
 function drawMap() {
@@ -137,7 +146,7 @@ function drawMap() {
         scaleColors: ['#C8EEFF', '#006491'],
         normalizeFunction: 'polynomial',
         onLabelShow: function(event, label, region) {
-            label[0].innerHTML += ' </br>' + (data.country[region] || "0") + " Daily Visit(s)"
+            label[0].innerHTML += ' </br>' + (data.country[region] || "0") + " Visitors"
         }
     });
 }
@@ -251,18 +260,30 @@ function draw(user, data) {
             labels: date_keys,
             datasets: [{
                 data: date_vals,
-                label: 'Daily Visits',
+                label: 'Visitors',
                 backgroundColor: "rgba(0, 0, 0, 0)",
                 borderColor: orange,
+
+
+                pointBorderColor: orange,
+                pointBackgroundColor: orange,
             }, ],
         },
         options: {
+            tooltips: {
+                enabled: true,
+                mode: "index",
+                intersect: false,
+            },
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
-                    }
-                }]
+                        beginAtZero: true,
+                        userCallback: function(label) {
+                            if (Math.floor(label) === label) return kFormat(label);
+                        },
+                    },
+                }, ]
             },
             legend: {
                 display: false
