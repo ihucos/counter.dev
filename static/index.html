@@ -39,15 +39,11 @@
    <body>
 
 <script>
-if (sessionStorage.getItem('_swa') !== "1") {
-    fetch('https://simple-web-analytics.com/track?' + new URLSearchParams({
-        site: 'simple-web-analytics.com',
-        utcoffset: 2,
-        referrer: document.referrer
-    }))
-} else {
-    sessionStorage.setItem('_swa', '1')
-}
+fetch('https://simple-web-analytics.com/track?' + new URLSearchParams({
+    referrer: document.referrer ? new URL(document.referrer).origin : document.location.origin
+    site: 'simple-web-analytics.com',
+    utcoffset: 2,
+}));
 </script>
 
 <img src="beta.svg" style="position: absolute; right: 10px; top: 10px; height: 100px"/>
