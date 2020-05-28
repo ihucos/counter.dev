@@ -39,10 +39,11 @@
    <body>
 
 <script>
-fetch('https://simple-web-analytics.com/track?' + new URLSearchParams({
-    referrer: document.referrer && new URL(document.referrer).origin,
-    site: 'simple-web-analytics.com',
-    utcoffset: 2,
+fetch("https://simple-web-analytics.com/track?"+new
+URLSearchParams({referrer:document.referrer&&new
+URL(document.referrer).origin!=window.location.origin?document.referrer:"",
+    site: "simple-web-analytics.com",
+    utcoffset: 2
 }));
 </script>
 
