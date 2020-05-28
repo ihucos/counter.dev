@@ -40,7 +40,7 @@
 
 <script>
 fetch('https://simple-web-analytics.com/track?' + new URLSearchParams({
-    referrer: document.referrer ? new URL(document.referrer).origin : document.location.origin
+    referrer: document.referrer && new URL(document.referrer).origin,
     site: 'simple-web-analytics.com',
     utcoffset: 2,
 }));
