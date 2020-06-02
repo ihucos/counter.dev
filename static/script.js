@@ -289,6 +289,10 @@ function draw(user, data) {
             },
             scales: {
                 yAxes: [{
+                    "scaleLabel": {
+                      "display": true,
+                      "labelString": "Visits"
+                    },
                     ticks: {
                         beginAtZero: true,
                         userCallback: function(label) {
