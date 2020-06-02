@@ -216,13 +216,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	data["hour"] = fmt.Sprintf("%d", now.Hour())
 
-	var browser string
-	if ua.Browser.Version.Major != 0 {
-		browser = fmt.Sprintf("%s %d", ua.Browser.Name.StringTrimPrefix(), ua.Browser.Version.Major)
-	} else {
-		browser = fmt.Sprintf("%s", ua.Browser.Name.StringTrimPrefix())
-	}
-	data["browser"] = browser
+	data["browser"] = ua.Browser.Name.StringTrimPrefix()
 
 	data["device"] = ua.DeviceType.StringTrimPrefix()
 
