@@ -39,12 +39,15 @@
    <body>
 
 <script>
-fetch("https://simple-web-analytics.com/track?"+new
-URLSearchParams({referrer:document.referrer&&new
-URL(document.referrer).origin!=window.location.origin?document.referrer:"",
-    site: "simple-web-analytics.com",
+document.referrer && 0 === document.referrer.indexOf(location.protocol + "//" + location.host) || fetch(
+"https://simple-web-analytics.com/track?" + new URLSearchParams({
+    referrer: document.referrer,
+    site: "demo",
     utcoffset: 2
 }));
+</script>
+
+
 </script>
 
 <img src="beta.svg" style="position: absolute; right: 10px; top: 10px; height: 100px"/>
@@ -142,8 +145,10 @@ URL(document.referrer).origin!=window.location.origin?document.referrer:"",
                <div class="col-md-12">
                     <h5>Tracking Code</h5>
                      <pre class="bg-light border py-1 px-1"><code class="text-muted">&lt;script&gt;
-fetch('https://simple-web-analytics.com/track?' + new URLSearchParams(
-    {site: '<span class="username">USERNAME</span>', utcoffset: <span id="utcoffset">0</span>, referrer: document.referrer}))
+document.referrer && 0 === document.referrer.indexOf(location.protocol + "//" + location.host) || fetch(
+"https://simple-web-analytics.com/track?" + new URLSearchParams({referrer: document.referrer,
+    site: "<span class="username">USERNAME</span>",
+    utcoffset: <span id="utcoffset">0</span>}));
 &lt;/script&gt;</pre>
                      </code>
                 </div>
@@ -151,7 +156,7 @@ fetch('https://simple-web-analytics.com/track?' + new URLSearchParams(
             <br/>
             <div class="row">
                <div class="col-md-3">
-                  <h5 class="">Current</h5>
+                  <h5 class="">Current Day</h5>
                   <div class="info">
                      <div id="today">-</div>
                   </div>
