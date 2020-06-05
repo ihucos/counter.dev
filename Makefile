@@ -15,6 +15,13 @@ deploy:
 deploy-static:
 	tar cf - static | ssh root@172.104.148.60 tar xvf - -C /root
 
+stats:
+	echo "=== all users ==="
+	echo "hkeys users" | ssh root@172.104.148.60 redis-cli
+	echo ""
+	echo "=== integrated users ==="
+	echo "keys date:*" | ssh root@172.104.148.60 redis-cli | cut -d: -f2
+
 #provision:
 #	ssh root@172.104.148.60 sh -c ' \
 #	for i in `curl https://www.cloudflare.com/ips-v4`; do iptables -I INPUT -p tcp -m multiport --dports http,https -s $i -j ACCEPT; done \
