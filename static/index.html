@@ -47,9 +47,8 @@ document.referrer && 0 === document.referrer.indexOf(location.protocol + "//" + 
 
 <img src="beta.svg" style="position: absolute; right: 10px; top: 10px; height: 100px"/>
 
-      <div id="page-index">
+      <div id="page-index" class="d-flex flex-column justify-content-between" style="min-height: 100vh">
          <div class="container" style="margin-bottom: 5em; max-width: 37em;">
-
 
 
          <div style="background-color: white; padding-top: 1em; margin-bottom: 3.5em;">
@@ -110,8 +109,17 @@ document.referrer && 0 === document.referrer.indexOf(location.protocol + "//" + 
             </p>
          </div>
 
-         <hr />
-         <smaller class="text-muted">Copyright © 2020 Irae Hueck Costa. <a href="mailto:info@simple-web-analytics.com">Write us anything.</a></smaller>
+         <div class="py-1 px-2" style="border-top: 1px solid rgba(0,0,0,.1);">
+           <smaller class="text-muted">
+
+           Ask us anything: <a href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a> |
+
+           Disclaimer: This software is provided free of charge "as is",
+           without any warranties or guranteess of any kind.
+           
+           
+           </smaller>
+         </div>
 
       </div>
       <style>
