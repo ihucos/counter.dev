@@ -170,7 +170,7 @@ function drawTitle(user) {
 function draw(user, data) {
     window.data = data
     console.log(data)
-    document.getElementById("page-index").remove()
+    document.getElementById("page-index").setAttribute('style', 'display: none !important');
     document.getElementById("page-graphs").style.display = "block"
 
     if (!window._timer) {
