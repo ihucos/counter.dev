@@ -249,7 +249,7 @@ function draw(user, data) {
 
     drawGraphHeader(date_vals)
     drawList("list_ref", data.ref, "Top Referrers")
-    drawList("list_loc", data.loc, "Top Pages")
+    drawList("list_loc", data.loc, "Top Landing Pages")
     drawList("list_browser", data.browser, "Top Browsers")
     drawList("list_platform", data.platform, "Top Platforms")
     drawList("list_device", data.device, "Top Devices")
