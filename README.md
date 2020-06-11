@@ -5,3 +5,4 @@ aggregates data around your website like visitors per day, top referrers, top br
 **[Check out the demo](https://simple-web-analytics.com/#demo)**
 
 ## Technology
+Simple Web Analytics is basically a small standalone go server, that saves everything to redis.
