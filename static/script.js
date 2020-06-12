@@ -190,7 +190,7 @@ function drawLog() {
         if (logCountry === '' || logCountry === 'xx'){
             html+= '<td>-</td>'
         } else {
-            html+= '<td> <img src="/famfamfam_flags/gif/' + escapeHtml(logCountry) + '.gif"></img></td>'
+            html+= '<td> <img title="' + escapeHtml(logCountry) + '" src="/famfamfam_flags/gif/' + escapeHtml(logCountry) + '.gif"></img></td>'
         }
 
         if (logReferrer === ""){
