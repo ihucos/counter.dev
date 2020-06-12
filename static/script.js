@@ -235,7 +235,13 @@ function drawMap() {
         scaleColors: ['#C8EEFF', '#006491'],
         normalizeFunction: 'polynomial',
         onLabelShow: function(event, label, region) {
-            label[0].innerHTML += ' </br>' + (data.country[region] || "0") + " Visitors"
+            label[0].innerHTML += (
+                '&nbsp;<img title="' + escapeHtml(region) +
+                '" src="/famfamfam_flags/gif/' +
+                escapeHtml(region) +
+                '.gif"></img> </br>' +
+                (data.country[region] || "0") +
+                " Visitors")
         }
     });
 }
