@@ -22,6 +22,11 @@ stats:
 	echo "=== integrated users ==="
 	echo "keys date:*" | ssh root@172.104.148.60 redis-cli | cut -d: -f2
 
+
+redis-server:
+	scp root@172.104.148.60:/var/lib/redis/dump.rdb /tmp/webstats-production.rdb
+	plash --from alpine:3.11 --apk redis -- redis-server --dbfilename webstats-production.rdb --dir /tmp
+
 #provision:
 #	ssh root@172.104.148.60 sh -c ' \
 #	for i in `curl https://www.cloudflare.com/ips-v4`; do iptables -I INPUT -p tcp -m multiport --dports http,https -s $i -j ACCEPT; done \

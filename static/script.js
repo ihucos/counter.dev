@@ -177,6 +177,12 @@ function drawLog() {
         var logReferrer = match[4]
         var logUserAgent = match[5]
 
+        // UGLY HACK, remove in a couple of months or so: June 2020
+        if (logReferrer === "Mozilla/5.0"){
+            logReferrer = ""
+            logUserAgent = "Mozilla/5.0 " + logUserAgent
+        }
+
         html += "<tr>"
         html += "<td>" + escapeHtml(logDate) + "</td>"
         html+= "<td>" + escapeHtml(logTime) + "</td>"
