@@ -27,7 +27,7 @@ var pool *redis.Pool
 const zetMaxSize = 30
 const zetTrimEveryCalls = 100
 const MaxRedisCahrs = 32
-const truncateAt = 128
+const truncateAt = 256
 
 const loglinesKeep = 30
 
