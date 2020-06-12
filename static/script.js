@@ -163,7 +163,7 @@ function splitObject(obj, sort_keys) {
 
 function drawLog() {
 
-    var lines = Object.keys(data.log)
+    var lines = Object.keys(data.log).reverse()
     var html = ''
     for(var i = 0;i < lines.length;i++){
         var line = lines[i]
