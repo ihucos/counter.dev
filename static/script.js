@@ -70,7 +70,7 @@ function commaFormat(x) {
 
 function kFormat(num) {
     num = Math.floor(num)
-    return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'K' : Math.sign(num)*Math.abs(num) + ""
+    return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(1)) + 'K' : Math.sign(num) * Math.abs(num) + ""
 }
 
 function average(array) {
@@ -131,9 +131,9 @@ function drawList(elem_id, dataItem, title) {
     for (var i = 0; i < list.length; i++) {
         html += '<tr>'
         html += '<th style="padding-right: 0.5em;">' + escapeHtml(kFormat(list[i][1])) + '</th>'
-        html += '<td style="position: relative; z-axis: 100; width: 100%;">' 
+        html += '<td style="position: relative; z-axis: 100; width: 100%;">'
         percent = list[i][1] / listTotal * 100
-        html += '<div style="position: absolute; bottom: 0px; width: '+percent+'%; height: 2px; background-color: #2F6CA2"></div>'
+        html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 2px; background-color: #2F6CA2"></div>'
         html += escapeHtml(list[i][0]) + '</td>'
         html += "</tr>"
     }
@@ -165,10 +165,10 @@ function drawLog() {
 
     var lines = Object.keys(data.log).reverse().slice(0, 10)
     var html = ''
-    for(var i = 0;i < lines.length;i++){
+    for (var i = 0; i < lines.length; i++) {
         var line = lines[i]
         match = (/\[(.*?) (.*?):..\] (.*?) (.*?) (.*)/g).exec(line)
-        if (match === null){
+        if (match === null) {
             continue
         }
         var logDate = match[1]
@@ -178,41 +178,41 @@ function drawLog() {
         var logUserAgent = match[5]
 
         // UGLY HACK, remove in a couple of months or so: June 2020
-        if (logReferrer === "Mozilla/5.0"){
+        if (logReferrer === "Mozilla/5.0") {
             logReferrer = ""
             logUserAgent = "Mozilla/5.0 " + logUserAgent
         }
 
         html += "<tr>"
         html += "<td>" + escapeHtml(logDate) + "</td>"
-        html+= "<td>" + escapeHtml(logTime) + "</td>"
+        html += "<td>" + escapeHtml(logTime) + "</td>"
 
-        if (logCountry === '' || logCountry === 'xx'){
-            html+= '<td>-</td>'
+        if (logCountry === '' || logCountry === 'xx') {
+            html += '<td>-</td>'
         } else {
-            html+= '<td> <img title="' + escapeHtml(logCountry) + '" src="/famfamfam_flags/gif/' + escapeHtml(logCountry) + '.gif"></img></td>'
+            html += '<td> <img title="' + escapeHtml(logCountry) + '" src="/famfamfam_flags/gif/' + escapeHtml(logCountry) + '.gif"></img></td>'
         }
 
-        if (logReferrer === ""){
-            html+= "<td>-</td>"
+        if (logReferrer === "") {
+            html += "<td>-</td>"
         } else {
             try {
                 var url = new URL(logReferrer)
-            } catch(err){
+            } catch (err) {
                 var url = null
             }
-            if (url === null){
-                html+= '<td>?</td>'
+            if (url === null) {
+                html += '<td>?</td>'
             } else {
-                html+= '<td><a target="_blank" href="' + escapeHtml(logReferrer) + '">'+escapeHtml(url.host)+'</a></td>'
+                html += '<td><a target="_blank" href="' + escapeHtml(logReferrer) + '">' + escapeHtml(url.host) + '</a></td>'
             }
 
         }
-        html+= "<td>" + escapeHtml(logUserAgent) + "</td>"
+        html += "<td>" + escapeHtml(logUserAgent) + "</td>"
         html += "</tr>"
 
     }
-    if (html === ""){
+    if (html === "") {
         document.getElementById("log_container").innerHTML = '<span class="text-muted">Empty</span>'
     } else {
         document.getElementById("log_body").innerHTML = html
@@ -345,8 +345,8 @@ function draw(user, data) {
             scales: {
                 yAxes: [{
                     "scaleLabel": {
-                      "display": true,
-                      "labelString": "Visits"
+                        "display": true,
+                        "labelString": "Visits"
                     },
                     ticks: {
                         beginAtZero: true,
