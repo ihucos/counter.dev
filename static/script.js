@@ -141,6 +141,79 @@ function drawList(elem_id, dataItem, title) {
     elem.innerHTML += html
 }
 
+
+function splitObject(obj, sort_keys) {
+    var sortable = [];
+    for (var key in obj) {
+        sortable.push([key, obj[key]]);
+    }
+    if (sort_keys) {
+        sortable.sort(function(a, b) {
+            return a[0] - b[0];
+        });
+    } else {
+        sortable.sort(function(a, b) {
+            return b[1] - a[1];
+        });
+    }
+
+    return [sortable.map(x => x[0]), sortable.map(x => x[1])]
+}
+
+
+function drawLog() {
+
+    var lines = Object.keys(data.log)
+    var html = ''
+    for(var i = 0;i < lines.length;i++){
+        var line = lines[i]
+        match = (/\[(.*?) (.*?):..\] (.*?) (.*?) (.*)/g).exec(line)
+        if (match === null){
+            continue
+        }
+        var logDate = match[1]
+        var logTime = match[2]
+        var logCountry = match[3].toLowerCase()
+        var logReferrer = match[4]
+        var logUserAgent = match[5]
+
+        html += "<tr>"
+        html += "<td>" + escapeHtml(logDate) + "</td>"
+        html+= "<td>" + escapeHtml(logTime) + "</td>"
+
+        if (logCountry === '' || logCountry === 'xx'){
+            html+= '<td>-</td>'
+        } else {
+            html+= '<td> <img src="/famfamfam_flags/gif/' + escapeHtml(logCountry) + '.gif"></img></td>'
+        }
+
+        if (logReferrer === ""){
+            html+= "<td>-</td>"
+        } else {
+            try {
+                var url = new URL(logReferrer)
+            } catch(err){
+                var url = null
+            }
+            if (url === null){
+                html+= '<td>?</td>'
+            } else {
+                html+= '<td><a target="_blank" href="' + escapeHtml(logReferrer) + '">'+escapeHtml(url.host)+'</a></td>'
+            }
+
+        }
+        html+= "<td>" + escapeHtml(logUserAgent) + "</td>"
+        html += "</tr>"
+
+    }
+    if (html === ""){
+        document.getElementById("log_container").innerHTML = '<span class="text-muted">Empty</span>'
+    } else {
+        document.getElementById("log_body").innerHTML = html
+    }
+
+}
+
 function drawMap() {
     jQuery('#world').vectorMap({
         map: 'world_en',
@@ -185,24 +258,6 @@ function draw(user, data) {
 
     orange = "#2F6CA2"
 
-
-    function splitObject(obj, sort_keys) {
-        var sortable = [];
-        for (var key in obj) {
-            sortable.push([key, obj[key]]);
-        }
-        if (sort_keys) {
-            sortable.sort(function(a, b) {
-                return a[0] - b[0];
-            });
-        } else {
-            sortable.sort(function(a, b) {
-                return b[1] - a[1];
-            });
-        }
-
-        return [sortable.map(x => x[0]), sortable.map(x => x[1])]
-    }
 
     var daysRange = function(s, e) {
         s = new Date(s)
@@ -253,14 +308,8 @@ function draw(user, data) {
     drawList("list_browser", data.browser, "Top Browsers")
     drawList("list_platform", data.platform, "Top Platforms")
     drawList("list_device", data.device, "Top Devices")
+    drawLog()
 
-
-    log_values = splitObject((data.log))[0]
-    if (log_values.length != 0) {
-        document.getElementById("log").innerHTML = escapeHtml(log_values.join("\n"))
-    } else {
-        document.getElementById("log_container").innerHTML = '<span class="text-muted">Empty</span>'
-    }
 
     Chart.defaults.global.animation.duration = 0
     normalFont = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
