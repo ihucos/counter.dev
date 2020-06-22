@@ -289,7 +289,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 
 	res, _ := redis.String(conn.Do("HGET", "users", user))
 	if res == hash(password) {
-                conn.Send("HSET", "access", user, timeNow(0).Format("2006-01-02"))
+		conn.Send("HSET", "access", user, timeNow(0).Format("2006-01-02"))
 		userData, err := getData(conn, user)
 		if err != nil {
 			log.Println(user, err)
