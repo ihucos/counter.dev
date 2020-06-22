@@ -13,7 +13,7 @@ deploy:
 	ssh root@172.104.148.60 "pkill -x ./server; sleep 5; dtach -n /tmp/dtach ./server"
 
 deploy-static:
-	tar cf - static | ssh root@172.104.148.60 tar xvf - -C /root
+	tar cf - static scripts | ssh root@172.104.148.60 tar xvf - -C /root
 
 stats:
 	echo "=== all users ==="
@@ -32,7 +32,7 @@ log:
 	ssh root@172.104.148.60 tail log
 
 integrations:
-	python3 scripts/integrations.py
+	ssh root@172.104.148.60 python3 scripts/integrations.py
 
 #provision:
 #	ssh root@172.104.148.60 sh -c ' \
