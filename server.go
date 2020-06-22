@@ -250,7 +250,6 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// also delete anything saved by this user before!!
 	res, err := redis.Int64(conn.Do("HSETNX", "users", truncate(user), hash(password)))
 	if err != nil {
 		log.Println(user, err)
@@ -290,6 +289,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 
 	res, _ := redis.String(conn.Do("HGET", "users", user))
 	if res == hash(password) {
+                conn.Send("HSET", "access", user, timeNow(0).Format("2006-01-02"))
 		userData, err := getData(conn, user)
 		if err != nil {
 			log.Println(user, err)
