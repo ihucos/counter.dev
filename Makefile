@@ -27,6 +27,10 @@ redis-server:
 	scp root@172.104.148.60:/var/lib/redis/dump.rdb /tmp/webstats-production.rdb
 	plash --from alpine:3.11 --apk redis -- redis-server --dbfilename webstats-production.rdb --dir /tmp
 
+.PHONY: log
+log:
+	ssh root@172.104.148.60 tail log
+
 #provision:
 #	ssh root@172.104.148.60 sh -c ' \
 #	for i in `curl https://www.cloudflare.com/ips-v4`; do iptables -I INPUT -p tcp -m multiport --dports http,https -s $i -j ACCEPT; done \
