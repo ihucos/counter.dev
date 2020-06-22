@@ -2,6 +2,9 @@ function post(name) {
     user = document.getElementById("user").value
     password = document.getElementById("password").value
 
+    document.getElementById("alert").style.display = "none"
+    document.getElementById("alert").innerHTML = ""
+
     fetch("/" + name, {
         method: "POST",
         body: "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password),
