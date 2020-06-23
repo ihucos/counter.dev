@@ -41,10 +41,15 @@
    <body>
 
 <script>
-document.referrer && 0 === document.referrer.indexOf(location.protocol + "//" + location.host) || fetch(
-"https://simple-web-analytics.com/track?" + new URLSearchParams({referrer: document.referrer,
-    site: "simple-web-analytics.com",
-    utcoffset: 2}));
+// Simple Web Analytics tracking code
+if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
+    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
+        referrer: document.referrer,
+        site: "simple-web-analytics.com",
+        utcoffset: 2
+    }));
+}
+sessionStorage.setItem("_swa", "1");
 </script>
 
 <img src="beta.svg" style="position: absolute; right: 10px; top: 10px; height: 100px"/>
