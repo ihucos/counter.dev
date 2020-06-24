@@ -175,6 +175,11 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Expires", now.Format("Mon, 2 Jan 2006")+" 23:59:59 GMT")
 
 	//
+	// Not strictly necessary but avoids the browser issuing an error.
+	//
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	//
 	// drop if bot
 	//
 	if ua.IsBot() {
