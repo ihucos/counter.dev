@@ -154,10 +154,15 @@ sessionStorage.setItem("_swa", "1");
                <div class="col-md-12">
                     <h5>Tracking Code</h5>
                      <pre class="bg-light border py-1 px-1"><code class="text-muted">&lt;script&gt;
-document.referrer && 0 === document.referrer.indexOf(location.protocol + "//" + location.host) || fetch(
-"https://simple-web-analytics.com/track?" + new URLSearchParams({referrer: document.referrer,
-    site: "<span class="username">USERNAME</span>",
-    utcoffset: <span id="utcoffset">0</span>}));
+// Simple Web Analytics tracking code
+if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
+    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
+        referrer: document.referrer,
+        site: "<span class="username">USERNAME</span>",
+        utcoffset: <span id="utcoffset">0</span>
+    }));
+}
+sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</pre>
                      </code>
                 </div>
