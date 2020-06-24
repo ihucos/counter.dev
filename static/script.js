@@ -164,6 +164,17 @@ function splitObject(obj, sort_keys) {
 }
 
 
+function resolveCountry(code){
+    entry = JQVMap.maps["world_en"].paths[code]
+    if (entry){
+        return entry["name"]
+    } else {
+        return "Unknown"
+    }
+}
+
+
+
 function drawLog() {
 
     var lines = Object.keys(data.log).reverse().slice(0, 10)
@@ -193,7 +204,7 @@ function drawLog() {
         if (logCountry === '' || logCountry === 'xx') {
             html += '<td>-</td>'
         } else {
-            html += '<td> <img title="' + escapeHtml(logCountry) + '" src="/famfamfam_flags/gif/' + escapeHtml(logCountry) + '.gif"></img></td>'
+            html += '<td> <img title="' + escapeHtml(resolveCountry(logCountry)) + '" src="/famfamfam_flags/gif/' + escapeHtml(logCountry) + '.gif"></img></td>'
         }
 
         if (logReferrer === "") {
