@@ -153,7 +153,7 @@ function drawList(elem_id, dataItem, title, maxEntries) {
 
     if (completeList.length > maxEntries){
         if (!showAll){
-            html += '<a href="#" onclick=\'document.getElementById("'+elem_id+'").setAttribute("data-showall", "1"); draw(user, data); return false\'>Expand</a>'
+            html += '<a href="#" onclick=\'document.getElementById("'+elem_id+'").setAttribute("data-showall", "1"); draw(user, data); return false\'>More</a>'
         } else {
             html += '<a href="#" onclick=\'document.getElementById("'+elem_id+'").removeAttribute("data-showall"); draw(user, data); return false\'>Less</a>'
         }
