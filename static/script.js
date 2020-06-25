@@ -1,3 +1,5 @@
+
+
 function post(name) {
     user = document.getElementById("user").value
     password = document.getElementById("password").value
@@ -106,9 +108,10 @@ function drawUTCOffsetVar() {
     document.getElementById("utcoffset").innerHTML = offset
 }
 
-function drawList(elem_id, dataItem, title) {
+function drawList(elem_id, dataItem, title, maxEntries) {
     var elem = document.getElementById(elem_id)
 
+    var showAll = elem.getAttribute("data-showall", "1")
 
     elem.innerHTML = "<h5>" + escapeHtml(title) + "</h5>"
     if (Object.keys(dataItem).length === 0 && dataItem.constructor === Object) {
@@ -116,14 +119,20 @@ function drawList(elem_id, dataItem, title) {
         return
     }
 
-    var list = [];
+    var completeList = [];
     for (var key in dataItem) {
-        list.push([key, dataItem[key]]);
+        completeList.push([key, dataItem[key]]);
     }
 
-    list.sort(function(a, b) {
+    completeList.sort(function(a, b) {
         return b[1] - a[1];
     });
+
+    if (showAll){
+        var list = completeList
+    } else {
+        var list = completeList.slice(0, maxEntries)
+    }
 
     listTotal = 0
     for (var i = 0; i < list.length; i++) {
@@ -141,6 +150,16 @@ function drawList(elem_id, dataItem, title) {
         html += "</tr>"
     }
     html += "</table>"
+
+    if (completeList.length > maxEntries){
+        if (!showAll){
+            html += '<a href="#" onclick=\'document.getElementById("'+elem_id+'").setAttribute("data-showall", "1"); draw(user, data); return false\'>Expand</a>'
+        } else {
+            html += '<a href="#" onclick=\'document.getElementById("'+elem_id+'").removeAttribute("data-showall"); draw(user, data); return false\'>Less</a>'
+        }
+    }
+
+
     elem.innerHTML += html
 }
 
@@ -175,9 +194,18 @@ function resolveCountry(code){
 
 
 
-function drawLog() {
+function drawLog(maxEntries) {
 
-    var lines = Object.keys(data.log).reverse().slice(0, 10)
+    var showAll = document.getElementById("log_body").getAttribute("data-showall", "1")
+
+    var completeLines = Object.keys(data.log).reverse()
+    
+    if (showAll){
+        var lines = completeLines
+    } else {
+        var lines = completeLines.slice(0, maxEntries)
+    }
+
     var html = ''
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i]
@@ -229,6 +257,15 @@ function drawLog() {
     if (html === "") {
         document.getElementById("log_container").innerHTML = '<span class="text-muted">Empty</span>'
     } else {
+
+        if (completeLines.length > maxEntries){
+            if (!showAll){
+                html += '<a href="#" onclick=\'document.getElementById("log_body").setAttribute("data-showall", "1"); draw(user, data); return false\'>More</a>'
+            } else {
+                html += '<a href="#" onclick=\'document.getElementById("log_body").removeAttribute("data-showall"); draw(user, data); return false\'>Less</a>'
+            }
+        }
+
         document.getElementById("log_body").innerHTML = html
     }
 
@@ -329,12 +366,12 @@ function draw(user, data) {
     [date_keys, date_vals] = getNormalizedDateData()
 
     drawGraphHeader(date_vals)
-    drawList("list_ref", data.ref, "Top Referrers")
-    drawList("list_loc", data.loc, "Top Landing Pages")
-    drawList("list_browser", data.browser, "Top Browsers")
-    drawList("list_platform", data.platform, "Top Platforms")
-    drawList("list_device", data.device, "Top Devices")
-    drawLog()
+    drawList("list_ref", data.ref, "Top Referrers", 5)
+    drawList("list_loc", data.loc, "Top Landing Pages", 5)
+    drawList("list_browser", data.browser, "Top Browsers", 5)
+    drawList("list_platform", data.platform, "Top Platforms", 5)
+    drawList("list_device", data.device, "Top Devices", 5)
+    drawLog(5)
 
 
     Chart.defaults.global.animation.duration = 0

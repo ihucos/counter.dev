@@ -319,7 +319,7 @@ func getData(conn redis.Conn, user string) (map[string]map[string]int64, error) 
 	m := make(map[string]map[string]int64)
 
 	for _, field := range fieldsZet {
-		m[field], err = redis.Int64Map(conn.Do("ZRANGE", fmt.Sprintf("%s:%s", field, user), -10, -1, "WITHSCORES"))
+		m[field], err = redis.Int64Map(conn.Do("ZRANGE", fmt.Sprintf("%s:%s", field, user), 0, -1, "WITHSCORES"))
 		if err != nil {
 			log.Println(user, err)
 			return nil, err
