@@ -146,14 +146,14 @@ sessionStorage.setItem("_swa", "1");
          <div class="container" style="max-width: 50em; background-color: white;">
             <div class="row">
                <div class="col-md-12 my-4">
-                    <h3 class="float-left">Hello "<span class="username">USERNAME</span>"</h3>
-                    <a href="" class="btn btn-secondary float-right">Logout</a>
+                    <a href="" class="btn btn-light">Logout <span class="username badge">USERNAME</span></a>
+                    <button id="tracking-code-button" onclick="toggleTrackingCode(); return false" class="btn btn-light">TRACKING CODE</button>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" id="tracking-code">
                <div class="col-md-12">
                     <h5>Tracking Code</h5>
-                     <pre class="bg-light border py-1 px-1"><code class="text-muted">&lt;script&gt;
+                     <pre class="border py-2 px-2 alert alert-warning"><code class="text-muted">&lt;script&gt;
 // Simple Web Analytics tracking code
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
     fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({

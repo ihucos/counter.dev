@@ -39,6 +39,26 @@ function alwaysUpdate() {
 }
 
 
+function showTrackingCode(){
+        document.getElementById("tracking-code").style.display = "block"
+        document.getElementById("tracking-code-button").innerHTML = "Hide Tracking Code"
+}
+
+function hideTrackingCode(){
+        document.getElementById("tracking-code").style.display = "none"
+        document.getElementById("tracking-code-button").innerHTML = "Show Tracking Code"
+}
+
+function toggleTrackingCode(){
+    var elem = document.getElementById("tracking-code")
+    if (elem.style.display === "none"){
+        showTrackingCode()
+    } else {
+        hideTrackingCode()
+    }
+}
+
+
 function escapeHtml(unsafe) {
     return unsafe
         .replace(/&/g, "&amp;")
@@ -309,9 +329,14 @@ function draw(user, data) {
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
     document.getElementById("page-graphs").style.display = "block"
 
-    if (!window._timer) {
+    if (!window._inited) {
         alwaysUpdate()
-        window._timer = true
+        if (Object.keys(data.date).length === 0){
+            showTrackingCode()
+        } else {
+            hideTrackingCode()
+        }
+        window._inited = true
     }
 
     drawUsername(user)
