@@ -155,8 +155,8 @@ function drawList(elem_id, dataItem, title, maxEntries, usePercent) {
     }
 
     listTotal = 0
-    for (var i = 0; i < list.length; i++) {
-        listTotal += list[i][1]
+    for (var i = 0; i < completeList.length; i++) {
+        listTotal += completeList[i][1]
     }
 
     html = '<table class="top">'
@@ -173,7 +173,7 @@ function drawList(elem_id, dataItem, title, maxEntries, usePercent) {
         }
         html += '<th style="padding-right: 0.5em; white-space: nowrap;">' + escapeHtml(val) + '</th>'
         html += '<td style="position: relative; z-axis: 100; width: 100%;">'
-        html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 2px; background-color: #2F6CA2"></div>'
+        html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 100%; background-color: rgba(25, 72, 115, 0.25)"></div>'
         html += escapeHtml(list[i][0]) + '</td>'
         html += "</tr>"
     }
@@ -186,7 +186,6 @@ function drawList(elem_id, dataItem, title, maxEntries, usePercent) {
             html += '<a href="#" onclick=\'document.getElementById("'+elem_id+'").removeAttribute("data-showall"); draw(user, data); return false\'>Less</a>'
         }
     }
-
 
     elem.innerHTML += html
 }
