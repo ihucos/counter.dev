@@ -128,7 +128,7 @@ function drawUTCOffsetVar() {
     document.getElementById("utcoffset").innerHTML = offset
 }
 
-function drawList(elem_id, dataItem, title, maxEntries) {
+function drawList(elem_id, dataItem, title, maxEntries, usePercent) {
     var elem = document.getElementById(elem_id)
 
     var showAll = elem.getAttribute("data-showall", "1")
@@ -161,10 +161,18 @@ function drawList(elem_id, dataItem, title, maxEntries) {
 
     html = '<table class="top">'
     for (var i = 0; i < list.length; i++) {
+        var percent = list[i][1] / listTotal * 100
         html += '<tr>'
-        html += '<th style="padding-right: 0.5em;">' + escapeHtml(kFormat(list[i][1])) + '</th>'
+        if (usePercent){
+            var val = Math.round(percent) + "%"
+            if (val === "0%"){
+                continue
+            }
+        } else {
+            var val = kFormat(list[i][1])
+        }
+        html += '<th style="padding-right: 0.5em; white-space: nowrap;">' + escapeHtml(val) + '</th>'
         html += '<td style="position: relative; z-axis: 100; width: 100%;">'
-        percent = list[i][1] / listTotal * 100
         html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 2px; background-color: #2F6CA2"></div>'
         html += escapeHtml(list[i][0]) + '</td>'
         html += "</tr>"
@@ -391,11 +399,11 @@ function draw(user, data) {
     [date_keys, date_vals] = getNormalizedDateData()
 
     drawGraphHeader(date_vals)
-    drawList("list_ref", data.ref, "Top Referrers", 5)
-    drawList("list_loc", data.loc, "Top Landing Pages", 5)
-    drawList("list_browser", data.browser, "Top Browsers", 5)
-    drawList("list_platform", data.platform, "Top Platforms", 5)
-    drawList("list_device", data.device, "Top Devices", 5)
+    drawList("list_ref", data.ref, "Top Referrers", 5, false)
+    drawList("list_loc", data.loc, "Top Landing Pages", 5, false)
+    drawList("list_browser", dGroupData(data.browser), "Top Browsers", 5, true)
+    drawList("list_platform", dGroupData(data.platform), "Top Platforms", 5, true)
+    drawList("list_device", dGroupData(data.device), "Top Devices", 5, true)
     drawLog(5)
 
 
@@ -562,4 +570,26 @@ function draw(user, data) {
             },
         },
     })
+}
+
+function dGroupData(entries){
+    var cutAt = 4
+    var entrs = Object.entries(entries)
+    entrs = entrs.sort((a, b) => b[1] - a[1])
+    entrs = entrs.sort((a, b) => a[0] === "Other" ? 1 : -1)
+    var top = entrs.slice(0, cutAt)
+    var bottom = entrs.slice(cutAt, -1)
+
+    otherVal = 0
+    bottom.forEach(el => otherVal += el[1])
+    if (otherVal){
+        top.push(["Other", otherVal])
+    }
+
+    var res = Object.fromEntries(top)
+    if ("Unknown" in res){
+        res["Other"] = (res["Other"] || 0) + res["Unknown"]
+        delete res["Unknown"]
+    }
+    return res
 }
