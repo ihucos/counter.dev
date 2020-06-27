@@ -398,11 +398,11 @@ function draw(user, data) {
     [date_keys, date_vals] = getNormalizedDateData()
 
     drawGraphHeader(date_vals)
-    drawList("list_ref", data.ref, "Top Referrers", 5, false)
-    drawList("list_loc", data.loc, "Top Landing Pages", 5, false)
-    drawList("list_browser", dGroupData(data.browser), "Top Browsers", 5, true)
-    drawList("list_platform", dGroupData(data.platform), "Top Platforms", 5, true)
-    drawList("list_device", dGroupData(data.device), "Top Devices", 5, true)
+    drawList("list_ref", data.ref, "Referrers", 5, false)
+    drawList("list_loc", data.loc, "Landing Pages", 5, false)
+    drawList("list_browser", dGroupData(data.browser), "Browsers", 5, true)
+    drawList("list_platform", dGroupData(data.platform), "Platforms", 5, true)
+    drawList("list_device", dGroupData(data.device), "Devices", 5, true)
     drawLog(5)
 
 
