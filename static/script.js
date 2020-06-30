@@ -1,5 +1,3 @@
-
-
 function post(name) {
     user = document.getElementById("user").value
     password = document.getElementById("password").value
@@ -39,19 +37,19 @@ function alwaysUpdate() {
 }
 
 
-function showTrackingCode(){
-        document.getElementById("tracking-code").style.display = "block"
-        document.getElementById("tracking-code-button").innerHTML = "Hide Tracking Code"
+function showTrackingCode() {
+    document.getElementById("tracking-code").style.display = "block"
+    document.getElementById("tracking-code-button").innerHTML = "Hide Tracking Code"
 }
 
-function hideTrackingCode(){
-        document.getElementById("tracking-code").style.display = "none"
-        document.getElementById("tracking-code-button").innerHTML = "Show Tracking Code"
+function hideTrackingCode() {
+    document.getElementById("tracking-code").style.display = "none"
+    document.getElementById("tracking-code-button").innerHTML = "Show Tracking Code"
 }
 
-function toggleTrackingCode(){
+function toggleTrackingCode() {
     var elem = document.getElementById("tracking-code")
-    if (elem.style.display === "none"){
+    if (elem.style.display === "none") {
         showTrackingCode()
     } else {
         hideTrackingCode()
@@ -148,7 +146,7 @@ function drawList(elem_id, dataItem, title, maxEntries, usePercent) {
         return b[1] - a[1];
     });
 
-    if (showAll){
+    if (showAll) {
         var list = completeList
     } else {
         var list = completeList.slice(0, maxEntries)
@@ -163,9 +161,9 @@ function drawList(elem_id, dataItem, title, maxEntries, usePercent) {
     for (var i = 0; i < list.length; i++) {
         var percent = list[i][1] / listTotal * 100
         html += '<tr>'
-        if (usePercent){
+        if (usePercent) {
             var val = Math.round(percent) + "%"
-            if (val === "0%"){
+            if (val === "0%") {
                 continue
             }
         } else {
@@ -179,11 +177,11 @@ function drawList(elem_id, dataItem, title, maxEntries, usePercent) {
     }
     html += "</table>"
 
-    if (completeList.length > maxEntries){
-        if (!showAll){
-            html += '<a href="#" onclick=\'document.getElementById("'+elem_id+'").setAttribute("data-showall", "1"); draw(user, data); return false\'>More</a>'
+    if (completeList.length > maxEntries) {
+        if (!showAll) {
+            html += '<a href="#" onclick=\'document.getElementById("' + elem_id + '").setAttribute("data-showall", "1"); draw(user, data); return false\'>More</a>'
         } else {
-            html += '<a href="#" onclick=\'document.getElementById("'+elem_id+'").removeAttribute("data-showall"); draw(user, data); return false\'>Less</a>'
+            html += '<a href="#" onclick=\'document.getElementById("' + elem_id + '").removeAttribute("data-showall"); draw(user, data); return false\'>Less</a>'
         }
     }
 
@@ -210,9 +208,9 @@ function splitObject(obj, sort_keys) {
 }
 
 
-function resolveCountry(code){
+function resolveCountry(code) {
     entry = JQVMap.maps["world_en"].paths[code]
-    if (entry){
+    if (entry) {
         return entry["name"]
     } else {
         return "Unknown"
@@ -226,8 +224,8 @@ function drawLog(maxEntries) {
     var showAll = document.getElementById("log_body").getAttribute("data-showall", "1")
 
     var completeLines = Object.keys(data.log).reverse()
-    
-    if (showAll){
+
+    if (showAll) {
         var lines = completeLines
     } else {
         var lines = completeLines.slice(0, maxEntries)
@@ -285,8 +283,8 @@ function drawLog(maxEntries) {
         document.getElementById("log_container").innerHTML = '<span class="text-muted">Empty</span>'
     } else {
 
-        if (completeLines.length > maxEntries){
-            if (!showAll){
+        if (completeLines.length > maxEntries) {
+            if (!showAll) {
                 html += '<a href="#" onclick=\'document.getElementById("log_body").setAttribute("data-showall", "1"); draw(user, data); return false\'>More</a>'
             } else {
                 html += '<a href="#" onclick=\'document.getElementById("log_body").removeAttribute("data-showall"); draw(user, data); return false\'>Less</a>'
@@ -338,7 +336,7 @@ function draw(user, data) {
 
     if (!window._inited) {
         alwaysUpdate()
-        if (Object.keys(data.date).length === 0){
+        if (Object.keys(data.date).length === 0) {
             showTrackingCode()
         } else {
             hideTrackingCode()
@@ -571,7 +569,7 @@ function draw(user, data) {
     })
 }
 
-function dGroupData(entries){
+function dGroupData(entries) {
     var cutAt = 4
     var entrs = Object.entries(entries)
     entrs = entrs.sort((a, b) => b[1] - a[1])
@@ -581,12 +579,12 @@ function dGroupData(entries){
 
     otherVal = 0
     bottom.forEach(el => otherVal += el[1])
-    if (otherVal){
+    if (otherVal) {
         top.push(["Other", otherVal])
     }
 
     var res = Object.fromEntries(top)
-    if ("Unknown" in res){
+    if ("Unknown" in res) {
         res["Other"] = (res["Other"] || 0) + res["Unknown"]
         delete res["Unknown"]
     }
