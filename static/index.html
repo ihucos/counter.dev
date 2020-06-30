@@ -82,7 +82,7 @@ sessionStorage.setItem("_swa", "1");
                            </div>
                            <div class="btn-group mr-2" role="group" aria-label="First group">
                               <button type="submit" onclick="post('dashboard'); return false" class="btn btn-light" id="login_button" name="action">Login</button>
-                              <a class="btn btn-light" onclick="demo(); return false">Demo</a>
+                              <a class="btn btn-light" id="demo" onclick="demo(); return false">Demo</a>
                               <button type="submit" onclick="post('register'); return false" class="btn btn-dark" name="action" value="register">&nbsp;&nbsp;Register&nbsp;&nbsp;</button>
                            </div>
                         </form>
@@ -260,6 +260,11 @@ sessionStorage.setItem("_swa", "1");
          </div>
 
       </div>
+   <script>
+      if (location.hash === "#demo"){
+          document.getElementById("demo").click()
+      }
+   </script>
    </body>
 </html>
 
