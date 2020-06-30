@@ -1,4 +1,4 @@
-# Simple Web Analytics (SWA)
+# [Simple Web Analytics (SWA)](https://simple-web-analytics.com/)
 
 Shows how many people visit your web application.
 
