@@ -1,16 +1,18 @@
 # Simple Web Analytics (SWA)
 
-aggregates data for your website like visitors per day, top referrers, top browsers, top countries and so on.
+Shows how many people visit your web application.
 
 **[Check out the demo](https://simple-web-analytics.com/#demo)**
 
 ## Technology
-Simple Web Analytics is a small go server, that saves everything to redis.
+Simple Web Analytics is a small Go server and static assets. Everyting is saved to Redis.
+
+## Simplicity
+This project tries to be a Script rather than an Application.
+
+## Performance
+This project aim is to serve many users for free in a sustainable way.
 
 ## AGPL Licensed
-Simple Web Analytics is Open Source mainly for transparency. Although you of
-course can self host it, at the moment I am not focusing on a self hosted
-solution.
-
-## Development Philosophy
-The project still has a prototypish character and I will try to stay "lean" as long as possible.
+Simple Web Analytics is Open Source for transparency reasons. Although self
+hosting may be possible with some tinkering.
