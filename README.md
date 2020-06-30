@@ -1,8 +1,8 @@
-# [Simple Web Analytics (SWA)](https://simple-web-analytics.com/)
+# Simple Web Analytics (SWA)
 
 Shows how many people visit your web application.
 
-**[Check out the demo](https://simple-web-analytics.com/#demo)**
+# [Check out the demo](https://simple-web-analytics.com/#demo)
 
 ## Technology
 Simple Web Analytics is a small Go server and static assets. Everyting is saved to Redis.
