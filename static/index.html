@@ -14,8 +14,6 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
 
-      <script async defer data-domain="simple-web-analytics.com" src="https://plausible.io/js/plausible.js"></script>
-
       <script src="script.js"></script>
       <style>
          h1, h2, h3, h4, h5, h6, h7, .simple {
@@ -40,17 +38,20 @@
    </head>
    <body>
 
-<script>
-// Simple Web Analytics tracking code
-if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
-        referrer: document.referrer,
-        site: "simple-web-analytics.com",
-        utcoffset: 2
-    }));
-}
-sessionStorage.setItem("_swa", "1");
-</script>
+    <script data-goatcounter="https://simple-web-analytics.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+   <script>
+   // Simple Web Analytics tracking code
+   if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
+       fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
+           referrer: document.referrer,
+           site: "simple-web-analytics.com",
+           utcoffset: 2
+       }));
+   }
+   sessionStorage.setItem("_swa", "1");
+   </script>
 
       <div id="page-index" class="d-flex flex-column justify-content-between" style="min-height: 100vh">
 
