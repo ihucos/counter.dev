@@ -24,7 +24,7 @@ This project aim is to serve many users for free in a sustainable way.
 
 * Typical web applications nowadays make use of platform as a service providers for hosting. Substantial more performance for the same amount of money can be gained by renting dedicated or virtual servers. This is what Simple Web Analytics does at the price of having to manage everything "by hand" and developing strategies to cope with such a service.
 
-* While most other Analytics Solutions provide tracking script as an external file that can be included in the HTML of the page, we use an inline tracking script (couple of lines) for that. While slightly less handy, doing so mitigates the need to serve an script and mitigates any necessary efforts into making such a script - that would have to be trusted by all our users - sufficiently secure.
+* While most other Analytics Solutions provide tracking script as an external file that can be included in the HTML of the page, we use an inline tracking script (couple of lines) for that. While slightly less handy, doing so mitigates the need to host and serve such a script and mitigates any otherwise necessary efforts into making such a script - that would have to be trusted by all our users - sufficiently secure.
 
 * All in All Simple Web Analytics trades Privacy for simpler metrics, that are carefully weighted to be exactly what is needed for most use cases. Collecting less the right way also considerably decreases hosting expenses in comparison to typical other solutions.
 
