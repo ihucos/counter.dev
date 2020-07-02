@@ -55,8 +55,6 @@
 
       <div id="page-index" class="d-flex flex-column justify-content-between" style="min-height: 100vh">
 
-<a style="position: absolute; right: 0px;" href="https://github.com/ihucos/simple-web-analytics.com"><img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
-
          <div class="container" style="margin-bottom: 5em; max-width: 37em;">
 
 
@@ -68,53 +66,103 @@
                      <div class="card-title">
                         <h2><b class="simple">Simple</b> <span class="text-dark">Web Analytics<span></h2>
                      </div>
-                     <h6 class="card-subtitle mb-2 text-muted">Instant Setup. No Cookies. Always Free.</h6>
+                     <h6 class="card-subtitle mb-2 text-muted">Free. Open Source. Privacy Aware.</h6>
                      <div class="card-text">
                         <p>
-                           Straightforward analytics for your project.
+                          An unsurprisingly simple web analytics tool with the emphasis on providing a free service and data privacy. <a href="#" onclick="demo(); return false">Check out the demo.</a>
                         </p>
-                        <div id="alert" class="alert alert-warning" style="display: none;" role="alert">
-                        </div>
+                     </div>
+
+
+
+
+
+            <hr class="border-secondary" />
+
+            <h5>Register</h5>
+            <p>
+
+                        <div id="alert_register" class="login-alert alert alert-warning" style="display: none;" role="alert"></div>
+
                         <form method="POST" action="">
-                           <div class="form-group has-error">
-                              <input id="user" class="form-control" name="username" placeholder="Choose username">
-                           </div>
-                           <div class="form-group">
-                              <input id="password" type="password" name="password" class="form-control" placeholder="Password">
-                           </div>
-                           <div class="btn-group mr-2" role="group" aria-label="First group">
-                              <button type="submit" onclick="post('dashboard'); return false" class="btn btn-light" id="login_button" name="action">Login</button>
-                              <a class="btn btn-light" id="demo" onclick="demo(); return false">Demo</a>
-                              <button type="submit" onclick="post('register'); return false" class="btn btn-dark" name="action" value="register">&nbsp;&nbsp;Register&nbsp;&nbsp;</button>
+                           <div class="row">
+                             <div class="col-md-5">
+                               <div class="form-group has-error">
+                                  <input id="reg_user" class="form-control" name="username" placeholder="Username">
+                               </div>
+                             </div>
+                             <div class="col-md-4">
+                               <div class="form-group has-error">
+                                 <input id="reg_password" type="password" name="password" class="form-control" placeholder="Password">
+                               </div>
+                             </div>
+
+                            <div class="col-md-3">
+                              <button type="submit" onclick="register(); return false" class="btn btn-block btn-dark" name="action">Register</button>
+                            </div>
+
+
+
                            </div>
                         </form>
-                     </div>
+           </p>
+
+            <hr class="border-secondary" />
+
+            <h5>Login</h5>
+            <p>
+                        <div id="alert_login" class="login-alert alert alert-warning" style="display: none;" role="alert"></div>
+                        <form method="POST" action="">
+                           <div class="row">
+                             <div class="col-md-5">
+                               <div class="form-group has-error">
+                                  <input id="login_user" class="form-control form-control-sm" name="username" placeholder="Username">
+                               </div>
+                             </div>
+                             <div class="col-md-5">
+                               <div class="form-group">
+                                  <input id="login_password" type="password" name="password" class="form-control form-control-sm" placeholder="Password">
+                               </div>
+                             </div>
+                             <div class="col-md-2">
+                               <div class="form-group">
+                                   <button type="submit" onclick="login(); return false" class="btn btn-light btn-sm btn-block" id="login_button" name="action">Login</button>
+                               </div>
+                             </div>
+                           </div>
+                        </form>
+            </p>
+
+
+
+
+
+
+
+
                   </div>
                </div>
             </div>
          </div>
-
 
             <style>
                p.short {
                max-width: 37em;
                }
             </style>
-            <h1>Instant Setup</h1>
+
+
+            <h1>✓Free</h1>
             <p class="short">
-               Register with one click.
+              Technical design choices allow serving many users with negligible hosting costs.
             </p>
-            <h1>No Cookies</h1>
+            <h1>✓Open Source</h1>
             <p class="short">
-               We don't use cookies. We don't assign user identifiers to traffic at all.
+              The <a target="_blank" href="https://github.com/ihucos/simple-web-analytics.com">Source Code</a> is published for more transparency.
             </p>
-            <h1>Real-Time</h1>
+            <h1>✓Privacy Aware</h1>
             <p class="short">
-               Your dashboard reflects what is happening right now.
-            </p>
-            <h1>Always Free</h1>
-            <p class="short">
-               No Freemium, no trials, no limits. Simple Web Analytics is a Free service and will stay Free.
+               We don't use Cookies. No user identifier is assigned to traffic at all.
             </p>
          </div>
 

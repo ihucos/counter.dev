@@ -251,7 +251,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(password) < 8 {
-		http.Error(w, "Password must have at least 4 charachters", http.StatusBadRequest)
+		http.Error(w, "Password must have at least 8 charachters", http.StatusBadRequest)
 		return
 	}
 

@@ -1,13 +1,16 @@
-function post(name) {
-    user = document.getElementById("user").value
-    password = document.getElementById("password").value
+function post(endpoint, body, user, alertId) {
 
-    document.getElementById("alert").style.display = "none"
-    document.getElementById("alert").innerHTML = ""
+    // first hide all alerts
+    var x = document.getElementsByClassName("login-alert");
+    var i;
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";
+    } 
 
-    fetch("/" + name, {
+
+    fetch(endpoint, {
         method: "POST",
-        body: "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password),
+        body: body,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
         },
@@ -23,19 +26,35 @@ function post(name) {
         if (typeof(data) === "object") {
             draw(user, data)
         } else {
-            document.getElementById("alert").style.display = "block"
-            document.getElementById("alert").innerHTML = escapeHtml(data)
+            document.getElementById(alertId).style.display = "block"
+            document.getElementById(alertId).innerHTML = escapeHtml(data)
         }
     })
 }
 
+function register(){
+    window.viaRegister = true
+    window.user = document.getElementById("reg_user").value
+    var password = document.getElementById("reg_password").value
+    var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password)
+    post("/register", body, user, "alert_register")
+}
+
+function login(){
+    window.viaRegister = false
+    window.user = document.getElementById("login_user").value
+    var password = document.getElementById("login_password").value
+    var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password)
+    post("/dashboard", body, user, "alert_login")
+}
 
 function alwaysUpdate() {
     window.setInterval(function() {
-        post("dashboard", true)
+        var password = viaRegister ? document.getElementById("reg_password").value : document.getElementById("login_password").value
+        var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password)
+        post("/dashboard", body, user, "alert_login")
     }, 5000);
 }
-
 
 function showTrackingCode() {
     document.getElementById("tracking-code").style.display = "block"
@@ -68,9 +87,9 @@ function escapeHtml(unsafe) {
 
 
 function demo() {
-    document.getElementById("user").value = "demo"
-    document.getElementById("user").focus()
-    document.getElementById("password").value = "demodemo"
+    document.getElementById("login_user").value = "demo"
+    document.getElementById("login_user").focus()
+    document.getElementById("login_password").value = "demodemo"
     document.getElementById("login_button").click()
 }
 
