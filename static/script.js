@@ -420,6 +420,7 @@ function draw(user, data) {
     drawList("list_browser", dGroupData(data.browser), "Browsers", 5, true)
     drawList("list_platform", dGroupData(data.platform), "Platforms", 5, true)
     drawList("list_device", dGroupData(data.device), "Devices", 5, true)
+    drawList("list_origin", data.origin, "Origins", 5, false)
     drawLog(5)
 
 

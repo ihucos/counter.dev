@@ -213,7 +213,9 @@ func Track(w http.ResponseWriter, r *http.Request) {
 		data["lang"] = lang
 	}
 
-	data["origin"] = origin
+        if origin != "" && origin != "null" {
+	    data["origin"] = origin
+        }
 
 	country := r.Header.Get("CF-IPCountry")
 	if country != "" && country != "XX" {
