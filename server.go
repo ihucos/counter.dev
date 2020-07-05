@@ -168,6 +168,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	now := timeNow(utcOffset)
 	userAgent := r.Header.Get("User-Agent")
 	ua := uasurfer.Parse(userAgent)
+        origin := r.Header.Get("Origin")
 
 	//
 	// set expire
@@ -180,9 +181,13 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	//
-	// drop if bot
+	// drop if bot or origin is from localhost
 	//
 	if ua.IsBot() {
+		return
+	}
+	originUrl, err := url.Parse(origin)
+	if err == nil && (originUrl.Hostname() == "localhost" || originUrl.Hostname() == "127.0.0.1" ){
 		return
 	}
 
@@ -208,7 +213,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 		data["lang"] = lang
 	}
 
-	data["origin"] = r.Header.Get("Origin")
+	data["origin"] = origin
 
 	country := r.Header.Get("CF-IPCountry")
 	if country != "" && country != "XX" {
