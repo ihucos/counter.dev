@@ -16,7 +16,9 @@ This project aim is to serve many users for free in a sustainable way.
 
 ## How can it be Free?
 
-* While most Analytics solution put effort into tracking users one by one assigning them an user id via Cookies or fingerprinting techniques, Simple Web Analytics only collects aggregated data. This requires cheaper database queries and considerably less data is saved to the database. Counting unique users is achieved with a combination of relying on `sessionStorage` facilities and the cache mechanism of the user's browser. Using this technique considerably reduces the complexity and load on the server while improving data privacy at the cost of knowing less about users. We can't and don't want to be able to connect single page views to an user identity.
+* While most Analytics solution put effort into tracking users one by one assigning them an user id via Cookies or fingerprinting techniques, Simple Web Analytics only collects aggregated data. This requires cheaper database queries and considerably less data is saved to the database.
+
+* Counting unique users is achieved with a combination of relying on `sessionStorage` facilities and the cache mechanism of the user's browser. Using this technique considerably reduces the complexity and load on the server while improving data privacy at the cost of knowing less about users. We can't and don't want to be able to connect single page views to an user identity.
 
 * Usually Web Analytics solutions track every page loaded. We only track the first page the user views, this is again more privacy friendly and additionally also results in substantial less HTTP requests the server has to handle. As a result of this strategy Simple Web Analytics is able to show all top landing pages but not top pages.
 
