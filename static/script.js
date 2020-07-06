@@ -610,3 +610,25 @@ function dGroupData(entries) {
     }
     return res
 }
+
+
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+  element.style.display = 'none';
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+}
+
+function downloadData(){
+    var csv = ""
+    Object.keys(data).forEach(function(namespace, _) {
+        Object.keys(data[namespace]).forEach(function(key, _) {
+            var val = data[namespace][key]
+            csv += (namespace + ',').padEnd(12, ' ') + (key + ',').padEnd(12, ' ') + val + '\n'
+        });
+    });
+    download("swa-" + user + "-data.csv", csv)
+}
