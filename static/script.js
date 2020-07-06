@@ -150,7 +150,7 @@ function drawUTCOffsetVar() {
     document.getElementById("utcoffset").innerHTML = offset
 }
 
-function drawList(elem_id, dataItem, title, maxEntries, usePercent) {
+function drawList(elem_id, dataItem, title, maxEntries, usePercent, useLink) {
     var elem = document.getElementById(elem_id)
 
     var showAll = elem.getAttribute("data-showall", "1")
@@ -195,9 +195,19 @@ function drawList(elem_id, dataItem, title, maxEntries, usePercent) {
         }
         html += '<th style="padding-right: 0.5em; white-space: nowrap;">' + escapeHtml(val) + '</th>'
         html += '<td style="position: relative; z-axis: 100; width: 100%;">'
-        html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 100%; background-color: rgba(25, 72, 115, 0.25)"></div>'
-        html += escapeHtml(list[i][0]) + '</td>'
-        html += "</tr>"
+        html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 100%; background-color: rgba(25, 72, 115, 0.25); pointer-events: none;"></div>'
+        var key = escapeHtml(list[i][0])
+        if (useLink){
+            if (!key.includes("://")){
+                var link = "//" + key
+            } else {
+                var link = key
+            }
+            html += "<a target='_blank' href='"+link+"'>" + key + '</a>'
+        } else {
+            html += key
+        }
+        html += "</td></tr>"
     }
     html += "</table>"
 
@@ -419,12 +429,12 @@ function draw(user, data) {
     [date_keys, date_vals] = getNormalizedDateData()
 
     drawGraphHeader(date_vals)
-    drawList("list_ref", data.ref, "Referrers", 5, false)
-    drawList("list_loc", data.loc, "Landing Pages", 5, false)
-    drawList("list_browser", dGroupData(data.browser), "Browsers", 5, true)
-    drawList("list_platform", dGroupData(data.platform), "Platforms", 5, true)
-    drawList("list_device", dGroupData(data.device), "Devices", 5, true)
-    drawList("list_origin", data.origin, "Origins", 5, false)
+    drawList("list_ref", data.ref, "Referrers", 5, false, true)
+    drawList("list_loc", data.loc, "Landing Pages", 5, false, false)
+    drawList("list_browser", dGroupData(data.browser), "Browsers", 5, true, false)
+    drawList("list_platform", dGroupData(data.platform), "Platforms", 5, true, false)
+    drawList("list_device", dGroupData(data.device), "Devices", 5, true, false)
+    drawList("list_origin", data.origin, "Origins", 5, false, true)
     drawLog(5)
 
 
