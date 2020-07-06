@@ -22,12 +22,17 @@ function post(endpoint, body, user, alertId) {
         } else {
             return "Bad server status code: " + resp.status
         }
-    }).then(data => {
-        if (typeof(data) === "object") {
-            draw(user, data)
+    }).then(newData => {
+        if (typeof(newData) === "object") {
+            if (JSON.stringify(newData) !== JSON.stringify(window.data || {})){
+                data = newData
+                console.log("new data")
+                console.log(data)
+                draw(user, newData)
+            }
         } else {
             document.getElementById(alertId).style.display = "block"
-            document.getElementById(alertId).innerHTML = escapeHtml(data)
+            document.getElementById(alertId).innerHTML = escapeHtml(newData)
         }
     })
 }
@@ -348,8 +353,7 @@ function drawTitle(user) {
 
 
 function draw(user, data) {
-    window.data = data
-    console.log(data)
+    console.log("redrawing")
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
     document.getElementById("page-graphs").style.display = "block"
 
