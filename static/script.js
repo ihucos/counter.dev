@@ -521,7 +521,7 @@ function draw(user, data) {
     })
 
     function sumHours(arr) {
-        sum = 0
+        var sum = 0
         arr.forEach(el => sum += (data.hour[el] || 0))
         return sum
     }
