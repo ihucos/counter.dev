@@ -241,6 +241,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	save(user, data, logLine)
 
 	w.Header().Set("Content-Type", "text/plain")
+	w.Header().Set("Cache-Control", "public, immutable")
         fmt.Fprint(w, "OK")
 
 }

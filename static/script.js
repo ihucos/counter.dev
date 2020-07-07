@@ -124,6 +124,11 @@ function average(array) {
     return array.reduce((acc, next) => acc + next) / array.length;
 }
 
+function sum(array){
+    return array.reduce((acc, next) => acc + next)
+
+}
+
 const median = arr => {
     const mid = Math.floor(arr.length / 2),
         nums = [...arr].sort((a, b) => a - b);
@@ -362,6 +367,37 @@ function drawTitle(user) {
 }
 
 
+function drawRefRatio(){
+    var total = sum(Object.values(data.date))
+    var ref = sum(Object.values(data.ref))
+    var direct = total - ref
+
+    new Chart(document.getElementById("ref_ratio"), {
+        type: 'pie',
+        data: {
+          labels: [
+            'Direct',
+            'Referrer',
+          ],
+          datasets: [
+            {
+              borderWidth: 0,
+              backgroundColor: [
+                '#E2E2E2',
+                '#2F6CA2',
+              ],
+              data: [
+                Math.round(direct / total * 100),
+                Math.round(ref / total * 100),
+              ],
+            },
+          ],
+        },
+        options: {legend: {display: false}},
+    })
+}
+
+
 function draw(user, data) {
     console.log("redrawing")
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
@@ -381,6 +417,7 @@ function draw(user, data) {
     drawUTCOffsetVar()
     drawMap()
     drawTitle(user)
+    drawRefRatio()
 
     orange = "#2F6CA2"
 
