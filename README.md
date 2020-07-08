@@ -17,7 +17,7 @@ This project tries to be a Script rather than an Application.
 ## Performance
 This project aim is to serve many users for free in a sustainable way.
 
-## How can it be Free?
+## How can it be free?
 
 * While most analytics solutions track users individually, assigning an user id via cookies or fingerprinting techniques, Simple Web Analytics collects only aggregated data. This requires cheaper database queries and considerably less data is saved to the database.
 
