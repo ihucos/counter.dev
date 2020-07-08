@@ -23,7 +23,7 @@ for key in r.keys("date:*"):
         sorted_dates[0].decode(),
         access.get(user.encode(), b"0000-00-00").decode(),
         hits,
-        origins[-1][0].decode()))
+        origins[-1][0].decode() if origins else ""))
 
 stats.sort(key=lambda i: i[2])
 
