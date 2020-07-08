@@ -182,8 +182,9 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	//
 	// drop if bot or origin is from localhost
+        // see issue: https://github.com/avct/uasurfer/issues/65
 	//
-	if ua.IsBot() {
+	if ua.IsBot() || strings.Contains(userAgent, " HeadlessChrome/") {
 		return
 	}
 	originUrl, err := url.Parse(origin)
