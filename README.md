@@ -1,5 +1,7 @@
 # Simple Web Analytics (SWA)
 
+# [Visit Site](https://simple-web-analytics.com)
+
 Shows how many people visit your web application.
 
 ## Check out the demo
