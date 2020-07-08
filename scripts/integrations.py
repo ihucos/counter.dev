@@ -13,7 +13,8 @@ for key in r.keys("date:*"):
     date_data = r.hgetall(key)
     hits = sum(int(i) for i in date_data.values())
     sorted_dates = list(sorted(date_data.keys()))
-    origins = r.zrange("origin:{}".format(user), 0, -1)
+    origins = r.zrange("origin:{}".format(user), 0, -1, withscores=True)
+    origins.sort(key=lambda a: a[1])
     last_tracked = sorted_dates[-1].decode()
     active = last_tracked in dates_around_today
     stats.append((
@@ -22,10 +23,10 @@ for key in r.keys("date:*"):
         sorted_dates[0].decode(),
         access.get(user.encode(), b"0000-00-00").decode(),
         hits,
-        b" ".join(origins).decode()))
+        origins[-1][0].decode()))
 
 stats.sort(key=lambda i: i[2])
 
-print("user                 active integrated login      hits     sites")
+print("user                         active integrated login      hits     sites")
 for line in stats:
-    print("{:<24} {:<2} {} {} {:<8,} {}".format(*line))
+    print("{:<32} {:<2} {} {} {:<8,} {}".format(*line))
