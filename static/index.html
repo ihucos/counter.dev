@@ -195,13 +195,13 @@
       <div id="page-graphs" style="display: none">
          <div class="container" style="max-width: 50em; background-color: white;">
             <div class="row">
-               <div class="col-md-12 my-4">
-                    <a href="" class="btn btn-light">Logout <span class="username badge">USERNAME</span></a>
-                    <button onclick="downloadData(); return false" class="btn btn-light">Export</button>
-                    <button id="tracking-code-button" onclick="toggleTrackingCode(); return false" class="btn btn-light">TRACKING CODE</button>
+               <div class="col-md-12">
+                    <a href="" class="btn btn-light my-1">Logout <span class="username badge">USERNAME</span></a>
+                    <button onclick="downloadData(); return false" class="btn btn-light my-1">Export</button>
+                    <button id="tracking-code-button" onclick="toggleTrackingCode(); return false" class="btn btn-light my-1">TRACKING CODE</button>
                 </div>
             </div>
-            <div class="row" id="tracking-code">
+            <div class="row my-5" id="tracking-code">
                <div class="col-md-12">
                     <h5>Tracking Code</h5>
                      <pre class="border py-2 px-2 alert alert-warning"><code class="text-muted">&lt;script&gt;
@@ -218,35 +218,15 @@ sessionStorage.setItem("_swa", "1");
                      </code>
                 </div>
             </div>
-            <br/>
-            <hr />
-            <div class="row">
-               <div class="col-md-3">
-                  <h5 class="">Current day</h5>
-                  <div class="info">
-                     <div id="today">-</div>
-                  </div>
-               </div>
-               <div class="col-md-3">
-                  <h5>Median <small class="text-dark">7 days</small></h5>
-                  <div class="info">
-                     <div id="median">-</div>
-                  </div>
-               </div>
-               <div class="col-md-3">
-                  <h5>Average <small class="text-dark">7 days</small></h5>
-                  <div class="info">
-                     <div id="average">-</div>
-                  </div>
-               </div>
-            </div>
-            <div class="row" style="margin-bottom: 5px">
+            <div class="row my-5">
                <div class="col-md-12">
-                  <div class="border py-5 px-3">
+                  <h5>Visitors by date</h5>
+                  <div>
                      <canvas height="150" id="graph" />
                   </div>
                </div>
             </div>
+            <hr>
             <div class="row my-5">
                <div id="list_ref" class="col-md-4">
                </div>
@@ -269,8 +249,8 @@ sessionStorage.setItem("_swa", "1");
             <hr />
             <div class="row my-5">
                <div class="col-md-12">
-                  <h4>Last Visits</h4>
-                  <div id="log_container">
+                  <h4>Last visitors</h4>
+                  <div>
                     <table class="table table-condensed table-striped table-borderless">
                       <thead>
                         <tr>

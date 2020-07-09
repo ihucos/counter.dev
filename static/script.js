@@ -120,25 +120,8 @@ function kFormat(num) {
     return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(1)) + 'K' : Math.sign(num) * Math.abs(num) + ""
 }
 
-function average(array) {
-    return array.reduce((acc, next) => acc + next) / array.length;
-}
-
 function sum(array){
     return array.reduce((acc, next) => acc + next, 0)
-
-}
-
-const median = arr => {
-    const mid = Math.floor(arr.length / 2),
-        nums = [...arr].sort((a, b) => a - b);
-    return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
-};
-
-function drawGraphHeader(numbers) {
-    document.getElementById("median").innerHTML = escapeHtml(kFormat(median(numbers.slice(-7))))
-    document.getElementById("average").innerHTML = escapeHtml(kFormat(average(numbers.slice(-7))))
-    document.getElementById("today").innerHTML = escapeHtml(commaFormat(numbers.slice(-1)[0]))
 
 }
 
@@ -318,9 +301,7 @@ function drawLog(maxEntries) {
         html += "</tr>"
 
     }
-    if (html === "") {
-        document.getElementById("log_container").innerHTML = '<span class="text-muted">Empty</span>'
-    } else {
+    if (html !== "") {
 
         if (completeLines.length > maxEntries) {
             if (!showAll) {
@@ -465,9 +446,8 @@ function draw(user, data) {
 
     [date_keys, date_vals] = getNormalizedDateData()
 
-    drawGraphHeader(date_vals)
-    drawList("list_ref", data.ref, "Referrers", 5, false, true)
-    drawList("list_loc", data.loc, "Landing Pages", 5, false, false)
+    drawList("list_ref", data.ref, "Referrals", 5, false, true)
+    drawList("list_loc", data.loc, "Landing pages", 5, false, false)
     drawList("list_browser", dGroupData(data.browser), "Browsers", 5, true, false)
     drawList("list_platform", dGroupData(data.platform), "Platforms", 5, true, false)
     drawList("list_device", dGroupData(data.device), "Devices", 5, true, false)
@@ -480,13 +460,13 @@ function draw(user, data) {
     normalFontColor = '#212529'
 
     new Chart(document.getElementById("graph"), {
-        type: 'line',
+        type: 'bar',
         data: {
             labels: date_keys,
             datasets: [{
                 data: date_vals,
                 label: 'Visitors',
-                backgroundColor: "rgba(0, 0, 0, 0)",
+                backgroundColor: orange,
                 borderColor: orange,
 
 
@@ -503,8 +483,7 @@ function draw(user, data) {
             scales: {
                 yAxes: [{
                     "scaleLabel": {
-                        "display": true,
-                        "labelString": "Visits"
+                        "display": false,
                     },
                     ticks: {
                         beginAtZero: true,
