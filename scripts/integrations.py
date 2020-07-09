@@ -1,6 +1,15 @@
 import redis
 from datetime import datetime, timedelta
 
+
+BLOCKLIST = [
+'simple-web-analytics.com',
+'demo',
+'zpkg',
+'test',
+'demo\\',
+]
+
 r = redis.Redis()
 access = r.hgetall("access")
 dates_around_today = [
@@ -10,6 +19,8 @@ dates_around_today = [
 stats = []
 for key in r.keys("date:*"):
     user = key.decode().split(":", 1)[-1]
+    if user in BLOCKLIST:
+        continue
     date_data = r.hgetall(key)
     hits = sum(int(i) for i in date_data.values())
     sorted_dates = list(sorted(date_data.keys()))

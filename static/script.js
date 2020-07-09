@@ -125,7 +125,7 @@ function average(array) {
 }
 
 function sum(array){
-    return array.reduce((acc, next) => acc + next)
+    return array.reduce((acc, next) => acc + next, 0)
 
 }
 
