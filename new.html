@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
 
-<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=B612+Mono:wght@700&display=swap" rel="stylesheet"> 
 
 
 
@@ -16,13 +16,57 @@
     <title>Hello, world!</title>
 
   <style>
+
+.logo {
+  text-shadow: 
+    -1px 2px 1px hsl(0,0%,35%), 
+    -1px 2px 1px hsl(0,0%,37%)
+}
+
+.sub {
+  text-shadow: 
+    -1px 1px 1px hsl(0,0%,35%)
+}
+
+
   .font {
-  font-family: 'Permanent Marker', cursive
+    font-family: 'B612 Mono', monospace;
   }
   a {
     color: #2F6CA2;;
   
   }
+
+  .usp {
+    margin: 2em;
+    padding: 1em;
+    box-shadow: 0px 4px 50px -29px rgba(0,0,0,1);
+    border-radius: 5px;
+  }
+
+  .usp h2 {
+    display: inline-block;
+  
+  }
+
+  .usp img {
+    display: none;
+    height: 1em;
+    margin: 0.2em;
+    position: relative;
+    bottom: 0.5em;
+  
+  }
+
+  .screenshot {
+    width: 45em;
+    margin-top: 1em;
+    position: relative;
+    top: 4.7em;
+    border-radius: 5px;
+    box-shadow: 0px 4px 50px -29px rgba(0,0,0,1);
+  }
+
   </style>
 
   </head>
@@ -30,35 +74,55 @@
 
 <div class="justify-content-center text-light" style="padding-top: 6em; padding-bottom: 0em; background-color: #2F6CA2;">
     <div class="align-self-center text-center">
-        <h1 style="font-family: 'Permanent Marker', cursive; color: #FACC3B; font-size: 2.95em;">Simple Web Analytics</h1>
-        <h5 style="color: #fff; padding-bottom: 0.5em;">Web Analytics made simple and therefore privacy friendly.</h5>
+        <h1 style="color: #fff; font-size: 2.5em;" class="font logo">Simple Web Analytics</h1>
+        <h5 style="color: #fff; padding-bottom: 0.5em;" class="sub">Web Analytics made simple and therefore privacy friendly.</h5>
         <a href="/app" class="btn btn-danger">Open App</a>
         <a href="/app" class="btn btn-secondary">View Demo</a>
     </div>
     <div class="align-self-center text-center">
-        <img src="app4.png" style="width: 45em; border: 2px solid black; margin-top: 1em; position: relative; top: 4.7em;  border-radius: 5px;" />
+        <img src="app4.png" class="shadow screenshot" />
     </div>
 </div>
 
 <div class="container" style="margin-top: 3em;">
   <div class="row" style="padding-top: 5em; padding-bottom: 2em;">
-    <div class="col-sm">
-<img src="free.svg" style="width: 2em;" />
+    <div class="col-sm usp">
+<img src="free.svg" />
       <h2>
       Free</h2>
-Technical design choices allow serving many users with negligible hosting costs. <a href="#">Learn more.</a>
+      <p>
+          Technical design choices allow serving many users with negligible hosting costs. <a href="#">Learn more.</a>
+      </p>
     </div>
-    <div class="col-sm">
-      <img src="osi.svg" style="width: 2em;" />
+    <div class="col-sm usp">
+      <img src="osi.svg" />
       <h2>
       Open Source</h2>
-      The source code is published under the AGPL-v3 licence. <a href="#">See in GitHub.</a>
+      <p>
+          The source code is published under the AGPL-v3 licence. <a href="#">See in GitHub.</a>
+      </p>
     </div>
-    <div class="col-sm">
-      <img src="privacy.svg" style="width: 2em;" />
-      <h2>
-      Privacy Friendly</h2>
- We don't use Cookies. No user identifier is assigned to traffic at all. Learn more. <a href="#">Learn more.</a>
+    <div class="col-sm usp">
+      <img src="privacy.svg" />
+      <h2>Privacy Friendly</h2>
+      <p>
+          We don't use Cookies. No user identifier is assigned to traffic at all. Learn more. <a href="#">Learn more.</a>
+      </p>
+    </div>
+
+  </div>
+
+  <style>
+  .love img {
+    height: 4em;
+  
+  }
+  </style>
+  <div class="row">
+    <div class="col-sm border love">
+      <h1>Build with love</h1>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg" />
+      <img src="https://upload.wikimedia.org/wikipedia/de/6/6b/Redis_Logo.svg" />
     </div>
   </div>
 </div>
@@ -69,12 +133,10 @@ Technical design choices allow serving many users with negligible hosting costs.
 
 
 
-
-
-<div  class="text-center text-light" style="padding-top: 7em; margin-top: 3em; padding-bottom: 7em; margin-bottom: 3em; background-color: #125896;">
+<div  class="text-center text-light" style="padding-top: 7em; margin-top: 10em; padding-bottom: 7em; margin-bottom: 3em; background-color: #125896;">
       <h1 class="font">The friendly alternative</h1>
       <center> <!--XXXXXXXXXXXX-->
-      <p class="text-left" style="max-width: 30em; font-size: 1.5em;">
+      <p class="text-left" style="max-width: 20em; font-size: 1.5em;">
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam 
       </p>
       </center>
