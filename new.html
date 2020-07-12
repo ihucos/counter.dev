@@ -3,7 +3,7 @@
   <head>
 
 <link href="https://fonts.googleapis.com/css2?family=B612+Mono:wght@700&display=swap" rel="stylesheet"> 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700;800&display=swap" rel="stylesheet"> 
 <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet"> 
 
 
@@ -84,6 +84,7 @@
 
 body {
   font-family: 'Inter', sans-serif;
+  font-weight: 300;
 }
 
 
@@ -136,11 +137,12 @@ body {
   }
 
   .featuring img {
-      filter: grayscale(70%) opacity(0.7);
-      -webkit-filter: grayscale(70%) opacity(0.7);
-      height: 5em;
+      filter: grayscale(100%);
+      -webkit-filter: grayscale(100%);
+      height: 6em;
       padding: 1em;
   }
+
 
 
   </style>
@@ -178,6 +180,38 @@ body {
       <p>
           We don't use Cookies. No user identifier is assigned to traffic at all.
       </p>
+    </div>
+</section>
+
+<section class="mt-24">
+    <h2
+      class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
+      style="font-family: 'Shadows Into Light', cursive;"
+    >
+      Made with love
+    </h2>
+    <div class="w-full mb-4">
+      <div
+        class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
+      ></div>
+    </div>
+    
+    <div class="mx-auto flex flex-wrap items-centermt-4 featuring">
+        <a href="#" class="w-1/2">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg" class="float-right"/>
+        </a>
+        <a href="#" class="w-1/2">
+            <img src="https://upload.wikimedia.org/wikipedia/de/6/6b/Redis_Logo.svg" />
+        </a>
+        <a href="#" class="w-1/2">
+            <img src="https://dyclassroom.com/image/topic/chartjs/chartjs.png" class="float-right" style="position:relative; left: 1.5em;"/>
+        </a>
+        <a href="#" class="w-1/2">
+            <img src="featuring/tailwind.svg" />
+        </a>
+        <div class="text-center w-full">
+            <a href="/app" class="bg-gray-900 hover:bg-gray-800 text-lg text-white font-bold py-2 px-4 rounded-full">in GitHub</a>
+        </div>
     </div>
 </section>
 
@@ -235,35 +269,6 @@ body {
 
 </div>
 
-<section class="mt-24">
-    <h2
-      class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
-      style="font-family: 'Shadows Into Light', cursive;"
-    >
-      Made with
-    </h2>
-    <div class="w-full mb-4">
-      <div
-        class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
-      ></div>
-    </div>
-    
-    <div class="container mx-auto flex flex-wrap items-center flex-wrap mt-4 featuring">
-        <a href="#" class="w-1/4">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg" />
-        </a>
-        <a href="#" class="w-1/4">
-            <img src="https://upload.wikimedia.org/wikipedia/de/6/6b/Redis_Logo.svg" />
-        </a>
-        <a href="#" class="w-1/4">
-            <img src="https://dyclassroom.com/image/topic/chartjs/chartjs.png" />
-        </a>
-        <a href="#" class="w-1/4">
-            <img src="featuring/tailwind.svg" />
-        </a>
-    </div>
-</section>
-
 
 
 <br>
@@ -272,12 +277,7 @@ body {
 <br>
 <br>
 <br>
-        <h1 class="font-bold text-4xl text-center font-mono">&lt;/html&gt; :-)</h1>
-<br>
-<br>
-<br>
-<br>
-<br>
+        <h1 class="font-bold text-xl text-left font-mono">&lt;/html&gt; :-)</h1>
 
   </body>
 </html>
