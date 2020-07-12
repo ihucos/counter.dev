@@ -4,6 +4,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=B612+Mono:wght@700&display=swap" rel="stylesheet"> 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet"> 
 
 
 
@@ -110,7 +111,7 @@ body {
   }
 
   .usp {
-    box-shadow: 0px 4px 50px -29px rgba(0,0,0,1);
+    box-shadow: 0px 4px 200px 50px rgb(47, 108, 162, 0.1);
   }
 
   .usp h2 {
@@ -151,31 +152,31 @@ body {
     <div class="text-center w-full">
         <h1 class="font logo text-white text-4xl">Simple Web Analytics</h1>
         <h5 class="sub text-white pb-4">Web Analytics made simple and therefore privacy friendly.</h5>
-        <a href="/app" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Open App</a>
-        <a href="/app" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">View Demo</a>
+        <a href="/app" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Register / Login</a>
+        <a href="/app" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded">Demo</a>
     </div>
     <div class="browser-mockup with-url screenshot ml-auto mr-auto w-full">
         <img src="app4.png"  />
     </div>
 </div>
 
-<section class="container mx-auto flex flex-wrap md:space-x-24 md:mt-40 mt-20">
-    <div class="w-full md:flex-1 usp rounded p-6">
-      <h1 class="text-xl font-bold mb-1 text-gray-800">Free</h1>
+<section class="max-w-4xl mx-auto flex flex-wrap md:space-x-16 md:mt-40 mt-20">
+    <div class="w-full md:flex-1 usp border rounded p-6">
+      <h1 class="text-xl font-bold mb-1 text-gray-800">✓ Free</h1>
       <p">
-          Technical design choices allow serving many users with negligible hosting costs. <a href="#">Learn more.</a>
+          Technical design choices allow serving many users with negligible hosting costs.
       </p>
     </div>
-    <div class="w-full md:flex-1 usp rounded p-6">
-      <h1 class="text-xl font-bold mb-1 text-gray-800">Open Source</h1>
+    <div class="w-full md:flex-1 usp border rounded p-6">
+      <h1 class="text-xl font-bold mb-1 text-gray-800">✓ Open Source</h1>
       <p>
-          The source code is published under the AGPL-v3 licence. <a href="#">See in GitHub.</a>
+          The source code is published under the AGPL-v3 licence.
       </p>
     </div>
-    <div class="w-full md:flex-1 usp rounded p-6">
-      <h1 class="text-xl font-bold mb-1 text-gray-800">Privacy Friendly</h1>
+    <div class="w-full md:flex-1 usp border rounded p-6">
+      <h1 class="text-xl font-bold mb-1 text-gray-800">✓ Privacy Friendly</h1>
       <p>
-          We don't use Cookies. No user identifier is assigned to traffic at all. <a href="#">Learn more.</a>
+          We don't use Cookies. No user identifier is assigned to traffic at all.
       </p>
     </div>
 </section>
@@ -183,6 +184,7 @@ body {
 <section class="mx-auto mt-40 bg-gray-100 border-b border-t py-8">
     <h2
       class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
+      style="font-family: 'Shadows Into Light', cursive;"
     >
       The friendly alternative
     </h2>
@@ -207,7 +209,17 @@ body {
 
 <div class="flex flex-wrap max-w-xl mx-auto mt-32">
 
-    <div class="border w-full text-center font-bold p-5 text-4xl">Features</div>
+    <h2
+      class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
+      style="font-family: 'Shadows Into Light', cursive;"
+    >
+      Features
+    </h2>
+    <div class="w-full mb-4">
+      <div
+        class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
+      ></div>
+    </div>
 
     <div class="border w-1/2 list-disc p-5">Everything in one one printable page</div>
     
@@ -223,21 +235,34 @@ body {
 
 </div>
 
-<div class="w-full text-center font-bold text-4xl mt-24">Made with</div>
-<div class="container mx-auto flex flex-wrap items-center flex-wrap mt-4 featuring">
-    <a href="#" class="w-1/4">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg" />
-    </a>
-    <a href="#" class="w-1/4">
-        <img src="https://upload.wikimedia.org/wikipedia/de/6/6b/Redis_Logo.svg" />
-    </a>
-    <a href="#" class="w-1/4">
-        <img src="https://dyclassroom.com/image/topic/chartjs/chartjs.png" />
-    </a>
-    <a href="#" class="w-1/4">
-        <img src="featuring/tailwind.svg" />
-    </a>
-</div>
+<section class="mt-24">
+    <h2
+      class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
+      style="font-family: 'Shadows Into Light', cursive;"
+    >
+      Made with
+    </h2>
+    <div class="w-full mb-4">
+      <div
+        class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
+      ></div>
+    </div>
+    
+    <div class="container mx-auto flex flex-wrap items-center flex-wrap mt-4 featuring">
+        <a href="#" class="w-1/4">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg" />
+        </a>
+        <a href="#" class="w-1/4">
+            <img src="https://upload.wikimedia.org/wikipedia/de/6/6b/Redis_Logo.svg" />
+        </a>
+        <a href="#" class="w-1/4">
+            <img src="https://dyclassroom.com/image/topic/chartjs/chartjs.png" />
+        </a>
+        <a href="#" class="w-1/4">
+            <img src="featuring/tailwind.svg" />
+        </a>
+    </div>
+</section>
 
 
 
