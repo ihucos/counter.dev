@@ -3,6 +3,7 @@
   <head>
 
 <link href="https://fonts.googleapis.com/css2?family=B612+Mono:wght@700&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap" rel="stylesheet"> 
 
 
 
@@ -16,7 +17,77 @@
 
     <title>Hello, world!</title>
 
+
+
   <style>
+
+
+      .gradient {
+        background-image: linear-gradient(-225deg, #cbbacc 0%, #2580b3 100%);
+      }
+
+      .gradient2 {
+        background-color: #f39f86;
+        background-image: linear-gradient(315deg, #f39f86 0%, #f9d976 74%);
+      }
+
+.browser-mockup {
+  border-top: 2em solid rgba(230, 230, 230, 0.7);
+  box-shadow: 0 0.1em 1em 0 rgba(0, 0, 0, 0.4);
+  position: relative;
+  border-radius: 3px 3px 0 0
+}
+
+.browser-mockup:before {
+  display: block;
+  position: absolute;
+  content: '';
+  top: -1.25em;
+  left: 1em;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background-color: #f44;
+  box-shadow: 0 0 0 2px #f44, 1.5em 0 0 2px #9b3, 3em 0 0 2px #fb5;
+}
+    
+.browser-mockup.with-tab:after {
+  display: block;
+  position: absolute;
+  content: '';
+  top: -2em;
+  left: 5.5em;
+  width: 20%;
+  height: 0em;
+  border-bottom: 2em solid white;
+  border-left: 0.8em solid transparent;
+  border-right: 0.8em solid transparent;
+}
+
+.browser-mockup.with-url:after {
+  display: block;
+  position: absolute;
+  content: '';
+  top: -1.6em;
+  left: 5.5em;
+  width: calc(100% - 6em);
+  height: 1.2em;
+  border-radius: 2px;
+  background-color: white;
+}
+
+.browser-mockup > * {
+  display: block;
+}
+
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+
+
+
 
 .logo {
   text-shadow: 
@@ -61,79 +132,127 @@
     margin-top: 1em;
     position: relative;
     top: 4.7em;
-    border-radius: 5px;
-    box-shadow: 0px 4px 50px -29px rgba(0,0,0,1);
   }
+
+  .featuring img {
+      filter: grayscale(70%) opacity(0.7);
+      -webkit-filter: grayscale(70%) opacity(0.7);
+      height: 5em;
+      padding: 1em;
+  }
+
 
   </style>
 
   </head>
   <body>
 
-<div class="flex flex-wrap pt-24 pb-0" style="background-color: #2F6CA2;">
+<div class="flex flex-wrap pt-24 pb-0 border-b" style="background-image: linear-gradient(-225deg, #4C83B5  0%, #2F6CA2 100%);">
     <div class="text-center w-full">
         <h1 class="font logo text-white text-4xl">Simple Web Analytics</h1>
         <h5 class="sub text-white pb-4">Web Analytics made simple and therefore privacy friendly.</h5>
         <a href="/app" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Open App</a>
         <a href="/app" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">View Demo</a>
     </div>
-    <img src="app4.png" class="shadow screenshot w-full ml-auto mr-auto" />
+    <div class="browser-mockup with-url screenshot ml-auto mr-auto w-full">
+        <img src="app4.png"  />
+    </div>
 </div>
 
-<div class="container flex flex-wrap md:space-x-24 md:mt-40 mt-20 ml-auto mr-auto">
+<section class="container mx-auto flex flex-wrap md:space-x-24 md:mt-40 mt-20">
     <div class="w-full md:flex-1 usp rounded p-6">
-      <h1 class="text-xl font-bold mb-1">Free</h1>
-      <p>
+      <h1 class="text-xl font-bold mb-1 text-gray-800">Free</h1>
+      <p">
           Technical design choices allow serving many users with negligible hosting costs. <a href="#">Learn more.</a>
       </p>
     </div>
     <div class="w-full md:flex-1 usp rounded p-6">
-      <h1 class="text-xl font-bold mb-1">Open Source</h1>
+      <h1 class="text-xl font-bold mb-1 text-gray-800">Open Source</h1>
       <p>
           The source code is published under the AGPL-v3 licence. <a href="#">See in GitHub.</a>
       </p>
     </div>
     <div class="w-full md:flex-1 usp rounded p-6">
-      <h1 class="text-xl font-bold mb-1">Privacy Friendly</h1>
+      <h1 class="text-xl font-bold mb-1 text-gray-800">Privacy Friendly</h1>
       <p>
           We don't use Cookies. No user identifier is assigned to traffic at all. <a href="#">Learn more.</a>
       </p>
     </div>
-</div>
+</section>
 
-  <style>
-  .love {
-  }
-  .love img {
-    height: 2.5em;
-  
-  }
-  </style>
-  <div class="container">
-      <div class="row love">
-              <div class="col-md">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg" />
-              </div>
-              <div class="col-md">
-                  <img src="https://upload.wikimedia.org/wikipedia/de/6/6b/Redis_Logo.svg" />
-              </div>
-              <div class="col-md">
-                  <img src="https://dyclassroom.com/image/topic/chartjs/chartjs.png" />
-              </div>
-              <div class="col-md">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Alpine_Linux.svg" />
-              </div>
-              <div class="col-md">
-                  <img src="https://www.linode.com/wp-content/uploads/2018/10/linode-logo-blk-rgb-minified.svg" />
-              </div>
-      </div>
+<section class="mx-auto mt-40 bg-gray-100 border-b border-t py-8">
+    <h2
+      class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
+    >
+      The friendly alternative
+    </h2>
+    <div class="w-full mb-4">
+      <div
+        class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
+      ></div>
     </div>
-</div>
+  
+    <p class="max-w-xl mx-auto">
+    We track only very little and in a way that is highly economical regarding hosting costs.
+    This allows offering this service for free without collection data for monetization purposes.
+    
+    .Most web analytics services have to charge for their services or
+    use your data for monetization purposes.  We take another route, which is to
+    track only what is essential and economical regarding to load on the server.
+    This allows us to offer this service for free which little hosting costs, which
+    in the future we will try to cover with donation or very conservative
+    advertising.
+    </p>
+</section>
+
+<div class="flex flex-wrap max-w-xl mx-auto mt-32">
+
+    <div class="border w-full text-center font-bold p-5 text-4xl">Features</div>
+
+    <div class="border w-1/2 list-disc p-5">Everything in one one printable page</div>
+    
+    <div class="border w-1/2 p-5">See where users come from</div>
+    
+    <div class="border w-1/2 p-5">Export your data</div>
+    
+    <div class="border w-1/2 p-5">Register with only a username and password.</div>
+    
+    <div class="border w-1/2 p-5">See deatils about last visitors</div>
+    
+    <div class="border w-1/2 p-5">Only essential data is collected</div>
 
 </div>
 
+<div class="w-full text-center font-bold text-4xl mt-24">Made with</div>
+<div class="container mx-auto flex flex-wrap items-center flex-wrap mt-4 featuring">
+    <a href="#" class="w-1/4">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg" />
+    </a>
+    <a href="#" class="w-1/4">
+        <img src="https://upload.wikimedia.org/wikipedia/de/6/6b/Redis_Logo.svg" />
+    </a>
+    <a href="#" class="w-1/4">
+        <img src="https://dyclassroom.com/image/topic/chartjs/chartjs.png" />
+    </a>
+    <a href="#" class="w-1/4">
+        <img src="featuring/tailwind.svg" />
+    </a>
 </div>
 
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+        <h1 class="font-bold text-4xl text-center font-mono">&lt;/html&gt; :-)</h1>
+<br>
+<br>
+<br>
+<br>
+<br>
 
   </body>
 </html>
