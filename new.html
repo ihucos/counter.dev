@@ -137,10 +137,10 @@ body {
   }
 
   .featuring img {
-      filter: grayscale(100%);
-      -webkit-filter: grayscale(100%);
-      height: 6em;
-      padding: 1em;
+      filter: grayscale(80%) opacity(0.8);
+      -webkit-filter: grayscale(80%) opacity(0.8);
+      height: 4em;
+      padding: 0.5em;
   }
 
 
@@ -196,22 +196,24 @@ body {
       ></div>
     </div>
     
-    <div class="mx-auto flex flex-wrap items-centermt-4 featuring">
-        <a href="#" class="w-1/2">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg" class="float-right"/>
+    <div class="featuring">
+        <center> <!-- XXXXXXXXXXXXXXXXx -->
+        <a href="#" class="mx-auto">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg"/>
         </a>
-        <a href="#" class="w-1/2">
+        <a href="#" class="w-full">
+            <img src="https://dyclassroom.com/image/topic/chartjs/chartjs.png" style="position:relative; left: 0em;"/>
+        </a>
+        <a href="#" class="w-full">
             <img src="https://upload.wikimedia.org/wikipedia/de/6/6b/Redis_Logo.svg" />
         </a>
-        <a href="#" class="w-1/2">
-            <img src="https://dyclassroom.com/image/topic/chartjs/chartjs.png" class="float-right" style="position:relative; left: 1.5em;"/>
-        </a>
-        <a href="#" class="w-1/2">
+        <a href="#" class="w-full">
             <img src="featuring/tailwind.svg" />
         </a>
-        <div class="text-center w-full">
-            <a href="/app" class="bg-gray-900 hover:bg-gray-800 text-lg text-white font-bold py-2 px-4 rounded-full">in GitHub</a>
+        <div class="text-center w-full mt-8">
+            <a href="/app" class="bg-gray-900 hover:bg-gray-800 text-lg text-white font-bold py-2 px-4 rounded-full">View in GitHub</a>
         </div>
+        </center>
     </div>
 </section>
 
@@ -240,6 +242,8 @@ body {
     advertising.
     </p>
 </section>
+
+
 
 <div class="flex flex-wrap max-w-xl mx-auto mt-32">
 
@@ -271,13 +275,21 @@ body {
 
 
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-        <h1 class="font-bold text-xl text-left font-mono">&lt;/html&gt; :-)</h1>
 
-  </body>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="flex content-end border">
+<h1 class="w-1/2 border font-bold text-xl text-left font-mono">&lt;/html&gt; :-)</h1>
+<div class="w-1/2 border">
+<img src="plant.svg" style="width: 10em; float-right" />
+asdf
+</div>
+</div>
+
+</body>
 </html>
