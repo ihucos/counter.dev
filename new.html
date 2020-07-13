@@ -3,7 +3,7 @@
   <head>
 
 <link href="https://fonts.googleapis.com/css2?family=B612+Mono:wght@700&display=swap" rel="stylesheet"> 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700;800&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;800&display=swap" rel="stylesheet"> 
 <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet"> 
 
 
@@ -111,6 +111,10 @@ body {
   
   }
 
+  .header-font {
+     font-family: 'Shadows Into Light', cursive;
+  }
+
   .usp {
     box-shadow: 0px 4px 200px 50px rgb(47, 108, 162, 0.1);
   }
@@ -136,14 +140,37 @@ body {
     top: 4.7em;
   }
 
+
+  .featuring {
+     border-collapse: separate; 
+     border-spacing: 1em 0.5em;
+  }
+
+  .featuring td:first-of-type {
+      border-bottom: 1px solid #ddd;
+      font-weight: 500;
+  }
+
   .featuring img {
-      filter: grayscale(80%) opacity(0.8);
-      -webkit-filter: grayscale(80%) opacity(0.8);
-      height: 4em;
+      /*filter: grayscale(100%) opacity(1);
+      -webkit-filter: grayscale(100%) opacity(1);*/
+      display: inline-block;
+      background-color: rgba(0,0,0,0.03);
+      height: 3.5em;
       padding: 0.5em;
+      border: dotted 1px gray;
+      border-radius: 5px;
   }
 
 
+  .features p {
+    display: list-item;
+    list-style-type: disc;
+    list-style-position: inside;
+    font-weight: 500;
+    position: relative;
+    left: 4em;
+  }
 
   </style>
 
@@ -158,124 +185,177 @@ body {
         <a href="/app" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded">Demo</a>
     </div>
     <div class="browser-mockup with-url screenshot ml-auto mr-auto w-full">
-        <img src="app4.png"  />
-    </div>
+<img src="app4.png"  />
+</div>
 </div>
 
 <section class="max-w-4xl mx-auto flex flex-wrap md:space-x-16 md:mt-40 mt-20">
-    <div class="w-full md:flex-1 usp border rounded p-6">
-      <h1 class="text-xl font-bold mb-1 text-gray-800">✓ Free</h1>
-      <p">
-          Technical design choices allow serving many users with negligible hosting costs.
-      </p>
-    </div>
-    <div class="w-full md:flex-1 usp border rounded p-6">
-      <h1 class="text-xl font-bold mb-1 text-gray-800">✓ Open Source</h1>
-      <p>
-          The source code is published under the AGPL-v3 licence.
-      </p>
-    </div>
-    <div class="w-full md:flex-1 usp border rounded p-6">
-      <h1 class="text-xl font-bold mb-1 text-gray-800">✓ Privacy Friendly</h1>
-      <p>
-          We don't use Cookies. No user identifier is assigned to traffic at all.
-      </p>
-    </div>
+<div class="w-full md:flex-1 usp border rounded p-6">
+<h1 class="text-xl font-bold mb-1 text-gray-800">✓ Free</h1>
+<p">
+  Technical design choices allow serving many users with negligible hosting costs.
+</p>
+</div>
+<div class="w-full md:flex-1 usp border rounded p-6">
+<h1 class="text-xl font-bold mb-1 text-gray-800">✓ Open Source</h1>
+<p>
+  The source code is published under the <a href="#">AGPL-v3</a> licence.
+</p>
+</div>
+<div class="w-full md:flex-1 usp border rounded p-6">
+<h1 class="text-xl font-bold mb-1 text-gray-800">✓ Privacy Friendly</h1>
+<p>
+  We don't use Cookies. No user identifier is assigned to traffic at all.
+</p>
+</div>
 </section>
 
-<section class="mt-24">
-    <h2
-      class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
-      style="font-family: 'Shadows Into Light', cursive;"
-    >
-      Made with love
+
+
+
+<div class="bg-gray-100 border-b border-t mt-40 ">
+
+<section class="pb-32">
+
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        Easy to use
     </h2>
-    <div class="w-full mb-4">
-      <div
-        class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
-      ></div>
+    <div class="mb-8">
+        <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" ></div>
     </div>
     
-    <div class="featuring">
-        <center> <!-- XXXXXXXXXXXXXXXXx -->
-        <a href="#" class="mx-auto">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg"/>
-        </a>
-        <a href="#" class="w-full">
-            <img src="https://dyclassroom.com/image/topic/chartjs/chartjs.png" style="position:relative; left: 0em;"/>
-        </a>
-        <a href="#" class="w-full">
-            <img src="https://upload.wikimedia.org/wikipedia/de/6/6b/Redis_Logo.svg" />
-        </a>
-        <a href="#" class="w-full">
-            <img src="featuring/tailwind.svg" />
-        </a>
-        <div class="text-center w-full mt-8">
-            <a href="/app" class="bg-gray-900 hover:bg-gray-800 text-lg text-white font-bold py-2 px-4 rounded-full">View in GitHub</a>
+    <div class="max-w-xl mx-auto">
+        
+        <div class="md:float-right inline-block mx-3">
+            <a href="https://simple-web-analytics.com#demo"><img src="page1.jpg" class="inline-block w-32 shadow"></a>
+            <a href="https://simple-web-analytics.com#demo"><img src="page2.jpg" class="inline-block w-32 shadow"></a>
         </div>
-        </center>
+        
+        <p>
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores 
+        </p>
     </div>
+
 </section>
 
-<section class="mx-auto mt-40 bg-gray-100 border-b border-t py-8">
-    <h2
-      class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
-      style="font-family: 'Shadows Into Light', cursive;"
-    >
-      The friendly alternative
+
+<section class="pb-32">
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        The friendly alternative
     </h2>
-    <div class="w-full mb-4">
-      <div
-        class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
-      ></div>
+    <div class="mb-8">
+        <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" ></div>
     </div>
-  
-    <p class="max-w-xl mx-auto">
-    We track only very little and in a way that is highly economical regarding hosting costs.
-    This allows offering this service for free without collection data for monetization purposes.
     
-    .Most web analytics services have to charge for their services or
-    use your data for monetization purposes.  We take another route, which is to
-    track only what is essential and economical regarding to load on the server.
-    This allows us to offer this service for free which little hosting costs, which
-    in the future we will try to cover with donation or very conservative
-    advertising.
+    <p class="max-w-xl mx-auto">
+        We save tracking data anonymously as defined by the GDPR. This means
+        aggregating statistical data without relying on user identifiers that could
+        be linked to a natural person.  This and <a href="#">additional
+        design choices</a> make Simple Web Analytics cheap to operate so we
+        are able to offer it for free.
     </p>
 </section>
 
 
-
-<div class="flex flex-wrap max-w-xl mx-auto mt-32">
-
-    <h2
-      class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
-      style="font-family: 'Shadows Into Light', cursive;"
-    >
-      Features
+<section class="pb-32">
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        Made with love
     </h2>
-    <div class="w-full mb-4">
-      <div
-        class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
-      ></div>
+    <div class="mb-8">
+        <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" ></div>
     </div>
+    
+    <table class="featuring mx-auto">
+        </tbody>
+            <tr>
+                <td>Frontend</td>
+                <td>
+                    <a href="#">
+                        <img src="featuring/tailwind.svg"/>
+                    </a>
+                    <a href="#">
+                        <img src="https://www.chartjs.org/img/chartjs-logo.svg"/>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>Backend</td>
+                <td>
+                    <a href="#">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg" />
+                    </a>
+                    <a href="#">
+                        <img src="https://upload.wikimedia.org/wikipedia/de/6/6b/Redis_Logo.svg" />
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
 
-    <div class="border w-1/2 list-disc p-5">Everything in one one printable page</div>
-    
-    <div class="border w-1/2 p-5">See where users come from</div>
-    
-    <div class="border w-1/2 p-5">Export your data</div>
-    
-    <div class="border w-1/2 p-5">Register with only a username and password.</div>
-    
-    <div class="border w-1/2 p-5">See deatils about last visitors</div>
-    
-    <div class="border w-1/2 p-5">Only essential data is collected</div>
+
+</div> <!-- the gray color -->
+
+
+<div class="flex flex-wrap max-w-xl mx-auto mt-32 features">
+
+<h2
+class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
+style="font-family: 'Shadows Into Light', cursive;"
+>
+Features
+</h2>
+<div class="w-full mb-4">
+<div
+class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
+></div>
+</div>
+
+<p class="w-1/2 p-5">One printable page</p>
+
+<p class="w-1/2 p-5">Learn where visitors come from</p>
+
+<p class="w-1/2 p-5">Export your data</p>
+
+<p class="w-1/2 p-5">Anonymous registration</p>
+
+<p class="w-1/2 p-5">Details on last visitors</p>
+
+<p class="w-1/2 p-5">Comprehensible metrics</p>
+
+<p class="w-1/2 p-5">Details on last visitors</p>
+
+<p class="w-1/2 p-5">Comprehensible metrics</p>
 
 </div>
 
 
+<br>
+<br>
+<br>
+<h2
+class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
+style="font-family: 'Shadows Into Light', cursive;"
+>
+Pay what you want
+</h2>
+<div class="w-full mb-4">
+<div
+class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
+></div>
+</div>
+
+<center><p>We still do encourage users with commercial projects to pay for this product.</p></center>
+<br>
+<br>
+<center><a href="https://flattr.com/@ihucos" class="bg-green-500 hover:bg-red-700 text-white font-bold py-4 px-8 rounded">Pay</a></center>
 
 
+<br>
+<br>
 <br>
 <br>
 <br>
