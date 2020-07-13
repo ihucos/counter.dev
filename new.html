@@ -158,7 +158,6 @@ body {
       background-color: rgba(0,0,0,0.03);
       height: 3.5em;
       padding: 0.5em;
-      border: dotted 1px gray;
       border-radius: 5px;
   }
 
@@ -168,8 +167,6 @@ body {
     list-style-type: disc;
     list-style-position: inside;
     font-weight: 500;
-    position: relative;
-    left: 4em;
   }
 
   </style>
@@ -232,7 +229,7 @@ body {
             <a href="https://simple-web-analytics.com#demo"><img src="page2.jpg" class="inline-block w-32 shadow"></a>
         </div>
         
-        <p>
+        <p class="px-3">
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores 
         </p>
     </div>
@@ -249,7 +246,7 @@ body {
         <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" ></div>
     </div>
     
-    <p class="max-w-xl mx-auto">
+    <p class="max-w-xl mx-auto px-3">
         We save tracking data anonymously as defined by the GDPR. This means
         aggregating statistical data without relying on user identifiers that could
         be linked to a natural person.  This and <a href="#">additional
@@ -274,10 +271,10 @@ body {
                 <td>Frontend</td>
                 <td>
                     <a href="#">
-                        <img src="featuring/tailwind.svg"/>
+                        <img src="featuring/tailwind.svg" class="border" />
                     </a>
                     <a href="#">
-                        <img src="https://www.chartjs.org/img/chartjs-logo.svg"/>
+                        <img src="https://www.chartjs.org/img/chartjs-logo.svg" class="border" />
                     </a>
                 </td>
             </tr>
@@ -285,10 +282,10 @@ body {
                 <td>Backend</td>
                 <td>
                     <a href="#">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg" class="border" />
                     </a>
                     <a href="#">
-                        <img src="https://upload.wikimedia.org/wikipedia/de/6/6b/Redis_Logo.svg" />
+                        <img src="https://upload.wikimedia.org/wikipedia/de/6/6b/Redis_Logo.svg" class="border" />
                     </a>
                 </td>
             </tr>
@@ -300,58 +297,51 @@ body {
 </div> <!-- the gray color -->
 
 
-<div class="flex flex-wrap max-w-xl mx-auto mt-32 features">
+<section class="pb-32">
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        Features
+    </h2>
+    <div class="mb-8">
+        <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" ></div>
+    </div>
 
-<h2
-class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
-style="font-family: 'Shadows Into Light', cursive;"
->
-Features
-</h2>
-<div class="w-full mb-4">
-<div
-class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
-></div>
-</div>
+    <div class="mx-auto md:table features">
+        <div class="md:table-row">
+          <div class="md:table-cell"><p class="py-4 px-5">One printable page</p></div>
+          <div class="md:table-cell"><p class="py-4 px-5">Learn where visitors come from</p></div>
+        </div>
+        <div class="md:table-row">
+          <div class="md:table-cell"><p class="py-4 px-5">Export your data</p></div>
+          <div class="md:table-cell"><p class="py-4 px-5">Anonymous registration</p></div>
+        </div>
+        <div class="md:table-row">
+          <div class="md:table-cell"><p class="py-4 px-5">Details on last visitors</p></div>
+          <div class="md:table-cell"><p class="py-4 px-5">Comprehensible metrics</p></div>
+        </div>
+        <div class="md:table-row">
+          <div class="md:table=cell"><p class="py-4 px-5">Details on last visitors</p></div>
+          <div class="md:table-cell"><p class="py-4 px-5">Comprehensible metrics</p></div>
+        </div>
+    </div>
 
-<p class="w-1/2 p-5">One printable page</p>
-
-<p class="w-1/2 p-5">Learn where visitors come from</p>
-
-<p class="w-1/2 p-5">Export your data</p>
-
-<p class="w-1/2 p-5">Anonymous registration</p>
-
-<p class="w-1/2 p-5">Details on last visitors</p>
-
-<p class="w-1/2 p-5">Comprehensible metrics</p>
-
-<p class="w-1/2 p-5">Details on last visitors</p>
-
-<p class="w-1/2 p-5">Comprehensible metrics</p>
-
-</div>
+</section>
 
 
-<br>
-<br>
-<br>
-<h2
-class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
-style="font-family: 'Shadows Into Light', cursive;"
->
-Pay what you want
-</h2>
-<div class="w-full mb-4">
-<div
-class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"
-></div>
-</div>
+<section class="pb-32">
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        Pay what you want
+    </h2>
+    <div class="mb-8">
+        <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" ></div>
+    </div>
 
-<center><p>We still do encourage users with commercial projects to pay for this product.</p></center>
-<br>
-<br>
-<center><a href="https://flattr.com/@ihucos" class="bg-green-500 hover:bg-red-700 text-white font-bold py-4 px-8 rounded">Pay</a></center>
+    <div class="text-center">
+        <p class="mb-8">We still do encourage users with commercial projects to pay for this product.</p>
+        <a href="https://flattr.com/@ihucos" class="bg-green-500 hover:bg-red-700 text-white font-bold py-4 px-8 rounded">Pay</a>
+    </div>
+</section>
 
 
 <br>
