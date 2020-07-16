@@ -137,12 +137,18 @@ body {
 
 
   .featuring {
-     border-collapse: separate; 
-     border-spacing: 1em 0.5em;
+      border-collapse: collapse;
+      border-spacing: 0;
+      border: 5px solid transparent;
+  }
+
+  .featuring tr, .featuring td {
+      padding: 0px
   }
 
   .featuring td:first-of-type {
       border-bottom: 1px solid #ddd;
+      border-right: 10px solid transparent;
       font-weight: 500;
   }
 
@@ -153,6 +159,7 @@ body {
       background-color: rgba(0,0,0,0.03);
       height: 3.5em;
       padding: 0.5em;
+      margin: 2px;
       border-radius: 5px;
   }
 
@@ -293,10 +300,10 @@ body {
             <tr>
                 <td>Frontend</td>
                 <td>
-                    <a target="_blank" href="https://www.chartjs.org/">
+                    <a target="_blank" href="https://www.chartjs.org/" class="float-left">
                         <img src="featuring/chartjs.png" class="border" target="_blank" />
                     </a>
-                    <a target="_blank" href="https://tailwindcss.com/" >
+                    <a target="_blank" href="https://tailwindcss.com/" class="float-left">
                         <img src="featuring/tailwind.svg" class="border" target="" />
                     </a>
                 </td>
@@ -304,10 +311,10 @@ body {
             <tr>
                 <td>Backend</td>
                 <td>
-                    <a target="_blank" href="https://golang.org/">
+                    <a target="_blank" href="https://golang.org/" class="float-left">
                         <img src="featuring/go.svg" class="border" style="padding: 0.5em;" />
                     </a>
-                    <a target="_blank" href="https://redis.io/">
+                    <a target="_blank" href="https://redis.io/" class="float-left">
                         <img src="featuring/redis.svg" class="border" style="padding: 0.6em;" />
                     </a>
                 </td>
@@ -315,13 +322,13 @@ body {
             <tr>
                 <td>Services</td>
                 <td>
-                    <a target="_blank" href="https://github.com/">
+                    <a target="_blank" href="https://github.com/" class="float-left">
                         <img src="featuring/github.svg" class="border" style="padding: 1.1em;" />
                     </a>
-                    <a target="_blank" href="https://www.linode.com/">
+                    <a target="_blank" href="https://www.linode.com/" class="float-left">
                         <img src="featuring/linode.svg" class="border" style="padding: 0em;" />
                     </a>
-                    <a target="_blank" href="https://www.cloudflare.com/">
+                    <a target="_blank" href="https://www.cloudflare.com/" class="float-left">
                         <img src="featuring/cloudflare.svg" class="border" style="padding: 0em;" />
                     </a>
                 </td>
