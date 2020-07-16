@@ -145,6 +145,40 @@
             </div>
          </div>
 
+            <style>
+               p.short {
+               max-width: 37em;
+               }
+            </style>
+
+         </div>
+
+         <div class="py-1 px-2" style="border-top: 1px solid rgba(0,0,0,.1);">
+           <smaller class="text-muted">
+
+           Ask us anything: <a href="mailto:&#105;&#110;&#102;&#111;&#64;&#115;&#105;&#109;&#112;&#108;&#101;&#45;&#119;&#101;&#98;&#45;&#97;&#110;&#97;&#108;&#121;&#116;&#105;&#99;&#115;&#46;&#99;&#111;&#109;">&#105;&#110;&#102;&#111;&#64;&#115;&#105;&#109;&#112;&#108;&#101;&#45;&#119;&#101;&#98;&#45;&#97;&#110;&#97;&#108;&#121;&#116;&#105;&#99;&#115;&#46;&#99;&#111;&#109;</a> |
+
+           Disclaimer: This software is provided free of charge "as is",
+           without any warranties or guranteess of any kind.
+           
+           
+           </smaller>
+         </div>
+
+      </div>
+      <style>
+         li {
+         list-style: none
+         }
+         ul {
+         padding-left: 0px;
+         }
+         .info {
+            margin-bottom: 0.75em;
+            font-size: 1.25em;
+         
+         }
+      </style>
       <div id="page-graphs" style="display: none">
          <div class="container" style="max-width: 50em; background-color: white;">
             <div class="row">
@@ -171,31 +205,26 @@ sessionStorage.setItem("_swa", "1");
                      </code>
                 </div>
             </div>
-            <br>
-            <br>
-            <br>
-            <br>
-            <div class="row">
-               <div id="list_device" class="col-md-4"></div>
-               <div id="list_platform" class="col-md-4"></div>
-               <div id="list_browser" class="col-md-4"></div>
-            </div>
-            <div class="row">
+            <div class="row my-5">
                <div class="col-md-12">
                   <h5>Visitors by date</h5>
                   <div>
-                     <canvas height="100" id="graph" />
+                     <canvas height="150" id="graph" />
                   </div>
                </div>
             </div>
-            <br>
-            <br>
-            <br>
-            <div class="row my-5" style="display: none;">
+            <hr>
+            <div class="row my-5">
                <div id="list_ref" class="col-md-4">
                </div>
                <div id="list_loc" class="col-md-8">
                </div>
+            </div>
+            <hr>
+            <div class="row my-5">
+               <div id="list_device" class="col-md-4"></div>
+               <div id="list_platform" class="col-md-4"></div>
+               <div id="list_browser" class="col-md-4"></div>
             </div>
             <hr>
           <h4>Countries</h4>
