@@ -6,7 +6,7 @@ Shows how many people visit your web application.
 
 
 ## Check out the demo
-[Open demo](https://simple-web-analytics.com/#demo)
+[Open demo](https://simple-web-analytics.com/app#demo)
 
 ## Technology
 Simple Web Analytics is a small Go server and static assets. Everyting is saved to Redis.
