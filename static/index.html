@@ -172,6 +172,18 @@ body {
 
   </style>
 
+  <script>
+  // Simple Web Analytics tracking code
+  if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
+      fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
+          referrer: document.referrer,
+          site: "simple-web-analytics.com",
+          utcoffset: 2
+      }));
+  }
+  sessionStorage.setItem("_swa", "1");
+  </script>
+
   </head>
   <body>
 
