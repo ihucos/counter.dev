@@ -1,317 +1,454 @@
 <!doctype html>
 <html lang="en">
-   <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <meta name="description" content="Free analytics tool with all common features.">
-      <title>Simple Web Analytics</title>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
+  <head>
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
-
-      <script src="script.js"></script>
-      <style>
-         h1, h2, h3, h4, h5, h6, h7, .simple {
-         color: #194873;
-         font-weight: bold;
-         }
-         .btn-warning {
-         font-weight: bold;
-         background-color: #268bd2;
-         border-color: black;
-         color: white;
-         text-shadow: -1px 0 #e86e17, 0 1px  #e86e17, 1px 0 #e86e17, 0 -1px #e86e17;
-         }
-         .btn-light, .btn-light:hover {
-         border-color: black;
-         }
-
-         .top, .top td, .top tr {
-            border: 5px solid white;
-         }
-      </style>
-   </head>
-   <body>
-
-    <script data-goatcounter="https://simple-web-analytics.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
-
-   <script>
-   // Simple Web Analytics tracking code
-   if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-       fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
-           referrer: document.referrer,
-           site: "simple-web-analytics.com",
-           utcoffset: 2
-       }));
-   }
-   sessionStorage.setItem("_swa", "1");
-   </script>
-
-      <div id="page-index" class="d-flex flex-column justify-content-between" style="min-height: 100vh">
-
-         <div class="container" style="margin-bottom: 5em; max-width: 37em;">
-
-
-         <div style="background-color: white; padding-top: 1em; margin-bottom: 3.5em;">
-            <br/>
-            <div class="" >
-               <div class="card border-dark bg-light">
-                  <div class="card-body">
-                     <div class="card-title">
-                        <h2><b class="simple">Simple</b> <span class="text-dark">Web Analytics<span></h2>
-                     </div>
-                     <h6 class="card-subtitle mb-2 text-muted">Free. Open Source. Privacy Aware.</h6>
-                     <div class="card-text">
-                        <p>
-                          An simple web analytics tool with the emphasis on providing a free service and data privacy. <a href="#" id="demo" onclick="demo(); return false">Check out the demo.</a>
-                        </p>
-                     </div>
+<link href="https://fonts.googleapis.com/css2?family=B612+Mono:wght@700&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;800&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet"> 
 
 
 
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 
-            <hr class="border-secondary" />
+    <!-- Bootstrap CSS -->
 
-            <h5>Register</h5>
-            <p>
-
-                        <div id="alert_register" class="login-alert alert alert-warning" style="display: none;" role="alert"></div>
-
-                        <form method="POST" action="">
-                           <div class="row">
-                             <div class="col-md-5">
-                               <div class="form-group has-error">
-                                  <input id="reg_user" class="form-control" name="username" placeholder="Username">
-                               </div>
-                             </div>
-                             <div class="col-md-4">
-                               <div class="form-group has-error">
-                                 <input id="reg_password" type="password" name="password" class="form-control" placeholder="Password">
-                               </div>
-                             </div>
-
-                            <div class="col-md-3">
-                              <button type="submit" onclick="register(); return false" class="btn btn-block btn-dark" name="action">Register</button>
-                            </div>
+    <title>Simple Web Analytics | Web Analytics made simple and therefore privacy friendly</title>
 
 
 
-                           </div>
-                        </form>
-           </p>
+  <style>
 
-            <hr class="border-secondary" />
-
-            <h5>Login</h5>
-            <p>
-                        <div id="alert_login" class="login-alert alert alert-warning" style="display: none;" role="alert"></div>
-                        <form method="POST" action="">
-                           <div class="row">
-                             <div class="col-md-5">
-                               <div class="form-group has-error">
-                                  <input id="login_user" class="form-control form-control-sm" name="username" placeholder="Username">
-                               </div>
-                             </div>
-                             <div class="col-md-5">
-                               <div class="form-group">
-                                  <input id="login_password" type="password" name="password" class="form-control form-control-sm" placeholder="Password">
-                               </div>
-                             </div>
-                             <div class="col-md-2">
-                               <div class="form-group">
-                                   <button type="submit" onclick="login(); return false" class="btn btn-light btn-sm btn-block" id="login_button" name="action">Login</button>
-                               </div>
-                             </div>
-                           </div>
-                        </form>
-            </p>
-
-
-
-
-
-
-
-
-                  </div>
-               </div>
-            </div>
-         </div>
-
-            <style>
-               p.short {
-               max-width: 37em;
-               }
-            </style>
-
-
-            <h1>✓Free</h1>
-            <p class="short">
-              Technical design choices allow serving many users with negligible hosting costs. <a target="_blank" href="https://github.com/ihucos/simple-web-analytics.com#how-can-it-be-free">Learn more.</a>
-            </p>
-            <h1>✓Open Source</h1>
-            <p class="short">
-              The <a target="_blank" href="https://github.com/ihucos/simple-web-analytics.com">Source Code</a> is published for more transparency.
-            </p>
-            <h1>✓Privacy Aware</h1>
-            <p class="short">
-               We don't use Cookies. No user identifier is assigned to traffic at all.
-            </p>
-         </div>
-
-         <div class="py-1 px-2" style="border-top: 1px solid rgba(0,0,0,.1);">
-           <smaller class="text-muted">
-
-           Ask us anything: <a href="mailto:&#105;&#110;&#102;&#111;&#64;&#115;&#105;&#109;&#112;&#108;&#101;&#45;&#119;&#101;&#98;&#45;&#97;&#110;&#97;&#108;&#121;&#116;&#105;&#99;&#115;&#46;&#99;&#111;&#109;">&#105;&#110;&#102;&#111;&#64;&#115;&#105;&#109;&#112;&#108;&#101;&#45;&#119;&#101;&#98;&#45;&#97;&#110;&#97;&#108;&#121;&#116;&#105;&#99;&#115;&#46;&#99;&#111;&#109;</a> |
-
-           Disclaimer: This software is provided free of charge "as is",
-           without any warranties or guranteess of any kind.
-           
-           
-           </smaller>
-         </div>
-
-      </div>
-      <style>
-         li {
-         list-style: none
-         }
-         ul {
-         padding-left: 0px;
-         }
-         .info {
-            margin-bottom: 0.75em;
-            font-size: 1.25em;
-         
-         }
-      </style>
-      <div id="page-graphs" style="display: none">
-         <div class="container" style="max-width: 50em; background-color: white;">
-            <div class="row">
-               <div class="col-md-12">
-                    <a href="" class="btn btn-light my-1">Logout <span class="username badge">USERNAME</span></a>
-                    <button onclick="downloadData(); return false" class="btn btn-light my-1">Export</button>
-                    <button id="tracking-code-button" onclick="toggleTrackingCode(); return false" class="btn btn-light my-1">TRACKING CODE</button>
-                </div>
-            </div>
-            <div class="row my-5" id="tracking-code">
-               <div class="col-md-12">
-                    <h5>Tracking Code</h5>
-                     <pre class="border py-2 px-2 alert alert-warning"><code class="text-muted">&lt;script&gt;
-// Simple Web Analytics tracking code
-if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
-        referrer: document.referrer,
-        site: "<span class="username">USERNAME</span>",
-        utcoffset: <span id="utcoffset">0</span>
-    }));
+.gradient {
+  background-image: linear-gradient(-225deg, #76A5CF 0%, #0B4273 100%);
 }
-sessionStorage.setItem("_swa", "1");
-&lt;/script&gt;</pre>
-                     </code>
-                </div>
-            </div>
-            <br>
-            <br>
-            <br>
-            <br>
-            <div class="row">
-               <div id="list_device" class="col-md-4"></div>
-               <div id="list_platform" class="col-md-4"></div>
-               <div id="list_browser" class="col-md-4"></div>
-            </div>
-            <div class="row">
-               <div class="col-md-12">
-                  <h5>Visitors by date</h5>
-                  <div>
-                     <canvas height="100" id="graph" />
-                  </div>
-               </div>
-            </div>
-            <br>
-            <br>
-            <br>
-            <div class="row my-5" style="display: none;">
-               <div id="list_ref" class="col-md-4">
-               </div>
-               <div id="list_loc" class="col-md-8">
-               </div>
-            </div>
-            <hr>
-          <h4>Countries</h4>
-         </div>
-         <div style="display: flex; justify-content: center;">
-              <div id="world" style="width: 800px; height: 400px;"></div>
-         </div>
-         <div class="container" style="max-width: 50em; background-color: white;">
-            <hr />
-            <div class="row my-5">
-               <div class="col-md-12">
-                  <h4>Last visitors</h4>
-                  <div>
-                    <table class="table table-condensed table-striped table-borderless">
-                      <thead>
-                        <tr>
-                          <th>Date</th>
-                          <th>Time</th>
-                          <th>IP</th>
-                          <th>Referrer</th>
-                          <th>User-Agent</th>
-                        </tr>
-                      </thead>
-                      <tbody id="log_body">
-                      </tbody>
-                    </table>
-                  </div>
-               </div>
-            </div>
-            <hr />
 
-            <div class="row my-5">
-               <div class="col-md-4">
-                  <h5>Time</h5>
-                  <div class="py-2">
-                     <canvas id="time"  height=200 />
-                  </div>
-               </div>
-               <div class="col-md-4">
-                  <h5>Weekday</h5>
-                  <div class="py-2">
-                     <canvas id="weekday"  height=200 />
-                  </div>
-               </div>
-               <div class="col-md-4">
-                  <h5>Referrer Traffic</h5>
-                  <div class="py-2">
-                     <canvas id="ref_ratio"  height=200 />
-                  </div>
-               </div>
-            </div>
-            <hr>
 
-            <div class="row my-5">
-               <div class="col-md-12" id="list_origin"></div>
-            </div>
+.browser-mockup {
+  border-top: 2em solid rgba(230, 230, 230, 0.7);
+  box-shadow: 0 0.1em 1em 0 rgba(0, 0, 0, 0.4);
+  position: relative;
+  border-radius: 3px 3px 0 0
+}
+
+.browser-mockup:before {
+  display: block;
+  position: absolute;
+  content: '';
+  top: -1.25em;
+  left: 1em;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background-color: #f44;
+  box-shadow: 0 0 0 2px #f44, 1.5em 0 0 2px #9b3, 3em 0 0 2px #fb5;
+}
+    
+.browser-mockup.with-tab:after {
+  display: block;
+  position: absolute;
+  content: '';
+  top: -2em;
+  left: 5.5em;
+  width: 20%;
+  height: 0em;
+  border-bottom: 2em solid white;
+  border-left: 0.8em solid transparent;
+  border-right: 0.8em solid transparent;
+}
+
+.browser-mockup.with-url:after {
+  display: block;
+  position: absolute;
+  content: '';
+  top: -1.6em;
+  left: 5.5em;
+  width: calc(100% - 6em);
+  height: 1.2em;
+  border-radius: 2px;
+  background-color: white;
+}
+
+.browser-mockup > * {
+  display: block;
+}
+
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+}
 
 
 
-         <br/>
-         <br/>
-         </div>
 
-      </div>
-   <script>
-      if (location.hash === "#demo"){
-          document.getElementById("demo").click()
-      }
-   </script>
-   </body>
+
+.logo {
+  text-shadow: 
+    -1px 2px 1px hsl(0,0%,35%), 
+    -1px 2px 1px hsl(0,0%,37%)
+}
+
+.sub {
+  text-shadow: 
+    -1px 1px 1px hsl(0,0%,35%)
+}
+
+
+  .font {
+    font-family: 'B612 Mono', monospace;
+  }
+  a {
+    color: #2F6CA2;;
+  
+  }
+
+  .header-font {
+     font-family: 'Shadows Into Light', cursive;
+  }
+
+  .usp {
+    box-shadow: 0px 4px 200px 50px rgb(47, 108, 162, 0.1);
+  }
+
+  .usp h2 {
+    display: inline-block;
+  
+  }
+
+  .usp img {
+    display: none;
+    height: 1em;
+    margin: 0.2em;
+    position: relative;
+    bottom: 0.5em;
+  
+  }
+
+  .screenshot {
+    width: 45em;
+    margin-top: 1em;
+    position: relative;
+    top: 4.7em;
+  }
+
+
+  .featuring {
+     border-collapse: separate; 
+     border-spacing: 1em 0.5em;
+  }
+
+  .featuring td:first-of-type {
+      border-bottom: 1px solid #ddd;
+      font-weight: 500;
+  }
+
+  .featuring img {
+      /*filter: grayscale(100%) opacity(1);
+      -webkit-filter: grayscale(100%) opacity(1);*/
+      display: inline-block;
+      background-color: rgba(0,0,0,0.03);
+      height: 3.5em;
+      padding: 0.5em;
+      border-radius: 5px;
+  }
+
+
+  .features p {
+    display: list-item;
+    list-style-type: disc;
+    list-style-position: inside;
+    font-weight: 500;
+  }
+
+  .hr-1 {transform: rotate(0.5deg);}
+  .hr-2 {transform: rotate(-0.5deg);}
+  .hr-3 {transform: rotate(0.5deg);}
+  .hr-4 {transform: rotate(-0.5deg);}
+  .hr-5 {transform: rotate(0.5deg);}
+
+  </style>
+
+  </head>
+  <body>
+
+<div class="flex flex-wrap pt-24 pb-0 border-b" style="background-image: linear-gradient(-225deg, #4C83B5  0%, #2F6CA2 100%);">
+    <div class="text-center w-full">
+
+        <div class="text-left inline-block">
+            <h1 class="font logo text-white text-4xl">Simple Web Analytics</h1>
+            <h5 class="sub text-white pb-4">Web Analytics made simple and therefore privacy friendly.</h5>
+        </div>
+
+        <div class="mt-5">
+            <a href="/app" class="bg-gray-800 hover:bg-gray-900 text-gray-200 font-bold py-2 px-4 rounded shadow mr-2">Register / Login</a>
+            <a href="/app#demo" class="bg-gray-700 hover:bg-gray-800 text-gray-200 font-bold py-2 px-4 rounded shadow" target="_blank">Demo</a>
+        </div>
+    </div>
+    <div class="browser-mockup with-url screenshot ml-auto mr-auto w-full">
+<img src="screenshot.png"  />
+</div>
+</div>
+
+<section class="max-w-4xl mx-auto flex flex-wrap md:space-x-16 md:mt-40 mt-20">
+<div class="w-full md:flex-1 usp border rounded p-6">
+<h1 class="text-xl font-bold mb-1 text-gray-800">✓ Free</h1>
+<p">
+  Technical design choices allow serving many users with little hosting costs.
+</p>
+</div>
+<div class="w-full md:flex-1 usp border rounded p-6">
+<h1 class="text-xl font-bold mb-1 text-gray-800">✓ Open Source</h1>
+<p>
+  The source code is published under the <a href="#" target="_blank">AGPL-v3</a> licence.
+</p>
+</div>
+<div class="w-full md:flex-1 usp border rounded p-6">
+<h1 class="text-xl font-bold mb-1 text-gray-800">✓ Privacy Friendly</h1>
+<p>
+
+  No cookies. No logging or hashing IP addresses.
+</p>
+</div>
+</section>
+
+
+
+
+<div class="bg-gray-100 border-b border-t mt-16 ">
+
+<section class="my-32 mt-24">
+
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        Easy to use
+    </h2>
+    <div class="mb-8">
+        <div class="hr-1 h-1 mx-auto gradient w-56 opacity-25 my-0 py-0 rounded-t" ></div>
+    </div>
+    
+    <div class="max-w-xl mx-auto flex flex-wrap">
+        
+        <p class="flex-1 px-3">
+            It's two printable pages with insights that are easy on the eyes
+            and mind. All metrics are based on visits, which is a browser season at a given day.
+        </p>
+
+        <div class="flex-1 inline-block mx-3 md:flex hidden">
+            <a href="https://simple-web-analytics.com#demo" target="_blank"><img src="page1.jpg" class="inline-block shadow"></a>
+            <a href="https://simple-web-analytics.com#demo" target="_blank"><img src="page2.jpg" class="inline-block shadow"></a>
+        </div>
+    </div>
+
+</section>
+
+
+<section class="my-32">
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        The friendly alternative
+    </h2>
+    <div class="mb-8">
+        <div class="hr-2 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 27em;" ></div>
+    </div>
+    
+    <div class="flex max-w-xl mx-auto">
+        <img src="super.svg" class="flex-1" />
+        <p class="px-3 flex-1" style="flex-grow: 2">
+            
+            You don't have to choose between free or privacy friendy. We offer
+            a free and privacy friendly analytics service for everyone.
+
+            <!--
+            In order to be a free service, we track as little as possible.  All
+            your data can be exported as a CSV at any time. The <a href="#"
+            target="_blank">source code</a> is published for transparency. We are a option to
+            provide privacy friendly analytics for every website.
+            -->
+
+            <!--
+            As verifiable by the <a href="#" target="_blank">source code</a>, your visitor's data
+            is saved anonymously as defined by the GDPR. This means data is only
+            saved in an aggregated way, such that it is not possible to connect
+            tracking data saved to our database with a natural person. Our business
+            model is not tracking as much as possible, it's tracking as little as
+            possible in order to be able to provide this service for free.
+            -->
+
+        </p>
+    </div>
+    
+</section>
+
+
+<section class="my-32 mb-24">
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        How it's made
+    </h2>
+    <div class="mb-8">
+        <div class="hr-3 h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" ></div>
+    </div>
+    
+    <table class="featuring mx-auto">
+        </tbody>
+            <tr>
+                <td>Frontend</td>
+                <td>
+                    <a target="_blank" href="https://www.chartjs.org/">
+                        <img src="featuring/chartjs.png" class="border" target="_blank" />
+                    </a>
+                    <a target="_blank" href="https://tailwindcss.com/" >
+                        <img src="featuring/tailwind.svg" class="border" target="" />
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>Backend</td>
+                <td>
+                    <a target="_blank" href="https://golang.org/">
+                        <img src="featuring/go.svg" class="border" style="padding: 0.5em;" />
+                    </a>
+                    <a target="_blank" href="https://redis.io/">
+                        <img src="featuring/redis.svg" class="border" style="padding: 0.6em;" />
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>Services</td>
+                <td>
+                    <a target="_blank" href="https://github.com/ihucos/simple-web-analytics.com">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/29/GitHub_logo_2013.svg" class="border" style="padding: 1.1em;" />
+                    </a>
+                    <a target="_blank" href="https://www.linode.com/">
+                        <img src="https://www.vectorlogo.zone/logos/linode/linode-ar21.svg" class="border" style="padding: 0em;" />
+                    </a>
+                    <a target="_blank" href="https://www.cloudflare.com/">
+                        <img src="https://www.cloudflare.com/img/logo-web-badges/cf-logo-on-white-bg.svg" class="border" style="padding: 0em;" />
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+</div> <!-- the gray color -->
+
+
+<section class="my-32">
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        Features
+    </h2>
+    <div class="mb-8">
+        <div class="hr-4 h-1 mx-auto gradient w-48 opacity-25 my-0 py-0 rounded-t" ></div>
+    </div>
+
+    <div class="mx-auto md:table features">
+        <div class="md:table-row">
+          <div class="md:table-cell"><p class="py-4 px-5">One screen</p></div>
+          <div class="md:table-cell"><p class="py-4 px-5">No menus</p></div>
+        </div>
+        <div class="md:table-row">
+          <div class="md:table-cell"><p class="py-4 px-5">Plain content</p></div>
+          <div class="md:table-cell"><p class="py-4 px-5">Charts you understand</p></div>
+        </div>
+        <div class="md:table-row">
+          <div class="md:table-cell"><p class="py-4 px-5">Down to earth</p></div>
+          <div class="md:table=cell"><p class="py-4 px-5">Light blue colors</p></div>
+        </div>
+        <div class="md:table-row">
+          <div class="md:table-cell"><p class="py-4 px-5">Export to CSV</p></div>
+          <div class="md:table-cell"><p class="py-4 px-5">Painless registration</p></div>
+        </div>
+    </div>
+
+</section>
+
+
+<section class="my-32">
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        Pay what you want
+    </h2>
+    <div class="mb-8">
+        <div class="hr-5 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 22em;"  ></div>
+    </div>
+
+    <div class="text-center">
+        <p>We still do encourage users with commercial projects to pay for this product.</p>
+        <p class="mb-12">The amount could be comparable with what similiar services charge. </p>
+        <div class="mt-5">
+            <a href="/app" class="bg-gray-700 hover:bg-gray-800 text-gray-200 font-bold py-2 px-4 rounded shadow" target="_blank">Demo</a>
+            ->
+            <a href="/app" class="bg-gray-800 hover:bg-gray-900 text-gray-200 font-bold py-2 px-4 rounded shadow">Register</a>
+            ->
+            <a href="https://flattr.com/@ihucos" class="bg-green-600 bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded shadow" target="_blank">Donate</a>
+        </div>
+    </div>
+</section>
+
+
+<section class="mt-64 mb-32">
+    <!-- title -->
+    <h2 class="my-2 text-3xl font-black leading-tight text-center text-gray-800 header-font">
+        Feedback
+    </h2>
+    <div class="mb-4">
+        <div class="h-1 mx-auto gradient w-32 opacity-25 my-0 py-0 rounded-t" ></div>
+    </div>
+
+    <div class="text-center">
+        <a href="mailto:info@simple-web-analytics.com" class="font-mono inline-block p-3">info@simple-web-analytics.com</a>
+    </div>
+</section>
+
+
+<section class="flex">
+
+    <div class="self-end" style="flex-grow: 5">
+        <h1 class="font-bold text-xl text-left font-mono text-gray-500">
+            &lt;/html&gt; :-)
+        </h1>
+    </div>
+    <div class="self-end" style="flex-grow: 1">
+        <div class="inline-block">
+            <a href="#" onclick="alert('You clicked the plant, congratulations.'); return false;" >
+                <img src="plant.svg" class="block relative opacity-75" style="width: 15em; right: 0em;" />
+            </a>
+            <a href="#" class="text-center block text-xl bg-yellow-800 rounded opacity-50 p-1 mx-12 rounded text-white" onclick="impressum(); return false">Impressum</a>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+function impressum(){
+var x = "@"
+var s = "\
+INFORMATION REQUIRED BY GERMAN LAW\n\
+\n\
+Angaben gemäß § 5 TMG\n\
+\n\
+Irae Hueck Costa\n\
+Bochumerstr. 10\n\
+10555 Berlin\n\
+\n\
+Kontakt:\n\
+\n\
+Telefon: 017644"+ "" + "4915" + 2+1 + "4 \n\
+(note: this a personal mobile number, customer support is per mail)\n\
+\n\
+E-Mail: info"+  x + "" + "simple-web-analytcs.com"
+
+alert(s);
+}
+</script>
+
+</body>
 </html>
-
