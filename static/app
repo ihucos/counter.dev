@@ -26,31 +26,31 @@
       <script src="script.js"></script>
    </head>
    <body>
-      <div id="page-index" class="d-flex flex-column justify-content-between" style="min-height: 100vh">
+      <div id="page-index">
          <form method="POST" action="">
-            <div id="alert_register" class="login-alert alert alert-warning" style="display: none;" role="alert"></div>
-            <input id="reg_user" class="form-control" name="username" placeholder="Username">
-            <input id="reg_password" type="password" name="password" class="form-control" placeholder="Password">
+            <div id="alert_register" style="display: none;"></div>
+            <input id="reg_user" name="username" placeholder="Username" />
+            <input id="reg_password" type="password" name="password" placeholder="Password" />
             <button type="submit" onclick="register(); return false" name="action">Register</button>
          </form>
          <form method="POST" action="">
-            <div id="alert_login" class="login-alert alert alert-warning" style="display: none;" role="alert"></div>
-            <input id="login_user" class="form-control form-control-sm" name="username" placeholder="Username">
-            <input id="login_password" type="password" name="password" class="form-control form-control-sm" placeholder="Password">
-            <button type="submit" onclick="login(); return false" class="btn btn-light btn-sm btn-block" id="login_button" name="action">Login</button>
+            <div id="alert_login" style="display: none;"></div>
+            <input id="login_user" name="username" placeholder="Username" />
+            <input id="login_password" type="password" name="password" placeholder="Password" />
+            <button type="submit" onclick="login(); return false" id="login_button" name="action">Login</button>
          </form>
       </div>
       <div id="page-graphs" style="display: none">
-         <a href="" class="btn btn-light my-1">Logout <span class="username">USERNAME</span></a>
-         <button onclick="downloadData(); return false" class="btn btn-light my-1">Export</button>
-         <button id="tracking-code-button" onclick="toggleTrackingCode(); return false" class="btn btn-light my-1">TRACKING CODE</button>
+         <a href="#">Logout <span class="username">USERNAME</span></a>
+         <button onclick="downloadData(); return false">Export</button>
+         <button id="tracking-code-button" onclick="toggleTrackingCode(); return false">TRACKING CODE</button>
          <div  id="tracking-code">
-            <pre class="border py-2 px-2 alert alert-warning"><code class="text-muted">&lt;script&gt;
+            <pre><code>&lt;script&gt;
 // Simple Web Analytics tracking code
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
     fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
         referrer: document.referrer,
-        site: "<span class="username">USERNAME</span>",
+        site: "<span>USERNAME</span>",
         utcoffset: <span id="utcoffset">0</span>
     }));
 }
@@ -60,13 +60,13 @@ sessionStorage.setItem("_swa", "1");
 </pre>
          </div>
          <canvas height="150" id="graph"></canvas>
-         <div id="list_ref" class="col-md-4"></div>
-         <div id="list_loc" class="col-md-8"></div>
-         <div id="list_device" class="col-md-4"></div>
-         <div id="list_platform" class="col-md-4"></div>
-         <div id="list_browser" class="col-md-4"></div>
+         <div id="list_ref"></div>
+         <div id="list_loc"></div>
+         <div id="list_device"></div>
+         <div id="list_platform"></div>
+         <div id="list_browser"></div>
          <div id="world" style="width: 800px; height: 400px;"></div>
-         <table class="table table-condensed table-striped table-borderless">
+         <table>
             <thead>
                <tr>
                   <th>Date</th>
@@ -79,9 +79,9 @@ sessionStorage.setItem("_swa", "1");
             <tbody id="log_body">
             </tbody>
          </table>
-         <canvas id="time"  height=200></canvas>
-         <canvas id="weekday"  height=200></canvas>
-         <canvas id="ref_ratio"  height=200></canvas>
+         <canvas id="time" height=200></canvas>
+         <canvas id="weekday" height=200></canvas>
+         <canvas id="ref_ratio" height=200></canvas>
          <div id="list_origin"></div>
          <script>
             //if (location.hash === "#demo"){
