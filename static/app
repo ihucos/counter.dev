@@ -30,7 +30,7 @@
    </head>
    <body>
       <div id="page-index">
-         <a href="#" id="demo" onclick="demo(); return false">open demo</a>
+         <a href="" id="demo" onclick="demo(); return false">open demo</a>
          <form method="POST" action="">
             <div id="alert_register" style="display: none;"></div>
             <input id="reg_user" name="username" placeholder="Username" />
@@ -44,7 +44,7 @@
             <button type="submit" onclick="login(); return false" id="login_button" name="action">Login</button>
          </form>
       </div>
-      <div id="page-graphs" style="display: none">
+      <div id="page-graphs" class="max-w-xl mx-auto hidden">
          <a href="#">Logout <span class="username">USERNAME</span></a>
          <button onclick="downloadData(); return false">Export</button>
          <button id="tracking-code-button" onclick="toggleTrackingCode(); return false">TRACKING CODE</button>
