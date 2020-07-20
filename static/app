@@ -32,9 +32,29 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;800&display=swap" rel="stylesheet"> 
 <style>
 body {
-  font-family: 'Inter', sans-serif;
-  font-weight: 300;
 }
+
+h5 {
+  padding-bottom: 0.1em;
+  margin-top: 0em;
+  font-weight: bold;
+  line-height: 1.2;
+  font-size: 1.2em;
+  /*color: #194873;*/
+  color: rgba(25, 72, 115, 0.8);
+  position: relative;
+
+}
+
+#page-graphs {
+}
+
+.card {
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.5);
+    border: solid white 2em;
+    background-color: white;
+}
+
 </style>
 
 
@@ -58,9 +78,10 @@ body {
          </form>
       </div>
 
-      <div id="page-graphs" class="max-w-xl mx-auto hidden flex-wrap">
+      <br>
+      <div id="page-graphs" class="max-w-2xl mx-auto hidden flex-wrap">
 
-         <div class="w-full">
+         <div class="w-full hidden">
              <a href="#">Logout <span class="username">USERNAME</span></a>
              <button onclick="downloadData(); return false">Export</button>
              <button id="tracking-code-button" onclick="toggleTrackingCode(); return false">TRACKING CODE</button>
@@ -80,14 +101,30 @@ sessionStorage.setItem("_swa", "1");
             </code>
 </pre>
          </div>
-         <canvas class="w-full" height="150" id="graph"></canvas>
-         <div class="w-1/2" id="list_ref"></div>
-         <div class="w-1/2" id="list_loc"></div>
-         <div class="w-1/3" id="list_device"></div>
-         <div class="w-1/3" id="list_platform"></div>
-         <div class="w-1/3" id="list_browser"></div>
-         <div class="w-1/3" id="world" style="width: 800px; height: 400px;"></div>
-         <table>
+         <div class="card w-1/2" id="list_ref"></div>
+         <div class="card w-1/2" id="list_loc"></div>
+         <div class="card w-full" style="transform: rotate(-0.5deg);">
+             <h5>Visits by date</h5>
+             <canvas class="w-full" height="200" id="graph"></canvas>
+         </div>
+         <div class="card w-1/3">
+             <h5>Time</h5>
+             <canvas id="time" height=150></canvas>
+         </div>
+         <div class="card w-1/3" style="transform: rotate(1deg);">
+             <h5>Weekday</h5>
+             <canvas id="weekday" height=150></canvas>
+         </div>
+         <div class="card w-1/3" style="transform: rotate(2deg);">
+             <h5>Referrer traffic</h5>
+             <canvas id="ref_ratio" height=150></canvas>
+         </div>
+         <div class="card w-1/3" id="list_device"></div>
+         <div class="card w-1/3" id="list_platform"></div>
+         <div class="card w-1/3" id="list_browser" style="transform: rotate(1deg)";></div>
+         <div class="card" id="world" style="width: 800px; height: 400px;"></div>
+         <div class="card w-full" id="list_origin" style="transform: rotate(0.5deg);"></div>
+         <table class="card">
             <thead>
                <tr>
                   <th>Date</th>
@@ -100,16 +137,6 @@ sessionStorage.setItem("_swa", "1");
             <tbody id="log_body">
             </tbody>
          </table>
-         <div class="w-1/3">
-             <canvas id="time" height=200></canvas>
-         </div>
-         <div class="w-1/3">
-             <canvas id="weekday" height=200></canvas>
-         </div>
-         <div class="w-1/3">
-             <canvas id="ref_ratio" height=200></canvas>
-         </div>
-         <div id="list_origin"></div>
          <script>
             if (location.hash === "#demo"){
                 document.getElementById("demo").click()
