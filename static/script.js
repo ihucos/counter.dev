@@ -382,7 +382,7 @@ function drawRefRatio(){
 function draw(user, data) {
     console.log("redrawing")
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
-    document.getElementById("page-graphs").style.display = "block"
+    document.getElementById("page-graphs").style.display = "flex"
 
     if (!window._inited) {
         alwaysUpdate()
