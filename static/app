@@ -5,15 +5,11 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="Free analytics tool with all common features.">
       <title>Simple Web Analytics</title>
-
-
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
-
-
       <script data-goatcounter="https://simple-web-analytics.goatcounter.com/count"
          async src="//gc.zgo.at/count.js"></script>
       <script>
@@ -30,7 +26,6 @@
       <script src="script.js"></script>
    </head>
    <body>
-
       <div id="page-index" class="d-flex flex-column justify-content-between" style="min-height: 100vh">
          <form method="POST" action="">
             <div id="alert_register" class="login-alert alert alert-warning" style="display: none;" role="alert"></div>
@@ -45,20 +40,12 @@
             <button type="submit" onclick="login(); return false" class="btn btn-light btn-sm btn-block" id="login_button" name="action">Login</button>
          </form>
       </div>
-
       <div id="page-graphs" style="display: none">
-         <div class="container" style="max-width: 50em; background-color: white;">
-            <div class="row">
-               <div class="col-md-12">
-                  <a href="" class="btn btn-light my-1">Logout <span class="username badge">USERNAME</span></a>
-                  <button onclick="downloadData(); return false" class="btn btn-light my-1">Export</button>
-                  <button id="tracking-code-button" onclick="toggleTrackingCode(); return false" class="btn btn-light my-1">TRACKING CODE</button>
-               </div>
-            </div>
-            <div class="row my-5" id="tracking-code">
-               <div class="col-md-12">
-                  <h5>Tracking Code</h5>
-                  <pre class="border py-2 px-2 alert alert-warning"><code class="text-muted">&lt;script&gt;
+         <a href="" class="btn btn-light my-1">Logout <span class="username">USERNAME</span></a>
+         <button onclick="downloadData(); return false" class="btn btn-light my-1">Export</button>
+         <button id="tracking-code-button" onclick="toggleTrackingCode(); return false" class="btn btn-light my-1">TRACKING CODE</button>
+         <div  id="tracking-code">
+            <pre class="border py-2 px-2 alert alert-warning"><code class="text-muted">&lt;script&gt;
 // Simple Web Analytics tracking code
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
     fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
@@ -68,93 +55,40 @@ if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protoc
     }));
 }
 sessionStorage.setItem("_swa", "1");
-&lt;/script&gt;</pre>
-                  </code>
-               </div>
-            </div>
-            <div class="row my-5">
-               <div class="col-md-12">
-                  <h5>Visitors by date</h5>
-                  <div>
-                     <canvas height="150" id="graph" />
-                  </div>
-               </div>
-            </div>
-            <hr>
-            <div class="row my-5">
-               <div id="list_ref" class="col-md-4">
-               </div>
-               <div id="list_loc" class="col-md-8">
-               </div>
-            </div>
-            <hr>
-            <div class="row my-5">
-               <div id="list_device" class="col-md-4"></div>
-               <div id="list_platform" class="col-md-4"></div>
-               <div id="list_browser" class="col-md-4"></div>
-            </div>
-            <hr>
-            <h4>Countries</h4>
+&lt;/script&gt;
+            </code>
+</pre>
          </div>
-         <div style="display: flex; justify-content: center;">
-            <div id="world" style="width: 800px; height: 400px;"></div>
-         </div>
-         <div class="container" style="max-width: 50em; background-color: white;">
-            <hr />
-            <div class="row my-5">
-               <div class="col-md-12">
-                  <h4>Last visitors</h4>
-                  <div>
-                     <table class="table table-condensed table-striped table-borderless">
-                        <thead>
-                           <tr>
-                              <th>Date</th>
-                              <th>Time</th>
-                              <th>IP</th>
-                              <th>Referrer</th>
-                              <th>User-Agent</th>
-                           </tr>
-                        </thead>
-                        <tbody id="log_body">
-                        </tbody>
-                     </table>
-                  </div>
-               </div>
-            </div>
-            <hr />
-            <div class="row my-5">
-               <div class="col-md-4">
-                  <h5>Time</h5>
-                  <div class="py-2">
-                     <canvas id="time"  height=200 />
-                  </div>
-               </div>
-               <div class="col-md-4">
-                  <h5>Weekday</h5>
-                  <div class="py-2">
-                     <canvas id="weekday"  height=200 />
-                  </div>
-               </div>
-               <div class="col-md-4">
-                  <h5>Referrer Traffic</h5>
-                  <div class="py-2">
-                     <canvas id="ref_ratio"  height=200 />
-                  </div>
-               </div>
-            </div>
-            <hr>
-            <div class="row my-5">
-               <div class="col-md-12" id="list_origin"></div>
-            </div>
-            <br/>
-            <br/>
-         </div>
+         <canvas height="150" id="graph"></canvas>
+         <div id="list_ref" class="col-md-4"></div>
+         <div id="list_loc" class="col-md-8"></div>
+         <div id="list_device" class="col-md-4"></div>
+         <div id="list_platform" class="col-md-4"></div>
+         <div id="list_browser" class="col-md-4"></div>
+         <div id="world" style="width: 800px; height: 400px;"></div>
+         <table class="table table-condensed table-striped table-borderless">
+            <thead>
+               <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>IP</th>
+                  <th>Referrer</th>
+                  <th>User-Agent</th>
+               </tr>
+            </thead>
+            <tbody id="log_body">
+            </tbody>
+         </table>
+         <canvas id="time"  height=200></canvas>
+         <canvas id="weekday"  height=200></canvas>
+         <canvas id="ref_ratio"  height=200></canvas>
+         <div id="list_origin"></div>
+         <script>
+            //if (location.hash === "#demo"){
+             //   document.getElementById("demo").click()
+            //}
+         </script>
       </div>
-      <script>
-         if (location.hash === "#demo"){
-             document.getElementById("demo").click()
-         }
-      </script>
    </body>
 </html>
 
