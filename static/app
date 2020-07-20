@@ -44,11 +44,15 @@
             <button type="submit" onclick="login(); return false" id="login_button" name="action">Login</button>
          </form>
       </div>
+
       <div id="page-graphs" class="max-w-xl mx-auto hidden">
-         <a href="#">Logout <span class="username">USERNAME</span></a>
-         <button onclick="downloadData(); return false">Export</button>
-         <button id="tracking-code-button" onclick="toggleTrackingCode(); return false">TRACKING CODE</button>
-         <div  id="tracking-code">
+
+         <div class="w-full">
+             <a href="#">Logout <span class="username">USERNAME</span></a>
+             <button onclick="downloadData(); return false">Export</button>
+             <button id="tracking-code-button" onclick="toggleTrackingCode(); return false">TRACKING CODE</button>
+         </div>
+         <div class="w-full" id="tracking-code">
             <pre><code>&lt;script&gt;
 // Simple Web Analytics tracking code
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
@@ -63,13 +67,13 @@ sessionStorage.setItem("_swa", "1");
             </code>
 </pre>
          </div>
-         <canvas height="150" id="graph"></canvas>
-         <div id="list_ref"></div>
-         <div id="list_loc"></div>
-         <div id="list_device"></div>
-         <div id="list_platform"></div>
-         <div id="list_browser"></div>
-         <div id="world" style="width: 800px; height: 400px;"></div>
+         <canvas class="w-full" height="150" id="graph"></canvas>
+         <div class="w-full" id="list_ref"></div>
+         <div class="w-full" id="list_loc"></div>
+         <div class="w-full" id="list_device"></div>
+         <div class="w-full" id="list_platform"></div>
+         <div class="w-full" id="list_browser"></div>
+         <div class="w-full" id="world" style="width: 800px; height: 400px;"></div>
          <table>
             <thead>
                <tr>
