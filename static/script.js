@@ -629,7 +629,7 @@ function draw(user, data) {
     }
 
     new Chart(document.getElementById("time"), {
-        type: 'horizontalBar',
+        type: 'bar',
         data: {
             labels: [
                 'Morning',
@@ -670,7 +670,7 @@ function draw(user, data) {
                         display: false,
                     },
                     ticks: {
-                        display: false,
+                        display: true,
                         beginAtZero: true,
                     }
                 }, ],
@@ -679,10 +679,7 @@ function draw(user, data) {
                         display: false,
                     },
                     ticks: {
-                        beginAtZero: true,
-                        //fontFamily: normalFont,
-                        //fontColor: normalFontColor,
-                        //fontSize: 16,
+                        display: false
                     }
                 }, ],
             },
@@ -690,9 +687,9 @@ function draw(user, data) {
     })
 
     new Chart(document.getElementById("weekday"), {
-        type: 'horizontalBar',
+        type: 'bar',
         data: {
-            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            labels: ['Mo.', 'Tu.', 'We.', 'Th.', 'Fr.', 'Sa.', 'Su.'],
             datasets: [{
                 data: [
                     data['weekday'][0] || 0,
@@ -732,20 +729,17 @@ function draw(user, data) {
                         display: false,
                     },
                     ticks: {
-                        display: false,
+                        display: true,
                         beginAtZero: true
                     }
                 }, ],
                 yAxes: [{
+                    ticks: {
+                        display: false,
+                    },
                     gridLines: {
                         display: false,
                     },
-                    ticks: {
-                        beginAtZero: true,
-                        //fontFamily: normalFont,
-                        //fontColor: normalFontColor,
-                        //fontSize: 16,
-                    }
                 }, ],
             },
         },
