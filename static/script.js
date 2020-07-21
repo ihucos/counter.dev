@@ -109,9 +109,9 @@ function escapeHtml(unsafe) {
 
 
 function demo() {
-    document.getElementById("login_user").value = "demo"
+    document.getElementById("login_user").value = "simple-web-analytics.com"
     document.getElementById("login_user").focus()
-    document.getElementById("login_password").value = "demodemo"
+    document.getElementById("login_password").value = "simple-web-analytics.com" //XXXXXXXXXXXXXXXXXXXXXXXXXXX
     document.getElementById("login_button").click()
 }
 
@@ -402,8 +402,42 @@ function drawRefRatio() {
     })
 }
 
+function drawCountries(elemId, countries){
+    var elem = document.getElementById(elemId)
+    elem.innerHTML = "<h5>Countries</h5>"
 
-function drawBar(elemId, entries, title){
+    if (Object.keys(countries).length === 0 && countries.constructor === Object) {
+        elem.innerHTML += '<span class="text-muted">Empty</span>'
+        return
+    }
+
+    var list = [];
+    for (var key in countries) {
+        list.push([key, countries[key]]);
+    }
+    list.sort(function(a, b) {
+        return b[1] - a[1];
+    });
+
+    html = '<table class="top">'
+    for (var i = 0; i < list.length; i++) {
+        var percent = list[i][1] / listTotal * 100
+        html += '<tr>'
+        var val = kFormat(list[i][1])
+        html += '<th style="padding-right: 0.5em; white-space: nowrap;">' + escapeHtml(val) + '</th>'
+        html += '<td style="position: relative; z-axis: 100; width: 100%;">'
+        html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 100%; background-color: rgba(25, 72, 115, 0.25); pointer-events: none;"></div>'
+        var key = escapeHtml(list[i][0])
+        html += '<img class="inline-block pr-1" src="/famfamfam_flags/gif/' + escapeHtml(key) + '.gif"/>'
+        html += resolveCountry(key)
+        html += "</td></tr>"
+    }
+    html += "</table>"
+
+    elem.innerHTML += html
+}
+
+function drawPie(elemId, entries, title){
     var list = [];
     for (var key in entries) {
         list.push([key, entries[key]]);
@@ -411,15 +445,16 @@ function drawBar(elemId, entries, title){
     list.sort(function(a, b) {
         return b[1] - a[1];
     });
-    slice = list.slice(0, 5)
 
     new Chart(document.getElementById(elemId), {
         type: 'pie',
         data: {
-            labels: slice.map(x => x[0]),
+            labels: list.map(x => x[0]),
             datasets: [{
-                data: slice.map(x => x[1]),
-                backgroundColor: slice.map(x => toColor(x[0])),
+                borderWidth: 1,
+                borderColor: 'black',
+                data: list.map(x => x[1]),
+                backgroundColor: list.map(x => toColor(x[0])),
             }, ],
         },
         options: {
@@ -428,7 +463,7 @@ function drawBar(elemId, entries, title){
             tooltips: {
                 mode: 'index'
             },
-            legend: {position: 'bottom', labels: { usePointStyle: 'true' }, align: 'start' },
+            legend: {position: 'bottom', labels: { usePointStyle: 'true' }, align: 'center' },
             title: {
                 display: true,
                 text: title
@@ -519,9 +554,11 @@ function draw(user, data) {
 
     drawList("list_ref", data.ref, "Referrals", 5, false, true)
     drawList("list_loc", data.loc, "Landing pages", 5, false, false)
-    drawBar("browser", dGroupData(data.browser), "Browsers")
-    drawBar("platform", dGroupData(data.platform), "Platforms")
-    drawBar("device", dGroupData(data.device), "Devices")
+    drawCountries("world_list", data.country)
+    drawPie("browser", dGroupData(data.browser), "Browsers")
+    drawPie("platform", dGroupData(data.platform), "Platforms")
+    drawPie("device", dGroupData(data.device), "Devices")
+    drawList("list_origin", data.origin, "Origins", 5, false, true)
     drawLog(5)
 
 
@@ -690,7 +727,7 @@ function draw(user, data) {
 }
 
 function dGroupData(entries) {
-    var cutAt = 4
+    var cutAt = 3
     var entrs = Object.entries(entries)
     entrs = entrs.sort((a, b) => b[1] - a[1])
     entrs = entrs.sort((a, b) => a[0] === "Other" ? 1 : -1)
