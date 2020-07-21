@@ -373,7 +373,7 @@ function drawRefRatio() {
     var direct = total - ref
 
     new Chart(document.getElementById("ref_ratio"), {
-        type: 'pie',
+        type: 'bar',
         data: {
             labels: [
                 'Direct',
@@ -381,10 +381,7 @@ function drawRefRatio() {
             ],
             datasets: [{
                 borderWidth: 0,
-                backgroundColor: [
-                    '#E2E2E2',
-                    '#2F6CA2',
-                ],
+                backgroundColor: orange,
                 data: [
                     Math.round(direct / total * 100),
                     Math.round(ref / total * 100),
@@ -756,7 +753,7 @@ function draw(user, data) {
         options: {
             title: {
                 display: true,
-                text: "Visits by Hour",
+                text: "Visits by hour",
                 position: "top",
             },
             maintainAspectRatio: false,
