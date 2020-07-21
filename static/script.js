@@ -428,6 +428,7 @@ function drawBar(elemId, entries, title){
             tooltips: {
                 mode: 'index'
             },
+            legend: {position: 'bottom', labels: { usePointStyle: 'true' }, align: 'start' },
             title: {
                 display: true,
                 text: title
@@ -440,17 +441,6 @@ function drawBar(elemId, entries, title){
                     ticks: {
                         display: false,
                         beginAtZero: true
-                    }
-                }, ],
-                yAxes: [{
-                    gridLines: {
-                        display: false,
-                    },
-                    ticks: {
-                        beginAtZero: true,
-                        fontFamily: normalFont,
-                        fontColor: normalFontColor,
-                        fontSize: 16,
                     }
                 }, ],
             },
