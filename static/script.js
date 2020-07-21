@@ -4,8 +4,8 @@ function post(endpoint, body, user, alertId) {
     var x = document.getElementsByClassName("login-alert");
     var i;
     for (i = 0; i < x.length; i++) {
-      x[i].style.display = "none";
-    } 
+        x[i].style.display = "none";
+    }
 
 
     fetch(endpoint, {
@@ -24,7 +24,7 @@ function post(endpoint, body, user, alertId) {
         }
     }).then(newData => {
         if (typeof(newData) === "object") {
-            if (JSON.stringify(newData) !== JSON.stringify(window.data || {})){
+            if (JSON.stringify(newData) !== JSON.stringify(window.data || {})) {
                 data = newData
                 console.log("new data")
                 console.log(data)
@@ -37,7 +37,7 @@ function post(endpoint, body, user, alertId) {
     })
 }
 
-function register(){
+function register() {
     window.viaRegister = true
     window.user = document.getElementById("reg_user").value
     var password = document.getElementById("reg_password").value
@@ -45,7 +45,7 @@ function register(){
     post("/register", body, user, "alert_register")
 }
 
-function login(){
+function login() {
     window.viaRegister = false
     window.user = document.getElementById("login_user").value
     var password = document.getElementById("login_password").value
@@ -120,7 +120,7 @@ function kFormat(num) {
     return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(1)) + 'K' : Math.sign(num) * Math.abs(num) + ""
 }
 
-function sum(array){
+function sum(array) {
     return array.reduce((acc, next) => acc + next, 0)
 
 }
@@ -185,13 +185,13 @@ function drawList(elem_id, dataItem, title, maxEntries, usePercent, useLink) {
         html += '<td style="position: relative; z-axis: 100; width: 100%;">'
         html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 100%; background-color: rgba(25, 72, 115, 0.25); pointer-events: none;"></div>'
         var key = escapeHtml(list[i][0])
-        if (useLink){
-            if (!key.includes("://")){
+        if (useLink) {
+            if (!key.includes("://")) {
                 var link = "//" + key
             } else {
                 var link = key
             }
-            html += "<a target='_blank' href='"+link+"'>" + key + '</a>'
+            html += "<a target='_blank' href='" + link + "'>" + key + '</a>'
         } else {
             html += key
         }
@@ -348,7 +348,7 @@ function drawTitle(user) {
 }
 
 
-function drawRefRatio(){
+function drawRefRatio() {
     var total = sum(Object.values(data.date))
     var ref = sum(Object.values(data.ref))
     var direct = total - ref
@@ -356,25 +356,32 @@ function drawRefRatio(){
     new Chart(document.getElementById("ref_ratio"), {
         type: 'pie',
         data: {
-          labels: [
-            'Direct',
-            'Referrer',
-          ],
-          datasets: [
-            {
-              borderWidth: 0,
-              backgroundColor: [
-                '#E2E2E2',
-                '#2F6CA2',
-              ],
-              data: [
-                Math.round(direct / total * 100),
-                Math.round(ref / total * 100),
-              ],
-            },
-          ],
+            labels: [
+                'Direct',
+                'Referrer',
+            ],
+            datasets: [{
+                borderWidth: 0,
+                backgroundColor: [
+                    '#E2E2E2',
+                    '#2F6CA2',
+                ],
+                data: [
+                    Math.round(direct / total * 100),
+                    Math.round(ref / total * 100),
+                ],
+            }, ],
         },
-        options: {legend: {display: false}, maintainAspectRatio: false},
+        options: {
+            legend: {
+                display: false
+            },
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Custom Chart Title'
+            }
+        },
     })
 }
 
@@ -645,16 +652,16 @@ function dGroupData(entries) {
 
 
 function download(filename, text) {
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-  element.setAttribute('download', filename);
-  element.style.display = 'none';
-  document.body.appendChild(element);
-  element.click();
-  document.body.removeChild(element);
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
 }
 
-function downloadData(){
+function downloadData() {
     var csv = ""
     Object.keys(data).forEach(function(namespace, _) {
         Object.keys(data[namespace]).forEach(function(key, _) {
