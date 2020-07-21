@@ -629,33 +629,71 @@ function draw(user, data) {
     }
 
     new Chart(document.getElementById("time"), {
-        type: 'bar',
+        type: 'radar',
         data: {
             labels: [
-                'Morning',
-                'Afternoon',
-                'Evening',
-                'Night',
+                "24",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
             ],
             datasets: [{
                 data: [
-                    sumHours([5, 6, 7, 8, 9, 10, 11]),
-                    sumHours([12, 13, 14, 15]),
-                    sumHours([16, 17, 18, 19, 20, 21]),
-                    sumHours([22, 23, 24, 0, 1, 2, 3, 4]),
-                ],
-                backgroundColor: [
-                    orange,
-                    orange,
-                    orange,
-                    orange,
-                ],
+                    data['hour'][24] || 0,
+                    data['hour'][0] || 0,
+                    data['hour'][1] || 0,
+                    data['hour'][2] || 0,
+                    data['hour'][3] || 0,
+                    data['hour'][4] || 0,
+                    data['hour'][5] || 0,
+                    data['hour'][6] || 0,
+                    data['hour'][7] || 0,
+                    data['hour'][8] || 0,
+                    data['hour'][9] || 0,
+                    data['hour'][10] || 0,
+                    data['hour'][11] || 0,
+                    data['hour'][12] || 0,
+                    data['hour'][13] || 0,
+                    data['hour'][14] || 0,
+                    data['hour'][15] || 0,
+                    data['hour'][16] || 0,
+                    data['hour'][17] || 0,
+                    data['hour'][18] || 0,
+                    data['hour'][19] || 0,
+                    data['hour'][20] || 0,
+                    data['hour'][21] || 0,
+                    data['hour'][22] || 0,
+                    data['hour'][23] || 0,
+                    ],
+                backgroundColor: orange,
+                pointRadius: 1,
             }, ],
         },
         options: {
             title: {
                 display: true,
-                text: "Time",
+                text: "Visits by Hour",
+                position: "left",
             },
             maintainAspectRatio: false,
             tooltips: {
@@ -664,30 +702,19 @@ function draw(user, data) {
             legend: {
                 display: false
             },
-            scales: {
-                xAxes: [{
-                    gridLines: {
+            scale: {
+                gridLines: {
                         display: false,
                     },
                     ticks: {
-                        display: true,
-                        beginAtZero: true,
-                    }
-                }, ],
-                yAxes: [{
-                    gridLines: {
                         display: false,
-                    },
-                    ticks: {
-                        display: false
                     }
-                }, ],
             },
         },
     })
 
     new Chart(document.getElementById("weekday"), {
-        type: 'bar',
+        type: 'radar',
         data: {
             labels: ['Mo.', 'Tu.', 'We.', 'Th.', 'Fr.', 'Sa.', 'Su.'],
             datasets: [{
@@ -700,22 +727,15 @@ function draw(user, data) {
                     data['weekday'][5] || 0,
                     data['weekday'][6] || 0,
                 ],
-                backgroundColor: [
-                    orange,
-                    orange,
-                    orange,
-                    orange,
-                    orange,
-                    orange,
-                    orange,
-                ],
+                backgroundColor: orange,
             }, ],
         },
         options: {
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'Weekday'
+                text: 'Weekday',
+                position: "left",
             },
             tooltips: {
                 mode: 'index'
@@ -729,7 +749,7 @@ function draw(user, data) {
                         display: false,
                     },
                     ticks: {
-                        display: true,
+                        display: false,
                         beginAtZero: true
                     }
                 }, ],
