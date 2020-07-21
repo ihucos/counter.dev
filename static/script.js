@@ -1,6 +1,9 @@
 normalFont = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
 normalFontColor = '#212529'
+orange = "#2F6CA2"
+//Chart.defaults.global.defaultFontColor = 'red';
 
+Chart.defaults.global.defaultFontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
 
 function rand(min, max) {
     return Math.random() * (max - min) + min;
@@ -395,7 +398,7 @@ function drawRefRatio() {
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'Custom Chart Title'
+                text: 'Refferrer traffic'
             }
         },
     })
@@ -425,7 +428,7 @@ function drawCountries(elemId, countries) {
         var val = kFormat(list[i][1])
         html += '<th style="padding-right: 0.5em; white-space: nowrap;">' + escapeHtml(val) + '</th>'
         html += '<td style="position: relative; z-axis: 100; width: 100%;">'
-        html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 100%; background-color: rgba(25, 72, 115, 0.25); pointer-events: none;"></div>'
+        //html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 100%; background-color: rgba(25, 72, 115, 0.25); pointer-events: none;"></div>'
         var key = escapeHtml(list[i][0])
         html += '<img class="inline-block pr-1" src="/famfamfam_flags/gif/' + escapeHtml(key) + '.gif"/>'
         html += resolveCountry(key)
@@ -450,10 +453,11 @@ function drawPie(elemId, entries, title) {
         data: {
             labels: list.map(x => x[0]),
             datasets: [{
-                borderWidth: 1,
-                borderColor: 'black',
+                borderWidth: 4,
+                borderColor: 'white',
                 data: list.map(x => x[1]),
-                backgroundColor: list.map(x => toColor(x[0])),
+                //backgroundColor: list.map(x => toColor(x[0])),
+                backgroundColor: ['#05668d', '#028090', '#00a896', '#02c39a'],
             }, ],
         },
         options: {
@@ -510,8 +514,6 @@ function draw(user, data) {
     drawMap()
     drawTitle(user)
     drawRefRatio()
-
-    orange = "#2F6CA2"
 
 
     var daysRange = function(s, e) {
@@ -585,6 +587,10 @@ function draw(user, data) {
             }, ],
         },
         options: {
+            title: {
+                display: true,
+                text: "Visits by date"
+            },
             tooltips: {
                 enabled: true,
                 mode: "index",
@@ -640,6 +646,10 @@ function draw(user, data) {
             }, ],
         },
         options: {
+            title: {
+                display: true,
+                text: "Time",
+            },
             maintainAspectRatio: false,
             tooltips: {
                 mode: 'index'
@@ -663,9 +673,9 @@ function draw(user, data) {
                     },
                     ticks: {
                         beginAtZero: true,
-                        fontFamily: normalFont,
-                        fontColor: normalFontColor,
-                        fontSize: 16,
+                        //fontFamily: normalFont,
+                        //fontColor: normalFontColor,
+                        //fontSize: 16,
                     }
                 }, ],
             },
@@ -699,6 +709,10 @@ function draw(user, data) {
         },
         options: {
             maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Weekday'
+            },
             tooltips: {
                 mode: 'index'
             },
@@ -721,9 +735,9 @@ function draw(user, data) {
                     },
                     ticks: {
                         beginAtZero: true,
-                        fontFamily: normalFont,
-                        fontColor: normalFontColor,
-                        fontSize: 16,
+                        //fontFamily: normalFont,
+                        //fontColor: normalFontColor,
+                        //fontSize: 16,
                     }
                 }, ],
             },
