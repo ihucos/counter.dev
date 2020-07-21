@@ -488,7 +488,7 @@ function drawPie(elemId, entries, title){
 function draw(user, data) {
     console.log("redrawing")
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
-    document.getElementById("page-graphs").style.display = "flex"
+    document.getElementById("page-graphs").style.display = "block"
 
     if (!window._inited) {
         alwaysUpdate()

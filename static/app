@@ -86,6 +86,27 @@ h5 {
 
       <br>
 
+<div id="page-graphs" class="hidden">
+         <div class="w-full max-w-4xl mx-auto">
+             <a href="">Logout <span class="username">USERNAME</span></a>
+             <button onclick="downloadData(); return false">Export</button>
+             <button id="tracking-code-button" onclick="toggleTrackingCode(); return false">TRACKING CODE</button>
+         </div>
+         <div class="w-full" id="tracking-code">
+            <pre><code>&lt;script&gt;
+// Simple Web Analytics tracking code
+if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
+    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
+        referrer: document.referrer,
+        site: "<span>USERNAME</span>",
+        utcoffset: <span id="utcoffset">0</span>
+    }));
+}
+sessionStorage.setItem("_swa", "1");
+&lt;/script&gt;
+            </code>
+</pre>
+         </div>
 
 <div class="flex-container mx-auto max-w-4xl flex flex-wrap">
     <div class="flex-item w-1/3"><div id="list_ref"></div></div>
@@ -147,76 +168,14 @@ h5 {
     </div>
 
 </div>
+</div>
 
 
-
-
-      <div id="page-graphs" class="max-w-4xl mx-auto hidden flex-wrap">
-
-         <div class="w-full hidden">
-             <a href="#">Logout <span class="username">USERNAME</span></a>
-             <button onclick="downloadData(); return false">Export</button>
-             <button id="tracking-code-button" onclick="toggleTrackingCode(); return false">TRACKING CODE</button>
-         </div>
-         <div class="w-full" id="tracking-code">
-            <pre><code>&lt;script&gt;
-// Simple Web Analytics tracking code
-if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
-        referrer: document.referrer,
-        site: "<span>USERNAME</span>",
-        utcoffset: <span id="utcoffset">0</span>
-    }));
-}
-sessionStorage.setItem("_swa", "1");
-&lt;/script&gt;
-            </code>
-</pre>
-         </div>
-         <div class="card w-1/3" id="list_ref"></div>
-         <div class="card w-2/3" id="list_loc"></div>
-         <div class="card w-full">
-             <h5>Visits by date</h5>
-             <canvas class="w-full" height="200" id="graph"></canvas>
-         </div>
-         <div class="card w-1/3">
-             <h5>Time</h5>
-             <canvas id="time" height=150></canvas>
-         </div>
-         <div class="card w-1/3">
-             <h5>Weekday</h5>
-             <canvas id="weekday" height=150></canvas>
-         </div>
-         <div class="card w-1/3">
-             <h5>Referrers</h5>
-             <canvas id="ref_ratio" height=150></canvas>
-         </div>
-         <div class="card w-1/3" id="list_device"></div>
-         <div class="card w-1/3" id="list_platform""></div>
-         <div class="card w-1/3" id="list_browser"></div>
-         <div class="card w-full" id="list_origin"></div>
-         <div class="card">
-         <h5>Log</h5>
-         <table>
-            <thead>
-               <tr>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>IP</th>
-                  <th>Referrer</th>
-                  <th>User-Agent</th>
-               </tr>
-            </thead>
-            <tbody id="log_body">
-            </tbody>
-         </table>
-         </div>
          <script>
             if (location.hash === "#demo"){
                 document.getElementById("demo").click()
             }
          </script>
-      </div>
    </body>
 </html>
 
