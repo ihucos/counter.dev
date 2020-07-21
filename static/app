@@ -123,7 +123,7 @@ sessionStorage.setItem("_swa", "1");
             </div>
             <div class="flex-item w-full">
                <div>
-                  <canvas class="w-full" height="200" id="graph"></canvas>
+                  <canvas class="w-full" height="300" id="graph"></canvas>
                </div>
             </div>
             <div class="flex-item w-1/3">

@@ -599,13 +599,20 @@ function draw(user, data) {
             scales: {
                 yAxes: [{
                     "scaleLabel": {
-                        "display": false,
+                        display: true,
+                        labelString: "Visits",
                     },
                     ticks: {
                         beginAtZero: true,
                         userCallback: function(label) {
                             if (Math.floor(label) === label) return kFormat(label);
                         },
+                    },
+                }, ],
+                xAxes: [{
+                    "scaleLabel": {
+                        display: true,
+                        labelString: "Date",
                     },
                 }, ]
             },
