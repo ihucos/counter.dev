@@ -1,3 +1,20 @@
+
+normalFont = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
+normalFontColor = '#212529'
+
+
+function rand(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+function toColor(str){
+    hue = rand(0, 360)
+    saturation = rand(0, 100)
+    lightness = rand(35, 80)
+    return 'hsl(' + hue + ', ' + saturation + '%, ' + lightness + '%)'
+}
+
+
 function post(endpoint, body, user, alertId) {
 
     // first hide all alerts
@@ -386,6 +403,63 @@ function drawRefRatio() {
 }
 
 
+function drawBar(elemId, entries, title){
+    var list = [];
+    for (var key in entries) {
+        list.push([key, entries[key]]);
+    }
+    list.sort(function(a, b) {
+        return b[1] - a[1];
+    });
+    slice = list.slice(0, 5)
+
+    new Chart(document.getElementById(elemId), {
+        type: 'pie',
+        data: {
+            labels: slice.map(x => x[0]),
+            datasets: [{
+                data: slice.map(x => x[1]),
+                backgroundColor: slice.map(x => toColor(x[0])),
+            }, ],
+        },
+        options: {
+            maintainAspectRatio: false,
+            cutoutPercentage: 70,
+            tooltips: {
+                mode: 'index'
+            },
+            title: {
+                display: true,
+                text: title
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                    },
+                    ticks: {
+                        display: false,
+                        beginAtZero: true
+                    }
+                }, ],
+                yAxes: [{
+                    gridLines: {
+                        display: false,
+                    },
+                    ticks: {
+                        beginAtZero: true,
+                        fontFamily: normalFont,
+                        fontColor: normalFontColor,
+                        fontSize: 16,
+                    }
+                }, ],
+            },
+        },
+    })
+
+}
+
+
 function draw(user, data) {
     console.log("redrawing")
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
@@ -455,16 +529,13 @@ function draw(user, data) {
 
     drawList("list_ref", data.ref, "Referrals", 5, false, true)
     drawList("list_loc", data.loc, "Landing pages", 5, false, false)
-    drawList("list_browser", dGroupData(data.browser), "Browsers", 5, true, false)
-    drawList("list_platform", dGroupData(data.platform), "Platforms", 5, true, false)
-    drawList("list_device", dGroupData(data.device), "Devices", 5, true, false)
-    drawList("list_origin", data.origin, "Origins", 5, false, true)
+    drawBar("browser", dGroupData(data.browser), "Browsers")
+    drawBar("platform", dGroupData(data.platform), "Platforms")
+    drawBar("device", dGroupData(data.device), "Devices")
     drawLog(5)
 
 
     Chart.defaults.global.animation.duration = 0
-    normalFont = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
-    normalFontColor = '#212529'
 
     new Chart(document.getElementById("graph"), {
         type: 'bar',
