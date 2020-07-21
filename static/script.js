@@ -374,7 +374,7 @@ function drawRefRatio(){
             },
           ],
         },
-        options: {legend: {display: false}},
+        options: {legend: {display: false}, maintainAspectRatio: false},
     })
 }
 
@@ -530,6 +530,7 @@ function draw(user, data) {
             }, ],
         },
         options: {
+            maintainAspectRatio: false,
             tooltips: {
                 mode: 'index'
             },
@@ -587,6 +588,7 @@ function draw(user, data) {
             }, ],
         },
         options: {
+            maintainAspectRatio: false,
             tooltips: {
                 mode: 'index'
             },

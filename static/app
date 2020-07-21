@@ -39,20 +39,30 @@ body {
 h5 {
   padding-bottom: 0.75em;
   margin-top: 0em;
-  font-size: 1.8em;
+  font-size: 1.2em;
   /*color: #194873;*/
   color: rgba(25, 72, 115, 0.8);
   position: relative;
 }
 
-#page-graphs {
+.flex-container{
+    border: 1px solid red;
+    box-sizing: border-box;
 }
 
-.card {
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.7);
-    border: solid white 2em;
-    background-color: white;
+.flex-item{
+    padding:1em;
+    box-sizing: border-box;
+    display:flex;
 }
+
+.flex-item>div, .flex-item > canvas {
+    border: 1px solid blue;
+    flex: 1 1 auto;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.7)
+}
+
+
 
 </style>
 
@@ -78,6 +88,33 @@ h5 {
       </div>
 
       <br>
+
+
+<div class="flex-container mx-auto max-w-4xl flex flex-wrap">
+    <div class="flex-item w-1/3"><div id="list_ref"></div></div>
+    <div class="flex-item w-2/3"><div id="list_loc"></div></div>
+    <div class="flex-item w-full">
+      <div>
+             <h5>Visits by date</h5>
+             <canvas class="w-full" height="200" id="graph"></canvas>
+      </div>
+    </div>
+    <div class="flex-item w-1/3">
+             <canvas id="time" height=150></canvas>
+    </div>
+    <div class="flex-item w-1/3">
+             <canvas id="weekday" height=150></canvas>
+
+    </div>
+    <div class="flex-item w-1/3">
+             <canvas id="ref_ratio" height=150></canvas>
+    </div>
+
+</div>
+
+
+
+
       <div id="page-graphs" class="max-w-4xl mx-auto hidden flex-wrap">
 
          <div class="w-full hidden">
@@ -101,8 +138,8 @@ sessionStorage.setItem("_swa", "1");
 </pre>
          </div>
          <div class="card w-1/3" id="list_ref"></div>
-         <div class="card w-2/3" id="list_loc" style="transform: rotate(-0.25deg);"></div>
-         <div class="card w-full" style="transform: rotate(-0.5deg);">
+         <div class="card w-2/3" id="list_loc"></div>
+         <div class="card w-full">
              <h5>Visits by date</h5>
              <canvas class="w-full" height="200" id="graph"></canvas>
          </div>
@@ -110,19 +147,19 @@ sessionStorage.setItem("_swa", "1");
              <h5>Time</h5>
              <canvas id="time" height=150></canvas>
          </div>
-         <div class="card w-1/3" style="transform: rotate(1deg);">
+         <div class="card w-1/3">
              <h5>Weekday</h5>
              <canvas id="weekday" height=150></canvas>
          </div>
-         <div class="card w-1/3" style="transform: rotate(2deg);">
+         <div class="card w-1/3">
              <h5>Referrers</h5>
              <canvas id="ref_ratio" height=150></canvas>
          </div>
          <div class="card w-1/3" id="list_device"></div>
-         <div class="card w-1/3" id="list_platform" style="transform: rotate(-0.25deg);"></div>
-         <div class="card w-1/3" id="list_browser" style="transform: rotate(1deg)";></div>
-         <div class="card mx-auto" id="world" style="width: 1200px; height: 400px;"></div>
-         <div class="card w-full" id="list_origin" style="transform: rotate(0.5deg);"></div>
+         <div class="card w-1/3" id="list_platform""></div>
+         <div class="card w-1/3" id="list_browser"></div>
+         <div class="card mx-auto" id="world"></div>
+         <div class="card w-full" id="list_origin"></div>
          <div class="card">
          <h5>Log</h5>
          <table>
