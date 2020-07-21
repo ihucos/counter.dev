@@ -1,4 +1,3 @@
-
 normalFont = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
 normalFontColor = '#212529'
 
@@ -7,7 +6,7 @@ function rand(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-function toColor(str){
+function toColor(str) {
     hue = rand(0, 360)
     saturation = rand(0, 100)
     lightness = rand(35, 80)
@@ -402,7 +401,7 @@ function drawRefRatio() {
     })
 }
 
-function drawCountries(elemId, countries){
+function drawCountries(elemId, countries) {
     var elem = document.getElementById(elemId)
     elem.innerHTML = "<h5>Countries</h5>"
 
@@ -437,7 +436,7 @@ function drawCountries(elemId, countries){
     elem.innerHTML += html
 }
 
-function drawPie(elemId, entries, title){
+function drawPie(elemId, entries, title) {
     var list = [];
     for (var key in entries) {
         list.push([key, entries[key]]);
@@ -463,7 +462,13 @@ function drawPie(elemId, entries, title){
             tooltips: {
                 mode: 'index'
             },
-            legend: {position: 'bottom', labels: { usePointStyle: 'true' }, align: 'center' },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    usePointStyle: 'true'
+                },
+                align: 'center'
+            },
             title: {
                 display: true,
                 text: title
