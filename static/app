@@ -127,13 +127,13 @@ sessionStorage.setItem("_swa", "1");
                </div>
             </div>
             <div class="flex-item w-1/3">
-               <canvas id="time" height=200></canvas>
+               <canvas id="time" height=230></canvas>
             </div>
             <div class="flex-item w-1/3">
-               <canvas id="weekday" height=200></canvas>
+               <canvas id="hour" height=230></canvas>
             </div>
             <div class="flex-item w-1/3">
-               <canvas id="ref_ratio" height=200></canvas>
+               <canvas id="weekday" height=230></canvas>
             </div>
             <div class="flex-item w-1/3">
                <canvas height=200 id="device"></canvas>
@@ -150,6 +150,13 @@ sessionStorage.setItem("_swa", "1");
             <div class="flex-item w-1/3" style="height: 450px">
                <div id="world_list" style="overflow: scroll"></div>
             </div>
+
+            <div class="flex-item w-1/3">
+               <canvas id="ref_ratio" height=200></canvas>
+            </div>
+            <div class="flex-item w-2/3">
+            </div>
+
             <div class="flex-item w-full">
                <div id="list_origin"></div>
             </div>

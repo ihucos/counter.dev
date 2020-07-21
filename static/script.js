@@ -494,6 +494,75 @@ function drawPie(elemId, entries, title) {
 }
 
 
+function sumHours(arr) {
+    var sum = 0
+    arr.forEach(el => sum += (data.hour[el] || 0))
+    return sum
+}
+
+
+function drawTime(){
+    new Chart(document.getElementById("time"), {
+        type: 'bar',
+        data: {
+            labels: [
+                'Morning',
+                'Afternoon',
+                'Evening',
+                'Night',
+            ],
+            datasets: [{
+                maxBarThickness: 10,
+                data: [
+                    sumHours([5, 6, 7, 8, 9, 10, 11]),
+                    sumHours([12, 13, 14, 15]),
+                    sumHours([16, 17, 18, 19, 20, 21]),
+                    sumHours([22, 23, 24, 0, 1, 2, 3, 4]),
+                ],
+                backgroundColor: [
+                    orange,
+                    orange,
+                    orange,
+                    orange,
+                ],
+            }, ],
+        },
+        options: {
+            tooltips: {
+                mode: 'index'
+            },
+            legend: {
+                display: false,
+            },
+            title: {
+                display: true,
+                text: "Visits by time",
+                position: "top",
+            },
+            scales: {
+                yAxes: [{
+                    gridLines: {
+                        display: false,
+                    },
+                    ticks: {
+                        display: false,
+                        beginAtZero: true,
+                    }
+                }, ],
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                    },
+                    ticks: {
+                        beginAtZero: true,
+                    }
+                }, ],
+            },
+        },
+    })
+}
+
+
 function draw(user, data) {
     console.log("redrawing")
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
@@ -513,6 +582,7 @@ function draw(user, data) {
     drawUTCOffsetVar()
     drawMap()
     drawTitle(user)
+    drawTime()
     drawRefRatio()
 
 
@@ -622,13 +692,7 @@ function draw(user, data) {
         },
     })
 
-    function sumHours(arr) {
-        var sum = 0
-        arr.forEach(el => sum += (data.hour[el] || 0))
-        return sum
-    }
-
-    new Chart(document.getElementById("time"), {
+    new Chart(document.getElementById("hour"), {
         type: 'radar',
         data: {
             labels: [
@@ -693,7 +757,7 @@ function draw(user, data) {
             title: {
                 display: true,
                 text: "Visits by Hour",
-                position: "left",
+                position: "top",
             },
             maintainAspectRatio: false,
             tooltips: {
@@ -734,8 +798,8 @@ function draw(user, data) {
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'Weekday',
-                position: "left",
+                text: 'Visits by weekday',
+                position: "top",
             },
             tooltips: {
                 mode: 'index'
