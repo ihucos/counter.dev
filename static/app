@@ -30,10 +30,10 @@
 
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;800&display=swap" rel="stylesheet"> 
-
-<link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet"> <style>
+<style>
 body {
     background-color: rgba(222, 216, 128, 0.03);
+    color: rgba(0, 0, 0, 0.8);
 }
 
 h5 {
@@ -43,8 +43,6 @@ h5 {
   /*color: #194873;*/
   color: rgba(25, 72, 115, 0.8);
   position: relative;
-  font-family: 'Shadows Into Light', cursive;
-
 }
 
 #page-graphs {
@@ -54,7 +52,6 @@ h5 {
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.7);
     border: solid white 2em;
     background-color: white;
-    border-radius: 2px;
 }
 
 </style>
@@ -81,7 +78,7 @@ h5 {
       </div>
 
       <br>
-      <div id="page-graphs" class="max-w-2xl mx-auto hidden flex-wrap">
+      <div id="page-graphs" class="max-w-4xl mx-auto hidden flex-wrap">
 
          <div class="w-full hidden">
              <a href="#">Logout <span class="username">USERNAME</span></a>
@@ -103,8 +100,8 @@ sessionStorage.setItem("_swa", "1");
             </code>
 </pre>
          </div>
-         <div class="card w-1/2" id="list_ref"></div>
-         <div class="card w-1/2" id="list_loc"></div>
+         <div class="card w-1/3" id="list_ref"></div>
+         <div class="card w-2/3" id="list_loc" style="transform: rotate(-0.25deg);"></div>
          <div class="card w-full" style="transform: rotate(-0.5deg);">
              <h5>Visits by date</h5>
              <canvas class="w-full" height="200" id="graph"></canvas>
@@ -124,7 +121,7 @@ sessionStorage.setItem("_swa", "1");
          <div class="card w-1/3" id="list_device"></div>
          <div class="card w-1/3" id="list_platform" style="transform: rotate(-0.25deg);"></div>
          <div class="card w-1/3" id="list_browser" style="transform: rotate(1deg)";></div>
-         <div class="card" id="world" style="width: 800px; height: 400px;"></div>
+         <div class="card mx-auto" id="world" style="width: 1200px; height: 400px;"></div>
          <div class="card w-full" id="list_origin" style="transform: rotate(0.5deg);"></div>
          <div class="card">
          <h5>Log</h5>
