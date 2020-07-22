@@ -87,7 +87,7 @@ function showTrackingCode() {
 
 function hideTrackingCode() {
     document.getElementById("tracking-code").style.display = "none"
-    document.getElementById("tracking-code-button").innerHTML = "Show Tracking Code"
+    document.getElementById("tracking-code-button").innerHTML = "Display Tracking Code"
 }
 
 function toggleTrackingCode() {
@@ -188,7 +188,7 @@ function drawList(elem_id, dataItem, title, maxEntries, usePercent, useLink) {
         listTotal += completeList[i][1]
     }
 
-    html = '<table class="top">'
+    html = '<table class="list">'
     for (var i = 0; i < list.length; i++) {
         var percent = list[i][1] / listTotal * 100
         html += '<tr>'
@@ -202,7 +202,7 @@ function drawList(elem_id, dataItem, title, maxEntries, usePercent, useLink) {
         }
         html += '<th style="padding-right: 0.5em; white-space: nowrap;">' + escapeHtml(val) + '</th>'
         html += '<td style="position: relative; z-axis: 100; width: 100%;">'
-        html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 100%; background-color: rgba(25, 72, 115, 0.25); pointer-events: none;"></div>'
+        html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 3px; background-color: #2F6CA2; pointer-events: none;"></div>'
         var key = escapeHtml(list[i][0])
         if (useLink) {
             if (!key.includes("://")) {

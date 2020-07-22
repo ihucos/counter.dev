@@ -73,6 +73,10 @@ e          padding-bottom: 10px;
            background-color: white;
          }
 
+         .list, .list td, .list tr {
+            border: 5px solid white;
+         }
+
       </style>
    </head>
    <body>
@@ -91,24 +95,8 @@ e          padding-bottom: 10px;
             <button type="submit" onclick="login(); return false" id="login_button" name="action">Login</button>
          </form>
       </div>
-      <br>
       <div id="page-graphs" class="hidden">
 
-         <div class="w-full" id="tracking-code">
-            <pre><code>&lt;script&gt;
-// Simple Web Analytics tracking code
-if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
-        referrer: document.referrer,
-        site: "<span>USERNAME</span>",
-        utcoffset: <span id="utcoffset">0</span>
-    }));
-}
-sessionStorage.setItem("_swa", "1");
-&lt;/script&gt;
-            </code>
-</pre>
-         </div>
          <div class="flex-container mx-auto max-w-4xl flex flex-wrap">
 
            <div class="flex-item w-full">
@@ -119,6 +107,7 @@ sessionStorage.setItem("_swa", "1");
                </a>
 
                <button onclick="downloadData()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+                 <span>&nbsp;</span>
                  <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
                  <span>Download</span>
                </button>
@@ -129,6 +118,26 @@ sessionStorage.setItem("_swa", "1");
              </div>
            </div>
 
+
+           <div id="tracking-code" class="flex-item w-full">
+               <div class="overflow-scroll" style="background-color: #ebf7ff">
+                  <h5>Tracking Code</h5>
+                  <p class="m-5">
+                  Copy and paste this code into the html of the pages you want to track.
+                  </p>
+                  <pre class="m-5 leading-normal text-xs"><code>&lt;script&gt;
+// Simple Web Analytics tracking code
+if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
+    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
+        referrer: document.referrer,
+        site: "<span>USERNAME</span>",
+        utcoffset: <span id="utcoffset">0</span>
+    }));
+}
+sessionStorage.setItem("_swa", "1");
+&lt;/script&gt;</code></pre>
+               </div>
+           </div>
 
 
 
