@@ -52,7 +52,7 @@ e          padding-bottom: 10px;
          }
 
          body {
-           background-color: #f9fafb;
+           background-color: rgba(0, 0, 0, 0.02);
            color: rgba(0, 0, 0, 0.8);
          }
          .flex-container {
@@ -69,8 +69,7 @@ e          padding-bottom: 10px;
            padding: 0.25em;
            border-radius: 5px;
            flex: 1 1 auto;
-           box-shadow: 0 .5rem 1rem #dee2e6;
-           border: 1px solid #dee2e6 !important;
+           box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.1);
            background-color: white;
          }
 
@@ -96,8 +95,14 @@ e          padding-bottom: 10px;
       <div id="page-graphs" class="hidden">
          <div class="w-full max-w-4xl mx-auto">
             <a href="">Logout <span class="username">USERNAME</span></a>
-            <button onclick="downloadData(); return false">Export</button>
-            <button id="tracking-code-button" onclick="toggleTrackingCode(); return false">TRACKING CODE</button>
+            <a onclick="downloadData(); return false">Export</button>
+            <a id="tracking-code-button" onclick="toggleTrackingCode(); return false">TRACKING CODE</button>
+
+<button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+  <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+  <span>Download</span>
+</button>
+
          </div>
          <div class="w-full" id="tracking-code">
             <pre><code>&lt;script&gt;
