@@ -894,7 +894,7 @@ function draw(user, data) {
 }
 
 function dGroupData(entries) {
-    var cutAt = 10
+    var cutAt = 3
     var entrs = Object.entries(entries)
     entrs = entrs.sort((a, b) => b[1] - a[1])
     entrs = entrs.sort((a, b) => a[0] === "Other" ? 1 : -1)
