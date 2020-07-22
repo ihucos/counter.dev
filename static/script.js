@@ -373,15 +373,19 @@ function drawRefRatio() {
     var direct = total - ref
 
     new Chart(document.getElementById("ref_ratio"), {
-        type: 'bar',
+        type: 'pie',
         data: {
             labels: [
                 'Direct',
                 'Referrer',
             ],
             datasets: [{
+            maxBarThickness: 10,
                 borderWidth: 0,
-                backgroundColor: orange,
+                backgroundColor: [
+                  '#E2E2E2',
+                  '#2F6CA2',
+                ],
                 data: [
                     Math.round(direct / total * 100),
                     Math.round(ref / total * 100),
@@ -396,7 +400,18 @@ function drawRefRatio() {
             title: {
                 display: true,
                 text: 'Refferrer traffic'
-            }
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                    },
+                    ticks: {
+                        display: false,
+                        beginAtZero: true
+                    }
+                }, ],
+            },
         },
     })
 }
@@ -560,6 +575,56 @@ function drawTime(){
 }
 
 
+function drawRefChart(){
+    var topRefs = dGroupData(data.ref)
+
+    new Chart(document.getElementById("ref_chart"), {
+        type: 'horizontalBar',
+        data: {
+            labels: Object.keys(topRefs),
+            datasets: [{
+                maxBarThickness: 10,
+                data: Object.values(topRefs),
+                backgroundColor: orange,
+            }, ],
+        },
+        options: {
+            maintainAspectRatio: false,
+            tooltips: {
+                mode: 'index'
+            },
+            legend: {
+                display: false,
+            },
+            title: {
+                display: true,
+                text: "Top Refferrals",
+                position: "top",
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                    },
+                    ticks: {
+                        display: false,
+                        beginAtZero: true,
+                    }
+                }, ],
+                yAxes: [{
+                    gridLines: {
+                        display: false,
+                    },
+                    ticks: {
+                        beginAtZero: true,
+                    }
+                }, ],
+            },
+        },
+    })
+}
+
+
 function draw(user, data) {
     console.log("redrawing")
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
@@ -581,6 +646,7 @@ function draw(user, data) {
     drawTitle(user)
     drawTime()
     drawRefRatio()
+    drawRefChart()
 
 
     var daysRange = function(s, e) {
@@ -626,7 +692,7 @@ function draw(user, data) {
 
     [date_keys, date_vals] = getNormalizedDateData()
 
-    drawList("list_ref", data.ref, "Referrals", 5, false, true)
+    drawList("list_ref", data.ref, "All refferals", 5, false, true)
     drawList("list_loc", data.loc, "Landing pages", 5, false, false)
     drawCountries("world_list", data.country)
     drawPie("browser", dGroupData(data.browser), "Browsers")
@@ -828,7 +894,7 @@ function draw(user, data) {
 }
 
 function dGroupData(entries) {
-    var cutAt = 3
+    var cutAt = 10
     var entrs = Object.entries(entries)
     entrs = entrs.sort((a, b) => b[1] - a[1])
     entrs = entrs.sort((a, b) => a[0] === "Other" ? 1 : -1)
