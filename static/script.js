@@ -598,11 +598,7 @@ function drawRefChart(){
                 mode: 'index'
             },
             legend: {
-                position: 'right',
-                labels: {
-                    usePointStyle: 'true'
-                },
-                align: 'center'
+                display: false
             },
             title: {
                 display: true,
