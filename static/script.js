@@ -82,12 +82,12 @@ function alwaysUpdate() {
 
 function showTrackingCode() {
     document.getElementById("tracking-code").style.display = "block"
-    document.getElementById("tracking-code-button").innerHTML = "Hide Tracking Code"
+    document.getElementById("tracking-code-button").innerHTML = "Hide tracking code"
 }
 
 function hideTrackingCode() {
     document.getElementById("tracking-code").style.display = "none"
-    document.getElementById("tracking-code-button").innerHTML = "Display Tracking Code"
+    document.getElementById("tracking-code-button").innerHTML = "Display tracking code"
 }
 
 function toggleTrackingCode() {
