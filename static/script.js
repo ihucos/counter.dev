@@ -598,11 +598,15 @@ function drawRefChart(){
                 mode: 'index'
             },
             legend: {
-                display: false,
+                position: 'right',
+                labels: {
+                    usePointStyle: 'true'
+                },
+                align: 'center'
             },
             title: {
                 display: true,
-                text: "Refferrer traffic",
+                text: "Traffic sources",
                 position: "top",
             },
             scales: {
