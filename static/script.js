@@ -577,15 +577,19 @@ function drawTime(){
 
 function drawRefChart(){
     var topRefs = dGroupData(data.ref)
+    var total = sum(Object.values(data.date))
+    var ref = sum(Object.values(data.ref))
+    var direct = total - ref
+    topRefs["Direct"] = direct
 
     new Chart(document.getElementById("ref_chart"), {
-        type: 'horizontalBar',
+        type: 'pie',
         data: {
             labels: Object.keys(topRefs),
             datasets: [{
-                maxBarThickness: 10,
+                borderWidth: 0.5,
                 data: Object.values(topRefs),
-                backgroundColor: orange,
+                backgroundColor: [orange, orange, orange, orange, "rgba(0,0,0,0.15)"],
             }, ],
         },
         options: {
@@ -598,7 +602,7 @@ function drawRefChart(){
             },
             title: {
                 display: true,
-                text: "Top Refferrals",
+                text: "Refferrer traffic",
                 position: "top",
             },
             scales: {
@@ -607,8 +611,8 @@ function drawRefChart(){
                         display: false,
                     },
                     ticks: {
-                        display: false,
                         beginAtZero: true,
+                        display: false,
                     }
                 }, ],
                 yAxes: [{
@@ -617,6 +621,7 @@ function drawRefChart(){
                     },
                     ticks: {
                         beginAtZero: true,
+                        display: false,
                     }
                 }, ],
             },
