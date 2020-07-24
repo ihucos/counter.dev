@@ -420,7 +420,7 @@ function drawPie(elemId, entries, title) {
                 borderColor: 'white',
                 data: list.map(x => x[1]),
                 //backgroundColor: list.map(x => toColor(x[0])),
-                backgroundColor: ['#05668d', '#028090', '#00a896', '#02c39a'],
+                backgroundColor: ['#6a4c93', '#1982c4', '#8ac926', '#ef476f'],
             }, ],
         },
         options: {
@@ -608,6 +608,12 @@ function drawRefChart() {
 
 function drawLastDays(elemId, date_keys, date_vals) {
     var num = 7
+    var ctx = document.getElementById(elemId).getContext("2d")
+    var gradientStroke = ctx.createLinearGradient(0, 0, 0, 200);
+    gradientStroke.addColorStop(0, "rgba(47, 108, 162, 0.7)");
+    gradientStroke.addColorStop(1, "rgba(47, 108, 162, 0.1)");
+
+
     new Chart(document.getElementById(elemId), {
         type: 'line',
         data: {
@@ -615,13 +621,19 @@ function drawLastDays(elemId, date_keys, date_vals) {
             datasets: [{
                 data: date_vals.slice(-1 * num),
                 label: 'Visits',
-                backgroundColor: 'rgba(47, 108, 162, 0.3)',
+                backgroundColor: gradientStroke,
                 borderColor: orange,
-                pointBorderColor: orange,
-                pointBackgroundColor: orange,
+                //pointBorderColor: 'rgba(47, 108, 162, 0.5)',
+                pointBackgroundColor: 'rgba(47, 108, 162, 1)',
+                pointBorderWidth: 2,
             }, ],
         },
         options: {
+            elements: {
+                line: {
+                    tension: 0
+                }
+            },
             maintainAspectRatio: false,
             title: {
                 display: true,
