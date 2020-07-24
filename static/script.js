@@ -419,7 +419,7 @@ function drawPie(elemId, entries, title) {
                 borderWidth: 1,
                 borderColor: 'black',
                 data: list.map(x => x[1]),
-                backgroundColor: ['#495867', '#577399', '#bdd5ea', '#f7f7ff']
+                backgroundColor: [ '#f7f7ff', '#bdd5ea', '#577399', '#495867']
             }, ],
         },
         options: {
@@ -526,9 +526,9 @@ function drawTime() {
 
 
 function drawRefChart() {
-    var palette = ['#e9c46a', '#f4a261', '#e76f51']
-    var otherColor = '#2a9d8f'
-    var directColor = 'rgba(38, 70, 83, 0.1)'
+    var palette = ['#0f4c75', '#3282b8', '#bbe1fa']
+    var otherColor = '#1b262c'
+    var directColor = 'lightgray'
 
     var topRefs = dGroupData(data.ref, 3)
     var total = sum(Object.values(data.date))
@@ -557,13 +557,14 @@ function drawRefChart() {
         data: {
             labels: entries.map(x => x.label),
             datasets: [{
-                borderWidth: 0.5,
-                borderColor: 'black',
+                borderWidth: 1,
+                borderColor: 'white',
                 data: entries.map(x => x.value),
                 backgroundColor: entries.map(x => x.color),
             }, ],
         },
         options: {
+            //cutoutPercentage: 50,
             maintainAspectRatio: false,
             tooltips: {
                 mode: 'index'
