@@ -755,18 +755,20 @@ function draw(user, data) {
 
     //document.getElementById('val_visits').innerHTML = escapeHtml(date_vals.slice(-1)[0])
 
-
-    Chart.defaults.global.animation.duration = 0
+    var ctx = document.getElementById("graph").getContext("2d")
+    var gradientStroke = ctx.createLinearGradient(0, 0, 0, 200);
+    gradientStroke.addColorStop(0, "rgba(47, 108, 162, 0.5)");
+    gradientStroke.addColorStop(1, "rgba(47, 108, 162, 1)");
 
     new Chart(document.getElementById("graph"), {
         type: 'bar',
         data: {
             labels: date_keys.map(x => x),
             datasets: [{
-                maxBarThickness: 10,
+                maxBarThickness: 15,
                 data: date_vals,
                 label: 'Visits',
-                backgroundColor: orange,
+                backgroundColor: gradientStroke,
                 borderColor: orange,
                 pointBorderColor: orange,
                 pointBackgroundColor: orange,
