@@ -1,7 +1,7 @@
 normalFont = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
 normalFontColor = '#212529'
 orange = "#2F6CA2"
-//Chart.defaults.global.defaultFontColor = 'red';
+    //Chart.defaults.global.defaultFontColor = 'red';
 
 Chart.defaults.global.defaultFontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
 
@@ -380,11 +380,11 @@ function drawRefRatio() {
                 'Referrer',
             ],
             datasets: [{
-            maxBarThickness: 10,
+                maxBarThickness: 10,
                 borderWidth: 0,
                 backgroundColor: [
-                  '#E2E2E2',
-                  '#2F6CA2',
+                    '#E2E2E2',
+                    '#2F6CA2',
                 ],
                 data: [
                     Math.round(direct / total * 100),
@@ -440,7 +440,7 @@ function drawCountries(elemId, countries) {
         var val = kFormat(list[i][1])
         html += '<th style="padding-right: 0.5em; white-space: nowrap;">' + escapeHtml(val) + '</th>'
         html += '<td style="position: relative; z-axis: 100; width: 100%;">'
-        //html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 100%; background-color: rgba(25, 72, 115, 0.25); pointer-events: none;"></div>'
+            //html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 100%; background-color: rgba(25, 72, 115, 0.25); pointer-events: none;"></div>'
         var key = escapeHtml(list[i][0])
         html += '<img class="inline-block pr-1" src="/famfamfam_flags/gif/' + escapeHtml(key) + '.gif"/>'
         html += resolveCountry(key)
@@ -512,7 +512,7 @@ function sumHours(arr) {
 }
 
 
-function drawTime(){
+function drawTime() {
     new Chart(document.getElementById("time"), {
         type: 'bar',
         data: {
@@ -575,7 +575,7 @@ function drawTime(){
 }
 
 
-function drawRefChart(){
+function drawRefChart() {
     var palette = ['#e9c46a', '#f4a261', '#e76f51']
     var otherColor = '#2a9d8f'
     var directColor = 'rgba(38, 70, 83, 0.1)'
@@ -588,14 +588,18 @@ function drawRefChart(){
 
     var entries = []
     for (const [key, value] of Object.entries(topRefs)) {
-        if (key === "Direct"){
+        if (key === "Direct") {
             var color = directColor
-        } else if (key === "Other"){
+        } else if (key === "Other") {
             var color = otherColor
         } else {
             var color = palette.pop()
         }
-        entries.push({label: key, value: value, color: color})
+        entries.push({
+            label: key,
+            value: value,
+            color: color
+        })
     }
 
     new Chart(document.getElementById("ref_chart"), {
@@ -651,7 +655,7 @@ function drawRefChart(){
 }
 
 
-function drawLastDays(elemId, date_keys, date_vals){
+function drawLastDays(elemId, date_keys, date_vals) {
     var num = 7
     new Chart(document.getElementById(elemId), {
         type: 'line',
@@ -818,12 +822,14 @@ function draw(user, data) {
             },
             scales: {
                 yAxes: [{
+                    gridLines: {
+                        display: true,
+                    },
                     "scaleLabel": {
                         display: true,
                         labelString: "Visits",
                     },
                     ticks: {
-                        maxTicksLimit: 5,
                         beginAtZero: true,
                         userCallback: function(label) {
                             if (Math.floor(label) === label) return kFormat(label);
@@ -831,10 +837,13 @@ function draw(user, data) {
                     },
                 }, ],
                 xAxes: [{
-                type: 'time',
-                time: {
-                    unit: 'week'
-                },
+                    gridLines: {
+                        display: false,
+                    },
+                    type: 'time',
+                    time: {
+                        unit: 'week'
+                    },
                     "scaleLabel": {
                         display: false,
                         //labelString: "Date",
@@ -903,7 +912,7 @@ function draw(user, data) {
                     data['hour'][21] || 0,
                     data['hour'][22] || 0,
                     data['hour'][23] || 0,
-                    ],
+                ],
                 backgroundColor: orange,
                 pointRadius: 1,
             }, ],
@@ -923,11 +932,11 @@ function draw(user, data) {
             },
             scale: {
                 gridLines: {
-                        display: false,
-                    },
-                    ticks: {
-                        display: false,
-                    }
+                    display: false,
+                },
+                ticks: {
+                    display: false,
+                }
             },
         },
     })
