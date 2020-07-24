@@ -416,16 +416,15 @@ function drawPie(elemId, entries, title) {
         data: {
             labels: list.map(x => x[0]),
             datasets: [{
-                borderWidth: 4,
-                borderColor: 'white',
+                borderWidth: 1,
+                borderColor: 'black',
                 data: list.map(x => x[1]),
-                //backgroundColor: list.map(x => toColor(x[0])),
-                backgroundColor: ['#6a4c93', '#1982c4', '#8ac926', '#ef476f'],
+                backgroundColor: ['#495867', '#577399', '#bdd5ea', '#f7f7ff']
             }, ],
         },
         options: {
             maintainAspectRatio: false,
-            cutoutPercentage: 70,
+            cutoutPercentage: 50,
             tooltips: {
                 mode: 'index'
             },
