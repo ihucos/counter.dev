@@ -101,7 +101,7 @@ function toggleTrackingCode() {
 
 
 function escapeHtml(unsafe) {
-    return unsafe
+    return (unsafe + "")
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -539,6 +539,7 @@ function drawTime(){
             }, ],
         },
         options: {
+            maintainAspectRatio: false,
             tooltips: {
                 mode: 'index'
             },
@@ -622,7 +623,7 @@ function drawRefChart(){
             },
             title: {
                 display: true,
-                text: "Top traffic sources",
+                text: "Top Traffic Sources",
                 position: "top",
             },
             scales: {
@@ -651,26 +652,37 @@ function drawRefChart(){
 
 
 function drawLastDays(elemId, date_keys, date_vals){
+    var num = 7
     new Chart(document.getElementById(elemId), {
         type: 'line',
         data: {
-            labels: date_keys.slice(-4).map(x => moment(x).format("DD MMMM")),
+            labels: date_keys.slice(-1 * num).map(x => moment(x).format("DD MMMM")),
             datasets: [{
-                data: date_vals.slice(-4),
+                data: date_vals.slice(-1 * num),
                 label: 'Visitors',
-                backgroundColor: "transparent",
+                backgroundColor: 'rgba(47, 108, 162, 0.3)',
                 borderColor: orange,
                 pointBorderColor: orange,
                 pointBackgroundColor: orange,
             }, ],
         },
         options: {
+            maintainAspectRatio: false,
             title: {
                 display: true,
-                text: "Visits"
+                text: "Last 7 days"
+            },
+            tooltips: {
+                enabled: true,
+                mode: "index",
+                intersect: false,
             },
             scales: {
                 yAxes: [{
+                    "scaleLabel": {
+                        display: true,
+                        labelString: "Visits",
+                    },
                     ticks: {
                         maxTicksLimit: 5,
                         userCallback: function(label) {
@@ -775,6 +787,8 @@ function draw(user, data) {
     drawList("list_origin", data.origin, "Origins", 5, false, true)
     drawLog(5)
 
+    //document.getElementById('val_visits').innerHTML = escapeHtml(date_vals.slice(-1)[0])
+
 
     Chart.defaults.global.animation.duration = 0
 
@@ -783,12 +797,11 @@ function draw(user, data) {
         data: {
             labels: date_keys,
             datasets: [{
+                maxBarThickness: 5,
                 data: date_vals,
                 label: 'Visitors',
                 backgroundColor: orange,
                 borderColor: orange,
-
-
                 pointBorderColor: orange,
                 pointBackgroundColor: orange,
             }, ],
@@ -796,7 +809,7 @@ function draw(user, data) {
         options: {
             title: {
                 display: true,
-                text: "All visits"
+                text: "Visits"
             },
             tooltips: {
                 enabled: true,
