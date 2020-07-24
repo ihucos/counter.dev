@@ -672,7 +672,7 @@ function drawLastDays(elemId, date_keys, date_vals){
             scales: {
                 yAxes: [{
                     ticks: {
-maxTicksLimit: 5,
+                        maxTicksLimit: 5,
                         userCallback: function(label) {
                             if (Math.floor(label) === label) return kFormat(label);
                         },
@@ -796,7 +796,7 @@ function draw(user, data) {
         options: {
             title: {
                 display: true,
-                text: "Visits by date"
+                text: "All visits"
             },
             tooltips: {
                 enabled: true,
