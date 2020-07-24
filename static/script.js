@@ -496,7 +496,6 @@ function drawPie(elemId, entries, title) {
                     },
                     ticks: {
                         display: false,
-                        beginAtZero: true
                     }
                 }, ],
             },
@@ -578,7 +577,7 @@ function drawTime(){
 function drawRefChart(){
     var palette = ['#e9c46a', '#f4a261', '#e76f51']
     var otherColor = '#2a9d8f'
-    var directColor = 'rgba(38, 70, 83, 0.2)'
+    var directColor = 'rgba(38, 70, 83, 0.1)'
 
     var topRefs = dGroupData(data.ref, 3)
     var total = sum(Object.values(data.date))
@@ -651,6 +650,52 @@ function drawRefChart(){
 }
 
 
+function drawLastDays(elemId, date_keys, date_vals){
+    new Chart(document.getElementById(elemId), {
+        type: 'line',
+        data: {
+            labels: date_keys.slice(-4).map(x => moment(x).format("DD MMMM")),
+            datasets: [{
+                data: date_vals.slice(-4),
+                label: 'Visitors',
+                backgroundColor: "transparent",
+                borderColor: orange,
+                pointBorderColor: orange,
+                pointBackgroundColor: orange,
+            }, ],
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Visits"
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+maxTicksLimit: 5,
+                        userCallback: function(label) {
+                            if (Math.floor(label) === label) return kFormat(label);
+                        },
+                    },
+                    gridLines: {
+                        display: true,
+                    },
+                }, ],
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                    },
+                }, ]
+            },
+            legend: {
+                display: false
+            },
+        },
+    })
+
+}
+
+
 function draw(user, data) {
     console.log("redrawing")
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
@@ -716,11 +761,14 @@ function draw(user, data) {
         return splitObject(date_data, true)
     }
 
+    var date_keys;
+    var date_vals;
     [date_keys, date_vals] = getNormalizedDateData()
 
     drawList("list_ref", data.ref, "All refferals", 5, false, true)
     drawList("list_loc", data.loc, "Landing pages", 5, false, false)
     drawCountries("world_list", data.country)
+    drawLastDays("last_days_chart", date_keys, date_vals)
     drawPie("browser", dGroupData(data.browser, 3), "Browsers")
     drawPie("platform", dGroupData(data.platform, 3), "Platforms")
     drawPie("device", dGroupData(data.device, 3), "Devices")
