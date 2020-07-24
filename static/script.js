@@ -367,55 +367,6 @@ function drawTitle(user) {
 }
 
 
-function drawRefRatio() {
-    var total = sum(Object.values(data.date))
-    var ref = sum(Object.values(data.ref))
-    var direct = total - ref
-
-    new Chart(document.getElementById("ref_ratio"), {
-        type: 'pie',
-        data: {
-            labels: [
-                'Direct',
-                'Referrer',
-            ],
-            datasets: [{
-                maxBarThickness: 10,
-                borderWidth: 0,
-                backgroundColor: [
-                    '#E2E2E2',
-                    '#2F6CA2',
-                ],
-                data: [
-                    Math.round(direct / total * 100),
-                    Math.round(ref / total * 100),
-                ],
-            }, ],
-        },
-        options: {
-            legend: {
-                display: false
-            },
-            maintainAspectRatio: false,
-            title: {
-                display: true,
-                text: 'Refferrer traffic'
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        display: false,
-                    },
-                    ticks: {
-                        display: false,
-                        beginAtZero: true
-                    }
-                }, ],
-            },
-        },
-    })
-}
-
 function drawCountries(elemId, countries) {
     var elem = document.getElementById(elemId)
     elem.innerHTML = "<h5>Countries</h5>"
@@ -732,7 +683,6 @@ function draw(user, data) {
     drawMap()
     drawTitle(user)
     drawTime()
-    drawRefRatio()
     drawRefChart()
 
 
