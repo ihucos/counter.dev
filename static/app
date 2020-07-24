@@ -36,8 +36,8 @@ Chart.defaults.global.title.lineHeight = 1.2
 Chart.defaults.global.title.padding = 10
 Chart.defaults.global.layout = {
             padding: {
-                left: 0,
-                right: 0,
+                left: 5,
+                right: 5,
                 top: 10,
                 bottom: 10
             }

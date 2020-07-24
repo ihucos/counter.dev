@@ -576,20 +576,37 @@ function drawTime(){
 
 
 function drawRefChart(){
-    var topRefs = dGroupData(data.ref)
+    var palette = ['#e9c46a', '#f4a261', '#e76f51']
+    var otherColor = '#2a9d8f'
+    var directColor = 'rgba(38, 70, 83, 0.2)'
+
+    var topRefs = dGroupData(data.ref, 3)
     var total = sum(Object.values(data.date))
     var ref = sum(Object.values(data.ref))
     var direct = total - ref
     topRefs["Direct"] = direct
 
+    var entries = []
+    for (const [key, value] of Object.entries(topRefs)) {
+        if (key === "Direct"){
+            var color = directColor
+        } else if (key === "Other"){
+            var color = otherColor
+        } else {
+            var color = palette.pop()
+        }
+        entries.push({label: key, value: value, color: color})
+    }
+
     new Chart(document.getElementById("ref_chart"), {
         type: 'pie',
         data: {
-            labels: Object.keys(topRefs),
+            labels: entries.map(x => x.label),
             datasets: [{
                 borderWidth: 0.5,
-                data: Object.values(topRefs),
-                backgroundColor: [orange, orange, orange, orange, "rgba(0,0,0,0.15)"],
+                borderColor: 'black',
+                data: entries.map(x => x.value),
+                backgroundColor: entries.map(x => x.color),
             }, ],
         },
         options: {
@@ -598,11 +615,15 @@ function drawRefChart(){
                 mode: 'index'
             },
             legend: {
-                display: false
+                position: 'left',
+                labels: {
+                    usePointStyle: 'true'
+                },
+                align: 'center'
             },
             title: {
                 display: true,
-                text: "Traffic sources",
+                text: "Top traffic sources",
                 position: "top",
             },
             scales: {
@@ -700,9 +721,9 @@ function draw(user, data) {
     drawList("list_ref", data.ref, "All refferals", 5, false, true)
     drawList("list_loc", data.loc, "Landing pages", 5, false, false)
     drawCountries("world_list", data.country)
-    drawPie("browser", dGroupData(data.browser), "Browsers")
-    drawPie("platform", dGroupData(data.platform), "Platforms")
-    drawPie("device", dGroupData(data.device), "Devices")
+    drawPie("browser", dGroupData(data.browser, 3), "Browsers")
+    drawPie("platform", dGroupData(data.platform, 3), "Platforms")
+    drawPie("device", dGroupData(data.device, 3), "Devices")
     drawList("list_origin", data.origin, "Origins", 5, false, true)
     drawLog(5)
 
@@ -898,8 +919,7 @@ function draw(user, data) {
     })
 }
 
-function dGroupData(entries) {
-    var cutAt = 3
+function dGroupData(entries, cutAt) {
     var entrs = Object.entries(entries)
     entrs = entrs.sort((a, b) => b[1] - a[1])
     entrs = entrs.sort((a, b) => a[0] === "Other" ? 1 : -1)
