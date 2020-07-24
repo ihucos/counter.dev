@@ -356,7 +356,7 @@ function drawMap() {
                 escapeHtml(region) +
                 '.gif"></img> </br>' +
                 (data.country[region] || "0") +
-                " Visitors")
+                " Visits")
         }
     });
 }
@@ -659,7 +659,7 @@ function drawLastDays(elemId, date_keys, date_vals){
             labels: date_keys.slice(-1 * num).map(x => moment(x).format("DD MMMM")),
             datasets: [{
                 data: date_vals.slice(-1 * num),
-                label: 'Visitors',
+                label: 'Visits',
                 backgroundColor: 'rgba(47, 108, 162, 0.3)',
                 borderColor: orange,
                 pointBorderColor: orange,
@@ -795,11 +795,11 @@ function draw(user, data) {
     new Chart(document.getElementById("graph"), {
         type: 'bar',
         data: {
-            labels: date_keys,
+            labels: date_keys.map(x => x),
             datasets: [{
-                maxBarThickness: 5,
+                maxBarThickness: 10,
                 data: date_vals,
-                label: 'Visitors',
+                label: 'Visits',
                 backgroundColor: orange,
                 borderColor: orange,
                 pointBorderColor: orange,
@@ -809,7 +809,7 @@ function draw(user, data) {
         options: {
             title: {
                 display: true,
-                text: "Visits"
+                text: "All days"
             },
             tooltips: {
                 enabled: true,
@@ -823,6 +823,7 @@ function draw(user, data) {
                         labelString: "Visits",
                     },
                     ticks: {
+                        maxTicksLimit: 5,
                         beginAtZero: true,
                         userCallback: function(label) {
                             if (Math.floor(label) === label) return kFormat(label);
@@ -830,9 +831,13 @@ function draw(user, data) {
                     },
                 }, ],
                 xAxes: [{
+                type: 'time',
+                time: {
+                    unit: 'week'
+                },
                     "scaleLabel": {
-                        display: true,
-                        labelString: "Date",
+                        display: false,
+                        //labelString: "Date",
                     },
                 }, ]
             },

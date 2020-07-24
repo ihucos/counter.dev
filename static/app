@@ -7,11 +7,11 @@
       <title>Simple Web Analytics</title>
       <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
+      <script src="moment.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
-      <script src="moment.min.js"></script>
       <script data-goatcounter="https://simple-web-analytics.goatcounter.com/count"
          async src="//gc.zgo.at/count.js"></script>
       <script>
@@ -162,7 +162,7 @@ sessionStorage.setItem("_swa", "1");
 
             <div class="flex-item w-full">
                <div>
-                  <canvas class="w-full" height="400" id="graph"></canvas>
+                  <canvas class="w-full" height="250" id="graph"></canvas>
                </div>
             </div>
             <div class="flex-item w-1/3">
