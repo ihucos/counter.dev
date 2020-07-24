@@ -156,7 +156,7 @@ sessionStorage.setItem("_swa", "1");
             <div class="flex-item w-1/3">
                <div>
 
-                 <h5>Visits Processed</h5>
+                 <h5>Status</h5>
                  <table class="mx-auto">
                    <tr>
                      <td class="pr-5">Last</td>
