@@ -428,15 +428,15 @@ function drawPie(elemId, entries, title) {
         data: {
             labels: list.map(x => x[0]),
             datasets: [{
-                borderWidth: 1,
-                borderColor: 'white',
+                borderWidth: 0,
+                //borderColor: 'black',
                 data: list.map(x => x[1]),
                 backgroundColor: palette,
             }, ],
         },
         options: {
             maintainAspectRatio: false,
-            cutoutPercentage: 50,
+            cutoutPercentage: 35,
             tooltips: {
                 mode: 'index'
             },
@@ -564,8 +564,8 @@ function drawRefChart() {
         data: {
             labels: entries.map(x => x.label),
             datasets: [{
-                borderWidth: 1,
-                borderColor: 'white',
+                borderWidth: 0,
+                //borderColor: 'white',
                 data: entries.map(x => x.value),
                 backgroundColor: entries.map(x => x.color),
             }, ],
