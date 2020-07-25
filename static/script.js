@@ -1,7 +1,7 @@
 normalFont = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
 normalFontColor = '#212529'
 orange = "#2F6CA2"
-    //Chart.defaults.global.defaultFontColor = 'red';
+palette = ['#76A5CF', '#28A87B', '#B775D1', 'lightgray']
 
 Chart.defaults.global.defaultFontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
 
@@ -420,7 +420,7 @@ function drawPie(elemId, entries, title) {
                 borderWidth: 1,
                 borderColor: 'black',
                 data: list.map(x => x[1]),
-                backgroundColor: ['#FF9B88', '#FFEE88', '#8067B2', '#65BE83'],
+                backgroundColor: palette,
             }, ],
         },
         options: {
@@ -527,8 +527,8 @@ function drawTime() {
 
 
 function drawRefChart() {
-    var palette = ['#FF9B88', '#FFEE88', '#8067B2']
-    var otherColor = '#65BE83'
+    var colors = [palette[0], palette[1], palette[2]]
+    var otherColor = palette[3]
     var directColor = 'white'
 
     var topRefs = dGroupData(data.ref, 3)
@@ -544,7 +544,7 @@ function drawRefChart() {
         } else if (key === "Other") {
             var color = otherColor
         } else {
-            var color = palette.pop()
+            var color = colors.pop()
         }
         entries.push({
             label: key,
@@ -620,6 +620,7 @@ function drawLastDays(elemId, date_keys, date_vals) {
         data: {
             labels: date_keys.slice(-1 * num).map(x => moment(x).format("DD MMMM")),
             datasets: [{
+                lineTension: 0.15,
                 data: date_vals.slice(-1 * num),
                 label: 'Visits',
                 backgroundColor: gradientStroke,
@@ -852,7 +853,6 @@ function draw(user, data) {
             ],
             datasets: [{
                 data: [
-                    data['hour'][24] || 0,
                     data['hour'][0] || 0,
                     data['hour'][1] || 0,
                     data['hour'][2] || 0,
@@ -879,7 +879,12 @@ function draw(user, data) {
                     data['hour'][23] || 0,
                 ],
                 backgroundColor: orange,
-                pointRadius: 1,
+                borderWidth: 1,
+                borderColor: 'transparent',
+                pointBackgroundColor: 'white',  
+                pointRadius: 3,
+                pointBorderColor: orange,
+                lineTension: 0.4,
             }, ],
         },
         options: {
@@ -897,7 +902,8 @@ function draw(user, data) {
             },
             scale: {
                 gridLines: {
-                    display: false,
+                    display: true,
+                    circular: true
                 },
                 ticks: {
                     display: false,
@@ -921,6 +927,12 @@ function draw(user, data) {
                     data['weekday'][6] || 0,
                 ],
                 backgroundColor: orange,
+                borderWidth: 1,
+                borderColor: 'transparent',
+                pointBackgroundColor: 'white',  
+                pointRadius: 3,
+                pointBorderColor: orange,
+                lineTension: 0.4,
             }, ],
         },
         options: {
@@ -936,24 +948,14 @@ function draw(user, data) {
             legend: {
                 display: false
             },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        display: false,
-                    },
-                    ticks: {
-                        display: false,
-                        beginAtZero: true
-                    }
-                }, ],
-                yAxes: [{
-                    ticks: {
-                        display: false,
-                    },
-                    gridLines: {
-                        display: false,
-                    },
-                }, ],
+            scale: {
+                gridLines: {
+                    display: true,
+                    circular: true
+                },
+                ticks: {
+                    display: false,
+                }
             },
         },
     })
