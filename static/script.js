@@ -403,6 +403,7 @@ function drawCountries(elemId, countries) {
 }
 
 function drawPie(elemId, entries, title) {
+
     var list = [];
     for (var key in entries) {
         list.push([key, entries[key]]);
@@ -419,7 +420,7 @@ function drawPie(elemId, entries, title) {
                 borderWidth: 1,
                 borderColor: 'black',
                 data: list.map(x => x[1]),
-                backgroundColor: [ '#f7f7ff', '#bdd5ea', '#577399', '#495867']
+                backgroundColor: ['#FF9B88', '#FFEE88', '#8067B2', '#65BE83'],
             }, ],
         },
         options: {
@@ -526,9 +527,9 @@ function drawTime() {
 
 
 function drawRefChart() {
-    var palette = ['#0f4c75', '#3282b8', '#bbe1fa']
-    var otherColor = '#1b262c'
-    var directColor = 'lightgray'
+    var palette = ['#FF9B88', '#FFEE88', '#8067B2']
+    var otherColor = '#65BE83'
+    var directColor = 'white'
 
     var topRefs = dGroupData(data.ref, 3)
     var total = sum(Object.values(data.date))
@@ -558,7 +559,7 @@ function drawRefChart() {
             labels: entries.map(x => x.label),
             datasets: [{
                 borderWidth: 1,
-                borderColor: 'white',
+                borderColor: 'black',
                 data: entries.map(x => x.value),
                 backgroundColor: entries.map(x => x.color),
             }, ],
@@ -757,7 +758,7 @@ function draw(user, data) {
 
     var ctx = document.getElementById("graph").getContext("2d")
     var gradientStroke = ctx.createLinearGradient(0, 0, 0, 200);
-    gradientStroke.addColorStop(0, "rgba(47, 108, 162, 0.5)");
+    gradientStroke.addColorStop(0, "rgba(47, 108, 162, 0.6)");
     gradientStroke.addColorStop(1, "rgba(47, 108, 162, 1)");
 
     new Chart(document.getElementById("graph"), {
