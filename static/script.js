@@ -1,7 +1,7 @@
 normalFont = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
 normalFontColor = '#212529'
 orange = "#2F6CA2"
-palette = ['#76A5CF', '#28A87B', '#B775D1', 'lightgray']
+palette = ['#2f6ca2', '#df9f1f', '#2c8982', '#9c506c']
 
 Chart.defaults.global.defaultFontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
 
@@ -429,7 +429,7 @@ function drawPie(elemId, entries, title) {
             labels: list.map(x => x[0]),
             datasets: [{
                 borderWidth: 1,
-                borderColor: 'black',
+                borderColor: 'white',
                 data: list.map(x => x[1]),
                 backgroundColor: palette,
             }, ],
@@ -535,7 +535,7 @@ function drawTime() {
 function drawRefChart() {
     var colors = [palette[0], palette[1], palette[2]]
     var otherColor = palette[3]
-    var directColor = 'white'
+    var directColor = '#a1acbd'
 
     var topRefs = dGroupData(data.ref, 3)
     var total = sum(Object.values(data.date))
@@ -565,7 +565,7 @@ function drawRefChart() {
             labels: entries.map(x => x.label),
             datasets: [{
                 borderWidth: 1,
-                borderColor: 'black',
+                borderColor: 'white',
                 data: entries.map(x => x.value),
                 backgroundColor: entries.map(x => x.color),
             }, ],
