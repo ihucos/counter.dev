@@ -17,6 +17,17 @@ function toColor(str) {
 }
 
 
+function makeGradient(id, alpha1, alpha2){
+    alpha1 = (typeof alpha1 !== 'undefined') ?  alpha1 : 0.6;
+    alpha2 = (typeof alpha2 !== 'undefined') ?  alpha2 : 1;
+    var ctx = document.getElementById(id).getContext("2d")
+    var gradientStroke = ctx.createLinearGradient(0, 0, 0, 200);
+    gradientStroke.addColorStop(0, "rgba(47, 108, 162, " + alpha1 + ")");
+    gradientStroke.addColorStop(1, "rgba(47, 108, 162, " + alpha2 + ")");
+    return gradientStroke
+}
+
+
 function post(endpoint, body, user, alertId) {
 
     // first hide all alerts
@@ -481,12 +492,7 @@ function drawTime() {
                     sumHours([16, 17, 18, 19, 20, 21]),
                     sumHours([22, 23, 24, 0, 1, 2, 3, 4]),
                 ],
-                backgroundColor: [
-                    orange,
-                    orange,
-                    orange,
-                    orange,
-                ],
+                backgroundColor: makeGradient('time'),
             }, ],
         },
         options: {
@@ -609,12 +615,6 @@ function drawRefChart() {
 
 function drawLastDays(elemId, date_keys, date_vals) {
     var num = 7
-    var ctx = document.getElementById(elemId).getContext("2d")
-    var gradientStroke = ctx.createLinearGradient(0, 0, 0, 200);
-    gradientStroke.addColorStop(0, "rgba(47, 108, 162, 0.7)");
-    gradientStroke.addColorStop(1, "rgba(47, 108, 162, 0.1)");
-
-
     new Chart(document.getElementById(elemId), {
         type: 'line',
         data: {
@@ -623,7 +623,7 @@ function drawLastDays(elemId, date_keys, date_vals) {
                 lineTension: 0.15,
                 data: date_vals.slice(-1 * num),
                 label: 'Visits',
-                backgroundColor: gradientStroke,
+                backgroundColor: makeGradient(elemId, 0.7, 0.1),
                 borderColor: orange,
                 //pointBorderColor: 'rgba(47, 108, 162, 0.5)',
                 pointBackgroundColor: 'rgba(47, 108, 162, 1)',
@@ -757,11 +757,6 @@ function draw(user, data) {
 
     //document.getElementById('val_visits').innerHTML = escapeHtml(date_vals.slice(-1)[0])
 
-    var ctx = document.getElementById("graph").getContext("2d")
-    var gradientStroke = ctx.createLinearGradient(0, 0, 0, 200);
-    gradientStroke.addColorStop(0, "rgba(47, 108, 162, 0.6)");
-    gradientStroke.addColorStop(1, "rgba(47, 108, 162, 1)");
-
     new Chart(document.getElementById("graph"), {
         type: 'bar',
         data: {
@@ -770,7 +765,7 @@ function draw(user, data) {
                 maxBarThickness: 15,
                 data: date_vals,
                 label: 'Visits',
-                backgroundColor: gradientStroke,
+                backgroundColor: makeGradient("graph"),
                 borderColor: orange,
                 pointBorderColor: orange,
                 pointBackgroundColor: orange,
@@ -878,7 +873,7 @@ function draw(user, data) {
                     data['hour'][22] || 0,
                     data['hour'][23] || 0,
                 ],
-                backgroundColor: orange,
+                backgroundColor: makeGradient("hour"),
                 borderWidth: 1,
                 borderColor: 'transparent',
                 pointBackgroundColor: 'white',  
@@ -926,7 +921,7 @@ function draw(user, data) {
                     data['weekday'][5] || 0,
                     data['weekday'][6] || 0,
                 ],
-                backgroundColor: orange,
+                backgroundColor: makeGradient("weekday"),
                 borderWidth: 1,
                 borderColor: 'transparent',
                 pointBackgroundColor: 'white',  
