@@ -1,7 +1,21 @@
 normalFont = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
 normalFontColor = '#212529'
 orange = "#2F6CA2"
-palette = ['#2f6ca2', '#df9f1f', '#2c8982', '#9c506c']
+//palette = ['#2f6ca2', '#df9f1f', '#2c8982', '#9c506c']
+//palette = ['#5188c0', '#0dd0a6', '#df9f1f', '#CA5584']
+
+s = 208
+o = 90
+
+palette = [
+'hsl('+(s + (0 * o))+', 45%, 50%)',
+'hsl('+(s + (2 * o))+', 45%, 50%)',
+'hsl('+(s + (3 * o))+', 45%, 50%)',
+'hsl('+(s + (1 * o))+', 35%, 60%)'
+]
+
+pieBorderColor = 'white'
+pieBorderWidth = 1.2
 
 Chart.defaults.global.defaultFontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
 
@@ -428,8 +442,8 @@ function drawPie(elemId, entries, title) {
         data: {
             labels: list.map(x => x[0]),
             datasets: [{
-                borderWidth: 0,
-                //borderColor: 'black',
+                borderWidth: pieBorderWidth,
+                borderColor: pieBorderColor,
                 data: list.map(x => x[1]),
                 backgroundColor: palette,
             }, ],
@@ -533,9 +547,9 @@ function drawTime() {
 
 
 function drawRefChart() {
-    var colors = [palette[0], palette[1], palette[2]]
+    var colors = [palette[2], palette[1], palette[0]]
     var otherColor = palette[3]
-    var directColor = '#a1acbd'
+    var directColor = 'rgba(0,0,0,0.1)'
 
     var topRefs = dGroupData(data.ref, 3)
     var total = sum(Object.values(data.date))
@@ -564,8 +578,8 @@ function drawRefChart() {
         data: {
             labels: entries.map(x => x.label),
             datasets: [{
-                borderWidth: 0,
-                //borderColor: 'white',
+                borderWidth: pieBorderWidth,
+                borderColor: pieBorderColor,
                 data: entries.map(x => x.value),
                 backgroundColor: entries.map(x => x.color),
             }, ],
