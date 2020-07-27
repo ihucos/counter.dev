@@ -177,6 +177,18 @@ function drawUsername(user) {
     }
 }
 
+function drawDomain() {
+    var el = document.getElementById("domain");
+    var origin = dTopKey(data.origin)
+    try { 
+        var domain = new URL(origin).host
+    } catch (error) {
+        var domain = origin 
+    }
+    el.innerHTML = escapeHtml(domain)
+    el.setAttribute('href', "//" + domain)
+}
+
 function drawUTCOffsetVar() {
     offset = Math.round(-1 * new Date().getTimezoneOffset() / 60)
     document.getElementById("utcoffset").innerHTML = offset
@@ -634,7 +646,6 @@ function drawLastDays(elemId, date_keys, date_vals) {
         data: {
             labels: date_keys.slice(-1 * num).map(x => moment(x).format("DD MMMM")),
             datasets: [{
-                lineTension: 0.15,
                 data: date_vals.slice(-1 * num),
                 label: 'Visits',
                 backgroundColor: makeGradient(elemId, 0.7, 0.1),
@@ -653,7 +664,7 @@ function drawLastDays(elemId, date_keys, date_vals) {
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: "Last 7 days"
+                text: "Last Days"
             },
             tooltips: {
                 enabled: true,
@@ -707,6 +718,7 @@ function draw(user, data) {
     }
 
     drawUsername(user)
+    drawDomain()
     drawUTCOffsetVar()
     drawMap()
     drawTitle(user)
@@ -989,6 +1001,10 @@ function dGroupData(entries, cutAt) {
         delete res["Unknown"]
     }
     return res
+}
+
+function dTopKey(hash){
+    return Object.keys(data.origin).reduce((a, b) => data.origin[a] > data.origin[b] ? a : b);
 }
 
 
