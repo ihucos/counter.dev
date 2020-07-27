@@ -288,6 +288,9 @@ function splitObject(obj, sort_keys) {
 
 function resolveCountry(code) {
     entry = JQVMap.maps["world_en"].paths[code]
+    if (code === "us"){
+        return "USA"
+    }
     if (entry) {
         return entry["name"]
     } else {
@@ -406,7 +409,6 @@ function drawTitle(user) {
 
 function drawCountries(elemId, countries) {
     var elem = document.getElementById(elemId)
-    elem.innerHTML = "<h5>Countries</h5>"
 
     if (Object.keys(countries).length === 0 && countries.constructor === Object) {
         elem.innerHTML += '<span class="text-muted">Empty</span>'
@@ -421,20 +423,19 @@ function drawCountries(elemId, countries) {
         return b[1] - a[1];
     });
 
-    html = '<table class="top">'
+    var html = '<tr><th>Country</th><th>Visits</th></tr>'
     for (var i = 0; i < list.length; i++) {
         var percent = list[i][1] / listTotal * 100
-        html += '<tr>'
         var val = kFormat(list[i][1])
-        html += '<th style="padding-right: 0.5em; white-space: nowrap;">' + escapeHtml(val) + '</th>'
-        html += '<td style="position: relative; z-axis: 100; width: 100%;">'
-            //html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 100%; background-color: rgba(25, 72, 115, 0.25); pointer-events: none;"></div>'
+        html += '<tr>'
+        html += '<td class="w-full">'
         var key = escapeHtml(list[i][0])
-        html += '<img class="inline-block pr-1" src="/famfamfam_flags/gif/' + escapeHtml(key) + '.gif"/>'
+        html += '<img class="inline-block" src="/famfamfam_flags/gif/' + escapeHtml(key) + '.gif"/>'
         html += resolveCountry(key)
-        html += "</td></tr>"
+        html += "</td>"
+        html += '<td style="white-space: nowrap;" class="text-center"><span>' + escapeHtml(val) + '</span></td>'
+        html += "</tr>"
     }
-    html += "</table>"
 
     elem.innerHTML += html
 }
