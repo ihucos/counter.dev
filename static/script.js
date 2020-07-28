@@ -218,7 +218,7 @@ function drawList(elem_id, dataItem, title, useLink, useFavicon) {
     }
 
     var html = '<table>'
-    html += '<tr><th>' + escapeHtml(title) + '</th><th>Visits</th></tr>'
+    html += '<tr><th>' + escapeHtml(title) + '</th><th colspan=2>Visits</th></tr>'
     for (var i = 0; i < list.length; i++) {
         var percent = list[i][1] / listTotal * 100
         html += '<tr>'
@@ -246,9 +246,16 @@ function drawList(elem_id, dataItem, title, useLink, useFavicon) {
         } else {
             html += key
         }
-        html += '<th style="white-space: nowrap">'
+        html += '<td style="white-space: nowrap"><b>'
         html += escapeHtml(val)
-        html += '</th>'
+        html += '</b></td>'
+        html += '<td style="white-space: nowrap;" class="text-sm text-gray-700">'
+        var percentRepr = Math.round(percent) + '%'
+        if (percentRepr === '0%'){
+            percentRepr = '<1%'
+        }
+        html += escapeHtml(percentRepr)
+        html += '</td>'
 
         html += "</tr>"
     }
