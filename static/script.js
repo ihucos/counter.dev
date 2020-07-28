@@ -229,7 +229,7 @@ function drawList(elem_id, dataItem, title, useLink, useFavicon) {
         //    }
         //} else {
         var val = kFormat(list[i][1])
-        html += '<td class="w-full">'
+        html += '<td class="w-full truncate">'
         var key = escapeHtml(list[i][0])
         console.log(useLink)
         if (useLink) {
@@ -246,7 +246,7 @@ function drawList(elem_id, dataItem, title, useLink, useFavicon) {
         } else {
             html += key
         }
-        html += '<td style="white-space: nowrap"><b>'
+        html += '</td><td style="white-space: nowrap"><b>'
         html += escapeHtml(val)
         html += '</b></td>'
         html += '<td style="white-space: nowrap;" class="text-sm text-gray-700">'
