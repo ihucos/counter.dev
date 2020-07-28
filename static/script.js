@@ -212,7 +212,7 @@ function drawList(elem_id, dataItem, title, useLink, useFavicon) {
 
     var list = completeList
 
-    listTotal = 0
+    var listTotal = 0
     for (var i = 0; i < completeList.length; i++) {
         listTotal += completeList[i][1]
     }
@@ -221,15 +221,8 @@ function drawList(elem_id, dataItem, title, useLink, useFavicon) {
     html += '<tr><th>' + escapeHtml(title) + '</th><th colspan=2>Visits</th></tr>'
     for (var i = 0; i < list.length; i++) {
         var percent = list[i][1] / listTotal * 100
-        html += '<tr>'
-        //if (usePercent) {
-        //    var val = Math.round(percent) + "%"
-        //    if (val === "0%") {
-        //        continue
-        //    }
-        //} else {
         var val = kFormat(list[i][1])
-        html += '<td class="w-full truncate">'
+        html += '<td class="w-full">'
         var key = escapeHtml(list[i][0])
         console.log(useLink)
         if (useLink) {
@@ -300,8 +293,6 @@ function resolveCountry(code) {
 
 function drawLog() {
 
-    var showAll = document.getElementById("log_body").getAttribute("data-showall", "1")
-
     var completeLines = Object.keys(data.log).reverse()
 
     var lines = completeLines
@@ -350,14 +341,13 @@ function drawLog() {
             }
 
         }
-        html += "<td>" + escapeHtml(logUserAgent) + "</td>"
+        html += "<td class='truncate'>" + escapeHtml(logUserAgent) + "</td>"
         html += "</tr>"
 
     }
     if (html !== "") {
         document.getElementById("log_body").innerHTML = html
     }
-
 }
 
 function drawMap() {
@@ -407,8 +397,13 @@ function drawCountries(elemId, countries) {
     list.sort(function(a, b) {
         return b[1] - a[1];
     });
+    
+    var listTotal = 0
+    for (var i = 0; i < list.length; i++) {
+        listTotal += list[i][1]
+    }
 
-    var html = '<tr><th>Country</th><th>Visits</th></tr>'
+    var html = '<tr><th>Country</th><th colspan=2>Visits</th></tr>'
     for (var i = 0; i < list.length; i++) {
         var percent = list[i][1] / listTotal * 100
         var val = kFormat(list[i][1])
@@ -418,7 +413,14 @@ function drawCountries(elemId, countries) {
         html += '<img class="inline-block" src="/famfamfam_flags/gif/' + escapeHtml(key) + '.gif"/>'
         html += resolveCountry(key)
         html += "</td>"
-        html += '<th style="white-space: nowrap;" class="text-center">' + escapeHtml(val) + '</th>'
+        html += '<th style="white-space: nowrap;" class="text-center">' + escapeHtml(val)
+        html += '<td style="white-space: nowrap;" class="text-sm text-gray-700">'
+        var percentRepr = Math.round(percent) + '%'
+        if (percentRepr === '0%'){
+            percentRepr = '<1%'
+        }
+        html += escapeHtml(percentRepr)
+        html += '</th>'
         html += "</tr>"
     }
 

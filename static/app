@@ -69,7 +69,7 @@ Chart.defaults.global.layout = {
          }
 
          .flex-item {
-           padding: 0.75em 0.5em;
+           padding: 0.5em 0.5em;
            box-sizing: border-box;
            display:flex;
          }
@@ -209,46 +209,46 @@ sessionStorage.setItem("_swa", "1");
                <div id="world"><h5>World map</h5></div>
             </div>
 
-            <div class="flex-item w-1/3 my-5 mb-10" style="height: 450px">
-               <div style="overflow-y: auto">
+            <div class="flex-item w-1/3 my-5" style="height: 450px">
+               <div style="overflow-y: auto; ">
                   <table id="world_list"></table>
                </div>
             </div>
 
-             <div class="flex-item w-2/3">
+             <div class="flex-item w-2/3 mx-auto mt-10">
                 <div class="overflow-y-auto" id="list_loc"></div>
              </div>
 
-            <div class="flex-item w-2/3">
+            <div class="flex-item w-2/3 mx-auto mt-5">
                 <div class="overflow-y-auto" id="list_ref"></div>
             </div>
 
-             <div class="flex-item w-2/3">
+             <div class="flex-item w-2/3 mx-auto mt-5">
                 <div class="overflow-y-auto" id="list_origin"></div>
              </div>
 
+            <div class="flex-item w-2/3 mx-auto mt-5">
+              <div class="overflow-y-auto">
+                 <h5>Last visits</h5>
+                 <table>
+                    <thead>
+                       <tr>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>IP</th>
+                          <th>Referrer</th>
+                          <th class="text-left">User-Agent</th>
+                       </tr>
+                    </thead>
+                    <tbody id="log_body">
+                    </tbody>
+                 </table>
+              </div>
+            </div>
       </div>
 
 
 
-         <div class="flex-item w-full max-w-screen-xl mx-auto">
-            <div class="overflow-y-auto">
-               <h5>Log</h5>
-               <table>
-                  <thead>
-                     <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>IP</th>
-                        <th>Referrer</th>
-                        <th>User-Agent</th>
-                     </tr>
-                  </thead>
-                  <tbody id="log_body">
-                  </tbody>
-               </table>
-            </div>
-         </div>
          </div>
 
       <script>
