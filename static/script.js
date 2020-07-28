@@ -1,5 +1,4 @@
 normalFont = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
-normalFontColor = '#212529'
 orange = "#2F6CA2"
 //palette = ['#2f6ca2', '#df9f1f', '#2c8982', '#9c506c']
 //palette = ['#5188c0', '#0dd0a6', '#df9f1f', '#CA5584']
@@ -194,12 +193,9 @@ function drawUTCOffsetVar() {
     document.getElementById("utcoffset").innerHTML = offset
 }
 
-function drawList(elem_id, dataItem, title, maxEntries, usePercent, useLink) {
+function drawList(elem_id, dataItem, title, useLink, useFavicon) {
     var elem = document.getElementById(elem_id)
 
-    var showAll = elem.getAttribute("data-showall", "1")
-
-    elem.innerHTML = "<h5>" + escapeHtml(title) + "</h5>"
     if (Object.keys(dataItem).length === 0 && dataItem.constructor === Object) {
         elem.innerHTML += '<span class="text-muted">Empty</span>'
         return
@@ -214,54 +210,49 @@ function drawList(elem_id, dataItem, title, maxEntries, usePercent, useLink) {
         return b[1] - a[1];
     });
 
-    if (showAll) {
-        var list = completeList
-    } else {
-        var list = completeList.slice(0, maxEntries)
-    }
+    var list = completeList
 
     listTotal = 0
     for (var i = 0; i < completeList.length; i++) {
         listTotal += completeList[i][1]
     }
 
-    html = '<table class="list">'
+    var html = '<table>'
+    html += '<tr><th>' + escapeHtml(title) + '</th><th>Visits</th></tr>'
     for (var i = 0; i < list.length; i++) {
         var percent = list[i][1] / listTotal * 100
         html += '<tr>'
-        if (usePercent) {
-            var val = Math.round(percent) + "%"
-            if (val === "0%") {
-                continue
-            }
-        } else {
-            var val = kFormat(list[i][1])
-        }
-        html += '<th style="padding-right: 0.5em; white-space: nowrap;">' + escapeHtml(val) + '</th>'
-        html += '<td style="position: relative; z-axis: 100; width: 100%;">'
-        html += '<div style="position: absolute; bottom: 0px; width: ' + percent + '%; height: 3px; background-color: #2F6CA2; pointer-events: none;"></div>'
+        //if (usePercent) {
+        //    var val = Math.round(percent) + "%"
+        //    if (val === "0%") {
+        //        continue
+        //    }
+        //} else {
+        var val = kFormat(list[i][1])
+        html += '<td class="w-full">'
         var key = escapeHtml(list[i][0])
+        console.log(useLink)
         if (useLink) {
             if (!key.includes("://")) {
                 var link = "//" + key
             } else {
                 var link = key
             }
+
+            if (useFavicon){
+                html += "<img src='https://icons.duckduckgo.com/ip3/" + key + ".ico' style='height: 0.8em; width: 0.8em; display: inline-block'/>"
+            }
             html += "<a target='_blank' href='" + link + "'>" + key + '</a>'
         } else {
             html += key
         }
-        html += "</td></tr>"
+        html += '<th style="white-space: nowrap">'
+        html += escapeHtml(val)
+        html += '</th>'
+
+        html += "</tr>"
     }
     html += "</table>"
-
-    if (completeList.length > maxEntries) {
-        if (!showAll) {
-            html += '<a href="#" onclick=\'document.getElementById("' + elem_id + '").setAttribute("data-showall", "1"); draw(user, data); return false\'>More</a>'
-        } else {
-            html += '<a href="#" onclick=\'document.getElementById("' + elem_id + '").removeAttribute("data-showall"); draw(user, data); return false\'>Less</a>'
-        }
-    }
 
     elem.innerHTML += html
 }
@@ -300,17 +291,13 @@ function resolveCountry(code) {
 
 
 
-function drawLog(maxEntries) {
+function drawLog() {
 
     var showAll = document.getElementById("log_body").getAttribute("data-showall", "1")
 
     var completeLines = Object.keys(data.log).reverse()
 
-    if (showAll) {
-        var lines = completeLines
-    } else {
-        var lines = completeLines.slice(0, maxEntries)
-    }
+    var lines = completeLines
 
     var html = ''
     for (var i = 0; i < lines.length; i++) {
@@ -361,15 +348,6 @@ function drawLog(maxEntries) {
 
     }
     if (html !== "") {
-
-        if (completeLines.length > maxEntries) {
-            if (!showAll) {
-                html += '<a href="#" onclick=\'document.getElementById("log_body").setAttribute("data-showall", "1"); draw(user, data); return false\'>More</a>'
-            } else {
-                html += '<a href="#" onclick=\'document.getElementById("log_body").removeAttribute("data-showall"); draw(user, data); return false\'>Less</a>'
-            }
-        }
-
         document.getElementById("log_body").innerHTML = html
     }
 
@@ -433,7 +411,7 @@ function drawCountries(elemId, countries) {
         html += '<img class="inline-block" src="/famfamfam_flags/gif/' + escapeHtml(key) + '.gif"/>'
         html += resolveCountry(key)
         html += "</td>"
-        html += '<td style="white-space: nowrap;" class="text-center"><span>' + escapeHtml(val) + '</span></td>'
+        html += '<th style="white-space: nowrap;" class="text-center">' + escapeHtml(val) + '</th>'
         html += "</tr>"
     }
 
@@ -772,15 +750,15 @@ function draw(user, data) {
     var date_vals;
     [date_keys, date_vals] = getNormalizedDateData()
 
-    drawList("list_ref", data.ref, "All refferals", 5, false, true)
-    drawList("list_loc", data.loc, "Landing pages", 5, false, false)
+    drawList("list_ref", data.ref, "All refferals", true, true)
+    drawList("list_loc", data.loc, "Landing pages", false, false)
     drawCountries("world_list", data.country)
     drawLastDays("last_days_chart", date_keys, date_vals)
     drawPie("browser", dGroupData(data.browser, 3), "Browsers")
     drawPie("platform", dGroupData(data.platform, 3), "Platforms")
     drawPie("device", dGroupData(data.device, 3), "Devices")
-    drawList("list_origin", data.origin, "Origins", 5, false, true)
-    drawLog(5)
+    drawList("list_origin", data.origin, "Origins", true, false)
+    drawLog()
 
     //document.getElementById('val_visits').innerHTML = escapeHtml(date_vals.slice(-1)[0])
 
