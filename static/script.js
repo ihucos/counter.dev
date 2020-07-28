@@ -221,7 +221,7 @@ function drawList(elem_id, dataItem, title, useLink, useFavicon) {
     html += '<tr><th>' + escapeHtml(title) + '</th><th colspan=2>Visits</th></tr>'
     for (var i = 0; i < list.length; i++) {
         var percent = list[i][1] / listTotal * 100
-        var val = kFormat(list[i][1])
+        var val = commaFormat(list[i][1])
         html += '<td class="w-full">'
         var key = escapeHtml(list[i][0])
         console.log(useLink)

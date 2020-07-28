@@ -137,10 +137,10 @@ Chart.defaults.global.layout = {
                <button onclick="downloadData()" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
                  <span>&nbsp;</span>
                  <svg class="fill-current w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
-                 <span>Download</span>
+                 <span>Download CSV</span>
                </button>
                
-               <button id="tracking-code-button" onclick="toggleTrackingCode()" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-4 rounded inline-flex items-center">
+               <button id="tracking-code-button" onclick="toggleTrackingCode()" class="hidden shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-4 rounded inline-flex items-center">
                  TRACKING CODE
                </button>
              </div>
