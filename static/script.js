@@ -623,7 +623,6 @@ function dGroupData(entries) {
     var cutAt = 4
     var entrs = Object.entries(entries)
     entrs = entrs.sort((a, b) => b[1] - a[1])
-    entrs = entrs.sort((a, b) => a[0] === "Other" ? 1 : -1)
     var top = entrs.slice(0, cutAt)
     var bottom = entrs.slice(cutAt, -1)
 
