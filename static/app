@@ -138,17 +138,17 @@ Chart.defaults.global.layout = {
                   <span class="text-xl font-bold mr-2">1.</span>
                   Copy and paste this code into the html of the pages you want to track.
 
-                  <pre class="rounded mt-3 leading-normal text-xs bg-gray-200 border py-1 px-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; /* Simple Web Analytics tracking code */
+                  <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; /* Simple Web Analytics tracking code */
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
 fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({ referrer: document.referrer,
 site: "<span>USERNAME</span>", utcoffset: <span id="utcoffset">0</span>}))}; sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
+</div>
 
                   <p class="my-8">
                   <span class="text-xl font-bold mr-2">2.</span>
                   Deploy - make your changes online.
                   </p>
-                  </div>
 
                   <p class="my-8">
                   <span class="text-xl font-bold mr-2">3.</span>
@@ -169,7 +169,7 @@ site: "<span>USERNAME</span>", utcoffset: <span id="utcoffset">0</span>}))}; ses
                  </div>
                   <p class="text-sm text-left text-gray-700">
                       <span class="mx-1">Got stuck? <a href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a></span>
-                      <a class="mx-1 text-sm text-right inline-block text-gray-700 float-right" href="">Exit</a>
+                      <a class="mx-1 text-sm text-right inline-block text-gray-700 float-right" href="">Go back</a>
                   
                   </p>
             </div>
