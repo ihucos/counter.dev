@@ -554,7 +554,7 @@ function drawTime() {
 function drawRefChart() {
     var colors = [palette[2], palette[1], palette[0]]
     var otherColor = palette[3]
-    var directColor = 'rgba(0,0,0,0.1)'
+    var directColor = 'rgba(0,0,0,0.12)'
 
     var topRefs = dGroupData(data.ref, 3)
     var total = sum(Object.values(data.date))
