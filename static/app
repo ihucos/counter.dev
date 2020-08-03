@@ -155,7 +155,7 @@ sessionStorage.setItem("_swa", "1");
                   <span class="text-xl text-bold mr-5">3.</span>
                   You will be redirected automatically
                   
-<div style="color: #edb948" class="la-pacman la-x">
+<div style="color: #edb948" class="la-pacman la-x mx-auto my-10">
     <div></div>
     <div></div>
     <div></div>
