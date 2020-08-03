@@ -124,42 +124,38 @@ Chart.defaults.global.layout = {
          </form>
       </div>
       <div id="page-setup" class="hidden">
-          <div class="flex-container mx-auto flex-wrap mt-10 pb-10">
+          <div class="flex-container mx-auto flex-wrap mt-3 pb-3">
           <div class="flex-item w-full max-w-screen-md mx-auto">
             <div>
                   <div class="px-10">
+
+
                   <h5 class="text-2xl my-5">Waiting for data...</h5>
 
                   <h5 class="text-left text-gray-700">Follow these steps</h5>
 
                   <div class="">
                   <span class="text-xl font-bold mr-2">1.</span>
-                  Review, then copy and paste this code into the html of the pages you want to track.
+                  Copy and paste this code into the html of the pages you want to track.
 
-                  <pre class="rounded my-5 leading-normal text-xs bg-gray-200 border py-1 px-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt;
-// Simple Web Analytics tracking code
+                  <pre class="rounded mt-3 leading-normal text-xs bg-gray-200 border py-1 px-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; /* Simple Web Analytics tracking code */
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
-        referrer: document.referrer,
-        site: "<span>USERNAME</span>",
-        utcoffset: <span id="utcoffset">0</span>
-    }));
-}
-sessionStorage.setItem("_swa", "1");
+fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({ referrer: document.referrer,
+site: "<span>USERNAME</span>", utcoffset: <span id="utcoffset">0</span>}))}; sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
 
-                  <p class="my-10">
+                  <p class="my-8">
                   <span class="text-xl font-bold mr-2">2.</span>
                   Deploy - make your changes online.
                   </p>
                   </div>
 
-                  <p class="my-10">
+                  <p class="my-8">
                   <span class="text-xl font-bold mr-2">3.</span>
                   Visit a site with the included tracking code (visits over <i>localhost</i> are ignored).
                   </p>
 
-                  <div class="my-10">
+                  <div class="my-8">
                   <span class="text-xl font-bold mr-2">4.</span>
                   You will be automatically redirected to the dashboard.
                   
@@ -171,7 +167,11 @@ sessionStorage.setItem("_swa", "1");
                      <div></div>
                      <div></div>
                  </div>
-                  <p class="mx-1 text-sm text-right text-gray-700">Got stuck? <a href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a></p>
+                  <p class="text-sm text-left text-gray-700">
+                      <span class="mx-1">Got stuck? <a href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a></span>
+                      <a class="mx-1 text-sm text-right inline-block text-gray-700 float-right" href="">Exit</a>
+                  
+                  </p>
             </div>
           </div>
           </div>
