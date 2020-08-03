@@ -139,10 +139,12 @@ Chart.defaults.global.layout = {
                  <span>Download CSV</span>
                </button>
                
-               <button id="tracking-code-button" onclick="toggleTrackingCode()" class="hidden shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-4 rounded inline-flex items-center">
+               <button id="tracking-code-button" onclick="toggleTrackingCode()" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-4 rounded inline-flex items-center">
                  TRACKING CODE
                </button>
              </div>
+
+
            </div>
            <div class="flex-item justify-center" style="flex-grow: 1">
              <h5><span class="text-gray-500">top origin:</span> <a id="domain" target="_blank">DOMAIN</a><h5>
@@ -150,7 +152,7 @@ Chart.defaults.global.layout = {
 
 
            <div id="tracking-code" class="flex-item w-full">
-               <div class="overflow-scroll" style="background-color: #ebf7ff">
+               <div class="overflow-scroll">
                   <h5>Tracking Code</h5>
                   <p class="m-5">
                   Copy and paste this code into the html of the pages you want to track.

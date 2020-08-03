@@ -996,6 +996,9 @@ function dGroupData(entries, cutAt) {
 }
 
 function dTopKey(hash){
+    if (Object.keys(hash).length === 0 && hash.constructor === Object){
+        return ""
+    }
     return Object.keys(data.origin).reduce((a, b) => data.origin[a] > data.origin[b] ? a : b);
 }
 
