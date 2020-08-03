@@ -6,6 +6,7 @@
       <meta name="description" content="Free analytics tool with all common features.">
       <title>Simple Web Analytics</title>
       <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+      <link href="loading.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
       <script src="moment.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
@@ -122,6 +123,51 @@ Chart.defaults.global.layout = {
             <button type="submit" onclick="login(); return false" id="login_button" name="action">Login</button>
          </form>
       </div>
+      <div id="page-setup" class="hidden">
+          <div class="flex-container mx-auto flex-wrap">
+          <div class="flex-item w-full max-w-screen-lg mx-auto">
+            <div>
+                  <h5 class="text-2xl">Integrate</h5>
+
+                  <p class="m-5">
+                  <span class="text-xl text-bold mr-5">1.</span>
+                  Copy and paste this code into the html of the pages you want to track.
+                  </p>
+
+                  <pre class="m-5 leading-normal text-xs bg-gray-200 border py-1 px-2 overflow-auto max-w-screen-lg" ><code>&lt;script&gt;
+// Simple Web Analytics tracking code
+if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
+    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
+        referrer: document.referrer,
+        site: "<span>USERNAME</span>",
+        utcoffset: <span id="utcoffset">0</span>
+    }));
+}
+sessionStorage.setItem("_swa", "1");
+&lt;/script&gt;</code></pre>
+
+                  <p class="m-5">
+                  <span class="text-xl text-bold mr-5">2.</span>
+                  Trigger a visit by visting a page containing the tracking code (localhost is ignored).
+                  </p>
+
+                  <p class="m-5">
+                  <span class="text-xl text-bold mr-5">3.</span>
+                  You will be redirected automatically
+                  
+<div style="color: #edb948" class="la-pacman la-x">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+                  </p>
+            </div>
+          </div>
+          </div>
+      </div>
       <div id="page-graphs" class="hidden">
 
          <div class="flex-container mx-auto max-w-4xl flex flex-wrap">
@@ -149,7 +195,6 @@ Chart.defaults.global.layout = {
            <div class="flex-item justify-center" style="flex-grow: 1">
              <h5><span class="text-gray-500">top origin:</span> <a id="domain" target="_blank">DOMAIN</a><h5>
            </div>
-
 
            <div id="tracking-code" class="flex-item w-full">
                <div class="overflow-scroll">
