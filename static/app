@@ -124,17 +124,19 @@ Chart.defaults.global.layout = {
          </form>
       </div>
       <div id="page-setup" class="hidden">
-          <div class="flex-container mx-auto flex-wrap">
-          <div class="flex-item w-full max-w-screen-lg mx-auto">
+          <div class="flex-container mx-auto flex-wrap mt-10 pb-10">
+          <div class="flex-item w-full max-w-screen-md mx-auto">
             <div>
-                  <h5 class="text-2xl">Integrate</h5>
+                  <div class="px-10">
+                  <h5 class="text-2xl my-5">Waiting for data...</h5>
 
-                  <p class="m-5">
-                  <span class="text-xl text-bold mr-5">1.</span>
-                  Copy and paste this code into the html of the pages you want to track.
-                  </p>
+                  <h5 class="text-left text-gray-700">Follow these steps</h5>
 
-                  <pre class="m-5 leading-normal text-xs bg-gray-200 border py-1 px-2 overflow-auto max-w-screen-lg" ><code>&lt;script&gt;
+                  <div class="">
+                  <span class="text-xl font-bold mr-2">1.</span>
+                  Review, then copy and paste this code into the html of the pages you want to track.
+
+                  <pre class="rounded my-5 leading-normal text-xs bg-gray-200 border py-1 px-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt;
 // Simple Web Analytics tracking code
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
     fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
@@ -146,24 +148,30 @@ if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protoc
 sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
 
-                  <p class="m-5">
-                  <span class="text-xl text-bold mr-5">2.</span>
-                  Trigger a visit by visting a page containing the tracking code (localhost is ignored).
+                  <p class="my-10">
+                  <span class="text-xl font-bold mr-2">2.</span>
+                  Deploy - make your changes online.
+                  </p>
+                  </div>
+
+                  <p class="my-10">
+                  <span class="text-xl font-bold mr-2">3.</span>
+                  Visit a site with the included tracking code (visits over <i>localhost</i> are ignored).
                   </p>
 
-                  <p class="m-5">
-                  <span class="text-xl text-bold mr-5">3.</span>
-                  You will be redirected automatically
+                  <div class="my-10">
+                  <span class="text-xl font-bold mr-2">4.</span>
+                  You will be automatically redirected to the dashboard.
                   
-<div style="color: #edb948" class="la-pacman la-x mx-auto my-10">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-</div>
-                  </p>
+                  </div>
+                  </div>
+
+                 <div class="coffee mx-auto mt-20 mb-4">
+                     <div></div>
+                     <div></div>
+                     <div></div>
+                 </div>
+                  <p class="mx-1 text-sm text-right text-gray-700">Got stuck? <a href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a></p>
             </div>
           </div>
           </div>
