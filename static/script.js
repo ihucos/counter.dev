@@ -7,11 +7,16 @@ s = 208
 o = 90
 
 palette = [
-'hsl('+(s + (0 * o))+', 45%, 50%)',
-'hsl('+(s + (2 * o))+', 45%, 50%)',
-'hsl('+(s + (3 * o))+', 45%, 50%)',
-'hsl('+(s + (1 * o))+', 35%, 60%)'
+"hsl(208, 45%, 50%)",
+"hsl(28, 45%, 50%)",
+"hsl(118, 45%, 50%)",
+"hsl(298, 35%, 60%)",
+
+
 ]
+console.log(palette)
+
+
 
 pieBorderColor = 'white'
 pieBorderWidth = 1.2
@@ -973,7 +978,6 @@ function draw(user, data) {
 function dGroupData(entries, cutAt) {
     var entrs = Object.entries(entries)
     entrs = entrs.sort((a, b) => b[1] - a[1])
-    entrs = entrs.sort((a, b) => a[0] === "Other" ? 1 : -1)
     var top = entrs.slice(0, cutAt)
     var bottom = entrs.slice(cutAt, -1)
 
