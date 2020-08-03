@@ -222,7 +222,7 @@ function drawList(elem_id, dataItem, title, useLink, useFavicon) {
     for (var i = 0; i < list.length; i++) {
         var percent = list[i][1] / listTotal * 100
         var val = commaFormat(list[i][1])
-        html += '<td class="w-full">'
+        html += '<td class="w-full truncate">'
         var key = escapeHtml(list[i][0])
         console.log(useLink)
         if (useLink) {
@@ -413,14 +413,14 @@ function drawCountries(elemId, countries) {
         html += '<img class="inline-block" src="/famfamfam_flags/gif/' + escapeHtml(key) + '.gif"/>'
         html += resolveCountry(key)
         html += "</td>"
-        html += '<th style="white-space: nowrap;" class="text-center">' + escapeHtml(val)
+        html += '<td style="white-space: nowrap;" class="text-center"><b>' + escapeHtml(val) + '</b></td>'
         html += '<td style="white-space: nowrap;" class="text-sm text-gray-700">'
         var percentRepr = Math.round(percent) + '%'
         if (percentRepr === '0%'){
             percentRepr = '<1%'
         }
         html += escapeHtml(percentRepr)
-        html += '</th>'
+        html += '</td>'
         html += "</tr>"
     }
 
