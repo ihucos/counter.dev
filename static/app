@@ -48,6 +48,29 @@ Chart.defaults.global.layout = {
       <style>
 
 
+ /* unvisited link */
+a:link, a:visited, a:hover, a:active{
+  color: #054DC7;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
+  cursor: pointer;
+}
+
          h5, th {
            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
            color: rgba(0,0,0, 0.7);
@@ -136,14 +159,7 @@ Chart.defaults.global.layout = {
 
                   <div class="">
                   <span class="text-xl font-bold mr-2">1.</span>
-                  Copy and paste this code into the html of the pages you want to track.
-
-                  <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; /* Simple Web Analytics tracking code */
-if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({ referrer: document.referrer,
-site: "<span>USERNAME</span>", utcoffset: <span id="utcoffset">0</span>}))}; sessionStorage.setItem("_swa", "1");
-&lt;/script&gt;</code></pre>
-</div>
+                  Copy and paste <a href="#" onclick="overlayOn(); return false">the tracking code</a> into the html of the pages you want to track.
 
                   <p class="my-8">
                   <span class="text-xl font-bold mr-2">2.</span>
@@ -161,6 +177,7 @@ site: "<span>USERNAME</span>", utcoffset: <span id="utcoffset">0</span>}))}; ses
                   
                   </div>
                   </div>
+            </div>
 
                  <div class="coffee mx-auto mt-20 mb-4">
                      <div></div>
@@ -172,7 +189,6 @@ site: "<span>USERNAME</span>", utcoffset: <span id="utcoffset">0</span>}))}; ses
                       <a class="mx-1 text-sm text-right inline-block text-gray-700 float-right" href="">Go back</a>
                   
                   </p>
-            </div>
           </div>
           </div>
       </div>
@@ -201,7 +217,7 @@ site: "<span>USERNAME</span>", utcoffset: <span id="utcoffset">0</span>}))}; ses
 
            </div>
            <div class="flex-item justify-center" style="flex-grow: 1">
-             <h5><span class="text-gray-500">top origin:</span> <a id="domain" target="_blank">DOMAIN</a><h5>
+             <h5><span class="text-gray-500">top origin:</span> <a id="domain" target="_blank">DOMAIN</a></h5>
            </div>
 
            <div id="tracking-code" class="flex-item w-full">
@@ -302,6 +318,23 @@ sessionStorage.setItem("_swa", "1");
 
 
          </div>
+
+      <div id="overlay" onclick="overlayOff();" class="pt-10">
+                  <div class="mx-auto max-w-screen-md bg-white pb-5 pt-5 px-10">
+                  <h5 class="text-xl">Tracking code</h5>
+                  <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; /* Simple Web Analytics tracking code */
+if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
+fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({ referrer: document.referrer,
+site: "<span>USERNAME</span>", utcoffset: <span id="utcoffset">0</span>}))}; sessionStorage.setItem("_swa", "1");
+&lt;/script&gt;</code></pre>
+
+<div class="text-center mt-5">
+<a href="#" onclick="overlayOff(); return false;">Close</a>
+</div>
+</div>
+
+</div>
+</div>
 
       <script>
          if (location.hash === "#demo"){
