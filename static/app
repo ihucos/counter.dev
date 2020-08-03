@@ -56,7 +56,6 @@ Chart.defaults.global.layout = {
            padding-bottom: 8px;
            font-weight: bold;
            text-align: center;
-
          }
 
          body {
@@ -130,11 +129,11 @@ Chart.defaults.global.layout = {
            <div class="flex-item mb-5">
              <div style="box-shadow: none; background-color: transparent; padding: 0px;">
                
-               <a href="" class="shadow-xs bg-yellow-300 hover:bg-yellow-400 text-gray-800 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+               <a href="" class="shadow-xs bg-yellow-300 hover:bg-yellow-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
                  Logout
                </a>
 
-               <button onclick="downloadData()" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+               <button onclick="downloadData()" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
                  <span>&nbsp;</span>
                  <svg class="fill-current w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
                  <span>Download CSV</span>
@@ -171,11 +170,11 @@ sessionStorage.setItem("_swa", "1");
            </div>
 
 
-             <div class="flex-item w-2/3">
+             <div class="flex-item w-full md:w-2/3">
                <canvas id="last_days_chart" height=100></canvas>
              </div>
 
-             <div class="flex-item w-1/3">
+             <div class="flex-item w-full md:w-1/3">
                <canvas id="ref_chart" height=200></canvas>
              </div>
 
@@ -185,49 +184,49 @@ sessionStorage.setItem("_swa", "1");
                </div>
             </div>
 
-            <div class="flex-item w-1/3">
+            <div class="flex-item w-full md:w-1/3">
                <canvas height=200 id="device"></canvas>
             </div>
-            <div class="flex-item w-1/3">
+            <div class="flex-item w-full md:w-1/3">
                <canvas height=200 id="platform"></canvas>
             </div>
-            <div class="flex-item w-1/3">
+            <div class="flex-item w-full md:w-1/3">
                <canvas height=200 id="browser"></canvas>
             </div>
 
-            <div class="flex-item w-1/3">
+            <div class="flex-item w-full md:w-1/3">
                <canvas id="time" height=230></canvas>
             </div>
-            <div class="flex-item w-1/3">
+            <div class="flex-item w-full md:w-1/3">
                <canvas id="hour" height=230></canvas>
             </div>
-            <div class="flex-item w-1/3">
+            <div class="flex-item w-full md:w-1/3">
                <canvas id="weekday" height=230></canvas>
             </div>
 
-            <div class="flex-item w-2/3 my-5" style="height: 450px">
+            <div class="flex-item w-full md:w-2/3 my-5" style="height: 450px">
                <div id="world"><h5>World map</h5></div>
             </div>
 
-            <div class="flex-item w-1/3 my-5" style="height: 450px">
+            <div class="flex-item w-full md:w-1/3 my-5" style="height: 450px">
                <div style="overflow-y: auto; ">
                   <table id="world_list"></table>
                </div>
             </div>
 
-             <div class="flex-item w-2/3 mx-auto">
+             <div class="flex-item w-full md:w-2/3 mx-auto">
                 <div id="list_loc"></div>
              </div>
 
-            <div class="flex-item w-2/3 mx-auto">
+            <div class="flex-item w-full md:w-2/3 mx-auto">
                 <div id="list_ref"></div>
             </div>
 
-             <div class="flex-item w-2/3 mx-auto">
+             <div class="flex-item w-full md:w-2/3 mx-auto">
                 <div id="list_origin"></div>
              </div>
 
-            <div class="flex-item w-2/3 mx-auto">
+            <div class="flex-item w-full md:w-2/3 mx-auto">
               <div class="overflow-y-auto">
                  <h5>Last visits</h5>
                  <table>
