@@ -977,7 +977,7 @@ function dGroupData(entries, cutAt) {
     var entrs = Object.entries(entries)
     entrs = entrs.sort((a, b) => b[1] - a[1])
     var top = entrs.slice(0, cutAt)
-    var bottom = entrs.slice(cutAt, -1)
+    var bottom = entrs.slice(cutAt)
 
     otherVal = 0
     bottom.forEach(el => otherVal += el[1])
