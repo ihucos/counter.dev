@@ -154,30 +154,30 @@ table tr:nth-child(even) {
                <div>
                   <div class="px-10">
                      <h5 class="text-2xl my-5">Waiting for data...</h5>
-                     <h5 class="text-left text-gray-700">Follow these steps</h5>
+                     <h5 class="text-left text-gray-600 mb-2">Follow these steps:</h5>
                      <div class="">
                         <span class="text-xl font-bold mr-2">1.</span>
-                        Copy and paste <a href="#" onclick="overlayOn(); return false">the tracking code</a> into the html of the pages you want to track.
-                        <p class="my-8">
+                        Copy and paste the <a href="#" onclick="overlayOn(); return false">tracking code</a> into the html of the pages you want to track.
+                        <p class="my-5">
                            <span class="text-xl font-bold mr-2">2.</span>
                            Deploy - make your changes online.
                         </p>
-                        <p class="my-8">
+                        <p class="my-5">
                            <span class="text-xl font-bold mr-2">3.</span>
                            Visit a site with the included tracking code (visits over <i>localhost</i> are ignored).
                         </p>
-                        <div class="my-8">
+                        <div class="my-5">
                            <span class="text-xl font-bold mr-2">4.</span>
                            You will be automatically redirected to the dashboard.
                         </div>
                      </div>
                   </div>
-                  <div class="coffee mx-auto mt-20 mb-4">
+                  <div class="coffee mx-auto mt-24 mb-16">
                      <div></div>
                      <div></div>
                      <div></div>
                   </div>
-                  <p class="text-sm text-left text-gray-700">
+                  <p class="text-sm text-left text-gray-700" style="position: relative; top: 1.5em;">
                      <span class="mx-1">Got stuck? <a href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a></span>
                      <a class="mx-1 text-sm text-right inline-block text-gray-700 float-right" href="">Go back</a>
                   </p>
@@ -276,10 +276,16 @@ table tr:nth-child(even) {
          </div>
       </div>
       <div id="overlay" onclick="overlayOff();" class="pt-10">
-         <div class="mx-auto max-w-screen-md bg-white pb-5 pt-5 px-10">
+         <div class="mx-auto max-w-screen-sm bg-white pb-5 pt-5 px-10">
             <h5 class="text-xl">Tracking code</h5>
-            <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt;
-// Simple Web Analytics tracking code
+
+            <div class="mb-5">
+               <h4 class="font-bold">Hint:</h4>
+               <p>This JavaScript snippset is responible for collecting user
+               statistics. It needs to be added to all html pages you want to track. For example inside the <span class="italic font-mono border bg-gray-100">&lt;head&gt;</span> section.</p>
+               </div>
+
+            <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; // Simple Web Analytics tracking code
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
     fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
         referrer: document.referrer,

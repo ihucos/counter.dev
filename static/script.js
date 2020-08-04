@@ -679,8 +679,8 @@ function draw(user, data) {
     console.log("redrawing")
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
     var noData = Object.keys(data.date).length === 0 && data.date.constructor === Object
-    //document.getElementById("page-setup").style.display = "block" // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
-    //return
+    document.getElementById("page-setup").style.display = "block" // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
+    return
     if (noData){
         document.getElementById("page-setup").style.display = "block"
         return
