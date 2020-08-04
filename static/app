@@ -231,6 +231,7 @@ table tr:nth-child(even) {
                   <a href="" class="undecorate shadow-xs bg-yellow-300 hover:bg-yellow-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
                   Logout
                   </a>
+                  <a href="https://flattr.com/@ihucos" class="undecorate shadow-xs bg-green-300 hover:bg-green-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Donate</a>
                   <button onclick="downloadData()" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
                      <span>&nbsp;</span>
                      <svg class="fill-current w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -241,6 +242,7 @@ table tr:nth-child(even) {
                   <button id="tracking-code-button" onclick="overlayOn();" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
                   Tracking code
                   </button>
+
                </div>
             </div>
             <div class="flex-item justify-center" style="flex-grow: 1">
