@@ -677,15 +677,20 @@ function drawLastDays(elemId, date_keys, date_vals) {
 
 function draw(user, data) {
     console.log("redrawing")
+    if (!window._inited) {
+        alwaysUpdate()
+        window._inited = true
+    }
+
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
     var noData = Object.keys(data.date).length === 0 && data.date.constructor === Object
-    //document.getElementById("page-setup").style.display = "block" // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
-    //return
     if (noData){
+        drawUsername(user)
         document.getElementById("page-setup").style.display = "block"
         return
     } else {
         document.getElementById("page-graphs").style.display = "block"
+        document.getElementById("page-setup").style.display = "none"
     }
 
     drawUsername(user)

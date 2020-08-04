@@ -143,13 +143,13 @@ table tr:nth-child(even) {
 
            <h1 class="text-center font-bold text-4xl text-gray-500 leading-none">Welcome</h1>
             <div class="mb-10 mx-2 text-center">
-               <a href="" id="demo" onclick="demo(); return false">View demo</a> |
+               <a href="" id="demo" onclick="demo(); return false">Demo</a> |
                <a href="mailto:info@simple-web-analytics.com">Help</a> |
                <a href="/">About</a> 
             </div>
 
+            <div class="font-bold mx-2 p-2 text-center text-orange-900 bg-gray-300 border rounded" id="alert_login" style="display: none;"></div>
             <form method="POST" action="" class="flex">
-               <div class="w-full" id="alert_login" style="display: none;"></div>
                <input
                size=16
                class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
@@ -170,8 +170,8 @@ table tr:nth-child(even) {
                <div class="text-center leading-none">&nbsp;</div>
             </div>
 
+            <div class="font-bold mx-2 p-2 text-center text-red-900 bg-gray-300 border rounded" id="alert_register" style="display: none;"></div>
             <form method="POST" action="" class="flex">
-               <div id="alert_register" style="display: none;"></div>
                <input
                size=16
                class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
@@ -192,7 +192,7 @@ table tr:nth-child(even) {
             <div class="flex-item w-full max-w-screen-md mx-auto">
                <div>
                   <div class="px-10">
-                     <h5 class="text-2xl my-5">Waiting for data...</h5>
+                     <h5 class="text-2xl my-5">Hello <span class="username">USERNAME</span>,</h5>
                      <h5 class="text-left text-gray-600 mb-2">Follow these steps:</h5>
                      <div class="">
                         <span class="text-xl font-bold mr-2">1.</span>
@@ -328,7 +328,7 @@ table tr:nth-child(even) {
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
     fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
         referrer: document.referrer,
-        site: "<span>USERNAME</span>",
+        site: "<span class="username">USERNAME</span>",
         utcoffset: <span id="utcoffset">0</span>}))}
 sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
