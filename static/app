@@ -151,7 +151,7 @@ table tr:nth-child(even) {
             <form method="POST" action="" class="flex">
                <div class="w-full" id="alert_login" style="display: none;"></div>
                <input
-               size=12
+               size=16
                class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
                id="login_user" name="username" placeholder="Username" />
                <input
@@ -173,7 +173,7 @@ table tr:nth-child(even) {
             <form method="POST" action="" class="flex">
                <div id="alert_register" style="display: none;"></div>
                <input
-               size=12
+               size=16
                class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
                   id="reg_user" name="username" placeholder="Username" />
                <input
