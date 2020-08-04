@@ -55,6 +55,9 @@ a:active {
 a:hover {
 	text-decoration: underline;
 }
+a.undecorate:hover {
+	text-decoration: none;
+}
 
 #overlay {
 	position: fixed;
@@ -82,9 +85,11 @@ th {
 	text-align: center;
 }
 
+body, a.undecorate {
+	color: rgba(0, 0, 0, 0.8);
+}
 body {
 	background-color: rgba(0, 0, 0, 0.02);
-	color: rgba(0, 0, 0, 0.8);
 }
 
 .flex-container {
@@ -189,7 +194,7 @@ table tr:nth-child(even) {
          <div class="flex-container mx-auto max-w-4xl flex flex-wrap">
             <div class="flex-item md:mb-5">
                <div style="box-shadow: none; background-color: transparent; padding: 0px;">
-                  <a href="" class="shadow-xs bg-yellow-300 hover:bg-yellow-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                  <a href="" class="undecorate shadow-xs bg-yellow-300 hover:bg-yellow-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
                   Logout
                   </a>
                   <button onclick="downloadData()" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
@@ -200,7 +205,7 @@ table tr:nth-child(even) {
                      <span>Download CSV</span>
                   </button>
                   <button id="tracking-code-button" onclick="overlayOn();" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
-                  View tracking code
+                  Tracking code
                   </button>
                </div>
             </div>
@@ -276,7 +281,7 @@ table tr:nth-child(even) {
          </div>
       </div>
       <div id="overlay" onclick="overlayOff();" class="pt-10">
-         <div class="mx-auto max-w-screen-sm bg-white pb-5 pt-5 px-10">
+         <div class="mx-auto max-w-screen-sm bg-white pb-5 pt-5 px-10 rounded border">
             <h5 class="text-xl">Tracking code</h5>
 
             <div class="mb-5">
@@ -294,7 +299,7 @@ if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protoc
 sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
             <div class="text-center mt-5">
-               <a href="#" onclick="overlayOff(); return false;">Close</a>
+               <a href="#" onclick="overlayOff(); return false;" class="undecorate shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Close</a>
             </div>
          </div>
       </div>
