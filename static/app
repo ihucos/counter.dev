@@ -139,19 +139,21 @@ table tr:nth-child(even) {
    </head>
    <body>
       <div id="page-index">
-         <a href="" id="demo" onclick="demo(); return false">open demo</a>
-         <form method="POST" action="">
-            <div id="alert_register" style="display: none;"></div>
-            <input id="reg_user" name="username" placeholder="Username" />
-            <input id="reg_password" type="password" name="password" placeholder="Password" />
-            <button type="submit" onclick="register(); return false" name="action">Register</button>
-         </form>
-         <form method="POST" action="">
-            <div id="alert_login" style="display: none;"></div>
-            <input id="login_user" name="username" placeholder="Username" />
-            <input id="login_password" type="password" name="password" placeholder="Password" />
-            <button type="submit" onclick="login(); return false" id="login_button" name="action">Login</button>
-         </form>
+         <div class="mx-auto">
+            <a href="" id="demo" onclick="demo(); return false">open demo</a>
+            <form method="POST" action="">
+               <div id="alert_register" style="display: none;"></div>
+               <input id="reg_user" name="username" placeholder="Username" />
+               <input id="reg_password" type="password" name="password" placeholder="Password" />
+               <button type="submit" onclick="register(); return false" name="action">Register</button>
+            </form>
+            <form method="POST" action="">
+               <div id="alert_login" style="display: none;"></div>
+               <input id="login_user" name="username" placeholder="Username" />
+               <input id="login_password" type="password" name="password" placeholder="Password" />
+               <button type="submit" onclick="login(); return false" id="login_button" name="action">Login</button>
+            </form>
+         </div>
       </div>
       <div id="page-setup" class="hidden">
          <div class="flex-container mx-auto flex-wrap mt-3 pb-3">
