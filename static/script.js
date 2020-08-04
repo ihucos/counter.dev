@@ -109,26 +109,6 @@ function alwaysUpdate() {
     }, 5000);
 }
 
-function showTrackingCode() {
-    document.getElementById("tracking-code").style.display = "block"
-    document.getElementById("tracking-code-button").innerHTML = "Hide tracking code"
-}
-
-function hideTrackingCode() {
-    document.getElementById("tracking-code").style.display = "none"
-    document.getElementById("tracking-code-button").innerHTML = "Display tracking code"
-}
-
-function toggleTrackingCode() {
-    var elem = document.getElementById("tracking-code")
-    if (elem.style.display === "none") {
-        showTrackingCode()
-    } else {
-        hideTrackingCode()
-    }
-}
-
-
 function escapeHtml(unsafe) {
     return (unsafe + "")
         .replace(/&/g, "&amp;")
@@ -706,16 +686,6 @@ function draw(user, data) {
         return
     } else {
         document.getElementById("page-graphs").style.display = "block"
-    }
-
-    if (!window._inited) {
-        alwaysUpdate()
-        if (Object.keys(data.date).length === 0) {
-            showTrackingCode()
-        } else {
-            hideTrackingCode()
-        }
-        window._inited = true
     }
 
     drawUsername(user)

@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
    <head>
@@ -27,107 +29,107 @@
          sessionStorage.setItem("_swa", "1");
       </script>
       <script src="script.js"></script>
-
-<script>
-Chart.defaults.global.title.fontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
-Chart.defaults.global.title.fontColor = "rgba(0,0,0, 0.7)";
-Chart.defaults.global.title.fontSize = 16
-Chart.defaults.global.title.lineHeight = 1.2
-Chart.defaults.global.title.padding = 10
-Chart.defaults.global.layout = {
-            padding: {
-                left: 5,
-                right: 5,
-                top: 10,
-                bottom: 10
-            }
-}
-</script>
-
-
+      <script>
+         Chart.defaults.global.title.fontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
+         Chart.defaults.global.title.fontColor = "rgba(0,0,0, 0.7)";
+         Chart.defaults.global.title.fontSize = 16
+         Chart.defaults.global.title.lineHeight = 1.2
+         Chart.defaults.global.title.padding = 10
+         Chart.defaults.global.layout = {
+                     padding: {
+                         left: 5,
+                         right: 5,
+                         top: 10,
+                         bottom: 10
+                     }
+         }
+      </script>
       <style>
-
-
- /* unvisited link */
-a:link, a:visited, a:hover, a:active{
-  color: #054DC7;
+a:link,
+a:visited,
+a:hover,
+a:active {
+	color: #054DC7;
 }
 
 a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
 #overlay {
-  position: fixed;
-  display: none;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 2;
-  cursor: pointer;
+	position: fixed;
+	display: none;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 2;
+	cursor: pointer;
 }
 
-         h5, th {
-           font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-           color: rgba(0,0,0, 0.7);
-           font-size: 16px;
-           line-height: 1.2;
-           padding-top: 7px;
-           padding-bottom: 8px;
-           font-weight: bold;
-           text-align: center;
-         }
+h5,
+th {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	color: rgba(0, 0, 0, 0.7);
+	font-size: 16px;
+	line-height: 1.2;
+	padding-top: 7px;
+	padding-bottom: 8px;
+	font-weight: bold;
+	text-align: center;
+}
 
-         body {
-           background-color: rgba(0, 0, 0, 0.02);
-           color: rgba(0, 0, 0, 0.8);
-         }
-         .flex-container {
-           box-sizing: border-box;
-         }
+body {
+	background-color: rgba(0, 0, 0, 0.02);
+	color: rgba(0, 0, 0, 0.8);
+}
 
-         .flex-item {
-           padding: 0.5em 0.5em;
-           box-sizing: border-box;
-           display:flex;
-         }
+.flex-container {
+	box-sizing: border-box;
+}
 
-         .flex-item>div, .flex-item>canvas {
-           border-radius: 5px;
-           flex: 1 1 auto;
-           box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.1);
-           background-color: white;
-         }
+.flex-item {
+	padding: 0.5em 0.5em;
+	box-sizing: border-box;
+	display: flex;
+}
 
-         .list, .list td, .list tr {
-         }
+.flex-item>div,
+.flex-item>canvas {
+	border-radius: 5px;
+	flex: 1 1 auto;
+	box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.1);
+	background-color: white;
+}
 
-         table {
-           line-height: 2;
-           color: rgba(0,0,0, 0.7)
-         }
+.list,
+.list td,
+.list tr {}
 
-         table tr:first-child {
-           border-bottom: 1px solid rgba(204, 218, 233, 1);
-         }
+table {
+	line-height: 2;
+	color: rgba(0, 0, 0, 0.7)
+}
 
-         table td {
-         padding-left: 10px;
-         padding-right: 10px;
-         }
-         
-         table img {
-           margin-right: 10px;
-         }
+table tr:first-child {
+	border-bottom: 1px solid rgba(204, 218, 233, 1);
+}
 
-         table tr:nth-child(even) {
-           background-color: rgba(204, 218, 233, 0.6);
-         }
+table td {
+	padding-left: 10px;
+	padding-right: 10px;
+}
 
+table img {
+	margin-right: 10px;
+}
+
+table tr:nth-child(even) {
+	background-color: rgba(204, 218, 233, 0.6);
+}
       </style>
    </head>
    <body>
@@ -147,113 +149,75 @@ a:hover {
          </form>
       </div>
       <div id="page-setup" class="hidden">
-          <div class="flex-container mx-auto flex-wrap mt-3 pb-3">
-          <div class="flex-item w-full max-w-screen-md mx-auto">
-            <div>
+         <div class="flex-container mx-auto flex-wrap mt-3 pb-3">
+            <div class="flex-item w-full max-w-screen-md mx-auto">
+               <div>
                   <div class="px-10">
-
-
-                  <h5 class="text-2xl my-5">Waiting for data...</h5>
-
-                  <h5 class="text-left text-gray-700">Follow these steps</h5>
-
-                  <div class="">
-                  <span class="text-xl font-bold mr-2">1.</span>
-                  Copy and paste <a href="#" onclick="overlayOn(); return false">the tracking code</a> into the html of the pages you want to track.
-
-                  <p class="my-8">
-                  <span class="text-xl font-bold mr-2">2.</span>
-                  Deploy - make your changes online.
-                  </p>
-
-                  <p class="my-8">
-                  <span class="text-xl font-bold mr-2">3.</span>
-                  Visit a site with the included tracking code (visits over <i>localhost</i> are ignored).
-                  </p>
-
-                  <div class="my-8">
-                  <span class="text-xl font-bold mr-2">4.</span>
-                  You will be automatically redirected to the dashboard.
-                  
+                     <h5 class="text-2xl my-5">Waiting for data...</h5>
+                     <h5 class="text-left text-gray-700">Follow these steps</h5>
+                     <div class="">
+                        <span class="text-xl font-bold mr-2">1.</span>
+                        Copy and paste <a href="#" onclick="overlayOn(); return false">the tracking code</a> into the html of the pages you want to track.
+                        <p class="my-8">
+                           <span class="text-xl font-bold mr-2">2.</span>
+                           Deploy - make your changes online.
+                        </p>
+                        <p class="my-8">
+                           <span class="text-xl font-bold mr-2">3.</span>
+                           Visit a site with the included tracking code (visits over <i>localhost</i> are ignored).
+                        </p>
+                        <div class="my-8">
+                           <span class="text-xl font-bold mr-2">4.</span>
+                           You will be automatically redirected to the dashboard.
+                        </div>
+                     </div>
                   </div>
+                  <div class="coffee mx-auto mt-20 mb-4">
+                     <div></div>
+                     <div></div>
+                     <div></div>
                   </div>
-            </div>
-
-                 <div class="coffee mx-auto mt-20 mb-4">
-                     <div></div>
-                     <div></div>
-                     <div></div>
-                 </div>
                   <p class="text-sm text-left text-gray-700">
-                      <span class="mx-1">Got stuck? <a href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a></span>
-                      <a class="mx-1 text-sm text-right inline-block text-gray-700 float-right" href="">Go back</a>
-                  
+                     <span class="mx-1">Got stuck? <a href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a></span>
+                     <a class="mx-1 text-sm text-right inline-block text-gray-700 float-right" href="">Go back</a>
                   </p>
-          </div>
-          </div>
+               </div>
+            </div>
+         </div>
       </div>
       <div id="page-graphs" class="hidden">
-
          <div class="flex-container mx-auto max-w-4xl flex flex-wrap">
-
-           <div class="flex-item md:mb-5">
-             <div style="box-shadow: none; background-color: transparent; padding: 0px;">
-               
-               <a href="" class="shadow-xs bg-yellow-300 hover:bg-yellow-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
-                 Logout
-               </a>
-
-               <button onclick="downloadData()" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
-                 <span>&nbsp;</span>
-                 <svg class="fill-current w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
-                 <span>Download CSV</span>
-               </button>
-               
-               <button id="tracking-code-button" onclick="toggleTrackingCode()" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-800 text-xs font-bold py-2 px-4 rounded inline-flex items-center">
-                 TRACKING CODE
-               </button>
-             </div>
-
-
-           </div>
-           <div class="flex-item justify-center" style="flex-grow: 1">
-             <h5><span class="text-gray-500">top origin:</span> <a id="domain" target="_blank">DOMAIN</a></h5>
-           </div>
-
-           <div id="tracking-code" class="flex-item w-full">
-               <div class="overflow-scroll">
-                  <h5>Tracking Code</h5>
-                  <p class="m-5">
-                  Copy and paste this code into the html of the pages you want to track.
-                  </p>
-                  <pre class="m-5 leading-normal text-xs"><code>&lt;script&gt;
-// Simple Web Analytics tracking code
-if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
-        referrer: document.referrer,
-        site: "<span>USERNAME</span>",
-        utcoffset: <span id="utcoffset">0</span>
-    }));
-}
-sessionStorage.setItem("_swa", "1");
-&lt;/script&gt;</code></pre>
+            <div class="flex-item md:mb-5">
+               <div style="box-shadow: none; background-color: transparent; padding: 0px;">
+                  <a href="" class="shadow-xs bg-yellow-300 hover:bg-yellow-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                  Logout
+                  </a>
+                  <button onclick="downloadData()" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                     <span>&nbsp;</span>
+                     <svg class="fill-current w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/>
+                     </svg>
+                     <span>Download CSV</span>
+                  </button>
+                  <button id="tracking-code-button" onclick="overlayOn();" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                  View tracking code
+                  </button>
                </div>
-           </div>
-
-             <div class="flex-item w-full md:w-2/3" style="height: 200px;">
+            </div>
+            <div class="flex-item justify-center" style="flex-grow: 1">
+               <h5><span class="text-gray-500">top origin:</span> <a id="domain" target="_blank">DOMAIN</a></h5>
+            </div>
+            <div class="flex-item w-full md:w-2/3" style="height: 200px;">
                <canvas id="last_days_chart"></canvas>
-             </div>
-
-             <div class="flex-item w-full md:w-1/3" style="height: 200px;">
+            </div>
+            <div class="flex-item w-full md:w-1/3" style="height: 200px;">
                <canvas id="ref_chart"></canvas>
-             </div>
-
+            </div>
             <div class="flex-item w-full md:mb-5">
                <div>
                   <canvas class="w-full" height="200" id="graph"></canvas>
                </div>
             </div>
-
             <div class="flex-item w-full md:w-1/2 lg:w-1/3">
                <canvas height=200 id="device"></canvas>
             </div>
@@ -272,70 +236,62 @@ sessionStorage.setItem("_swa", "1");
             <div class="flex-item w-full md:w-1/2 lg:w-1/3">
                <canvas id="weekday" height=230></canvas>
             </div>
-
             <div class="flex-item w-full md:w-2/3 md:my-5" style="height: 450px">
-               <div id="world"><h5>World map</h5></div>
+               <div id="world">
+                  <h5>World map</h5>
+               </div>
             </div>
-
             <div class="flex-item w-full md:w-1/3 md:my-5" style="height: 450px">
                <div style="overflow-y: auto; ">
                   <table id="world_list"></table>
                </div>
             </div>
-
-             <div class="flex-item w-full md:w-2/3 mx-auto">
-                <div id="list_loc"></div>
-             </div>
-
             <div class="flex-item w-full md:w-2/3 mx-auto">
-                <div id="list_ref"></div>
+               <div id="list_loc"></div>
             </div>
-
-             <div class="flex-item w-full md:w-2/3 mx-auto">
-                <div id="list_origin"></div>
-             </div>
-
             <div class="flex-item w-full md:w-2/3 mx-auto">
-              <div class="overflow-y-auto">
-                 <h5>Last visits</h5>
-                 <table>
-                    <thead>
-                       <tr>
-                          <th>Date</th>
-                          <th>Time</th>
-                          <th>IP</th>
-                          <th>Referrer</th>
-                          <th class="text-left">User-Agent</th>
-                       </tr>
-                    </thead>
-                    <tbody id="log_body">
-                    </tbody>
-                 </table>
-              </div>
+               <div id="list_ref"></div>
             </div>
-    </div>
-
-
-
+            <div class="flex-item w-full md:w-2/3 mx-auto">
+               <div id="list_origin"></div>
+            </div>
+            <div class="flex-item w-full md:w-2/3 mx-auto">
+               <div class="overflow-y-auto">
+                  <h5>Last visits</h5>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>Date</th>
+                           <th>Time</th>
+                           <th>IP</th>
+                           <th>Referrer</th>
+                           <th class="text-left">User-Agent</th>
+                        </tr>
+                     </thead>
+                     <tbody id="log_body">
+                     </tbody>
+                  </table>
+               </div>
+            </div>
          </div>
-
+      </div>
       <div id="overlay" onclick="overlayOff();" class="pt-10">
-                  <div class="mx-auto max-w-screen-md bg-white pb-5 pt-5 px-10">
-                  <h5 class="text-xl">Tracking code</h5>
-                  <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; /* Simple Web Analytics tracking code */
+         <div class="mx-auto max-w-screen-md bg-white pb-5 pt-5 px-10">
+            <h5 class="text-xl">Tracking code</h5>
+            <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt;
+// Simple Web Analytics tracking code
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({ referrer: document.referrer,
-site: "<span>USERNAME</span>", utcoffset: <span id="utcoffset">0</span>}))}; sessionStorage.setItem("_swa", "1");
+    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
+        referrer: document.referrer,
+        site: "<span>USERNAME</span>",
+        utcoffset: <span id="utcoffset">0</span>}))}
+sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
-
-<div class="text-center mt-5">
-<a href="#" onclick="overlayOff(); return false;">Close</a>
-</div>
-</div>
-
-</div>
-</div>
-
+            <div class="text-center mt-5">
+               <a href="#" onclick="overlayOff(); return false;">Close</a>
+            </div>
+         </div>
+      </div>
       <script>
          if (location.hash === "#demo"){
              document.getElementById("demo").click()
@@ -343,3 +299,4 @@ site: "<span>USERNAME</span>", utcoffset: <span id="utcoffset">0</span>}))}; ses
       </script>
    </body>
 </html>
+
