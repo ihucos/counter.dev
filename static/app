@@ -149,18 +149,18 @@ table tr:nth-child(even) {
             </div>
 
             <form method="POST" action="" class="flex">
-               <div id="alert_register" style="display: none;"></div>
+               <div id="alert_login" style="display: none;"></div>
                <input
                size=12
-               class="my-5 mx-2 bg-gray-200 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-                  id="reg_user" name="username" placeholder="Username" />
+               class="my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+               id="login_user" name="username" placeholder="Username" />
                <input
-               class="my-5 mx-2 bg-gray-200 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-               id="reg_password" type="password" name="password" placeholder="Password" />
+               class="my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+               id="login_password" type="password" name="password" placeholder="Password" />
                <div>
                   <button
-                  class="font-bold w-24 text-center my-5 mx-2 border border-blue-700 bg-blue-700 hover:bg-blue-800 hover:text-white text-gray-200 appearance-none shadow rounded py-2 leading-tight focus:outline-none focus:bg-white"
-                  type="submit" onclick="register(); return false" name="action">Register</button>
+                  class="font-bold w-24 text-center my-5 mx-2 border border-blue-700  bg-blue-700 hover:bg-blue-800 hover:text-white text-gray-200 appearance-none shadow rounded py-2 leading-tight focus:outline-none focus:bg-white"
+                  type="submit" onclick="login(); return false" id="login_button" name="action">Login</button>
                </div>
             </form>
 
@@ -171,18 +171,18 @@ table tr:nth-child(even) {
             </div>
 
             <form method="POST" action="" class="flex">
-               <div id="alert_login" style="display: none;"></div>
+               <div id="alert_register" style="display: none;"></div>
                <input
                size=12
-               class="my-5 mx-2 bg-gray-200 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-               id="login_user" name="username" placeholder="Username" />
+               class="my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+                  id="reg_user" name="username" placeholder="Username" />
                <input
-               class="my-5 mx-2 bg-gray-200 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-               id="login_password" type="password" name="password" placeholder="Password" />
+               class="my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+               id="reg_password" type="password" name="password" placeholder="Password" />
                <div>
                   <button
-                  class="font-bold w-24 text-center my-5 mx-2 border border-blue-700  bg-blue-700 hover:bg-blue-800 hover:text-white text-gray-200 appearance-none shadow rounded py-2 leading-tight focus:outline-none focus:bg-white"
-                  type="submit" onclick="login(); return false" id="login_button" name="action">Login</button>
+                  class="font-bold w-24 text-center my-5 mx-2 border border-gray-700 bg-gray-700 hover:bg-gray-800 hover:text-white text-gray-200 appearance-none shadow rounded py-2 leading-tight focus:outline-none focus:bg-white"
+                  type="submit" onclick="register(); return false" name="action">Register</button>
                </div>
             </form>
          </div>
