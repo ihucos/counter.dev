@@ -14,7 +14,20 @@ palette = [
 
 
 ]
-console.log(palette)
+
+Chart.defaults.global.title.fontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
+Chart.defaults.global.title.fontColor = "rgba(0,0,0, 0.7)";
+Chart.defaults.global.title.fontSize = 16
+Chart.defaults.global.title.lineHeight = 1.2
+Chart.defaults.global.title.padding = 10
+Chart.defaults.global.layout = {
+            padding: {
+                left: 5,
+                right: 5,
+                top: 10,
+                bottom: 10
+            }
+}
 
 
 
@@ -335,8 +348,8 @@ function drawLog() {
     }
 }
 
-function drawMap() {
-    jQuery('#world').vectorMap({
+function drawMap(elemId) {
+    jQuery("#" + elemId).vectorMap({
         map: 'world_en',
         backgroundColor: '#fff',
         color: '#ffffff',
@@ -531,7 +544,7 @@ function drawTime() {
 }
 
 
-function drawRefChart() {
+function drawRefChart(elemId) {
     var colors = [palette[2], palette[1], palette[0]]
     var otherColor = palette[3]
     var directColor = 'rgba(0,0,0,0.12)'
@@ -558,7 +571,7 @@ function drawRefChart() {
         })
     }
 
-    new Chart(document.getElementById("ref_chart"), {
+    new Chart(document.getElementById(elemId), {
         type: 'pie',
         data: {
             labels: entries.map(x => x.label),
@@ -696,56 +709,15 @@ function draw(user, data) {
     drawUsername(user)
     drawDomain()
     drawUTCOffsetVar()
-    drawMap()
+    drawMap("world")
     drawTitle(user)
     drawTime()
-    drawRefChart()
+    drawRefChart("ref_chart")
 
-
-    var daysRange = function(s, e) {
-        s = new Date(s)
-        e = new Date(e)
-        o = {}
-        for (var a = [], d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
-            o[new Date(d).toISOString().substring(0, 10)] = 0;
-        }
-        return o;
-    };
-
-    function getNormalizedDateData() {
-        keys = Object.keys(data.date)
-        keys.sort((a, b) => {
-            return a > b;
-        });
-
-
-        calc_min = getUTCMinusElevenNow()
-        calc_min.setDate(calc_min.getDate() - 7)
-        calc_min = calc_min.toISOString().substring(0, 10)
-
-        if (keys.length != 0) {
-            data_min = keys[0]
-            if (new Date(data_min).getTime() < new Date(calc_min).getTime()) {
-                min = data_min
-            } else {
-                min = calc_min
-            }
-        } else {
-            min = calc_min
-        }
-
-
-        max = getUTCMinusElevenNow().toISOString().substring(0, 10)
-        date_data = {...daysRange(min, max),
-            ...data.date
-        }
-
-        return splitObject(date_data, true)
-    }
 
     var date_keys;
     var date_vals;
-    [date_keys, date_vals] = getNormalizedDateData()
+    [date_keys, date_vals] = dGetNormalizedDateData()
 
     drawList("list_ref", data.ref, "All refferals", true, true)
     drawList("list_loc", data.loc, "Landing pages", false, false)
@@ -956,6 +928,49 @@ function draw(user, data) {
             },
         },
     })
+}
+
+
+function dGetNormalizedDateData() {
+
+    var daysRange = function(s, e) {
+        s = new Date(s)
+        e = new Date(e)
+        o = {}
+        for (var a = [], d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
+            o[new Date(d).toISOString().substring(0, 10)] = 0;
+        }
+        return o;
+    };
+
+    keys = Object.keys(data.date)
+    keys.sort((a, b) => {
+        return a > b;
+    });
+
+
+    calc_min = getUTCMinusElevenNow()
+    calc_min.setDate(calc_min.getDate() - 7)
+    calc_min = calc_min.toISOString().substring(0, 10)
+
+    if (keys.length != 0) {
+        data_min = keys[0]
+        if (new Date(data_min).getTime() < new Date(calc_min).getTime()) {
+            min = data_min
+        } else {
+            min = calc_min
+        }
+    } else {
+        min = calc_min
+    }
+
+
+    max = getUTCMinusElevenNow().toISOString().substring(0, 10)
+    date_data = {...daysRange(min, max),
+        ...data.date
+    }
+
+    return splitObject(date_data, true)
 }
 
 function dGroupData(entries, cutAt) {

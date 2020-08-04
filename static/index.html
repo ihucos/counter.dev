@@ -9,6 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet"> 
 
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
+<script src="moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
+<script src="script.js"></script>
+<script src="data.js"></script>
+
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -23,6 +32,12 @@
 
 
   <style>
+
+.tile {
+	border-radius: 5px;
+	box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.1);
+	background-color: white;
+}
 
 .gradient {
   background-image: linear-gradient(-225deg, #76A5CF 0%, #0B4273 100%);
@@ -266,23 +281,73 @@ body {
 
     <!-- title -->
     <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
-        Easy to use
+        Know how many visitors
     </h2>
     <div class="mb-8 hidden md:block">
-        <div class="hr-1 h-1 mx-auto gradient w-56 opacity-25 my-0 py-0 rounded-t" ></div>
+        <div class="hr-1 h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" ></div>
     </div>
     
-    <div class="max-w-xl mx-auto flex flex-wrap">
+    <div class="max-w-screen-sm mx-auto flex flex-wrap">
         
-        <p class="flex-1 px-3">
+        <p class="w-1/2">
             It's two printable pages with insights that are easy on the eyes
             and mind. All metrics are based on visits, which is a browser season at a given day.
         </p>
 
-        <div class="flex-1 inline-block mx-3 md:flex hidden">
-            <a href="/app#demo" target="_blank"><img src="page1.jpg" class="inline-block shadow"></a>
-            <a href="/app#demo" target="_blank"><img src="page2.jpg" class="inline-block shadow"></a>
+        <div class="w-1/2">
+            <canvas class="tile" id="last_days_chart" height=200 />
         </div>
+    </div>
+
+</section>
+
+<section class="my-32 mt-24">
+
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        Know your referrals
+    </h2>
+    <div class="mb-8 hidden md:block">
+        <div class="hr-1 h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" ></div>
+    </div>
+    
+    <div class="max-w-screen-sm mx-auto flex flex-wrap">
+        
+        <p class="w-1/2">
+            It's two printable pages with insights that are easy on the eyes
+            and mind. All metrics are based on visits, which is a browser season at a given day.
+        </p>
+
+        <div class="w-1/2">
+            <canvas class="tile" id="ref_chart" height=200 />
+        </div>
+    </div>
+
+</section>
+
+
+
+<section class="my-32 mt-24">
+
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        Track countries
+    </h2>
+    <div class="mb-8 hidden md:block">
+        <div class="hr-1 h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" ></div>
+    </div>
+    
+    <div class="max-w-screen-sm mx-auto flex flex-wrap">
+
+        <div class="w-1/2">
+               <div id="world" class="tile px-2" style="height: 200px;">
+               </div>
+        </div>
+        
+        <p class="w-1/2">
+            It's two printable pages with insights that are easy on the eyes
+            and mind. All metrics are based on visits, which is a browser season at a given day.
+        </p>
     </div>
 
 </section>
@@ -452,6 +517,15 @@ E-Mail: info"+  x + "" + "simple-web-analytcs.com"
 
 alert(s);
 }
+</script>
+
+<script>
+drawRefChart("ref_chart")
+drawMap("world")
+var date_keys;
+var date_vals;
+[date_keys, date_vals] = dGetNormalizedDateData()
+drawLastDays("last_days_chart", date_keys, date_vals)
 </script>
 
 </body>
