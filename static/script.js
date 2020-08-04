@@ -1009,3 +1009,9 @@ function overlayOn() {
 function overlayOff() {
   document.getElementById("overlay").style.display = "none";
 } 
+
+function onclickOverlay() {
+  if (event.target.id === "overlay"){
+    overlayOff()
+  }
+} 

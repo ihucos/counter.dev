@@ -282,8 +282,8 @@ table tr:nth-child(even) {
             </div>
          </div>
       </div>
-      <div id="overlay" onclick="overlayOff();" class="pt-10">
-         <div class="mx-auto max-w-screen-sm bg-white pb-5 pt-5 px-10 rounded border">
+      <div id="overlay" onclick="onclickOverlay()" class="pt-10">
+         <div id="overlay-content" class="mx-auto max-w-screen-sm bg-white pb-5 pt-5 px-10 rounded border" style="cursor: auto;">
             <h5 class="text-xl">Tracking code</h5>
 
             <div class="mb-5">
