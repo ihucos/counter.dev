@@ -14,7 +14,7 @@ r = redis.Redis()
 access = r.hgetall("access")
 dates_around_today = [
     datetime.strftime(datetime.now() - timedelta(i), '%Y-%m-%d')
-    for i in [-1, 0, 1, 2, 3]
+    for i in [-1, 0, 1, 2, 3, 4, 5]
 ]
 stats = []
 for key in r.keys("date:*"):
