@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
    <head>
@@ -5,295 +7,328 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="Free analytics tool with all common features.">
       <title>Simple Web Analytics</title>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+      <link href="loading.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
-
+      <script src="moment.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
-
+      <script data-goatcounter="https://simple-web-analytics.goatcounter.com/count"
+         async src="//gc.zgo.at/count.js"></script>
+      <script>
+         // Simple Web Analytics tracking code
+         if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
+             fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
+                 referrer: document.referrer,
+                 site: "simple-web-analytics.com",
+                 utcoffset: 2
+             }));
+         }
+         sessionStorage.setItem("_swa", "1");
+      </script>
       <script src="script.js"></script>
       <style>
-         h1, h2, h3, h4, h5, h6, h7, .simple {
-         color: #194873;
-         font-weight: bold;
-         }
-         .btn-warning {
-         font-weight: bold;
-         background-color: #268bd2;
-         border-color: black;
-         color: white;
-         text-shadow: -1px 0 #e86e17, 0 1px  #e86e17, 1px 0 #e86e17, 0 -1px #e86e17;
-         }
-         .btn-light, .btn-light:hover {
-         border-color: black;
-         }
+a:link,
+a:visited,
+a:hover,
+a:active {
+	color: #2C5282;
+}
 
-         .top, .top td, .top tr {
-            border: 5px solid white;
-         }
+a:hover {
+	text-decoration: underline;
+}
+a.undecorate:hover {
+	text-decoration: none;
+}
+
+#overlay {
+	position: fixed;
+	display: none;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 2;
+	cursor: pointer;
+}
+
+h5,
+th {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	color: rgba(0, 0, 0, 0.7);
+	font-size: 16px;
+	line-height: 1.2;
+	padding-top: 7px;
+	padding-bottom: 8px;
+	font-weight: bold;
+	text-align: center;
+}
+
+body, a.undecorate {
+	color: rgba(0, 0, 0, 0.8);
+}
+body {
+	background-color: rgba(0, 0, 0, 0.02);
+}
+
+.flex-container {
+	box-sizing: border-box;
+}
+
+.flex-item {
+	padding: 0.5em 0.5em;
+	box-sizing: border-box;
+	display: flex;
+}
+
+.flex-item>div,
+.flex-item>canvas {
+	border-radius: 5px;
+	flex: 1 1 auto;
+	box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.1);
+	background-color: white;
+}
+
+.list,
+.list td,
+.list tr {}
+
+table {
+	line-height: 2;
+	color: rgba(0, 0, 0, 0.7)
+}
+
+table tr:first-child {
+	border-bottom: 1px solid rgba(204, 218, 233, 1);
+}
+
+table td {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+table img {
+	margin-right: 10px;
+}
+
+table tr:nth-child(even) {
+	background-color: rgba(204, 218, 233, 0.6);
+}
       </style>
    </head>
    <body>
+      <div id="page-index" class="border" style="display: flex; height: 100vh; align-items: center; justify-content: center">
+         <div class="mb-10">
 
-    <script data-goatcounter="https://simple-web-analytics.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+           <h1 class="text-center font-bold text-4xl text-gray-500 leading-none">Welcome</h1>
+            <div class="mb-10 mx-2 text-center">
+               <a href="" id="demo" onclick="demo(); return false">Demo</a> |
+               <a href="mailto:info@simple-web-analytics.com">Help</a> |
+               <a href="/">About</a> 
+            </div>
 
-   <script>
-   // Simple Web Analytics tracking code
-   if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-       fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
-           referrer: document.referrer,
-           site: "simple-web-analytics.com",
-           utcoffset: 2
-       }));
-   }
-   sessionStorage.setItem("_swa", "1");
-   </script>
+            <div class="font-bold mx-2 p-2 text-center text-orange-900 bg-gray-300 border rounded login-alert" id="alert_login" style="display: none;"></div>
+            <form method="POST" action="" class="flex">
+               <input
+               size=16
+               class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+               id="login_user" name="username" placeholder="Username" />
+               <input
+               class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+               id="login_password" type="password" name="password" placeholder="Password" />
+               <div>
+                  <button
+                  class="font-bold w-24 text-center my-5 mx-2 border border-blue-700  bg-blue-700 focus:shadow-outline focus:bg-blue-800 hover:bg-blue-800 hover:text-white text-gray-200 appearance-none shadow rounded py-2 leading-tight focus:outline-none focus:bg-white"
+                  type="submit" onclick="login(); return false" id="login_button" name="action">Login</button>
+               </div>
+            </form>
 
-      <div id="page-index" class="d-flex flex-column justify-content-between" style="min-height: 100vh">
+            <div class="m-2">
+               <div class="text-center leading-none" style="position: relative; top: 0.5em;"><span class="italic font-bold px-3 text-gray-700" style="background-color: rgb(250, 250, 250);"> or <span></div>
+               <hr>
+               <div class="text-center leading-none">&nbsp;</div>
+            </div>
 
-         <div class="container" style="margin-bottom: 5em; max-width: 37em;">
-
-
-         <div style="background-color: white; padding-top: 1em; margin-bottom: 3.5em;">
-            <br/>
-            <div class="" >
-               <div class="card border-dark bg-light">
-                  <div class="card-body">
-                     <div class="card-title">
-                        <h2><b class="simple">Simple</b> <span class="text-dark">Web Analytics<span></h2>
-                     </div>
-                     <h6 class="card-subtitle mb-2 text-muted">Free. Open Source. Privacy Aware.</h6>
-                     <div class="card-text">
-                        <p>
-                          An simple web analytics tool with the emphasis on providing a free service and data privacy. <a href="#" id="demo" onclick="demo(); return false">Check out the demo.</a>
+            <div class="font-bold mx-2 p-2 text-center text-red-900 bg-gray-300 border rounded login-alert" id="alert_register" style="display: none;"></div>
+            <form method="POST" action="" class="flex">
+               <input
+               size=16
+               class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+                  id="reg_user" name="username" placeholder="Username" />
+               <input
+               class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+               id="reg_password" type="password" name="password" placeholder="Password" />
+               <div>
+                  <button
+                  class="font-bold w-24 text-center my-5 mx-2 border border-gray-700 bg-gray-700  focus:shadow-outline focus:bg-gray-800 hover:bg-gray-800 hover:text-white text-gray-200 appearance-none shadow rounded py-2 leading-tight focus:outline-none focus:bg-white"
+                  type="submit" onclick="register(); return false" name="action">Register</button>
+               </div>
+            </form>
+         </div>
+      </div>
+      <div id="page-setup" class="hidden">
+         <div class="flex-container mx-auto flex-wrap mt-3 pb-3">
+            <div class="flex-item w-full max-w-screen-md mx-auto">
+               <div>
+                  <div class="px-10">
+                     <h5 class="text-2xl my-5">Hello <span class="username">USERNAME</span>,</h5>
+                     <h5 class="text-left text-gray-600 mb-2">Follow these steps:</h5>
+                     <div class="">
+                        <span class="text-xl font-bold mr-2">1.</span>
+                        Copy and paste the <a href="#" onclick="overlayOn(); return false">tracking code</a> into the html of the pages you want to track.
+                        <p class="my-5">
+                           <span class="text-xl font-bold mr-2">2.</span>
+                           Deploy - make your changes online.
                         </p>
+                        <p class="my-5">
+                           <span class="text-xl font-bold mr-2">3.</span>
+                           Visit a site with the included tracking code (visits over <i>localhost</i> are ignored).
+                        </p>
+                        <div class="my-5">
+                           <span class="text-xl font-bold mr-2">4.</span>
+                           You will be automatically redirected to the dashboard.
+                        </div>
                      </div>
-
-
-
-
-
-            <hr class="border-secondary" />
-
-            <h5>Register</h5>
-            <p>
-
-                        <div id="alert_register" class="login-alert alert alert-warning" style="display: none;" role="alert"></div>
-
-                        <form method="POST" action="">
-                           <div class="row">
-                             <div class="col-md-5">
-                               <div class="form-group has-error">
-                                  <input id="reg_user" class="form-control" name="username" placeholder="Username">
-                               </div>
-                             </div>
-                             <div class="col-md-4">
-                               <div class="form-group has-error">
-                                 <input id="reg_password" type="password" name="password" class="form-control" placeholder="Password">
-                               </div>
-                             </div>
-
-                            <div class="col-md-3">
-                              <button type="submit" onclick="register(); return false" class="btn btn-block btn-dark" name="action">Register</button>
-                            </div>
-
-
-
-                           </div>
-                        </form>
-           </p>
-
-            <hr class="border-secondary" />
-
-            <h5>Login</h5>
-            <p>
-                        <div id="alert_login" class="login-alert alert alert-warning" style="display: none;" role="alert"></div>
-                        <form method="POST" action="">
-                           <div class="row">
-                             <div class="col-md-5">
-                               <div class="form-group has-error">
-                                  <input id="login_user" class="form-control form-control-sm" name="username" placeholder="Username">
-                               </div>
-                             </div>
-                             <div class="col-md-5">
-                               <div class="form-group">
-                                  <input id="login_password" type="password" name="password" class="form-control form-control-sm" placeholder="Password">
-                               </div>
-                             </div>
-                             <div class="col-md-2">
-                               <div class="form-group">
-                                   <button type="submit" onclick="login(); return false" class="btn btn-light btn-sm btn-block" id="login_button" name="action">Login</button>
-                               </div>
-                             </div>
-                           </div>
-                        </form>
-            </p>
-
-
-
-
-
-
-
-
                   </div>
+                  <div class="coffee mx-auto mt-24 mb-16">
+                     <div></div>
+                     <div></div>
+                     <div></div>
+                  </div>
+                  <p class="text-sm text-left text-gray-700" style="position: relative; top: 1.5em;">
+                     <span class="mx-1">Got stuck? <a href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a></span>
+                     <a class="mx-1 text-sm text-right inline-block text-gray-700 float-right" href="">Go back</a>
+                  </p>
                </div>
             </div>
          </div>
-
-            <style>
-               p.short {
-               max-width: 37em;
-               }
-            </style>
-
-         </div>
-
-         <div class="py-1 px-2" style="border-top: 1px solid rgba(0,0,0,.1);">
-           <smaller class="text-muted">
-
-           Ask us anything: <a href="mailto:&#105;&#110;&#102;&#111;&#64;&#115;&#105;&#109;&#112;&#108;&#101;&#45;&#119;&#101;&#98;&#45;&#97;&#110;&#97;&#108;&#121;&#116;&#105;&#99;&#115;&#46;&#99;&#111;&#109;">&#105;&#110;&#102;&#111;&#64;&#115;&#105;&#109;&#112;&#108;&#101;&#45;&#119;&#101;&#98;&#45;&#97;&#110;&#97;&#108;&#121;&#116;&#105;&#99;&#115;&#46;&#99;&#111;&#109;</a> |
-
-           Disclaimer: This software is provided free of charge "as is",
-           without any warranties or guranteess of any kind.
-           
-           
-           </smaller>
-         </div>
-
       </div>
-      <style>
-         li {
-         list-style: none
-         }
-         ul {
-         padding-left: 0px;
-         }
-         .info {
-            margin-bottom: 0.75em;
-            font-size: 1.25em;
-         
-         }
-      </style>
-      <div id="page-graphs" style="display: none">
-         <div class="container" style="max-width: 50em; background-color: white;">
-            <div class="row">
-               <div class="col-md-12">
-                    <a href="" class="btn btn-light my-1">Logout <span class="username badge">USERNAME</span></a>
-                    <button onclick="downloadData(); return false" class="btn btn-light my-1">Export</button>
-                    <button id="tracking-code-button" onclick="toggleTrackingCode(); return false" class="btn btn-light my-1">TRACKING CODE</button>
-                </div>
+      <div id="page-graphs" class="hidden">
+         <div class="flex-container mx-auto max-w-4xl flex flex-wrap">
+            <div class="flex-item md:mb-5">
+               <div style="box-shadow: none; background-color: transparent; padding: 0px;">
+                  <a href="" class="undecorate shadow-xs bg-yellow-300 hover:bg-yellow-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                  Logout
+                  </a>
+                  <a href="https://flattr.com/@ihucos" class="undecorate shadow-xs bg-green-300 hover:bg-green-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Donate</a>
+                  <button onclick="downloadData()" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                     <span>&nbsp;</span>
+                     <svg class="fill-current w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/>
+                     </svg>
+                     <span>Download CSV</span>
+                  </button>
+                  <button id="tracking-code-button" onclick="overlayOn();" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                  Tracking code
+                  </button>
+
+               </div>
             </div>
-            <div class="row my-5" id="tracking-code">
-               <div class="col-md-12">
-                    <h5>Tracking Code</h5>
-                     <pre class="border py-2 px-2 alert alert-warning"><code class="text-muted">&lt;script&gt;
-// Simple Web Analytics tracking code
+            <div class="flex-item justify-center" style="flex-grow: 1">
+               <h5><span class="text-gray-500">top origin:</span> <a id="domain" target="_blank">DOMAIN</a></h5>
+            </div>
+            <div class="flex-item w-full">
+               <div>
+                  <canvas class="w-full" height="200" id="graph"></canvas>
+               </div>
+            </div>
+            <div class="flex-item w-full md:w-2/3" style="height: 200px;">
+               <canvas id="last_days_chart"></canvas>
+            </div>
+            <div class="flex-item w-full md:w-1/3" style="height: 200px;">
+               <canvas id="ref_chart"></canvas>
+            </div>
+            <div class="flex-item w-full md:w-1/2 lg:w-1/3">
+               <canvas height=200 id="device"></canvas>
+            </div>
+            <div class="flex-item w-full md:w-1/2 lg:w-1/3">
+               <canvas height=200 id="platform"></canvas>
+            </div>
+            <div class="flex-item w-full md:w-1/2 lg:w-1/3">
+               <canvas height=200 id="browser"></canvas>
+            </div>
+            <div class="flex-item w-full md:w-1/2 lg:w-1/3">
+               <canvas id="time" height=230></canvas>
+            </div>
+            <div class="flex-item w-full md:w-1/2 lg:w-1/3">
+               <canvas id="hour" height=230></canvas>
+            </div>
+            <div class="flex-item w-full md:w-1/2 lg:w-1/3">
+               <canvas id="weekday" height=230></canvas>
+            </div>
+            <div class="flex-item w-full md:w-2/3 md:my-5" style="height: 450px">
+               <div id="world">
+                  <h5>World map</h5>
+               </div>
+            </div>
+            <div class="flex-item w-full md:w-1/3 md:my-5" style="height: 450px">
+               <div style="overflow-y: auto; ">
+                  <table id="world_list"></table>
+               </div>
+            </div>
+            <div class="flex-item w-full md:w-2/3 mx-auto">
+               <div id="list_loc"></div>
+            </div>
+            <div class="flex-item w-full md:w-2/3 mx-auto">
+               <div id="list_ref"></div>
+            </div>
+            <div class="flex-item w-full md:w-2/3 mx-auto">
+               <div id="list_origin"></div>
+            </div>
+            <div class="flex-item w-full md:w-2/3 mx-auto">
+               <div class="overflow-y-auto">
+                  <h5>Last visits</h5>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>Date</th>
+                           <th>Time</th>
+                           <th>IP</th>
+                           <th>Referrer</th>
+                           <th class="text-left">User-Agent</th>
+                        </tr>
+                     </thead>
+                     <tbody id="log_body">
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div id="overlay" onclick="onclickOverlay()" class="pt-10">
+         <div id="overlay-content" class="mx-auto max-w-screen-sm bg-white pb-5 pt-5 px-10 rounded border" style="cursor: auto;">
+            <h5 class="text-xl">Tracking code</h5>
+
+            <div class="mb-5">
+               <h4 class="font-bold">Hint:</h4>
+               <p>This JavaScript snippset is responible for collecting user
+               statistics. It needs to be added to all html pages you want to track. For example inside the <span class="italic font-mono border bg-gray-100">&lt;head&gt;</span> section.</p>
+               </div>
+
+            <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; // Simple Web Analytics tracking code
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
     fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
         referrer: document.referrer,
         site: "<span class="username">USERNAME</span>",
-        utcoffset: <span id="utcoffset">0</span>
-    }));
-}
+        utcoffset: <span id="utcoffset">0</span>}))}
 sessionStorage.setItem("_swa", "1");
-&lt;/script&gt;</pre>
-                     </code>
-                </div>
+&lt;/script&gt;</code></pre>
+            <div class="text-center mt-5">
+               <a href="#" onclick="overlayOff(); return false;" class="undecorate shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Close</a>
             </div>
-            <div class="row my-5">
-               <div class="col-md-12">
-                  <h5>Visitors by date</h5>
-                  <div>
-                     <canvas height="150" id="graph" />
-                  </div>
-               </div>
-            </div>
-            <hr>
-            <div class="row my-5">
-               <div id="list_ref" class="col-md-4">
-               </div>
-               <div id="list_loc" class="col-md-8">
-               </div>
-            </div>
-            <hr>
-            <div class="row my-5">
-               <div id="list_device" class="col-md-4"></div>
-               <div id="list_platform" class="col-md-4"></div>
-               <div id="list_browser" class="col-md-4"></div>
-            </div>
-            <hr>
-          <h4>Countries</h4>
          </div>
-         <div style="display: flex; justify-content: center;">
-              <div id="world" style="width: 800px; height: 400px;"></div>
-         </div>
-         <div class="container" style="max-width: 50em; background-color: white;">
-            <hr />
-            <div class="row my-5">
-               <div class="col-md-12">
-                  <h4>Last visitors</h4>
-                  <div>
-                    <table class="table table-condensed table-striped table-borderless">
-                      <thead>
-                        <tr>
-                          <th>Date</th>
-                          <th>Time</th>
-                          <th>IP</th>
-                          <th>Referrer</th>
-                          <th>User-Agent</th>
-                        </tr>
-                      </thead>
-                      <tbody id="log_body">
-                      </tbody>
-                    </table>
-                  </div>
-               </div>
-            </div>
-            <hr />
-
-            <div class="row my-5">
-               <div class="col-md-4">
-                  <h5>Time</h5>
-                  <div class="py-2">
-                     <canvas id="time"  height=200 />
-                  </div>
-               </div>
-               <div class="col-md-4">
-                  <h5>Weekday</h5>
-                  <div class="py-2">
-                     <canvas id="weekday"  height=200 />
-                  </div>
-               </div>
-               <div class="col-md-4">
-                  <h5>Referrer Traffic</h5>
-                  <div class="py-2">
-                     <canvas id="ref_ratio"  height=200 />
-                  </div>
-               </div>
-            </div>
-            <hr>
-
-            <div class="row my-5">
-               <div class="col-md-12" id="list_origin"></div>
-            </div>
-
-
-
-         <br/>
-         <br/>
-         </div>
-
       </div>
-   <script>
-      if (location.hash === "#demo"){
-          document.getElementById("demo").click()
-      }
-   </script>
+      <script>
+         if (location.hash === "#demo"){
+             document.getElementById("demo").click()
+         }
+      </script>
    </body>
 </html>
 

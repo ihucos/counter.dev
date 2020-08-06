@@ -9,6 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet"> 
 
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
+<script src="moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
+<script src="script.js"></script>
+<script src="data.js"></script>
+
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -23,6 +32,12 @@
 
 
   <style>
+
+.tile {
+	border-radius: 5px;
+	box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.1);
+	background-color: white;
+}
 
 .gradient {
   background-image: linear-gradient(-225deg, #76A5CF 0%, #0B4273 100%);
@@ -230,7 +245,6 @@ body {
 <div class="w-full md:flex-1 usp border rounded p-6">
 <h1 class="text-xl font-bold mb-1 text-gray-800">✓ Privacy Friendly</h1>
 <p>
-
   No cookies. No logging or hashing IP addresses.
 </p>
 </div>
@@ -242,6 +256,83 @@ body {
 <div class="md:bg-gray-100 md:border-b md:border-t md:mt-16 ">
 
 
+<section class="my-32 mt-24">
+
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        Counts unique visits
+    </h2>
+    <div class="mb-8 hidden md:block">
+        <div class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 24.5em;"></div>
+    </div>
+    
+    <div class="max-w-md mx-auto flex flex-wrap">
+        
+        <p class="w-full pb-3">
+          All metrics are based on visits, which is a browser season at a given
+          day. For example: if the same user visited your site yesteday and today, that is
+          counted as two visits.
+        </p>
+
+        <div class="w-full">
+            <canvas class="tile" id="last_days_chart" height=200 />
+        </div>
+    </div>
+
+</section>
+
+<section class="my-32 mt-24">
+
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        Traffic sources
+    </h2>
+    <div class="mb-8 hidden md:block">
+        <div class="hr-1 h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" ></div>
+    </div>
+    
+    <div class="max-w-screen-sm mx-auto flex flex-wrap">
+        
+        <p class="w-1/2 pr-2">
+            You can see which other websites link to you and how many users got to
+            your site via external links. This can be viewed as an overview and
+            in detail.
+        </p>
+
+        <div class="w-1/2">
+            <canvas class="tile" id="ref_chart" height=200 />
+        </div>
+    </div>
+
+</section>
+
+
+
+<section class="my-32 mt-24">
+
+    <!-- title -->
+    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+        Geographical locations
+    </h2>
+    <div class="mb-8 hidden md:block">
+        <div class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 24em;"></div>
+    </div>
+    
+    <div class="max-w-screen-sm mx-auto flex flex-wrap">
+
+        <div class="w-1/2">
+               <div id="world" class="tile px-2" style="height: 200px;">
+               </div>
+        </div>
+        
+        <p class="w-1/2 pl-2">
+            There's a map and a list view with the geographical location of visitors.
+        </p>
+    </div>
+
+</section>
+
+
 <section class="my-32">
     <!-- title -->
     <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
@@ -250,41 +341,15 @@ body {
     <div class="mb-8 hidden md:block">
         <div class="hr-2 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 27em;" ></div>
     </div>
-    <div class="flex max-w-xl mx-auto">
-        <p class="px-3 pl-16 flex-1" style="flex-grow: 2">
+    <div class="flex max-w-md mx-auto">
+        <p class="flex-1" style="flex-grow: 2">
             
             You don't have to choose between free or privacy friendy. We offer
             a free and privacy friendly analytics service for everyone.
 
         </p>
-        <img src="trophy.svg" class="flex-1 mr-16 ml-6" />
+        <img src="trophy.svg" class="flex-1" />
     </div>
-</section>
-
-
-<section class="my-32 mt-24">
-
-    <!-- title -->
-    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
-        Easy to use
-    </h2>
-    <div class="mb-8 hidden md:block">
-        <div class="hr-1 h-1 mx-auto gradient w-56 opacity-25 my-0 py-0 rounded-t" ></div>
-    </div>
-    
-    <div class="max-w-xl mx-auto flex flex-wrap">
-        
-        <p class="flex-1 px-3">
-            It's two printable pages with insights that are easy on the eyes
-            and mind. All metrics are based on visits, which is a browser season at a given day.
-        </p>
-
-        <div class="flex-1 inline-block mx-3 md:flex hidden">
-            <a href="/app#demo" target="_blank"><img src="page1.jpg" class="inline-block shadow"></a>
-            <a href="/app#demo" target="_blank"><img src="page2.jpg" class="inline-block shadow"></a>
-        </div>
-    </div>
-
 </section>
 
 
@@ -367,7 +432,6 @@ body {
         </div>
         <div class="md:table-row">
           <div class="md:table-cell"><p class="py-4 px-5">Export to CSV</p></div>
-          <div class="md:table-cell"><p class="py-4 px-5">Light blue colors</p></div>
         </div>
     </div>
 
@@ -391,7 +455,7 @@ body {
             ->
             <a href="/app" class="bg-gray-800 hover:bg-gray-900 text-gray-200 font-bold py-2 px-4 rounded shadow">Register</a>
             ->
-            <a href="https://flattr.com/@ihucos" class="bg-green-600 bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded shadow" target="_blank">Donate</a>
+            <a href="https://flattr.com/@ihucos" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow" target="_blank">donate</a>
         </div>
     </div>
 </section>
@@ -452,6 +516,15 @@ E-Mail: info"+  x + "" + "simple-web-analytcs.com"
 
 alert(s);
 }
+</script>
+
+<script>
+drawRefChart("ref_chart")
+drawMap("world")
+var date_keys;
+var date_vals;
+[date_keys, date_vals] = dGetNormalizedDateData()
+drawLastDays("last_days_chart", date_keys, date_vals)
 </script>
 
 </body>

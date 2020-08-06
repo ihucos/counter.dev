@@ -168,7 +168,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	now := timeNow(utcOffset)
 	userAgent := r.Header.Get("User-Agent")
 	ua := uasurfer.Parse(userAgent)
-        origin := r.Header.Get("Origin")
+	origin := r.Header.Get("Origin")
 
 	//
 	// set expire
@@ -182,13 +182,13 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	//
 	// drop if bot or origin is from localhost
-        // see issue: https://github.com/avct/uasurfer/issues/65
+	// see issue: https://github.com/avct/uasurfer/issues/65
 	//
 	if ua.IsBot() || strings.Contains(userAgent, " HeadlessChrome/") {
 		return
 	}
 	originUrl, err := url.Parse(origin)
-	if err == nil && (originUrl.Hostname() == "localhost" || originUrl.Hostname() == "127.0.0.1" ){
+	if err == nil && (originUrl.Hostname() == "localhost" || originUrl.Hostname() == "127.0.0.1") {
 		return
 	}
 
@@ -214,9 +214,9 @@ func Track(w http.ResponseWriter, r *http.Request) {
 		data["lang"] = lang
 	}
 
-        if origin != "" && origin != "null" {
-	    data["origin"] = origin
-        }
+	if origin != "" && origin != "null" {
+		data["origin"] = origin
+	}
 
 	country := r.Header.Get("CF-IPCountry")
 	if country != "" && country != "XX" {
@@ -243,7 +243,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/plain")
 	w.Header().Set("Cache-Control", "public, immutable")
-        fmt.Fprint(w, "OK")
+	fmt.Fprint(w, "OK")
 
 }
 
