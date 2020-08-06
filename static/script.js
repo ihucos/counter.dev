@@ -135,7 +135,7 @@ function escapeHtml(unsafe) {
 function demo() {
     document.getElementById("login_user").value = "simple-web-analytics.com"
     document.getElementById("login_user").focus()
-    document.getElementById("login_password").value = "simple-web-analytics.com" //XXXXXXXXXXXXXXXXXXXXXXXXXXX
+    document.getElementById("login_password").value = "demodemo"
     document.getElementById("login_button").click()
 }
 
