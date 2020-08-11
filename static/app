@@ -227,7 +227,7 @@ table tr:nth-child(even) {
                </div>
             </div>
             <div class="flex-item justify-center" style="flex-grow: 1">
-               <h5><span class="text-gray-500">top origin:</span> <a class="link" id="domain" target="_blank">DOMAIN</a></h5>
+               <h5><span class="text-gray-500 leading-normal">top origin:</span> <a class="link" id="domain" target="_blank">DOMAIN</a></h5>
             </div>
             <div class="flex-item w-full">
                <div>
