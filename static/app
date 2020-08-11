@@ -118,7 +118,7 @@ table img {
 }
 
 table tr:nth-child(even) {
-	background-color: rgba(204, 218, 233, 0.6);
+	background-color: rgba(0, 123, 255, 0.1);
 }
       </style>
    </head>
