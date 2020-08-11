@@ -1,5 +1,5 @@
 normalFont = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
-orange = "#007bff"
+orange = "#1e87f0"
 
 palette = [
 orange,
@@ -48,8 +48,8 @@ function makeGradient(id, alpha1, alpha2){
     alpha2 = (typeof alpha2 !== 'undefined') ?  alpha2 : 1;
     var ctx = document.getElementById(id).getContext("2d")
     var gradientStroke = ctx.createLinearGradient(0, 0, 0, 200);
-    gradientStroke.addColorStop(0, "rgba(0, 123, 255, " + alpha1 + ")");
-    gradientStroke.addColorStop(1, "rgba(0, 123, 255, " + alpha2 + ")");
+    gradientStroke.addColorStop(0, "rgba(30, 135, 240, " + alpha1 + ")");
+    gradientStroke.addColorStop(1, "rgba(30, 135, 240, " + alpha2 + ")");
     return gradientStroke
 }
 
@@ -355,7 +355,7 @@ function drawMap(elemId) {
         borderOpacity: 0.8,
         color: '#eee',
         values: data.country,
-        scaleColors: ['#66B1FF', '#014D9C'],
+        scaleColors: ['#73B4F3', '#0457A8'],
         normalizeFunction: 'polynomial',
         onLabelShow: function(event, label, region) {
             label[0].innerHTML += (
