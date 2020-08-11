@@ -228,7 +228,7 @@ function drawList(elem_id, dataItem, title, useLink, useFavicon) {
             if (useFavicon){
                 html += "<img src='https://icons.duckduckgo.com/ip3/" + key + ".ico' style='height: 0.8em; width: 0.8em; display: inline-block'/>"
             }
-            html += "<a target='_blank' href='" + link + "'>" + key + '</a>'
+            html += "<a class='link' target='_blank' href='" + link + "'>" + key + '</a>'
         } else {
             html += key
         }
@@ -330,7 +330,7 @@ function drawLog() {
             if (url === null) {
                 html += '<td>?</td>'
             } else {
-                html += '<td><a target="_blank" href="' + escapeHtml(logReferrer) + '">' + escapeHtml(url.host) + '</a></td>'
+                html += '<td><a class="link" target="_blank" href="' + escapeHtml(logReferrer) + '">' + escapeHtml(url.host) + '</a></td>'
             }
 
         }

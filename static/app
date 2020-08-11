@@ -30,18 +30,14 @@
       </script>
       <script src="script.js"></script>
       <style>
-a:link,
-a:visited,
-a:hover,
-a:active {
+a.link:link,
+a.link:visited,
+a.link:hover,
+a.link:active {
 	color: #2C5282;
 }
-
-a:hover {
+a.link:hover {
 	text-decoration: underline;
-}
-a.undecorate:hover {
-	text-decoration: none;
 }
 
 #overlay {
@@ -74,7 +70,7 @@ body, a.undecorate {
 	color: rgba(0, 0, 0, 0.8);
 }
 body {
-	background-color: rgba(0, 0, 0, 0.02);
+	background-color: #f7fafc;
 }
 
 .flex-container {
@@ -128,9 +124,9 @@ table tr:nth-child(even) {
 
            <h1 class="text-center font-bold text-4xl text-gray-500 leading-none">Welcome</h1>
             <div class="mb-10 mx-2 text-center">
-               <a href="" id="demo" onclick="demo(); return false">Demo</a> |
-               <a href="mailto:info@simple-web-analytics.com">Help</a> |
-               <a href="/">About</a> 
+               <a class="link" href="" id="demo" onclick="demo(); return false">Demo</a> |
+               <a class="link" href="mailto:info@simple-web-analytics.com">Help</a> |
+               <a class="link" href="/">About</a> 
             </div>
 
             <div class="font-bold mx-2 p-2 text-center text-orange-900 bg-gray-300 border rounded login-alert" id="alert_login" style="display: none;"></div>
@@ -181,7 +177,7 @@ table tr:nth-child(even) {
                      <h5 class="text-left text-gray-600 mb-2">Follow these steps:</h5>
                      <div class="">
                         <span class="text-xl font-bold mr-2">1.</span>
-                        Copy and paste the <a href="#" onclick="overlayOn(); return false">tracking code</a> into the html of the pages you want to track.
+                        Copy and paste the <a class="link" href="#" onclick="overlayOn(); return false">tracking code</a> into the html of the pages you want to track.
                         <p class="my-5">
                            <span class="text-xl font-bold mr-2">2.</span>
                            Deploy - make your changes online.
@@ -202,8 +198,8 @@ table tr:nth-child(even) {
                      <div></div>
                   </div>
                   <p class="text-sm text-left text-gray-700" style="position: relative; top: 1.5em;">
-                     <span class="mx-1">Got stuck? <a href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a></span>
-                     <a class="mx-1 text-sm text-right inline-block text-gray-700 float-right" href="">Go back</a>
+                     <span class="mx-1">Got stuck? <a class="link" href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a></span>
+                     <a class="link mx-1 text-sm text-right inline-block text-gray-700 float-right" href="">Go back</a>
                   </p>
                </div>
             </div>
@@ -213,10 +209,10 @@ table tr:nth-child(even) {
          <div class="flex-container mx-auto max-w-4xl flex flex-wrap">
             <div class="flex-item md:mb-5">
                <div style="box-shadow: none; background-color: transparent; padding: 0px;">
-                  <a href="" class="undecorate shadow-xs bg-yellow-300 hover:bg-yellow-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                  <a href="" class="shadow-xs bg-gray-600 hover:bg-yellow-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
                   Logout
                   </a>
-                  <a href="https://flattr.com/@ihucos" class="undecorate shadow-xs bg-green-300 hover:bg-green-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Donate</a>
+                  <a href="https://flattr.com/@ihucos" class="shadow-xs bg-green-300 hover:bg-green-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Donate</a>
                   <button onclick="downloadData()" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
                      <span>&nbsp;</span>
                      <svg class="fill-current w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -231,7 +227,7 @@ table tr:nth-child(even) {
                </div>
             </div>
             <div class="flex-item justify-center" style="flex-grow: 1">
-               <h5><span class="text-gray-500">top origin:</span> <a id="domain" target="_blank">DOMAIN</a></h5>
+               <h5><span class="text-gray-500">top origin:</span> <a class="link" id="domain" target="_blank">DOMAIN</a></h5>
             </div>
             <div class="flex-item w-full">
                <div>
@@ -320,7 +316,7 @@ if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protoc
 sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
             <div class="text-center mt-5">
-               <a href="#" onclick="overlayOff(); return false;" class="undecorate shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Close</a>
+               <a href="#" onclick="overlayOff(); return false;" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Close</a>
             </div>
          </div>
       </div>
