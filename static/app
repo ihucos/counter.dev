@@ -87,7 +87,7 @@ body {
 .flex-item>canvas {
 	border-radius: 5px;
 	flex: 1 1 auto;
-	box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.05);
 	background-color: white;
 }
 

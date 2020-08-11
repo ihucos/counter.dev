@@ -252,17 +252,17 @@ body {
         <div class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 16em;"></div>
     </div>
     
-    <div class="max-w-md mx-auto flex flex-wrap">
+    <div class="max-w-screen-sm mx-auto flex flex-wrap">
+
+        <div class="w-1/2">
+            <canvas class="tile" id="last_days_chart" height=170 />
+        </div>
         
-        <p class="w-full pb-3">
+        <p class="w-1/2 pl-5">
           All metrics are based on visits, which is a browser season at a given
           day. For example: if the same user visited your site yesteday and today, that is
           counted as two visits.
         </p>
-
-        <div class="w-full">
-            <canvas class="tile" id="last_days_chart" height=200 />
-        </div>
     </div>
 
 </section>
@@ -279,7 +279,7 @@ body {
     
     <div class="max-w-screen-sm mx-auto flex flex-wrap">
         
-        <p class="w-1/2 pr-2">
+        <p class="w-1/2 pr-5">
             You can see which other websites link to you and how many users got to
             your site via external links. This can be viewed as an overview and
             in detail.
@@ -311,7 +311,7 @@ body {
                </div>
         </div>
         
-        <p class="w-1/2 pl-2">
+        <p class="w-1/2 pl-5">
             There's a map and a list view with the geographical location of visitors.
         </p>
     </div>

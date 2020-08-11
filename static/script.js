@@ -625,7 +625,7 @@ function drawLastDays(elemId, date_keys, date_vals) {
     new Chart(document.getElementById(elemId), {
         type: 'line',
         data: {
-            labels: date_keys.slice(-1 * num).map(x => moment(x).format("DD MMMM")),
+            labels: date_keys.slice(-1 * num).map(x => moment(x).format("Do MMMM")),
             datasets: [{
                 data: date_vals.slice(-1 * num),
                 label: 'Visits',
