@@ -4,9 +4,7 @@
 
     <meta name="flattr:id" content="g69ydw">
 
-<link href="https://fonts.googleapis.com/css2?family=B612+Mono:wght@700&display=swap" rel="stylesheet"> 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;800&display=swap" rel="stylesheet"> 
-<link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet"> 
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
@@ -103,28 +101,15 @@ body {
 
 
 
-.logo {
-  text-shadow: 
-    -1px 2px 1px hsl(0,0%,35%), 
-    -1px 2px 1px hsl(0,0%,37%)
-}
-
 .sub {
   text-shadow: 
     -1px 1px 1px hsl(0,0%,35%)
 }
 
 
-  .font {
-    font-family: 'B612 Mono', monospace;
-  }
   a {
     color: #2F6CA2;;
   
-  }
-
-  .header-font {
-     font-family: 'Shadows Into Light', cursive;
   }
 
   .usp {
@@ -211,11 +196,12 @@ body {
   </head>
   <body>
 
-<div class="flex flex-wrap pt-24 pb-0 border-b" style="background-image: linear-gradient(-225deg, #4C83B5  0%, #2F6CA2 100%);">
+  
+<div class="flex flex-wrap pt-24 pb-0 border-b" style="background: linear-gradient(to left top, #28a5f5, #1e87f0) 0 0 no-repeat;">
     <div class="text-center w-full p-5">
 
         <div class="text-left inline-block">
-            <h1 class="font logo text-white text-4xl">Simple Web Analytics</h1>
+            <h1 class="text-white text-4xl text-center font-bold">Simple Web Analytics</h1>
             <h5 class="sub text-white pb-4">Web Analytics made simple and therefore privacy friendly.</h5>
         </div>
 
@@ -259,24 +245,24 @@ body {
 <section class="my-32 mt-24">
 
     <!-- title -->
-    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
         Counts unique visits
     </h2>
     <div class="mb-8 hidden md:block">
-        <div class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 24.5em;"></div>
+        <div class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 16em;"></div>
     </div>
     
-    <div class="max-w-md mx-auto flex flex-wrap">
+    <div class="max-w-screen-sm mx-auto flex flex-wrap">
+
+        <div class="w-1/2">
+            <canvas class="tile" id="last_days_chart" height=170 />
+        </div>
         
-        <p class="w-full pb-3">
+        <p class="w-1/2 pl-5">
           All metrics are based on visits, which is a browser season at a given
           day. For example: if the same user visited your site yesteday and today, that is
           counted as two visits.
         </p>
-
-        <div class="w-full">
-            <canvas class="tile" id="last_days_chart" height=200 />
-        </div>
     </div>
 
 </section>
@@ -284,16 +270,16 @@ body {
 <section class="my-32 mt-24">
 
     <!-- title -->
-    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
         Traffic sources
     </h2>
     <div class="mb-8 hidden md:block">
-        <div class="hr-1 h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" ></div>
+        <div class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 11em;"></div>
     </div>
     
     <div class="max-w-screen-sm mx-auto flex flex-wrap">
         
-        <p class="w-1/2 pr-2">
+        <p class="w-1/2 pr-5">
             You can see which other websites link to you and how many users got to
             your site via external links. This can be viewed as an overview and
             in detail.
@@ -311,11 +297,11 @@ body {
 <section class="my-32 mt-24">
 
     <!-- title -->
-    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
         Geographical locations
     </h2>
     <div class="mb-8 hidden md:block">
-        <div class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 24em;"></div>
+        <div class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 17em;"></div>
     </div>
     
     <div class="max-w-screen-sm mx-auto flex flex-wrap">
@@ -325,7 +311,7 @@ body {
                </div>
         </div>
         
-        <p class="w-1/2 pl-2">
+        <p class="w-1/2 pl-5">
             There's a map and a list view with the geographical location of visitors.
         </p>
     </div>
@@ -335,11 +321,11 @@ body {
 
 <section class="my-32">
     <!-- title -->
-    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
         The friendly alternative
     </h2>
     <div class="mb-8 hidden md:block">
-        <div class="hr-2 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 27em;" ></div>
+        <div class="hr-2 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 18em;" ></div>
     </div>
     <div class="flex max-w-md mx-auto">
         <p class="flex-1" style="flex-grow: 2">
@@ -355,11 +341,11 @@ body {
 
 <section class="my-32 mb-24">
     <!-- title -->
-    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
         Open Source
     </h2>
     <div class="mb-8 hidden md:block">
-        <div class="hr-3 h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t" ></div>
+        <div class="hr-3 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 10em;"></div>
     </div>
     
     <table class="featuring mx-auto">
@@ -414,11 +400,11 @@ body {
 
 <section class="my-32">
     <!-- title -->
-    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
         Features
     </h2>
     <div class="mb-8 hidden md:block">
-        <div class="hr-4 h-1 mx-auto gradient w-48 opacity-25 my-0 py-0 rounded-t" ></div>
+        <div class="hr-4 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 8em;"></div>
     </div>
 
     <div class="mx-auto md:table features">
@@ -440,11 +426,11 @@ body {
 
 <section class="my-32">
     <!-- title -->
-    <h2 class="my-2 text-5xl font-black leading-tight text-center text-gray-800 header-font">
+    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
         Pay what you want
     </h2>
     <div class="mb-8 hidden md:block">
-        <div class="hr-5 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 22em;"  ></div>
+        <div class="hr-5 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 14em;"  ></div>
     </div>
 
     <div class="text-center">
@@ -463,7 +449,7 @@ body {
 
 <section class="mt-64 mb-32">
     <!-- title -->
-    <h2 class="my-2 text-3xl font-black leading-tight text-center text-gray-800 header-font">
+    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
         Feedback
     </h2>
     <div class="mb-4 hidden md:block">

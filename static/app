@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
    <head>
@@ -34,7 +36,6 @@ a.link:hover,
 a.link:active {
 	color: #2C5282;
 }
-
 a.link:hover {
 	text-decoration: underline;
 }
@@ -65,11 +66,11 @@ th {
 	text-align: center;
 }
 
-body {
+body, a.undecorate {
 	color: rgba(0, 0, 0, 0.8);
 }
 body {
-	background-color: rgba(0, 0, 0, 0.02);
+	background-color: #f7fafc;
 }
 
 .flex-container {
@@ -86,7 +87,7 @@ body {
 .flex-item>canvas {
 	border-radius: 5px;
 	flex: 1 1 auto;
-	box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.05);
 	background-color: white;
 }
 
@@ -112,8 +113,8 @@ table img {
 	margin-right: 10px;
 }
 
-table tr:nth-child(odd) {
-	background-color: rgba(204, 218, 233, 0.6);
+table tr:nth-child(even) {
+	background-color: rgba(30, 135, 240, 0.1);
 }
       </style>
    </head>
@@ -208,25 +209,25 @@ table tr:nth-child(odd) {
          <div class="flex-container mx-auto max-w-4xl flex flex-wrap">
             <div class="flex-item md:mb-5">
                <div style="box-shadow: none; background-color: transparent; padding: 0px;">
-                  <a href="" class="shadow-xs bg-yellow-300 hover:bg-yellow-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                  <a href="" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">
                   Logout
                   </a>
-                  <a href="https://flattr.com/@ihucos" class="shadow-xs bg-green-300 hover:bg-green-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Donate</a>
-                  <button onclick="downloadData()" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                  <a href="https://flattr.com/@ihucos" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">Donate</a>
+                  <button onclick="downloadData()" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">
                      <span>&nbsp;</span>
                      <svg class="fill-current w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/>
                      </svg>
                      <span>Download CSV</span>
                   </button>
-                  <button id="tracking-code-button" onclick="overlayOn();" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                  <button id="tracking-code-button" onclick="overlayOn();" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">
                   Tracking code
                   </button>
 
                </div>
             </div>
             <div class="flex-item justify-center" style="flex-grow: 1">
-               <h5><span class="text-gray-500">top origin:</span> <a id="domain" target="_blank">DOMAIN</a></h5>
+               <h5><span class="text-gray-500 leading-normal">top origin:</span> <a class="link" id="domain" target="_blank">DOMAIN</a></h5>
             </div>
             <div class="flex-item w-full">
                <div>
@@ -267,47 +268,33 @@ table tr:nth-child(odd) {
                   <table id="world_list"></table>
                </div>
             </div>
-
-            <div class="flex-item w-full -md:my-5">
-              <div>
-                <ul class="flex p-5">
-                  <li class="mr-3">
-                    <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white" href="#">Referrers</a>
-                  </li>
-                  <li class="mr-3">
-                    <a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="#">Landing Pages</a>
-                  </li>
-                  <li class="mr-3">
-                    <a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="#">Visits</a>
-                  </li>
-                </ul>
-
-                <div id="list_loc"></div>
-                <div id="list_ref"></div>
-                <div id="list_origin"></div>
-
-                <div class="max-w-screen-md">
-                   <h5>Last visits</h5>
-                   <div class="overflow-x-auto w-full">
-                      <table>
-                         <thead>
-                            <tr>
-                               <th>Date</th>
-                               <th>Time</th>
-                               <th>IP</th>
-                               <th>Referrer</th>
-                               <th class="text-left">User-Agent</th>
-                            </tr>
-                         </thead>
-                         <tbody id="log_body">
-                         </tbody>
-                      </table>
-                   </div>
-                </div>
-
-              </div>
+            <div class="flex-item w-full md:w-2/3 mx-auto">
+               <div id="list_loc"></div>
             </div>
-
+            <div class="flex-item w-full md:w-2/3 mx-auto">
+               <div id="list_ref"></div>
+            </div>
+            <div class="flex-item w-full md:w-2/3 mx-auto">
+               <div id="list_origin"></div>
+            </div>
+            <div class="flex-item w-full md:w-2/3 mx-auto">
+               <div class="overflow-y-auto">
+                  <h5>Last visits</h5>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>Date</th>
+                           <th>Time</th>
+                           <th>IP</th>
+                           <th>Referrer</th>
+                           <th class="text-left">User-Agent</th>
+                        </tr>
+                     </thead>
+                     <tbody id="log_body">
+                     </tbody>
+                  </table>
+               </div>
+            </div>
          </div>
       </div>
       <div id="overlay" onclick="onclickOverlay()" class="pt-10">
