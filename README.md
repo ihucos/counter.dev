@@ -36,7 +36,7 @@ This project aim is to serve many users for free in a sustainable way.
 ## Contributors
 - Bogdan Slomchinskiy ([slomchinskiy](https://dribbble.com/slomchinskiy)) - Product Designer
 - Ana Maria Sanodval Jimenez - Data Scientist
-- Irae Hueck Costa ([ihucos](https://github.com/ihucos/) - Backend Developer
+- Irae Hueck Costa ([ihucos](https://github.com/ihucos/)) - Backend Developer
 
 
 ## AGPL Licensed
