@@ -33,6 +33,10 @@ This project aim is to serve many users for free in a sustainable way.
 
 * Summing up, collecting less the right way considerably decreases hosting expenses in comparison to typical other solutions and is more privacy friendly.
 
+## Contributors
+- Bogdan Slomchinskiy ([slomchinskiy](https://dribbble.com/slomchinskiy)) - Product Designer
+- Ana Maria Sandoval Jimenez - Data Scientist
+- Irae Hueck Costa ([ihucos](https://github.com/ihucos/)) - Backend Developer
 
 
 ## AGPL Licensed
