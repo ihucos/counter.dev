@@ -247,7 +247,7 @@ function drawList(elem_id, dataItem, title, useLink, useFavicon) {
     }
     html += "</table>"
 
-    elem.innerHTML += html
+    elem.innerHTML = html
 }
 
 
