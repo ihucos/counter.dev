@@ -186,7 +186,7 @@ function drawUTCOffsetVar() {
     document.getElementById("utcoffset").innerHTML = offset
 }
 
-function drawList(elem_id, dataItem, title, useLink, useFavicon) {
+function drawList(elem_id, dataItem, useLink, useFavicon) {
     var elem = document.getElementById(elem_id)
 
     if (Object.keys(dataItem).length === 0 && dataItem.constructor === Object) {
@@ -211,7 +211,6 @@ function drawList(elem_id, dataItem, title, useLink, useFavicon) {
     }
 
     var html = '<table>'
-    html += '<tr><th>' + escapeHtml(title) + '</th><th colspan=2>Visits</th></tr>'
     for (var i = 0; i < list.length; i++) {
         var percent = list[i][1] / listTotal * 100
         var val = commaFormat(list[i][1])
@@ -714,14 +713,14 @@ function draw(user, data) {
     var date_vals;
     [date_keys, date_vals] = dGetNormalizedDateData()
 
-    drawList("list_ref", data.ref, "All refferals", true, true)
-    drawList("list_loc", data.loc, "Landing pages", false, false)
+    drawList("list_ref", data.ref, true, true)
+    drawList("list_loc", data.loc, false, false)
     drawCountries("world_list", data.country)
     drawLastDays("last_days_chart", date_keys, date_vals)
     drawPie("browser", dGroupData(data.browser, 3), "Browsers")
     drawPie("platform", dGroupData(data.platform, 3), "Platforms")
     drawPie("device", dGroupData(data.device, 3), "Devices")
-    drawList("list_origin", data.origin, "Origins", true, false)
+    drawList("list_origin", data.origin, true, false)
     drawLog()
 
     //document.getElementById('val_visits').innerHTML = escapeHtml(date_vals.slice(-1)[0])
@@ -1030,3 +1029,19 @@ function onclickOverlay() {
     overlayOff()
   }
 } 
+
+tabActive = "bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-dark-900 font-semibold"
+tabNotActive = "bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold"
+tabPanels = document.querySelectorAll('#tabs_content div')
+tabTabs = document.querySelectorAll('#tabs_tabs li a')
+function openTab(elemId){
+  for (let panel of tabPanels) {
+    panel.style.display = "none"
+  }
+  for (let tab of tabTabs) {
+    tab.className = tabNotActive
+  }
+  tabPanels[elemId].style.display = "block"
+  tabTabs[elemId].className = tabActive
+}
+openTab(0)
