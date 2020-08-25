@@ -1030,7 +1030,7 @@ function onclickOverlay() {
   }
 } 
 
-tabActive = "bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-dark-900 font-semibold"
+tabActive = "bg-gray-200 inline-block border-l border-t border-r rounded-t py-2 px-4 text-dark-900 font-semibold"
 tabNotActive = "bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold"
 tabPanels = document.querySelectorAll('#tabs_content div')
 tabTabs = document.querySelectorAll('#tabs_tabs li a')

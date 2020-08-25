@@ -269,22 +269,22 @@ table tr:nth-child(even) {
             </div>
 
             <div class="flex-item w-full">
-               <div class="mb-64">
+               <div class="mb-16">
                   <ul class="flex border-b" id="tabs_tabs">
                     <li class="mr-1">
-                      <a onclick="openTab(0); return false" href="#">All refferals</a>
+                      <a onclick="openTab(0); return false" href="#">Refferals</a>
                     </li>
                     <li class="mr-1">
-                      <a onclick="openTab(1); return false" href="#">Landing pages</a>
+                      <a onclick="openTab(1); return false" href="#">Pages</a>
                     </li>
                     <li class="mr-1">
                       <a onclick="openTab(2); return false" href="#">Origins</a>
                     </li>
                     <li class="mr-1">
-                      <a onclick="openTab(3); return false" href="#">Last visits</a>
+                      <a onclick="openTab(3); return false" href="#">Visits</a>
                     </li>
                   </ul>
-                  <div id="tabs_content">
+                  <div id="tabs_content" style="min-height: 100vh; overflow-y: auto;">
                       <div id="list_ref" style="display: none;"></div>
                       <div id="list_loc" style="display: none;"></div>
                       <div id="list_origin" style="display: none;"></div>
@@ -292,11 +292,11 @@ table tr:nth-child(even) {
                          <table>
                             <thead>
                                <tr>
-                                  <th>Date</th>
-                                  <th>Time</th>
-                                  <th>IP</th>
-                                  <th>Referrer</th>
-                                  <th class="text-left">User-Agent</th>
+                                  <th class="text-gray-600">Date</th>
+                                  <th class="text-gray-600">Time</th>
+                                  <th class="text-gray-600">IP</th>
+                                  <th class="text-gray-600">Referrer</th>
+                                  <th class="text-gray-600 text-left">User-Agent</th>
                                </tr>
                             </thead>
                             <tbody id="log_body">
