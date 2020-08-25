@@ -309,7 +309,7 @@ function drawLog() {
         }
 
         html += "<tr>"
-        html += "<td>" + escapeHtml(logDate) + "</td>"
+        html += "<td class='whitespace-no-wrap'>" + escapeHtml(logDate) + "</td>"
         html += "<td>" + escapeHtml(logTime) + "</td>"
 
         if (logCountry === '' || logCountry === 'xx') {
@@ -329,7 +329,7 @@ function drawLog() {
             if (url === null) {
                 html += '<td>?</td>'
             } else {
-                html += '<td><a class="link" target="_blank" href="' + escapeHtml(logReferrer) + '">' + escapeHtml(url.host) + '</a></td>'
+                html += '<td class="whitespace-no-wrap"><a class="link" target="_blank" href="' + escapeHtml(logReferrer) + '">' + escapeHtml(url.host) + '</a></td>'
             }
 
         }
