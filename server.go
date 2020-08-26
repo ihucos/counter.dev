@@ -248,14 +248,14 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	}
 
 	screenInput := r.FormValue("screen")
-        if screenInput != "" {
-	   _, screenExists := screenResolutions[screenInput]
-	   if screenExists {
-	   	data["screen"] = screenInput
-	   } else {
-	   	data["screen"] = "Other"
-	   }
-        }
+	if screenInput != "" {
+		_, screenExists := screenResolutions[screenInput]
+		if screenExists {
+			data["screen"] = screenInput
+		} else {
+			data["screen"] = "Other"
+		}
+	}
 
 	data["date"] = now.Format("2006-01-02")
 
