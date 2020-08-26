@@ -681,6 +681,13 @@ function drawLastDays(elemId, date_keys, date_vals) {
 
 }
 
+function drawScreenList(elemId, screenData){
+    if (Object.keys(screenData).length === 0 && screenData.constructor === Object) {
+        document.getElementById(elemId).innerHTML = '<div class="font-xl p-5 italic">In order to view screen sizes of your users, you must include the updated <a href="#" onclick="overlayOn(); return false" class="link">tracking code</button>.</div>'
+    } else {
+        drawList("list_screen", screenData, false, false)
+    }
+}
 
 function draw(user, data) {
     console.log("redrawing")
@@ -715,6 +722,7 @@ function draw(user, data) {
 
     drawList("list_ref", data.ref, true, true)
     drawList("list_loc", data.loc, false, false)
+    drawScreenList("list_screen", data.screen)
     drawCountries("world_list", data.country)
     drawLastDays("last_days_chart", date_keys, date_vals)
     drawPie("browser", dGroupData(data.browser, 3), "Browsers")
@@ -1030,8 +1038,8 @@ function onclickOverlay() {
   }
 } 
 
-tabActive = "bg-gray-200 inline-block border-l border-t border-r rounded-t py-2 px-4 text-dark-900 font-semibold"
-tabNotActive = "bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold"
+tabActive = "bg-gray-200 inline-block border rounded py-2 px-4 text-dark-900 font-semibold mt-2"
+tabNotActive = "bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold mt-2 shadow"
 tabPanels = document.querySelectorAll('#tabs_content div')
 tabTabs = document.querySelectorAll('#tabs_tabs li a')
 function openTab(elemId){

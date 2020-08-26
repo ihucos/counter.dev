@@ -8,6 +8,9 @@ BLOCKLIST = [
 'zpkg',
 'test',
 'demo\\',
+'datest',
+'__datest',
+'__test_delme_1234',
 ]
 
 r = redis.Redis()
