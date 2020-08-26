@@ -219,7 +219,7 @@ table tr:nth-child(even) {
                      </svg>
                      <span>Download CSV</span>
                   </button>
-                  <button id="tracking-code-button" onclick="overlayOn();" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                  <button onclick="overlayOn();" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">
                   Tracking code
                   </button>
 
@@ -269,8 +269,7 @@ table tr:nth-child(even) {
             </div>
 
             <div class="flex-item w-full">
-               <div class="mb-16">
-                  <ul class="flex border-b" id="tabs_tabs">
+                  <ul class="flex flex-wrap" id="tabs_tabs">
                     <li class="mr-1">
                       <a onclick="openTab(0); return false" href="#">Refferals</a>
                     </li>
@@ -281,13 +280,19 @@ table tr:nth-child(even) {
                       <a onclick="openTab(2); return false" href="#">Origins</a>
                     </li>
                     <li class="mr-1">
-                      <a onclick="openTab(3); return false" href="#">Visits</a>
+                      <a onclick="openTab(3); return false" href="#">Screens</a>
+                    </li>
+                    <li class="mr-1">
+                      <a onclick="openTab(4); return false" href="#">Visits</a>
                     </li>
                   </ul>
+               </div>
+               <div class="pt-0 flex-item w-full" style="padding-top: 0px;">
                   <div id="tabs_content" style="min-height: 100vh; overflow-y: auto;">
                       <div id="list_ref" style="display: none;"></div>
                       <div id="list_loc" style="display: none;"></div>
                       <div id="list_origin" style="display: none;"></div>
+                      <div id="list_screen" style="display: none;"></div>
                       <div class="overflow-y-auto max-w-4xl" style="display: none;">
                          <table>
                             <thead>
@@ -322,6 +327,7 @@ table tr:nth-child(even) {
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
     fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
         referrer: document.referrer,
+        screen: screen.width + "x" + screen.height,
         site: "<span class="username">USERNAME</span>",
         utcoffset: <span id="utcoffset">0</span>}))}
 sessionStorage.setItem("_swa", "1");

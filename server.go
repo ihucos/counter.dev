@@ -31,8 +31,32 @@ const truncateAt = 256
 
 const loglinesKeep = 30
 
+// taken from here at August 2020:
+// https://gs.statcounter.com/screen-resolution-stats
+var screenResolutions = map[string]bool{
+	"1280x720":  true,
+	"1280x800":  true,
+	"1366x768":  true,
+	"1440x900":  true,
+	"1536x864":  true,
+	"1600x900":  true,
+	"1920x1080": true,
+	"360x640":   true,
+	"360x720":   true,
+	"360x740":   true,
+	"360x760":   true,
+	"360x780":   true,
+	"375x667":   true,
+	"375x812":   true,
+	"412x846":   true,
+	"412x869":   true,
+	"412x892":   true,
+	"414x736":   true,
+	"414x896":   true,
+	"768x1024":  true}
+
 var fieldsZet = []string{"lang", "origin", "ref", "loc"}
-var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device", "country"}
+var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device", "country", "screen"}
 
 func min(x, y int) int {
 	if x < y {
@@ -222,6 +246,16 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	if country != "" && country != "XX" {
 		data["country"] = strings.ToLower(country)
 	}
+
+	screenInput := r.FormValue("screen")
+        if screenInput != "" {
+	   _, screenExists := screenResolutions[screenInput]
+	   if screenExists {
+	   	data["screen"] = screenInput
+	   } else {
+	   	data["screen"] = "Other"
+	   }
+        }
 
 	data["date"] = now.Format("2006-01-02")
 
