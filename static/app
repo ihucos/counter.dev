@@ -274,7 +274,7 @@ table tr:nth-child(even) {
                       <a onclick="openTab(0); return false" href="#">Refferals</a>
                     </li>
                     <li class="mr-1">
-                      <a onclick="openTab(1); return false" href="#">Pages</a>
+                      <a onclick="openTab(1); return false" href="#">Landing Pages</a>
                     </li>
                     <li class="mr-1">
                       <a onclick="openTab(2); return false" href="#">Origins</a>
