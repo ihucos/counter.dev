@@ -128,12 +128,16 @@ function escapeHtml(unsafe) {
 
 
 function demo() {
-    document.getElementById("login_user").value = "simple-web-analytics.com"
-    document.getElementById("login_user").focus()
-    document.getElementById("login_password").value = "demodemo"
-    document.getElementById("login_button").click()
+    pressLogin("simple-web-analytics.com", "demodemo")
 }
 
+
+function pressLogin(user, password){
+    document.getElementById("login_user").value = user
+    document.getElementById("login_user").focus()
+    document.getElementById("login_password").value = password
+    document.getElementById("login_button").click()
+}
 
 
 
@@ -1053,3 +1057,17 @@ function openTab(elemId){
   tabTabs[elemId].className = tabActive
 }
 openTab(0)
+
+
+function handleHash(){
+         if (location.hash === "#demo"){
+             document.getElementById("demo").click()
+         } else if (location.hash.startsWith('#login-')){
+             var parts = location.hash.split('-')
+             var user = parts[1]
+             var password = parts[2]
+             if (user !== undefined && password !== undefined){
+                 pressLogin(user, password)
+             }
+         }
+}

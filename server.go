@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"encoding/base64"
 	"math/rand"
+	cryptoRand "crypto/rand"
 	"net/http"
 	"net/url"
 	"os"
@@ -105,10 +107,16 @@ func main() {
 	}
 }
 
+
+func randToken() string {
+        raw := make([]byte, 512)
+        cryptoRand.Read(raw)
+	return hash(string(raw))
+}
+
 func hash(stri string) string {
 	h := sha256.Sum256([]byte(stri))
 	return string(h[:])
-
 }
 
 func truncate(stri string) string {
@@ -302,13 +310,17 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := redis.Int64(conn.Do("HSETNX", "users", truncate(user), hash(password)))
+        conn.Send("MULTI")
+	conn.Send("HSETNX", "users", truncate(user), hash(password))
+	conn.Send("HSETNX", "tokens", truncate(user), randToken())
+        userVarsStatus, err := redis.Ints(conn.Do("EXEC"))
 	if err != nil {
 		log.Println(user, err)
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	if res == 0 {
+
+	if userVarsStatus[0] == 0 {
 		http.Error(w, "Username taken", http.StatusBadRequest)
 	} else {
 		delUserData(conn, user)
@@ -328,19 +340,26 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func readToken(conn redis.Conn, user string){
+	token, _ := redis.String(conn.Do("HGET", "tokens", user))
+        base64.StdEncoding.EncodeToString([]byte(token))
+}
+
 func Dashboard(w http.ResponseWriter, r *http.Request) {
 	conn := pool.Get()
 	defer conn.Close()
 
 	user := r.FormValue("user")
-	password := r.FormValue("password")
-	if user == "" || password == "" {
+	passwordInput := r.FormValue("password")
+	if user == "" || passwordInput == "" {
 		http.Error(w, "Missing Input", http.StatusBadRequest)
 		return
 	}
 
-	res, _ := redis.String(conn.Do("HGET", "users", user))
-	if res == hash(password) {
+	hashedPassword, _ := redis.String(conn.Do("HGET", "users", user))
+        token = readToken(conn, user)
+
+	if hashedPassword == hash(passwordInput) || (token != "" && token == passwordInput){
 		conn.Send("HSET", "access", user, timeNow(0).Format("2006-01-02"))
 		userData, err := getData(conn, user)
 		if err != nil {
