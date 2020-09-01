@@ -340,9 +340,9 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func readToken(conn redis.Conn, user string){
-	token, _ := redis.String(conn.Do("HGET", "tokens", user))
-        base64.StdEncoding.EncodeToString([]byte(token))
+func readToken(conn redis.Conn, user string) string{
+	token, _ := redis.String(conn.Do("HGET", "tokens", truncate(user)))
+        return base64.StdEncoding.EncodeToString([]byte(token))
 }
 
 func Dashboard(w http.ResponseWriter, r *http.Request) {
@@ -356,8 +356,8 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	hashedPassword, _ := redis.String(conn.Do("HGET", "users", user))
-        token = readToken(conn, user)
+	hashedPassword, _ := redis.String(conn.Do("HGET", "users", truncate(user)))
+        token := readToken(conn, user)
 
 	if hashedPassword == hash(passwordInput) || (token != "" && token == passwordInput){
 		conn.Send("HSET", "access", user, timeNow(0).Format("2006-01-02"))
@@ -379,7 +379,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getData(conn redis.Conn, user string) (map[string]map[string]int64, error) {
+return func getData(conn redis.Conn, user string) (map[string]map[string]int64, error) {
 
 	var err error
 	m := make(map[string]map[string]int64)
