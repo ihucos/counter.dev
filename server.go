@@ -33,6 +33,11 @@ const truncateAt = 256
 
 const loglinesKeep = 30
 
+type jsonResponse struct {
+  Data map[string]map[string]int64 `json:"data"`
+  Meta map[string]string `json:"data"`
+}
+
 // taken from here at August 2020:
 // https://gs.statcounter.com/screen-resolution-stats
 var screenResolutions = map[string]bool{
