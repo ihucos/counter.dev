@@ -33,9 +33,11 @@ const truncateAt = 256
 
 const loglinesKeep = 30
 
-type jsonResponse struct {
-  Data map[string]map[string]int64 `json:"data"`
-  Meta map[string]string `json:"data"`
+type StatData map[string]map[string]int64
+type MetaData map[string]string
+type Data struct {
+  Meta MetaData `json:"meta"`
+  Data StatData `json:"data"`
 }
 
 // taken from here at August 2020:
@@ -345,9 +347,14 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func readToken(conn redis.Conn, user string) string{
-	token, _ := redis.String(conn.Do("HGET", "tokens", truncate(user)))
-        return base64.StdEncoding.EncodeToString([]byte(token))
+
+func readToken(conn redis.Conn, user string) (string, error){
+       token, err := redis.String(conn.Do("HGET", "tokens", truncate(user)))
+	if err != nil {
+		log.Println(user, err)
+		return "", err
+	}
+       return base64.StdEncoding.EncodeToString([]byte(token)), nil
 }
 
 func Dashboard(w http.ResponseWriter, r *http.Request) {
@@ -362,7 +369,12 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	}
 
 	hashedPassword, _ := redis.String(conn.Do("HGET", "users", truncate(user)))
-        token := readToken(conn, user)
+        token, err := readToken(conn, user)
+	if err != nil {
+		log.Println(user, err)
+		http.Error(w, err.Error(), 500)
+		return
+	}
 
 	if hashedPassword == hash(passwordInput) || (token != "" && token == passwordInput){
 		conn.Send("HSET", "access", user, timeNow(0).Format("2006-01-02"))
@@ -384,10 +396,10 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-return func getData(conn redis.Conn, user string) (map[string]map[string]int64, error) {
+func getStatData(conn redis.Conn, user string) (StatData, error) {
 
 	var err error
-	m := make(map[string]map[string]int64)
+	m := make(StatData)
 
 	for _, field := range fieldsZet {
 		m[field], err = redis.Int64Map(conn.Do("ZRANGE", fmt.Sprintf("%s:%s", field, user), 0, -1, "WITHSCORES"))
@@ -410,5 +422,30 @@ return func getData(conn redis.Conn, user string) (map[string]map[string]int64, 
 		return nil, err
 	}
 
-	return m, err
+	return m, nil
+}
+
+func getMetaData(conn redis.Conn, user string) (MetaData, error) {
+        meta := make(MetaData)
+        token, err := readToken(conn, user)
+        meta["token"] = token
+        if err != nil {
+            return nil, err
+        }
+
+        return meta, nil
+
+        //return base64.StdEncoding.EncodeToString([]byte(token))
+}
+
+func getData(conn redis.Conn, user string) (Data, error) {
+    metaData, err := getMetaData(conn, user)
+    if err != nil {
+        return Data{nil, nil}, err
+    }
+    statData, err := getStatData(conn, user)
+    if err != nil {
+        return Data{nil, nil}, err
+    }
+    return Data{metaData, statData}, nil
 }

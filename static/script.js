@@ -78,17 +78,25 @@ function post(endpoint, body, user, alertId) {
         } else {
             return "Bad server status code: " + resp.status
         }
-    }).then(newData => {
-        if (typeof(newData) === "object") {
+    }).then(resp => {
+        if (typeof(resp) === "object") {
+
+
+            var newData = resp.data
+            metaData = resp.meta // metaData is global
+
+            // overwrite the plain password for security reasons.
+            document.getElementById("login_password").value = metaData.token
+
             if (JSON.stringify(newData) !== JSON.stringify(window.data || {})) {
-                data = newData
+                data = newData // data is global
                 console.log("new data")
                 console.log(data)
                 draw(user, newData)
             }
         } else {
             document.getElementById(alertId).style.display = "block"
-            document.getElementById(alertId).innerHTML = escapeHtml(newData)
+            document.getElementById(alertId).innerHTML = escapeHtml(resp)
         }
     })
 }
