@@ -300,7 +300,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	conn := pool.Get()
 	defer conn.Close()
 
-	user := r.FormValue("user")
+	user := truncate(r.FormValue("user"))
 	password := r.FormValue("password")
 	if user == "" || password == "" {
 		http.Error(w, "Missing Input", http.StatusBadRequest)
@@ -318,8 +318,8 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 
         conn.Send("MULTI")
-	conn.Send("HSETNX", "users", truncate(user), hash(password))
-	conn.Send("HSETNX", "tokens", truncate(user), randToken())
+	conn.Send("HSETNX", "users", user, hash(password))
+	conn.Send("HSETNX", "tokens", user, randToken())
         userVarsStatus, err := redis.Ints(conn.Do("EXEC"))
 	if err != nil {
 		log.Println(user, err)
@@ -349,7 +349,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 
 func readToken(conn redis.Conn, user string) (string, error){
-       token, err := redis.String(conn.Do("HGET", "tokens", truncate(user)))
+       token, err := redis.String(conn.Do("HGET", "tokens", user))
 	if err != nil {
 		log.Println(user, err)
 		return "", err
@@ -368,7 +368,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	hashedPassword, _ := redis.String(conn.Do("HGET", "users", truncate(user)))
+	hashedPassword, _ := redis.String(conn.Do("HGET", "users", user))
         token, err := readToken(conn, user)
 	if err != nil {
 		log.Println(user, err)
