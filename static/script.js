@@ -2,10 +2,10 @@ normalFont = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue
 orange = "#1e87f0"
 
 palette = [
-orange,
-"hsl(28, 45%, 50%)",
-"hsl(118, 45%, 50%)",
-"hsl(298, 35%, 60%)",
+    orange,
+    "hsl(28, 45%, 50%)",
+    "hsl(118, 45%, 50%)",
+    "hsl(298, 35%, 60%)",
 
 
 ]
@@ -16,12 +16,12 @@ Chart.defaults.global.title.fontSize = 16
 Chart.defaults.global.title.lineHeight = 1.2
 Chart.defaults.global.title.padding = 10
 Chart.defaults.global.layout = {
-            padding: {
-                left: 5,
-                right: 5,
-                top: 10,
-                bottom: 10
-            }
+    padding: {
+        left: 5,
+        right: 5,
+        top: 10,
+        bottom: 10
+    }
 }
 
 
@@ -43,9 +43,9 @@ function toColor(str) {
 }
 
 
-function makeGradient(id, alpha1, alpha2){
-    alpha1 = (typeof alpha1 !== 'undefined') ?  alpha1 : 0.6;
-    alpha2 = (typeof alpha2 !== 'undefined') ?  alpha2 : 1;
+function makeGradient(id, alpha1, alpha2) {
+    alpha1 = (typeof alpha1 !== 'undefined') ? alpha1 : 0.6;
+    alpha2 = (typeof alpha2 !== 'undefined') ? alpha2 : 1;
     var ctx = document.getElementById(id).getContext("2d")
     var gradientStroke = ctx.createLinearGradient(0, 0, 0, 200);
     gradientStroke.addColorStop(0, "rgba(30, 135, 240, " + alpha1 + ")");
@@ -140,7 +140,7 @@ function demo() {
 }
 
 
-function pressLogin(user, password){
+function pressLogin(user, password) {
     document.getElementById("login_user").value = user
     document.getElementById("login_user").focus()
     document.getElementById("login_password").value = password
@@ -184,10 +184,10 @@ function drawUsername(user) {
 function drawDomain() {
     var el = document.getElementById("domain");
     var origin = dTopKey(data.origin)
-    try { 
+    try {
         var domain = new URL(origin).host
     } catch (error) {
-        var domain = origin 
+        var domain = origin
     }
     el.innerHTML = escapeHtml(domain)
     el.setAttribute('href', "//" + domain)
@@ -236,7 +236,7 @@ function drawList(elem_id, dataItem, useLink, useFavicon) {
                 var link = key
             }
 
-            if (useFavicon){
+            if (useFavicon) {
                 html += "<img src='https://icons.duckduckgo.com/ip3/" + key + ".ico' style='height: 0.8em; width: 0.8em; display: inline-block'/>"
             }
             html += "<a class='link' target='_blank' href='" + link + "'>" + key + '</a>'
@@ -248,7 +248,7 @@ function drawList(elem_id, dataItem, useLink, useFavicon) {
         html += '</b></td>'
         html += '<td style="white-space: nowrap;" class="text-sm text-gray-700">'
         var percentRepr = Math.round(percent) + '%'
-        if (percentRepr === '0%'){
+        if (percentRepr === '0%') {
             percentRepr = '<1%'
         }
         html += escapeHtml(percentRepr)
@@ -283,7 +283,7 @@ function splitObject(obj, sort_keys) {
 
 function resolveCountry(code) {
     entry = JQVMap.maps["world_en"].paths[code]
-    if (code === "us"){
+    if (code === "us") {
         return "USA"
     }
     if (entry) {
@@ -401,7 +401,7 @@ function drawCountries(elemId, countries) {
     list.sort(function(a, b) {
         return b[1] - a[1];
     });
-    
+
     var listTotal = 0
     for (var i = 0; i < list.length; i++) {
         listTotal += list[i][1]
@@ -420,7 +420,7 @@ function drawCountries(elemId, countries) {
         html += '<td style="white-space: nowrap;" class="text-center"><b>' + escapeHtml(val) + '</b></td>'
         html += '<td style="white-space: nowrap;" class="text-sm text-gray-700">'
         var percentRepr = Math.round(percent) + '%'
-        if (percentRepr === '0%'){
+        if (percentRepr === '0%') {
             percentRepr = '<1%'
         }
         html += escapeHtml(percentRepr)
@@ -693,7 +693,7 @@ function drawLastDays(elemId, date_keys, date_vals) {
 
 }
 
-function drawScreenList(elemId, screenData){
+function drawScreenList(elemId, screenData) {
     if (Object.keys(screenData).length === 0 && screenData.constructor === Object) {
         document.getElementById(elemId).innerHTML = '<div class="font-xl p-5 italic">In order to view screen sizes of your users, you must include the updated <a href="#" onclick="overlayOn(); return false" class="link">tracking code</button>.</div>'
     } else {
@@ -710,7 +710,7 @@ function draw(user, data) {
 
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
     var noData = Object.keys(data.date).length === 0 && data.date.constructor === Object
-    if (noData){
+    if (noData) {
         drawUsername(user)
         document.getElementById("page-setup").style.display = "block"
         return
@@ -864,7 +864,7 @@ function draw(user, data) {
                 backgroundColor: makeGradient("hour"),
                 borderWidth: 1,
                 borderColor: 'transparent',
-                pointBackgroundColor: 'white',  
+                pointBackgroundColor: 'white',
                 pointRadius: 3,
                 pointBorderColor: orange,
                 lineTension: 0.4,
@@ -912,7 +912,7 @@ function draw(user, data) {
                 backgroundColor: makeGradient("weekday"),
                 borderWidth: 1,
                 borderColor: 'transparent',
-                pointBackgroundColor: 'white',  
+                pointBackgroundColor: 'white',
                 pointRadius: 3,
                 pointBorderColor: orange,
                 lineTension: 0.4,
@@ -1007,8 +1007,8 @@ function dGroupData(entries, cutAt) {
     return res
 }
 
-function dTopKey(hash){
-    if (Object.keys(hash).length === 0 && hash.constructor === Object){
+function dTopKey(hash) {
+    if (Object.keys(hash).length === 0 && hash.constructor === Object) {
         return ""
     }
     return Object.keys(data.origin).reduce((a, b) => data.origin[a] > data.origin[b] ? a : b);
@@ -1037,48 +1037,49 @@ function downloadData() {
 }
 
 function overlayOn() {
-  document.getElementById("overlay").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
 }
 
 function overlayOff() {
-  document.getElementById("overlay").style.display = "none";
-} 
+    document.getElementById("overlay").style.display = "none";
+}
 
 function onclickOverlay() {
-  if (event.target.id === "overlay"){
-    overlayOff()
-  }
-} 
+    if (event.target.id === "overlay") {
+        overlayOff()
+    }
+}
 
 tabActive = "bg-gray-200 inline-block border rounded py-2 px-4 text-dark-900 font-semibold mt-2"
 tabNotActive = "bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold mt-2 shadow"
 tabPanels = document.querySelectorAll('#tabs_content div')
 tabTabs = document.querySelectorAll('#tabs_tabs li a')
-function openTab(elemId){
-  for (let panel of tabPanels) {
-    panel.style.display = "none"
-  }
-  for (let tab of tabTabs) {
-    tab.className = tabNotActive
-  }
-  tabPanels[elemId].style.display = "block"
-  tabTabs[elemId].className = tabActive
+
+function openTab(elemId) {
+    for (let panel of tabPanels) {
+        panel.style.display = "none"
+    }
+    for (let tab of tabTabs) {
+        tab.className = tabNotActive
+    }
+    tabPanels[elemId].style.display = "block"
+    tabTabs[elemId].className = tabActive
 }
 openTab(0)
 
 
-function handleHash(){
+function handleHash() {
 
-         // There are external links to this, so it has to be maintained
-         if (location.hash === "#demo"){
-             document.getElementById("demo").click()
+    // There are external links to this, so it has to be maintained
+    if (location.hash === "#demo") {
+        document.getElementById("demo").click()
 
-         } else if (location.hash.startsWith('#login-')){
-             var parts = location.hash.split('-')
-             var user = parts[1]
-             var password = parts[2]
-             if (user !== undefined && password !== undefined){
-                 pressLogin(user, password)
-             }
-         }
+    } else if (location.hash.startsWith('#login-')) {
+        var parts = location.hash.split('-')
+        var user = parts[1]
+        var password = parts[2]
+        if (user !== undefined && password !== undefined) {
+            pressLogin(user, password)
+        }
+    }
 }

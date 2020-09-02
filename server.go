@@ -1,14 +1,14 @@
 package main
 
 import (
+	cryptoRand "crypto/rand"
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
 	"log"
-	"encoding/base64"
 	"math/rand"
-	cryptoRand "crypto/rand"
 	"net/http"
 	"net/url"
 	"os"
@@ -36,8 +36,8 @@ const loglinesKeep = 30
 type StatData map[string]map[string]int64
 type MetaData map[string]string
 type Data struct {
-  Meta MetaData `json:"meta"`
-  Data StatData `json:"data"`
+	Meta MetaData `json:"meta"`
+	Data StatData `json:"data"`
 }
 
 // taken from here at August 2020:
@@ -114,10 +114,9 @@ func main() {
 	}
 }
 
-
 func randToken() string {
-        raw := make([]byte, 512)
-        cryptoRand.Read(raw)
+	raw := make([]byte, 512)
+	cryptoRand.Read(raw)
 	return hash(string(raw))
 }
 
@@ -317,10 +316,10 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-        conn.Send("MULTI")
+	conn.Send("MULTI")
 	conn.Send("HSETNX", "users", user, hash(password))
 	conn.Send("HSETNX", "tokens", user, randToken())
-        userVarsStatus, err := redis.Ints(conn.Do("EXEC"))
+	userVarsStatus, err := redis.Ints(conn.Do("EXEC"))
 	if err != nil {
 		log.Println(user, err)
 		http.Error(w, err.Error(), 500)
@@ -347,14 +346,13 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-
-func readToken(conn redis.Conn, user string) (string, error){
-       token, err := redis.String(conn.Do("HGET", "tokens", user))
+func readToken(conn redis.Conn, user string) (string, error) {
+	token, err := redis.String(conn.Do("HGET", "tokens", user))
 	if err != nil {
 		log.Println(user, err)
 		return "", err
 	}
-       return base64.StdEncoding.EncodeToString([]byte(token)), nil
+	return base64.StdEncoding.EncodeToString([]byte(token)), nil
 }
 
 func Dashboard(w http.ResponseWriter, r *http.Request) {
@@ -369,14 +367,14 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	}
 
 	hashedPassword, _ := redis.String(conn.Do("HGET", "users", user))
-        token, err := readToken(conn, user)
+	token, err := readToken(conn, user)
 	if err != nil {
 		log.Println(user, err)
 		http.Error(w, err.Error(), 500)
 		return
 	}
 
-	if hashedPassword == hash(passwordInput) || (token != "" && token == passwordInput){
+	if hashedPassword == hash(passwordInput) || (token != "" && token == passwordInput) {
 		conn.Send("HSET", "access", user, timeNow(0).Format("2006-01-02"))
 		userData, err := getData(conn, user)
 		if err != nil {
@@ -426,24 +424,24 @@ func getStatData(conn redis.Conn, user string) (StatData, error) {
 }
 
 func getMetaData(conn redis.Conn, user string) (MetaData, error) {
-        meta := make(MetaData)
-        token, err := readToken(conn, user)
-        if err != nil {
-            return nil, err
-        }
-        meta["token"] = token
+	meta := make(MetaData)
+	token, err := readToken(conn, user)
+	if err != nil {
+		return nil, err
+	}
+	meta["token"] = token
 
-        return meta, nil
+	return meta, nil
 }
 
 func getData(conn redis.Conn, user string) (Data, error) {
-    metaData, err := getMetaData(conn, user)
-    if err != nil {
-        return Data{nil, nil}, err
-    }
-    statData, err := getStatData(conn, user)
-    if err != nil {
-        return Data{nil, nil}, err
-    }
-    return Data{metaData, statData}, nil
+	metaData, err := getMetaData(conn, user)
+	if err != nil {
+		return Data{nil, nil}, err
+	}
+	statData, err := getStatData(conn, user)
+	if err != nil {
+		return Data{nil, nil}, err
+	}
+	return Data{metaData, statData}, nil
 }
