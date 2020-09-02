@@ -1068,8 +1068,11 @@ openTab(0)
 
 
 function handleHash(){
+
+         // There are external links to this, so it has to be maintained
          if (location.hash === "#demo"){
              document.getElementById("demo").click()
+
          } else if (location.hash.startsWith('#login-')){
              var parts = location.hash.split('-')
              var user = parts[1]
