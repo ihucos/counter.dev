@@ -339,9 +339,7 @@ sessionStorage.setItem("_swa", "1");
       </div>
       <script src="script.js"></script>
       <script>
-         if (location.hash === "#demo"){
-             document.getElementById("demo").click()
-         }
+      handleHash()
       </script>
    </body>
 </html>

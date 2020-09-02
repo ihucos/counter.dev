@@ -78,17 +78,25 @@ function post(endpoint, body, user, alertId) {
         } else {
             return "Bad server status code: " + resp.status
         }
-    }).then(newData => {
-        if (typeof(newData) === "object") {
+    }).then(resp => {
+        if (typeof(resp) === "object") {
+
+
+            var newData = resp.data
+            metaData = resp.meta // metaData is global
+
+            // overwrite the plain password for security reasons.
+            document.getElementById("login_password").value = metaData.token
+
             if (JSON.stringify(newData) !== JSON.stringify(window.data || {})) {
-                data = newData
+                data = newData // data is global
                 console.log("new data")
                 console.log(data)
                 draw(user, newData)
             }
         } else {
             document.getElementById(alertId).style.display = "block"
-            document.getElementById(alertId).innerHTML = escapeHtml(newData)
+            document.getElementById(alertId).innerHTML = escapeHtml(resp)
         }
     })
 }
@@ -128,12 +136,16 @@ function escapeHtml(unsafe) {
 
 
 function demo() {
-    document.getElementById("login_user").value = "simple-web-analytics.com"
-    document.getElementById("login_user").focus()
-    document.getElementById("login_password").value = "demodemo"
-    document.getElementById("login_button").click()
+    pressLogin("simple-web-analytics.com", "demodemo")
 }
 
+
+function pressLogin(user, password){
+    document.getElementById("login_user").value = user
+    document.getElementById("login_user").focus()
+    document.getElementById("login_password").value = password
+    document.getElementById("login_button").click()
+}
 
 
 
@@ -1053,3 +1065,20 @@ function openTab(elemId){
   tabTabs[elemId].className = tabActive
 }
 openTab(0)
+
+
+function handleHash(){
+
+         // There are external links to this, so it has to be maintained
+         if (location.hash === "#demo"){
+             document.getElementById("demo").click()
+
+         } else if (location.hash.startsWith('#login-')){
+             var parts = location.hash.split('-')
+             var user = parts[1]
+             var password = parts[2]
+             if (user !== undefined && password !== undefined){
+                 pressLogin(user, password)
+             }
+         }
+}

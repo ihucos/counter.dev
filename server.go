@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"encoding/base64"
 	"math/rand"
+	cryptoRand "crypto/rand"
 	"net/http"
 	"net/url"
 	"os"
@@ -30,6 +32,13 @@ const MaxRedisCahrs = 32
 const truncateAt = 256
 
 const loglinesKeep = 30
+
+type StatData map[string]map[string]int64
+type MetaData map[string]string
+type Data struct {
+  Meta MetaData `json:"meta"`
+  Data StatData `json:"data"`
+}
 
 // taken from here at August 2020:
 // https://gs.statcounter.com/screen-resolution-stats
@@ -105,10 +114,16 @@ func main() {
 	}
 }
 
+
+func randToken() string {
+        raw := make([]byte, 512)
+        cryptoRand.Read(raw)
+	return hash(string(raw))
+}
+
 func hash(stri string) string {
 	h := sha256.Sum256([]byte(stri))
 	return string(h[:])
-
 }
 
 func truncate(stri string) string {
@@ -285,7 +300,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	conn := pool.Get()
 	defer conn.Close()
 
-	user := r.FormValue("user")
+	user := truncate(r.FormValue("user"))
 	password := r.FormValue("password")
 	if user == "" || password == "" {
 		http.Error(w, "Missing Input", http.StatusBadRequest)
@@ -302,13 +317,17 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := redis.Int64(conn.Do("HSETNX", "users", truncate(user), hash(password)))
+        conn.Send("MULTI")
+	conn.Send("HSETNX", "users", user, hash(password))
+	conn.Send("HSETNX", "tokens", user, randToken())
+        userVarsStatus, err := redis.Ints(conn.Do("EXEC"))
 	if err != nil {
 		log.Println(user, err)
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	if res == 0 {
+
+	if userVarsStatus[0] == 0 {
 		http.Error(w, "Username taken", http.StatusBadRequest)
 	} else {
 		delUserData(conn, user)
@@ -328,19 +347,36 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+
+func readToken(conn redis.Conn, user string) (string, error){
+       token, err := redis.String(conn.Do("HGET", "tokens", user))
+	if err != nil {
+		log.Println(user, err)
+		return "", err
+	}
+       return base64.StdEncoding.EncodeToString([]byte(token)), nil
+}
+
 func Dashboard(w http.ResponseWriter, r *http.Request) {
 	conn := pool.Get()
 	defer conn.Close()
 
 	user := r.FormValue("user")
-	password := r.FormValue("password")
-	if user == "" || password == "" {
+	passwordInput := r.FormValue("password")
+	if user == "" || passwordInput == "" {
 		http.Error(w, "Missing Input", http.StatusBadRequest)
 		return
 	}
 
-	res, _ := redis.String(conn.Do("HGET", "users", user))
-	if res == hash(password) {
+	hashedPassword, _ := redis.String(conn.Do("HGET", "users", user))
+        token, err := readToken(conn, user)
+	if err != nil {
+		log.Println(user, err)
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	if hashedPassword == hash(passwordInput) || (token != "" && token == passwordInput){
 		conn.Send("HSET", "access", user, timeNow(0).Format("2006-01-02"))
 		userData, err := getData(conn, user)
 		if err != nil {
@@ -360,10 +396,10 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getData(conn redis.Conn, user string) (map[string]map[string]int64, error) {
+func getStatData(conn redis.Conn, user string) (StatData, error) {
 
 	var err error
-	m := make(map[string]map[string]int64)
+	m := make(StatData)
 
 	for _, field := range fieldsZet {
 		m[field], err = redis.Int64Map(conn.Do("ZRANGE", fmt.Sprintf("%s:%s", field, user), 0, -1, "WITHSCORES"))
@@ -386,5 +422,28 @@ func getData(conn redis.Conn, user string) (map[string]map[string]int64, error) 
 		return nil, err
 	}
 
-	return m, err
+	return m, nil
+}
+
+func getMetaData(conn redis.Conn, user string) (MetaData, error) {
+        meta := make(MetaData)
+        token, err := readToken(conn, user)
+        if err != nil {
+            return nil, err
+        }
+        meta["token"] = token
+
+        return meta, nil
+}
+
+func getData(conn redis.Conn, user string) (Data, error) {
+    metaData, err := getMetaData(conn, user)
+    if err != nil {
+        return Data{nil, nil}, err
+    }
+    statData, err := getStatData(conn, user)
+    if err != nil {
+        return Data{nil, nil}, err
+    }
+    return Data{metaData, statData}, nil
 }
