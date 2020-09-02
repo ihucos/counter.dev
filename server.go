@@ -428,14 +428,12 @@ func getStatData(conn redis.Conn, user string) (StatData, error) {
 func getMetaData(conn redis.Conn, user string) (MetaData, error) {
         meta := make(MetaData)
         token, err := readToken(conn, user)
-        meta["token"] = token
         if err != nil {
             return nil, err
         }
+        meta["token"] = token
 
         return meta, nil
-
-        //return base64.StdEncoding.EncodeToString([]byte(token))
 }
 
 func getData(conn redis.Conn, user string) (Data, error) {
