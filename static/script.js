@@ -81,18 +81,17 @@ function post(endpoint, body, user, alertId) {
     }).then(resp => {
         if (typeof(resp) === "object") {
 
-
-            var newData = resp.data
             metaData = resp.meta // metaData is global
+            drawMetaVars()
 
             // overwrite the plain password for security reasons.
             document.getElementById("login_password").value = metaData.token
 
-            if (JSON.stringify(newData) !== JSON.stringify(window.data || {})) {
-                data = newData // data is global
+            if (JSON.stringify(resp.data) !== JSON.stringify(window.data || {})) {
+                data = resp.data // data is global
                 console.log("new data")
                 console.log(data)
-                draw(user, newData)
+                draw(user, resp.data)
             }
         } else {
             document.getElementById(alertId).style.display = "block"
@@ -173,11 +172,14 @@ function sum(array) {
 
 }
 
-function drawUsername(user) {
-    var x = document.getElementsByClassName("username");
-    var i;
-    for (i = 0; i < x.length; i++) {
-        x[i].innerHTML = escapeHtml(user)
+function drawMetaVars() {
+    var els, i
+    for (key in metaData) {
+        els = document.getElementsByClassName("metavar_" + key);
+        for (i = 0; i < els.length; i++) {
+            console.log(els[i])
+            els[i].innerHTML = escapeHtml(metaData[key])
+        }
     }
 }
 
@@ -711,15 +713,14 @@ function draw(user, data) {
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
     var noData = Object.keys(data.date).length === 0 && data.date.constructor === Object
     if (noData) {
-        drawUsername(user)
         document.getElementById("page-setup").style.display = "block"
         return
     } else {
         document.getElementById("page-graphs").style.display = "block"
         document.getElementById("page-setup").style.display = "none"
+        document.getElementById("share-account").style.display = "block"
     }
 
-    drawUsername(user)
     drawDomain()
     drawUTCOffsetVar()
     drawMap("world")
@@ -1074,8 +1075,12 @@ function handleHash() {
     if (location.hash === "#demo") {
         document.getElementById("demo").click()
 
-    } else if (location.hash.startsWith('#login-')) {
-        var parts = location.hash.split('-')
+    } else if (location.hash.startsWith('#login,')) {
+        var parts = location.hash.split(',')
+
+        // remove the hash of the url and anythin after it
+        location.hash = ""
+
         var user = parts[1]
         var password = parts[2]
         if (user !== undefined && password !== undefined) {

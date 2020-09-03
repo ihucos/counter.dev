@@ -430,6 +430,7 @@ func getMetaData(conn redis.Conn, user string) (MetaData, error) {
 		return nil, err
 	}
 	meta["token"] = token
+	meta["user"] = user
 
 	return meta, nil
 }

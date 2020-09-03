@@ -172,7 +172,7 @@ table tr:nth-child(even) {
             <div class="flex-item w-full max-w-screen-md mx-auto">
                <div>
                   <div class="px-10">
-                     <h5 class="text-2xl my-5">Hello <span class="username">USERNAME</span>,</h5>
+                     <h5 class="text-2xl my-5">Hello <span class="metavar_user">USERNAME</span>,</h5>
                      <h5 class="text-left text-gray-600 mb-2">Follow these steps:</h5>
                      <div class="">
                         <span class="text-xl font-bold mr-2">1.</span>
@@ -220,7 +220,7 @@ table tr:nth-child(even) {
                      <span>Download CSV</span>
                   </button>
                   <button onclick="overlayOn();" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">
-                  Tracking code
+                  Settings
                   </button>
 
                </div>
@@ -318,23 +318,34 @@ table tr:nth-child(even) {
             <h5 class="text-xl">Tracking code</h5>
 
             <div class="mb-5">
-               <h4 class="font-bold">Hint:</h4>
                <p>This JavaScript snippset is responible for collecting user
                statistics. It needs to be added to all html pages you want to track. For example inside the <span class="italic font-mono border bg-gray-100">&lt;head&gt;</span> section.</p>
-               </div>
+           </div>
 
             <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; // Simple Web Analytics tracking code
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
     fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
         referrer: document.referrer,
         screen: screen.width + "x" + screen.height,
-        site: "<span class="username">USERNAME</span>",
+        site: "<span class="metavar_user">USERNAME</span>",
         utcoffset: <span id="utcoffset">0</span>}))}
 sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
+
+            <div id="share-account" style="display: none;">
+                <h5 class="text-xl mt-8">Share account</h5>
+                <p class="mb-5">
+                   You can share access to this account via the following link.
+               </p>
+                <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>https://simple-web-analytics.com/app#login,<span class="metavar_user">USERNAME</span>,<span class="metavar_token">TOKEN</span></code></pre>
+            </div>
+
+
             <div class="text-center mt-5">
                <a href="#" onclick="overlayOff(); return false;" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Close</a>
             </div>
+
+
          </div>
       </div>
       <script src="script.js"></script>
