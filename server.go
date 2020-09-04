@@ -34,11 +34,20 @@ const truncateAt = 256
 const loglinesKeep = 30
 
 type StatData map[string]map[string]int64
+type LogData map[string]int64
 type MetaData map[string]string
+type TimedStatData struct {
+	Day StatData `json:"day"`
+	Month StatData `json:"month"`
+	Year StatData `json:"year"`
+	All StatData `json:"all"`
+}
 type Data struct {
 	Meta MetaData `json:"meta"`
-	Data StatData `json:"data"`
+	Data TimedStatData `json:"data"`
+	Log LogData `json:"log"`
 }
+type Visit map[string]string
 
 // taken from here at August 2020:
 // https://gs.statcounter.com/screen-resolution-stats
@@ -132,16 +141,14 @@ func truncate(stri string) string {
 	return stri
 }
 
-func save(user string, data map[string]string, logLine string) {
-	conn := pool.Get()
-	defer conn.Close()
+func saveVisit(conn redis.Conn, timeRange string, user string, data Visit) {
 	for _, field := range fieldsZet {
 		//val := strconv.FormatInt(time.Now().UnixNano(), 10)
 		val := data[field]
 		if val != "" {
-			conn.Send("ZINCRBY", fmt.Sprintf("%s:%s", field, user), 1, truncate(val))
+			conn.Send("ZINCRBY", fmt.Sprintf("%s:%s:%s", field, timeRange, user), 1, truncate(val))
 			if rand.Intn(zetTrimEveryCalls) == 0 {
-				conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s", field, user), 0, -zetMaxSize)
+				conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s:%s", field, timeRange, user), 0, -zetMaxSize)
 			}
 		}
 	}
@@ -149,10 +156,12 @@ func save(user string, data map[string]string, logLine string) {
 	for _, field := range fieldsHash {
 		val := data[field]
 		if val != "" {
-			conn.Send("HINCRBY", fmt.Sprintf("%s:%s", field, user), truncate(val), 1)
+			conn.Send("HINCRBY", fmt.Sprintf("%s:%s:%s", field, timeRange, user), truncate(val), 1)
 		}
 	}
+}
 
+func saveLogLine(conn redis.Conn, user string, logLine string) {
 	conn.Send("ZADD", fmt.Sprintf("log:%s", user), time.Now().Unix(), truncate(logLine))
 	conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("log:%s", user), 0, -loglinesKeep)
 
@@ -182,7 +191,7 @@ func timeNow(utcOffset int) time.Time {
 
 func Track(w http.ResponseWriter, r *http.Request) {
 
-	data := make(map[string]string)
+	visit := make(Visit)
 
 	//
 	// Input validation
@@ -231,63 +240,70 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//
-	// build data map
+	// build visit map
 	//
 
 	refParam := r.FormValue("referrer")
 	parsedUrl, err := url.Parse(refParam)
 	if err == nil && parsedUrl.Host != "" {
-		data["ref"] = parsedUrl.Host
+		visit["ref"] = parsedUrl.Host
 	}
 
 	ref := r.Header.Get("Referer")
 	parsedUrl, err = url.Parse(ref)
 	if err == nil && parsedUrl.Path != "" {
-		data["loc"] = parsedUrl.Path
+		visit["loc"] = parsedUrl.Path
 	}
 
 	tags, _, err := language.ParseAcceptLanguage(r.Header.Get("Accept-Language"))
 	if err == nil && len(tags) > 0 {
 		lang := display.English.Languages().Name(tags[0])
-		data["lang"] = lang
+		visit["lang"] = lang
 	}
 
 	if origin != "" && origin != "null" {
-		data["origin"] = origin
+		visit["origin"] = origin
 	}
 
 	country := r.Header.Get("CF-IPCountry")
 	if country != "" && country != "XX" {
-		data["country"] = strings.ToLower(country)
+		visit["country"] = strings.ToLower(country)
 	}
 
 	screenInput := r.FormValue("screen")
 	if screenInput != "" {
 		_, screenExists := screenResolutions[screenInput]
 		if screenExists {
-			data["screen"] = screenInput
+			visit["screen"] = screenInput
 		} else {
-			data["screen"] = "Other"
+			visit["screen"] = "Other"
 		}
 	}
 
-	data["date"] = now.Format("2006-01-02")
+	visit["date"] = now.Format("2006-01-02")
 
-	data["weekday"] = fmt.Sprintf("%d", now.Weekday())
+	visit["weekday"] = fmt.Sprintf("%d", now.Weekday())
 
-	data["hour"] = fmt.Sprintf("%d", now.Hour())
+	visit["hour"] = fmt.Sprintf("%d", now.Hour())
 
-	data["browser"] = ua.Browser.Name.StringTrimPrefix()
+	visit["browser"] = ua.Browser.Name.StringTrimPrefix()
 
-	data["device"] = ua.DeviceType.StringTrimPrefix()
+	visit["device"] = ua.DeviceType.StringTrimPrefix()
 
-	data["platform"] = ua.OS.Platform.StringTrimPrefix()
+	visit["platform"] = ua.OS.Platform.StringTrimPrefix()
 
 	//
-	// save data map
+	// save visit map
 	//
 	logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, userAgent)
-	save(user, data, logLine)
+
+	conn := pool.Get()
+	defer conn.Close()
+	saveVisit(conn, now.Format("2006"), user, visit)
+	saveVisit(conn, now.Format("2006-01"), user, visit)
+	saveVisit(conn, now.Format("2006-01-02"), user, visit)
+	saveVisit(conn, "all", user, visit)
+	saveLogLine(conn, user, logLine)
 
 	w.Header().Set("Content-Type", "text/plain")
 	w.Header().Set("Cache-Control", "public, immutable")
@@ -394,33 +410,37 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getStatData(conn redis.Conn, user string) (StatData, error) {
+func getStatData(conn redis.Conn, timeRange string, user string) (StatData, error) {
 
 	var err error
 	m := make(StatData)
 
 	for _, field := range fieldsZet {
-		m[field], err = redis.Int64Map(conn.Do("ZRANGE", fmt.Sprintf("%s:%s", field, user), 0, -1, "WITHSCORES"))
+		m[field], err = redis.Int64Map(conn.Do("ZRANGE", fmt.Sprintf("%s:%s:%s", field, timeRange, user), 0, -1, "WITHSCORES"))
 		if err != nil {
 			log.Println(user, err)
 			return nil, err
 		}
 	}
 	for _, field := range fieldsHash {
-		m[field], err = redis.Int64Map(conn.Do("HGETALL", fmt.Sprintf("%s:%s", field, user)))
+		m[field], err = redis.Int64Map(conn.Do("HGETALL", fmt.Sprintf("%s:%s:%s", field, timeRange, user)))
 		if err != nil {
 			log.Println(user, err)
 			return nil, err
 		}
 	}
+        return m, nil
+}
 
-	m["log"], err = redis.Int64Map(conn.Do("ZRANGE", fmt.Sprintf("log:%s", user), 0, -1, "WITHSCORES"))
+func getLogData(conn redis.Conn, user string) (LogData, error) {
+
+	logData, err := redis.Int64Map(conn.Do("ZRANGE", fmt.Sprintf("log:%s", user), 0, -1, "WITHSCORES"))
 	if err != nil {
 		log.Println(user, err)
 		return nil, err
 	}
 
-	return m, nil
+	return logData, nil
 }
 
 func getMetaData(conn redis.Conn, user string) (MetaData, error) {
@@ -436,13 +456,35 @@ func getMetaData(conn redis.Conn, user string) (MetaData, error) {
 }
 
 func getData(conn redis.Conn, user string) (Data, error) {
+        nullData := Data{nil, TimedStatData{nil, nil, nil, nil}, nil}
+
+        // XXXXXXXXXXX use the clients timezone, XX handle this
+        now := timeNow(0)
+
 	metaData, err := getMetaData(conn, user)
 	if err != nil {
-		return Data{nil, nil}, err
+		return nullData, err
 	}
-	statData, err := getStatData(conn, user)
+	logData, err := getLogData(conn, user)
 	if err != nil {
-		return Data{nil, nil}, err
+		return nullData, err
 	}
-	return Data{metaData, statData}, nil
+	allStatData, err := getStatData(conn, "all", user)
+	if err != nil {
+		return nullData, err
+	}
+	yearStatData, err := getStatData(conn, now.Format("2006"), user)
+	if err != nil {
+		return nullData, err
+	}
+	monthStatData, err := getStatData(conn, now.Format("2006-01"), user)
+	if err != nil {
+		return nullData, err
+	}
+	dayStatData, err := getStatData(conn, now.Format("2006-01-02"), user)
+	if err != nil {
+		return nullData, err
+	}
+
+	return Data{metaData, TimedStatData{Day: dayStatData, Month: monthStatData, Year: yearStatData, All: allStatData}, logData}, nil
 }
