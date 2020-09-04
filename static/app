@@ -337,7 +337,7 @@ sessionStorage.setItem("_swa", "1");
                 <p class="mb-5">
                    You can share access to this account via the following link.
                </p>
-                <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>https://simple-web-analytics.com/app#login,<span class="metavar_user">USERNAME</span>,<span class="metavar_token">TOKEN</span></code></pre>
+                <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>https://simple-web-analytics.com/app#share,<span class="metavar_user">USERNAME</span>,<span class="metavar_token">TOKEN</span></code></pre>
             </div>
 
 

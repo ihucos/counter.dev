@@ -1075,7 +1075,7 @@ function handleHash() {
     if (location.hash === "#demo") {
         document.getElementById("demo").click()
 
-    } else if (location.hash.startsWith('#login,')) {
+    } else if (location.hash.startsWith('#login,') || location.hash.startsWith('#share,')) {
         var parts = location.hash.split(',')
 
         // remove the hash of the url and anythin after it
