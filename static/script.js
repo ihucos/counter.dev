@@ -87,11 +87,12 @@ function post(endpoint, body, user, alertId) {
             // overwrite the plain password for security reasons.
             document.getElementById("login_password").value = metaData.token
 
-            if (JSON.stringify(resp.data) !== JSON.stringify(window.data || {})) {
-                data = resp.data // data is global
+            if (JSON.stringify(resp.data) !== JSON.stringify(window.timedData || {})) {
+                timedData = resp.data // timedData is global
+                logData = resp.log // logData is global
                 console.log("new data")
-                console.log(data)
-                draw(user, resp.data)
+                console.log(timedData)
+                draw()
             }
         } else {
             document.getElementById(alertId).style.display = "block"
@@ -177,10 +178,14 @@ function drawMetaVars() {
     for (key in metaData) {
         els = document.getElementsByClassName("metavar_" + key);
         for (i = 0; i < els.length; i++) {
-            console.log(els[i])
             els[i].innerHTML = escapeHtml(metaData[key])
         }
     }
+}
+
+function timeRangeChanged(timeRange){
+    data = timedData[timeRange]
+    draw()
 }
 
 function drawDomain() {
@@ -230,7 +235,6 @@ function drawList(elem_id, dataItem, useLink, useFavicon) {
         var val = commaFormat(list[i][1])
         html += '<td class="w-full truncate">'
         var key = escapeHtml(list[i][0])
-        console.log(useLink)
         if (useLink) {
             if (!key.includes("://")) {
                 var link = "//" + key
@@ -299,7 +303,7 @@ function resolveCountry(code) {
 
 function drawLog() {
 
-    var completeLines = Object.keys(data.log).reverse()
+    var completeLines = Object.keys(logData).reverse()
 
     var lines = completeLines
 
@@ -703,8 +707,12 @@ function drawScreenList(elemId, screenData) {
     }
 }
 
-function draw(user, data) {
+function draw() {
     console.log("redrawing")
+
+    // set the global data argument
+    data = timedData.all
+
     if (!window._inited) {
         alwaysUpdate()
         window._inited = true
