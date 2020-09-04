@@ -183,7 +183,7 @@ function drawMetaVars() {
     }
 }
 
-function timeRangeChanged(timeRange){
+function timeRangeChanged(timeRange) {
     data = timedData[timeRange]
     draw()
 }

@@ -37,15 +37,15 @@ type StatData map[string]map[string]int64
 type LogData map[string]int64
 type MetaData map[string]string
 type TimedStatData struct {
-	Day StatData `json:"day"`
+	Day   StatData `json:"day"`
 	Month StatData `json:"month"`
-	Year StatData `json:"year"`
-	All StatData `json:"all"`
+	Year  StatData `json:"year"`
+	All   StatData `json:"all"`
 }
 type Data struct {
-	Meta MetaData `json:"meta"`
+	Meta MetaData      `json:"meta"`
 	Data TimedStatData `json:"data"`
-	Log LogData `json:"log"`
+	Log  LogData       `json:"log"`
 }
 type Visit map[string]string
 
@@ -429,7 +429,7 @@ func getStatData(conn redis.Conn, timeRange string, user string) (StatData, erro
 			return nil, err
 		}
 	}
-        return m, nil
+	return m, nil
 }
 
 func getLogData(conn redis.Conn, user string) (LogData, error) {
@@ -456,10 +456,10 @@ func getMetaData(conn redis.Conn, user string) (MetaData, error) {
 }
 
 func getData(conn redis.Conn, user string) (Data, error) {
-        nullData := Data{nil, TimedStatData{nil, nil, nil, nil}, nil}
+	nullData := Data{nil, TimedStatData{nil, nil, nil, nil}, nil}
 
-        // XXXXXXXXXXX use the clients timezone, XX handle this
-        now := timeNow(0)
+	// XXXXXXXXXXX use the clients timezone, XX handle this
+	now := timeNow(0)
 
 	metaData, err := getMetaData(conn, user)
 	if err != nil {
