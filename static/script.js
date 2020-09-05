@@ -206,7 +206,7 @@ function onTimeRangeChanged() {
 
 function drawDomain() {
     var el = document.getElementById("domain");
-    var origin = dTopKey(data.origin)
+    var origin = dTopKey(timedData.all.origin)
     try {
         var domain = new URL(origin).host
     } catch (error) {
@@ -1036,7 +1036,7 @@ function dTopKey(hash) {
     if (Object.keys(hash).length === 0 && hash.constructor === Object) {
         return ""
     }
-    return Object.keys(data.origin).reduce((a, b) => data.origin[a] > data.origin[b] ? a : b);
+    return Object.keys(hash).reduce((a, b) => hash[a] > hash[b] ? a : b);
 }
 
 
