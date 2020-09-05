@@ -177,7 +177,6 @@ function drawMetaVars() {
     for (key in metaData) {
         els = document.getElementsByClassName("metavar_" + key);
         for (i = 0; i < els.length; i++) {
-            console.log(els[i])
             els[i].innerHTML = escapeHtml(metaData[key])
         }
     }
@@ -230,7 +229,6 @@ function drawList(elem_id, dataItem, useLink, useFavicon) {
         var val = commaFormat(list[i][1])
         html += '<td class="w-full truncate">'
         var key = escapeHtml(list[i][0])
-        console.log(useLink)
         if (useLink) {
             if (!key.includes("://")) {
                 var link = "//" + key
@@ -733,7 +731,7 @@ function draw(user, data) {
     var date_vals;
     [date_keys, date_vals] = dGetNormalizedDateData()
 
-    drawList("list_ref", data.ref, true, true)
+    drawList("list_ref", dRemoveWWW(data.ref), true, true)
     drawList("list_loc", data.loc, false, false)
     drawList("list_lang", data.lang, false, false)
     drawScreenList("list_screen", data.screen)
@@ -944,6 +942,14 @@ function draw(user, data) {
             },
         },
     })
+}
+
+function dRemoveWWW(ref){
+    var newRef = {}
+    Object.keys(ref).forEach(function(key){
+        newRef[key.startsWith("www.") ? key.substring(4) : key] = ref[key]
+    });
+    return newRef
 }
 
 
