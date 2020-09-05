@@ -10,6 +10,8 @@ palette = [
 
 ]
 
+// I don't completely get this one, but it is quite important
+Chart.defaults.global.maintainAspectRatio = false
 
 Chart.defaults.global.title.fontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
 Chart.defaults.global.title.fontColor = "rgba(0,0,0, 0.7)";
@@ -475,7 +477,6 @@ function drawPie(elemId, entries, title) {
             }, ],
         },
         options: {
-            maintainAspectRatio: false,
             cutoutPercentage: 35,
             tooltips: {
                 mode: 'index'
@@ -536,7 +537,6 @@ function drawTime() {
             }, ],
         },
         options: {
-            maintainAspectRatio: false,
             tooltips: {
                 mode: 'index'
             },
@@ -612,7 +612,6 @@ function drawRefChart(elemId) {
         },
         options: {
             //cutoutPercentage: 50,
-            maintainAspectRatio: false,
             tooltips: {
                 mode: 'index'
             },
@@ -675,7 +674,6 @@ function drawLastDays(elemId, date_keys, date_vals) {
                     tension: 0
                 }
             },
-            maintainAspectRatio: false,
             title: {
                 display: true,
                 text: "Last Days"
@@ -900,7 +898,6 @@ function draw() {
                 text: "Visits by hour",
                 position: "top",
             },
-            maintainAspectRatio: false,
             tooltips: {
                 mode: 'index'
             },
@@ -943,7 +940,6 @@ function draw() {
             }, ],
         },
         options: {
-            maintainAspectRatio: false,
             title: {
                 display: true,
                 text: 'Visits by weekday',
