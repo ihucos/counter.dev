@@ -314,7 +314,10 @@ table tr:nth-child(even) {
                       <a onclick="openTab(3); return false" href="#">Screens</a>
                     </li>
                     <li class="mr-1">
-                      <a onclick="openTab(4); return false" href="#">Visits</a>
+                      <a onclick="openTab(4); return false" href="#">Languages</a>
+                    </li>
+                    <li class="mr-1">
+                      <a onclick="openTab(5); return false" href="#">Visits</a>
                     </li>
                   </ul>
                </div>
@@ -324,6 +327,7 @@ table tr:nth-child(even) {
                       <div id="list_loc" style="display: none;"></div>
                       <div id="list_origin" style="display: none;"></div>
                       <div id="list_screen" style="display: none;"></div>
+                      <div id="list_lang" style="display: none;"></div>
                       <div class="overflow-y-auto max-w-4xl" style="display: none;">
                          <table>
                             <thead>

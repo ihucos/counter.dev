@@ -743,6 +743,7 @@ function draw() {
 
     drawList("list_ref", data.ref, true, true)
     drawList("list_loc", data.loc, false, false)
+    drawList("list_lang", data.lang, false, false)
     drawScreenList("list_screen", data.screen)
     drawCountries("world_list", data.country)
     drawLastDays("last_days_chart", date_keys, date_vals)
