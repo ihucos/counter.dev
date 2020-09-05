@@ -10,6 +10,7 @@ palette = [
 
 ]
 
+
 Chart.defaults.global.title.fontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
 Chart.defaults.global.title.fontColor = "rgba(0,0,0, 0.7)";
 Chart.defaults.global.title.fontSize = 16
@@ -30,6 +31,17 @@ pieBorderColor = 'white'
 pieBorderWidth = 1.2
 
 Chart.defaults.global.defaultFontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
+
+
+
+defaultAnimation = Chart.defaults.global.animation
+function enableAnimation(){
+    Chart.defaults.global.animation = defaultAnimation
+}
+function disableAnimation(){
+    Chart.defaults.global.animation = 0
+}
+disableAnimation()
 
 function rand(min, max) {
     return Math.random() * (max - min) + min;
@@ -183,9 +195,11 @@ function drawMetaVars() {
     }
 }
 
-function timeRangeChanged(timeRange) {
+function setTimeRange(timeRange) {
     data = timedData[timeRange]
+    enableAnimation()
     draw()
+    disableAnimation()
 }
 
 function drawDomain() {
@@ -447,7 +461,7 @@ function drawPie(elemId, entries, title) {
         return b[1] - a[1];
     });
 
-    new Chart(document.getElementById(elemId), {
+    registerChart(new Chart(document.getElementById(elemId), {
         type: 'pie',
         data: {
             labels: list.map(x => x[0]),
@@ -486,7 +500,7 @@ function drawPie(elemId, entries, title) {
                 }, ],
             },
         },
-    })
+    }))
 
 }
 
@@ -499,7 +513,7 @@ function sumHours(arr) {
 
 
 function drawTime() {
-    new Chart(document.getElementById("time"), {
+    registerChart(new Chart(document.getElementById("time"), {
         type: 'bar',
         data: {
             labels: [
@@ -552,7 +566,7 @@ function drawTime() {
                 }, ],
             },
         },
-    })
+    }))
 }
 
 
@@ -583,7 +597,7 @@ function drawRefChart(elemId) {
         })
     }
 
-    new Chart(document.getElementById(elemId), {
+    registerChart(new Chart(document.getElementById(elemId), {
         type: 'pie',
         data: {
             labels: entries.map(x => x.label),
@@ -633,13 +647,13 @@ function drawRefChart(elemId) {
                 }, ],
             },
         },
-    })
+    }))
 }
 
 
 function drawLastDays(elemId, date_keys, date_vals) {
     var num = 7
-    new Chart(document.getElementById(elemId), {
+    registerChart(new Chart(document.getElementById(elemId), {
         type: 'line',
         data: {
             labels: date_keys.slice(-1 * num).map(x => moment(x).format("Do MMMM")),
@@ -695,7 +709,7 @@ function drawLastDays(elemId, date_keys, date_vals) {
                 display: false
             },
         },
-    })
+    }))
 
 }
 
@@ -709,6 +723,7 @@ function drawScreenList(elemId, screenData) {
 
 function draw() {
     console.log("redrawing")
+    destroyRegisteredCharts()
 
     // set the global data argument
     data = timedData.all
@@ -755,7 +770,7 @@ function draw() {
 
     //document.getElementById('val_visits').innerHTML = escapeHtml(date_vals.slice(-1)[0])
 
-    new Chart(document.getElementById("graph"), {
+    registerChart(new Chart(document.getElementById("graph"), {
         type: 'bar',
         data: {
             labels: date_keys.map(x => x),
@@ -813,9 +828,9 @@ function draw() {
                 display: false
             },
         },
-    })
+    }))
 
-    new Chart(document.getElementById("hour"), {
+    registerChart(new Chart(document.getElementById("hour"), {
         type: 'radar',
         data: {
             labels: [
@@ -903,9 +918,9 @@ function draw() {
                 }
             },
         },
-    })
+    }))
 
-    new Chart(document.getElementById("weekday"), {
+    registerChart(new Chart(document.getElementById("weekday"), {
         type: 'radar',
         data: {
             labels: ['Mo.', 'Tu.', 'We.', 'Th.', 'Fr.', 'Sa.', 'Su.'],
@@ -951,7 +966,7 @@ function draw() {
                 }
             },
         },
-    })
+    }))
 }
 
 
@@ -1096,4 +1111,13 @@ function handleHash() {
             pressLogin(user, password)
         }
     }
+}
+
+registeredCharts = []
+function registerChart(chart){
+    registeredCharts.push(chart)
+}
+
+function destroyRegisteredCharts(){
+    registeredCharts.forEach(chart => chart.destroy())
 }
