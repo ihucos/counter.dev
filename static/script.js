@@ -26,7 +26,6 @@ Chart.defaults.global.layout = {
 }
 
 
-
 pieBorderColor = 'white'
 pieBorderWidth = 1.2
 
@@ -41,7 +40,6 @@ function enableAnimation(){
 function disableAnimation(){
     Chart.defaults.global.animation = 0
 }
-disableAnimation()
 
 function rand(min, max) {
     return Math.random() * (max - min) + min;
@@ -52,6 +50,10 @@ function toColor(str) {
     saturation = rand(0, 100)
     lightness = rand(35, 80)
     return 'hsl(' + hue + ', ' + saturation + '%, ' + lightness + '%)'
+}
+
+function getSelectedTimeRange(){
+    return document.getElementById('time-range').value
 }
 
 
@@ -101,6 +103,7 @@ function post(endpoint, body, user, alertId) {
 
             if (JSON.stringify(resp.data) !== JSON.stringify(window.timedData || {})) {
                 timedData = resp.data // timedData is global
+                data = resp.data[getSelectedTimeRange()] // data is global
                 logData = resp.log // logData is global
                 console.log("new data")
                 console.log(timedData)
@@ -195,11 +198,10 @@ function drawMetaVars() {
     }
 }
 
-function setTimeRange(timeRange) {
-    data = timedData[timeRange]
+function onTimeRangeChanged() {
+    data = timedData[getSelectedTimeRange()]
     enableAnimation()
     draw()
-    disableAnimation()
 }
 
 function drawDomain() {
@@ -725,16 +727,13 @@ function draw() {
     console.log("redrawing")
     destroyRegisteredCharts()
 
-    // set the global data argument
-    data = timedData.all
-
     if (!window._inited) {
         alwaysUpdate()
         window._inited = true
     }
 
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
-    var noData = Object.keys(data.date).length === 0 && data.date.constructor === Object
+    var noData = Object.keys(timedData.all.date).length === 0 && data.date.constructor === Object
     if (noData) {
         document.getElementById("page-setup").style.display = "block"
         return
@@ -967,6 +966,7 @@ function draw() {
             },
         },
     }))
+    disableAnimation()
 }
 
 
