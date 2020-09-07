@@ -21,7 +21,7 @@ for key in list(r.keys("*:*")):
         val = r.hgetall(key)
         for (k, value) in val.items():
             p.hset(dst1, k, value)
-            p.hset(dst2, k, int(int(value)/2))
+            p.hset(dst2, k, value)
     else:
         assert False, ('unexpected key type ', key, type)
 
