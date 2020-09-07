@@ -151,9 +151,9 @@ func saveVisit(conn redis.Conn, timeRange string, user string, data Visit, expir
 			if rand.Intn(zetTrimEveryCalls) == 0 {
 				conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s:%s", field, timeRange, user), 0, -zetMaxSize)
 			}
-                        //if expireEntry != -1 {
-                        //conn.Send("EXPIRE", key, expireEntry)
-                        //}
+                        if expireEntry != -1 {
+                        conn.Send("EXPIRE", key, expireEntry)
+                        }
 		}
 	}
 
@@ -162,9 +162,9 @@ func saveVisit(conn redis.Conn, timeRange string, user string, data Visit, expir
 		val := data[field]
 		if val != "" {
 			conn.Send("HINCRBY", key, truncate(val), 1)
-                        //if expireEntry != -1 {
-                        //conn.Send("EXPIRE", key, expireEntry)
-                        //}
+                        if expireEntry != -1 {
+                        conn.Send("EXPIRE", key, expireEntry)
+                        }
 		}
 	}
 }
