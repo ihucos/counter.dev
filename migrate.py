@@ -4,6 +4,8 @@ r = redis.StrictRedis()
 p = r.pipeline()
 
 for key in list(r.keys("*:*")):
+    if key.startswith(b"log:"):
+        continue
     p1, p2 = key.split(b":", 1)
     dst1 = p1+b":all:"+p2
     dst2 = p1+b":2020:"+p2
