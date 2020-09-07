@@ -367,12 +367,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	}
 
 	hashedPassword, _ := redis.String(conn.Do("HGET", "users", user))
-	token, err := readToken(conn, user)
-	if err != nil {
-		log.Println(user, err)
-		http.Error(w, err.Error(), 500)
-		return
-	}
+	token, _ := readToken(conn, user)
 
 	if hashedPassword == hash(passwordInput) || (token != "" && token == passwordInput) {
 		conn.Send("HSET", "access", user, timeNow(0).Format("2006-01-02"))
