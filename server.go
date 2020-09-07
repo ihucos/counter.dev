@@ -141,22 +141,30 @@ func truncate(stri string) string {
 	return stri
 }
 
-func saveVisit(conn redis.Conn, timeRange string, user string, data Visit) {
+func saveVisit(conn redis.Conn, timeRange string, user string, data Visit, expireEntry int) {
+        var key string
 	for _, field := range fieldsZet {
-		//val := strconv.FormatInt(time.Now().UnixNano(), 10)
+                key = fmt.Sprintf("%s:%s:%s", field, timeRange, user)
 		val := data[field]
 		if val != "" {
-			conn.Send("ZINCRBY", fmt.Sprintf("%s:%s:%s", field, timeRange, user), 1, truncate(val))
+			conn.Send("ZINCRBY", key, 1, truncate(val))
 			if rand.Intn(zetTrimEveryCalls) == 0 {
 				conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s:%s", field, timeRange, user), 0, -zetMaxSize)
 			}
+                        //if expireEntry != -1 {
+                        //conn.Send("EXPIRE", key, expireEntry)
+                        //}
 		}
 	}
 
 	for _, field := range fieldsHash {
+                key = fmt.Sprintf("%s:%s:%s", field, timeRange, user)
 		val := data[field]
 		if val != "" {
-			conn.Send("HINCRBY", fmt.Sprintf("%s:%s:%s", field, timeRange, user), truncate(val), 1)
+			conn.Send("HINCRBY", key, truncate(val), 1)
+                        //if expireEntry != -1 {
+                        //conn.Send("EXPIRE", key, expireEntry)
+                        //}
 		}
 	}
 }
@@ -299,10 +307,10 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	conn := pool.Get()
 	defer conn.Close()
-	saveVisit(conn, now.Format("2006"), user, visit)
-	saveVisit(conn, now.Format("2006-01"), user, visit)
-	saveVisit(conn, now.Format("2006-01-02"), user, visit)
-	saveVisit(conn, "all", user, visit)
+	saveVisit(conn, now.Format("2006"), user, visit, 60 * 60 * 24 * 366)
+	saveVisit(conn, now.Format("2006-01"), user, visit,  60 * 60 * 24 * 31)
+	saveVisit(conn, now.Format("2006-01-02"), user, visit, 60 * 60 * 24)
+	saveVisit(conn, "all", user, visit, -1)
 	saveLogLine(conn, user, logLine)
 
 	w.Header().Set("Content-Type", "text/plain")
@@ -383,12 +391,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	}
 
 	hashedPassword, _ := redis.String(conn.Do("HGET", "users", user))
-	token, err := readToken(conn, user)
-	if err != nil {
-		log.Println(user, err)
-		http.Error(w, err.Error(), 500)
-		return
-	}
+	token, _ := readToken(conn, user)
 
 	if hashedPassword == hash(passwordInput) || (token != "" && token == passwordInput) {
 		conn.Send("HSET", "access", user, timeNow(0).Format("2006-01-02"))
