@@ -122,7 +122,7 @@ function register() {
     window.viaRegister = true
     window.user = document.getElementById("reg_user").value
     var password = document.getElementById("reg_password").value
-    var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password)
+    var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + getUTCOffset()
     post("/register", body, user, "alert_register")
 }
 
@@ -130,14 +130,14 @@ function login() {
     window.viaRegister = false
     window.user = document.getElementById("login_user").value
     var password = document.getElementById("login_password").value
-    var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password)
+    var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
     post("/dashboard", body, user, "alert_login")
 }
 
 function alwaysUpdate() {
     window.setInterval(function() {
         var password = viaRegister ? document.getElementById("reg_password").value : document.getElementById("login_password").value
-        var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password)
+        var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
         post("/dashboard", body, user, "alert_login")
     }, 5000);
 }
@@ -218,9 +218,13 @@ function drawDomain() {
     el.setAttribute('href', "//" + domain)
 }
 
+
+function getUTCOffset(){
+    return Math.round(-1 * new Date().getTimezoneOffset() / 60)
+}
+
 function drawUTCOffsetVar() {
-    offset = Math.round(-1 * new Date().getTimezoneOffset() / 60)
-    document.getElementById("utcoffset").innerHTML = offset
+    document.getElementById("utcoffset").innerHTML = getUTCOffset()
 }
 
 function drawList(elem_id, dataItem, useLink, useFavicon) {

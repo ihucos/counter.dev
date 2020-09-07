@@ -197,6 +197,15 @@ func timeNow(utcOffset int) time.Time {
 
 }
 
+
+func parseUTCOffset(input string) int{
+	utcOffset, err := strconv.Atoi(input)
+	if err != nil {
+		utcOffset = 0
+	}
+	return max(min(utcOffset, 14), -12)
+}
+
 func Track(w http.ResponseWriter, r *http.Request) {
 
 	visit := make(Visit)
@@ -211,15 +220,11 @@ func Track(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utcOffset, err := strconv.Atoi(r.FormValue("utcoffset"))
-	if err != nil {
-		utcOffset = 0
-	}
-	utcOffset = max(min(utcOffset, 11), -11)
 
 	//
 	// variables
 	//
+	utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
 	now := timeNow(utcOffset)
 	userAgent := r.Header.Get("User-Agent")
 	ua := uasurfer.Parse(userAgent)
@@ -325,6 +330,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	user := truncate(r.FormValue("user"))
 	password := r.FormValue("password")
+	utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
 	if user == "" || password == "" {
 		http.Error(w, "Missing Input", http.StatusBadRequest)
 		return
@@ -354,7 +360,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Username taken", http.StatusBadRequest)
 	} else {
 		delUserData(conn, user)
-		userData, err := getData(conn, user)
+		userData, err := getData(conn, user, utcOffset)
 		if err != nil {
 			log.Println(user, err)
 			http.Error(w, err.Error(), 500)
@@ -385,6 +391,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 
 	user := r.FormValue("user")
 	passwordInput := r.FormValue("password")
+        utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
 	if user == "" || passwordInput == "" {
 		http.Error(w, "Missing Input", http.StatusBadRequest)
 		return
@@ -395,7 +402,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 
 	if hashedPassword == hash(passwordInput) || (token != "" && token == passwordInput) {
 		conn.Send("HSET", "access", user, timeNow(0).Format("2006-01-02"))
-		userData, err := getData(conn, user)
+		userData, err := getData(conn, user, utcOffset)
 		if err != nil {
 			log.Println(user, err)
 			http.Error(w, err.Error(), 500)
@@ -458,11 +465,10 @@ func getMetaData(conn redis.Conn, user string) (MetaData, error) {
 	return meta, nil
 }
 
-func getData(conn redis.Conn, user string) (Data, error) {
+func getData(conn redis.Conn, user string, utcOffset int) (Data, error) {
 	nullData := Data{nil, TimedStatData{nil, nil, nil, nil}, nil}
 
-	// XXXXXXXXXXX use the clients timezone, XX handle this
-	now := timeNow(0)
+	now := timeNow(utcOffset)
 
 	metaData, err := getMetaData(conn, user)
 	if err != nil {
