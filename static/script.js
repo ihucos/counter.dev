@@ -227,7 +227,7 @@ function drawList(elem_id, dataItem, useLink, useFavicon) {
     var elem = document.getElementById(elem_id)
 
     if (Object.keys(dataItem).length === 0 && dataItem.constructor === Object) {
-        elem.innerHTML += '<span class="text-muted">Empty</span>'
+        elem.innerHTML = '<span class="text-muted">Empty</span>'
         return
     }
 
@@ -414,7 +414,7 @@ function drawCountries(elemId, countries) {
     var elem = document.getElementById(elemId)
 
     if (Object.keys(countries).length === 0 && countries.constructor === Object) {
-        elem.innerHTML += '<span class="text-muted">Empty</span>'
+        elem.innerHTML = '<span class="text-muted">Empty</span>'
         return
     }
 
