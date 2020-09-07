@@ -15,7 +15,7 @@ for key in list(r.keys("*:*")):
         val = r.zrange(key, 0, -1, withscores=True)
         for (a, b) in val:
             p.zadd(dst1, float(b), a)
-            p.zadd(dst2, int(float(b)/2), a) # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX NOOOO NOH NOH
+            p.zadd(dst2, float(b), a)
 
     elif type == "hash":
         val = r.hgetall(key)
