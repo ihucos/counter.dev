@@ -142,29 +142,29 @@ func truncate(stri string) string {
 }
 
 func saveVisit(conn redis.Conn, timeRange string, user string, data Visit, expireEntry int) {
-        var key string
+	var key string
 	for _, field := range fieldsZet {
-                key = fmt.Sprintf("%s:%s:%s", field, timeRange, user)
+		key = fmt.Sprintf("%s:%s:%s", field, timeRange, user)
 		val := data[field]
 		if val != "" {
 			conn.Send("ZINCRBY", key, 1, truncate(val))
 			if rand.Intn(zetTrimEveryCalls) == 0 {
 				conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s:%s", field, timeRange, user), 0, -zetMaxSize)
 			}
-                        if expireEntry != -1 {
-                        conn.Send("EXPIRE", key, expireEntry)
-                        }
+			if expireEntry != -1 {
+				conn.Send("EXPIRE", key, expireEntry)
+			}
 		}
 	}
 
 	for _, field := range fieldsHash {
-                key = fmt.Sprintf("%s:%s:%s", field, timeRange, user)
+		key = fmt.Sprintf("%s:%s:%s", field, timeRange, user)
 		val := data[field]
 		if val != "" {
 			conn.Send("HINCRBY", key, truncate(val), 1)
-                        if expireEntry != -1 {
-                        conn.Send("EXPIRE", key, expireEntry)
-                        }
+			if expireEntry != -1 {
+				conn.Send("EXPIRE", key, expireEntry)
+			}
 		}
 	}
 }
@@ -197,8 +197,7 @@ func timeNow(utcOffset int) time.Time {
 
 }
 
-
-func parseUTCOffset(input string) int{
+func parseUTCOffset(input string) int {
 	utcOffset, err := strconv.Atoi(input)
 	if err != nil {
 		utcOffset = 0
@@ -219,7 +218,6 @@ func Track(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "missing site param", http.StatusBadRequest)
 		return
 	}
-
 
 	//
 	// variables
@@ -312,9 +310,9 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	conn := pool.Get()
 	defer conn.Close()
-	saveVisit(conn, now.Format("2006"), user, visit, 60 * 60 * 24 * 366)
-	saveVisit(conn, now.Format("2006-01"), user, visit,  60 * 60 * 24 * 31)
-	saveVisit(conn, now.Format("2006-01-02"), user, visit, 60 * 60 * 24)
+	saveVisit(conn, now.Format("2006"), user, visit, 60*60*24*366)
+	saveVisit(conn, now.Format("2006-01"), user, visit, 60*60*24*31)
+	saveVisit(conn, now.Format("2006-01-02"), user, visit, 60*60*24)
 	saveVisit(conn, "all", user, visit, -1)
 	saveLogLine(conn, user, logLine)
 
@@ -391,7 +389,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 
 	user := r.FormValue("user")
 	passwordInput := r.FormValue("password")
-        utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
+	utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
 	if user == "" || passwordInput == "" {
 		http.Error(w, "Missing Input", http.StatusBadRequest)
 		return

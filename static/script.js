@@ -36,10 +36,12 @@ Chart.defaults.global.defaultFontFamily = '-apple-system,BlinkMacSystemFont,"Seg
 
 
 defaultAnimation = Chart.defaults.global.animation
-function enableAnimation(){
+
+function enableAnimation() {
     Chart.defaults.global.animation = defaultAnimation
 }
-function disableAnimation(){
+
+function disableAnimation() {
     Chart.defaults.global.animation = 0
 }
 
@@ -54,7 +56,7 @@ function toColor(str) {
     return 'hsl(' + hue + ', ' + saturation + '%, ' + lightness + '%)'
 }
 
-function getSelectedTimeRange(){
+function getSelectedTimeRange() {
     return document.getElementById('time-range').value
 }
 
@@ -219,7 +221,7 @@ function drawDomain() {
 }
 
 
-function getUTCOffset(){
+function getUTCOffset() {
     return Math.round(-1 * new Date().getTimezoneOffset() / 60)
 }
 
@@ -1114,10 +1116,11 @@ function handleHash() {
 }
 
 registeredCharts = []
-function registerChart(chart){
+
+function registerChart(chart) {
     registeredCharts.push(chart)
 }
 
-function destroyRegisteredCharts(){
+function destroyRegisteredCharts() {
     registeredCharts.forEach(chart => chart.destroy())
 }
