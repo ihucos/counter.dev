@@ -229,33 +229,17 @@ table tr:nth-child(even) {
             <div class="flex-item justify-center" style="flex-grow: 1">
                <h5><span class="text-gray-500 leading-normal">top origin:</span> <a class="link" id="domain" target="_blank">DOMAIN</a></h5>
             </div>
-            <div class="flex-item w-full">
+            <div class="flex-item w-full" style="padding-top: 0px; padding-bottom: 0px;">
                <div style="box-shadow: none; background-color: transparent; padding: 0px;">
 
-
-
-
-
-
-
-
-
-
-
-<form action="">
-<select id="time-range" onchange="onTimeRangeChanged()" class="float-right shadow appearance-none border border-red-500 rounded py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" name="cars" id="cars">
-  <option value="day">Today</option>
-  <option value="month">This Month</option>
-  <option value="year">This year</option>
-  <option value="all" selected="selected">All</option>
-</select>
-</form>
-
-
-
-
-
-
+                  <form action="">
+                  <select id="time-range" onchange="onTimeRangeChanged()" class="float-right shadow-xs text-gray-800 bg-gray-400 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1 appearance-none" name="cars" id="cars">
+                    <option value="day">Today</option>
+                    <option value="month">This Month</option>
+                    <option value="year">This year</option>
+                    <option value="all" selected="selected">All</option>
+                  </select>
+                  </form>
 
                </div>
             </div>
