@@ -142,28 +142,28 @@ func truncate(stri string) string {
 }
 
 func saveVisit(conn redis.Conn, timeRange string, user string, data Visit, expireEntry int) {
-	var key string
+	var redisKey string
 	for _, field := range fieldsZet {
-		key = fmt.Sprintf("%s:%s:%s", field, timeRange, user)
+		redisKey = fmt.Sprintf("%s:%s:%s", field, timeRange, user)
 		val := data[field]
 		if val != "" {
-			conn.Send("ZINCRBY", key, 1, truncate(val))
+			conn.Send("ZINCRBY", redisKey, 1, truncate(val))
 			if rand.Intn(zetTrimEveryCalls) == 0 {
 				conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s:%s", field, timeRange, user), 0, -zetMaxSize)
 			}
 			if expireEntry != -1 {
-				conn.Send("EXPIRE", key, expireEntry)
+				conn.Send("EXPIRE", redisKey, expireEntry)
 			}
 		}
 	}
 
 	for _, field := range fieldsHash {
-		key = fmt.Sprintf("%s:%s:%s", field, timeRange, user)
+		redisKey = fmt.Sprintf("%s:%s:%s", field, timeRange, user)
 		val := data[field]
 		if val != "" {
-			conn.Send("HINCRBY", key, truncate(val), 1)
+			conn.Send("HINCRBY", redisKey, truncate(val), 1)
 			if expireEntry != -1 {
-				conn.Send("EXPIRE", key, expireEntry)
+				conn.Send("EXPIRE", redisKey, expireEntry)
 			}
 		}
 	}
