@@ -34,9 +34,6 @@ log:
 integrations:
 	ssh root@172.104.148.60 python3 scripts/integrations.py
 
-redis-cleanup:
-	python3 scripts/redis-cleanup.py
-
 #provision:
 #	ssh root@172.104.148.60 sh -c ' \
 #	for i in `curl https://www.cloudflare.com/ips-v4`; do iptables -I INPUT -p tcp -m multiport --dports http,https -s $i -j ACCEPT; done \
