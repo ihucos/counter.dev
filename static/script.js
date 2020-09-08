@@ -37,6 +37,17 @@ Chart.defaults.global.defaultFontFamily = '-apple-system,BlinkMacSystemFont,"Seg
 
 defaultAnimation = Chart.defaults.global.animation
 
+
+registeredCharts = []
+
+function registerChart(chart) {
+    registeredCharts.push(chart)
+}
+
+function destroyRegisteredCharts() {
+    registeredCharts.forEach(chart => chart.destroy())
+}
+
 function enableAnimation() {
     Chart.defaults.global.animation = defaultAnimation
 }
@@ -1093,14 +1104,4 @@ function handleHash() {
             pressLogin(user, password)
         }
     }
-}
-
-registeredCharts = []
-
-function registerChart(chart) {
-    registeredCharts.push(chart)
-}
-
-function destroyRegisteredCharts() {
-    registeredCharts.forEach(chart => chart.destroy())
 }
