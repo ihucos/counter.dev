@@ -215,25 +215,25 @@ table tr:nth-child(even) {
       </div>
       <div id="page-graphs" class="hidden">
          <div class="flex-container mx-auto max-w-4xl flex flex-wrap">
-            <div class="flex-item">
-               <div style="box-shadow: none; background-color: transparent; padding: 0px;">
-                  <a href="" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+            <div class="flex-item w-full">
+               <div style="box-shadow: none; background-color: transparent; padding: 0px; flex-direction: row; display: flex;">
+                  <a href="" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">
                   Logout
                   </a>
-                  <a href="https://flattr.com/@ihucos" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">Donate</a>
-                  <button onclick="downloadData()" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                  <a href="https://flattr.com/@ihucos" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">Donate</a>
+                  <button onclick="downloadData()" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">
                      <span>&nbsp;</span>
                      <svg class="fill-current w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/>
                      </svg>
                      <span>Download CSV</span>
                   </button>
-                  <button onclick="overlayOn();" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                  <button onclick="overlayOn();" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">
                   Settings
                   </button>
 
-                  <form action="" class="inline-flex">
-                    <select id="time-range" onchange="onTimeRangeChanged()" class="float-right shadow text-gray-800 bg-gray-400 text-sm font-bold py-2 pr-8 rounded inline-flex items-center appearance-none" name="time-range" style="color: rgba(0,0,0, 0.7); padding-left: 12px;">
+                  <form action="" class="flex" style="margin-left: auto;">
+                    <select id="time-range" onchange="onTimeRangeChanged()" class="float-right shadow text-gray-800 bg-gray-400 text-sm font-bold py-2 pr-8 rounded inline-flex items-center appearance-none mr-1" name="time-range" style="color: rgba(0,0,0, 0.7); padding-left: 12px;">
                       <option value="day">Today</option>
                       <option value="month">This Month</option>
                       <option value="year">This year</option>
