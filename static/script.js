@@ -208,19 +208,6 @@ function onTimeRangeChanged() {
     draw()
 }
 
-function drawDomain() {
-    var el = document.getElementById("domain");
-    var origin = dTopKey(timedData.all.origin)
-    try {
-        var domain = new URL(origin).host
-    } catch (error) {
-        var domain = origin
-    }
-    el.innerHTML = escapeHtml(domain)
-    el.setAttribute('href', "//" + domain)
-}
-
-
 function getUTCOffset() {
     return Math.round(-1 * new Date().getTimezoneOffset() / 60)
 }
@@ -747,7 +734,6 @@ function draw() {
         document.getElementById("share-account").style.display = "block"
     }
 
-    drawDomain()
     drawUTCOffsetVar()
     drawMap("world")
     drawTitle(user)
@@ -1033,14 +1019,6 @@ function dGroupData(entries, cutAt) {
     }
     return res
 }
-
-function dTopKey(hash) {
-    if (Object.keys(hash).length === 0 && hash.constructor === Object) {
-        return ""
-    }
-    return Object.keys(hash).reduce((a, b) => hash[a] > hash[b] ? a : b);
-}
-
 
 function download(filename, text) {
     var element = document.createElement('a');
