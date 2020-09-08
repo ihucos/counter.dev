@@ -223,6 +223,7 @@ function drawList(elem_id, dataItem, useLink, useFavicon) {
         elem.innerHTML = '<span class="text-muted">Empty</span>'
         return
     }
+    elem.innerHTML = ''
 
     var completeList = [];
     for (var key in dataItem) {
@@ -410,6 +411,7 @@ function drawCountries(elemId, countries) {
         elem.innerHTML = '<span class="text-muted">Empty</span>'
         return
     }
+    elem.innerHTML = ''
 
     var list = [];
     for (var key in countries) {
