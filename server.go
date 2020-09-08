@@ -377,7 +377,6 @@ func Register(w http.ResponseWriter, r *http.Request) {
 func readToken(conn redis.Conn, user string) (string, error) {
 	token, err := redis.String(conn.Do("HGET", "tokens", user))
 	if err != nil {
-		log.Println(user, err)
 		return "", err
 	}
 	return base64.StdEncoding.EncodeToString([]byte(token)), nil
