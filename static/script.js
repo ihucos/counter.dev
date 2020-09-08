@@ -10,6 +10,9 @@ palette = [
 
 ]
 
+// I don't completely get this one, but it is quite important
+Chart.defaults.global.maintainAspectRatio = false
+
 Chart.defaults.global.title.fontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
 Chart.defaults.global.title.fontColor = "rgba(0,0,0, 0.7)";
 Chart.defaults.global.title.fontSize = 16
@@ -25,11 +28,22 @@ Chart.defaults.global.layout = {
 }
 
 
-
 pieBorderColor = 'white'
 pieBorderWidth = 1.2
 
 Chart.defaults.global.defaultFontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
+
+
+
+defaultAnimation = Chart.defaults.global.animation
+
+function enableAnimation() {
+    Chart.defaults.global.animation = defaultAnimation
+}
+
+function disableAnimation() {
+    Chart.defaults.global.animation = 0
+}
 
 function rand(min, max) {
     return Math.random() * (max - min) + min;
@@ -40,6 +54,10 @@ function toColor(str) {
     saturation = rand(0, 100)
     lightness = rand(35, 80)
     return 'hsl(' + hue + ', ' + saturation + '%, ' + lightness + '%)'
+}
+
+function getSelectedTimeRange() {
+    return document.getElementById('time-range').value
 }
 
 
@@ -87,11 +105,13 @@ function post(endpoint, body, user, alertId) {
             // overwrite the plain password for security reasons.
             document.getElementById("login_password").value = metaData.token
 
-            if (JSON.stringify(resp.data) !== JSON.stringify(window.data || {})) {
-                data = resp.data // data is global
+            if (JSON.stringify(resp.data) !== JSON.stringify(window.timedData || {})) {
+                timedData = resp.data // timedData is global
+                data = resp.data[getSelectedTimeRange()] // data is global
+                logData = resp.log // logData is global
                 console.log("new data")
-                console.log(data)
-                draw(user, resp.data)
+                console.log(timedData)
+                draw()
             }
         } else {
             document.getElementById(alertId).style.display = "block"
@@ -104,7 +124,7 @@ function register() {
     window.viaRegister = true
     window.user = document.getElementById("reg_user").value
     var password = document.getElementById("reg_password").value
-    var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password)
+    var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
     post("/register", body, user, "alert_register")
 }
 
@@ -112,14 +132,14 @@ function login() {
     window.viaRegister = false
     window.user = document.getElementById("login_user").value
     var password = document.getElementById("login_password").value
-    var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password)
+    var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
     post("/dashboard", body, user, "alert_login")
 }
 
 function alwaysUpdate() {
     window.setInterval(function() {
         var password = viaRegister ? document.getElementById("reg_password").value : document.getElementById("login_password").value
-        var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password)
+        var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
         post("/dashboard", body, user, "alert_login")
     }, 5000);
 }
@@ -177,36 +197,33 @@ function drawMetaVars() {
     for (key in metaData) {
         els = document.getElementsByClassName("metavar_" + key);
         for (i = 0; i < els.length; i++) {
-            console.log(els[i])
             els[i].innerHTML = escapeHtml(metaData[key])
         }
     }
 }
 
-function drawDomain() {
-    var el = document.getElementById("domain");
-    var origin = dTopKey(data.origin)
-    try {
-        var domain = new URL(origin).host
-    } catch (error) {
-        var domain = origin
-    }
-    el.innerHTML = escapeHtml(domain)
-    el.setAttribute('href', "//" + domain)
+function onTimeRangeChanged() {
+    data = timedData[getSelectedTimeRange()]
+    enableAnimation()
+    draw()
+}
+
+function getUTCOffset() {
+    return Math.round(-1 * new Date().getTimezoneOffset() / 60)
 }
 
 function drawUTCOffsetVar() {
-    offset = Math.round(-1 * new Date().getTimezoneOffset() / 60)
-    document.getElementById("utcoffset").innerHTML = offset
+    document.getElementById("utcoffset").innerHTML = getUTCOffset()
 }
 
 function drawList(elem_id, dataItem, useLink, useFavicon) {
     var elem = document.getElementById(elem_id)
 
     if (Object.keys(dataItem).length === 0 && dataItem.constructor === Object) {
-        elem.innerHTML += '<span class="text-muted">Empty</span>'
+        elem.innerHTML = '<span class="text-muted">Empty</span>'
         return
     }
+    elem.innerHTML = ''
 
     var completeList = [];
     for (var key in dataItem) {
@@ -230,7 +247,6 @@ function drawList(elem_id, dataItem, useLink, useFavicon) {
         var val = commaFormat(list[i][1])
         html += '<td class="w-full truncate">'
         var key = escapeHtml(list[i][0])
-        console.log(useLink)
         if (useLink) {
             if (!key.includes("://")) {
                 var link = "//" + key
@@ -299,7 +315,7 @@ function resolveCountry(code) {
 
 function drawLog() {
 
-    var completeLines = Object.keys(data.log).reverse()
+    var completeLines = Object.keys(logData).reverse()
 
     var lines = completeLines
 
@@ -392,9 +408,10 @@ function drawCountries(elemId, countries) {
     var elem = document.getElementById(elemId)
 
     if (Object.keys(countries).length === 0 && countries.constructor === Object) {
-        elem.innerHTML += '<span class="text-muted">Empty</span>'
+        elem.innerHTML = '<span class="text-muted">Empty</span>'
         return
     }
+    elem.innerHTML = ''
 
     var list = [];
     for (var key in countries) {
@@ -443,7 +460,7 @@ function drawPie(elemId, entries, title) {
         return b[1] - a[1];
     });
 
-    new Chart(document.getElementById(elemId), {
+    registerChart(new Chart(document.getElementById(elemId), {
         type: 'pie',
         data: {
             labels: list.map(x => x[0]),
@@ -455,7 +472,6 @@ function drawPie(elemId, entries, title) {
             }, ],
         },
         options: {
-            maintainAspectRatio: false,
             cutoutPercentage: 35,
             tooltips: {
                 mode: 'index'
@@ -482,7 +498,7 @@ function drawPie(elemId, entries, title) {
                 }, ],
             },
         },
-    })
+    }))
 
 }
 
@@ -495,7 +511,7 @@ function sumHours(arr) {
 
 
 function drawTime() {
-    new Chart(document.getElementById("time"), {
+    registerChart(new Chart(document.getElementById("time"), {
         type: 'bar',
         data: {
             labels: [
@@ -516,7 +532,6 @@ function drawTime() {
             }, ],
         },
         options: {
-            maintainAspectRatio: false,
             tooltips: {
                 mode: 'index'
             },
@@ -548,7 +563,7 @@ function drawTime() {
                 }, ],
             },
         },
-    })
+    }))
 }
 
 
@@ -579,7 +594,7 @@ function drawRefChart(elemId) {
         })
     }
 
-    new Chart(document.getElementById(elemId), {
+    registerChart(new Chart(document.getElementById(elemId), {
         type: 'pie',
         data: {
             labels: entries.map(x => x.label),
@@ -592,7 +607,6 @@ function drawRefChart(elemId) {
         },
         options: {
             //cutoutPercentage: 50,
-            maintainAspectRatio: false,
             tooltips: {
                 mode: 'index'
             },
@@ -629,13 +643,13 @@ function drawRefChart(elemId) {
                 }, ],
             },
         },
-    })
+    }))
 }
 
 
 function drawLastDays(elemId, date_keys, date_vals) {
     var num = 7
-    new Chart(document.getElementById(elemId), {
+    registerChart(new Chart(document.getElementById(elemId), {
         type: 'line',
         data: {
             labels: date_keys.slice(-1 * num).map(x => moment(x).format("Do MMMM")),
@@ -655,7 +669,6 @@ function drawLastDays(elemId, date_keys, date_vals) {
                     tension: 0
                 }
             },
-            maintainAspectRatio: false,
             title: {
                 display: true,
                 text: "Last Days"
@@ -691,7 +704,7 @@ function drawLastDays(elemId, date_keys, date_vals) {
                 display: false
             },
         },
-    })
+    }))
 
 }
 
@@ -703,15 +716,17 @@ function drawScreenList(elemId, screenData) {
     }
 }
 
-function draw(user, data) {
+function draw() {
     console.log("redrawing")
+    destroyRegisteredCharts()
+
     if (!window._inited) {
         alwaysUpdate()
         window._inited = true
     }
 
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
-    var noData = Object.keys(data.date).length === 0 && data.date.constructor === Object
+    var noData = Object.keys(timedData.all.date).length === 0 && data.date.constructor === Object
     if (noData) {
         document.getElementById("page-setup").style.display = "block"
         return
@@ -721,7 +736,6 @@ function draw(user, data) {
         document.getElementById("share-account").style.display = "block"
     }
 
-    drawDomain()
     drawUTCOffsetVar()
     drawMap("world")
     drawTitle(user)
@@ -747,7 +761,7 @@ function draw(user, data) {
 
     //document.getElementById('val_visits').innerHTML = escapeHtml(date_vals.slice(-1)[0])
 
-    new Chart(document.getElementById("graph"), {
+    registerChart(new Chart(document.getElementById("graph"), {
         type: 'bar',
         data: {
             labels: date_keys.map(x => x),
@@ -805,9 +819,9 @@ function draw(user, data) {
                 display: false
             },
         },
-    })
+    }))
 
-    new Chart(document.getElementById("hour"), {
+    registerChart(new Chart(document.getElementById("hour"), {
         type: 'radar',
         data: {
             labels: [
@@ -878,7 +892,6 @@ function draw(user, data) {
                 text: "Visits by hour",
                 position: "top",
             },
-            maintainAspectRatio: false,
             tooltips: {
                 mode: 'index'
             },
@@ -895,9 +908,9 @@ function draw(user, data) {
                 }
             },
         },
-    })
+    }))
 
-    new Chart(document.getElementById("weekday"), {
+    registerChart(new Chart(document.getElementById("weekday"), {
         type: 'radar',
         data: {
             labels: ['Mo.', 'Tu.', 'We.', 'Th.', 'Fr.', 'Sa.', 'Su.'],
@@ -921,7 +934,6 @@ function draw(user, data) {
             }, ],
         },
         options: {
-            maintainAspectRatio: false,
             title: {
                 display: true,
                 text: 'Visits by weekday',
@@ -943,7 +955,8 @@ function draw(user, data) {
                 }
             },
         },
-    })
+    }))
+    disableAnimation()
 }
 
 
@@ -1008,14 +1021,6 @@ function dGroupData(entries, cutAt) {
     }
     return res
 }
-
-function dTopKey(hash) {
-    if (Object.keys(hash).length === 0 && hash.constructor === Object) {
-        return ""
-    }
-    return Object.keys(data.origin).reduce((a, b) => data.origin[a] > data.origin[b] ? a : b);
-}
-
 
 function download(filename, text) {
     var element = document.createElement('a');
@@ -1088,4 +1093,14 @@ function handleHash() {
             pressLogin(user, password)
         }
     }
+}
+
+registeredCharts = []
+
+function registerChart(chart) {
+    registeredCharts.push(chart)
+}
+
+function destroyRegisteredCharts() {
+    registeredCharts.forEach(chart => chart.destroy())
 }

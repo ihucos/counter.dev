@@ -115,6 +115,15 @@ table img {
 table tr:nth-child(even) {
 	background-color: rgba(30, 135, 240, 0.1);
 }
+
+
+
+#time-range {
+  background: white url("data:image/svg+xml;utf8,<svg viewBox='0 0 20 20' width='15' height='15' xmlns='http://www.w3.org/2000/svg'><g><path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /></g></svg>") no-repeat;
+  background-position: right 12px top 50%;
+}
+
+
       </style>
    </head>
    <body>
@@ -206,56 +215,65 @@ table tr:nth-child(even) {
       </div>
       <div id="page-graphs" class="hidden">
          <div class="flex-container mx-auto max-w-4xl flex flex-wrap">
-            <div class="flex-item md:mb-5">
-               <div style="box-shadow: none; background-color: transparent; padding: 0px;">
-                  <a href="" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+            <div class="flex-item w-full">
+               <div style="box-shadow: none; background-color: transparent; padding: 0px; flex-direction: row; display: flex;">
+                  <a href="" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">
                   Logout
                   </a>
-                  <a href="https://flattr.com/@ihucos" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">Donate</a>
-                  <button onclick="downloadData()" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                  <a href="https://flattr.com/@ihucos" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">Donate</a>
+                  <button onclick="downloadData()" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">
                      <span>&nbsp;</span>
                      <svg class="fill-current w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/>
                      </svg>
                      <span>Download CSV</span>
                   </button>
-                  <button onclick="overlayOn();" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded inline-flex items-center mr-1">
+                  <button onclick="overlayOn();" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">
                   Settings
                   </button>
 
+                  <form action="" class="flex" style="margin-left: auto; display: none">
+                    <select id="time-range" onchange="onTimeRangeChanged()" class="float-right shadow text-gray-800 bg-gray-400 text-sm font-bold py-2 pr-8 rounded inline-flex items-center appearance-none mr-1" name="time-range" style="color: rgba(0,0,0, 0.7); padding-left: 12px;">
+                      <option value="day">Today</option>
+                      <option value="month">This Month</option>
+                      <option value="year">This year</option>
+                      <option value="all" selected="selected">All</option>
+                    </select>
+                  </form>
+
                </div>
             </div>
-            <div class="flex-item justify-center" style="flex-grow: 1">
-               <h5><span class="text-gray-500 leading-normal">top origin:</span> <a class="link" id="domain" target="_blank">DOMAIN</a></h5>
-            </div>
-            <div class="flex-item w-full">
-               <div>
-                  <canvas class="w-full" height="200" id="graph"></canvas>
+
+            <div class="flex-item w-full" style="padding-top: 0px; padding-bottom: 5px;">
+               <div style="box-shadow: none; background-color: transparent; padding: 0px;">
                </div>
+            </div>
+            <div class="flex-item w-full" style="height: 200px;">
+                    <canvas id="graph"></canvas>
             </div>
             <div class="flex-item w-full md:w-2/3" style="height: 200px;">
-               <canvas id="last_days_chart"></canvas>
+                   <canvas id="last_days_chart"></canvas>
             </div>
             <div class="flex-item w-full md:w-1/3" style="height: 200px;">
-               <canvas id="ref_chart"></canvas>
+                   <canvas id="ref_chart"></canvas>
             </div>
-            <div class="flex-item w-full md:w-1/2 lg:w-1/3">
-               <canvas height=200 id="device"></canvas>
+            <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
+                   <canvas id="device"></canvas>
             </div>
-            <div class="flex-item w-full md:w-1/2 lg:w-1/3">
-               <canvas height=200 id="platform"></canvas>
+            <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
+                   <canvas id="platform"></canvas>
             </div>
-            <div class="flex-item w-full md:w-1/2 lg:w-1/3">
-               <canvas height=200 id="browser"></canvas>
+            <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
+                   <canvas id="browser"></canvas>
             </div>
-            <div class="flex-item w-full md:w-1/2 lg:w-1/3">
-               <canvas id="time" height=230></canvas>
+            <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
+                   <canvas id="time" height=230></canvas>
             </div>
-            <div class="flex-item w-full md:w-1/2 lg:w-1/3">
-               <canvas id="hour" height=230></canvas>
+            <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
+                   <canvas id="hour"></canvas>
             </div>
-            <div class="flex-item w-full md:w-1/2 lg:w-1/3">
-               <canvas id="weekday" height=230></canvas>
+            <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
+                   <canvas id="weekday"></canvas>
             </div>
             <div class="flex-item w-full md:w-2/3 md:my-5" style="height: 450px">
                <div id="world">
