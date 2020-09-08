@@ -8,9 +8,11 @@ BLOCKLIST = [
 'zpkg',
 'test',
 'demo\\',
+'XXXXXX',
 'datest',
 '__datest',
 '__test_delme_1234',
+'__testdelme423',
 ]
 
 r = redis.Redis()
@@ -20,24 +22,27 @@ dates_around_today = [
     for i in [-1, 0, 1, 2, 3, 4, 5]
 ]
 stats = []
-for key in r.keys("date:*"):
-    user = key.decode().split(":", 1)[-1]
+for key in r.keys("date:all:*"):
+    user = key.decode().split(":", 2)[-1]
     if user in BLOCKLIST:
         continue
     date_data = r.hgetall(key)
     hits = sum(int(i) for i in date_data.values())
     sorted_dates = list(sorted(date_data.keys()))
-    origins = r.zrange("origin:{}".format(user), 0, -1, withscores=True)
+    origins = r.zrange("origin:all:{}".format(user), 0, -1, withscores=True)
     origins.sort(key=lambda a: a[1])
     last_tracked = sorted_dates[-1].decode()
     active = last_tracked in dates_around_today
+    #url = r.hget("tokens", user)
+    #assert 0, url
     stats.append((
         user,
         "ok" if active else "",
         sorted_dates[0].decode(),
         access.get(user.encode(), b"0000-00-00").decode(),
         hits,
-        origins[-1][0].decode() if origins else ""))
+        origins[-1][0].decode() if origins else "",
+        ))
 
 stats.sort(key=lambda i: i[2])
 
