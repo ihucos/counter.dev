@@ -1,5 +1,6 @@
 import redis
 from datetime import datetime, timedelta
+import base64
 
 
 BLOCKLIST = [
@@ -33,8 +34,8 @@ for key in r.keys("date:all:*"):
     origins.sort(key=lambda a: a[1])
     last_tracked = sorted_dates[-1].decode()
     active = last_tracked in dates_around_today
-    #url = r.hget("tokens", user)
-    #assert 0, url
+    token = r.hget("tokens", user)
+    share_url = "http://simple-web-analytics.com/app#share,{},{}".format(user, base64.b64encode(token).decode())
     stats.append((
         user,
         "ok" if active else "",
@@ -42,10 +43,10 @@ for key in r.keys("date:all:*"):
         access.get(user.encode(), b"0000-00-00").decode(),
         hits,
         origins[-1][0].decode() if origins else "",
-        ))
+        share_url))
 
 stats.sort(key=lambda i: i[2])
 
 print("user                         active integrated login      hits     sites")
 for line in stats:
-    print("{:<32} {:<2} {} {} {:<8,} {}".format(*line))
+    print("{:<32} {:<2} {} {} {:<8,} {:<32} {}".format(*line))
