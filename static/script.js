@@ -124,7 +124,7 @@ function register() {
     window.viaRegister = true
     window.user = document.getElementById("reg_user").value
     var password = document.getElementById("reg_password").value
-    var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + getUTCOffset()
+    var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
     post("/register", body, user, "alert_register")
 }
 
