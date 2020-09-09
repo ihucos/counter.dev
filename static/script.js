@@ -756,7 +756,7 @@ function draw() {
 
     var date_keys;
     var date_vals;
-    [date_keys, date_vals] = dGetNormalizedDateData()
+    [date_keys, date_vals] = dGetNormalizedDateData(timedData.all.date)
 
     drawList("list_ref", data.ref, true, true)
     drawList("list_loc", data.loc, false, false)
@@ -971,25 +971,25 @@ function draw() {
 }
 
 
-function dGetNormalizedDateData() {
+function dGetNormalizedDateData(dates) {
 
     var daysRange = function(s, e) {
-        s = new Date(s)
-        e = new Date(e)
-        o = {}
+        var s = new Date(s)
+        var e = new Date(e)
+        var o = {}
         for (var a = [], d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
             o[new Date(d).toISOString().substring(0, 10)] = 0;
         }
         return o;
     };
 
-    keys = Object.keys(data.date)
+    var keys = Object.keys(dates)
     keys.sort((a, b) => {
         return a > b;
     });
 
 
-    calc_min = getUTCMinusElevenNow()
+    var calc_min = getUTCMinusElevenNow()
     calc_min.setDate(calc_min.getDate() - 7)
     calc_min = calc_min.toISOString().substring(0, 10)
 
@@ -1005,9 +1005,9 @@ function dGetNormalizedDateData() {
     }
 
 
-    max = getUTCMinusElevenNow().toISOString().substring(0, 10)
-    date_data = {...daysRange(min, max),
-        ...data.date
+    var max = getUTCMinusElevenNow().toISOString().substring(0, 10)
+    var date_data = {...daysRange(min, max),
+        ...dates
     }
 
     return splitObject(date_data, true)
