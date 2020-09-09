@@ -3,12 +3,9 @@ package main
 import (
 	cryptoRand "crypto/rand"
 	"crypto/sha256"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
-	"math/rand"
 	"net/http"
 	"net/url"
 	"os"
@@ -17,21 +14,16 @@ import (
 	"time"
 
 	"github.com/avct/uasurfer"
-	"github.com/gomodule/redigo/redis"
 	"golang.org/x/text/language"
 	"golang.org/x/text/language/display"
+        "log"
+        "github.com/gomodule/redigo/redis"
+
 )
 
 var pool *redis.Pool
+var db DB
 
-// set needs to overgrow sometimes so it does allow for "trending" new entries
-// to catch up with older ones and replace them at some point.
-const zetMaxSize = 30
-const zetTrimEveryCalls = 100
-const MaxRedisCahrs = 32
-const truncateAt = 256
-
-const loglinesKeep = 30
 
 type StatData map[string]map[string]int64
 type LogData map[string]int64
@@ -49,29 +41,6 @@ type Data struct {
 }
 type Visit map[string]string
 
-// taken from here at August 2020:
-// https://gs.statcounter.com/screen-resolution-stats
-var screenResolutions = map[string]bool{
-	"1280x720":  true,
-	"1280x800":  true,
-	"1366x768":  true,
-	"1440x900":  true,
-	"1536x864":  true,
-	"1600x900":  true,
-	"1920x1080": true,
-	"360x640":   true,
-	"360x720":   true,
-	"360x740":   true,
-	"360x760":   true,
-	"360x780":   true,
-	"375x667":   true,
-	"375x812":   true,
-	"412x846":   true,
-	"412x869":   true,
-	"412x892":   true,
-	"414x736":   true,
-	"414x896":   true,
-	"768x1024":  true}
 
 var fieldsZet = []string{"lang", "origin", "ref", "loc"}
 var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device", "country", "screen"}
@@ -108,6 +77,7 @@ func main() {
 			return redis.Dial("tcp", "localhost:6379")
 		},
 	}
+        db = DB{pool}
 
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("./static"))
@@ -139,50 +109,6 @@ func truncate(stri string) string {
 		return stri[:truncateAt]
 	}
 	return stri
-}
-
-func saveVisit(conn redis.Conn, timeRange string, user string, data Visit, expireEntry int) {
-	var redisKey string
-	for _, field := range fieldsZet {
-		redisKey = fmt.Sprintf("%s:%s:%s", field, timeRange, user)
-		val := data[field]
-		if val != "" {
-			conn.Send("ZINCRBY", redisKey, 1, truncate(val))
-			if rand.Intn(zetTrimEveryCalls) == 0 {
-				conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s:%s", field, timeRange, user), 0, -zetMaxSize)
-			}
-			if expireEntry != -1 {
-				conn.Send("EXPIRE", redisKey, expireEntry)
-			}
-		}
-	}
-
-	for _, field := range fieldsHash {
-		redisKey = fmt.Sprintf("%s:%s:%s", field, timeRange, user)
-		val := data[field]
-		if val != "" {
-			conn.Send("HINCRBY", redisKey, truncate(val), 1)
-			if expireEntry != -1 {
-				conn.Send("EXPIRE", redisKey, expireEntry)
-			}
-		}
-	}
-}
-
-func saveLogLine(conn redis.Conn, user string, logLine string) {
-	conn.Send("ZADD", fmt.Sprintf("log:%s", user), time.Now().Unix(), truncate(logLine))
-	conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("log:%s", user), 0, -loglinesKeep)
-
-}
-
-func delUserData(conn redis.Conn, user string) {
-	for _, field := range fieldsZet {
-		conn.Send("DEL", fmt.Sprintf("%s:%s", field, user))
-	}
-	for _, field := range fieldsHash {
-		conn.Send("DEL", fmt.Sprintf("%s:%s", field, user))
-	}
-	conn.Send("DEL", fmt.Sprintf("log:%s", user))
 }
 
 func timeNow(utcOffset int) time.Time {
@@ -310,11 +236,11 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	conn := pool.Get()
 	defer conn.Close()
-	saveVisit(conn, now.Format("2006"), user, visit, 60*60*24*366)
-	saveVisit(conn, now.Format("2006-01"), user, visit, 60*60*24*31)
-	saveVisit(conn, now.Format("2006-01-02"), user, visit, 60*60*24)
-	saveVisit(conn, "all", user, visit, -1)
-	saveLogLine(conn, user, logLine)
+	db.SaveVisit(now.Format("2006"), user, visit, 60*60*24*366)
+	db.SaveVisit(now.Format("2006-01"), user, visit, 60*60*24*31)
+	db.SaveVisit(now.Format("2006-01-02"), user, visit, 60*60*24)
+	db.SaveVisit("all", user, visit, -1)
+	db.SaveLogLine(user, logLine)
 
 	w.Header().Set("Content-Type", "text/plain")
 	w.Header().Set("Cache-Control", "public, immutable")
@@ -357,7 +283,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if userVarsStatus[0] == 0 {
 		http.Error(w, "Username taken", http.StatusBadRequest)
 	} else {
-		delUserData(conn, user)
+		db.DelUserData(user)
 		userData, err := getData(conn, user, utcOffset)
 		if err != nil {
 			log.Println(user, err)
@@ -372,14 +298,6 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Fprintln(w, string(jsonString))
 	}
-}
-
-func readToken(conn redis.Conn, user string) (string, error) {
-	token, err := redis.String(conn.Do("HGET", "tokens", user))
-	if err != nil {
-		return "", err
-	}
-	return base64.StdEncoding.EncodeToString([]byte(token)), nil
 }
 
 func Dashboard(w http.ResponseWriter, r *http.Request) {
@@ -415,82 +333,4 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	} else {
 		http.Error(w, "Wrong username or password", http.StatusBadRequest)
 	}
-}
-
-func getStatData(conn redis.Conn, timeRange string, user string) (StatData, error) {
-
-	var err error
-	m := make(StatData)
-
-	for _, field := range fieldsZet {
-		m[field], err = redis.Int64Map(conn.Do("ZRANGE", fmt.Sprintf("%s:%s:%s", field, timeRange, user), 0, -1, "WITHSCORES"))
-		if err != nil {
-			log.Println(user, err)
-			return nil, err
-		}
-	}
-	for _, field := range fieldsHash {
-		m[field], err = redis.Int64Map(conn.Do("HGETALL", fmt.Sprintf("%s:%s:%s", field, timeRange, user)))
-		if err != nil {
-			log.Println(user, err)
-			return nil, err
-		}
-	}
-	return m, nil
-}
-
-func getLogData(conn redis.Conn, user string) (LogData, error) {
-
-	logData, err := redis.Int64Map(conn.Do("ZRANGE", fmt.Sprintf("log:%s", user), 0, -1, "WITHSCORES"))
-	if err != nil {
-		log.Println(user, err)
-		return nil, err
-	}
-
-	return logData, nil
-}
-
-func getMetaData(conn redis.Conn, user string) (MetaData, error) {
-	meta := make(MetaData)
-	token, err := readToken(conn, user)
-	if err != nil {
-		return nil, err
-	}
-	meta["token"] = token
-	meta["user"] = user
-
-	return meta, nil
-}
-
-func getData(conn redis.Conn, user string, utcOffset int) (Data, error) {
-	nullData := Data{nil, TimedStatData{nil, nil, nil, nil}, nil}
-
-	now := timeNow(utcOffset)
-
-	metaData, err := getMetaData(conn, user)
-	if err != nil {
-		return nullData, err
-	}
-	logData, err := getLogData(conn, user)
-	if err != nil {
-		return nullData, err
-	}
-	allStatData, err := getStatData(conn, "all", user)
-	if err != nil {
-		return nullData, err
-	}
-	yearStatData, err := getStatData(conn, now.Format("2006"), user)
-	if err != nil {
-		return nullData, err
-	}
-	monthStatData, err := getStatData(conn, now.Format("2006-01"), user)
-	if err != nil {
-		return nullData, err
-	}
-	dayStatData, err := getStatData(conn, now.Format("2006-01-02"), user)
-	if err != nil {
-		return nullData, err
-	}
-
-	return Data{metaData, TimedStatData{Day: dayStatData, Month: monthStatData, Year: yearStatData, All: allStatData}, logData}, nil
 }

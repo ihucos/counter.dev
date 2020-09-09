@@ -1,5 +1,9 @@
 
 
+.PHONY: runserver
+runserver:
+	go run db.go server.go
+
 format:
 	js-beautify --replace static/script.js
 	go fmt server.go
