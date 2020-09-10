@@ -251,7 +251,6 @@ func Register(w http.ResponseWriter, r *http.Request) {
         err := user.Create(password)
         switch err.(type) {
         case nil:
-		user.DelUserData()
 		userData, err := user.getData(utcOffset)
 		if err != nil {
 			log.Println(userId, err)

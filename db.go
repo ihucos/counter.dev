@@ -243,6 +243,11 @@ func (user User) Create(password string) (error) {
         if userVarsStatus[0] == 0 {
 	        return &ErrCreate{"Username taken"}
         }
+
+        // because user data could have been saved for this user id without an
+        // user existing.
+        user.DelUserData()
+
         return nil
 }
 
