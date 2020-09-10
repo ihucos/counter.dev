@@ -1,14 +1,13 @@
 package main
 
 import (
-    "github.com/gomodule/redigo/redis"
-    "fmt"
-    "math/rand"
-    "time"
-    "encoding/base64"
-    "log"
+	"encoding/base64"
+	"fmt"
+	"github.com/gomodule/redigo/redis"
+	"log"
+	"math/rand"
+	"time"
 )
-
 
 // set needs to overgrow sometimes so it does allow for "trending" new entries
 // to catch up with older ones and replace them at some point.
@@ -18,16 +17,9 @@ const truncateAt = 256
 
 const loglinesKeep = 30
 
-
 type DB struct {
-    redisPool *redis.Pool
-
+	redisPool *redis.Pool
 }
-
-
-
-
-
 
 // taken from here at August 2020:
 // https://gs.statcounter.com/screen-resolution-stats
@@ -103,7 +95,6 @@ func (db DB) DelUserData(user string) {
 	conn.Send("DEL", fmt.Sprintf("log:%s", user))
 }
 
-
 func readToken(conn redis.Conn, user string) (string, error) {
 	token, err := redis.String(conn.Do("HGET", "tokens", user))
 	if err != nil {
@@ -112,8 +103,9 @@ func readToken(conn redis.Conn, user string) (string, error) {
 	return base64.StdEncoding.EncodeToString([]byte(token)), nil
 }
 
-
-func getStatData(conn redis.Conn, timeRange string, user string) (StatData, error) {
+func (db DB) getStatData(timeRange string, user string) (StatData, error) {
+	conn := db.redisPool.Get()
+	defer conn.Close()
 
 	var err error
 	m := make(StatData)
@@ -158,7 +150,6 @@ func getMetaData(conn redis.Conn, user string) (MetaData, error) {
 	return meta, nil
 }
 
-
 func getData(conn redis.Conn, user string, utcOffset int) (Data, error) {
 	nullData := Data{nil, TimedStatData{nil, nil, nil, nil}, nil}
 
@@ -172,19 +163,19 @@ func getData(conn redis.Conn, user string, utcOffset int) (Data, error) {
 	if err != nil {
 		return nullData, err
 	}
-	allStatData, err := getStatData(conn, "all", user)
+	allStatData, err := db.getStatData("all", user)
 	if err != nil {
 		return nullData, err
 	}
-	yearStatData, err := getStatData(conn, now.Format("2006"), user)
+	yearStatData, err := db.getStatData(now.Format("2006"), user)
 	if err != nil {
 		return nullData, err
 	}
-	monthStatData, err := getStatData(conn, now.Format("2006-01"), user)
+	monthStatData, err := db.getStatData(now.Format("2006-01"), user)
 	if err != nil {
 		return nullData, err
 	}
-	dayStatData, err := getStatData(conn, now.Format("2006-01-02"), user)
+	dayStatData, err := db.getStatData(now.Format("2006-01-02"), user)
 	if err != nil {
 		return nullData, err
 	}

@@ -14,16 +14,14 @@ import (
 	"time"
 
 	"github.com/avct/uasurfer"
+	"github.com/gomodule/redigo/redis"
 	"golang.org/x/text/language"
 	"golang.org/x/text/language/display"
-        "log"
-        "github.com/gomodule/redigo/redis"
-
+	"log"
 )
 
 var pool *redis.Pool
 var db DB
-
 
 type StatData map[string]map[string]int64
 type LogData map[string]int64
@@ -40,7 +38,6 @@ type Data struct {
 	Log  LogData       `json:"log"`
 }
 type Visit map[string]string
-
 
 var fieldsZet = []string{"lang", "origin", "ref", "loc"}
 var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device", "country", "screen"}
@@ -77,7 +74,7 @@ func main() {
 			return redis.Dial("tcp", "localhost:6379")
 		},
 	}
-        db = DB{pool}
+	db = DB{pool}
 
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("./static"))
