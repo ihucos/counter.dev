@@ -268,17 +268,14 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	dba := db.Open(user)
 	defer dba.Close()
 
-	dba.redis.Send("MULTI")
-	dba.redis.Send("HSETNX", "users", user, hash(password))
-	dba.redis.Send("HSETNX", "tokens", user, randToken())
-	userVarsStatus, err := redis.Ints(dba.redis.Do("EXEC"))
+        userCreated, err := dba.Create(password)
 	if err != nil {
 		log.Println(user, err)
 		http.Error(w, err.Error(), 500)
 		return
 	}
 
-	if userVarsStatus[0] == 0 {
+	if userCreated {
 		http.Error(w, "Username taken", http.StatusBadRequest)
 	} else {
 		dba.DelUserData()
@@ -310,11 +307,11 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	dba := db.Open(user)
 	defer dba.Close()
 
-	hashedPassword, _ := redis.String(dba.redis.Do("HGET", "users", user))
+	hashedPassword, _ := dba.GetPasswordHash()
 	token, _ := dba.ReadToken()
 
 	if hashedPassword == hash(passwordInput) || (token != "" && token == passwordInput) {
-		dba.redis.Send("HSET", "access", user, timeNow(0).Format("2006-01-02"))
+                dba.TouchAccess()
 		userData, err := dba.getData(utcOffset)
 		if err != nil {
 			log.Println(user, err)

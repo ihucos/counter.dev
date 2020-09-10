@@ -193,3 +193,22 @@ func (dba DBA) getData(utcOffset int) (Data, error) {
 
 	return Data{metaData, TimedStatData{Day: dayStatData, Month: monthStatData, Year: yearStatData, All: allStatData}, logData}, nil
 }
+
+
+func (dba DBA) GetPasswordHash() (string, error) {
+	hashedPassword, err := redis.String(dba.redis.Do("HGET", "users", dba.user))
+        return hashedPassword, err
+}
+
+func (dba DBA) TouchAccess(){
+	dba.redis.Send("HSET", "access", dba.user, timeNow(0).Format("2006-01-02"))
+}
+
+
+func (dba DBA) Create(password string) (bool, error) {
+	dba.redis.Send("MULTI")
+	dba.redis.Send("HSETNX", "users", dba.user, hash(password))
+	dba.redis.Send("HSETNX", "tokens", dba.user, randToken())
+	userVarsStatus, err := redis.Ints(dba.redis.Do("EXEC"))
+        return userVarsStatus[0] == 0, err
+}
