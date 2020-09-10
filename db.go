@@ -179,7 +179,7 @@ func (user User) getMetaData() (MetaData, error) {
 		return nil, err
 	}
 	meta["token"] = token
-	meta["id"] = user.id
+	meta["user"] = user.id
 
 	return meta, nil
 }
