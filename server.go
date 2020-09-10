@@ -21,7 +21,7 @@ import (
 )
 
 var pool *redis.Pool
-var db DB
+var users Users
 
 type StatData map[string]map[string]int64
 type LogData map[string]int64
@@ -74,7 +74,7 @@ func main() {
 			return redis.Dial("tcp", "localhost:6379")
 		},
 	}
-	db = DB{pool}
+	users = Users{pool}
 
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("./static"))
@@ -136,8 +136,8 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	// Input validation
 	//
 
-	user := r.FormValue("site")
-	if user == "" {
+	userId := r.FormValue("site")
+	if userId == "" {
 		http.Error(w, "missing site param", http.StatusBadRequest)
 		return
 	}
@@ -231,14 +231,14 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	//
 	logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, userAgent)
 
-	dba := db.Open(user)
-	defer dba.Close()
+	user := users.Open(userId)
+	defer user.Close()
 
-	dba.SaveVisit(now.Format("2006"), visit, 60*60*24*366)
-	dba.SaveVisit(now.Format("2006-01"), visit, 60*60*24*31)
-	dba.SaveVisit(now.Format("2006-01-02"), visit, 60*60*24)
-	dba.SaveVisit("all", visit, -1)
-	dba.SaveLogLine(logLine)
+	user.SaveVisit(now.Format("2006"), visit, 60*60*24*366)
+	user.SaveVisit(now.Format("2006-01"), visit, 60*60*24*31)
+	user.SaveVisit(now.Format("2006-01-02"), visit, 60*60*24)
+	user.SaveVisit("all", visit, -1)
+	user.SaveLogLine(logLine)
 
 	w.Header().Set("Content-Type", "text/plain")
 	w.Header().Set("Cache-Control", "public, immutable")
@@ -247,15 +247,15 @@ func Track(w http.ResponseWriter, r *http.Request) {
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
-	user := truncate(r.FormValue("user"))
+	userId := truncate(r.FormValue("user"))
 	password := r.FormValue("password")
 	utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
-	if user == "" || password == "" {
+	if userId == "" || password == "" {
 		http.Error(w, "Missing Input", http.StatusBadRequest)
 		return
 	}
 
-	if len(user) < 4 {
+	if len(userId) < 4 {
 		http.Error(w, "User must have at least 4 charachters", http.StatusBadRequest)
 		return
 	}
@@ -265,12 +265,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	dba := db.Open(user)
-	defer dba.Close()
+	user := users.Open(userId)
+	defer user.Close()
 
-        userCreated, err := dba.Create(password)
+        userCreated, err := user.Create(password)
 	if err != nil {
-		log.Println(user, err)
+		log.Println(userId, err)
 		http.Error(w, err.Error(), 500)
 		return
 	}
@@ -278,16 +278,16 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if userCreated {
 		http.Error(w, "Username taken", http.StatusBadRequest)
 	} else {
-		dba.DelUserData()
-		userData, err := dba.getData(utcOffset)
+		user.DelUserData()
+		userData, err := user.getData(utcOffset)
 		if err != nil {
-			log.Println(user, err)
+			log.Println(userId, err)
 			http.Error(w, err.Error(), 500)
 			return
 		}
 		jsonString, err := json.Marshal(userData)
 		if err != nil {
-			log.Println(user, err)
+			log.Println(userId, err)
 			http.Error(w, err.Error(), 500)
 			return
 		}
@@ -296,31 +296,31 @@ func Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func Dashboard(w http.ResponseWriter, r *http.Request) {
-	user := r.FormValue("user")
+	userId := r.FormValue("user")
 	passwordInput := r.FormValue("password")
 	utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
-	if user == "" || passwordInput == "" {
+	if userId == "" || passwordInput == "" {
 		http.Error(w, "Missing Input", http.StatusBadRequest)
 		return
 	}
 
-	dba := db.Open(user)
-	defer dba.Close()
+	user := users.Open(userId)
+	defer user.Close()
 
-	hashedPassword, _ := dba.GetPasswordHash()
-	token, _ := dba.ReadToken()
+	hashedPassword, _ := user.GetPasswordHash()
+	token, _ := user.ReadToken()
 
 	if hashedPassword == hash(passwordInput) || (token != "" && token == passwordInput) {
-                dba.TouchAccess()
-		userData, err := dba.getData(utcOffset)
+                user.TouchAccess()
+		userData, err := user.getData(utcOffset)
 		if err != nil {
-			log.Println(user, err)
+			log.Println(userId, err)
 			http.Error(w, err.Error(), 500)
 			return
 		}
 		jsonString, err := json.Marshal(userData)
 		if err != nil {
-			log.Println(user, err)
+			log.Println(userId, err)
 			http.Error(w, err.Error(), 500)
 			return
 		}
