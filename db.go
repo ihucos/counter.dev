@@ -21,6 +21,12 @@ type DB struct {
 	redisPool *redis.Pool
 }
 
+type DBA struct {
+	db DB
+        redis redis.Conn
+        user string
+}
+
 // taken from here at August 2020:
 // https://gs.statcounter.com/screen-resolution-stats
 var screenResolutions = map[string]bool{
@@ -45,137 +51,142 @@ var screenResolutions = map[string]bool{
 	"414x896":   true,
 	"768x1024":  true}
 
-func (db DB) SaveVisit(timeRange string, user string, data Visit, expireEntry int) {
-	conn := db.redisPool.Get()
-	defer conn.Close()
+
+func (dba DB) Open(user string) DBA{
+	return DBA{
+            db: db,
+            redis: db.redisPool.Get(),
+            user: user,
+        }
+}
+
+func (dba DBA) Close() {
+   dba.redis.Close() 
+}
+
+func (dba DBA) SaveVisit(timeRange string, data Visit, expireEntry int) {
 	var redisKey string
 	for _, field := range fieldsZet {
-		redisKey = fmt.Sprintf("%s:%s:%s", field, timeRange, user)
+		redisKey = fmt.Sprintf("%s:%s:%s", field, timeRange, dba.user)
 		val := data[field]
 		if val != "" {
-			conn.Send("ZINCRBY", redisKey, 1, truncate(val))
+			dba.redis.Send("ZINCRBY", redisKey, 1, truncate(val))
 			if rand.Intn(zetTrimEveryCalls) == 0 {
-				conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s:%s", field, timeRange, user), 0, -zetMaxSize)
+				dba.redis.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s:%s", field, timeRange, dba.user), 0, -zetMaxSize)
 			}
 			if expireEntry != -1 {
-				conn.Send("EXPIRE", redisKey, expireEntry)
+				dba.redis.Send("EXPIRE", redisKey, expireEntry)
 			}
 		}
 	}
 
 	for _, field := range fieldsHash {
-		redisKey = fmt.Sprintf("%s:%s:%s", field, timeRange, user)
+		redisKey = fmt.Sprintf("%s:%s:%s", field, timeRange, dba.user)
 		val := data[field]
 		if val != "" {
-			conn.Send("HINCRBY", redisKey, truncate(val), 1)
+			dba.redis.Send("HINCRBY", redisKey, truncate(val), 1)
 			if expireEntry != -1 {
-				conn.Send("EXPIRE", redisKey, expireEntry)
+				dba.redis.Send("EXPIRE", redisKey, expireEntry)
 			}
 		}
 	}
 }
 
-func (db DB) SaveLogLine(user string, logLine string) {
-	conn := db.redisPool.Get()
-	defer conn.Close()
-	conn.Send("ZADD", fmt.Sprintf("log:%s", user), time.Now().Unix(), truncate(logLine))
-	conn.Send("ZREMRANGEBYRANK", fmt.Sprintf("log:%s", user), 0, -loglinesKeep)
+func (dba DBA) SaveLogLine(logLine string) {
+	dba.redis.Send("ZADD", fmt.Sprintf("log:%s", dba.user), time.Now().Unix(), truncate(logLine))
+	dba.redis.Send("ZREMRANGEBYRANK", fmt.Sprintf("log:%s", dba.user), 0, -loglinesKeep)
 
 }
 
-func (db DB) DelUserData(user string) {
-	conn := db.redisPool.Get()
-	defer conn.Close()
+func (dba DBA) DelUserData() {
 	for _, field := range fieldsZet {
-		conn.Send("DEL", fmt.Sprintf("%s:%s", field, user))
+		dba.redis.Send("DEL", fmt.Sprintf("%s:%s", field, dba.user))
 	}
 	for _, field := range fieldsHash {
-		conn.Send("DEL", fmt.Sprintf("%s:%s", field, user))
+		dba.redis.Send("DEL", fmt.Sprintf("%s:%s", field, dba.user))
 	}
-	conn.Send("DEL", fmt.Sprintf("log:%s", user))
+	dba.redis.Send("DEL", fmt.Sprintf("log:%s", dba.user))
 }
 
-func readToken(conn redis.Conn, user string) (string, error) {
-	token, err := redis.String(conn.Do("HGET", "tokens", user))
+func (dba DBA) ReadToken() (string, error) {
+	token, err := redis.String(dba.redis.Do("HGET", "tokens", dba.user))
 	if err != nil {
 		return "", err
 	}
 	return base64.StdEncoding.EncodeToString([]byte(token)), nil
 }
 
-func (db DB) getStatData(timeRange string, user string) (StatData, error) {
-	conn := db.redisPool.Get()
-	defer conn.Close()
+func (dba DBA) getStatData(timeRange string) (StatData, error) {
 
 	var err error
 	m := make(StatData)
 
 	for _, field := range fieldsZet {
-		m[field], err = redis.Int64Map(conn.Do("ZRANGE", fmt.Sprintf("%s:%s:%s", field, timeRange, user), 0, -1, "WITHSCORES"))
+		m[field], err = redis.Int64Map(dba.redis.Do("ZRANGE", fmt.Sprintf("%s:%s:%s", field, timeRange, dba.user), 0, -1, "WITHSCORES"))
 		if err != nil {
-			log.Println(user, err)
+			log.Println(dba.user, err)
 			return nil, err
 		}
 	}
 	for _, field := range fieldsHash {
-		m[field], err = redis.Int64Map(conn.Do("HGETALL", fmt.Sprintf("%s:%s:%s", field, timeRange, user)))
+		m[field], err = redis.Int64Map(dba.redis.Do("HGETALL", fmt.Sprintf("%s:%s:%s", field, timeRange, dba.user)))
 		if err != nil {
-			log.Println(user, err)
+			log.Println(dba.user, err)
 			return nil, err
 		}
 	}
 	return m, nil
 }
 
-func getLogData(conn redis.Conn, user string) (LogData, error) {
+func (dba DBA) getLogData() (LogData, error) {
 
-	logData, err := redis.Int64Map(conn.Do("ZRANGE", fmt.Sprintf("log:%s", user), 0, -1, "WITHSCORES"))
+	logData, err := redis.Int64Map(dba.redis.Do("ZRANGE", fmt.Sprintf("log:%s", dba.user), 0, -1, "WITHSCORES"))
 	if err != nil {
-		log.Println(user, err)
+		log.Println(dba.user, err)
 		return nil, err
 	}
 
 	return logData, nil
 }
 
-func getMetaData(conn redis.Conn, user string) (MetaData, error) {
+func (dba DBA) getMetaData() (MetaData, error) {
 	meta := make(MetaData)
-	token, err := readToken(conn, user)
+	token, err := dba.ReadToken()
 	if err != nil {
 		return nil, err
 	}
 	meta["token"] = token
-	meta["user"] = user
+	meta["user"] = dba.user
 
 	return meta, nil
 }
 
-func getData(conn redis.Conn, user string, utcOffset int) (Data, error) {
+func (dba DBA) getData(utcOffset int) (Data, error) {
 	nullData := Data{nil, TimedStatData{nil, nil, nil, nil}, nil}
 
 	now := timeNow(utcOffset)
 
-	metaData, err := getMetaData(conn, user)
+	metaData, err := dba.getMetaData()
 	if err != nil {
 		return nullData, err
 	}
-	logData, err := getLogData(conn, user)
+	logData, err := dba.getLogData()
 	if err != nil {
 		return nullData, err
 	}
-	allStatData, err := db.getStatData("all", user)
+	allStatData, err := dba.getStatData("all")
 	if err != nil {
 		return nullData, err
 	}
-	yearStatData, err := db.getStatData(now.Format("2006"), user)
+	yearStatData, err := dba.getStatData(now.Format("2006"))
 	if err != nil {
 		return nullData, err
 	}
-	monthStatData, err := db.getStatData(now.Format("2006-01"), user)
+	monthStatData, err := dba.getStatData(now.Format("2006-01"))
 	if err != nil {
 		return nullData, err
 	}
-	dayStatData, err := db.getStatData(now.Format("2006-01-02"), user)
+	dayStatData, err := dba.getStatData(now.Format("2006-01-02"))
 	if err != nil {
 		return nullData, err
 	}

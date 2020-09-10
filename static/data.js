@@ -223,3 +223,9 @@ data['date'][moment().subtract(3, 'day').format('YYYY-MM-DD')] = 2503
 data['date'][moment().subtract(2, 'day').format('YYYY-MM-DD')] = 2710
 data['date'][moment().subtract(1, 'day').format('YYYY-MM-DD')] = 2572
 data['date'][moment().subtract(0, 'day').format('YYYY-MM-DD')] = 2998
+
+timedData = {}
+timedData['day'] = data
+timedData['month'] = data
+timedData['year'] = data
+timedData['all'] = data

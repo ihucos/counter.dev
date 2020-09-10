@@ -231,13 +231,14 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	//
 	logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, userAgent)
 
-	conn := pool.Get()
-	defer conn.Close()
-	db.SaveVisit(now.Format("2006"), user, visit, 60*60*24*366)
-	db.SaveVisit(now.Format("2006-01"), user, visit, 60*60*24*31)
-	db.SaveVisit(now.Format("2006-01-02"), user, visit, 60*60*24)
-	db.SaveVisit("all", user, visit, -1)
-	db.SaveLogLine(user, logLine)
+	dba := db.Open(user)
+	defer dba.Close()
+
+	dba.SaveVisit(now.Format("2006"), visit, 60*60*24*366)
+	dba.SaveVisit(now.Format("2006-01"), visit, 60*60*24*31)
+	dba.SaveVisit(now.Format("2006-01-02"), visit, 60*60*24)
+	dba.SaveVisit("all", visit, -1)
+	dba.SaveLogLine(logLine)
 
 	w.Header().Set("Content-Type", "text/plain")
 	w.Header().Set("Cache-Control", "public, immutable")
@@ -246,9 +247,6 @@ func Track(w http.ResponseWriter, r *http.Request) {
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
-	conn := pool.Get()
-	defer conn.Close()
-
 	user := truncate(r.FormValue("user"))
 	password := r.FormValue("password")
 	utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
@@ -267,10 +265,13 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	conn.Send("MULTI")
-	conn.Send("HSETNX", "users", user, hash(password))
-	conn.Send("HSETNX", "tokens", user, randToken())
-	userVarsStatus, err := redis.Ints(conn.Do("EXEC"))
+	dba := db.Open(user)
+	defer dba.Close()
+
+	dba.redis.Send("MULTI")
+	dba.redis.Send("HSETNX", "users", user, hash(password))
+	dba.redis.Send("HSETNX", "tokens", user, randToken())
+	userVarsStatus, err := redis.Ints(dba.redis.Do("EXEC"))
 	if err != nil {
 		log.Println(user, err)
 		http.Error(w, err.Error(), 500)
@@ -280,8 +281,8 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if userVarsStatus[0] == 0 {
 		http.Error(w, "Username taken", http.StatusBadRequest)
 	} else {
-		db.DelUserData(user)
-		userData, err := getData(conn, user, utcOffset)
+		dba.DelUserData()
+		userData, err := dba.getData(utcOffset)
 		if err != nil {
 			log.Println(user, err)
 			http.Error(w, err.Error(), 500)
@@ -298,9 +299,6 @@ func Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func Dashboard(w http.ResponseWriter, r *http.Request) {
-	conn := pool.Get()
-	defer conn.Close()
-
 	user := r.FormValue("user")
 	passwordInput := r.FormValue("password")
 	utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
@@ -309,12 +307,15 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	hashedPassword, _ := redis.String(conn.Do("HGET", "users", user))
-	token, _ := readToken(conn, user)
+	dba := db.Open(user)
+	defer dba.Close()
+
+	hashedPassword, _ := redis.String(dba.redis.Do("HGET", "users", user))
+	token, _ := dba.ReadToken()
 
 	if hashedPassword == hash(passwordInput) || (token != "" && token == passwordInput) {
-		conn.Send("HSET", "access", user, timeNow(0).Format("2006-01-02"))
-		userData, err := getData(conn, user, utcOffset)
+		dba.redis.Send("HSET", "access", user, timeNow(0).Format("2006-01-02"))
+		userData, err := dba.getData(utcOffset)
 		if err != nil {
 			log.Println(user, err)
 			http.Error(w, err.Error(), 500)
