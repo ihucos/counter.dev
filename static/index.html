@@ -13,8 +13,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
-<script src="script.js"></script>
 <script src="data.js"></script>
+<script src="script.js"></script>
 
 
     <!-- Required meta tags -->
@@ -509,7 +509,7 @@ drawRefChart("ref_chart")
 drawMap("world")
 var date_keys;
 var date_vals;
-[date_keys, date_vals] = dGetNormalizedDateData()
+[date_keys, date_vals] = dGetNormalizedDateData(timedData.all.date)
 drawLastDays("last_days_chart", date_keys, date_vals)
 </script>
 
