@@ -27,6 +27,16 @@ type User struct {
         id string
 }
 
+type ErrCreate struct{
+    msg string
+}
+
+func (c *ErrCreate) Error() string {
+    return c.msg
+}
+
+
+
 // taken from here at August 2020:
 // https://gs.statcounter.com/screen-resolution-stats
 var screenResolutions = map[string]bool{
@@ -69,7 +79,7 @@ func (user User) Close() {
    user.redis.Close() 
 }
 
-func (user User) SaveVisit(timeRange string, data Visit, expireEntry int) {
+func (user User) SaveVisitPart(timeRange string, data Visit, expireEntry int) {
 	var redisKey string
 	for _, field := range fieldsZet {
 		redisKey = fmt.Sprintf("%s:%s:%s", field, timeRange, user.id)
@@ -95,6 +105,14 @@ func (user User) SaveVisit(timeRange string, data Visit, expireEntry int) {
 			}
 		}
 	}
+}
+
+
+func (user User) SaveVisit(visit Visit, at time.Time){
+	user.SaveVisitPart(at.Format("2006"), visit, 60*60*24*366)
+	user.SaveVisitPart(at.Format("2006-01"), visit, 60*60*24*31)
+	user.SaveVisitPart(at.Format("2006-01-02"), visit, 60*60*24)
+	user.SaveVisitPart("all", visit, -1)
 }
 
 func (user User) SaveLogLine(logLine string) {
@@ -205,12 +223,27 @@ func (user User) TouchAccess(){
 }
 
 
-func (user User) Create(password string) (bool, error) {
+func (user User) Create(password string) (error) {
+
+	if len(user.id) < 4 {
+		return &ErrCreate{"User must have at least 4 charachters"}
+	}
+
+	if len(password) < 8 {
+		return &ErrCreate{"Password must have at least 8 charachters"}
+	}
+
 	user.redis.Send("MULTI")
 	user.redis.Send("HSETNX", "users", user.id, hash(password))
 	user.redis.Send("HSETNX", "tokens", user.id, randToken())
 	userVarsStatus, err := redis.Ints(user.redis.Do("EXEC"))
-        return userVarsStatus[0] == 0, err
+        if err != nil {
+        	return err
+        }
+        if userVarsStatus[0] == 0 {
+	        return &ErrCreate{"Username taken"}
+        }
+        return nil
 }
 
 

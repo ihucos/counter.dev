@@ -227,11 +227,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	user := users.New(userId)
 	defer user.Close()
-
-	user.SaveVisit(now.Format("2006"), visit, 60*60*24*366)
-	user.SaveVisit(now.Format("2006-01"), visit, 60*60*24*31)
-	user.SaveVisit(now.Format("2006-01-02"), visit, 60*60*24)
-	user.SaveVisit("all", visit, -1)
+        user.SaveVisit(visit, now)
 	user.SaveLogLine(logLine)
 
 	w.Header().Set("Content-Type", "text/plain")
@@ -249,29 +245,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if len(userId) < 4 {
-		http.Error(w, "User must have at least 4 charachters", http.StatusBadRequest)
-		return
-	}
-
-	if len(password) < 8 {
-		http.Error(w, "Password must have at least 8 charachters", http.StatusBadRequest)
-		return
-	}
-
 	user := users.New(userId)
 	defer user.Close()
 
-        userCreated, err := user.Create(password)
-	if err != nil {
-		log.Println(userId, err)
-		http.Error(w, err.Error(), 500)
-		return
-	}
-
-	if userCreated {
-		http.Error(w, "Username taken", http.StatusBadRequest)
-	} else {
+        err := user.Create(password)
+        switch err.(type) {
+        case nil:
 		user.DelUserData()
 		userData, err := user.getData(utcOffset)
 		if err != nil {
@@ -286,7 +265,16 @@ func Register(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		fmt.Fprintln(w, string(jsonString))
-	}
+
+	case *ErrCreate:
+		http.Error(w, err.Error(), 400)
+		return
+	
+	default:
+		log.Println(userId, err)
+		http.Error(w, err.Error(), 500)
+		return
+      }
 }
 
 func Dashboard(w http.ResponseWriter, r *http.Request) {
