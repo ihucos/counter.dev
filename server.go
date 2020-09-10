@@ -2,7 +2,6 @@ package main
 
 import (
 	cryptoRand "crypto/rand"
-	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -94,11 +93,6 @@ func randToken() string {
 	raw := make([]byte, 512)
 	cryptoRand.Read(raw)
 	return hash(string(raw))
-}
-
-func hash(stri string) string {
-	h := sha256.Sum256([]byte(stri))
-	return string(h[:])
 }
 
 func truncate(stri string) string {
@@ -231,7 +225,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	//
 	logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, userAgent)
 
-	user := users.Open(userId)
+	user := users.New(userId)
 	defer user.Close()
 
 	user.SaveVisit(now.Format("2006"), visit, 60*60*24*366)
@@ -265,7 +259,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := users.Open(userId)
+	user := users.New(userId)
 	defer user.Close()
 
         userCreated, err := user.Create(password)
@@ -304,13 +298,23 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := users.Open(userId)
+	user := users.New(userId)
 	defer user.Close()
 
-	hashedPassword, _ := user.GetPasswordHash()
-	token, _ := user.ReadToken()
+        passwordOk, err := user.VerifyPassword(passwordInput)
+		if err != nil {
+			log.Println(userId, err)
+			http.Error(w, err.Error(), 500)
+			return
+		}
+        tokenOk, err := user.VerifyToken(passwordInput)
+		if err != nil {
+			log.Println(userId, err)
+			http.Error(w, err.Error(), 500)
+			return
+		}
 
-	if hashedPassword == hash(passwordInput) || (token != "" && token == passwordInput) {
+	if passwordOk || tokenOk {
                 user.TouchAccess()
 		userData, err := user.getData(utcOffset)
 		if err != nil {
