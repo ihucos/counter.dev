@@ -384,6 +384,7 @@ function drawLog() {
 }
 
 function drawMap(elemId) {
+    jQuery("#world svg").remove()
     jQuery("#" + elemId).vectorMap({
         map: 'world_en',
         backgroundColor: '#fff',
