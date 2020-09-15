@@ -38,9 +38,6 @@ type Data struct {
 }
 type Visit map[string]string
 
-var fieldsZet = []string{"lang", "origin", "ref", "loc"}
-var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device", "country", "screen"}
-
 func min(x, y int) int {
 	if x < y {
 		return x

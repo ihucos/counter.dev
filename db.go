@@ -35,6 +35,9 @@ func (c *ErrCreate) Error() string {
 	return c.msg
 }
 
+var fieldsZet = []string{"lang", "origin", "ref", "loc"}
+var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device", "country", "screen"}
+
 // taken from here at August 2020:
 // https://gs.statcounter.com/screen-resolution-stats
 var screenResolutions = map[string]bool{
