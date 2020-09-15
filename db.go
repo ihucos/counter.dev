@@ -149,7 +149,7 @@ func (user User) SaveLogLine(logLine string) {
 
 }
 
-func (user User) DelUserData() {
+func (user User) delUserData() {
 	for _, field := range fieldsZet {
 		user.redis.Send("DEL", fmt.Sprintf("%s:%s", field, user.id))
 	}
@@ -159,12 +159,12 @@ func (user User) DelUserData() {
 	user.redis.Send("DEL", fmt.Sprintf("log:%s", user.id))
 }
 
-func (user User) readToken() (string, error) {
-	token, err := redis.String(user.redis.Do("HGET", "tokens", user.id))
-	if err != nil {
-		return "", err
-	}
-	return base64.StdEncoding.EncodeToString([]byte(token)), nil
+func (user User) getToken() string {
+	token := user.Get("token")
+        if token == "" {
+        	return ""
+        }
+	return base64.StdEncoding.EncodeToString([]byte(token))
 }
 
 func (user User) getStatData(timeRange string) (StatData, error) {
@@ -202,17 +202,13 @@ func (user User) getLogData() (LogData, error) {
 
 func (user User) getMetaData() (MetaData, error) {
 	meta := make(MetaData)
-	token, err := user.readToken()
-	if err != nil {
-		return nil, err
-	}
-	meta["token"] = token
+	meta["token"] = user.getToken()
 	meta["user"] = user.id
 
 	return meta, nil
 }
 
-func (user User) getData(utcOffset int) (Data, error) {
+func (user User) GetData(utcOffset int) (Data, error) {
 	nullData := Data{nil, TimedStatData{nil, nil, nil, nil}, nil}
 
 	now := timeNow(utcOffset)
@@ -272,7 +268,7 @@ func (user User) Create(password string) error {
 
 	// because user data could have been saved for this user id without an
 	// user existing.
-	user.DelUserData()
+	user.delUserData()
 
 	return nil
 }
@@ -286,13 +282,9 @@ func (user User) VerifyPassword(password string) (bool, error) {
 }
 
 func (user User) VerifyToken(token string) (bool, error) {
-	dbToken, err := user.readToken()
-	if err != nil {
-		return false, err
-	}
+	dbToken := user.getToken()
 	return dbToken != "" && dbToken == token, nil
 }
-
 
 
 func (user User) Set(key string, value string){
@@ -301,7 +293,7 @@ func (user User) Set(key string, value string){
 
 func (user User) Get(key string) string {
     val, err := redis.String(user.redis.Do("HGET", fmt.Sprintf("user:%s", user.id), key))
-    if err == nil {
+    if err != nil {
         return ""
     }
     return val

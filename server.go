@@ -218,7 +218,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	err := user.Create(password)
 	switch err.(type) {
 	case nil:
-		userData, err := user.getData(utcOffset)
+		userData, err := user.GetData(utcOffset)
 		if err != nil {
 			log.Println(userId, err)
 			http.Error(w, err.Error(), 500)
@@ -270,7 +270,7 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 
 	if passwordOk || tokenOk {
 		user.TouchAccess()
-		userData, err := user.getData(utcOffset)
+		userData, err := user.GetData(utcOffset)
 		if err != nil {
 			log.Println(userId, err)
 			http.Error(w, err.Error(), 500)
