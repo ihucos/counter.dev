@@ -1,6 +1,7 @@
 package main
 
 import (
+	cryptoRand "crypto/rand"
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
@@ -290,4 +291,18 @@ func (user User) VerifyToken(token string) (bool, error) {
 		return false, err
 	}
 	return dbToken != "" && dbToken == token, nil
+}
+
+
+
+func (user User) Set(key string, value string){
+    user.redis.Send("HSET", fmt.Sprintf("user:%s", user.id), key, value)
+}
+
+func (user User) Get(key string) string {
+    val, err := redis.String(user.redis.Do("HGET", fmt.Sprintf("user:%s", user.id), key))
+    if err == nil {
+        return ""
+    }
+    return val
 }

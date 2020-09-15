@@ -1,7 +1,6 @@
 package main
 
 import (
-	cryptoRand "crypto/rand"
 	"encoding/json"
 	"fmt"
 	"io"
