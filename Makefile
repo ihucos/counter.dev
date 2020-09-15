@@ -12,7 +12,7 @@ logs:
 	ssh root@172.104.148.60 cat log
 
 deploy:
-	plash --from alpine:3.11 --apk go -- go build server.go
+	plash --from alpine:3.11 --apk go -- go build db.go server.go
 	tar cf - static server | ssh root@172.104.148.60 tar xvf - -C /root
 	ssh root@172.104.148.60 "pkill -x ./server; sleep 5; dtach -n /tmp/dtach ./server"
 
