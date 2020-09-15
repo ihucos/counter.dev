@@ -1,14 +1,18 @@
 
 
+.PHONY: runserver
+runserver:
+	plash --from alpine:3.11 --apk go -- go run db.go server.go
+
 format:
 	js-beautify --replace static/script.js
-	go fmt server.go
+	go fmt *.go
 
 logs:
 	ssh root@172.104.148.60 cat log
 
 deploy:
-	plash --from alpine:3.11 --apk go -- go build server.go
+	plash --from alpine:3.11 --apk go -- go build db.go server.go
 	tar cf - static server | ssh root@172.104.148.60 tar xvf - -C /root
 	ssh root@172.104.148.60 "pkill -x ./server; sleep 5; dtach -n /tmp/dtach ./server"
 
@@ -33,6 +37,10 @@ log:
 
 integrations:
 	ssh root@172.104.148.60 python3 scripts/integrations.py
+
+
+tests:
+	plash --from alpine:3.11 --apk go -- go test
 
 #provision:
 #	ssh root@172.104.148.60 sh -c ' \
