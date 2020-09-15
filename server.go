@@ -255,21 +255,13 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	user := users.New(userId)
 	defer user.Close()
 
-	passwordOk, err := user.VerifyPassword(passwordInput)
-	if err != nil {
-		log.Println(userId, err)
-		http.Error(w, err.Error(), 500)
-		return
-	}
-	tokenOk, err := user.VerifyToken(passwordInput)
-	if err != nil {
-		log.Println(userId, err)
-		http.Error(w, err.Error(), 500)
-		return
-	}
+	passwordOk := user.VerifyPassword(passwordInput)
+	tokenOk := user.VerifyToken(passwordInput)
 
 	if passwordOk || tokenOk {
-		user.TouchAccess()
+		if passwordOk {
+			user.TouchAccess()
+		}
 		userData, err := user.GetData(utcOffset)
 		if err != nil {
 			log.Println(userId, err)

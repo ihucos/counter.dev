@@ -161,9 +161,9 @@ func (user User) delUserData() {
 
 func (user User) getToken() string {
 	token := user.Get("token")
-        if token == "" {
-        	return ""
-        }
+	if token == "" {
+		return ""
+	}
 	return base64.StdEncoding.EncodeToString([]byte(token))
 }
 
@@ -242,7 +242,7 @@ func (user User) GetData(utcOffset int) (Data, error) {
 }
 
 func (user User) TouchAccess() {
-	user.redis.Send("HSET", "access", user.id, timeNow(0).Format("2006-01-02"))
+	user.Set("access", timeNow(0).Format("2006-01-02"))
 }
 
 func (user User) Create(password string) error {
@@ -255,16 +255,11 @@ func (user User) Create(password string) error {
 		return &ErrCreate{"Password must have at least 8 charachters"}
 	}
 
-	user.redis.Send("MULTI")
-	user.redis.Send("HSETNX", "users", user.id, hash(password))
-	user.redis.Send("HSETNX", "tokens", user.id, randToken())
-	userVarsStatus, err := redis.Ints(user.redis.Do("EXEC"))
-	if err != nil {
-		return err
-	}
-	if userVarsStatus[0] == 0 {
+	if user.Setnx("password", hash(password)) {
 		return &ErrCreate{"Username taken"}
 	}
+
+	user.Setnx("token", randToken())
 
 	// because user data could have been saved for this user id without an
 	// user existing.
@@ -273,28 +268,38 @@ func (user User) Create(password string) error {
 	return nil
 }
 
-func (user User) VerifyPassword(password string) (bool, error) {
-	hashedPassword, err := redis.String(user.redis.Do("HGET", "users", user.id))
-	if err != nil {
-		return false, err
+func (user User) VerifyPassword(password string) bool {
+	hashedPassword := user.Get("password")
+	if hashedPassword == "" {
+		return false
 	}
-	return hashedPassword != "" && hashedPassword == hash(password), nil
+	return hashedPassword == hash(password)
 }
 
-func (user User) VerifyToken(token string) (bool, error) {
+func (user User) VerifyToken(token string) bool {
 	dbToken := user.getToken()
-	return dbToken != "" && dbToken == token, nil
+	if dbToken == "" {
+		return false
+	}
+	return dbToken == token
 }
 
+func (user User) Set(key string, value string) {
+	user.redis.Send("HSET", fmt.Sprintf("user:%s", user.id), key, value)
+}
 
-func (user User) Set(key string, value string){
-    user.redis.Send("HSET", fmt.Sprintf("user:%s", user.id), key, value)
+func (user User) Setnx(key string, value string) bool {
+	val, err := redis.Bool(user.redis.Do("HSETNX", fmt.Sprintf("user:%s", user.id), key, value))
+	if err != nil {
+		return false
+	}
+	return val
 }
 
 func (user User) Get(key string) string {
-    val, err := redis.String(user.redis.Do("HGET", fmt.Sprintf("user:%s", user.id), key))
-    if err != nil {
-        return ""
-    }
-    return val
+	val, err := redis.String(user.redis.Do("HGET", fmt.Sprintf("user:%s", user.id), key))
+	if err != nil {
+		return ""
+	}
+	return val
 }
