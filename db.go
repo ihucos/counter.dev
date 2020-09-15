@@ -23,19 +23,17 @@ type Users struct {
 }
 
 type User struct {
-        redis redis.Conn
-        id string
+	redis redis.Conn
+	id    string
 }
 
-type ErrCreate struct{
-    msg string
+type ErrCreate struct {
+	msg string
 }
 
 func (c *ErrCreate) Error() string {
-    return c.msg
+	return c.msg
 }
-
-
 
 // taken from here at August 2020:
 // https://gs.statcounter.com/screen-resolution-stats
@@ -61,25 +59,23 @@ var screenResolutions = map[string]bool{
 	"414x896":   true,
 	"768x1024":  true}
 
-
 func hash(stri string) string {
 	h := sha256.Sum256([]byte(stri))
 	return string(h[:])
 }
 
-
-func (users Users) New(id string) User{
+func (users Users) New(id string) User {
 	return User{
-            redis: users.redisPool.Get(),
-            id: id,
-        }
+		redis: users.redisPool.Get(),
+		id:    id,
+	}
 }
 
 func (user User) Close() {
-   user.redis.Close() 
+	user.redis.Close()
 }
 
-func (user User) SaveVisitPart(timeRange string, data Visit, expireEntry int) {
+func (user User) saveVisitPart(timeRange string, data Visit, expireEntry int) {
 	var redisKey string
 	for _, field := range fieldsZet {
 		redisKey = fmt.Sprintf("%s:%s:%s", field, timeRange, user.id)
@@ -107,12 +103,11 @@ func (user User) SaveVisitPart(timeRange string, data Visit, expireEntry int) {
 	}
 }
 
-
-func (user User) SaveVisit(visit Visit, at time.Time){
-	user.SaveVisitPart(at.Format("2006"), visit, 60*60*24*366)
-	user.SaveVisitPart(at.Format("2006-01"), visit, 60*60*24*31)
-	user.SaveVisitPart(at.Format("2006-01-02"), visit, 60*60*24)
-	user.SaveVisitPart("all", visit, -1)
+func (user User) SaveVisit(visit Visit, at time.Time) {
+	user.saveVisitPart(at.Format("2006"), visit, 60*60*24*366)
+	user.saveVisitPart(at.Format("2006-01"), visit, 60*60*24*31)
+	user.saveVisitPart(at.Format("2006-01-02"), visit, 60*60*24)
+	user.saveVisitPart("all", visit, -1)
 }
 
 func (user User) SaveLogLine(logLine string) {
@@ -217,13 +212,11 @@ func (user User) getData(utcOffset int) (Data, error) {
 	return Data{metaData, TimedStatData{Day: dayStatData, Month: monthStatData, Year: yearStatData, All: allStatData}, logData}, nil
 }
 
-
-func (user User) TouchAccess(){
+func (user User) TouchAccess() {
 	user.redis.Send("HSET", "access", user.id, timeNow(0).Format("2006-01-02"))
 }
 
-
-func (user User) Create(password string) (error) {
+func (user User) Create(password string) error {
 
 	if len(user.id) < 4 {
 		return &ErrCreate{"User must have at least 4 charachters"}
@@ -237,33 +230,32 @@ func (user User) Create(password string) (error) {
 	user.redis.Send("HSETNX", "users", user.id, hash(password))
 	user.redis.Send("HSETNX", "tokens", user.id, randToken())
 	userVarsStatus, err := redis.Ints(user.redis.Do("EXEC"))
-        if err != nil {
-        	return err
-        }
-        if userVarsStatus[0] == 0 {
-	        return &ErrCreate{"Username taken"}
-        }
+	if err != nil {
+		return err
+	}
+	if userVarsStatus[0] == 0 {
+		return &ErrCreate{"Username taken"}
+	}
 
-        // because user data could have been saved for this user id without an
-        // user existing.
-        user.DelUserData()
+	// because user data could have been saved for this user id without an
+	// user existing.
+	user.DelUserData()
 
-        return nil
+	return nil
 }
-
 
 func (user User) VerifyPassword(password string) (bool, error) {
 	hashedPassword, err := redis.String(user.redis.Do("HGET", "users", user.id))
-        if err != nil {
-            return false, err
-        }
-        return hashedPassword != "" && hashedPassword == hash(password), nil
+	if err != nil {
+		return false, err
+	}
+	return hashedPassword != "" && hashedPassword == hash(password), nil
 }
 
 func (user User) VerifyToken(token string) (bool, error) {
 	dbToken, err := user.readToken()
-        if err != nil {
-            return false, err
-        }
-        return dbToken != "" && dbToken == token, nil
+	if err != nil {
+		return false, err
+	}
+	return dbToken != "" && dbToken == token, nil
 }

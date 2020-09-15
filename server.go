@@ -227,7 +227,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	user := users.New(userId)
 	defer user.Close()
-        user.SaveVisit(visit, now)
+	user.SaveVisit(visit, now)
 	user.SaveLogLine(logLine)
 
 	w.Header().Set("Content-Type", "text/plain")
@@ -248,9 +248,9 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	user := users.New(userId)
 	defer user.Close()
 
-        err := user.Create(password)
-        switch err.(type) {
-        case nil:
+	err := user.Create(password)
+	switch err.(type) {
+	case nil:
 		userData, err := user.getData(utcOffset)
 		if err != nil {
 			log.Println(userId, err)
@@ -268,12 +268,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	case *ErrCreate:
 		http.Error(w, err.Error(), 400)
 		return
-	
+
 	default:
 		log.Println(userId, err)
 		http.Error(w, err.Error(), 500)
 		return
-      }
+	}
 }
 
 func Dashboard(w http.ResponseWriter, r *http.Request) {
@@ -288,21 +288,21 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	user := users.New(userId)
 	defer user.Close()
 
-        passwordOk, err := user.VerifyPassword(passwordInput)
-		if err != nil {
-			log.Println(userId, err)
-			http.Error(w, err.Error(), 500)
-			return
-		}
-        tokenOk, err := user.VerifyToken(passwordInput)
-		if err != nil {
-			log.Println(userId, err)
-			http.Error(w, err.Error(), 500)
-			return
-		}
+	passwordOk, err := user.VerifyPassword(passwordInput)
+	if err != nil {
+		log.Println(userId, err)
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	tokenOk, err := user.VerifyToken(passwordInput)
+	if err != nil {
+		log.Println(userId, err)
+		http.Error(w, err.Error(), 500)
+		return
+	}
 
 	if passwordOk || tokenOk {
-                user.TouchAccess()
+		user.TouchAccess()
 		userData, err := user.getData(utcOffset)
 		if err != nil {
 			log.Println(userId, err)
