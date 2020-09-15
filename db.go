@@ -90,6 +90,19 @@ func (users Users) New(id string) User {
 	}
 }
 
+func randToken() string {
+	raw := make([]byte, 512)
+	cryptoRand.Read(raw)
+	return hash(string(raw))
+}
+
+func truncate(stri string) string {
+	if len(stri) > truncateAt {
+		return stri[:truncateAt]
+	}
+	return stri
+}
+
 func (user User) Close() {
 	user.redis.Close()
 }
