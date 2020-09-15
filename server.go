@@ -13,6 +13,7 @@ import (
 
 	"github.com/avct/uasurfer"
 	"github.com/gomodule/redigo/redis"
+	"github.com/gorilla/sessions"
 	"golang.org/x/text/language"
 	"golang.org/x/text/language/display"
 	"log"
@@ -20,6 +21,10 @@ import (
 
 var pool *redis.Pool
 var users Users
+
+// key must be 16, 24 or 32 bytes long (AES-128, AES-192 or AES-256)
+var key = []byte("super-secret-key____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE____NO_MERGE__")
+var store = sessions.NewCookieStore(key)
 
 func min(x, y int) int {
 	if x < y {
@@ -244,6 +249,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func Dashboard(w http.ResponseWriter, r *http.Request) {
+
 	userId := r.FormValue("user")
 	passwordInput := r.FormValue("password")
 	utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
@@ -282,7 +288,15 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), 500)
 			return
 		}
+
+                // save session
+		session, err := store.Get(r, "swa")
+		session.Values["user"] = userId
+		session.Save(r, w)
+
 		fmt.Fprintln(w, string(jsonString))
+
+
 	} else {
 		http.Error(w, "Wrong username or password", http.StatusBadRequest)
 	}

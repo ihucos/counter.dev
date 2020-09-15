@@ -21,7 +21,7 @@ func TestMain(m *testing.M) {
 	conn := pool.Get()
 	defer conn.Close()
 	conn.Do("flushdb")
-        users.New("john").Create("johnjohn")
+	users.New("john").Create("johnjohn")
 
 	code := m.Run()
 	os.Exit(code)
@@ -29,33 +29,32 @@ func TestMain(m *testing.M) {
 
 func TestCreateSuccess(t *testing.T) {
 	user := users.New("peter")
-        err := user.Create("mypassmypass")
+	err := user.Create("mypassmypass")
 	assert.Equal(t, err, nil)
 
 }
 
 func TestCreateShortPass(t *testing.T) {
 	user := users.New("peter")
-        err := user.Create("mypadd")
+	err := user.Create("mypadd")
 	assert.Contains(t, err.Error(), "at least")
 
 }
 
 func TestCreateUsernameTaken(t *testing.T) {
 	user := users.New("peter")
-        user.Create("mypassmypass")
+	user.Create("mypassmypass")
 
-        err := user.Create("mypassmypass")
+	err := user.Create("mypassmypass")
 	assert.Contains(t, err.Error(), "Username taken")
 }
 
-
-func TestVerifyPasswordSuccess(t *testing.T){
+func TestVerifyPasswordSuccess(t *testing.T) {
 	success, _ := users.New("john").VerifyPassword("johnjohn")
-        assert.Equal(t, success, true)
+	assert.Equal(t, success, true)
 }
 
-func TestVerifyPasswordFail(t *testing.T){
+func TestVerifyPasswordFail(t *testing.T) {
 	success, _ := users.New("john").VerifyPassword("xxx")
-        assert.Equal(t, success, false)
+	assert.Equal(t, success, false)
 }

@@ -159,12 +159,12 @@ func (user User) delUserData() {
 	user.redis.Send("DEL", fmt.Sprintf("log:%s", user.id))
 }
 
-func (user User)readToken() (string, error) {
-        token, err := redis.String(user.redis.Do("HGET", "tokens", user.id))
-        if err != nil {
-                return "", err
-        }
-        return base64.StdEncoding.EncodeToString([]byte(token)), nil
+func (user User) readToken() (string, error) {
+	token, err := redis.String(user.redis.Do("HGET", "tokens", user.id))
+	if err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString([]byte(token)), nil
 }
 
 func (user User) getStatData(timeRange string) (StatData, error) {
@@ -203,10 +203,10 @@ func (user User) getLogData() (LogData, error) {
 func (user User) getMetaData() (MetaData, error) {
 	meta := make(MetaData)
 	token, err := user.readToken()
-        if err != nil {
-        	return meta, err
-        }
-        meta["token"] = token
+	if err != nil {
+		return meta, err
+	}
+	meta["token"] = token
 	meta["user"] = user.id
 
 	return meta, nil
