@@ -159,12 +159,12 @@ func (user User) delUserData() {
 	user.redis.Send("DEL", fmt.Sprintf("log:%s", user.id))
 }
 
-func (user User) getToken() string {
-	token := user.Get("token")
-        if token == "" {
-        	return ""
+func (user User)readToken() (string, error) {
+        token, err := redis.String(user.redis.Do("HGET", "tokens", user))
+        if err != nil {
+                return "", err
         }
-	return base64.StdEncoding.EncodeToString([]byte(token))
+        return base64.StdEncoding.EncodeToString([]byte(token)), nil
 }
 
 func (user User) getStatData(timeRange string) (StatData, error) {
@@ -202,7 +202,11 @@ func (user User) getLogData() (LogData, error) {
 
 func (user User) getMetaData() (MetaData, error) {
 	meta := make(MetaData)
-	meta["token"] = user.getToken()
+	token, err := user.readToken()
+        if err != nil {
+        	return meta, err
+        }
+        meta["token"] = token
 	meta["user"] = user.id
 
 	return meta, nil
@@ -282,19 +286,9 @@ func (user User) VerifyPassword(password string) (bool, error) {
 }
 
 func (user User) VerifyToken(token string) (bool, error) {
-	dbToken := user.getToken()
+	dbToken, err := user.readToken()
+        if err != nil {
+            return false, err
+        }
 	return dbToken != "" && dbToken == token, nil
-}
-
-
-func (user User) Set(key string, value string){
-    user.redis.Send("HSET", fmt.Sprintf("user:%s", user.id), key, value)
-}
-
-func (user User) Get(key string) string {
-    val, err := redis.String(user.redis.Do("HGET", fmt.Sprintf("user:%s", user.id), key))
-    if err != nil {
-        return ""
-    }
-    return val
 }
