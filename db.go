@@ -83,7 +83,7 @@ func (user User) saveVisitPart(timeRange string, data Visit, expireEntry int) {
 		if val != "" {
 			user.redis.Send("ZINCRBY", redisKey, 1, truncate(val))
 			if rand.Intn(zetTrimEveryCalls) == 0 {
-				user.redis.Send("ZREMRANGEBYRANK", fmt.Sprintf("%s:%s:%s", field, timeRange, user.id), 0, -zetMaxSize)
+				user.redis.Send("ZREMRANGEBYRANK", redisKey, 0, -zetMaxSize)
 			}
 			if expireEntry != -1 {
 				user.redis.Send("EXPIRE", redisKey, expireEntry)
