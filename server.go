@@ -22,22 +22,6 @@ import (
 var pool *redis.Pool
 var users Users
 
-type StatData map[string]map[string]int64
-type LogData map[string]int64
-type MetaData map[string]string
-type TimedStatData struct {
-	Day   StatData `json:"day"`
-	Month StatData `json:"month"`
-	Year  StatData `json:"year"`
-	All   StatData `json:"all"`
-}
-type Data struct {
-	Meta MetaData      `json:"meta"`
-	Data TimedStatData `json:"data"`
-	Log  LogData       `json:"log"`
-}
-type Visit map[string]string
-
 func min(x, y int) int {
 	if x < y {
 		return x
