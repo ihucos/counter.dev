@@ -160,7 +160,7 @@ func (user User) delUserData() {
 }
 
 func (user User)readToken() (string, error) {
-        token, err := redis.String(user.redis.Do("HGET", "tokens", user))
+        token, err := redis.String(user.redis.Do("HGET", "tokens", user.id))
         if err != nil {
                 return "", err
         }
@@ -278,17 +278,11 @@ func (user User) Create(password string) error {
 }
 
 func (user User) VerifyPassword(password string) (bool, error) {
-	hashedPassword, err := redis.String(user.redis.Do("HGET", "users", user.id))
-	if err != nil {
-		return false, err
-	}
+	hashedPassword, _ := redis.String(user.redis.Do("HGET", "users", user.id))
 	return hashedPassword != "" && hashedPassword == hash(password), nil
 }
 
 func (user User) VerifyToken(token string) (bool, error) {
-	dbToken, err := user.readToken()
-        if err != nil {
-            return false, err
-        }
+	dbToken, _ := user.readToken()
 	return dbToken != "" && dbToken == token, nil
 }
