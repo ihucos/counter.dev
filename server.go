@@ -273,7 +273,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		session.Values["user"] = userId
 		session.Save(r, w)
 
-		fmt.Fprintln(w, "OK")
+                sendUserData(userId, w, r)
+                return
 
 	} else {
 		http.Error(w, "Wrong username or password", http.StatusBadRequest)
@@ -287,7 +288,13 @@ func AllData(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Forbidden", http.StatusForbidden)
 		return
 	}
+        sendUserData(userId, w, r)
+        return
 
+}
+
+
+func sendUserData(userId string, w http.ResponseWriter, r *http.Request){
 	user := users.New(userId)
 	defer user.Close()
 
@@ -308,4 +315,6 @@ func AllData(w http.ResponseWriter, r *http.Request) {
 
 	// Print secret message
 	fmt.Fprintln(w, string(jsonString))
+
+
 }

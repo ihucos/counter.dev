@@ -144,16 +144,16 @@ function login() {
     window.user = document.getElementById("login_user").value
     var password = document.getElementById("login_password").value
     var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
-    post("/dashboard", body, user, "alert_login")
+    post("/login", body, user, "alert_login")
 }
 
-function alwaysUpdate() {
-    window.setInterval(function() {
-        var password = viaRegister ? document.getElementById("reg_password").value : document.getElementById("login_password").value
-        var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
-        post("/dashboard", body, user, "alert_login")
-    }, 5000);
-}
+//function alwaysUpdate() {
+//    window.setInterval(function() {
+//        var password = viaRegister ? document.getElementById("reg_password").value : document.getElementById("login_password").value
+//        var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
+//        post("/dashboard", body, user, "alert_login")
+//    }, 5000);
+//}
 
 function escapeHtml(unsafe) {
     return (unsafe + "")
@@ -732,10 +732,10 @@ function draw() {
     console.log("redrawing")
     destroyRegisteredCharts()
 
-    if (!window._inited) {
-        alwaysUpdate()
-        window._inited = true
-    }
+    //if (!window._inited) {
+    //    alwaysUpdate()
+    //    window._inited = true
+    //}
 
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
     var noData = Object.keys(timedData.all.date).length === 0 && data.date.constructor === Object
