@@ -66,5 +66,6 @@ func TestApi(t *testing.T) {
 		Post("/login").
 		Expect(t).
 		Status(400).
+                Body("Missing Input\n").
 		End()
 }
