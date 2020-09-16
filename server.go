@@ -40,6 +40,17 @@ func max(x, y int) int {
 	return y
 }
 
+func InitMux() *http.ServeMux {
+	mux := http.NewServeMux()
+	fs := http.FileServer(http.Dir("./static"))
+	mux.Handle("/", fs)
+	mux.HandleFunc("/login", Login)
+	mux.HandleFunc("/register", Register)
+	mux.HandleFunc("/data", AllData)
+        return mux
+
+}
+
 func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
@@ -60,19 +71,9 @@ func main() {
 	}
 	users = Users{pool}
 
-	mux := http.NewServeMux()
-	fs := http.FileServer(http.Dir("./static"))
-	mux.Handle("/", fs)
-	mux.HandleFunc("/login", Login)
-	mux.HandleFunc("/register", Register)
-	mux.HandleFunc("/data", AllData)
-	//mux.HandleFunc("/track", Track)
-	//mux.HandleFunc("/register", Register)
-	//mux.HandleFunc("/dashboard", Dashboard)
-	//mux.HandleFunc("/data", AllData)
 
 	log.Println("Start")
-	err = http.ListenAndServe(":80", mux)
+	err = http.ListenAndServe(":80", InitMux())
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}

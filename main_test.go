@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gomodule/redigo/redis"
+	"github.com/steinfletcher/apitest"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
@@ -57,4 +58,13 @@ func TestVerifyPasswordSuccess(t *testing.T) {
 func TestVerifyPasswordFail(t *testing.T) {
 	success, _ := users.New("john").VerifyPassword("xxx")
 	assert.Equal(t, success, false)
+}
+
+func TestApi(t *testing.T) {
+	apitest.New().
+		Handler(InitMux()).
+		Post("/login").
+		Expect(t).
+		Status(400).
+		End()
 }
