@@ -38,10 +38,10 @@ func loginCookie(t *testing.T, user string, password string) *apitest.Cookie {
 		End().
 		Response.
 		Cookies()
-                
-        if len(cookies) == 0 {
+
+	if len(cookies) == 0 {
 		return apitest.NewCookie("swa").Value("")
-        }        
+	}
 	return apitest.NewCookie("swa").Value(cookies[0].Value)
 }
 
@@ -112,13 +112,22 @@ func TestApiLoginSuccess(t *testing.T) {
 		End()
 }
 
-func TestAuth(t *testing.T) {
+func TestAuthSuccess(t *testing.T) {
 	apitest.New().
 		Handler(InitMux()).
 		Post("/data").
 		Cookies(loginCookie(t, "john", "johnjohn")).
 		Expect(t).
-		//Body("OK\n").
 		Status(200).
+		End()
+}
+
+func TestAuthFailure(t *testing.T) {
+	apitest.New().
+		Handler(InitMux()).
+		Post("/data").
+		Cookies(loginCookie(t, "john", "xxx")).
+		Expect(t).
+		Status(403).
 		End()
 }
