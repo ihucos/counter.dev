@@ -24,23 +24,22 @@ func TestMain(m *testing.M) {
 	conn.Do("flushdb")
 	users.New("john").Create("johnjohn")
 
-
 	code := m.Run()
 	os.Exit(code)
 }
 
-func loginCookie(t *testing.T, user string, password string) *apitest.Cookie{
+func loginCookie(t *testing.T, user string, password string) *apitest.Cookie {
 	val := apitest.New().
 		Handler(InitMux()).
 		Post("/login").
 		FormData("user", user).
 		FormData("password", password).
 		Expect(t).
-                CookiePresent("swa").
+		CookiePresent("swa").
 		End().
-                Response.
-                Cookies()[0].Value
-        return apitest.NewCookie("swa").Value(val)
+		Response.
+		Cookies()[0].Value
+	return apitest.NewCookie("swa").Value(val)
 }
 
 func TestCreateSuccess(t *testing.T) {
@@ -97,7 +96,6 @@ func TestApiLoginWrongCredentials(t *testing.T) {
 		End()
 }
 
-
 func TestApiLoginSuccess(t *testing.T) {
 	apitest.New().
 		Handler(InitMux()).
@@ -107,19 +105,17 @@ func TestApiLoginSuccess(t *testing.T) {
 		Expect(t).
 		Status(200).
 		Body("OK\n").
-                CookiePresent("swa").
+		CookiePresent("swa").
 		End()
 }
-
 
 func TestAuth(t *testing.T) {
 	apitest.New().
 		Handler(InitMux()).
 		Post("/data").
-                Cookies(loginCookie(t, "john", "johnjohn")).
+		Cookies(loginCookie(t, "john", "johnjohn")).
 		Expect(t).
 		//Body("OK\n").
-                Status(200).
+		Status(200).
 		End()
 }
-
