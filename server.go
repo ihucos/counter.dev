@@ -227,7 +227,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	switch err.(type) {
 	case nil:
 		fmt.Fprintln(w, "OK")
-                return
+		return
 
 	case *ErrCreate:
 		http.Error(w, err.Error(), 400)
@@ -268,33 +268,30 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	if passwordOk || tokenOk {
 		user.TouchAccess()
 
-                // save to user session
+		// save to user session
 		session, _ := store.Get(r, "swa")
 		session.Values["user"] = userId
 		session.Save(r, w)
 
 		fmt.Fprintln(w, "OK")
 
-
 	} else {
 		http.Error(w, "Wrong username or password", http.StatusBadRequest)
 	}
 }
 
-
 func AllData(w http.ResponseWriter, r *http.Request) {
-        session, _ := store.Get(r, "swa")
-        userId, ok := session.Values["user"].(string)
-        if !ok {
-            http.Error(w, "Forbidden", http.StatusForbidden)
-            return
-        }
+	session, _ := store.Get(r, "swa")
+	userId, ok := session.Values["user"].(string)
+	if !ok {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
 
 	user := users.New(userId)
 	defer user.Close()
 
 	utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
-
 
 	userData, err := user.GetData(utcOffset)
 	if err != nil {
@@ -308,7 +305,7 @@ func AllData(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 500)
 		return
 	}
-    
-        // Print secret message
+
+	// Print secret message
 	fmt.Fprintln(w, string(jsonString))
 }
