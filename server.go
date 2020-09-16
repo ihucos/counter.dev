@@ -63,9 +63,13 @@ func main() {
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("./static"))
 	mux.Handle("/", fs)
-	mux.HandleFunc("/track", Track)
+	mux.HandleFunc("/login", Login)
 	mux.HandleFunc("/register", Register)
-	mux.HandleFunc("/dashboard", Dashboard)
+	mux.HandleFunc("/data", AllData)
+	//mux.HandleFunc("/track", Track)
+	//mux.HandleFunc("/register", Register)
+	//mux.HandleFunc("/dashboard", Dashboard)
+	//mux.HandleFunc("/data", AllData)
 
 	log.Println("Start")
 	err = http.ListenAndServe(":80", mux)
@@ -211,7 +215,6 @@ func Track(w http.ResponseWriter, r *http.Request) {
 func Register(w http.ResponseWriter, r *http.Request) {
 	userId := truncate(r.FormValue("user"))
 	password := r.FormValue("password")
-	utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
 	if userId == "" || password == "" {
 		http.Error(w, "Missing Input", http.StatusBadRequest)
 		return
@@ -223,19 +226,8 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	err := user.Create(password)
 	switch err.(type) {
 	case nil:
-		userData, err := user.GetData(utcOffset)
-		if err != nil {
-			log.Println(userId, err)
-			http.Error(w, err.Error(), 500)
-			return
-		}
-		jsonString, err := json.Marshal(userData)
-		if err != nil {
-			log.Println(userId, err)
-			http.Error(w, err.Error(), 500)
-			return
-		}
-		fmt.Fprintln(w, string(jsonString))
+		fmt.Fprintln(w, "OK")
+                return
 
 	case *ErrCreate:
 		http.Error(w, err.Error(), 400)
@@ -248,11 +240,10 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func Dashboard(w http.ResponseWriter, r *http.Request) {
+func Login(w http.ResponseWriter, r *http.Request) {
 
 	userId := r.FormValue("user")
 	passwordInput := r.FormValue("password")
-	utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
 	if userId == "" || passwordInput == "" {
 		http.Error(w, "Missing Input", http.StatusBadRequest)
 		return
@@ -276,28 +267,48 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 
 	if passwordOk || tokenOk {
 		user.TouchAccess()
-		userData, err := user.GetData(utcOffset)
-		if err != nil {
-			log.Println(userId, err)
-			http.Error(w, err.Error(), 500)
-			return
-		}
-		jsonString, err := json.Marshal(userData)
-		if err != nil {
-			log.Println(userId, err)
-			http.Error(w, err.Error(), 500)
-			return
-		}
 
-                // save session
-		session, err := store.Get(r, "swa")
+                // save to user session
+		session, _ := store.Get(r, "swa")
 		session.Values["user"] = userId
 		session.Save(r, w)
 
-		fmt.Fprintln(w, string(jsonString))
+		fmt.Fprintln(w, "OK")
 
 
 	} else {
 		http.Error(w, "Wrong username or password", http.StatusBadRequest)
 	}
+}
+
+
+func AllData(w http.ResponseWriter, r *http.Request) {
+        session, _ := store.Get(r, "swa")
+        userId, ok := session.Values["user"].(string)
+        if !ok {
+            http.Error(w, "Forbidden", http.StatusForbidden)
+            return
+        }
+
+	user := users.New(userId)
+	defer user.Close()
+
+	utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
+
+
+	userData, err := user.GetData(utcOffset)
+	if err != nil {
+		log.Println(userId, err)
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	jsonString, err := json.Marshal(userData)
+	if err != nil {
+		log.Println(userId, err)
+		http.Error(w, err.Error(), 500)
+		return
+	}
+    
+        // Print secret message
+	fmt.Fprintln(w, string(jsonString))
 }
