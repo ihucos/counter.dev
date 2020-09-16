@@ -29,17 +29,20 @@ func TestMain(m *testing.M) {
 }
 
 func loginCookie(t *testing.T, user string, password string) *apitest.Cookie {
-	val := apitest.New().
+	cookies := apitest.New().
 		Handler(InitMux()).
 		Post("/login").
 		FormData("user", user).
 		FormData("password", password).
 		Expect(t).
-		CookiePresent("swa").
 		End().
 		Response.
-		Cookies()[0].Value
-	return apitest.NewCookie("swa").Value(val)
+		Cookies()
+                
+        if len(cookies) == 0 {
+		return apitest.NewCookie("swa").Value("")
+        }        
+	return apitest.NewCookie("swa").Value(cookies[0].Value)
 }
 
 func TestCreateSuccess(t *testing.T) {
