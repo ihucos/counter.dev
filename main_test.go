@@ -112,7 +112,7 @@ func TestApiLoginSuccess(t *testing.T) {
 		End()
 }
 
-func TestAuthSuccess(t *testing.T) {
+func TestApiAuthSuccess(t *testing.T) {
 	apitest.New().
 		Handler(InitMux()).
 		Post("/data").
@@ -122,7 +122,7 @@ func TestAuthSuccess(t *testing.T) {
 		End()
 }
 
-func TestAuthFailure(t *testing.T) {
+func TestApiAuthFailure(t *testing.T) {
 	apitest.New().
 		Handler(InitMux()).
 		Post("/data").
