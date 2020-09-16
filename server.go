@@ -47,7 +47,7 @@ func InitMux() *http.ServeMux {
 	mux.HandleFunc("/login", Login)
 	mux.HandleFunc("/register", Register)
 	mux.HandleFunc("/data", AllData)
-        return mux
+	return mux
 
 }
 
@@ -70,7 +70,6 @@ func main() {
 		},
 	}
 	users = Users{pool}
-
 
 	log.Println("Start")
 	err = http.ListenAndServe(":80", InitMux())

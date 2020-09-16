@@ -60,12 +60,38 @@ func TestVerifyPasswordFail(t *testing.T) {
 	assert.Equal(t, success, false)
 }
 
-func TestApi(t *testing.T) {
+func TestLoginNoInput(t *testing.T) {
 	apitest.New().
 		Handler(InitMux()).
 		Post("/login").
 		Expect(t).
 		Status(400).
-                Body("Missing Input\n").
+		Body("Missing Input\n").
+		End()
+}
+
+func TestLoginWrongCredentials(t *testing.T) {
+	apitest.New().
+		Handler(InitMux()).
+		Post("/login").
+		FormData("user", "xxx").
+		FormData("password", "xxx").
+		Expect(t).
+		Status(400).
+		Body("Wrong username or password\n").
+		End()
+}
+
+
+func TestLoginSuccess(t *testing.T) {
+	apitest.New().
+		Handler(InitMux()).
+		Post("/login").
+		FormData("user", "john").
+		FormData("password", "johnjohn").
+		Expect(t).
+		Status(200).
+		Body("OK\n").
+                CookiePresent("swa").
 		End()
 }
