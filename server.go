@@ -30,8 +30,7 @@ type appHandler func(http.ResponseWriter, *http.Request) (Resp)
 
 //type JSONResp struct {}
 type Resp interface {
-	GetContent() string
-        GetStatusCode() int
+        GetResp() (string, int)
 } 
 
 type PlainResp struct {
@@ -39,24 +38,16 @@ type PlainResp struct {
     StatusCode int
 }
 
-func (r PlainResp) GetContent() string{
-	return r.Content
-}
-
-func (r PlainResp) GetStatusCode() int{
-	return r.StatusCode
+func (r PlainResp) GetResp() (string, int){
+	return r.Content, r.StatusCode
 }
 
 type ErrorResp struct {
     err error
 }
 
-func (r ErrorResp) GetContent() string{
-	return r.err.Error()
-}
-
-func (r ErrorResp) GetStatusCode() int{
-	return 500
+func (r ErrorResp) GetResp() (string, int){
+	return r.err.Error(), 500
 }
 
 
@@ -64,8 +55,9 @@ func (r ErrorResp) GetStatusCode() int{
 func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     resp := fn(w, r);
     if resp != nil {
-    	w.WriteHeader(resp.GetStatusCode())
-    	w.Write([]byte(resp.GetContent()))
+        content, statusCode := resp.GetResp()
+    	w.WriteHeader(statusCode)
+    	w.Write([]byte(content))
     }
 }
 
@@ -91,6 +83,7 @@ func InitMux() *http.ServeMux {
 	mux.Handle("/login", appHandler(Login))
 	mux.Handle("/register", appHandler(Register))
 	mux.Handle("/data", appHandler(AllData))
+	mux.Handle("/track", appHandler(Track))
 	return mux
 
 }
@@ -142,7 +135,7 @@ func parseUTCOffset(input string) int {
 	return max(min(utcOffset, 14), -12)
 }
 
-func Track(w http.ResponseWriter, r *http.Request) {
+func Track(w http.ResponseWriter, r *http.Request) Resp {
 
 	visit := make(Visit)
 
@@ -152,8 +145,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	userId := r.FormValue("site")
 	if userId == "" {
-		http.Error(w, "missing site param", http.StatusBadRequest)
-		return
+                return PlainResp{"missing site param", 400}
 	}
 
 	//
@@ -180,11 +172,11 @@ func Track(w http.ResponseWriter, r *http.Request) {
 	// see issue: https://github.com/avct/uasurfer/issues/65
 	//
 	if ua.IsBot() || strings.Contains(userAgent, " HeadlessChrome/") {
-		return
+		return nil
 	}
 	originUrl, err := url.Parse(origin)
 	if err == nil && (originUrl.Hostname() == "localhost" || originUrl.Hostname() == "127.0.0.1") {
-		return
+		return nil
 	}
 
 	//
@@ -252,7 +244,7 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/plain")
 	w.Header().Set("Cache-Control", "public, immutable")
-	fmt.Fprint(w, "OK")
+        return PlainResp{"OK", 200}
 
 }
 
