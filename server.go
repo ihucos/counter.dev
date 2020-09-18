@@ -21,7 +21,6 @@ import (
 )
 
 var pool *redis.Pool
-var users Users
 
 // key must be 16, 24 or 32 bytes long (AES-128, AES-192 or AES-256)
 var key = []byte("super-secret-key____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE____NO_MERGE__")
@@ -38,6 +37,7 @@ type Resp interface {
 type Ctx struct {
 	w http.ResponseWriter
         r *http.Request
+	users Users
 }
 
 type PlainResp struct {
@@ -58,7 +58,9 @@ func (r ErrorResp) GetResp() (string, int) {
 }
 
 func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-        ctx := Ctx{w: w, r: r}
+
+	users := Users{pool}
+        ctx := Ctx{w: w, r: r, users: users}
 	resp := fn(ctx)
 	if resp != nil {
 		content, statusCode := resp.GetResp()
@@ -111,7 +113,6 @@ func main() {
 			return redis.Dial("tcp", "localhost:6379")
 		},
 	}
-	users = Users{pool}
 
 	log.Println("Start")
 	err = http.ListenAndServe(":80", InitMux())
@@ -242,7 +243,7 @@ func Track(ctx Ctx) Resp {
 	//
 	logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, userAgent)
 
-	user := users.New(userId)
+	user := ctx.users.New(userId)
 	defer user.Close()
 	user.SaveVisit(visit, now)
 	user.SaveLogLine(logLine)
@@ -260,7 +261,7 @@ func Register(ctx Ctx) Resp {
 		return PlainResp{"Missing Input", 400}
 	}
 
-	user := users.New(userId)
+	user := ctx.users.New(userId)
 	defer user.Close()
 
 	err := user.Create(password)
@@ -284,7 +285,7 @@ func Login(ctx Ctx) Resp {
 		return PlainResp{"Missing Input", 400}
 	}
 
-	user := users.New(userId)
+	user := ctx.users.New(userId)
 	defer user.Close()
 
 	passwordOk, err := user.VerifyPassword(passwordInput)
@@ -304,7 +305,7 @@ func Login(ctx Ctx) Resp {
 		session.Values["user"] = userId
 		session.Save(ctx.r, ctx.w)
 
-		sendUserData(userId, ctx.w, ctx.r)
+		sendUserData(userId, ctx)
 		return nil
 
 	} else {
@@ -319,32 +320,32 @@ func AllData(ctx Ctx) Resp {
 	if !ok {
 		return PlainResp{"Forbidden", http.StatusForbidden}
 	}
-	sendUserData(userId, ctx.w, ctx.r)
+	sendUserData(userId, ctx)
 	return nil
 
 }
 
-func sendUserData(userId string, w http.ResponseWriter, r *http.Request) {
-	user := users.New(userId)
+func sendUserData(userId string, ctx Ctx) {
+	user := ctx.users.New(userId)
 	defer user.Close()
 
-	utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
+	utcOffset := parseUTCOffset(ctx.r.FormValue("utcoffset"))
 
 	userData, err := user.GetData(utcOffset)
 	if err != nil {
 		log.Println(userId, err)
-		http.Error(w, err.Error(), 500)
+		http.Error(ctx.w, err.Error(), 500)
 		return
 	}
 	jsonString, err := json.Marshal(userData)
 	if err != nil {
 		log.Println(userId, err)
-		http.Error(w, err.Error(), 500)
+		http.Error(ctx.w, err.Error(), 500)
 		return
 	}
 
 	// Print secret message
-	fmt.Fprintln(w, string(jsonString))
+	fmt.Fprintln(ctx.w, string(jsonString))
 
 }
 
