@@ -134,10 +134,10 @@ func InitMux() *http.ServeMux {
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("./static"))
 	mux.Handle("/", fs)
-	mux.Handle("/login", appHandler(Login))
-	mux.Handle("/register", appHandler(Register))
-	mux.Handle("/data", appHandler(AllData))
-	mux.Handle("/track", appHandler(Track))
+	mux.Handle("/login", appHandler(func(ctx Ctx){ctx.ReturnLoginPage()}))
+	mux.Handle("/register", appHandler(func(ctx Ctx){ctx.ReturnRegisterPage()}))
+	mux.Handle("/data", appHandler(func(ctx Ctx){ctx.ReturnDataPage()}))
+	mux.Handle("/track", appHandler(func(ctx Ctx){ctx.ReturnTrackingPage()}))
 	return mux
 
 }
@@ -188,7 +188,7 @@ func parseUTCOffset(input string) int {
 	return max(min(utcOffset, 14), -12)
 }
 
-func Track(ctx Ctx) {
+func  (ctx Ctx)ReturnTrackingPage() {
 
 	visit := make(Visit)
 
@@ -301,7 +301,7 @@ func Track(ctx Ctx) {
 
 }
 
-func Register(ctx Ctx) {
+func (ctx Ctx) ReturnRegisterPage() {
 	userId := truncate(ctx.r.FormValue("user"))
 	password := ctx.r.FormValue("password")
 	if userId == "" || password == "" {
@@ -324,7 +324,7 @@ func Register(ctx Ctx) {
 	}
 }
 
-func Login(ctx Ctx) {
+func (ctx Ctx) ReturnLoginPage() {
 
 	userId := ctx.r.FormValue("user")
 	passwordInput := ctx.r.FormValue("password")
@@ -350,6 +350,6 @@ func Login(ctx Ctx) {
 	}
 }
 
-func AllData(ctx Ctx) {
+func (ctx Ctx)ReturnDataPage() {
 	ctx.ReturnUserData(ctx.ForceUserId())
 }
