@@ -30,13 +30,17 @@ func (ctx Ctx) Return(content string, statusCode int) {
 	ctx.Abort()
 }
 
+func (ctx Ctx) ReturnBadRequest(message string) {
+	ctx.Return(message, 400)
+}
+
 func (ctx Ctx) ReturnJSON(v interface{}, statusCode int) {
 	jsonString, err := json.Marshal(v)
 	ctx.CatchError(err)
 	ctx.Return(string(jsonString), statusCode)
 }
 
-func (ctx Ctx) ReturnError(err error) {
+func (ctx Ctx) ReturnInternalError(err error) {
 	_, file, line, _ := runtime.Caller(1)
 	fmt.Printf("%s:%d %s: %v\n", file, line, ctx.r.URL, err)
 	ctx.Return(err.Error(), 500)
@@ -44,7 +48,7 @@ func (ctx Ctx) ReturnError(err error) {
 
 func (ctx Ctx) CatchError(err error) {
 	if err != nil {
-		ctx.ReturnError(err)
+		ctx.ReturnInternalError(err)
 	}
 }
 
@@ -110,7 +114,7 @@ func (ctx Ctx) ReturnTrackingPage() {
 
 	userId := ctx.r.FormValue("site")
 	if userId == "" {
-		ctx.Return("missing site param", 400)
+		ctx.ReturnBadRequest("missing site param")
 	}
 
 	//
@@ -216,7 +220,7 @@ func (ctx Ctx) ReturnRegisterPage() {
 	userId := truncate(ctx.r.FormValue("user"))
 	password := ctx.r.FormValue("password")
 	if userId == "" || password == "" {
-		ctx.Return("Missing Input", 400)
+		ctx.ReturnBadRequest("Missing Input")
 	}
 
 	user := ctx.users.New(userId)
@@ -225,13 +229,13 @@ func (ctx Ctx) ReturnRegisterPage() {
 	err := user.Create(password)
 	switch err.(type) {
 	case nil:
-		ctx.Return("OK", 200)
+		ctx.ReturnUserData(userId)
 
 	case *ErrCreate:
-		ctx.Return(err.Error(), 400)
+		ctx.ReturnBadRequest(err.Error())
 
 	default:
-		ctx.ReturnError(err)
+		ctx.ReturnInternalError(err)
 	}
 }
 
@@ -240,7 +244,7 @@ func (ctx Ctx) ReturnLoginPage() {
 	userId := ctx.r.FormValue("user")
 	passwordInput := ctx.r.FormValue("password")
 	if userId == "" || passwordInput == "" {
-		ctx.Return("Missing Input", 400)
+		ctx.ReturnBadRequest("Missing Input")
 	}
 
 	user := ctx.users.New(userId)
@@ -257,7 +261,7 @@ func (ctx Ctx) ReturnLoginPage() {
 		ctx.ReturnUserData(userId)
 
 	} else {
-		ctx.Return("Wrong username or password", 400)
+		ctx.ReturnBadRequest("Wrong username or password")
 	}
 }
 
