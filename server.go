@@ -59,34 +59,30 @@ func (ctx Ctx) ReturnJSON(v interface{}, statusCode int) {
 
 func (ctx Ctx) ReturnError(err error) {
 	_, file, line, _ := runtime.Caller(1)
-        fmt.Printf("%s:%d %s: %v\n", file, line, ctx.r.URL, err)
+	fmt.Printf("%s:%d %s: %v\n", file, line, ctx.r.URL, err)
 	ctx.Return(err.Error(), 500)
 }
 
 func (ctx Ctx) HandleError(err error) {
 	if err != nil {
-        	ctx.ReturnError(err)
-        }
+		ctx.ReturnError(err)
+	}
 }
 
-
-func (ctx Ctx) SetSessionUser(userId string){
-               session, _ := store.Get(ctx.r, "swa")
-               session.Values["user"] = userId
-               session.Save(ctx.r, ctx.w)
+func (ctx Ctx) SetSessionUser(userId string) {
+	session, _ := store.Get(ctx.r, "swa")
+	session.Values["user"] = userId
+	session.Save(ctx.r, ctx.w)
 }
 
-
-func (ctx Ctx) ForceUserId() string{
+func (ctx Ctx) ForceUserId() string {
 	session, _ := store.Get(ctx.r, "swa")
 	userId, ok := session.Values["user"].(string)
 	if !ok {
 		ctx.Return("Forbidden", http.StatusForbidden)
 	}
-        return userId
+	return userId
 }
-
-
 
 func (ctx Ctx) ReturnUserData(userId string) {
 	user := ctx.users.New(userId)
@@ -98,7 +94,6 @@ func (ctx Ctx) ReturnUserData(userId string) {
 	ctx.HandleError(err)
 	ctx.ReturnJSON(userData, 200)
 }
-
 
 func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	users := Users{pool}
@@ -338,12 +333,12 @@ func Login(ctx Ctx) {
 	passwordOk, err := user.VerifyPassword(passwordInput)
 	ctx.HandleError(err)
 	tokenOk, err := user.VerifyToken(passwordInput)
-        ctx.HandleError(err)
+	ctx.HandleError(err)
 
 	if passwordOk || tokenOk {
 		user.TouchAccess()
 		ctx.SetSessionUser(userId)
-                ctx.ReturnUserData(userId)
+		ctx.ReturnUserData(userId)
 
 	} else {
 		ctx.Return("Wrong username or password", 400)
@@ -351,6 +346,5 @@ func Login(ctx Ctx) {
 }
 
 func AllData(ctx Ctx) {
-        ctx.ReturnUserData(ctx.ForceUserId())
-
+	ctx.ReturnUserData(ctx.ForceUserId())
 }
