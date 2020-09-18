@@ -41,10 +41,9 @@ func InitMux() *http.ServeMux {
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("./static"))
 	mux.Handle("/", fs)
-	mux.Handle("/login", appHandler(func(ctx Ctx) { ctx.ReturnLoginPage() }))
-	mux.Handle("/register", appHandler(func(ctx Ctx) { ctx.ReturnRegisterPage() }))
-	mux.Handle("/data", appHandler(func(ctx Ctx) { ctx.ReturnDataPage() }))
-	mux.Handle("/track", appHandler(func(ctx Ctx) { ctx.ReturnTrackingPage() }))
+	for path, f := range Handlers {
+		mux.Handle(path, appHandler(f))
+	}
 
 	return mux
 
