@@ -6,7 +6,7 @@ runserver:
 
 format:
 	js-beautify --replace static/script.js
-	go fmt *.go
+	plash --from alpine:3.11 --apk go -- go fmt *.go
 
 logs:
 	ssh root@172.104.148.60 cat log

@@ -26,12 +26,14 @@ var pool *redis.Pool
 var key = []byte("super-secret-key____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE____NO_MERGE__")
 var store = sessions.NewCookieStore(key)
 
-type appHandler func(Ctx) Resp
+type appHandler func(Ctx)
 
 //type JSONResp struct {}
 type Resp interface {
 	GetResp() (string, int)
 }
+
+type AbortPanic struct{}
 
 type Ctx struct {
 	w     http.ResponseWriter
@@ -39,33 +41,44 @@ type Ctx struct {
 	users Users
 }
 
-type PlainResp struct {
-	Content    string
-	StatusCode int
+func (ctx Ctx) Abort() {
+	panic(AbortPanic{})
 }
 
-func (r PlainResp) GetResp() (string, int) {
-	return r.Content, r.StatusCode
+func (ctx Ctx) Return(content string, statusCode int) {
+	ctx.w.WriteHeader(statusCode)
+	ctx.w.Write([]byte(content))
+	ctx.Abort()
 }
 
-type ErrorResp struct {
-	err error
+func (ctx Ctx) ReturnError(err error) {
+	ctx.Return(err.Error(), 500)
 }
 
-func (r ErrorResp) GetResp() (string, int) {
-	return fmt.Sprintf("%s\n", r.err.Error()), 500
-}
+//func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+//
+//	users := Users{pool}
+//	ctx := Ctx{w: w, r: r, users: users}
+//	defer fn(ctx) {
+//		r := recover()
+//	        if r != nil {}
+//	}()
+//}
 
 func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-
 	users := Users{pool}
 	ctx := Ctx{w: w, r: r, users: users}
-	resp := fn(ctx)
-	if resp != nil {
-		content, statusCode := resp.GetResp()
-		ctx.w.WriteHeader(statusCode)
-		ctx.w.Write([]byte(content))
-	}
+	defer func() {
+		r := recover()
+		if r != nil {
+			switch r.(type) {
+			case AbortPanic:
+			default:
+				panic(r)
+			}
+		}
+	}()
+	fn(ctx)
 }
 
 func min(x, y int) int {
@@ -140,7 +153,7 @@ func parseUTCOffset(input string) int {
 	return max(min(utcOffset, 14), -12)
 }
 
-func Track(ctx Ctx) Resp {
+func Track(ctx Ctx) {
 
 	visit := make(Visit)
 
@@ -150,7 +163,8 @@ func Track(ctx Ctx) Resp {
 
 	userId := ctx.r.FormValue("site")
 	if userId == "" {
-		return PlainResp{"missing site param", 400}
+		ctx.Return("missing site param", 400)
+		return
 	}
 
 	//
@@ -177,11 +191,11 @@ func Track(ctx Ctx) Resp {
 	// see issue: https://github.com/avct/uasurfer/issues/65
 	//
 	if ua.IsBot() || strings.Contains(userAgent, " HeadlessChrome/") {
-		return nil
+		return
 	}
 	originUrl, err := url.Parse(origin)
 	if err == nil && (originUrl.Hostname() == "localhost" || originUrl.Hostname() == "127.0.0.1") {
-		return nil
+		return
 	}
 
 	//
@@ -249,15 +263,17 @@ func Track(ctx Ctx) Resp {
 
 	ctx.w.Header().Set("Content-Type", "text/plain")
 	ctx.w.Header().Set("Cache-Control", "public, immutable")
-	return PlainResp{"OK", 200}
+	ctx.Return("OK", 200)
+	return
 
 }
 
-func Register(ctx Ctx) Resp {
+func Register(ctx Ctx) {
 	userId := truncate(ctx.r.FormValue("user"))
 	password := ctx.r.FormValue("password")
 	if userId == "" || password == "" {
-		return PlainResp{"Missing Input", 400}
+		ctx.Return("Missing Input", 400)
+		return
 	}
 
 	user := ctx.users.New(userId)
@@ -266,22 +282,26 @@ func Register(ctx Ctx) Resp {
 	err := user.Create(password)
 	switch err.(type) {
 	case nil:
-		return PlainResp{"OK", 200}
+		ctx.Return("OK", 200)
+		return
 
 	case *ErrCreate:
-		return PlainResp{err.Error(), 400}
+		ctx.Return(err.Error(), 400)
+		return
 
 	default:
-		return ErrorResp{WrapErr(err)}
+		ctx.ReturnError(WrapErr(err))
+		return
 	}
 }
 
-func Login(ctx Ctx) Resp {
+func Login(ctx Ctx) {
 
 	userId := ctx.r.FormValue("user")
 	passwordInput := ctx.r.FormValue("password")
 	if userId == "" || passwordInput == "" {
-		return PlainResp{"Missing Input", 400}
+		ctx.Return("Missing Input", 400)
+		return
 	}
 
 	user := ctx.users.New(userId)
@@ -289,11 +309,13 @@ func Login(ctx Ctx) Resp {
 
 	passwordOk, err := user.VerifyPassword(passwordInput)
 	if err != nil {
-		return ErrorResp{err}
+		ctx.ReturnError(err)
+		return
 	}
 	tokenOk, err := user.VerifyToken(passwordInput)
 	if err != nil {
-		return ErrorResp{err}
+		ctx.ReturnError(err)
+		return
 	}
 
 	if passwordOk || tokenOk {
@@ -305,22 +327,23 @@ func Login(ctx Ctx) Resp {
 		session.Save(ctx.r, ctx.w)
 
 		sendUserData(userId, ctx)
-		return nil
+		return
 
 	} else {
-		return PlainResp{"Wrong username or password", 400}
+		ctx.Return("Wrong username or password", 400)
+		return
 	}
-	return nil
+	return
 }
 
-func AllData(ctx Ctx) Resp {
+func AllData(ctx Ctx) {
 	session, _ := store.Get(ctx.r, "swa")
 	userId, ok := session.Values["user"].(string)
 	if !ok {
-		return PlainResp{"Forbidden", http.StatusForbidden}
+		ctx.Return("Forbidden", http.StatusForbidden)
 	}
 	sendUserData(userId, ctx)
-	return nil
+	return
 
 }
 
@@ -332,19 +355,15 @@ func sendUserData(userId string, ctx Ctx) {
 
 	userData, err := user.GetData(utcOffset)
 	if err != nil {
-		log.Println(userId, err)
-		http.Error(ctx.w, err.Error(), 500)
+		ctx.ReturnError(err)
 		return
 	}
 	jsonString, err := json.Marshal(userData)
 	if err != nil {
-		log.Println(userId, err)
-		http.Error(ctx.w, err.Error(), 500)
+		ctx.ReturnError(err)
 		return
 	}
-
-	// Print secret message
-	fmt.Fprintln(ctx.w, string(jsonString))
+	ctx.Return(string(jsonString), 200)
 
 }
 
