@@ -51,9 +51,15 @@ func (ctx Ctx) Return(content string, statusCode int) {
 	ctx.Abort()
 }
 
+func (ctx Ctx) ReturnJSON(v interface{}, statusCode int) {
+	jsonString, err := json.Marshal(v)
+	ctx.HandleError(err)
+	ctx.Return(string(jsonString), statusCode)
+}
+
 func (ctx Ctx) ReturnError(err error) {
 	_, file, line, _ := runtime.Caller(1)
-        fmt.Printf("%s:%d: %v\n", file, line, err)
+        fmt.Printf("%s:%d %s: %v\n", file, line, ctx.r.URL, err)
 	ctx.Return(err.Error(), 500)
 }
 
@@ -63,15 +69,23 @@ func (ctx Ctx) HandleError(err error) {
         }
 }
 
-//func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-//
-//	users := Users{pool}
-//	ctx := Ctx{w: w, r: r, users: users}
-//	defer fn(ctx) {
-//		r := recover()
-//	        if r != nil {}
-//	}()
-//}
+
+func (ctx Ctx) SetSessionUser(userId string){
+               session, _ := store.Get(ctx.r, "swa")
+               session.Values["user"] = userId
+               session.Save(ctx.r, ctx.w)
+}
+
+
+func (ctx Ctx) ForceUserId() string{
+	session, _ := store.Get(ctx.r, "swa")
+	userId, ok := session.Values["user"].(string)
+	if !ok {
+		ctx.Return("Forbidden", http.StatusForbidden)
+	}
+        return userId
+}
+
 
 func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	users := Users{pool}
@@ -316,10 +330,7 @@ func Login(ctx Ctx) {
 	if passwordOk || tokenOk {
 		user.TouchAccess()
 
-		// save to user session
-		session, _ := store.Get(ctx.r, "swa")
-		session.Values["user"] = userId
-		session.Save(ctx.r, ctx.w)
+		ctx.SetSessionUser(userId)
 
 		sendUserData(userId, ctx)
 		return
@@ -330,12 +341,7 @@ func Login(ctx Ctx) {
 }
 
 func AllData(ctx Ctx) {
-	session, _ := store.Get(ctx.r, "swa")
-	userId, ok := session.Values["user"].(string)
-	if !ok {
-		ctx.Return("Forbidden", http.StatusForbidden)
-	}
-	sendUserData(userId, ctx)
+	sendUserData(ctx.ForceUserId(), ctx)
 	return
 
 }
@@ -348,8 +354,5 @@ func sendUserData(userId string, ctx Ctx) {
 
 	userData, err := user.GetData(utcOffset)
 	ctx.HandleError(err)
-	jsonString, err := json.Marshal(userData)
-	ctx.HandleError(err)
-	ctx.Return(string(jsonString), 200)
-
+	ctx.ReturnJSON(userData, 200)
 }
