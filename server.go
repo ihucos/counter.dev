@@ -87,6 +87,19 @@ func (ctx Ctx) ForceUserId() string{
 }
 
 
+
+func (ctx Ctx) ReturnUserData(userId string) {
+	user := ctx.users.New(userId)
+	defer user.Close()
+
+	utcOffset := parseUTCOffset(ctx.r.FormValue("utcoffset"))
+
+	userData, err := user.GetData(utcOffset)
+	ctx.HandleError(err)
+	ctx.ReturnJSON(userData, 200)
+}
+
+
 func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	users := Users{pool}
 	ctx := Ctx{w: w, r: r, users: users}
@@ -329,11 +342,8 @@ func Login(ctx Ctx) {
 
 	if passwordOk || tokenOk {
 		user.TouchAccess()
-
 		ctx.SetSessionUser(userId)
-
-		sendUserData(userId, ctx)
-		return
+                ctx.ReturnUserData(userId)
 
 	} else {
 		ctx.Return("Wrong username or password", 400)
@@ -341,18 +351,6 @@ func Login(ctx Ctx) {
 }
 
 func AllData(ctx Ctx) {
-	sendUserData(ctx.ForceUserId(), ctx)
-	return
+        ctx.ReturnUserData(ctx.ForceUserId())
 
-}
-
-func sendUserData(userId string, ctx Ctx) {
-	user := ctx.users.New(userId)
-	defer user.Close()
-
-	utcOffset := parseUTCOffset(ctx.r.FormValue("utcoffset"))
-
-	userData, err := user.GetData(utcOffset)
-	ctx.HandleError(err)
-	ctx.ReturnJSON(userData, 200)
 }
