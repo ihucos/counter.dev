@@ -53,7 +53,7 @@ func (ctx Ctx) Return(content string, statusCode int) {
 
 func (ctx Ctx) ReturnJSON(v interface{}, statusCode int) {
 	jsonString, err := json.Marshal(v)
-	ctx.HandleError(err)
+	ctx.CatchError(err)
 	ctx.Return(string(jsonString), statusCode)
 }
 
@@ -63,7 +63,7 @@ func (ctx Ctx) ReturnError(err error) {
 	ctx.Return(err.Error(), 500)
 }
 
-func (ctx Ctx) HandleError(err error) {
+func (ctx Ctx) CatchError(err error) {
 	if err != nil {
 		ctx.ReturnError(err)
 	}
@@ -91,9 +91,14 @@ func (ctx Ctx) ReturnUserData(userId string) {
 	utcOffset := parseUTCOffset(ctx.r.FormValue("utcoffset"))
 
 	userData, err := user.GetData(utcOffset)
-	ctx.HandleError(err)
+	ctx.CatchError(err)
 	ctx.ReturnJSON(userData, 200)
 }
+
+//func (ctx Ctx) Authenticate() {
+//	ctx.User = ctx.users.New(ctx.ForceUserId())
+//
+//}
 
 func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	users := Users{pool}
@@ -331,9 +336,9 @@ func Login(ctx Ctx) {
 	defer user.Close()
 
 	passwordOk, err := user.VerifyPassword(passwordInput)
-	ctx.HandleError(err)
+	ctx.CatchError(err)
 	tokenOk, err := user.VerifyToken(passwordInput)
-	ctx.HandleError(err)
+	ctx.CatchError(err)
 
 	if passwordOk || tokenOk {
 		user.TouchAccess()
