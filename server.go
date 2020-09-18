@@ -4,7 +4,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/gomodule/redigo/redis"
@@ -60,6 +59,7 @@ func InitMux() *http.ServeMux {
 	mux.Handle("/register", appHandler(func(ctx Ctx) { ctx.ReturnRegisterPage() }))
 	mux.Handle("/data", appHandler(func(ctx Ctx) { ctx.ReturnDataPage() }))
 	mux.Handle("/track", appHandler(func(ctx Ctx) { ctx.ReturnTrackingPage() }))
+
 	return mux
 
 }
@@ -100,12 +100,4 @@ func timeNow(utcOffset int) time.Time {
 	now := utcnow.Add(time.Hour * time.Duration(utcOffset))
 	return now
 
-}
-
-func parseUTCOffset(input string) int {
-	utcOffset, err := strconv.Atoi(input)
-	if err != nil {
-		utcOffset = 0
-	}
-	return max(min(utcOffset, 14), -12)
 }
