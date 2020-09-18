@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strings"
 	"strconv"
+	"strings"
 
 	"github.com/avct/uasurfer"
 	"golang.org/x/text/language"
@@ -49,6 +49,21 @@ func (ctx Ctx) CatchError(err error) {
 }
 
 func (ctx Ctx) ParseUTCOffset(key string) int {
+
+	min := func(x, y int) int {
+		if x < y {
+			return x
+		}
+		return y
+	}
+
+	max := func(x, y int) int {
+		if x > y {
+			return x
+		}
+		return y
+	}
+
 	utcOffset, err := strconv.Atoi(ctx.r.FormValue(key))
 	if err != nil {
 		utcOffset = 0
