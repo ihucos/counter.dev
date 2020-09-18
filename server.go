@@ -52,6 +52,8 @@ func (ctx Ctx) Return(content string, statusCode int) {
 }
 
 func (ctx Ctx) ReturnError(err error) {
+	_, file, line, _ := runtime.Caller(1)
+        fmt.Printf("%s:%d: %v\n", file, line, err)
 	ctx.Return(err.Error(), 500)
 }
 
@@ -164,7 +166,6 @@ func Track(ctx Ctx) {
 	userId := ctx.r.FormValue("site")
 	if userId == "" {
 		ctx.Return("missing site param", 400)
-		return
 	}
 
 	//
@@ -264,7 +265,6 @@ func Track(ctx Ctx) {
 	ctx.w.Header().Set("Content-Type", "text/plain")
 	ctx.w.Header().Set("Cache-Control", "public, immutable")
 	ctx.Return("OK", 200)
-	return
 
 }
 
@@ -273,7 +273,6 @@ func Register(ctx Ctx) {
 	password := ctx.r.FormValue("password")
 	if userId == "" || password == "" {
 		ctx.Return("Missing Input", 400)
-		return
 	}
 
 	user := ctx.users.New(userId)
@@ -283,15 +282,12 @@ func Register(ctx Ctx) {
 	switch err.(type) {
 	case nil:
 		ctx.Return("OK", 200)
-		return
 
 	case *ErrCreate:
 		ctx.Return(err.Error(), 400)
-		return
 
 	default:
-		ctx.ReturnError(WrapErr(err))
-		return
+		ctx.ReturnError(err)
 	}
 }
 
@@ -301,7 +297,6 @@ func Login(ctx Ctx) {
 	passwordInput := ctx.r.FormValue("password")
 	if userId == "" || passwordInput == "" {
 		ctx.Return("Missing Input", 400)
-		return
 	}
 
 	user := ctx.users.New(userId)
@@ -310,12 +305,10 @@ func Login(ctx Ctx) {
 	passwordOk, err := user.VerifyPassword(passwordInput)
 	if err != nil {
 		ctx.ReturnError(err)
-		return
 	}
 	tokenOk, err := user.VerifyToken(passwordInput)
 	if err != nil {
 		ctx.ReturnError(err)
-		return
 	}
 
 	if passwordOk || tokenOk {
@@ -331,9 +324,7 @@ func Login(ctx Ctx) {
 
 	} else {
 		ctx.Return("Wrong username or password", 400)
-		return
 	}
-	return
 }
 
 func AllData(ctx Ctx) {
@@ -361,13 +352,7 @@ func sendUserData(userId string, ctx Ctx) {
 	jsonString, err := json.Marshal(userData)
 	if err != nil {
 		ctx.ReturnError(err)
-		return
 	}
 	ctx.Return(string(jsonString), 200)
 
-}
-
-func WrapErr(err error) error {
-	_, file, line, _ := runtime.Caller(1)
-	return fmt.Errorf("%s:%d: %s", file, line, err)
 }
