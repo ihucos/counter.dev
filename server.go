@@ -17,6 +17,7 @@ import (
 	"golang.org/x/text/language"
 	"golang.org/x/text/language/display"
 	"log"
+	"runtime"
 )
 
 var pool *redis.Pool
@@ -47,7 +48,7 @@ type ErrorResp struct {
 }
 
 func (r ErrorResp) GetResp() (string, int) {
-	return r.err.Error(), 500
+	return fmt.Sprintf("%s\n", r.err.Error()), 500
 }
 
 func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -264,7 +265,7 @@ func Register(w http.ResponseWriter, r *http.Request) Resp {
 		return PlainResp{err.Error(), 400}
 
 	default:
-		return PlainResp{err.Error(), 500}
+		return ErrorResp{WrapErr(err)}
 	}
 }
 
@@ -338,4 +339,11 @@ func sendUserData(userId string, w http.ResponseWriter, r *http.Request) {
 	// Print secret message
 	fmt.Fprintln(w, string(jsonString))
 
+}
+
+
+
+func WrapErr(err error) error{
+        _, file, line, _ := runtime.Caller(1)
+	return fmt.Errorf("%s:%d: %s", file, line, err)
 }
