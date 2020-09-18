@@ -33,10 +33,9 @@ type Resp interface {
 	GetResp() (string, int)
 }
 
-
 type Ctx struct {
-	w http.ResponseWriter
-        r *http.Request
+	w     http.ResponseWriter
+	r     *http.Request
 	users Users
 }
 
@@ -60,7 +59,7 @@ func (r ErrorResp) GetResp() (string, int) {
 func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	users := Users{pool}
-        ctx := Ctx{w: w, r: r, users: users}
+	ctx := Ctx{w: w, r: r, users: users}
 	resp := fn(ctx)
 	if resp != nil {
 		content, statusCode := resp.GetResp()
@@ -349,9 +348,7 @@ func sendUserData(userId string, ctx Ctx) {
 
 }
 
-
-
-func WrapErr(err error) error{
-        _, file, line, _ := runtime.Caller(1)
+func WrapErr(err error) error {
+	_, file, line, _ := runtime.Caller(1)
 	return fmt.Errorf("%s:%d: %s", file, line, err)
 }
