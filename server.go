@@ -27,11 +27,17 @@ var users Users
 var key = []byte("super-secret-key____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE____NO_MERGE__")
 var store = sessions.NewCookieStore(key)
 
-type appHandler func(http.ResponseWriter, *http.Request) Resp
+type appHandler func(Ctx) Resp
 
 //type JSONResp struct {}
 type Resp interface {
 	GetResp() (string, int)
+}
+
+
+type Ctx struct {
+	w http.ResponseWriter
+        r *http.Request
 }
 
 type PlainResp struct {
@@ -52,11 +58,12 @@ func (r ErrorResp) GetResp() (string, int) {
 }
 
 func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	resp := fn(w, r)
+        ctx := Ctx{w: w, r: r}
+	resp := fn(ctx)
 	if resp != nil {
 		content, statusCode := resp.GetResp()
-		w.WriteHeader(statusCode)
-		w.Write([]byte(content))
+		ctx.w.WriteHeader(statusCode)
+		ctx.w.Write([]byte(content))
 	}
 }
 
@@ -133,7 +140,7 @@ func parseUTCOffset(input string) int {
 	return max(min(utcOffset, 14), -12)
 }
 
-func Track(w http.ResponseWriter, r *http.Request) Resp {
+func Track(ctx Ctx) Resp {
 
 	visit := make(Visit)
 
@@ -141,7 +148,7 @@ func Track(w http.ResponseWriter, r *http.Request) Resp {
 	// Input validation
 	//
 
-	userId := r.FormValue("site")
+	userId := ctx.r.FormValue("site")
 	if userId == "" {
 		return PlainResp{"missing site param", 400}
 	}
@@ -149,21 +156,21 @@ func Track(w http.ResponseWriter, r *http.Request) Resp {
 	//
 	// variables
 	//
-	utcOffset := parseUTCOffset(r.FormValue("utcoffset"))
+	utcOffset := parseUTCOffset(ctx.r.FormValue("utcoffset"))
 	now := timeNow(utcOffset)
-	userAgent := r.Header.Get("User-Agent")
+	userAgent := ctx.r.Header.Get("User-Agent")
 	ua := uasurfer.Parse(userAgent)
-	origin := r.Header.Get("Origin")
+	origin := ctx.r.Header.Get("Origin")
 
 	//
 	// set expire
 	//
-	w.Header().Set("Expires", now.Format("Mon, 2 Jan 2006")+" 23:59:59 GMT")
+	ctx.w.Header().Set("Expires", now.Format("Mon, 2 Jan 2006")+" 23:59:59 GMT")
 
 	//
 	// Not strictly necessary but avoids the browser issuing an error.
 	//
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	ctx.w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	//
 	// drop if bot or origin is from localhost
@@ -181,19 +188,19 @@ func Track(w http.ResponseWriter, r *http.Request) Resp {
 	// build visit map
 	//
 
-	refParam := r.FormValue("referrer")
+	refParam := ctx.r.FormValue("referrer")
 	parsedUrl, err := url.Parse(refParam)
 	if err == nil && parsedUrl.Host != "" {
 		visit["ref"] = parsedUrl.Host
 	}
 
-	ref := r.Header.Get("Referer")
+	ref := ctx.r.Header.Get("Referer")
 	parsedUrl, err = url.Parse(ref)
 	if err == nil && parsedUrl.Path != "" {
 		visit["loc"] = parsedUrl.Path
 	}
 
-	tags, _, err := language.ParseAcceptLanguage(r.Header.Get("Accept-Language"))
+	tags, _, err := language.ParseAcceptLanguage(ctx.r.Header.Get("Accept-Language"))
 	if err == nil && len(tags) > 0 {
 		lang := display.English.Languages().Name(tags[0])
 		visit["lang"] = lang
@@ -203,12 +210,12 @@ func Track(w http.ResponseWriter, r *http.Request) Resp {
 		visit["origin"] = origin
 	}
 
-	country := r.Header.Get("CF-IPCountry")
+	country := ctx.r.Header.Get("CF-IPCountry")
 	if country != "" && country != "XX" {
 		visit["country"] = strings.ToLower(country)
 	}
 
-	screenInput := r.FormValue("screen")
+	screenInput := ctx.r.FormValue("screen")
 	if screenInput != "" {
 		_, screenExists := screenResolutions[screenInput]
 		if screenExists {
@@ -240,15 +247,15 @@ func Track(w http.ResponseWriter, r *http.Request) Resp {
 	user.SaveVisit(visit, now)
 	user.SaveLogLine(logLine)
 
-	w.Header().Set("Content-Type", "text/plain")
-	w.Header().Set("Cache-Control", "public, immutable")
+	ctx.w.Header().Set("Content-Type", "text/plain")
+	ctx.w.Header().Set("Cache-Control", "public, immutable")
 	return PlainResp{"OK", 200}
 
 }
 
-func Register(w http.ResponseWriter, r *http.Request) Resp {
-	userId := truncate(r.FormValue("user"))
-	password := r.FormValue("password")
+func Register(ctx Ctx) Resp {
+	userId := truncate(ctx.r.FormValue("user"))
+	password := ctx.r.FormValue("password")
 	if userId == "" || password == "" {
 		return PlainResp{"Missing Input", 400}
 	}
@@ -269,10 +276,10 @@ func Register(w http.ResponseWriter, r *http.Request) Resp {
 	}
 }
 
-func Login(w http.ResponseWriter, r *http.Request) Resp {
+func Login(ctx Ctx) Resp {
 
-	userId := r.FormValue("user")
-	passwordInput := r.FormValue("password")
+	userId := ctx.r.FormValue("user")
+	passwordInput := ctx.r.FormValue("password")
 	if userId == "" || passwordInput == "" {
 		return PlainResp{"Missing Input", 400}
 	}
@@ -293,11 +300,11 @@ func Login(w http.ResponseWriter, r *http.Request) Resp {
 		user.TouchAccess()
 
 		// save to user session
-		session, _ := store.Get(r, "swa")
+		session, _ := store.Get(ctx.r, "swa")
 		session.Values["user"] = userId
-		session.Save(r, w)
+		session.Save(ctx.r, ctx.w)
 
-		sendUserData(userId, w, r)
+		sendUserData(userId, ctx.w, ctx.r)
 		return nil
 
 	} else {
@@ -306,13 +313,13 @@ func Login(w http.ResponseWriter, r *http.Request) Resp {
 	return nil
 }
 
-func AllData(w http.ResponseWriter, r *http.Request) Resp {
-	session, _ := store.Get(r, "swa")
+func AllData(ctx Ctx) Resp {
+	session, _ := store.Get(ctx.r, "swa")
 	userId, ok := session.Values["user"].(string)
 	if !ok {
 		return PlainResp{"Forbidden", http.StatusForbidden}
 	}
-	sendUserData(userId, w, r)
+	sendUserData(userId, ctx.w, ctx.r)
 	return nil
 
 }
