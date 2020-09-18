@@ -2,10 +2,10 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
-	"strconv"
 	"runtime"
+	"strconv"
 )
 
 type Ctx struct {
@@ -36,7 +36,7 @@ func (ctx Ctx) ReturnJSON(v interface{}, statusCode int) {
 
 func (ctx Ctx) ReturnInternalError(err error) {
 	_, file, line, _ := runtime.Caller(1)
-	fmt.Printf("%s:%d %s: %v\n", file, line, ctx.r.URL, err)
+	log.Printf("%s:%d %s: %v\n", file, line, ctx.r.URL, err)
 	ctx.Return(err.Error(), 500)
 }
 

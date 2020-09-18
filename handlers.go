@@ -1,6 +1,5 @@
 package main
 
-
 import (
 	"fmt"
 	"net/url"
@@ -28,7 +27,9 @@ var Handlers = map[string]func(Ctx){
 		ctx.CatchError(err)
 
 		if passwordOk || tokenOk {
-			user.TouchAccess()
+			if passwordOk {
+				user.TouchAccess()
+			}
 			ctx.SetSessionUser(userId)
 			ctx.ReturnUserData(userId)
 
