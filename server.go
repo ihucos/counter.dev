@@ -26,6 +26,42 @@ var users Users
 var key = []byte("super-secret-key____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE____NO_MERGE__")
 var store = sessions.NewCookieStore(key)
 
+type appHandler func(http.ResponseWriter, *http.Request) (Resp, error)
+
+//type JSONResp struct {}
+type Resp interface {
+	GetContent() string
+        GetStatusCode() int
+} 
+
+type PlainResp struct {
+    Content string
+    StatusCode int
+}
+
+func (r PlainResp) GetContent() string{
+	return r.Content
+}
+
+func (r PlainResp) GetStatusCode() int{
+	return r.StatusCode
+}
+
+
+
+func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    resp, err := fn(w, r);
+    if err != nil {
+	//log.Println(userId, err)
+	log.Println(err)
+	http.Error(w, err.Error(), 500)
+    }
+    if resp != nil {
+    	w.WriteHeader(resp.GetStatusCode())
+    	w.Write([]byte(resp.GetContent()))
+    }
+}
+
 func min(x, y int) int {
 	if x < y {
 		return x
@@ -40,13 +76,14 @@ func max(x, y int) int {
 	return y
 }
 
+
 func InitMux() *http.ServeMux {
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("./static"))
 	mux.Handle("/", fs)
-	mux.HandleFunc("/login", Login)
-	mux.HandleFunc("/register", Register)
-	mux.HandleFunc("/data", AllData)
+	mux.Handle("/login", appHandler(Login))
+	mux.Handle("/register", appHandler(Register))
+	mux.Handle("/data", appHandler(AllData))
 	return mux
 
 }
@@ -212,12 +249,11 @@ func Track(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func Register(w http.ResponseWriter, r *http.Request) {
+func Register(w http.ResponseWriter, r *http.Request) (Resp, error) {
 	userId := truncate(r.FormValue("user"))
 	password := r.FormValue("password")
 	if userId == "" || password == "" {
-		http.Error(w, "Missing Input", http.StatusBadRequest)
-		return
+		return PlainResp{"Missing Input", 400}, nil
 	}
 
 	user := users.New(userId)
@@ -226,27 +262,22 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	err := user.Create(password)
 	switch err.(type) {
 	case nil:
-		fmt.Fprintln(w, "OK")
-		return
+                return PlainResp{"OK", 200}, nil
 
 	case *ErrCreate:
-		http.Error(w, err.Error(), 400)
-		return
+                return PlainResp{err.Error(), 400}, nil
 
 	default:
-		log.Println(userId, err)
-		http.Error(w, err.Error(), 500)
-		return
+                return PlainResp{err.Error(), 500}, nil
 	}
 }
 
-func Login(w http.ResponseWriter, r *http.Request) {
+func Login(w http.ResponseWriter, r *http.Request) (Resp, error) {
 
 	userId := r.FormValue("user")
 	passwordInput := r.FormValue("password")
 	if userId == "" || passwordInput == "" {
-		http.Error(w, "Missing Input", http.StatusBadRequest)
-		return
+		return PlainResp{"Missing Input", 400}, nil
 	}
 
 	user := users.New(userId)
@@ -254,15 +285,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	passwordOk, err := user.VerifyPassword(passwordInput)
 	if err != nil {
-		log.Println(userId, err)
-		http.Error(w, err.Error(), 500)
-		return
+		return nil, err
 	}
 	tokenOk, err := user.VerifyToken(passwordInput)
 	if err != nil {
-		log.Println(userId, err)
-		http.Error(w, err.Error(), 500)
-		return
+		return nil, err
 	}
 
 	if passwordOk || tokenOk {
@@ -274,22 +301,22 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		session.Save(r, w)
 
                 sendUserData(userId, w, r)
-                return
+                return nil, nil
 
 	} else {
-		http.Error(w, "Wrong username or password", http.StatusBadRequest)
+                return PlainResp{"Wrong username or password", 400}, nil
 	}
+        return nil, nil
 }
 
-func AllData(w http.ResponseWriter, r *http.Request) {
+func AllData(w http.ResponseWriter, r *http.Request) (Resp, error) {
 	session, _ := store.Get(r, "swa")
 	userId, ok := session.Values["user"].(string)
 	if !ok {
-		http.Error(w, "Forbidden", http.StatusForbidden)
-		return
+                return PlainResp{"Forbidden", http.StatusForbidden}, nil
 	}
         sendUserData(userId, w, r)
-        return
+        return nil, nil
 
 }
 
