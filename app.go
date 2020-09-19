@@ -41,7 +41,6 @@ func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 type App struct {
 	RedisPool    *redis.Pool
-	users        *Users
 	SessionStore *sessions.CookieStore
 	Logger       *log.Logger
 	ServeMux     *http.ServeMux
@@ -62,6 +61,13 @@ func (app *App) CtxHandlerToHandler(fn func(Ctx)) http.Handler {
 	return appAdapter{app, fn}
 }
 
+func (app *App) OpenUdb(userId string) User {
+	return User{redis: app.RedisPool.Get(), id: userId}
+}
+
+
+
+// some utility function - move to utils.go or so
 func timeNow(utcOffset int) time.Time {
 	location, err := time.LoadLocation("UTC")
 	if err != nil {
@@ -99,7 +105,6 @@ func NewApp() *App {
 
 	app := &App{
 		RedisPool:    redisPool,
-		users:        &Users{redisPool},
 		SessionStore: sessionStore,
 		Logger:       logger,
 		ServeMux:     serveMux,
@@ -111,4 +116,3 @@ func NewApp() *App {
 	return app
 
 }
-

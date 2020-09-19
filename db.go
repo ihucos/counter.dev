@@ -19,10 +19,6 @@ const truncateAt = 256
 
 const loglinesKeep = 30
 
-type Users struct {
-	redisPool *redis.Pool
-}
-
 type User struct {
 	redis redis.Conn
 	id    string
@@ -82,13 +78,6 @@ var screenResolutions = map[string]bool{
 func hash(stri string) string {
 	h := sha256.Sum256([]byte(stri))
 	return string(h[:])
-}
-
-func (users Users) New(id string) User {
-	return User{
-		redis: users.redisPool.Get(),
-		id:    id,
-	}
 }
 
 func randToken() string {

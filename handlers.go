@@ -18,7 +18,7 @@ var Handlers = map[string]func(Ctx){
 			ctx.ReturnBadRequest("Missing Input")
 		}
 
-		user := ctx.app.users.New(userId)
+		user := ctx.app.OpenUdb(userId)
 		defer user.Close()
 
 		passwordOk, err := user.VerifyPassword(passwordInput)
@@ -44,7 +44,7 @@ var Handlers = map[string]func(Ctx){
 			ctx.ReturnBadRequest("Missing Input")
 		}
 
-		user := ctx.app.users.New(userId)
+		user := ctx.app.OpenUdb(userId)
 		defer user.Close()
 
 		err := user.Create(password)
@@ -162,7 +162,7 @@ var Handlers = map[string]func(Ctx){
 		//
 		logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, userAgent)
 
-		user := ctx.app.users.New(userId)
+		user := ctx.app.OpenUdb(userId)
 		defer user.Close()
 		user.SaveVisit(visit, now)
 		user.SaveLogLine(logLine)

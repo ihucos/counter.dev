@@ -78,7 +78,7 @@ func (ctx Ctx) ForceUserId() string {
 }
 
 func (ctx Ctx) ReturnUserData(userId string) {
-	user := ctx.app.users.New(userId)
+	user := ctx.app.OpenUdb(userId)
 	defer user.Close()
 
 	userData, err := user.GetData(ctx.ParseUTCOffset("utcoffset"))
@@ -87,6 +87,6 @@ func (ctx Ctx) ReturnUserData(userId string) {
 }
 
 //func (ctx Ctx) Authenticate() {
-//	ctx.User = ctx.users.New(ctx.ForceUserId())
+//	ctx.User = ctx.OpenUdb(ctx.ForceUserId())
 //
 //}
