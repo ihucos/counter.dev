@@ -46,6 +46,10 @@ func (app *App) Init() {
 	}
 }
 
+func (app *App) Context(w http.ResponseWriter, r *http.Request) Ctx {
+	return Ctx{w: w, r: r, app: app}
+}
+
 func NewApp() *App {
 	redisPool := SetupRedisPool()
 	app := &App{
@@ -60,7 +64,6 @@ func NewApp() *App {
 }
 
 func (ah AppHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	ctx := Ctx{w: w, r: r, app: ah.app}
 	defer func() {
 		r := recover()
 		if r != nil {
@@ -71,7 +74,7 @@ func (ah AppHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}()
-	ah.fn(ctx)
+	ah.fn(ah.app.Context(w, r))
 }
 
 func timeNow(utcOffset int) time.Time {
