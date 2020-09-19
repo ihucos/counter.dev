@@ -5,10 +5,17 @@ import (
 	"log"
 	"runtime"
 	"strconv"
+	"net/http"
 )
 
+type Ctx struct {
+	w   http.ResponseWriter
+	r   *http.Request
+	app *App
+}
+
 func (ctx Ctx) Abort() {
-	panic(AbortPanic{})
+	panic(ctx)
 }
 
 func (ctx Ctx) Return(content string, statusCode int) {
@@ -85,6 +92,10 @@ func (ctx Ctx) ReturnUserData(userId string) {
 	ctx.CatchError(err)
 	ctx.ReturnJSON(userData, 200)
 }
+
+//func (ctx Ctx) Log(format string, a ...interface{}) {
+//	ctx.app.Logger.Log.Printf(log, a ...)
+//}
 
 //func (ctx Ctx) Authenticate() {
 //	ctx.User = ctx.OpenUser(ctx.ForceUserId())

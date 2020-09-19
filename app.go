@@ -12,14 +12,6 @@ import (
 	"log"
 )
 
-type AbortPanic struct{}
-
-type Ctx struct {
-	w   http.ResponseWriter
-	r   *http.Request
-	app *App
-}
-
 type appAdapter struct {
 	app *App
 	fn  func(Ctx)
@@ -30,7 +22,7 @@ func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		r := recover()
 		if r != nil {
 			switch r.(type) {
-			case AbortPanic:
+			case Ctx:
 			default:
 				panic(r)
 			}
