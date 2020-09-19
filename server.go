@@ -10,7 +10,7 @@ import (
 	"log"
 )
 
-var pool *redis.Pool
+type AbortPanic struct{}
 
 type Ctx struct {
 	w   http.ResponseWriter
@@ -23,7 +23,20 @@ type AppHandler struct {
 	fn  func(Ctx)
 }
 
-type AbortPanic struct{}
+func (ah AppHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	defer func() {
+		r := recover()
+		if r != nil {
+			switch r.(type) {
+			case AbortPanic:
+			default:
+				panic(r)
+			}
+		}
+	}()
+	ah.fn(ah.app.Context(w, r))
+}
+
 
 type App struct {
 	RedisPool    *redis.Pool
@@ -42,12 +55,16 @@ func (app App) Serve(bind string) {
 
 func (app *App) Init() {
 	for path, f := range Handlers {
-		app.ServeMux.Handle(path, AppHandler{app, f})
+		app.ServeMux.Handle(path, app.CtxHandlerToHandler(f))
 	}
 }
 
 func (app *App) Context(w http.ResponseWriter, r *http.Request) Ctx {
 	return Ctx{w: w, r: r, app: app}
+}
+
+func (app *App) CtxHandlerToHandler(fn func(Ctx)) http.Handler {
+	return AppHandler{app, fn}
 }
 
 func NewApp() *App {
@@ -61,20 +78,6 @@ func NewApp() *App {
 	}
 	app.Init()
 	return app
-}
-
-func (ah AppHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		r := recover()
-		if r != nil {
-			switch r.(type) {
-			case AbortPanic:
-			default:
-				panic(r)
-			}
-		}
-	}()
-	ah.fn(ah.app.Context(w, r))
 }
 
 func timeNow(utcOffset int) time.Time {
