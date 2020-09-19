@@ -58,15 +58,13 @@ func SetupServeMux() *http.ServeMux {
 }
 
 func SetupLogger() *log.Logger {
-	logger := log.New()
-	logger.SetFlags(log.LstdFlags | log.Lshortfile)
 	logFile, err := os.OpenFile("log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
 	if err != nil {
 		logger.Fatalf("error opening file: %v", err)
 		return
 	}
+	logger := log.New(io.MultiWriter(os.Stdout, logFile), "webstats", log.LstdFlags|log.Lshortfile)
 	defer logFile.Close()
-	logger.SetOutput(io.MultiWriter(os.Stdout, logFile))
 	return logger
 }
 
