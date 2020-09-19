@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net/http"
+	"os"
 	"time"
-        "os"
-        "io"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
@@ -38,7 +38,6 @@ func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}()
 	ah.fn(ah.app.NewContext(w, r))
 }
-
 
 type App struct {
 	RedisPool    *redis.Pool
@@ -80,7 +79,6 @@ func main() {
 	NewApp().Serve(":80")
 }
 
-
 func NewApp() *App {
 
 	redisPool := &redis.Pool{
@@ -92,7 +90,7 @@ func NewApp() *App {
 	}
 
 	var key = []byte("super-secret-key____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE____NO_MERGE__")
-	sessionStore :=  sessions.NewCookieStore(key)
+	sessionStore := sessions.NewCookieStore(key)
 
 	logFile, err := os.OpenFile("log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
 	if err != nil {
@@ -112,10 +110,9 @@ func NewApp() *App {
 		ServeMux:     serveMux,
 	}
 
-
 	for path, f := range Handlers {
 		serveMux.Handle(path, app.CtxHandlerToHandler(f))
 	}
-        return app
+	return app
 
 }
