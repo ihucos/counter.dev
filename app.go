@@ -61,11 +61,9 @@ func (app *App) CtxHandlerToHandler(fn func(Ctx)) http.Handler {
 	return appAdapter{app, fn}
 }
 
-func (app *App) OpenUdb(userId string) User {
+func (app *App) OpenUser(userId string) User {
 	return User{redis: app.RedisPool.Get(), id: userId}
 }
-
-
 
 // some utility function - move to utils.go or so
 func timeNow(utcOffset int) time.Time {
