@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+        "os"
+        "io"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
@@ -18,12 +20,12 @@ type Ctx struct {
 	app *App
 }
 
-type AppHandler struct {
+type appAdapter struct {
 	app *App
 	fn  func(Ctx)
 }
 
-func (ah AppHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	defer func() {
 		r := recover()
 		if r != nil {
@@ -34,7 +36,7 @@ func (ah AppHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}()
-	ah.fn(ah.app.Context(w, r))
+	ah.fn(ah.app.NewContext(w, r))
 }
 
 
@@ -53,31 +55,12 @@ func (app App) Serve(bind string) {
 	}
 }
 
-func (app *App) Init() {
-	for path, f := range Handlers {
-		app.ServeMux.Handle(path, app.CtxHandlerToHandler(f))
-	}
-}
-
-func (app *App) Context(w http.ResponseWriter, r *http.Request) Ctx {
+func (app *App) NewContext(w http.ResponseWriter, r *http.Request) Ctx {
 	return Ctx{w: w, r: r, app: app}
 }
 
 func (app *App) CtxHandlerToHandler(fn func(Ctx)) http.Handler {
-	return AppHandler{app, fn}
-}
-
-func NewApp() *App {
-	redisPool := SetupRedisPool()
-	app := &App{
-		RedisPool:    redisPool,
-		users:        &Users{redisPool},
-		SessionStore: SetupSessionStore(),
-		Logger:       SetupLogger(),
-		ServeMux:     SetupServeMux(),
-	}
-	app.Init()
-	return app
+	return appAdapter{app, fn}
 }
 
 func timeNow(utcOffset int) time.Time {
@@ -95,4 +78,44 @@ func timeNow(utcOffset int) time.Time {
 func main() {
 	log.Println("Start")
 	NewApp().Serve(":80")
+}
+
+
+func NewApp() *App {
+
+	redisPool := &redis.Pool{
+		MaxIdle:     10,
+		IdleTimeout: 240 * time.Second,
+		Dial: func() (redis.Conn, error) {
+			return redis.Dial("tcp", "localhost:6379")
+		},
+	}
+
+	var key = []byte("super-secret-key____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE____NO_MERGE__")
+	sessionStore :=  sessions.NewCookieStore(key)
+
+	logFile, err := os.OpenFile("log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
+	if err != nil {
+		panic(fmt.Sprintf("error opening file: %v", err))
+	}
+	logger := log.New(io.MultiWriter(os.Stdout, logFile), "webstats", log.LstdFlags|log.Lshortfile)
+
+	serveMux := http.NewServeMux()
+	fs := http.FileServer(http.Dir("./static"))
+	serveMux.Handle("/", fs)
+
+	app := &App{
+		RedisPool:    redisPool,
+		users:        &Users{redisPool},
+		SessionStore: sessionStore,
+		Logger:       logger,
+		ServeMux:     serveMux,
+	}
+
+
+	for path, f := range Handlers {
+		serveMux.Handle(path, app.CtxHandlerToHandler(f))
+	}
+        return app
+
 }
