@@ -57,19 +57,6 @@ func (app *App) OpenUser(userId string) User {
 	return User{redis: app.RedisPool.Get(), id: userId}
 }
 
-// some utility function - move to utils.go or so
-func timeNow(utcOffset int) time.Time {
-	location, err := time.LoadLocation("UTC")
-	if err != nil {
-		panic(err)
-	}
-
-	utcnow := time.Now().In(location)
-	now := utcnow.Add(time.Hour * time.Duration(utcOffset))
-	return now
-
-}
-
 func NewApp() *App {
 
 	redisPool := &redis.Pool{
@@ -80,8 +67,7 @@ func NewApp() *App {
 		},
 	}
 
-	var key = []byte("super-secret-key____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE____NO_MERGE__")
-	sessionStore := sessions.NewCookieStore(key)
+	sessionStore := sessions.NewCookieStore([]byte(envForce("SECRET_COOKIE_ENCRYPT")))
 
 	logFile, err := os.OpenFile("log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
 	if err != nil {
