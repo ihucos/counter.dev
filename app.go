@@ -87,7 +87,7 @@ func NewApp() *App {
 	if err != nil {
 		panic(fmt.Sprintf("error opening file: %v", err))
 	}
-	logger := log.New(io.MultiWriter(os.Stdout, logFile), "webstats", log.LstdFlags|log.Lshortfile)
+	logger := log.New(io.MultiWriter(os.Stdout, logFile), "", log.LstdFlags|log.Lshortfile)
 
 	serveMux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("./static"))

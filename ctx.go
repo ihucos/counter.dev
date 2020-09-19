@@ -2,10 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"log"
+	"net/http"
 	"runtime"
 	"strconv"
-	"net/http"
 )
 
 type Ctx struct {
@@ -36,7 +35,7 @@ func (ctx Ctx) ReturnJSON(v interface{}, statusCode int) {
 
 func (ctx Ctx) ReturnInternalError(err error) {
 	_, file, line, _ := runtime.Caller(1)
-	log.Printf("%s:%d %s: %v\n", file, line, ctx.r.URL, err)
+	ctx.app.Logger.Printf("%s:%d %s: %v\n", file, line, ctx.r.URL, err)
 	ctx.Return(err.Error(), 500)
 }
 
@@ -92,10 +91,6 @@ func (ctx Ctx) ReturnUserData(userId string) {
 	ctx.CatchError(err)
 	ctx.ReturnJSON(userData, 200)
 }
-
-//func (ctx Ctx) Log(format string, a ...interface{}) {
-//	ctx.app.Logger.Log.Printf(log, a ...)
-//}
 
 //func (ctx Ctx) Authenticate() {
 //	ctx.User = ctx.OpenUser(ctx.ForceUserId())
