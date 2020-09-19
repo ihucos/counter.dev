@@ -8,12 +8,6 @@ import (
 	"strconv"
 )
 
-type Ctx struct {
-	w     http.ResponseWriter
-	r     *http.Request
-	users Users
-}
-
 func (ctx Ctx) Abort() {
 	panic(AbortPanic{})
 }
