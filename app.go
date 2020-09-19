@@ -49,7 +49,7 @@ type App struct {
 func (app App) Serve(bind string) {
 	err := http.ListenAndServe(bind, app.ServeMux)
 	if err != nil {
-		panic(fmt.Sprintf("ListenAndServe: ", err))
+		panic(fmt.Sprintf("ListenAndServe: %s", err))
 	}
 }
 
