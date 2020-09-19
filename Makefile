@@ -2,7 +2,7 @@
 
 .PHONY: runserver
 runserver:
-	plash --from alpine:3.11 --apk go -- go run db.go server.go ctx.go handlers.go
+	plash --from alpine:3.11 --apk go -- go run db.go server.go ctx.go handlers.go app.go
 
 format:
 	js-beautify --replace static/script.js
@@ -12,7 +12,7 @@ logs:
 	ssh root@172.104.148.60 cat log
 
 deploy:
-	plash --from alpine:3.11 --apk go -- go build db.go server.go ctx.go handlers.go
+	plash --from alpine:3.11 --apk go -- go build db.go server.go ctx.go handlers.go app.go
 	tar cf - static server | ssh root@172.104.148.60 tar xvf - -C /root
 	ssh root@172.104.148.60 "pkill -x ./server; sleep 5; dtach -n /tmp/dtach ./server"
 
