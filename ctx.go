@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"log"
-	"net/http"
 	"runtime"
 	"strconv"
 )
@@ -64,13 +63,13 @@ func (ctx Ctx) ParseUTCOffset(key string) int {
 }
 
 func (ctx Ctx) SetSessionUser(userId string) {
-	session, _ := store.Get(ctx.r, "swa")
+	session, _ := ctx.app.SessionStore.Get(ctx.r, "swa")
 	session.Values["user"] = userId
 	session.Save(ctx.r, ctx.w)
 }
 
 func (ctx Ctx) ForceUserId() string {
-	session, _ := store.Get(ctx.r, "swa")
+	session, _ := ctx.app.SessionStore.Get(ctx.r, "swa")
 	userId, ok := session.Values["user"].(string)
 	if !ok {
 		ctx.Return("Forbidden", 403)
@@ -79,7 +78,7 @@ func (ctx Ctx) ForceUserId() string {
 }
 
 func (ctx Ctx) ReturnUserData(userId string) {
-	user := ctx.users.New(userId)
+	user := ctx.app.users.New(userId)
 	defer user.Close()
 
 	userData, err := user.GetData(ctx.ParseUTCOffset("utcoffset"))

@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"time"
+	"fmt"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
@@ -25,6 +26,7 @@ type AbortPanic struct{}
 
 type App struct {
 	RedisPool    *redis.Pool
+        users        *Users
 	SessionStore *sessions.CookieStore
 	Logger       *log.Logger
 	ServeMux     *http.ServeMux
@@ -40,7 +42,7 @@ func SetupRedisPool() *redis.Pool {
 	}
 }
 
-func (app App) SetupSessionStore() *sessions.CookieStore {
+func SetupSessionStore() *sessions.CookieStore {
 	// key must be 16, 24 or 32 bytes long (AES-128, AES-192 or AES-256)
 	var key = []byte("super-secret-key____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE_____NO_MERGE____NO_MERGE__")
 	return sessions.NewCookieStore(key)
@@ -60,33 +62,32 @@ func SetupServeMux() *http.ServeMux {
 func SetupLogger() *log.Logger {
 	logFile, err := os.OpenFile("log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
 	if err != nil {
-		logger.Fatalf("error opening file: %v", err)
-		return
+		panic(fmt.Sprintf("error opening file: %v", err))
 	}
 	logger := log.New(io.MultiWriter(os.Stdout, logFile), "webstats", log.LstdFlags|log.Lshortfile)
-	defer logFile.Close()
 	return logger
 }
 
 func (app App) Serve(bind string) {
-	err = http.ListenAndServe(bind, App.Mux)
+	err := http.ListenAndServe(bind, app.ServeMux)
 	if err != nil {
-		app.logger.Fatal("ListenAndServe: ", err)
+		panic(fmt.Sprintf("ListenAndServe: ", err))
 	}
 }
 
 func NewApp() *App {
+        redisPool := SetupRedisPool()
 	return &App{
-		RedisPool:    SetupRedisPool(),
-		SessionStore: SetupServeMux(),
+		RedisPool:    redisPool,
+                users:        &Users{redisPool},
+		SessionStore: SetupSessionStore(),
 		Logger:       SetupLogger(),
 		ServeMux:     SetupServeMux(),
 	}
 }
 
 func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	users := Users{pool}
-	ctx := Ctx{w: w, r: r, users: users}
+	ctx := Ctx{w: w, r: r, app: NewApp()} // CANT CRTE APP CONTEXT ALL THE TIME!!!!!!!
 	defer func() {
 		r := recover()
 		if r != nil {
@@ -101,8 +102,8 @@ func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-
 	log.Println("Start")
+        NewApp().Serve(":80")
 }
 
 func timeNow(utcOffset int) time.Time {
