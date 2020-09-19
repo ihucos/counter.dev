@@ -99,7 +99,6 @@ func TestApiLoginSuccess(t *testing.T) {
 		FormData("password", "johnjohn").
 		Expect(t).
 		Status(200).
-		Body("OK").
 		CookiePresent("swa").
 		End()
 }
