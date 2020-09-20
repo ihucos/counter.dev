@@ -2,7 +2,7 @@ package main
 
 func NewConfig() Config {
 	return Config{
-		Bind:         ":80",
+		Bind:         ":8080",
 		CookieSecret: []byte("dahhh"),
 	}
 }
