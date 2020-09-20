@@ -1,6 +1,6 @@
 
 alpineversion = 3.11
-gofiles = db.go run.go ctx.go handlers.go app.go utils.go config.go
+gofiles = db.go run.go ctx.go endpoints.go app.go utils.go config.go
 go = plash --from alpine:$(alpineversion) --apk go -- go
 
 .PHONY: runserver

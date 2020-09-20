@@ -90,7 +90,7 @@ func NewApp() *App {
 		config:       config,
 	}
 
-	for path, f := range Handlers {
+	for path, f := range Endpoints {
 		serveMux.Handle(path, app.CtxHandlerToHandler(f))
 	}
 	return app
