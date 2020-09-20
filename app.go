@@ -36,7 +36,7 @@ type App struct {
 	SessionStore *sessions.CookieStore
 	Logger       *log.Logger
 	ServeMux     *http.ServeMux
-	config     Config
+	config       Config
 }
 
 func (app App) Serve() {
@@ -87,7 +87,7 @@ func NewApp() *App {
 		SessionStore: sessionStore,
 		Logger:       logger,
 		ServeMux:     serveMux,
-                config:	config,
+		config:       config,
 	}
 
 	for path, f := range Handlers {

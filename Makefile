@@ -1,18 +1,22 @@
 
+alpineversion = 3.11
+gofiles = db.go run.go ctx.go handlers.go app.go utils.go config.go
+go = plash --from alpine:$(alpineversion) --apk go -- go
 
 .PHONY: runserver
 runserver:
-	plash --from alpine:3.11 --apk go -- go run db.go run.go ctx.go handlers.go app.go utils.go config.go config_devel.go
+	 $(go) run  $(gofiles) config_devel.go
 
 format:
 	js-beautify --replace static/script.js
-	plash --from alpine:3.11 --apk go -- go fmt *.go
+	$(go) fmt *.go
 
 logs:
 	ssh root@172.104.148.60 cat log
 
+
 deploy:
-	plash --from alpine:3.11 --apk go -- go build db.go server.go ctx.go handlers.go app.go utils.go
+	$(go) build $(gofiles) config_production_secret.go
 	tar cf - static server | ssh root@172.104.148.60 tar xvf - -C /root
 	ssh root@172.104.148.60 "pkill -x ./server; sleep 5; dtach -n /tmp/dtach ./server"
 
@@ -29,7 +33,7 @@ stats:
 
 redis-server:
 	scp root@172.104.148.60:/var/lib/redis/dump.rdb /tmp/webstats-production.rdb
-	plash --from alpine:3.11 --apk redis -- redis-server --dbfilename webstats-production.rdb --dir /tmp
+	plash --from alpine:$(alpineversion) --apk redis -- redis-server --dbfilename webstats-production.rdb --dir /tmp
 
 .PHONY: log
 log:
@@ -40,7 +44,7 @@ integrations:
 
 
 tests:
-	plash --from alpine:3.11 --apk go -- go test
+	$(go) test
 
 #provision:
 #	ssh root@172.104.148.60 sh -c ' \
