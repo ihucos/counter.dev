@@ -1,5 +1,10 @@
 package main
 
+import (
+
+)
+
 func main() {
-	NewApp().Serve(envDefault("BIND", ":80"))
+	app := NewApp()
+        app.Serve()
 }

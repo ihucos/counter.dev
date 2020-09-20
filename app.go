@@ -36,10 +36,11 @@ type App struct {
 	SessionStore *sessions.CookieStore
 	Logger       *log.Logger
 	ServeMux     *http.ServeMux
+	conf     Config
 }
 
-func (app App) Serve(bind string) {
-	err := http.ListenAndServe(bind, app.ServeMux)
+func (app App) Serve() {
+	err := http.ListenAndServe(app.conf.bind, app.ServeMux)
 	if err != nil {
 		panic(fmt.Sprintf("ListenAndServe: %s", err))
 	}
@@ -59,6 +60,8 @@ func (app *App) OpenUser(userId string) User {
 
 func NewApp() *App {
 
+	conf := NewConfig()
+
 	redisPool := &redis.Pool{
 		MaxIdle:     10,
 		IdleTimeout: 240 * time.Second,
@@ -67,7 +70,7 @@ func NewApp() *App {
 		},
 	}
 
-	sessionStore := sessions.NewCookieStore([]byte(envForce("SECRET_COOKIE_ENCRYPT")))
+	sessionStore := sessions.NewCookieStore([]byte("XXXXXXXXXXXXXXSECRET_COOKIE_ENCRYPT"))
 
 	logFile, err := os.OpenFile("log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
 	if err != nil {
@@ -84,6 +87,7 @@ func NewApp() *App {
 		SessionStore: sessionStore,
 		Logger:       logger,
 		ServeMux:     serveMux,
+                conf:	conf,
 	}
 
 	for path, f := range Handlers {
