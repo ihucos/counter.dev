@@ -83,6 +83,22 @@ function makeGradient(id, alpha1, alpha2) {
 }
 
 
+function getData(p) {
+    fetch(p, {
+        method: "GET",
+    }).then(resp => {
+        if (resp.status == 200) {
+            return resp.json()
+        } else {
+            alert("Bad server status code: " + resp.status)
+        }
+    }).then(resp => {
+    	console.log('XXXXXX')
+        console.log(resp)
+    })
+}
+
+
 function post(endpoint, body, user, alertId) {
 
     // first hide all alerts

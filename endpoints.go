@@ -37,6 +37,9 @@ var Endpoints = map[string]func(Ctx){
 			ctx.ReturnBadRequest("Wrong username or password")
 		}
 	},
+	"/logout": func(ctx Ctx) {
+	        ctx.Logout()
+        },
 	"/register": func(ctx Ctx) {
 		userId := truncate(ctx.r.FormValue("user"))
 		password := ctx.r.FormValue("password")
