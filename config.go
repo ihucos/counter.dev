@@ -1,6 +1,6 @@
 package main
 
 type Config struct {
-	bind string
-        cookieSecret string
+	Bind string
+        CookieSecret []byte
 }

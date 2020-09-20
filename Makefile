@@ -2,7 +2,7 @@
 
 .PHONY: runserver
 runserver:
-	plash --from alpine:3.11 --apk go -- go run db.go server.go ctx.go handlers.go app.go utils.go config.go config_devel.go
+	plash --from alpine:3.11 --apk go -- go run db.go run.go ctx.go handlers.go app.go utils.go config.go config_devel.go
 
 format:
 	js-beautify --replace static/script.js
