@@ -84,9 +84,9 @@ func (ctx Ctx) ForceUserId() string {
 }
 
 func (ctx Ctx) Logout() {
-        session, _ := ctx.app.SessionStore.Get(ctx.r, "swa")
-        session.Options.MaxAge = -1
-        session.Save(ctx.r, ctx.w)
+	session, _ := ctx.app.SessionStore.Get(ctx.r, "swa")
+	session.Options.MaxAge = -1
+	session.Save(ctx.r, ctx.w)
 }
 
 func (ctx Ctx) ReturnUserData(userId string) {

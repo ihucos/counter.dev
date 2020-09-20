@@ -31,15 +31,15 @@ var Endpoints = map[string]func(Ctx){
 				user.TouchAccess()
 			}
 			ctx.SetSessionUser(userId)
-			ctx.ReturnUserData(userId)
+			ctx.Return("OK", 200)
 
 		} else {
 			ctx.ReturnBadRequest("Wrong username or password")
 		}
 	},
 	"/logout": func(ctx Ctx) {
-	        ctx.Logout()
-        },
+		ctx.Logout()
+	},
 	"/register": func(ctx Ctx) {
 		userId := truncate(ctx.r.FormValue("user"))
 		password := ctx.r.FormValue("password")
@@ -53,7 +53,8 @@ var Endpoints = map[string]func(Ctx){
 		err := user.Create(password)
 		switch err.(type) {
 		case nil:
-			ctx.ReturnUserData(userId)
+			ctx.SetSessionUser(userId)
+			ctx.Return("OK", 200)
 
 		case *ErrCreate:
 			ctx.ReturnBadRequest(err.Error())

@@ -83,23 +83,7 @@ function makeGradient(id, alpha1, alpha2) {
 }
 
 
-function getData(p) {
-    fetch(p, {
-        method: "GET",
-    }).then(resp => {
-        if (resp.status == 200) {
-            return resp.json()
-        } else {
-            alert("Bad server status code: " + resp.status)
-        }
-    }).then(resp => {
-    	console.log('XXXXXX')
-        console.log(resp)
-    })
-}
-
-
-function post(endpoint, body, user, alertId) {
+function post(endpoint, body, success, fail) {
 
     // first hide all alerts
     var x = document.getElementsByClassName("login-alert");
@@ -117,59 +101,95 @@ function post(endpoint, body, user, alertId) {
         },
     }).then(resp => {
         if (resp.status == 200) {
-            return resp.json()
+            return true
         } else if (resp.status == 400) {
             return resp.text()
         } else {
             return "Bad server status code: " + resp.status
         }
-    }).then(resp => {
-        if (typeof(resp) === "object") {
-
-            metaData = resp.meta // metaData is global
-            drawMetaVars()
-
-            // overwrite the plain password for security reasons.
-            document.getElementById("login_password").value = metaData.token
-
-            if (JSON.stringify(resp.data) !== JSON.stringify(window.timedData || {})) {
-                timedData = resp.data // timedData is global
-                data = resp.data[getSelectedTimeRange()] // data is global
-                logData = resp.log // logData is global
-                console.log("new data")
-                console.log(timedData)
-                draw()
-            }
+    }).then(arg => {
+        if (arg === true) {
+            success()
         } else {
-            document.getElementById(alertId).style.display = "block"
-            document.getElementById(alertId).innerHTML = escapeHtml(resp)
+            fail(arg)
         }
     })
 }
 
+
 function register() {
     window.viaRegister = true
-    window.user = document.getElementById("reg_user").value
+    var user = document.getElementById("reg_user").value
     var password = document.getElementById("reg_password").value
     var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
-    post("/register", body, user, "alert_register")
+    post("/register", body, () => {
+        alwaysUpdate()
+    }, (errMsg) => {
+        document.getElementById("alert_register").style.display = "block"
+        document.getElementById("alert_register").innerHTML = escapeHtml(errMsg)
+    })
 }
 
 function login() {
     window.viaRegister = false
-    window.user = document.getElementById("login_user").value
+    var user = document.getElementById("login_user").value
     var password = document.getElementById("login_password").value
     var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
-    post("/login", body, user, "alert_login")
+    post("/login", body, () => {
+        alwaysUpdate()
+    }, (errMsg) => {
+        document.getElementById("alert_login").style.display = "block"
+        document.getElementById("alert_login").innerHTML = escapeHtml(errMsg)
+    })
 }
 
-//function alwaysUpdate() {
-//    window.setInterval(function() {
-//        var password = viaRegister ? document.getElementById("reg_password").value : document.getElementById("login_password").value
-//        var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
-//        post("/dashboard", body, user, "alert_login")
-//    }, 5000);
-//}
+
+function handleDataResp(resp) {
+    metaData = resp.meta // metaData is global
+    drawMetaVars()
+
+    if (JSON.stringify(resp.data) !== JSON.stringify(window.timedData || {})) {
+        timedData = resp.data // timedData is global
+        data = resp.data[getSelectedTimeRange()] // data is global
+        user = resp.meta.user // user is global
+        logData = resp.log // logData is global
+        console.log("new data")
+        console.log(timedData)
+        draw()
+    }
+
+}
+
+
+function getDataAndUpdate() {
+    fetch("/data", {
+        method: "GET",
+    }).then(resp => {
+        if (resp.status == 200) {
+            return resp.json()
+        } else if (resp.status == 403) {
+            if (document.getElementById("page-graphs").style.display === "block"){
+                location.reload() 
+            }
+            return null
+        } else {
+            alert("Bad server status code: " + resp.status)
+            return null
+        }
+    }).then(resp => {
+        if (resp != null) {
+            handleDataResp(resp)
+        }
+    })
+}
+getDataAndUpdate()
+
+function alwaysUpdate() {
+    getDataAndUpdate()
+    setInterval(function() {
+        getDataAndUpdate();
+    }, 1000);
+}
 
 function escapeHtml(unsafe) {
     return (unsafe + "")
@@ -747,11 +767,6 @@ function drawScreenList(elemId, screenData) {
 function draw() {
     console.log("redrawing")
     destroyRegisteredCharts()
-
-    //if (!window._inited) {
-    //    alwaysUpdate()
-    //    window._inited = true
-    //}
 
     document.getElementById("page-index").setAttribute('style', 'display: none !important');
     var noData = Object.keys(timedData.all.date).length === 0 && data.date.constructor === Object
