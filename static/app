@@ -7,6 +7,7 @@
       <title>Simple Web Analytics</title>
       <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
       <link href="loading.css" rel="stylesheet">
+      <link href="loadingcoin.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
       <script src="moment.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
@@ -316,6 +317,9 @@
          </div>
       </section>
       </div>
+      <section id="loading" class="hidden">
+          <div class="spinning-coin flex">
+      </section>
       <section id="overlay" onclick="onclickOverlay()" class="pt-10">
          <div id="overlay-content" class="mx-auto max-w-screen-sm bg-white pb-5 pt-5 px-10 rounded border" style="cursor: auto;">
             <h5 class="text-xl">Tracking code</h5>
@@ -347,7 +351,7 @@ sessionStorage.setItem("_swa", "1");
       </section>
       <script src="script.js"></script>
       <script>
-         handleHash()
+         main()
       </script>
    </body>
 </html>

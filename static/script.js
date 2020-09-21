@@ -122,9 +122,11 @@ function register() {
     var user = document.getElementById("reg_user").value
     var password = document.getElementById("reg_password").value
     var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
+    pageOnly("loading")
     post("/register", body, () => {
         alwaysUpdate()
     }, (errMsg) => {
+        pageOnly("page-index")
         document.getElementById("alert_register").style.display = "block"
         document.getElementById("alert_register").innerHTML = escapeHtml(errMsg)
     })
@@ -135,9 +137,11 @@ function login() {
     var user = document.getElementById("login_user").value
     var password = document.getElementById("login_password").value
     var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
+    pageOnly("loading")
     post("/login", body, () => {
         alwaysUpdate()
     }, (errMsg) => {
+        pageOnly("page-index")
         document.getElementById("alert_login").style.display = "block"
         document.getElementById("alert_login").innerHTML = escapeHtml(errMsg)
     })
@@ -180,7 +184,6 @@ function getDataAndUpdate() {
         }
     })
 }
-getDataAndUpdate()
 
 function alwaysUpdate() {
     getDataAndUpdate()
@@ -1142,4 +1145,10 @@ function pageOn(name){
 
 function pageOff(name){
     document.querySelector('section[id="'+name+'"]').style.display = "none"
+}
+
+function main(){
+         pageOnly("loading")
+         handleHash()
+         getDataAndUpdate()
 }
