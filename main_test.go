@@ -14,6 +14,7 @@ func TestMain(m *testing.M) {
 	app = NewApp()
 	conn := app.RedisPool.Get()
 	defer conn.Close()
+	conn.Do("select", "2")
 	conn.Do("flushdb")
 	app.OpenUser("john").Create("johnjohn")
 
