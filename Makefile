@@ -9,6 +9,7 @@ runserver:
 
 format:
 	js-beautify --replace static/script.js
+	js-beautify --replace static/draw.js
 	$(go) fmt *.go
 
 logs:
