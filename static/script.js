@@ -775,6 +775,7 @@ function draw() {
         return
     } else {
         pageOnly("page-graphs")
+        document.getElementById("share-account").style.display = "block" // hacky
     }
 
     drawUTCOffsetVar()
