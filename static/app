@@ -159,7 +159,7 @@
             </form>
          </div>
       </div>
-      <div id="page-setup" class="hidden">
+      <section id="page-setup" class="hidden">
          <div class="flex-container mx-auto flex-wrap mt-3 pb-3">
             <div class="flex-item w-full max-w-screen-md mx-auto">
                <div>
@@ -195,8 +195,8 @@
                </div>
             </div>
          </div>
-      </div>
-      <div id="page-graphs" class="hidden">
+      </section>
+      <section id="page-graphs" class="hidden">
          <div class="flex-container mx-auto max-w-4xl flex flex-wrap">
             <div class="flex-item w-full">
                <div style="box-shadow: none; background-color: transparent; padding: 0px; flex-direction: row; display: flex;">
@@ -312,9 +312,9 @@
                </div>
             </div>
          </div>
+      </section>
       </div>
-      </div>
-      <div id="overlay" onclick="onclickOverlay()" class="pt-10">
+      <section id="overlay" onclick="onclickOverlay()" class="pt-10">
          <div id="overlay-content" class="mx-auto max-w-screen-sm bg-white pb-5 pt-5 px-10 rounded border" style="cursor: auto;">
             <h5 class="text-xl">Tracking code</h5>
             <div class="mb-5">
@@ -342,7 +342,7 @@ sessionStorage.setItem("_swa", "1");
                <a href="#" onclick="overlayOff(); return false;" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Close</a>
             </div>
          </div>
-      </div>
+      </section>
       <script src="script.js"></script>
       <script>
          handleHash()
