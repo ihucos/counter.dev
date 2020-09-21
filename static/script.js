@@ -168,8 +168,8 @@ function getDataAndUpdate() {
         if (resp.status == 200) {
             return resp.json()
         } else if (resp.status == 403) {
-            if (document.getElementById("page-graphs").style.display === "block"){
-                location.reload() 
+            if (document.getElementById("page-graphs").style.display === "block") {
+                location.reload()
             }
             return null
         } else {

@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="en">
    <head>
@@ -29,149 +27,134 @@
          sessionStorage.setItem("_swa", "1");
       </script>
       <style>
-a.link:link,
-a.link:visited,
-a.link:hover,
-a.link:active {
-	color: #2C5282;
-}
-a.link:hover {
-	text-decoration: underline;
-}
-
-#overlay {
-	position: fixed;
-	display: none;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: rgba(0, 0, 0, 0.5);
-	z-index: 2;
-	cursor: pointer;
-}
-
-h5,
-th {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	color: rgba(0, 0, 0, 0.7);
-	font-size: 16px;
-	line-height: 1.2;
-	padding-top: 7px;
-	padding-bottom: 8px;
-	font-weight: bold;
-	text-align: center;
-}
-
-body, a.undecorate {
-	color: rgba(0, 0, 0, 0.8);
-}
-body {
-	background-color: #f7fafc;
-}
-
-.flex-container {
-	box-sizing: border-box;
-}
-
-.flex-item {
-	padding: 0.5em 0.5em;
-	box-sizing: border-box;
-	display: flex;
-}
-
-.flex-item>div,
-.flex-item>canvas {
-	border-radius: 5px;
-	flex: 1 1 auto;
-	box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.05);
-	background-color: white;
-}
-
-.list,
-.list td,
-.list tr {}
-
-table {
-	line-height: 2;
-	color: rgba(0, 0, 0, 0.7)
-}
-
-table tr:first-child {
-	border-bottom: 1px solid rgba(204, 218, 233, 1);
-}
-
-table td {
-	padding-left: 10px;
-	padding-right: 10px;
-}
-
-table img {
-	margin-right: 10px;
-}
-
-table tr:nth-child(even) {
-	background-color: rgba(30, 135, 240, 0.1);
-}
-
-
-
-#time-range {
-  background: white url("data:image/svg+xml;utf8,<svg viewBox='0 0 20 20' width='15' height='15' xmlns='http://www.w3.org/2000/svg'><g><path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /></g></svg>") no-repeat;
-  background-position: right 12px top 50%;
-}
-
-
+         a.link:link,
+         a.link:visited,
+         a.link:hover,
+         a.link:active {
+         color: #2C5282;
+         }
+         a.link:hover {
+         text-decoration: underline;
+         }
+         #overlay {
+         position: fixed;
+         display: none;
+         width: 100%;
+         height: 100%;
+         top: 0;
+         left: 0;
+         right: 0;
+         bottom: 0;
+         background-color: rgba(0, 0, 0, 0.5);
+         z-index: 2;
+         cursor: pointer;
+         }
+         h5,
+         th {
+         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+         color: rgba(0, 0, 0, 0.7);
+         font-size: 16px;
+         line-height: 1.2;
+         padding-top: 7px;
+         padding-bottom: 8px;
+         font-weight: bold;
+         text-align: center;
+         }
+         body, a.undecorate {
+         color: rgba(0, 0, 0, 0.8);
+         }
+         body {
+         background-color: #f7fafc;
+         }
+         .flex-container {
+         box-sizing: border-box;
+         }
+         .flex-item {
+         padding: 0.5em 0.5em;
+         box-sizing: border-box;
+         display: flex;
+         }
+         .flex-item>div,
+         .flex-item>canvas {
+         border-radius: 5px;
+         flex: 1 1 auto;
+         box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.05);
+         background-color: white;
+         }
+         .list,
+         .list td,
+         .list tr {}
+         table {
+         line-height: 2;
+         color: rgba(0, 0, 0, 0.7)
+         }
+         table tr:first-child {
+         border-bottom: 1px solid rgba(204, 218, 233, 1);
+         }
+         table td {
+         padding-left: 10px;
+         padding-right: 10px;
+         }
+         table img {
+         margin-right: 10px;
+         }
+         table tr:nth-child(even) {
+         background-color: rgba(30, 135, 240, 0.1);
+         }
+         #time-range {
+         background: white url("data:image/svg+xml;utf8,
+         <svg viewBox='0 0 20 20' width='15' height='15' xmlns='http://www.w3.org/2000/svg'>
+            <g>
+               <path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' />
+            </g>
+         </svg>
+         ") no-repeat;
+         background-position: right 12px top 50%;
+         }
       </style>
    </head>
    <body>
       <div id="page-index" class="border" style="display: flex; height: 100vh; align-items: center; justify-content: center">
          <div class="mb-10">
-
-           <h1 class="text-center font-bold text-4xl text-gray-500 leading-none">Welcome</h1>
+            <h1 class="text-center font-bold text-4xl text-gray-500 leading-none">Welcome</h1>
             <div class="mb-10 mx-2 text-center">
                <a class="link" href="" id="demo" onclick="demo(); return false">Demo</a> |
                <a class="link" href="mailto:info@simple-web-analytics.com">Help</a> |
                <a class="link" href="/">About</a> 
             </div>
-
             <div class="font-bold mx-2 p-2 text-center text-orange-900 bg-gray-300 border rounded login-alert" id="alert_login" style="display: none;"></div>
             <form method="POST" action="" class="flex">
                <input
-               size=16
-               class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-               id="login_user" name="username" placeholder="Username" />
+                  size=16
+                  class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+                  id="login_user" name="username" placeholder="Username" />
                <input
-               class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-               id="login_password" type="password" name="password" placeholder="Password" />
+                  class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+                  id="login_password" type="password" name="password" placeholder="Password" />
                <div>
                   <button
-                  class="font-bold w-24 text-center my-5 mx-2 border border-blue-700  bg-blue-700 focus:shadow-outline focus:bg-blue-800 hover:bg-blue-800 hover:text-white text-gray-200 appearance-none shadow rounded py-2 leading-tight focus:outline-none focus:bg-white"
-                  type="submit" onclick="login(); return false" id="login_button" name="action">Login</button>
+                     class="font-bold w-24 text-center my-5 mx-2 border border-blue-700  bg-blue-700 focus:shadow-outline focus:bg-blue-800 hover:bg-blue-800 hover:text-white text-gray-200 appearance-none shadow rounded py-2 leading-tight focus:outline-none focus:bg-white"
+                     type="submit" onclick="login(); return false" id="login_button" name="action">Login</button>
                </div>
             </form>
-
             <div class="m-2">
                <div class="text-center leading-none" style="position: relative; top: 0.5em;"><span class="italic font-bold px-3 text-gray-700" style="background-color: rgb(250, 250, 250);"> or <span></div>
                <hr>
                <div class="text-center leading-none">&nbsp;</div>
             </div>
-
             <div class="font-bold mx-2 p-2 text-center text-red-900 bg-gray-300 border rounded login-alert" id="alert_register" style="display: none;"></div>
             <form method="POST" action="" class="flex">
                <input
-               size=16
-               class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+                  size=16
+                  class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
                   id="reg_user" name="username" placeholder="Username" />
                <input
-               class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-               id="reg_password" type="password" name="password" placeholder="Password" />
+                  class="focus:shadow-outline my-5 mx-2 bg-gray-100 appearance-none border border-gray-600 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+                  id="reg_password" type="password" name="password" placeholder="Password" />
                <div>
                   <button
-                  class="font-bold w-24 text-center my-5 mx-2 border border-gray-700 bg-gray-700  focus:shadow-outline focus:bg-gray-800 hover:bg-gray-800 hover:text-white text-gray-200 appearance-none shadow rounded py-2 leading-tight focus:outline-none focus:bg-white"
-                  type="submit" onclick="register(); return false" name="action">Register</button>
+                     class="font-bold w-24 text-center my-5 mx-2 border border-gray-700 bg-gray-700  focus:shadow-outline focus:bg-gray-800 hover:bg-gray-800 hover:text-white text-gray-200 appearance-none shadow rounded py-2 leading-tight focus:outline-none focus:bg-white"
+                     type="submit" onclick="register(); return false" name="action">Register</button>
                </div>
             </form>
          </div>
@@ -231,49 +214,46 @@ table tr:nth-child(even) {
                   <button onclick="overlayOn();" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">
                   Settings
                   </button>
-
                   <form action="" class="flex" style="margin-left: auto;">
-                    <select id="time-range" onchange="onTimeRangeChanged()" class="float-right shadow text-gray-800 bg-gray-400 text-sm font-bold py-2 pr-8 rounded inline-flex items-center appearance-none mr-1" name="time-range" style="color: rgba(0,0,0, 0.7); padding-left: 12px;">
-                      <option value="day">Today</option>
-                      <!-- <option value="month">This Month</option> -->
-                      <option value="year">This year</option>
-                      <option value="all" selected="selected">All</option>
-                    </select>
+                     <select id="time-range" onchange="onTimeRangeChanged()" class="float-right shadow text-gray-800 bg-gray-400 text-sm font-bold py-2 pr-8 rounded inline-flex items-center appearance-none mr-1" name="time-range" style="color: rgba(0,0,0, 0.7); padding-left: 12px;">
+                        <option value="day">Today</option>
+                        <!-- <option value="month">This Month</option> -->
+                        <option value="year">This year</option>
+                        <option value="all" selected="selected">All</option>
+                     </select>
                   </form>
-
                </div>
             </div>
-
             <div class="flex-item w-full" style="padding-top: 0px; padding-bottom: 5px;">
                <div style="box-shadow: none; background-color: transparent; padding: 0px;">
                </div>
             </div>
             <div class="flex-item w-full" style="height: 200px;">
-                    <canvas id="graph"></canvas>
+               <canvas id="graph"></canvas>
             </div>
             <div class="flex-item w-full md:w-2/3" style="height: 200px;">
-                   <canvas id="last_days_chart"></canvas>
+               <canvas id="last_days_chart"></canvas>
             </div>
             <div class="flex-item w-full md:w-1/3" style="height: 200px;">
-                   <canvas id="ref_chart"></canvas>
+               <canvas id="ref_chart"></canvas>
             </div>
             <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
-                   <canvas id="device"></canvas>
+               <canvas id="device"></canvas>
             </div>
             <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
-                   <canvas id="platform"></canvas>
+               <canvas id="platform"></canvas>
             </div>
             <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
-                   <canvas id="browser"></canvas>
+               <canvas id="browser"></canvas>
             </div>
             <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
-                   <canvas id="time" height=230></canvas>
+               <canvas id="time" height=230></canvas>
             </div>
             <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
-                   <canvas id="hour"></canvas>
+               <canvas id="hour"></canvas>
             </div>
             <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
-                   <canvas id="weekday"></canvas>
+               <canvas id="weekday"></canvas>
             </div>
             <div class="flex-item w-full md:w-2/3 md:my-5" style="height: 450px">
                <div id="world">
@@ -285,65 +265,63 @@ table tr:nth-child(even) {
                   <table id="world_list"></table>
                </div>
             </div>
-
             <div class="flex-item w-full">
-                  <ul class="flex flex-wrap" id="tabs_tabs">
-                    <li class="mr-1">
-                      <a onclick="openTab(0); return false" href="#">Refferals</a>
-                    </li>
-                    <li class="mr-1">
-                      <a onclick="openTab(1); return false" href="#">Landing Pages</a>
-                    </li>
-                    <li class="mr-1">
-                      <a onclick="openTab(2); return false" href="#">Origins</a>
-                    </li>
-                    <li class="mr-1">
-                      <a onclick="openTab(3); return false" href="#">Screens</a>
-                    </li>
-                    <li class="mr-1">
-                      <a onclick="openTab(4); return false" href="#">Languages</a>
-                    </li>
-                    <li class="mr-1">
-                      <a onclick="openTab(5); return false" href="#">Visits</a>
-                    </li>
-                  </ul>
-               </div>
-               <div class="pt-0 flex-item w-full" style="padding-top: 0px;">
-                  <div id="tabs_content" style="min-height: 100vh; overflow-y: auto;">
-                      <div id="list_ref" style="display: none;"></div>
-                      <div id="list_loc" style="display: none;"></div>
-                      <div id="list_origin" style="display: none;"></div>
-                      <div id="list_screen" style="display: none;"></div>
-                      <div id="list_lang" style="display: none;"></div>
-                      <div class="overflow-y-auto max-w-4xl" style="display: none;">
-                         <table>
-                            <thead>
-                               <tr>
-                                  <th class="text-gray-600">Date</th>
-                                  <th class="text-gray-600">Time</th>
-                                  <th class="text-gray-600">IP</th>
-                                  <th class="text-gray-600">Referrer</th>
-                                  <th class="text-gray-600 text-left">User-Agent</th>
-                               </tr>
-                            </thead>
-                            <tbody id="log_body">
-                            </tbody>
-                         </table>
-                      </div>
+               <ul class="flex flex-wrap" id="tabs_tabs">
+                  <li class="mr-1">
+                     <a onclick="openTab(0); return false" href="#">Refferals</a>
+                  </li>
+                  <li class="mr-1">
+                     <a onclick="openTab(1); return false" href="#">Landing Pages</a>
+                  </li>
+                  <li class="mr-1">
+                     <a onclick="openTab(2); return false" href="#">Origins</a>
+                  </li>
+                  <li class="mr-1">
+                     <a onclick="openTab(3); return false" href="#">Screens</a>
+                  </li>
+                  <li class="mr-1">
+                     <a onclick="openTab(4); return false" href="#">Languages</a>
+                  </li>
+                  <li class="mr-1">
+                     <a onclick="openTab(5); return false" href="#">Visits</a>
+                  </li>
+               </ul>
+            </div>
+            <div class="pt-0 flex-item w-full" style="padding-top: 0px;">
+               <div id="tabs_content" style="min-height: 100vh; overflow-y: auto;">
+                  <div id="list_ref" style="display: none;"></div>
+                  <div id="list_loc" style="display: none;"></div>
+                  <div id="list_origin" style="display: none;"></div>
+                  <div id="list_screen" style="display: none;"></div>
+                  <div id="list_lang" style="display: none;"></div>
+                  <div class="overflow-y-auto max-w-4xl" style="display: none;">
+                     <table>
+                        <thead>
+                           <tr>
+                              <th class="text-gray-600">Date</th>
+                              <th class="text-gray-600">Time</th>
+                              <th class="text-gray-600">IP</th>
+                              <th class="text-gray-600">Referrer</th>
+                              <th class="text-gray-600 text-left">User-Agent</th>
+                           </tr>
+                        </thead>
+                        <tbody id="log_body">
+                        </tbody>
+                     </table>
                   </div>
                </div>
             </div>
          </div>
       </div>
+      </div>
       <div id="overlay" onclick="onclickOverlay()" class="pt-10">
          <div id="overlay-content" class="mx-auto max-w-screen-sm bg-white pb-5 pt-5 px-10 rounded border" style="cursor: auto;">
             <h5 class="text-xl">Tracking code</h5>
-
             <div class="mb-5">
                <p>This JavaScript snippset is responible for collecting user
-               statistics. It needs to be added to all html pages you want to track. For example inside the <span class="italic font-mono border bg-gray-100">&lt;head&gt;</span> section.</p>
-           </div>
-
+                  statistics. It needs to be added to all html pages you want to track. For example inside the <span class="italic font-mono border bg-gray-100">&lt;head&gt;</span> section.
+               </p>
+            </div>
             <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; // Simple Web Analytics tracking code
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
     fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
@@ -353,27 +331,21 @@ if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protoc
         utcoffset: <span id="utcoffset">0</span>}))}
 sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
-
             <div id="share-account" style="display: none;">
-                <h5 class="text-xl mt-8">Share account</h5>
-                <p class="mb-5">
-                   You can share access to this account via the following link.
+               <h5 class="text-xl mt-8">Share account</h5>
+               <p class="mb-5">
+                  You can share access to this account via the following link.
                </p>
-                <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>https://simple-web-analytics.com/app#share,<span class="metavar_user">USERNAME</span>,<span class="metavar_token">TOKEN</span></code></pre>
+               <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>https://simple-web-analytics.com/app#share,<span class="metavar_user">USERNAME</span>,<span class="metavar_token">TOKEN</span></code></pre>
             </div>
-
-
             <div class="text-center mt-5">
                <a href="#" onclick="overlayOff(); return false;" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Close</a>
             </div>
-
-
          </div>
       </div>
       <script src="script.js"></script>
       <script>
-      handleHash()
+         handleHash()
       </script>
    </body>
 </html>
-
