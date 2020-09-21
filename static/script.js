@@ -1137,3 +1137,10 @@ function handleHash() {
         }
     }
 }
+
+function setPage(name) {
+    for (let section of document.querySelectorAll('section')) {
+        section.style.display = 'none'
+    }
+    document.querySelector('section[id="'+name+'"]').style.display = "block"
+}
