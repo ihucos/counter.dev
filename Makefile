@@ -1,11 +1,11 @@
 
 alpineversion = 3.11
-gofiles = db.go run.go ctx.go endpoints.go app.go utils.go config.go
+gofiles = src/db.go src/run.go src/ctx.go src/endpoints.go src/app.go src/utils.go src/config.go
 go = plash --from alpine:$(alpineversion) --apk go -- go
 
 .PHONY: runserver
 runserver:
-	 $(go) run  $(gofiles) config_devel.go
+	 $(go) run  $(gofiles) src/config_devel.go
 
 format:
 	js-beautify --replace static/script.js
