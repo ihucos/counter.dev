@@ -188,7 +188,7 @@ function alwaysUpdate() {
     getDataAndUpdate()
     setInterval(function() {
         getDataAndUpdate();
-    }, 1000);
+    }, 7000);
 }
 
 function escapeHtml(unsafe) {

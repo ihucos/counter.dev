@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/url"
+	"net/http"
 	"strings"
 
 	"github.com/avct/uasurfer"
@@ -39,6 +40,7 @@ var Endpoints = map[string]func(Ctx){
 	},
 	"/logout": func(ctx Ctx) {
 		ctx.Logout()
+    		http.Redirect(ctx.w, ctx.r, "/app", http.StatusTemporaryRedirect)
 	},
 	"/register": func(ctx Ctx) {
 		userId := truncate(ctx.r.FormValue("user"))

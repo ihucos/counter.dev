@@ -217,7 +217,7 @@ table tr:nth-child(even) {
          <div class="flex-container mx-auto max-w-4xl flex flex-wrap">
             <div class="flex-item w-full">
                <div style="box-shadow: none; background-color: transparent; padding: 0px; flex-direction: row; display: flex;">
-                  <a href="" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">
+                  <a href="/logout" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">
                   Logout
                   </a>
                   <a href="https://flattr.com/@ihucos" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">Donate</a>
