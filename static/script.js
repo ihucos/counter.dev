@@ -168,9 +168,7 @@ function getDataAndUpdate() {
         if (resp.status == 200) {
             return resp.json()
         } else if (resp.status == 403) {
-            if (document.getElementById("page-graphs").style.display === "block") {
-                location.reload()
-            }
+            pageOnly("page-index")
             return null
         } else {
             alert("Bad server status code: " + resp.status)
@@ -758,7 +756,7 @@ function drawLastDays(elemId, date_keys, date_vals) {
 
 function drawScreenList(elemId, screenData) {
     if (Object.keys(screenData).length === 0 && screenData.constructor === Object) {
-        document.getElementById(elemId).innerHTML = '<div class="font-xl p-5 italic">In order to view screen sizes of your users, you must include the updated <a href="#" onclick="overlayOn(); return false" class="link">tracking code</button>.</div>'
+        document.getElementById(elemId).innerHTML = '<div class="font-xl p-5 italic">In order to view screen sizes of your users, you must include the updated <a href="#" onclick="pageOn(\"overlay\"); return false" class="link">tracking code</button>.</div>'
     } else {
         drawList("list_screen", screenData, false, false)
     }
@@ -768,15 +766,12 @@ function draw() {
     console.log("redrawing")
     destroyRegisteredCharts()
 
-    document.getElementById("page-index").setAttribute('style', 'display: none !important');
     var noData = Object.keys(timedData.all.date).length === 0 && data.date.constructor === Object
     if (noData) {
-        document.getElementById("page-setup").style.display = "block"
+        pageOnly("page-setup")
         return
     } else {
-        document.getElementById("page-graphs").style.display = "block"
-        document.getElementById("page-setup").style.display = "none"
-        document.getElementById("share-account").style.display = "block"
+        pageOnly("page-graphs")
     }
 
     drawUTCOffsetVar()
@@ -1086,17 +1081,9 @@ function downloadData() {
     download("swa-" + user + "-data.csv", csv)
 }
 
-function overlayOn() {
-    document.getElementById("overlay").style.display = "block";
-}
-
-function overlayOff() {
-    document.getElementById("overlay").style.display = "none";
-}
-
 function onclickOverlay() {
     if (event.target.id === "overlay") {
-        overlayOff()
+        pageOff("overlay")
     }
 }
 
@@ -1138,9 +1125,21 @@ function handleHash() {
     }
 }
 
-function setPage(name) {
+function pageOnly(name) {
+    pageAllOff()
+    pageOn(name)
+}
+
+function pageAllOff(){
     for (let section of document.querySelectorAll('section')) {
         section.style.display = 'none'
     }
+}
+
+function pageOn(name){
     document.querySelector('section[id="'+name+'"]').style.display = "block"
+}
+
+function pageOff(name){
+    document.querySelector('section[id="'+name+'"]').style.display = "none"
 }

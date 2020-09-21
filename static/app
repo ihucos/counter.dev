@@ -170,7 +170,7 @@
                      <h5 class="text-left text-gray-600 mb-2">Follow these steps:</h5>
                      <div class="">
                         <span class="text-xl font-bold mr-2">1.</span>
-                        Copy and paste the <a class="link" href="#" onclick="overlayOn(); return false">tracking code</a> into the html of the pages you want to track.
+                        Copy and paste the <a class="link" href="#" onclick="pageOn('overlay'); return false">tracking code</a> into the html of the pages you want to track.
                         <p class="my-5">
                            <span class="text-xl font-bold mr-2">2.</span>
                            Deploy - make your changes online.
@@ -192,7 +192,7 @@
                   </div>
                   <p class="text-sm text-left text-gray-700" style="position: relative; top: 1.5em;">
                      <span class="mx-1">Got stuck? <a class="link" href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a></span>
-                     <a class="link mx-1 text-sm text-right inline-block text-gray-700 float-right" href="">Go back</a>
+                     <a class="link mx-1 text-sm text-right inline-block text-gray-700 float-right" href="/logout">Logout</a>
                   </p>
                </div>
             </div>
@@ -213,7 +213,7 @@
                      </svg>
                      <span>Download CSV</span>
                   </button>
-                  <button onclick="overlayOn();" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">
+                  <button onclick="pageOn('overlay');" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">
                   Settings
                   </button>
                   <form action="" class="flex" style="margin-left: auto;">
@@ -341,7 +341,7 @@ sessionStorage.setItem("_swa", "1");
                <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>https://simple-web-analytics.com/app#share,<span class="metavar_user">USERNAME</span>,<span class="metavar_token">TOKEN</span></code></pre>
             </div>
             <div class="text-center mt-5">
-               <a href="#" onclick="overlayOff(); return false;" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Close</a>
+               <a href="#" onclick="pageOff('overlay'); return false;" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Close</a>
             </div>
          </div>
       </section>
