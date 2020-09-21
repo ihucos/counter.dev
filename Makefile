@@ -17,7 +17,7 @@ logs:
 
 
 deploy:
-	$(go) build $(gofiles) config_production_secret.go
+	$(go) build $(gofiles) src/config_production.go
 	tar cf - static server | ssh root@172.104.148.60 tar xvf - -C /root
 	ssh root@172.104.148.60 "pkill -x ./server; sleep 5; dtach -n /tmp/dtach ./server"
 
