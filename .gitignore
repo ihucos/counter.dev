@@ -1,6 +1,7 @@
 log
 server
 *.swp
+src/config_production.go
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
