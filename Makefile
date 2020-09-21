@@ -24,14 +24,6 @@ deploy:
 deploy-static:
 	tar cf - static scripts | ssh root@172.104.148.60 tar xvf - -C /root
 
-stats:
-	echo "=== all users ==="
-	echo "hkeys users" | ssh root@172.104.148.60 redis-cli
-	echo ""
-	echo "=== integrated users ==="
-	echo "keys date:*" | ssh root@172.104.148.60 redis-cli | cut -d: -f2
-
-
 redis-server:
 	scp root@172.104.148.60:/var/lib/redis/dump.rdb /tmp/webstats-production.rdb
 	plash --from alpine:$(alpineversion) --apk redis -- redis-server --dbfilename webstats-production.rdb --dir /tmp
