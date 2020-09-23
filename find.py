@@ -98,5 +98,11 @@ def check(s):
         print(e.__class__)
 
 
-for f in markow(translate(synonyms(set("analytics users web glance charts".split())))):
+words = set(sys.argv[2:])
+print(words)
+tocheck = eval(sys.argv[1])
+for f in sorted(tocheck):
     check(f + ".com")
+
+#for f in markow((synonyms(synonyms(synonyms(set("analytics users web glance charts".split())))))):
+    #check(f + ".com")
