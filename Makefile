@@ -37,7 +37,7 @@ integrations:
 
 
 tests:
-	$(go) test
+	cd src && $(go) test
 
 #provision:
 #	ssh root@172.104.148.60 sh -c ' \
