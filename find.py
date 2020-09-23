@@ -59,26 +59,26 @@ def markow(words, min=4, max=7):
 
 
 def synonyms(words):
-    syns = set([])
+    new = set([])
     for word in list(words):
-        syns.add(word)
         for i in wordnet.synsets(word):
             more = i.lemma_names()
             for m in more:
                 if not "_" in m:
-                    new_words.add(m)
-    print("synonyms:", words)
-    return words
+                    new.add(m.lower())
+    print("synonyms:", new)
+    return new.union(words)
 
 
 
-def translate(word, langs=["de", "en", "es"], src="en"):
+def translate(words, langs=["de", "en", "es"], src="en"):
     new = set([])
     for lang in langs:
-        t = translator.translate(word, dest=lang, src=src)[0].text
-        #if unidecode(t) == t and ' ' not in t:
-        t = unidecode(t.lower().replace(' ', '').replace("'", ''))
-        new.add(t)
+        for word in words:
+            t = translator.translate(word, dest=lang, src=src).text
+            #if unidecode(t) == t and ' ' not in t:
+            t = unidecode(t.lower().replace(' ', '').replace("'", ''))
+            new.add(t)
     print("translate:", new)
     return new
 
@@ -98,5 +98,5 @@ def check(s):
         print(e.__class__)
 
 
-for f in markow(translate(synonyms(("analytics".split())))):
+for f in markow(translate(synonyms(set("analytics users web glance charts".split())))):
     check(f + ".com")
