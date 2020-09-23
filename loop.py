@@ -1,5 +1,7 @@
 from unidecode import unidecode
 import fictionary
+import socket
+import whois
 
 CHARS = 5
 
@@ -37,16 +39,14 @@ def check(s):
     except socket.gaierror:
         pass
     except Exception as exc:
-        #print(exc)
-        pass
+        print(exc)
     else:
         return
     try:
         if not whois.query(domain):
             print(domain)
     except Exception as e:
-        pass
-        #print(e.__class__)
+        print(e.__class__)
 
 if __name__ == '__main__':
     #for w in getcandiates():
@@ -54,7 +54,8 @@ if __name__ == '__main__':
 
     from multiprocessing import Pool
     with Pool(100) as p:
-        p.map(check, getcandiates())
+        for d in p.imap(check, getcandiates()):
+            pass
 
 
 
