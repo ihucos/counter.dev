@@ -3,9 +3,6 @@ import fictionary
 import socket
 import whois
 
-CHARS = 5
-
-
 
 
 def smooth(words, badchars="kmnchzq"):
@@ -48,12 +45,12 @@ def getwords():
         word = unidecode(word)
         yield word
 
-def getcandiates():
+def getcandiates(min=4, max=7):
     model = fictionary.Model()
     for word in getwords():
         model.feed(word)
     while True:
-        randword = model.random_word(CHARS, CHARS)
+        randword = model.random_word(min, max)
         yield randword.lower()
 
 
@@ -71,17 +68,32 @@ def check(s):
         if not whois.query(domain):
             print(domain)
     except Exception as e:
-        #print(e.__class__)
+        #print(e)
         pass
+
+def suround(words, begin, end):
+    for w in words:
+        if w.startswith(begin) and w.endswith(end):
+            yield w
 
 if __name__ == '__main__':
     #for w in getcandiates():
-    #    print(w)
+        #print(w)
+
+    found = suround(getcandiates(6, 8), '', 'ing')
+    #for w in found:
+        #print(w)
 
     from multiprocessing import Pool
-    with Pool(100) as p:
-        for d in p.imap(check, domain(nodouble(smooth(getcandiates())))):
+    with Pool(10) as p:
+        for d in p.imap(check, domain(found)):
             pass
+
+
+    #from multiprocessing import Pool
+    #with Pool(10) as p:
+    #    for d in p.imap(check, domain(nodouble(smooth(getcandiates())), '')):
+    #        pass
 
 
 
