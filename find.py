@@ -47,7 +47,7 @@ def markow(words, min=4, max=7):
     for word in words:
         model.feed(word)
     new = set({})
-    for i in range(5000):
+    for i in range(50000):
         try:
             randword = model.random_word(min, max)
         except Exception:
@@ -61,6 +61,7 @@ def markow(words, min=4, max=7):
 def synonyms(words):
     new = set([])
     for word in list(words):
+        new.add(word)
         for i in wordnet.synsets(word):
             more = i.lemma_names()
             for m in more:
@@ -82,6 +83,10 @@ def translate(words, langs=["de", "en", "es"], src="en"):
     print("translate:", new)
     return new
 
+def domain(words, domain="com"):
+    for word in words:
+        yield word + "." + domain
+
 
 def check(s):
     domain = s
@@ -89,20 +94,34 @@ def check(s):
         socket.gethostbyname(domain)
     except socket.gaierror:
         pass
+    except Exception as exc:
+        #print(exc)
+        pass
     else:
         return
     try:
         if not whois.query(domain):
             print(domain)
     except Exception as e:
-        print(e.__class__)
+        pass
+        #print(e.__class__)
+
+def take(func, words, times):
+    if times == 0:
+        return words
+    morewords = func(words)
+    return take(func, morewords, times - 1)
 
 
-words = set(sys.argv[2:])
-print(words)
-tocheck = eval(sys.argv[1])
-for f in sorted(tocheck):
-    check(f + ".com")
+if __name__ == '__main__':
+    words = set(sys.argv[2:])
+    print(words)
+    tocheck = eval(sys.argv[1])
 
-#for f in markow((synonyms(synonyms(synonyms(set("analytics users web glance charts".split())))))):
-    #check(f + ".com")
+    #for f in sorted(tocheck):
+    #    check(f + ".com")
+    
+    
+    from multiprocessing import Pool
+    with Pool(100) as p:
+        p.map(check, sorted(domain(tocheck)))
