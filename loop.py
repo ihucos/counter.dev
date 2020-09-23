@@ -8,8 +8,33 @@ CHARS = 5
 
 
 
+def smooth(words, badchars="kmnchzq"):
+    for word in words:
+        bad = False
+        for char in badchars:
+            if char in word:
+                bad = True
+
+        if not bad:
+            yield word
 
 
+def nodouble(words, ignore="o"):
+    for word in words:
+        last = None
+        bad = False
+        for char in word:
+            if last == char and char not in ignore:
+                bad = True
+                break
+            last = char
+        if not bad:
+            yield word
+
+
+def domain(words, domain="com"):
+    for word in words:
+        yield word + "." + domain
 
 
 def getwords():
@@ -29,7 +54,7 @@ def getcandiates():
         model.feed(word)
     while True:
         randword = model.random_word(CHARS, CHARS)
-        yield randword.lower() + ".com"
+        yield randword.lower()
 
 
 def check(s):
@@ -46,7 +71,8 @@ def check(s):
         if not whois.query(domain):
             print(domain)
     except Exception as e:
-        print(e.__class__)
+        #print(e.__class__)
+        pass
 
 if __name__ == '__main__':
     #for w in getcandiates():
@@ -54,7 +80,7 @@ if __name__ == '__main__':
 
     from multiprocessing import Pool
     with Pool(100) as p:
-        for d in p.imap(check, getcandiates()):
+        for d in p.imap(check, domain(nodouble(smooth(getcandiates())))):
             pass
 
 
