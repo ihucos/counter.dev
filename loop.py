@@ -29,10 +29,9 @@ def nodouble(words, ignore="o"):
             yield word
 
 
-def domain(words, domain="com"):
+def surround(words, a="", b=""):
     for word in words:
-        yield word + "." + domain
-
+        yield a + word + b
 
 def getwords():
     for line in open("/usr/share/dict/words").readlines():
@@ -71,7 +70,7 @@ def check(s):
         #print(e)
         pass
 
-def suround(words, begin, end):
+def filter(words, begin, end):
     for w in words:
         if w.startswith(begin) and w.endswith(end):
             yield w
@@ -80,20 +79,18 @@ if __name__ == '__main__':
     #for w in getcandiates():
         #print(w)
 
-    found = suround(getcandiates(6, 8), '', 'ing')
+    found = surround(
+        filter(
+            (i for i in getcandiates(7, 12) if "" in i),
+            'chart', ''),
+    "", ".com")
+
     #for w in found:
         #print(w)
 
     from multiprocessing import Pool
-    with Pool(10) as p:
-        for d in p.imap(check, domain(found)):
+    with Pool(20) as p:
+        for d in p.imap(check, found):
             pass
-
-
-    #from multiprocessing import Pool
-    #with Pool(10) as p:
-    #    for d in p.imap(check, domain(nodouble(smooth(getcandiates())), '')):
-    #        pass
-
 
 
