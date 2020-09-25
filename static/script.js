@@ -133,7 +133,7 @@ function getDataAndUpdate() {
             return resp.json()
         } else if (resp.status == 403) {
             if (pageNow() === "page-graphs"){
-                location.reload()
+                location.href = window.location.href.split('#')[0]
             }
             pageOnly("page-index")
             return null
