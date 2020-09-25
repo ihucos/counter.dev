@@ -84,7 +84,7 @@ function register() {
     var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
     pageOnly("loading")
     post("/register", body, () => {
-        alwaysUpdate()
+        getDataAndUpdate()
     }, (errMsg) => {
         pageOnly("page-index")
         document.getElementById("alert_register").style.display = "block"
@@ -99,7 +99,7 @@ function login() {
     var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
     pageOnly("loading")
     post("/login", body, () => {
-        alwaysUpdate()
+        getDataAndUpdate()
     }, (errMsg) => {
         pageOnly("page-index")
         document.getElementById("alert_login").style.display = "block"
@@ -132,6 +132,9 @@ function getDataAndUpdate() {
         if (resp.status == 200) {
             return resp.json()
         } else if (resp.status == 403) {
+            if (pageNow() === "page-graphs"){
+                location.reload()
+            }
             pageOnly("page-index")
             return null
         } else {
@@ -143,13 +146,6 @@ function getDataAndUpdate() {
             handleDataResp(resp)
         }
     })
-}
-
-function alwaysUpdate() {
-    getDataAndUpdate()
-    setInterval(function() {
-        getDataAndUpdate();
-    }, 7000);
 }
 
 function escapeHtml(unsafe) {
@@ -389,8 +385,21 @@ function pageOff(name) {
     document.querySelector('section[id="' + name + '"]').style.display = "none"
 }
 
+
+function pageNow(name){
+    var sections = document.getElementsByTagName('section')
+    for (var i = 0; i < sections.length; i++) {
+        if (sections[i].style.display == "block") {return sections[i].id}
+    }
+}
+
 function main() {
     pageOnly("loading")
     handleHash()
     getDataAndUpdate()
+    setInterval(function() {
+            if (pageNow() === "page-graphs" || pageNow() === "page-setup" ) {
+                getDataAndUpdate();
+            }
+        } , 1000);
 }
