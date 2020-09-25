@@ -268,7 +268,9 @@ func (user User) Create(password string) error {
 
 func (user User) VerifyPassword(password string) (bool, error) {
 	hashedPassword, err := redis.String(user.redis.Do("HGET", "users", user.id))
-	if err != nil {
+        if err == redis.ErrNil {
+                return false, nil
+        } else if err != nil {
 		return false, err
 	}
 	return hashedPassword != "" && hashedPassword == hash(password), nil
@@ -276,7 +278,9 @@ func (user User) VerifyPassword(password string) (bool, error) {
 
 func (user User) VerifyToken(token string) (bool, error) {
 	dbToken, err := user.readToken()
-	if err != nil {
+        if err == redis.ErrNil {
+                return false, nil
+	} else if err != nil {
 		return false, err
 	}
 	return dbToken != "" && dbToken == token, nil
