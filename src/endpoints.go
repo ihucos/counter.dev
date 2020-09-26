@@ -69,17 +69,11 @@ var Endpoints = map[string]func(Ctx){
         "/data": func(ctx Ctx) {
                 ctx.ReturnUserData(ctx.ForceUserId())
         },
-	"/update_prefs": func(ctx Ctx) {
-		user := ctx.ForceUser()
-                defer user.Close()
-                for k, v := range ctx.r.URL.Query() { 
-                    if len(v) >= 1 {
-                        if len(k) >= 32 || len(v[0]) >= 128 {
-			    ctx.ReturnBadRequest("prefs too long")
-                        }
-                        user.SetPref(k, v[0])
-                    }
-                }
+	"/setPrefRange": func(ctx Ctx) {
+             user := ctx.ForceUser()
+             defer user.Close()
+             err := user.SetPref("range", truncate(ctx.r.URL.RawQuery))
+             ctx.CatchError(err)
 
 	},
 	"/track": func(ctx Ctx) {
