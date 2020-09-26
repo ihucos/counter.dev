@@ -55,7 +55,7 @@ var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "dev
 
 // taken from here at August 2020:
 // https://gs.statcounter.com/screen-resolution-stats
-var screenResolutions = map[string]bool{
+var ScreenResolutions = map[string]bool{
 	"1280x720":  true,
 	"1280x800":  true,
 	"1366x768":  true,

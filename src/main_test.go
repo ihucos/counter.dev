@@ -5,16 +5,18 @@ import (
 	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
+	"../models"
 )
 
 var app *App
 
 func ResetRedis(){
-	user := app.OpenUser("john")
-        defer user.Close()
-	user.redis.Do("flushdb")
+        conn := app.RedisPool.Get()
+	conn.Do("select", "2")
+        defer conn.Close()
+        user := models.NewUser(conn, "john")
+	conn.Do("flushdb")
         user.Create("johnjohn")
-	user.redis.Do("select", "2")
 }
 
 func TestMain(m *testing.M) {
@@ -166,7 +168,7 @@ func TestSetAndGetPref(t *testing.T) {
 func TestGetPrefsEmpty(t *testing.T) {
         ResetRedis()
 	user := app.OpenUser("peter")
-        val, err := user.GetPrefs("dada")
+        val, err := user.GetPrefs()
 	assert.Equal(t, err, nil)
 	assert.Equal(t, val, map[string]string{})
 }
@@ -178,7 +180,7 @@ func TestGetPrefsVals(t *testing.T) {
 	assert.Equal(t, err, nil)
 	err = user.SetPref("key2", "da2")
 	assert.Equal(t, err, nil)
-        val, err := user.GetPrefs("dada")
+        val, err := user.GetPrefs()
 	assert.Equal(t, err, nil)
 	assert.Equal(t, val, map[string]string{"key1": "da", "key2": "da2"})
 }

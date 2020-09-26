@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"../models"
+	"../utils"
 
 	"github.com/avct/uasurfer"
 	"golang.org/x/text/language"
@@ -58,7 +60,7 @@ var Endpoints = map[string]func(Ctx){
 			ctx.SetSessionUser(userId)
 			ctx.Return("OK", 200)
 
-		case *ErrCreate:
+		case *models.ErrCreate:
 			ctx.ReturnBadRequest(err.Error())
 
 		default:
@@ -78,7 +80,7 @@ var Endpoints = map[string]func(Ctx){
 
 	},
 	"/track": func(ctx Ctx) {
-		visit := make(Visit)
+		visit := make(models.Visit)
 
 		//
 		// Input validation
@@ -92,7 +94,7 @@ var Endpoints = map[string]func(Ctx){
 		//
 		// variables
 		//
-		now := timeNow(ctx.ParseUTCOffset("utcoffset"))
+		now := utils.TimeNow(ctx.ParseUTCOffset("utcoffset"))
 		userAgent := ctx.r.Header.Get("User-Agent")
 		ua := uasurfer.Parse(userAgent)
 		origin := ctx.r.Header.Get("Origin")
@@ -152,7 +154,7 @@ var Endpoints = map[string]func(Ctx){
 
 		screenInput := ctx.r.FormValue("screen")
 		if screenInput != "" {
-			_, screenExists := screenResolutions[screenInput]
+			_, screenExists := models.ScreenResolutions[screenInput]
 			if screenExists {
 				visit["screen"] = screenInput
 			} else {
