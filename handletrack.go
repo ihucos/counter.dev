@@ -11,6 +11,7 @@ import (
 	"golang.org/x/text/language"
 	"golang.org/x/text/language/display"
 )
+
 func (ctx Ctx) handleTrack() {
 	visit := make(models.Visit)
 

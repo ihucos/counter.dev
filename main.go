@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
-	"./models"
 	"./config"
+	"./models"
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
 	"log"

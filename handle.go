@@ -3,7 +3,6 @@ package main
 import (
 	"./models"
 	"net/http"
-
 )
 
 func (ctx Ctx) handleLogin() {

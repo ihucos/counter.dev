@@ -1,19 +1,18 @@
 package main
 
 import (
-"./models"
+	"./models"
 )
 
-
 type Data struct {
-	Meta models.MetaData      `json:"meta"`
+	Meta  models.MetaData      `json:"meta"`
 	Prefs models.MetaData      `json:"prefs"`
-	Data models.TimedStatData `json:"data"`
-	Log  models.LogData       `json:"log"`
+	Data  models.TimedStatData `json:"data"`
+	Log   models.LogData       `json:"log"`
 }
 
 func (ctx Ctx) handleData() {
-        user := ctx.ForceUser()
+	user := ctx.ForceUser()
 	metaData, err := user.GetMetaData()
 	ctx.CatchError(err)
 	prefsData, err := user.GetPrefs()
@@ -24,6 +23,5 @@ func (ctx Ctx) handleData() {
 	ctx.CatchError(err)
 
 	data := Data{Meta: metaData, Prefs: prefsData, Data: timedData, Log: logData}
-        ctx.ReturnJSON(data, 200)
+	ctx.ReturnJSON(data, 200)
 }
-
