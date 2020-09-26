@@ -92,7 +92,6 @@ func (ctx Ctx) Logout() {
 func (ctx Ctx) ReturnUserData(userId string) {
 	user := ctx.app.OpenUser(userId)
 	defer user.Close()
-
 	userData, err := user.GetData(ctx.ParseUTCOffset("utcoffset"))
 	ctx.CatchError(err)
 	ctx.ReturnJSON(userData, 200)

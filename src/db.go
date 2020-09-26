@@ -39,6 +39,7 @@ type TimedStatData struct {
 }
 type Data struct {
 	Meta MetaData      `json:"meta"`
+	Prefs MetaData      `json:"prefs"`
 	Data TimedStatData `json:"data"`
 	Log  LogData       `json:"log"`
 }
@@ -202,11 +203,15 @@ func (user User) getMetaData() (MetaData, error) {
 }
 
 func (user User) GetData(utcOffset int) (Data, error) {
-	nullData := Data{nil, TimedStatData{nil, nil, nil, nil}, nil}
+	nullData := Data{nil, nil, TimedStatData{nil, nil, nil, nil}, nil}
 
 	now := timeNow(utcOffset)
 
 	metaData, err := user.getMetaData()
+	if err != nil {
+		return nullData, err
+	}
+	prefsData, err := user.GetPrefs()
 	if err != nil {
 		return nullData, err
 	}
@@ -231,7 +236,7 @@ func (user User) GetData(utcOffset int) (Data, error) {
 		return nullData, err
 	}
 
-	return Data{metaData, TimedStatData{Day: dayStatData, Month: monthStatData, Year: yearStatData, All: allStatData}, logData}, nil
+	return Data{Meta: metaData, Prefs: prefsData, Data: TimedStatData{Day: dayStatData, Month: monthStatData, Year: yearStatData, All: allStatData}, Log: logData}, nil
 }
 
 func (user User) TouchAccess() {
@@ -296,7 +301,7 @@ func (user User) GetPref(key string) (string, error) {
         return val, nil
 }
 
-func (user User) GetPrefs(key string) (map[string]string, error) {
+func (user User) GetPrefs() (map[string]string, error) {
 	val, err := redis.StringMap(user.redis.Do("HGETALL", fmt.Sprintf("prefs:%s", user.id)))
         if err == redis.ErrNil {
                 return map[string]string{}, nil
