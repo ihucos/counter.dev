@@ -112,8 +112,8 @@ function handleDataResp(resp) {
     metaData = resp.meta // metaData is global
     drawMetaVars()
 
-    if (window.data === undefined){
-        prefOption = document.querySelector("select#time-range option[value="+resp.prefs.range+"]")
+    if (window.data === undefined) {
+        prefOption = document.querySelector("select#time-range option[value=" + resp.prefs.range + "]")
         if (prefOption !== null) {
             prefOption.selected = true
         }
@@ -139,7 +139,7 @@ function getDataAndUpdate() {
         if (resp.status == 200) {
             return resp.json()
         } else if (resp.status == 403) {
-            if (pageNow() === "page-graphs"){
+            if (pageNow() === "page-graphs") {
                 location.href = window.location.href.split('#')[0]
             }
             pageOnly("page-index")
@@ -395,10 +395,12 @@ function pageOff(name) {
 }
 
 
-function pageNow(name){
+function pageNow(name) {
     var sections = document.getElementsByTagName('section')
     for (var i = 0; i < sections.length; i++) {
-        if (sections[i].style.display == "block") {return sections[i].id}
+        if (sections[i].style.display == "block") {
+            return sections[i].id
+        }
     }
 }
 
@@ -407,8 +409,8 @@ function main() {
     handleHash()
     getDataAndUpdate()
     setInterval(function() {
-            if (pageNow() === "page-graphs" || pageNow() === "page-setup" ) {
-                getDataAndUpdate();
-            }
-        } , 5000);
+        if (pageNow() === "page-graphs" || pageNow() === "page-setup") {
+            getDataAndUpdate();
+        }
+    }, 5000);
 }

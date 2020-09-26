@@ -1,11 +1,11 @@
-package main
+package utils
 
 import (
 	"time"
 )
 
 // some utility function - move to utils.go or so
-func timeNow(utcOffset int) time.Time {
+func TimeNow(utcOffset int) time.Time {
 	location, err := time.LoadLocation("UTC")
 	if err != nil {
 		panic(err)

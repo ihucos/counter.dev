@@ -7,6 +7,8 @@ import (
 	"os"
 	"time"
 
+	"./models"
+	"./config"
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
 	"log"
@@ -36,14 +38,7 @@ type App struct {
 	SessionStore *sessions.CookieStore
 	Logger       *log.Logger
 	ServeMux     *http.ServeMux
-	config       Config
-}
-
-func (app App) Serve() {
-	err := http.ListenAndServe(app.config.Bind, app.ServeMux)
-	if err != nil {
-		panic(fmt.Sprintf("ListenAndServe: %s", err))
-	}
+	config       config.Config
 }
 
 func (app *App) NewContext(w http.ResponseWriter, r *http.Request) Ctx {
@@ -54,13 +49,26 @@ func (app *App) CtxHandlerToHandler(fn func(Ctx)) http.Handler {
 	return appAdapter{app, fn}
 }
 
-func (app *App) OpenUser(userId string) User {
-	return User{redis: app.RedisPool.Get(), id: userId}
+func (app *App) OpenUser(userId string) models.User {
+	return models.NewUser(app.RedisPool.Get(), userId)
+}
+
+func (app *App) Connect(path string, f func(Ctx)) {
+	app.ServeMux.Handle(path, app.CtxHandlerToHandler(f))
+}
+
+func (app *App) SetupUrls() {
+	app.Connect("/login", func(ctx Ctx) { ctx.handleLogin() })
+	app.Connect("/logout", func(ctx Ctx) { ctx.handleLogout() })
+	app.Connect("/register", func(ctx Ctx) { ctx.handleRegister() })
+	app.Connect("/data", func(ctx Ctx) { ctx.handleData() })
+	app.Connect("/setPrefRange", func(ctx Ctx) { ctx.handleSetPrefRange() })
+	app.Connect("/track", func(ctx Ctx) { ctx.handleTrack() })
 }
 
 func NewApp() *App {
 
-	config := NewConfig()
+	config := config.NewConfigFromEnv()
 
 	redisPool := &redis.Pool{
 		MaxIdle:     10,
@@ -89,10 +97,16 @@ func NewApp() *App {
 		ServeMux:     serveMux,
 		config:       config,
 	}
-
-	for path, f := range Endpoints {
-		serveMux.Handle(path, app.CtxHandlerToHandler(f))
-	}
+	app.SetupUrls()
 	return app
+}
+
+func main() {
+	app := NewApp()
+	app.Logger.Println("Start")
+	err := http.ListenAndServe(app.config.Bind, app.ServeMux)
+	if err != nil {
+		panic(fmt.Sprintf("ListenAndServe: %s", err))
+	}
 
 }

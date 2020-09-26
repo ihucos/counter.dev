@@ -1,4 +1,4 @@
-package main
+package models
 
 import (
 	cryptoRand "crypto/rand"
@@ -9,6 +9,7 @@ import (
 	"log"
 	"math/rand"
 	"time"
+        "../utils"
 )
 
 // set needs to overgrow sometimes so it does allow for "trending" new entries
@@ -54,7 +55,7 @@ var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "dev
 
 // taken from here at August 2020:
 // https://gs.statcounter.com/screen-resolution-stats
-var screenResolutions = map[string]bool{
+var ScreenResolutions = map[string]bool{
 	"1280x720":  true,
 	"1280x800":  true,
 	"1366x768":  true,
@@ -92,6 +93,10 @@ func truncate(stri string) string {
 		return stri[:truncateAt]
 	}
 	return stri
+}
+
+func NewUser(conn redis.Conn, userId string) User{
+	return User{redis: conn, id: truncate(userId)}
 }
 
 func (user User) Close() {
@@ -205,7 +210,7 @@ func (user User) getMetaData() (MetaData, error) {
 func (user User) GetData(utcOffset int) (Data, error) {
 	nullData := Data{nil, nil, TimedStatData{nil, nil, nil, nil}, nil}
 
-	now := timeNow(utcOffset)
+	now := utils.TimeNow(utcOffset)
 
 	metaData, err := user.getMetaData()
 	if err != nil {
@@ -240,7 +245,7 @@ func (user User) GetData(utcOffset int) (Data, error) {
 }
 
 func (user User) TouchAccess() {
-	user.redis.Send("HSET", "access", user.id, timeNow(0).Format("2006-01-02"))
+	user.redis.Send("HSET", "access", user.id, utils.TimeNow(0).Format("2006-01-02"))
 }
 
 func (user User) Create(password string) error {
