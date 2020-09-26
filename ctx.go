@@ -1,11 +1,11 @@
 package main
 
 import (
+	"./models"
 	"encoding/json"
 	"net/http"
 	"runtime"
 	"strconv"
-	"./models"
 )
 
 type Ctx struct {

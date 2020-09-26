@@ -1,37 +1,37 @@
 package main
 
 import (
+	"./models"
 	"github.com/steinfletcher/apitest"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
-	"./models"
 )
 
 var app *App
 
-func ResetRedis(){
-        conn := app.RedisPool.Get()
+func ResetRedis() {
+	conn := app.RedisPool.Get()
 	conn.Do("select", "2")
-        defer conn.Close()
-        user := models.NewUser(conn, "john")
+	defer conn.Close()
+	user := models.NewUser(conn, "john")
 	conn.Do("flushdb")
-        user.Create("johnjohn")
+	user.Create("johnjohn")
 }
 
 func TestMain(m *testing.M) {
 
 	app = NewApp()
-        ResetRedis()
+	ResetRedis()
 	code := m.Run()
 	os.Exit(code)
 }
 
 func setupSubTest(t *testing.T) func(t *testing.T) {
-    t.Log("setup sub test")
-    return func(t *testing.T) {
-        t.Log("teardown sub test")
-    }
+	t.Log("setup sub test")
+	return func(t *testing.T) {
+		t.Log("teardown sub test")
+	}
 }
 
 func loginCookie(t *testing.T, user string, password string) *apitest.Cookie {
@@ -52,7 +52,7 @@ func loginCookie(t *testing.T, user string, password string) *apitest.Cookie {
 }
 
 func TestCreateSuccess(t *testing.T) {
-        ResetRedis()
+	ResetRedis()
 	user := app.OpenUser("peter")
 	err := user.Create("mypassmypass")
 	assert.Equal(t, err, nil)
@@ -60,14 +60,14 @@ func TestCreateSuccess(t *testing.T) {
 }
 
 func TestCreateShortPass(t *testing.T) {
-        ResetRedis()
+	ResetRedis()
 	user := app.OpenUser("peter")
 	err := user.Create("mypadd")
 	assert.Contains(t, err.Error(), "at least")
 }
 
 func TestCreateUsernameTaken(t *testing.T) {
-        ResetRedis()
+	ResetRedis()
 	user := app.OpenUser("peter")
 	user.Create("mypassmypass")
 
@@ -76,19 +76,19 @@ func TestCreateUsernameTaken(t *testing.T) {
 }
 
 func TestVerifyPasswordSuccess(t *testing.T) {
-        ResetRedis()
+	ResetRedis()
 	success, _ := app.OpenUser("john").VerifyPassword("johnjohn")
 	assert.Equal(t, success, true)
 }
 
 func TestVerifyPasswordFail(t *testing.T) {
-        ResetRedis()
+	ResetRedis()
 	success, _ := app.OpenUser("john").VerifyPassword("xxx")
 	assert.Equal(t, success, false)
 }
 
 func TestApiLoginNoInput(t *testing.T) {
-        ResetRedis()
+	ResetRedis()
 	apitest.New().
 		Handler(app.ServeMux).
 		Post("/login").
@@ -99,7 +99,7 @@ func TestApiLoginNoInput(t *testing.T) {
 }
 
 func TestApiLoginWrongCredentials(t *testing.T) {
-        ResetRedis()
+	ResetRedis()
 	apitest.New().
 		Handler(app.ServeMux).
 		Post("/login").
@@ -112,7 +112,7 @@ func TestApiLoginWrongCredentials(t *testing.T) {
 }
 
 func TestApiLoginSuccess(t *testing.T) {
-        ResetRedis()
+	ResetRedis()
 	apitest.New().
 		Handler(app.ServeMux).
 		Post("/login").
@@ -125,7 +125,7 @@ func TestApiLoginSuccess(t *testing.T) {
 }
 
 func TestApiAuthSuccess(t *testing.T) {
-        ResetRedis()
+	ResetRedis()
 	apitest.New().
 		Handler(app.ServeMux).
 		Post("/data").
@@ -136,7 +136,7 @@ func TestApiAuthSuccess(t *testing.T) {
 }
 
 func TestApiAuthFailure(t *testing.T) {
-        ResetRedis()
+	ResetRedis()
 	apitest.New().
 		Handler(app.ServeMux).
 		Post("/data").
@@ -146,9 +146,8 @@ func TestApiAuthFailure(t *testing.T) {
 		End()
 }
 
-
 func TestGetPrefEmpty(t *testing.T) {
-        ResetRedis()
+	ResetRedis()
 	user := app.OpenUser("peter")
 	val, err := user.GetPref("blah")
 	assert.Equal(t, err, nil)
@@ -156,7 +155,7 @@ func TestGetPrefEmpty(t *testing.T) {
 }
 
 func TestSetAndGetPref(t *testing.T) {
-        ResetRedis()
+	ResetRedis()
 	user := app.OpenUser("peter")
 	err := user.SetPref("key", "da")
 	assert.Equal(t, err, nil)
@@ -166,21 +165,21 @@ func TestSetAndGetPref(t *testing.T) {
 }
 
 func TestGetPrefsEmpty(t *testing.T) {
-        ResetRedis()
+	ResetRedis()
 	user := app.OpenUser("peter")
-        val, err := user.GetPrefs()
+	val, err := user.GetPrefs()
 	assert.Equal(t, err, nil)
 	assert.Equal(t, val, map[string]string{})
 }
 
 func TestGetPrefsVals(t *testing.T) {
-        ResetRedis()
+	ResetRedis()
 	user := app.OpenUser("peter")
 	err := user.SetPref("key1", "da")
 	assert.Equal(t, err, nil)
 	err = user.SetPref("key2", "da2")
 	assert.Equal(t, err, nil)
-        val, err := user.GetPrefs()
+	val, err := user.GetPrefs()
 	assert.Equal(t, err, nil)
 	assert.Equal(t, val, map[string]string{"key1": "da", "key2": "da2"})
 }

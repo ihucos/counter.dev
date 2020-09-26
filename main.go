@@ -7,12 +7,11 @@ import (
 	"os"
 	"time"
 
+	"./models"
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
 	"log"
-	"./models"
 )
-
 
 type appAdapter struct {
 	app *App
@@ -41,7 +40,6 @@ type App struct {
 	config       Config
 }
 
-
 func (app *App) NewContext(w http.ResponseWriter, r *http.Request) Ctx {
 	return Ctx{w: w, r: r, app: app}
 }
@@ -54,17 +52,17 @@ func (app *App) OpenUser(userId string) models.User {
 	return models.NewUser(app.RedisPool.Get(), userId)
 }
 
-func (app *App) Connect(path string, f func(Ctx)){
+func (app *App) Connect(path string, f func(Ctx)) {
 	app.ServeMux.Handle(path, app.CtxHandlerToHandler(f))
 }
 
-func (app *App) SetupUrls(){
-        app.Connect("/login", func(ctx Ctx){ctx.handleLogin()})
-        app.Connect("/logout", func(ctx Ctx){ctx.handleLogout()})
-        app.Connect("/register", func(ctx Ctx){ctx.handleRegister()})
-        app.Connect("/data", func(ctx Ctx){ctx.handleData()})
-        app.Connect("/setPrefRange", func(ctx Ctx){ctx.handleSetPrefRange()})
-        app.Connect("/track", func(ctx Ctx){ctx.handleTrack()})
+func (app *App) SetupUrls() {
+	app.Connect("/login", func(ctx Ctx) { ctx.handleLogin() })
+	app.Connect("/logout", func(ctx Ctx) { ctx.handleLogout() })
+	app.Connect("/register", func(ctx Ctx) { ctx.handleRegister() })
+	app.Connect("/data", func(ctx Ctx) { ctx.handleData() })
+	app.Connect("/setPrefRange", func(ctx Ctx) { ctx.handleSetPrefRange() })
+	app.Connect("/track", func(ctx Ctx) { ctx.handleTrack() })
 }
 
 func NewApp() *App {
@@ -98,8 +96,8 @@ func NewApp() *App {
 		ServeMux:     serveMux,
 		config:       config,
 	}
-        app.SetupUrls()
-        return app
+	app.SetupUrls()
+	return app
 }
 
 func main() {
@@ -111,5 +109,3 @@ func main() {
 	}
 
 }
-
-
