@@ -1,16 +1,16 @@
 
 alpineversion = 3.11
-gofiles = src/run.go src/ctx.go src/endpoints.go src/app.go src/config.go
+gofiles = main.go ctx.go endpoints.go config.go
 go = plash --from alpine:$(alpineversion) --apk go -- go
 
 .PHONY: tests
 tests:
-	$(go) test $(gofiles) src/config_tests.go src/main_test.go
+	$(go) test $(gofiles) config_tests.go main_test.go
 
 
 .PHONY: runserver
 runserver:
-	 $(go) run  $(gofiles) src/config_devel.go
+	 $(go) run  $(gofiles) config_devel.go
 
 format:
 	js-beautify --replace static/script.js
@@ -22,7 +22,7 @@ logs:
 
 
 deploy:
-	$(go) build $(gofiles) src/config_production.go
+	$(go) build $(gofiles) config_production.go
 	tar cf - static run | ssh root@172.104.148.60 tar xvf - -C /root
 	ssh root@172.104.148.60 "pkill -x ./run; sleep 5; dtach -n /tmp/dtach ./run"
 

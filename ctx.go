@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"runtime"
 	"strconv"
-	"../models"
+	"./models"
 )
 
 type Ctx struct {

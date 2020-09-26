@@ -5,16 +5,15 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-	"../models"
-	"../utils"
+	"./models"
+	"./utils"
 
 	"github.com/avct/uasurfer"
 	"golang.org/x/text/language"
 	"golang.org/x/text/language/display"
 )
 
-var Endpoints = map[string]func(Ctx){
-	"/login": func(ctx Ctx) {
+func (ctx Ctx)handleLogin() {
 		userId := ctx.r.FormValue("user")
 		passwordInput := ctx.r.FormValue("password")
 		if userId == "" || passwordInput == "" {
@@ -39,12 +38,14 @@ var Endpoints = map[string]func(Ctx){
 		} else {
 			ctx.ReturnBadRequest("Wrong username or password")
 		}
-	},
-	"/logout": func(ctx Ctx) {
+	}
+
+func (ctx Ctx)handleLogout() {
 		ctx.Logout()
 		http.Redirect(ctx.w, ctx.r, "/app", http.StatusTemporaryRedirect)
-	},
-	"/register": func(ctx Ctx) {
+	}
+
+func (ctx Ctx)handleRegister() {
 		userId := ctx.r.FormValue("user")
 		password := ctx.r.FormValue("password")
 		if userId == "" || password == "" {
@@ -66,20 +67,21 @@ var Endpoints = map[string]func(Ctx){
 		default:
 			ctx.ReturnInternalError(err)
 		}
-	},
+	}
 
-        "/data": func(ctx Ctx) {
+func (ctx Ctx)handleData() {
                 ctx.ReturnUserData(ctx.ForceUserId())
-        },
+        }
 
-	"/setPrefRange": func(ctx Ctx) {
+func (ctx Ctx)handleSetPrefRange() {
              user := ctx.ForceUser()
              defer user.Close()
              err := user.SetPref("range", ctx.r.URL.RawQuery)
              ctx.CatchError(err)
 
-	},
-	"/track": func(ctx Ctx) {
+	}
+
+func (ctx Ctx)handleTrack() {
 		visit := make(models.Visit)
 
 		//
@@ -188,5 +190,4 @@ var Endpoints = map[string]func(Ctx){
 		ctx.w.Header().Set("Cache-Control", "public, immutable")
 		ctx.Return("OK", 200)
 
-	},
-}
+	}

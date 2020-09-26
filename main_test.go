@@ -5,7 +5,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
-	"../models"
+	"./models"
 )
 
 var app *App
