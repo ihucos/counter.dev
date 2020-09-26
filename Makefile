@@ -37,7 +37,7 @@ integrations:
 
 
 tests:
-	$(go) test $(gofiles) src/config_devel.go
+	$(go) test $(gofiles) src/config_tests.go src/main_test.go
 
 #provision:
 #	ssh root@172.104.148.60 sh -c ' \
