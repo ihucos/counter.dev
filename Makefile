@@ -1,16 +1,15 @@
 
 alpineversion = 3.11
-gofiles = main.go ctx.go endpoints.go
-go = ./go
+go = .scripts/go
 
 .PHONY: tests
 tests:
-	$(go) test $(gofiles) main_test.go
+	. config/test.sh && $(go) test
 
 
 .PHONY: runserver
-runserver:
-	 $(go) run  $(gofiles) config_devel.go
+devserver:
+	 . config/dev.sh && $(go) run .
 
 format:
 	js-beautify --replace static/script.js
@@ -22,9 +21,9 @@ logs:
 
 
 deploy:
-	$(go) build $(gofiles) config_production.go
+	$(go) build .
 	tar cf - static run | ssh root@172.104.148.60 tar xvf - -C /root
-	ssh root@172.104.148.60 "pkill -x ./run; sleep 5; dtach -n /tmp/dtach ./run"
+	ssh root@172.104.148.60 "pkill -x ./scripts/prodrun; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
 
 deploy-static:
 	tar cf - static scripts | ssh root@172.104.148.60 tar xvf - -C /root
