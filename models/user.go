@@ -139,7 +139,7 @@ func (user User) SaveLogLine(logLine string) {
 
 }
 
-func (user User) delUserData() {
+func (user User) delUserStats() {
 	for _, field := range fieldsZet {
 		user.redis.Send("DEL", fmt.Sprintf("%s:%s", field, user.id))
 	}
@@ -251,7 +251,7 @@ func (user User) Create(password string) error {
 
 	// because user data could have been saved for this user id without an
 	// user existing.
-	user.delUserData()
+	user.delUserStats()
 
 	return nil
 }
