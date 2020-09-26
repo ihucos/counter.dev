@@ -1,6 +1,6 @@
 
 alpineversion = 3.11
-go = .scripts/go
+go = ./scripts/go
 
 .PHONY: tests
 tests:
@@ -26,7 +26,7 @@ deploy:
 	ssh root@172.104.148.60 "pkill -x ./scripts/prodrun; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
 
 deploy-static:
-	tar cf - static scripts | ssh root@172.104.148.60 tar xvf - -C /root
+	tar cf - static scripts config webstats | ssh root@172.104.148.60 tar xvf - -C /root
 
 redis-server:
 	scp root@172.104.148.60:/var/lib/redis/dump.rdb /tmp/webstats-production.rdb
