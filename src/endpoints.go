@@ -43,7 +43,7 @@ var Endpoints = map[string]func(Ctx){
 		http.Redirect(ctx.w, ctx.r, "/app", http.StatusTemporaryRedirect)
 	},
 	"/register": func(ctx Ctx) {
-		userId := truncate(ctx.r.FormValue("user"))
+		userId := ctx.r.FormValue("user")
 		password := ctx.r.FormValue("password")
 		if userId == "" || password == "" {
 			ctx.ReturnBadRequest("Missing Input")
@@ -73,7 +73,7 @@ var Endpoints = map[string]func(Ctx){
 	"/setPrefRange": func(ctx Ctx) {
              user := ctx.ForceUser()
              defer user.Close()
-             err := user.SetPref("range", truncate(ctx.r.URL.RawQuery))
+             err := user.SetPref("range", ctx.r.URL.RawQuery)
              ctx.CatchError(err)
 
 	},

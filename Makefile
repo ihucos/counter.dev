@@ -1,6 +1,6 @@
 
 alpineversion = 3.11
-gofiles = src/run.go src/db.go src/ctx.go src/endpoints.go src/app.go src/utils.go src/config.go
+gofiles = src/run.go src/ctx.go src/endpoints.go src/app.go src/config.go
 go = plash --from alpine:$(alpineversion) --apk go -- go
 
 .PHONY: tests

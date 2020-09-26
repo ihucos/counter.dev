@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"runtime"
 	"strconv"
+	"../models"
 )
 
 type Ctx struct {
@@ -97,7 +98,7 @@ func (ctx Ctx) ReturnUserData(userId string) {
 	ctx.ReturnJSON(userData, 200)
 }
 
-func (ctx Ctx) ForceUser() User {
+func (ctx Ctx) ForceUser() models.User {
 	return ctx.app.OpenUser(ctx.ForceUserId())
 
 }

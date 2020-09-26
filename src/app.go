@@ -10,6 +10,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
 	"log"
+	"../models"
 )
 
 type appAdapter struct {
@@ -54,8 +55,8 @@ func (app *App) CtxHandlerToHandler(fn func(Ctx)) http.Handler {
 	return appAdapter{app, fn}
 }
 
-func (app *App) OpenUser(userId string) User {
-	return User{redis: app.RedisPool.Get(), id: userId}
+func (app *App) OpenUser(userId string) models.User {
+	return models.NewUser(app.RedisPool.Get(), userId)
 }
 
 func NewApp() *App {
