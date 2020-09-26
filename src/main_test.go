@@ -9,17 +9,27 @@ import (
 
 var app *App
 
+func ResetRedis(){
+	user := app.OpenUser("john")
+        defer user.Close()
+	user.redis.Do("flushdb")
+        user.Create("johnjohn")
+	user.redis.Do("select", "2")
+}
+
 func TestMain(m *testing.M) {
 
 	app = NewApp()
-	conn := app.RedisPool.Get()
-	defer conn.Close()
-	conn.Do("select", "2")
-	conn.Do("flushdb")
-	app.OpenUser("john").Create("johnjohn")
-
+        ResetRedis()
 	code := m.Run()
 	os.Exit(code)
+}
+
+func setupSubTest(t *testing.T) func(t *testing.T) {
+    t.Log("setup sub test")
+    return func(t *testing.T) {
+        t.Log("teardown sub test")
+    }
 }
 
 func loginCookie(t *testing.T, user string, password string) *apitest.Cookie {
@@ -40,6 +50,7 @@ func loginCookie(t *testing.T, user string, password string) *apitest.Cookie {
 }
 
 func TestCreateSuccess(t *testing.T) {
+        ResetRedis()
 	user := app.OpenUser("peter")
 	err := user.Create("mypassmypass")
 	assert.Equal(t, err, nil)
@@ -47,12 +58,14 @@ func TestCreateSuccess(t *testing.T) {
 }
 
 func TestCreateShortPass(t *testing.T) {
+        ResetRedis()
 	user := app.OpenUser("peter")
 	err := user.Create("mypadd")
 	assert.Contains(t, err.Error(), "at least")
 }
 
 func TestCreateUsernameTaken(t *testing.T) {
+        ResetRedis()
 	user := app.OpenUser("peter")
 	user.Create("mypassmypass")
 
@@ -61,16 +74,19 @@ func TestCreateUsernameTaken(t *testing.T) {
 }
 
 func TestVerifyPasswordSuccess(t *testing.T) {
+        ResetRedis()
 	success, _ := app.OpenUser("john").VerifyPassword("johnjohn")
 	assert.Equal(t, success, true)
 }
 
 func TestVerifyPasswordFail(t *testing.T) {
+        ResetRedis()
 	success, _ := app.OpenUser("john").VerifyPassword("xxx")
 	assert.Equal(t, success, false)
 }
 
 func TestApiLoginNoInput(t *testing.T) {
+        ResetRedis()
 	apitest.New().
 		Handler(app.ServeMux).
 		Post("/login").
@@ -81,6 +97,7 @@ func TestApiLoginNoInput(t *testing.T) {
 }
 
 func TestApiLoginWrongCredentials(t *testing.T) {
+        ResetRedis()
 	apitest.New().
 		Handler(app.ServeMux).
 		Post("/login").
@@ -93,6 +110,7 @@ func TestApiLoginWrongCredentials(t *testing.T) {
 }
 
 func TestApiLoginSuccess(t *testing.T) {
+        ResetRedis()
 	apitest.New().
 		Handler(app.ServeMux).
 		Post("/login").
@@ -105,6 +123,7 @@ func TestApiLoginSuccess(t *testing.T) {
 }
 
 func TestApiAuthSuccess(t *testing.T) {
+        ResetRedis()
 	apitest.New().
 		Handler(app.ServeMux).
 		Post("/data").
@@ -115,6 +134,7 @@ func TestApiAuthSuccess(t *testing.T) {
 }
 
 func TestApiAuthFailure(t *testing.T) {
+        ResetRedis()
 	apitest.New().
 		Handler(app.ServeMux).
 		Post("/data").
@@ -122,4 +142,12 @@ func TestApiAuthFailure(t *testing.T) {
 		Expect(t).
 		Status(403).
 		End()
+}
+
+
+func TestGetPrefEmpty(t *testing.T) {
+        ResetRedis()
+	user := app.OpenUser("peter")
+	err := user.Create("mypassmypass")
+	assert.Equal(t, err, nil)
 }
