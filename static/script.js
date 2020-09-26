@@ -112,6 +112,13 @@ function handleDataResp(resp) {
     metaData = resp.meta // metaData is global
     drawMetaVars()
 
+    if (window.data === undefined){
+        prefOption = document.querySelector("select#time-range option[value="+resp.prefs.range+"]")
+        if (prefOption !== null) {
+            prefOption.selected = true
+        }
+    }
+
     if (JSON.stringify(resp.data) !== JSON.stringify(window.timedData || {})) {
         timedData = resp.data // timedData is global
         data = resp.data[getSelectedTimeRange()] // data is global
@@ -197,9 +204,11 @@ function sum(array) {
 }
 
 function onTimeRangeChanged() {
-    data = timedData[getSelectedTimeRange()]
+    var range = getSelectedTimeRange()
+    data = timedData[range]
     enableAnimation()
     draw()
+    fetch("/setPrefRange?" + encodeURIComponent(range))
 }
 
 function getUTCOffset() {

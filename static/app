@@ -216,7 +216,7 @@
                         <option value="day">Today</option>
                         <!-- <option value="month">This Month</option> -->
                         <option value="year">This year</option>
-                        <option value="all" selected="selected">All</option>
+                        <option value="all">All</option>
                      </select>
                   </form>
                </div>
