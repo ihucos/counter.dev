@@ -97,7 +97,7 @@ func (ctx Ctx) ReturnUserData(userId string) {
 	ctx.ReturnJSON(userData, 200)
 }
 
-//func (ctx Ctx) Authenticate() {
-//	ctx.User = ctx.OpenUser(ctx.ForceUserId())
-//
-//}
+func (ctx Ctx) ForceUser() User {
+	return ctx.app.OpenUser(ctx.ForceUserId())
+
+}
