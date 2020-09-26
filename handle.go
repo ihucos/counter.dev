@@ -62,10 +62,6 @@ func (ctx Ctx) handleRegister() {
 	}
 }
 
-func (ctx Ctx) handleData() {
-	ctx.ReturnUserData(ctx.ForceUserId())
-}
-
 func (ctx Ctx) handleSetPrefRange() {
 	user := ctx.ForceUser()
 	defer user.Close()

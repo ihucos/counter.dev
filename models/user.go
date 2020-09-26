@@ -38,12 +38,7 @@ type TimedStatData struct {
 	Year  StatData `json:"year"`
 	All   StatData `json:"all"`
 }
-type Data struct {
-	Meta MetaData      `json:"meta"`
-	Prefs MetaData      `json:"prefs"`
-	Data TimedStatData `json:"data"`
-	Log  LogData       `json:"log"`
-}
+
 type Visit map[string]string
 
 func (c *ErrCreate) Error() string {
@@ -184,7 +179,7 @@ func (user User) getStatData(timeRange string) (StatData, error) {
 	return m, nil
 }
 
-func (user User) getLogData() (LogData, error) {
+func (user User) GetLogData() (LogData, error) {
 
 	logData, err := redis.Int64Map(user.redis.Do("ZRANGE", fmt.Sprintf("log:%s", user.id), 0, -1, "WITHSCORES"))
 	if err != nil {
@@ -195,7 +190,7 @@ func (user User) getLogData() (LogData, error) {
 	return logData, nil
 }
 
-func (user User) getMetaData() (MetaData, error) {
+func (user User) GetMetaData() (MetaData, error) {
 	meta := make(MetaData)
 	token, err := user.readToken()
 	if err != nil {
@@ -207,23 +202,9 @@ func (user User) getMetaData() (MetaData, error) {
 	return meta, nil
 }
 
-func (user User) GetData(utcOffset int) (Data, error) {
-	nullData := Data{nil, nil, TimedStatData{nil, nil, nil, nil}, nil}
-
+func (user User) GetTimedStatData(utcOffset int) (TimedStatData, error) {
+	nullData := TimedStatData{nil, nil, nil, nil}
 	now := utils.TimeNow(utcOffset)
-
-	metaData, err := user.getMetaData()
-	if err != nil {
-		return nullData, err
-	}
-	prefsData, err := user.GetPrefs()
-	if err != nil {
-		return nullData, err
-	}
-	logData, err := user.getLogData()
-	if err != nil {
-		return nullData, err
-	}
 	allStatData, err := user.getStatData("all")
 	if err != nil {
 		return nullData, err
@@ -240,8 +221,7 @@ func (user User) GetData(utcOffset int) (Data, error) {
 	if err != nil {
 		return nullData, err
 	}
-
-	return Data{Meta: metaData, Prefs: prefsData, Data: TimedStatData{Day: dayStatData, Month: monthStatData, Year: yearStatData, All: allStatData}, Log: logData}, nil
+	return TimedStatData{Day: dayStatData, Month: monthStatData, Year: yearStatData, All: allStatData}, nil
 }
 
 func (user User) TouchAccess() {
