@@ -3,6 +3,11 @@ alpineversion = 3.11
 gofiles = src/run.go src/db.go src/ctx.go src/endpoints.go src/app.go src/utils.go src/config.go
 go = plash --from alpine:$(alpineversion) --apk go -- go
 
+.PHONY: tests
+tests:
+	$(go) test $(gofiles) src/config_tests.go src/main_test.go
+
+
 .PHONY: runserver
 runserver:
 	 $(go) run  $(gofiles) src/config_devel.go
@@ -35,9 +40,6 @@ log:
 integrations:
 	ssh root@172.104.148.60 python3 scripts/integrations.py
 
-
-tests:
-	$(go) test $(gofiles) src/config_tests.go src/main_test.go
 
 #provision:
 #	ssh root@172.104.148.60 sh -c ' \

@@ -286,7 +286,7 @@ func (user User) VerifyToken(token string) (bool, error) {
 	return dbToken != "" && dbToken == token, nil
 }
 
-func (user User) getPref(key string) (string, error) {
+func (user User) GetPref(key string) (string, error) {
 	val, err := redis.String(user.redis.Do("HGET", fmt.Sprintf("prefs:%s", user.id), key))
         if err == redis.ErrNil {
                 return "", nil
@@ -296,7 +296,17 @@ func (user User) getPref(key string) (string, error) {
         return val, nil
 }
 
-func (user User) setPref(key string, value string) (error) {
+func (user User) GetPrefs(key string) (map[string]string, error) {
+	val, err := redis.StringMap(user.redis.Do("HGETALL", fmt.Sprintf("prefs:%s", user.id)))
+        if err == redis.ErrNil {
+                return map[string]string{}, nil
+	} else if err != nil {
+		return map[string]string{}, err
+	}
+        return val, nil
+}
+
+func (user User) SetPref(key string, value string) (error) {
 	_, err := user.redis.Do("HSET", fmt.Sprintf("prefs:%s", user.id), key, value)
         if err != nil {
                 return err

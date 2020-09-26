@@ -148,6 +148,37 @@ func TestApiAuthFailure(t *testing.T) {
 func TestGetPrefEmpty(t *testing.T) {
         ResetRedis()
 	user := app.OpenUser("peter")
-	err := user.Create("mypassmypass")
+	val, err := user.GetPref("blah")
 	assert.Equal(t, err, nil)
+	assert.Equal(t, val, "")
+}
+
+func TestSetAndGetPref(t *testing.T) {
+        ResetRedis()
+	user := app.OpenUser("peter")
+	err := user.SetPref("key", "da")
+	assert.Equal(t, err, nil)
+	val, err := user.GetPref("key")
+	assert.Equal(t, err, nil)
+	assert.Equal(t, val, "da")
+}
+
+func TestGetPrefsEmpty(t *testing.T) {
+        ResetRedis()
+	user := app.OpenUser("peter")
+        val, err := user.GetPrefs("dada")
+	assert.Equal(t, err, nil)
+	assert.Equal(t, val, map[string]string{})
+}
+
+func TestGetPrefsVals(t *testing.T) {
+        ResetRedis()
+	user := app.OpenUser("peter")
+	err := user.SetPref("key1", "da")
+	assert.Equal(t, err, nil)
+	err = user.SetPref("key2", "da2")
+	assert.Equal(t, err, nil)
+        val, err := user.GetPrefs("dada")
+	assert.Equal(t, err, nil)
+	assert.Equal(t, val, map[string]string{"key1": "da", "key2": "da2"})
 }
