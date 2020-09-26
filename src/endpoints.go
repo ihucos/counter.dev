@@ -69,6 +69,7 @@ var Endpoints = map[string]func(Ctx){
         "/data": func(ctx Ctx) {
                 ctx.ReturnUserData(ctx.ForceUserId())
         },
+
 	"/setPrefRange": func(ctx Ctx) {
              user := ctx.ForceUser()
              defer user.Close()
