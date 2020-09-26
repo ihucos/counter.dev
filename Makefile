@@ -1,11 +1,11 @@
 
 alpineversion = 3.11
-gofiles = main.go ctx.go endpoints.go config.go
-go = plash --from alpine:$(alpineversion) --apk go -- go
+gofiles = main.go ctx.go endpoints.go
+go = ./go
 
 .PHONY: tests
 tests:
-	$(go) test $(gofiles) config_tests.go main_test.go
+	$(go) test $(gofiles) main_test.go
 
 
 .PHONY: runserver

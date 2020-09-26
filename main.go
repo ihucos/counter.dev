@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"./models"
+	"./config"
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
 	"log"
@@ -37,7 +38,7 @@ type App struct {
 	SessionStore *sessions.CookieStore
 	Logger       *log.Logger
 	ServeMux     *http.ServeMux
-	config       Config
+	config       config.Config
 }
 
 func (app *App) NewContext(w http.ResponseWriter, r *http.Request) Ctx {
@@ -67,7 +68,7 @@ func (app *App) SetupUrls() {
 
 func NewApp() *App {
 
-	config := NewConfig()
+	config := config.NewConfigFromEnv()
 
 	redisPool := &redis.Pool{
 		MaxIdle:     10,

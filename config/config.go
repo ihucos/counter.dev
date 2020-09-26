@@ -1,0 +1,37 @@
+package config
+
+import (
+	"os"
+	"fmt"
+)
+
+type Config struct {
+	RedisUrl     string
+	Bind         string
+	CookieSecret []byte
+}
+
+func env(env string) string{
+	v := os.Getenv(env)
+	if v == "" {
+		panic(fmt.Sprintf("empty or missing env: %s", env))
+	}
+        return v
+}
+func envDefault(env string, fallback string) string {
+	v := os.Getenv(env)
+	if v == "" {
+		return fallback
+	}
+        return v
+}
+
+func NewConfigFromEnv() Config {
+    return Config{
+        RedisUrl: envDefault("WEBSTATS_REDIS_URL", "redis://localhost:6379"),
+        Bind: envDefault("WEBSTATS_BIND", ":8000"),
+        CookieSecret: []byte(env("WEBSTATS_COOKIE_SECRET")),
+    
+    }
+
+}
