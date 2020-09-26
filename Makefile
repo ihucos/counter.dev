@@ -22,11 +22,11 @@ logs:
 
 deploy:
 	$(go) build .
-	tar cf - static run | ssh root@172.104.148.60 tar xvf - -C /root
+	tar cf - static config webstats scripts | ssh root@172.104.148.60 tar xvf - -C /root
 	ssh root@172.104.148.60 "pkill -x ./scripts/prodrun; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
 
 deploy-static:
-	tar cf - static scripts config webstats | ssh root@172.104.148.60 tar xvf - -C /root
+	tar cf - static scripts | ssh root@172.104.148.60 tar xvf - -C /root
 
 redis-server:
 	scp root@172.104.148.60:/var/lib/redis/dump.rdb /tmp/webstats-production.rdb
