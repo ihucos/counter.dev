@@ -25,7 +25,7 @@ func (ctx Ctx) handleLogin() {
 			user.TouchAccess()
 		}
 		ctx.SetSessionUser(userId)
-		ctx.Return("OK", 200)
+		ctx.ReturnUser()
 
 	} else {
 		ctx.ReturnBadRequest("Wrong username or password")
@@ -51,7 +51,7 @@ func (ctx Ctx) handleRegister() {
 	switch err.(type) {
 	case nil:
 		ctx.SetSessionUser(userId)
-		ctx.Return("OK", 200)
+		ctx.ReturnUser()
 
 	case *models.ErrCreate:
 		ctx.ReturnBadRequest(err.Error())
@@ -67,4 +67,17 @@ func (ctx Ctx) handleSetPrefRange() {
 	err := user.SetPref("range", ctx.r.URL.RawQuery)
 	ctx.CatchError(err)
 
+}
+
+
+type VisitsDataResp struct {
+	Visits  models.TimedVisits      `json:"visits"`
+	Logs models.GetLogs      `json:"logs"`
+}
+
+func (ctx Ctx) handleVisits(){
+    user := ctx.ForceUser()
+    defer user.Close()
+    visits = user.NewVisits("all")
+    resp = VisitsDataResp{Visits: visits.GetVisits(ctx.ParseUTCOffset("utcoffset")), Logs vists.GetLogs("all")}
 }

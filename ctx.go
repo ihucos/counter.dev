@@ -8,6 +8,12 @@ import (
 	"strconv"
 )
 
+
+type UserDataResp struct {
+	Meta  models.MetaData      `json:"meta"`
+	Prefs models.MetaData      `json:"prefs"`
+}
+
 type Ctx struct {
 	w   http.ResponseWriter
 	r   *http.Request
@@ -45,6 +51,17 @@ func (ctx Ctx) CatchError(err error) {
 		ctx.ReturnInternalError(err)
 	}
 }
+
+func (ctx Ctx) ReturnUser() {
+	user := ctx.ForceUser()
+	metaData, err := user.GetMetaData()
+	ctx.CatchError(err)
+	prefsData, err := user.GetPrefs()
+	ctx.CatchError(err)
+	data := UserDataResp{Meta: metaData, Prefs: prefsData}
+	ctx.ReturnJSON(data, 200)
+}
+
 
 func (ctx Ctx) ParseUTCOffset(key string) int {
 

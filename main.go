@@ -61,7 +61,7 @@ func (app *App) SetupUrls() {
 	app.Connect("/login", func(ctx Ctx) { ctx.handleLogin() })
 	app.Connect("/logout", func(ctx Ctx) { ctx.handleLogout() })
 	app.Connect("/register", func(ctx Ctx) { ctx.handleRegister() })
-	app.Connect("/data", func(ctx Ctx) { ctx.handleData() })
+	app.Connect("/visits", func(ctx Ctx) { ctx.handleVisits() })
 	app.Connect("/setPrefRange", func(ctx Ctx) { ctx.handleSetPrefRange() })
 	app.Connect("/track", func(ctx Ctx) { ctx.handleTrack() })
 }

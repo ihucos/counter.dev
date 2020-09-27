@@ -114,8 +114,8 @@ func (ctx Ctx) handleTrack() {
 
 	user := ctx.app.OpenUser(userId)
 	defer user.Close()
-	user.SaveVisit(visit, now)
-	user.SaveLogLine(logLine)
+	user.SaveVisit("all", visit, now)
+	user.SaveLogLine("all", logLine)
 
 	ctx.w.Header().Set("Content-Type", "text/plain")
 	ctx.w.Header().Set("Cache-Control", "public, immutable")
