@@ -42,6 +42,7 @@ func (vik VisitItemKey) String() string {
 type Visits struct {
 	redis  redis.Conn
 	origin origin
+        userId string
 }
 
 // taken from here at August 2020:
