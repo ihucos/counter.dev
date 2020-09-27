@@ -1,6 +1,7 @@
 package models
 
 import (
+	"../utils"
 	cryptoRand "crypto/rand"
 	"crypto/sha256"
 	"encoding/base64"
@@ -9,7 +10,6 @@ import (
 	"log"
 	"math/rand"
 	"time"
-        "../utils"
 )
 
 // set needs to overgrow sometimes so it does allow for "trending" new entries
@@ -40,6 +40,22 @@ type TimedStatData struct {
 }
 
 type Visit map[string]string
+
+type VisitItemKey struct {
+	TimeRange string
+	UserId    string
+	Origin    string
+	field     string
+}
+
+func (vik VisitItemKey) String() string {
+	return fmt.Sprintf("v:%s,%s,%s,%s",
+		url.QueryEscape(vik.Origin),
+		url.QueryEscape(vik.UserId),
+		url.QueryEscape(vik.field),
+		url.QueryEscape(vik.TimeRange))
+
+}
 
 func (c *ErrCreate) Error() string {
 	return c.msg
@@ -90,7 +106,7 @@ func truncate(stri string) string {
 	return stri
 }
 
-func NewUser(conn redis.Conn, userId string) User{
+func NewUser(conn redis.Conn, userId string) User {
 	return User{redis: conn, id: truncate(userId)}
 }
 
@@ -101,7 +117,7 @@ func (user User) Close() {
 func (user User) saveVisitPart(timeRange string, data Visit, expireEntry int) {
 	var redisKey string
 	for _, field := range fieldsZet {
-		redisKey = fmt.Sprintf("%s:%s:%s", field, timeRange, user.id)
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: origin, UserId: user.id}.String()
 		val := data[field]
 		if val != "" {
 			user.redis.Send("ZINCRBY", redisKey, 1, truncate(val))
@@ -115,7 +131,7 @@ func (user User) saveVisitPart(timeRange string, data Visit, expireEntry int) {
 	}
 
 	for _, field := range fieldsHash {
-		redisKey = fmt.Sprintf("%s:%s:%s", field, timeRange, user.id)
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: origin, UserId: user.id}.String()
 		val := data[field]
 		if val != "" {
 			user.redis.Send("HINCRBY", redisKey, truncate(val), 1)
@@ -126,11 +142,11 @@ func (user User) saveVisitPart(timeRange string, data Visit, expireEntry int) {
 	}
 }
 
-func (user User) SaveVisit(visit Visit, at time.Time) {
-	user.saveVisitPart(at.Format("2006"), visit, 60*60*24*366)
-	user.saveVisitPart(at.Format("2006-01"), visit, 60*60*24*31)
-	user.saveVisitPart(at.Format("2006-01-02"), visit, 60*60*24)
-	user.saveVisitPart("all", visit, -1)
+func (user User) SaveVisit(origin string, visit Visit, at time.Time) {
+	user.saveVisitPart(origin, at.Format("2006"), visit, 60*60*24*366)
+	user.saveVisitPart(origin, at.Format("2006-01"), visit, 60*60*24*31)
+	user.saveVisitPart(origin, at.Format("2006-01-02"), visit, 60*60*24)
+	user.saveVisitPart(origin, "all", visit, -1)
 }
 
 func (user User) SaveLogLine(logLine string) {
@@ -163,14 +179,16 @@ func (user User) getStatData(timeRange string) (StatData, error) {
 	m := make(StatData)
 
 	for _, field := range fieldsZet {
-		m[field], err = redis.Int64Map(user.redis.Do("ZRANGE", fmt.Sprintf("%s:%s:%s", field, timeRange, user.id), 0, -1, "WITHSCORES"))
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: origin, UserId: user.id}.String()
+		m[field], err = redis.Int64Map(user.redis.Do("ZRANGE", redisKey, 0, -1, "WITHSCORES"))
 		if err != nil {
 			log.Println(user.id, err)
 			return nil, err
 		}
 	}
 	for _, field := range fieldsHash {
-		m[field], err = redis.Int64Map(user.redis.Do("HGETALL", fmt.Sprintf("%s:%s:%s", field, timeRange, user.id)))
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: origin, UserId: user.id}.String()
+		m[field], err = redis.Int64Map(user.redis.Do("HGETALL", redisKey))
 		if err != nil {
 			log.Println(user.id, err)
 			return nil, err
@@ -202,22 +220,22 @@ func (user User) GetMetaData() (MetaData, error) {
 	return meta, nil
 }
 
-func (user User) GetTimedStatData(utcOffset int) (TimedStatData, error) {
+func (user User) GetTimedStatData(origin string, utcOffset int) (TimedStatData, error) {
 	nullData := TimedStatData{nil, nil, nil, nil}
 	now := utils.TimeNow(utcOffset)
 	allStatData, err := user.getStatData("all")
 	if err != nil {
 		return nullData, err
 	}
-	yearStatData, err := user.getStatData(now.Format("2006"))
+	yearStatData, err := user.getStatData(origin, now.Format("2006"))
 	if err != nil {
 		return nullData, err
 	}
-	monthStatData, err := user.getStatData(now.Format("2006-01"))
+	monthStatData, err := user.getStatData(origin, now.Format("2006-01"))
 	if err != nil {
 		return nullData, err
 	}
-	dayStatData, err := user.getStatData(now.Format("2006-01-02"))
+	dayStatData, err := user.getStatData(origin, now.Format("2006-01-02"))
 	if err != nil {
 		return nullData, err
 	}
@@ -258,9 +276,9 @@ func (user User) Create(password string) error {
 
 func (user User) VerifyPassword(password string) (bool, error) {
 	hashedPassword, err := redis.String(user.redis.Do("HGET", "users", user.id))
-        if err == redis.ErrNil {
-                return false, nil
-        } else if err != nil {
+	if err == redis.ErrNil {
+		return false, nil
+	} else if err != nil {
 		return false, err
 	}
 	return hashedPassword != "" && hashedPassword == hash(password), nil
@@ -268,8 +286,8 @@ func (user User) VerifyPassword(password string) (bool, error) {
 
 func (user User) VerifyToken(token string) (bool, error) {
 	dbToken, err := user.readToken()
-        if err == redis.ErrNil {
-                return false, nil
+	if err == redis.ErrNil {
+		return false, nil
 	} else if err != nil {
 		return false, err
 	}
@@ -278,28 +296,28 @@ func (user User) VerifyToken(token string) (bool, error) {
 
 func (user User) GetPref(key string) (string, error) {
 	val, err := redis.String(user.redis.Do("HGET", fmt.Sprintf("prefs:%s", user.id), key))
-        if err == redis.ErrNil {
-                return "", nil
+	if err == redis.ErrNil {
+		return "", nil
 	} else if err != nil {
 		return "", err
 	}
-        return val, nil
+	return val, nil
 }
 
 func (user User) GetPrefs() (map[string]string, error) {
 	val, err := redis.StringMap(user.redis.Do("HGETALL", fmt.Sprintf("prefs:%s", user.id)))
-        if err == redis.ErrNil {
-                return map[string]string{}, nil
+	if err == redis.ErrNil {
+		return map[string]string{}, nil
 	} else if err != nil {
 		return map[string]string{}, err
 	}
-        return val, nil
+	return val, nil
 }
 
-func (user User) SetPref(key string, value string) (error) {
+func (user User) SetPref(key string, value string) error {
 	_, err := user.redis.Do("HSET", fmt.Sprintf("prefs:%s", user.id), key, value)
-        if err != nil {
-                return err
-        }
-        return nil
+	if err != nil {
+		return err
+	}
+	return nil
 }

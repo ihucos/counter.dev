@@ -15,6 +15,7 @@ format:
 	js-beautify --replace static/script.js
 	js-beautify --replace static/draw.js
 	$(go) fmt *.go
+	$(go) fmt models/*.go
 
 logs:
 	ssh root@172.104.148.60 cat log
