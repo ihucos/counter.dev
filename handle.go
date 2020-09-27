@@ -72,12 +72,13 @@ func (ctx Ctx) handleSetPrefRange() {
 
 type VisitsDataResp struct {
 	Visits  models.TimedVisits      `json:"visits"`
-	Logs models.GetLogs      `json:"logs"`
+	Logs models.LogData      `json:"logs"`
 }
 
 func (ctx Ctx) handleVisits(){
     user := ctx.ForceUser()
     defer user.Close()
-    visits = user.NewVisits("all")
-    resp = VisitsDataResp{Visits: visits.GetVisits(ctx.ParseUTCOffset("utcoffset")), Logs vists.GetLogs("all")}
+    visits := user.NewVisits("all")
+    resp := VisitsDataResp{Visits: visits.GetVisits(ctx.ParseUTCOffset("utcoffset")), Logs: vists.GetLogs("all")}
+    ctx.ReturnJSON(resp, 200)
 }

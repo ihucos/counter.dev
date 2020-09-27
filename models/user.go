@@ -7,10 +7,6 @@ import (
 	"encoding/base64"
 	"fmt"
 	"github.com/gomodule/redigo/redis"
-	"log"
-	"math/rand"
-	"net/url"
-	"time"
 )
 
 type User struct {
@@ -112,7 +108,7 @@ func (user User) Create(password string) error {
 
 	// because user data could have been saved for this user id without an
 	// user existing.
-	user.delUserStats()
+	user.delAllVisits()
 
 	return nil
 }
@@ -165,6 +161,6 @@ func (user User) SetPref(key string, value string) error {
 	return nil
 }
 
-func (user User) NewVisits(origin string) {
+func (user User) NewVisits(origin string) Visits {
 	return Visits{redis: user.redis, userId: user.id, origin: origin}
 }

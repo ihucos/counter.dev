@@ -1,5 +1,15 @@
 package models
 
+import (
+
+	"github.com/gomodule/redigo/redis"
+        "fmt"
+        "time"
+        "net/url"
+        "math/rand"
+        "../utils"
+)
+
 // set needs to overgrow sometimes so it does allow for "trending" new entries
 // to catch up with older ones and replace them at some point.
 const zetMaxSize = 30
@@ -41,7 +51,7 @@ func (vik VisitItemKey) String() string {
 
 type Visits struct {
 	redis  redis.Conn
-	origin origin
+	origin string
         userId string
 }
 
@@ -72,7 +82,7 @@ var ScreenResolutions = map[string]bool{
 func (visits Visits) saveVisitPart(timeRange string, data Visit, expireEntry int) {
 	var redisKey string
 	for _, field := range fieldsZet {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: origin, UserId: visits.UserId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: visits.origin, UserId: visits.userId}.String()
 		val := data[field]
 		if val != "" {
 			visits.redis.Send("ZINCRBY", redisKey, 1, truncate(val))
@@ -86,7 +96,7 @@ func (visits Visits) saveVisitPart(timeRange string, data Visit, expireEntry int
 	}
 
 	for _, field := range fieldsHash {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: origin, UserId: visits.id}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: visits.origin, UserId: visits.userId}.String()
 		val := data[field]
 		if val != "" {
 			visits.redis.Send("HINCRBY", redisKey, truncate(val), 1)
@@ -98,30 +108,28 @@ func (visits Visits) saveVisitPart(timeRange string, data Visit, expireEntry int
 }
 
 func (visits Visits) SaveVisit(visit Visit, at time.Time) {
-	visits.saveVisitPart(origin, at.Format("2006"), visit, 60*60*24*366)
-	visits.saveVisitPart(origin, at.Format("2006-01"), visit, 60*60*24*31)
-	visits.saveVisitPart(origin, at.Format("2006-01-02"), visit, 60*60*24)
-	visits.saveVisitPart(origin, "all", visit, -1)
+	visits.saveVisitPart(at.Format("2006"), visit, 60*60*24*366)
+	visits.saveVisitPart(at.Format("2006-01"), visit, 60*60*24*31)
+	visits.saveVisitPart(at.Format("2006-01-02"), visit, 60*60*24)
+	visits.saveVisitPart("all", visit, -1)
 }
 
-func (visits Visits) getVisitsPart(timeRange string) (Visits, error) {
+func (visits Visits) getVisitsPart(timeRange string) (VisitsData, error) {
 
 	var err error
 	var redisKey string
-	m := make(Visits)
+	m := make(VisitsData)
 	for _, field := range fieldsZet {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: origin, UserId: visits.id}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: visits.origin, UserId: visits.userId}.String()
 		m[field], err = redis.Int64Map(visits.redis.Do("ZRANGE", redisKey, 0, -1, "WITHSCORES"))
 		if err != nil {
-			log.Println(visits.id, err)
 			return nil, err
 		}
 	}
 	for _, field := range fieldsHash {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: origin, UserId: visits.id}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: visits.origin, UserId: visits.userId}.String()
 		m[field], err = redis.Int64Map(visits.redis.Do("HGETALL", redisKey))
 		if err != nil {
-			log.Println(visits.UserId, err)
 			return nil, err
 		}
 	}
@@ -131,19 +139,19 @@ func (visits Visits) getVisitsPart(timeRange string) (Visits, error) {
 func (visits Visits) GetVisits(utcOffset int) (TimedVisits, error) {
 	nullData := TimedVisits{nil, nil, nil, nil}
 	now := utils.TimeNow(utcOffset)
-	allStatData, err := visits.getVisitsPart(origin, "all")
+	allStatData, err := visits.getVisitsPart("all")
 	if err != nil {
 		return nullData, err
 	}
-	yearStatData, err := visits.getVisitsPart(origin, now.Format("2006"))
+	yearStatData, err := visits.getVisitsPart(now.Format("2006"))
 	if err != nil {
 		return nullData, err
 	}
-	monthStatData, err := visits.getVisitsPart(origin, now.Format("2006-01"))
+	monthStatData, err := visits.getVisitsPart(now.Format("2006-01"))
 	if err != nil {
 		return nullData, err
 	}
-	dayStatData, err := visits.getVisitsPart(origin, now.Format("2006-01-02"))
+	dayStatData, err := visits.getVisitsPart(now.Format("2006-01-02"))
 	if err != nil {
 		return nullData, err
 	}
@@ -151,16 +159,15 @@ func (visits Visits) GetVisits(utcOffset int) (TimedVisits, error) {
 }
 
 func (visits Visits) Log(logLine string) {
-	redisKey := fmt.Sprintf("log:%s:%s", origin, visits.UserId)
+	redisKey := fmt.Sprintf("log:%s:%s", visits.origin, visits.userId)
 	visits.redis.Send("ZADD", redisKey, time.Now().Unix(), truncate(logLine))
 	visits.redis.Send("ZREMRANGEBYRANK", redisKey, 0, -loglinesKeep)
 }
 
 func (visits Visits) GetLogs() (LogData, error) {
 
-	logData, err := redis.Int64Map(visits.redis.Do("ZRANGE", fmt.Sprintf("log:%s:%s", origin, user.id), 0, -1, "WITHSCORES"))
+	logData, err := redis.Int64Map(visits.redis.Do("ZRANGE", fmt.Sprintf("log:%s:%s", visits.origin, visits.userId), 0, -1, "WITHSCORES"))
 	if err != nil {
-		log.Println(user.id, err)
 		return nil, err
 	}
 
