@@ -69,7 +69,7 @@ function postUserAction(endpoint, body, success, fail) {
         }
     }).then(arg => {
         if (typeof arg === 'string' || arg instanceof String) {
-            success()
+            fail(arg)
         } else {
             handleUserData(arg)
             success()
@@ -406,18 +406,20 @@ function pageNow(name) {
 }
 
 
-function ifUser(callback) {
+function ifUser(trueCallback, falseCallback) {
     fetch("/user").then(resp => {
         if (resp.status == 200) {
             return resp.json()
-        } else if (resp.status == 500) {
+        } else if (resp.status == 403) {
             return null
         } else {
             return "Bad server status code: " + resp.status
         }
     }).then(userData => {
         if (userData !== null) {
-            callback(userData)
+            trueCallback(userData)
+        } else {
+            falseCallback()
         }
     })
 }
@@ -433,5 +435,6 @@ function main() {
                 getDataAndUpdate();
             }
         }, 5000);
-    })
+    },
+    ()=> pageOnly("page-index"))
 }
