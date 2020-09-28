@@ -327,10 +327,12 @@ if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protoc
     fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
         referrer: document.referrer,
         screen: screen.width + "x" + screen.height,
-        site: "<span class="metavar_user">USERNAME</span>",
-        utcoffset: <span id="utcoffset">0</span>}))}
+        user: "<span class="metavar_user">USERNAME</span>",
+        siteid: "1601308121" /* choose different id's for different domains */,
+        utcoffset: <span id="utcoffset">0</span> /* websites timezone */}))}
 sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
+
             <div id="share-account" style="display: none;">
                <h5 class="text-xl mt-8">Share account</h5>
                <p class="mb-5">
