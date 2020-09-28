@@ -79,6 +79,11 @@ var ScreenResolutions = map[string]bool{
 	"414x896":   true,
 	"768x1024":  true}
 
+
+func (visits Visits) Close() {
+    visits.redis.Close()
+}
+
 func (visits Visits) saveVisitPart(timeRange string, data Visit, expireEntry int) {
 	var redisKey string
 	for _, field := range fieldsZet {

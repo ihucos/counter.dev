@@ -112,10 +112,10 @@ func (ctx Ctx) handleTrack() {
 	//
 	logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, userAgent)
 
-	user := ctx.app.OpenUser(userId)
-	defer user.Close()
-	user.SaveVisit("all", visit, now)
-	user.SaveLogLine("all", logLine)
+	visits := ctx.app.OpenUser(userId).NewVisits("all")
+	defer visits.Close()
+	visits.SaveVisit(visit, now)
+	visits.Log(logLine)
 
 	ctx.w.Header().Set("Content-Type", "text/plain")
 	ctx.w.Header().Set("Cache-Control", "public, immutable")

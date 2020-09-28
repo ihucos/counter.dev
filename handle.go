@@ -79,6 +79,10 @@ func (ctx Ctx) handleVisits(){
     user := ctx.ForceUser()
     defer user.Close()
     visits := user.NewVisits("all")
-    resp := VisitsDataResp{Visits: visits.GetVisits(ctx.ParseUTCOffset("utcoffset")), Logs: vists.GetLogs("all")}
+    timedVisits, err := visits.GetVisits(ctx.ParseUTCOffset("utcoffset"))
+    ctx.CatchError(err)
+    logs, err := visits.GetLogs()
+    ctx.CatchError(err)
+    resp := VisitsDataResp{Visits: timedVisits, Logs: logs}
     ctx.ReturnJSON(resp, 200)
 }
