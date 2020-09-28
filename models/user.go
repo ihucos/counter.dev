@@ -161,6 +161,6 @@ func (user User) SetPref(key string, value string) error {
 	return nil
 }
 
-func (user User) NewVisits(origin string) Visits {
-	return Visits{redis: user.redis, userId: user.id, origin: origin}
+func (user User) NewSite(id string) Site {
+	return Site{redis: user.redis, userId: user.id, id: id}
 }

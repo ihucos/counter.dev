@@ -112,7 +112,7 @@ func (ctx Ctx) handleTrack() {
 	//
 	logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, userAgent)
 
-	visits := ctx.app.OpenUser(userId).NewVisits("all")
+	visits := ctx.app.OpenUser(userId).NewSite("all")
 	defer visits.Close()
 	visits.SaveVisit(visit, now)
 	visits.Log(logLine)

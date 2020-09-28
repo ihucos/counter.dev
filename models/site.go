@@ -49,9 +49,9 @@ func (vik VisitItemKey) String() string {
 
 }
 
-type Visits struct {
+type Site struct {
 	redis  redis.Conn
-	origin string
+	id string
         userId string
 }
 
@@ -80,60 +80,60 @@ var ScreenResolutions = map[string]bool{
 	"768x1024":  true}
 
 
-func (visits Visits) Close() {
-    visits.redis.Close()
+func (site Site) Close() {
+    site.redis.Close()
 }
 
-func (visits Visits) saveVisitPart(timeRange string, data Visit, expireEntry int) {
+func (site Site) saveVisitPart(timeRange string, data Visit, expireEntry int) {
 	var redisKey string
 	for _, field := range fieldsZet {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: visits.origin, UserId: visits.userId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
 		val := data[field]
 		if val != "" {
-			visits.redis.Send("ZINCRBY", redisKey, 1, truncate(val))
+			site.redis.Send("ZINCRBY", redisKey, 1, truncate(val))
 			if rand.Intn(zetTrimEveryCalls) == 0 {
-				visits.redis.Send("ZREMRANGEBYRANK", redisKey, 0, -zetMaxSize)
+				site.redis.Send("ZREMRANGEBYRANK", redisKey, 0, -zetMaxSize)
 			}
 			if expireEntry != -1 {
-				visits.redis.Send("EXPIRE", redisKey, expireEntry)
+				site.redis.Send("EXPIRE", redisKey, expireEntry)
 			}
 		}
 	}
 
 	for _, field := range fieldsHash {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: visits.origin, UserId: visits.userId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
 		val := data[field]
 		if val != "" {
-			visits.redis.Send("HINCRBY", redisKey, truncate(val), 1)
+			site.redis.Send("HINCRBY", redisKey, truncate(val), 1)
 			if expireEntry != -1 {
-				visits.redis.Send("EXPIRE", redisKey, expireEntry)
+				site.redis.Send("EXPIRE", redisKey, expireEntry)
 			}
 		}
 	}
 }
 
-func (visits Visits) SaveVisit(visit Visit, at time.Time) {
-	visits.saveVisitPart(at.Format("2006"), visit, 60*60*24*366)
-	visits.saveVisitPart(at.Format("2006-01"), visit, 60*60*24*31)
-	visits.saveVisitPart(at.Format("2006-01-02"), visit, 60*60*24)
-	visits.saveVisitPart("all", visit, -1)
+func (site Site) SaveVisit(visit Visit, at time.Time) {
+	site.saveVisitPart(at.Format("2006"), visit, 60*60*24*366)
+	site.saveVisitPart(at.Format("2006-01"), visit, 60*60*24*31)
+	site.saveVisitPart(at.Format("2006-01-02"), visit, 60*60*24)
+	site.saveVisitPart("all", visit, -1)
 }
 
-func (visits Visits) getVisitsPart(timeRange string) (VisitsData, error) {
+func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 
 	var err error
 	var redisKey string
 	m := make(VisitsData)
 	for _, field := range fieldsZet {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: visits.origin, UserId: visits.userId}.String()
-		m[field], err = redis.Int64Map(visits.redis.Do("ZRANGE", redisKey, 0, -1, "WITHSCORES"))
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		m[field], err = redis.Int64Map(site.redis.Do("ZRANGE", redisKey, 0, -1, "WITHSCORES"))
 		if err != nil {
 			return nil, err
 		}
 	}
 	for _, field := range fieldsHash {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: visits.origin, UserId: visits.userId}.String()
-		m[field], err = redis.Int64Map(visits.redis.Do("HGETALL", redisKey))
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		m[field], err = redis.Int64Map(site.redis.Do("HGETALL", redisKey))
 		if err != nil {
 			return nil, err
 		}
@@ -141,37 +141,37 @@ func (visits Visits) getVisitsPart(timeRange string) (VisitsData, error) {
 	return m, nil
 }
 
-func (visits Visits) GetVisits(utcOffset int) (TimedVisits, error) {
+func (site Site) GetVisits(utcOffset int) (TimedVisits, error) {
 	nullData := TimedVisits{nil, nil, nil, nil}
 	now := utils.TimeNow(utcOffset)
-	allStatData, err := visits.getVisitsPart("all")
+	allStatData, err := site.getVisitsPart("all")
 	if err != nil {
 		return nullData, err
 	}
-	yearStatData, err := visits.getVisitsPart(now.Format("2006"))
+	yearStatData, err := site.getVisitsPart(now.Format("2006"))
 	if err != nil {
 		return nullData, err
 	}
-	monthStatData, err := visits.getVisitsPart(now.Format("2006-01"))
+	monthStatData, err := site.getVisitsPart(now.Format("2006-01"))
 	if err != nil {
 		return nullData, err
 	}
-	dayStatData, err := visits.getVisitsPart(now.Format("2006-01-02"))
+	dayStatData, err := site.getVisitsPart(now.Format("2006-01-02"))
 	if err != nil {
 		return nullData, err
 	}
 	return TimedVisits{Day: dayStatData, Month: monthStatData, Year: yearStatData, All: allStatData}, nil
 }
 
-func (visits Visits) Log(logLine string) {
-	redisKey := fmt.Sprintf("log:%s:%s", visits.origin, visits.userId)
-	visits.redis.Send("ZADD", redisKey, time.Now().Unix(), truncate(logLine))
-	visits.redis.Send("ZREMRANGEBYRANK", redisKey, 0, -loglinesKeep)
+func (site Site) Log(logLine string) {
+	redisKey := fmt.Sprintf("log:%s:%s", site.id, site.userId)
+	site.redis.Send("ZADD", redisKey, time.Now().Unix(), truncate(logLine))
+	site.redis.Send("ZREMRANGEBYRANK", redisKey, 0, -loglinesKeep)
 }
 
-func (visits Visits) GetLogs() (LogData, error) {
+func (site Site) GetLogs() (LogData, error) {
 
-	logData, err := redis.Int64Map(visits.redis.Do("ZRANGE", fmt.Sprintf("log:%s:%s", visits.origin, visits.userId), 0, -1, "WITHSCORES"))
+	logData, err := redis.Int64Map(site.redis.Do("ZRANGE", fmt.Sprintf("log:%s:%s", site.id, site.userId), 0, -1, "WITHSCORES"))
 	if err != nil {
 		return nil, err
 	}

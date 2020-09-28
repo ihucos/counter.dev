@@ -78,7 +78,7 @@ type VisitsDataResp struct {
 func (ctx Ctx) handleVisits(){
     user := ctx.ForceUser()
     defer user.Close()
-    visits := user.NewVisits("all")
+    visits := user.NewSite("all")
     timedVisits, err := visits.GetVisits(ctx.ParseUTCOffset("utcoffset"))
     ctx.CatchError(err)
     logs, err := visits.GetLogs()
