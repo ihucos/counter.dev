@@ -86,3 +86,7 @@ func (ctx Ctx) handleVisits(){
     resp := VisitsDataResp{Visits: timedVisits, Logs: logs}
     ctx.ReturnJSON(resp, 200)
 }
+
+func (ctx Ctx) handleUser(){
+    ctx.ReturnUser()
+}

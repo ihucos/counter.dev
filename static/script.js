@@ -405,13 +405,33 @@ function pageNow(name) {
     }
 }
 
+
+function ifUser(callback) {
+    fetch("/user").then(resp => {
+        if (resp.status == 200) {
+            return resp.json()
+        } else if (resp.status == 500) {
+            return null
+        } else {
+            return "Bad server status code: " + resp.status
+        }
+    }).then(userData => {
+        if (userData !== null) {
+            callback(userData)
+        }
+    })
+}
+
 function main() {
     pageOnly("loading")
     handleHash()
-    getDataAndUpdate()
-    setInterval(function() {
-        if (pageNow() === "page-graphs" || pageNow() === "page-setup") {
-            getDataAndUpdate();
-        }
-    }, 5000);
+
+    ifUser(userData => {
+        getDataAndUpdate()
+        setInterval(function() {
+            if (pageNow() === "page-graphs" || pageNow() === "page-setup") {
+                getDataAndUpdate();
+            }
+        }, 5000);
+    })
 }

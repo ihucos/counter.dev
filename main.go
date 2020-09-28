@@ -64,6 +64,7 @@ func (app *App) SetupUrls() {
 	app.Connect("/visits", func(ctx Ctx) { ctx.handleVisits() })
 	app.Connect("/setPrefRange", func(ctx Ctx) { ctx.handleSetPrefRange() })
 	app.Connect("/track", func(ctx Ctx) { ctx.handleTrack() })
+	app.Connect("/user", func(ctx Ctx) { ctx.handleUser() })
 }
 
 func NewApp() *App {
