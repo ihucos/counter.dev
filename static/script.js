@@ -43,7 +43,7 @@ function makeGradient(id, alpha1, alpha2) {
 }
 
 
-function post(endpoint, body, success, fail) {
+function postUserAction(endpoint, body, success, fail) {
 
     // first hide all alerts
     var x = document.getElementsByClassName("login-alert");
@@ -61,17 +61,18 @@ function post(endpoint, body, success, fail) {
         },
     }).then(resp => {
         if (resp.status == 200) {
-            return true
+            return resp.json()
         } else if (resp.status == 400) {
             return resp.text()
         } else {
             return "Bad server status code: " + resp.status
         }
     }).then(arg => {
-        if (arg === true) {
+        if (typeof arg === 'string' || arg instanceof String) {
             success()
         } else {
-            fail(arg)
+            handleUserData(arg)
+            success()
         }
     })
 }
@@ -83,7 +84,7 @@ function register() {
     var password = document.getElementById("reg_password").value
     var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
     pageOnly("loading")
-    post("/register", body, () => {
+    postUserAction("/register", body, () => {
         getDataAndUpdate()
     }, (errMsg) => {
         pageOnly("page-index")
@@ -98,7 +99,7 @@ function login() {
     var password = document.getElementById("login_password").value
     var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
     pageOnly("loading")
-    post("/login", body, () => {
+    postUserAction("/login", body, () => {
         getDataAndUpdate()
     }, (errMsg) => {
         pageOnly("page-index")
@@ -108,22 +109,22 @@ function login() {
 }
 
 
-function handleDataResp(resp) {
-    metaData = resp.meta // metaData is global
-    drawMetaVars()
-
-    if (window.data === undefined) {
+function handleUserData(resp){
         prefOption = document.querySelector("select#time-range option[value=" + resp.prefs.range + "]")
         if (prefOption !== null) {
-            prefOption.selected = true
+           prefOption.selected = true
         }
-    }
-
-    if (JSON.stringify(resp.data) !== JSON.stringify(window.timedData || {})) {
-        timedData = resp.data // timedData is global
-        data = resp.data[getSelectedTimeRange()] // data is global
+        metaData = resp.meta // metaData is global
         user = resp.meta.user // user is global
-        logData = resp.log // logData is global
+        drawMetaVars()
+}
+
+
+function handleDataResp(resp) {
+    if (JSON.stringify(resp) !== JSON.stringify(window.timedData || {})) {
+        timedData = resp.visits // timedData is global
+        data = timedData[getSelectedTimeRange()] // data is global
+        logData = resp.logs // logData is global
         console.log("new data")
         console.log(timedData)
         draw()
@@ -133,7 +134,7 @@ function handleDataResp(resp) {
 
 
 function getDataAndUpdate() {
-    fetch("/data", {
+    fetch("/visits", {
         method: "GET",
     }).then(resp => {
         if (resp.status == 200) {
