@@ -128,7 +128,7 @@ func TestApiAuthSuccess(t *testing.T) {
 	ResetRedis()
 	apitest.New().
 		Handler(app.ServeMux).
-		Post("/data").
+		Post("/user").
 		Cookies(loginCookie(t, "john", "johnjohn")).
 		Expect(t).
 		Status(200).
@@ -139,7 +139,7 @@ func TestApiAuthFailure(t *testing.T) {
 	ResetRedis()
 	apitest.New().
 		Handler(app.ServeMux).
-		Post("/data").
+		Post("/user").
 		Cookies(loginCookie(t, "john", "xxx")).
 		Expect(t).
 		Status(403).

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
+	"regexp"
 
 	"github.com/avct/uasurfer"
 	"golang.org/x/text/language"
@@ -121,4 +122,11 @@ func (ctx Ctx) handleTrack() {
 	ctx.w.Header().Set("Cache-Control", "public, immutable")
 	ctx.Return("OK", 200)
 
+}
+
+
+func Origin2SiteId(origin string) string{
+    // this function returns 
+    var re = regexp.MustCompile(`^.*?:\/\/(?:www.)?(.*)$`)
+    return re.FindStringSubmatch(origin)[0]
 }
