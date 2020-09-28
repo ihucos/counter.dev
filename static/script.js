@@ -388,6 +388,7 @@ function pageAllOff() {
 }
 
 function pageOn(name) {
+    console.log("pageOn: " + name)
     document.querySelector('section[id="' + name + '"]').style.display = "block"
 }
 
