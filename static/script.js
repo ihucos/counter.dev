@@ -436,5 +436,7 @@ function main() {
             }
         }, 5000);
     },
-    ()=> pageOnly("page-index"))
+    ()=> {
+      if (pageNow() === "loading"){pageOnly("page-index")}
+    })
 }
