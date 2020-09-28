@@ -121,7 +121,7 @@ function handleUserData(resp){
 
 
 function handleDataResp(resp) {
-    if (JSON.stringify(resp) !== JSON.stringify(window.timedData || {})) {
+    if (JSON.stringify(resp.visits) !== JSON.stringify(window.timedData || {})) {
         timedData = resp.visits // timedData is global
         data = timedData[getSelectedTimeRange()] // data is global
         logData = resp.logs // logData is global
@@ -434,7 +434,7 @@ function main() {
             if (pageNow() === "page-graphs" || pageNow() === "page-setup") {
                 getDataAndUpdate();
             }
-        }, 5000);
+        }, 1000);
     },
     ()=> {
       if (pageNow() === "loading"){pageOnly("page-index")}
