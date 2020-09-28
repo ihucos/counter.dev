@@ -430,12 +430,13 @@ function main() {
     handleHash()
 
     ifUser(userData => {
+        handleUserData(userData)
         getDataAndUpdate()
         setInterval(function() {
             if (pageNow() === "page-graphs" || pageNow() === "page-setup") {
                 getDataAndUpdate();
             }
-        }, 1000);
+        }, 5000);
     },
     ()=> {
       if (pageNow() === "loading"){pageOnly("page-index")}
