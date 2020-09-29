@@ -18,10 +18,14 @@ func (ctx Ctx) handleTrack() {
 	//
 	// Input validation
 	//
-
-	userId := ctx.r.FormValue("site")
+	userId := ctx.r.FormValue("user")
 	if userId == "" {
-		ctx.ReturnBadRequest("missing site param")
+                // this has to be supported until the end of time, or
+                // alternatively all current users are not using that option.
+                userId := ctx.r.FormValue("site")
+	        if userId == "" {
+		    ctx.ReturnBadRequest("missing site param")
+                }
 	}
 
 	//
@@ -31,6 +35,9 @@ func (ctx Ctx) handleTrack() {
 	userAgent := ctx.r.Header.Get("User-Agent")
 	ua := uasurfer.Parse(userAgent)
 	origin := ctx.r.Header.Get("Origin")
+
+        //
+	siteId := ctx.r.FormValue("siteid")
 
 	//
 	// set expire
@@ -112,8 +119,9 @@ func (ctx Ctx) handleTrack() {
 	//
 	logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, userAgent)
 
-	visits := ctx.app.OpenUser(userId).NewSite("all")
-	defer visits.Close()
+        user := ctx.app.OpenUser(userId)
+	defer user.Close()
+	visits := user.NewSite(siteId)
 	visits.SaveVisit(visit, now)
 	visits.Log(logLine)
 

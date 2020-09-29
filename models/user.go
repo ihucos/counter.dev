@@ -164,3 +164,11 @@ func (user User) SetPref(key string, value string) error {
 func (user User) NewSite(id string) Site {
 	return Site{redis: user.redis, userId: user.id, id: id}
 }
+
+func (user User) incrSiteLink(siteid string) error {
+	_, err := user.redis.Do("ZINCRBY", fmt.Sprintf("sites:%s", user.id), key, value)
+	if err != nil {
+		return err
+	}
+	return nil
+}
