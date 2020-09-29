@@ -154,8 +154,8 @@ func (user User) GetPrefs() (map[string]string, error) {
 }
 
 func (user User) GetSiteLinks() (map[string]int, error) {
-	val, err := redis.IntMap(user.redis.Do("ZINCRBY", fmt.Sprintf("sites:%s", user.id)))
-        empty = map[string]int{}
+	val, err := redis.IntMap(user.redis.Do("ZRANGE", fmt.Sprintf("sites:%s", user.id), "0", "-1", "WITHSCORES"))
+        empty := map[string]int{}
 	if err == redis.ErrNil {
 		return empty, nil
 	} else if err != nil {
@@ -176,10 +176,6 @@ func (user User) NewSite(id string) Site {
 	return Site{redis: user.redis, userId: user.id, id: id}
 }
 
-func (user User) IncrSiteLink(siteid string) error {
-	_, err := user.redis.Do("ZINCRBY", fmt.Sprintf("sites:%s", user.id), key, value)
-	if err != nil {
-		return err
-	}
-	return nil
+func (user User) IncrSiteLink(siteId string) {
+	user.redis.Send("ZINCRBY", fmt.Sprintf("sites:%s", user.id), 1, siteId)
 }
