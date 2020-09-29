@@ -124,6 +124,7 @@ func (ctx Ctx) handleTrack() {
 	visits := user.NewSite(siteId)
 	visits.SaveVisit(visit, now)
 	visits.Log(logLine)
+        user.incrSiteLink(siteId)
 
 	ctx.w.Header().Set("Content-Type", "text/plain")
 	ctx.w.Header().Set("Cache-Control", "public, immutable")
