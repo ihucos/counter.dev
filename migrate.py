@@ -1,7 +1,8 @@
 
 import redis
+from pprint import pprint
 r = redis.StrictRedis()
-
+from urllib.parse import quote_plus
 
 
 userorigins = {}
@@ -13,15 +14,20 @@ def prettyorigin(o):
     return o
 
 
+counts = {}
+for k in r.keys("*date:2020:*"):
+    k = k.decode()
+    dates = r.hgetall(k)
+    user = k.split(':', 2)[-1]
+    counts[user] = sum(int(i) for i in dates.values())
+
 for k in r.keys("*origin:2020:*"):
     k = k.decode()
     origins = r.zrange(k, 0, -1, withscores=True)
-    user = k.split(':')[-1]
+    user = k.split(':', 2)[-1]
     origins = sorted(origins, key=lambda i: -i[1])
     biggest_origin = next(iter(origins))[0].decode()
     userorigins[user] = prettyorigin(biggest_origin)
-
-print(userorigins)
 
 pipe = r.pipeline(transaction=True)
 ks = [b"lang", b"origin", b"ref", b"loc", b"date", b"weekday", b"platform", b"hour", b"browser", b"device", b"country", b"screen"]
@@ -33,15 +39,23 @@ for key in r.keys("*"):
             try:
                 site_id = userorigins[kuser]
             except KeyError:
-                print("KeyError", kuser)
+                r.delete(key)
                 continue
-            newkey = "v:{site_id},{user},{field},{trange}".format(site_id=site_id, field=kname, trange=krange, user=kuser)
+            newkey = "v:{site_id},{user},{field},{trange}".format(site_id=site_id, field=kname, trange=krange, user=quote_plus(kuser))
             pipe.rename(key.decode(), newkey)
+
+for user, origin in userorigins.items():
+    pipe.hincrby("sites:" + user, user, counts[user])
 
 
 for key in r.keys("log:*"):
     _, user = key.decode().split(":", 1)
-    new = "log:all:" + user
+    try:
+        site_id = userorigins[kuser]
+    except KeyError:
+        print("KeyError", kuser)
+        continue
+    new = "log:"+ site_id+":" + user
     pipe.rename(key, new)
 
-#pipe.execute()
+pipe.execute()
