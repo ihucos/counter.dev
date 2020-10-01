@@ -760,10 +760,12 @@ function draw() {
     disableAnimation()
 }
 
-function drawSiteSelector(sites){
+function drawSiteSelector(sitesHash){
     var html = ""
-    for (let site in sites) {
-      var count = sites[site];
+    sites = Object.keys(sitesHash)
+    sites.sort()
+    for (let i in sites) {
+      var site = sites[i]
       html += "<option value='" + escapeHtml(site) + "'>" + escapeHtml(site) + "</option>"
     }
     document.getElementById("site-selector").innerHTML = html
