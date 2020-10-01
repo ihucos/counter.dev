@@ -70,20 +70,27 @@ func (ctx Ctx) handleSetPrefRange() {
 }
 
 
-type VisitsDataResp struct {
+type PingDataResp struct {
 	Visits  models.TimedVisits      `json:"visits"`
 	Logs models.LogData      `json:"logs"`
+	SiteLinks map[string]int      `json:"site_links"`
 }
 
-func (ctx Ctx) handleVisits(){
+func (ctx Ctx) handlePing(){
+    siteId := ctx.r.URL.RawQuery
+    if siteId == "" {
+        ctx.ReturnBadRequest("no siteId given as raw query param")
+    }
     user := ctx.ForceUser()
     defer user.Close()
-    visits := user.NewSite("all")
+    visits := user.NewSite(siteId)
     timedVisits, err := visits.GetVisits(ctx.ParseUTCOffset("utcoffset"))
     ctx.CatchError(err)
     logs, err := visits.GetLogs()
     ctx.CatchError(err)
-    resp := VisitsDataResp{Visits: timedVisits, Logs: logs}
+    siteLinks, err := user.GetSiteLinks()
+    ctx.CatchError(err)
+    resp := PingDataResp{Visits: timedVisits, Logs: logs, SiteLinks: siteLinks}
     ctx.ReturnJSON(resp, 200)
 }
 

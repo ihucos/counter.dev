@@ -134,7 +134,7 @@ function handleDataResp(resp) {
 
 
 function getDataAndUpdate() {
-    fetch("/visits", {
+    fetch("/ping", {
         method: "GET",
     }).then(resp => {
         if (resp.status == 200) {
