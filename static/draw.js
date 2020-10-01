@@ -759,3 +759,12 @@ function draw() {
     }))
     disableAnimation()
 }
+
+function drawSiteSelector(sites){
+    var html = ""
+    for (let site in sites) {
+      var count = sites[site];
+      html += "<option value='" + escapeHtml(site) + "'>" + escapeHtml(site) + "</option>"
+    }
+    document.getElementById("site-selector").innerHTML = html
+}

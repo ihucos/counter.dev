@@ -116,6 +116,7 @@ function handleUserData(resp){
         }
         metaData = resp.meta // metaData is global
         user = resp.meta.user // user is global
+        drawSiteSelector(resp.site_links)
         drawMetaVars()
 }
 
@@ -127,6 +128,7 @@ function handleDataResp(resp) {
         logData = resp.logs // logData is global
         console.log("new data")
         console.log(timedData)
+        drawSiteSelector(resp.site_links)
         draw()
     }
 
@@ -134,7 +136,7 @@ function handleDataResp(resp) {
 
 
 function getDataAndUpdate() {
-    fetch("/ping", {
+    fetch("/ping?"+getSelectedSite(), {
         method: "GET",
     }).then(resp => {
         if (resp.status == 200) {
@@ -423,6 +425,10 @@ function ifUser(trueCallback, falseCallback) {
             falseCallback()
         }
     })
+}
+
+function getSelectedSite(){
+    return document.getElementById("site-selector").value
 }
 
 function main() {
