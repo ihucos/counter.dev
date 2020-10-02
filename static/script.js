@@ -446,7 +446,7 @@ function getDataAndUpdateAlways(){
             if (pageNow() === "page-graphs" || pageNow() === "page-setup") {
                 getDataAndUpdate();
             }
-        }, 1000);
+        }, 5000);
 
 }
 
