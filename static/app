@@ -333,7 +333,6 @@ if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protoc
         referrer: document.referrer,
         screen: screen.width + "x" + screen.height,
         user: "<span class="metavar_user">USERNAME</span>",
-        siteid: 1, /* use different id's for different websites */
         utcoffset: <span id="utcoffset">0</span>}));}
 sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>

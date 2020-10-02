@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
+	"regexp"
 
 	"github.com/avct/uasurfer"
 	"golang.org/x/text/language"
@@ -22,7 +23,7 @@ func (ctx Ctx) handleTrack() {
 	if userId == "" {
                 // this has to be supported until the end of time, or
                 // alternatively all current users are not using that option.
-                userId := ctx.r.FormValue("site")
+                userId = ctx.r.FormValue("site")
 	        if userId == "" {
 		    ctx.ReturnBadRequest("missing site param")
                 }
@@ -35,9 +36,10 @@ func (ctx Ctx) handleTrack() {
 	userAgent := ctx.r.Header.Get("User-Agent")
 	ua := uasurfer.Parse(userAgent)
 	origin := ctx.r.Header.Get("Origin")
+	if origin == "" || origin == "null" {
+	        ctx.ReturnBadRequest("Origin header can not be empty, not set or \"null\"")
+	}
 
-        //
-	siteId := ctx.r.FormValue("siteid")
 
 	//
 	// set expire
@@ -83,10 +85,6 @@ func (ctx Ctx) handleTrack() {
 		visit["lang"] = lang
 	}
 
-	if origin != "" && origin != "null" {
-		visit["origin"] = origin
-	}
-
 	country := ctx.r.Header.Get("CF-IPCountry")
 	if country != "" && country != "XX" {
 		visit["country"] = strings.ToLower(country)
@@ -119,6 +117,7 @@ func (ctx Ctx) handleTrack() {
 	//
 	logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, userAgent)
 
+        siteId := Origin2SiteId(origin)
         user := ctx.app.OpenUser(userId)
 	defer user.Close()
 	visits := user.NewSite(siteId)
@@ -130,4 +129,11 @@ func (ctx Ctx) handleTrack() {
 	ctx.w.Header().Set("Cache-Control", "public, immutable")
 	ctx.Return("OK", 200)
 
+}
+
+
+func Origin2SiteId(origin string) string{
+    // this function returns 
+    var re = regexp.MustCompile(`^.*?:\/\/(?:www.)?(.*)$`)
+    return re.FindStringSubmatch(origin)[0]
 }
