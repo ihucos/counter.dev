@@ -122,13 +122,13 @@ function handleUserData(resp){
 
 
 function handleDataResp(resp) {
+    handleSiteLinksData(resp.site_links)
     if (JSON.stringify(resp.visits) !== JSON.stringify(window.timedData || {})) {
         timedData = resp.visits // timedData is global
         data = timedData[getSelectedTimeRange()] // data is global
         logData = resp.logs // logData is global
         console.log("new data")
         console.log(timedData)
-        handleSiteLinksData(resp.site_links)
         if (!(Object.keys(resp.site_links).length === 0 && resp.site_links.constructor === Object)){
             draw()
         }
@@ -137,7 +137,7 @@ function handleDataResp(resp) {
 }
 
 function handleSiteLinksData(siteLinks){
-    if (Object.keys(siteLinks).length === 0 && siteLinks.constructor === Object){
+    if ((Object.keys(siteLinks).length === 0 && siteLinks.constructor === Object) && pageNow() !== 'page-setup'){
         pageOnly("page-setup")
     }
     drawSiteSelector(siteLinks)
