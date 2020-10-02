@@ -85,7 +85,7 @@ function register() {
     var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
     pageOnly("loading")
     postUserAction("/register", body, () => {
-        getDataAndUpdate()
+        getDataAndUpdateAlways()
     }, (errMsg) => {
         pageOnly("page-index")
         document.getElementById("alert_register").style.display = "block"
@@ -100,7 +100,7 @@ function login() {
     var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
     pageOnly("loading")
     postUserAction("/login", body, () => {
-        getDataAndUpdate()
+        getDataAndUpdateAlways()
     }, (errMsg) => {
         pageOnly("page-index")
         document.getElementById("alert_login").style.display = "block"
@@ -116,7 +116,7 @@ function handleUserData(resp){
         }
         metaData = resp.meta // metaData is global
         user = resp.meta.user // user is global
-        drawSiteSelector(resp.site_links)
+        handleSiteLinksData(resp.site_links)
         drawMetaVars()
 }
 
@@ -128,15 +128,24 @@ function handleDataResp(resp) {
         logData = resp.logs // logData is global
         console.log("new data")
         console.log(timedData)
-        drawSiteSelector(resp.site_links)
-        draw()
+        handleSiteLinksData(resp.site_links)
+        if (!(Object.keys(resp.site_links).length === 0 && resp.site_links.constructor === Object)){
+            draw()
+        }
     }
 
 }
 
+function handleSiteLinksData(siteLinks){
+    if (Object.keys(siteLinks).length === 0 && siteLinks.constructor === Object){
+        pageOnly("page-setup")
+    }
+    drawSiteSelector(siteLinks)
+}
+
 
 function getDataAndUpdate() {
-    fetch("/ping?"+getSelectedSite(), {
+    fetch("/ping?"+(getSelectedSite() || "dummysite"), {
         method: "GET",
     }).then(resp => {
         if (resp.status == 200) {
@@ -431,18 +440,22 @@ function getSelectedSite(){
     return document.getElementById("site-selector").value
 }
 
-function main() {
-    pageOnly("loading")
-    handleHash()
-
-    ifUser(userData => {
-        handleUserData(userData)
+function getDataAndUpdateAlways(){
         getDataAndUpdate()
         setInterval(function() {
             if (pageNow() === "page-graphs" || pageNow() === "page-setup") {
                 getDataAndUpdate();
             }
-        }, 5000);
+        }, 1000);
+
+}
+
+function main() {
+    pageOnly("loading")
+    handleHash()
+    ifUser(userData => {
+        handleUserData(userData)
+        getDataAndUpdateAlways()
     },
     ()=> {
       if (pageNow() === "loading"){pageOnly("page-index")}

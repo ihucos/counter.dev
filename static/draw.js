@@ -528,14 +528,8 @@ function draw() {
     console.log("redrawing")
     destroyRegisteredCharts()
 
-    var noData = Object.keys(timedData.all.date).length === 0 && data.date.constructor === Object
-    if (noData) {
-        pageOnly("page-setup")
-        return
-    } else {
-        pageOnly("page-graphs")
-        document.getElementById("share-account").style.display = "block" // hacky
-    }
+    pageOnly("page-graphs")
+    document.getElementById("share-account").style.display = "block" // hacky
 
     drawUTCOffsetVar()
     drawMap("world")
