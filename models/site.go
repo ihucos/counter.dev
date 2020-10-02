@@ -141,6 +141,36 @@ func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 	return m, nil
 }
 
+func (site Site) delVisitPart(timeRange string) {
+        var redisKey string
+	for _, field := range fieldsZet {
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+                site.redis.Send("DEL", redisKey)
+	}
+	for _, field := range fieldsHash {
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+                site.redis.Send("DEL", redisKey)
+	}
+}
+
+func (site Site) DelVisits(utcOffset int) {
+
+        // we ignore the fact that at any given time in reality there are three
+        // dates going on at the same time and not as this code naively assumes
+        // two.
+        minDate := utils.TimeNow(-12)
+        maxDate := utils.TimeNow(12)
+
+	site.delVisitPart(maxDate.Format("2006"))
+	site.delVisitPart(minDate.Format("2006"))
+	site.delVisitPart(maxDate.Format("2006-01"))
+	site.delVisitPart(minDate.Format("2006-01"))
+	site.delVisitPart(maxDate.Format("2006-01-02"))
+	site.delVisitPart(minDate.Format("2006-01-02"))
+	site.delVisitPart("all")
+}
+
+
 func (site Site) GetVisits(utcOffset int) (TimedVisits, error) {
 	nullData := TimedVisits{nil, nil, nil, nil}
 	now := utils.TimeNow(utcOffset)

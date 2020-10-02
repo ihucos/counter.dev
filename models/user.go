@@ -50,15 +50,12 @@ func (user User) Close() {
 	user.redis.Close()
 }
 
-func (user User) delAllVisits() {
-	/// FIXME THIS FUNCTION THING IS WRONG! ////XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-	for _, field := range fieldsZet {
-		user.redis.Send("DEL", fmt.Sprintf("%s:%s", field, user.id))
-	}
-	for _, field := range fieldsHash {
-		user.redis.Send("DEL", fmt.Sprintf("%s:%s", field, user.id))
-	}
-	user.redis.Send("DEL", fmt.Sprintf("log:%s", user.id))
+func (user User) delAllVisits() error {
+	linkedSites, err := user.GetSiteLinks()
+        if err != nil {return nil}
+        for siteId, _ := range linkedSites { 
+            user.NewSite(siteId).delVisits()
+        }
 }
 
 func (user User) readToken() (string, error) {
