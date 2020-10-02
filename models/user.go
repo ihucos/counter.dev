@@ -52,10 +52,11 @@ func (user User) Close() {
 
 func (user User) delAllVisits() error {
 	linkedSites, err := user.GetSiteLinks()
-        if err != nil {return nil}
+        if err != nil {return err}
         for siteId, _ := range linkedSites { 
-            user.NewSite(siteId).delVisits()
+            user.NewSite(siteId).DelVisits()
         }
+        return nil
 }
 
 func (user User) readToken() (string, error) {

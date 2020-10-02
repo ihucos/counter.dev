@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
+        "./utils"
 )
 
 var app *App
@@ -182,4 +183,17 @@ func TestGetPrefsVals(t *testing.T) {
 	val, err := user.GetPrefs()
 	assert.Equal(t, err, nil)
 	assert.Equal(t, val, map[string]string{"key1": "da", "key2": "da2"})
+}
+
+
+func TestCreateThanDeleteSiteVisits(t *testing.T) {
+	john := app.OpenUser("john")
+        site := john.NewSite("example.com")
+        site.SaveVisit(models.Visit{}, utils.TimeNow(0))
+        site.SaveVisit(models.Visit{}, utils.TimeNow(0))
+        timedVisits, err := site.GetVisits(0)
+	assert.Equal(t, err, nil)
+        assert.Greater(t, len(timedVisits.All), 0)
+        site.DelVisits()
+        assert.Equal(t, len(timedVisits.All), 0)
 }

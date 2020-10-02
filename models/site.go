@@ -153,7 +153,7 @@ func (site Site) delVisitPart(timeRange string) {
 	}
 }
 
-func (site Site) DelVisits(utcOffset int) {
+func (site Site) DelVisits() {
 
         // we ignore the fact that at any given time in reality there are three
         // dates going on at the same time and not as this code naively assumes
