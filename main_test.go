@@ -199,3 +199,13 @@ func TestCreateThanDeleteSiteVisits(t *testing.T) {
 	assert.Equal(t, err, nil)
         assert.Equal(t, len(newTimedVisits.All["browser"]), 0)
 }
+
+
+func TestOrigin2SiteId(t *testing.T){
+	assert.Equal(t, "example.com", Origin2SiteId("https://example.com"))
+	assert.Equal(t, "example.com", Origin2SiteId("http://example.com"))
+	assert.Equal(t, "example.com", Origin2SiteId("://example.com"))
+	assert.Equal(t, "example.com", Origin2SiteId("http://www.example.com"))
+	assert.Equal(t, "demo.example.com", Origin2SiteId("http://demo.example.com"))
+	assert.Equal(t, "localhost", Origin2SiteId("localhost"))
+}

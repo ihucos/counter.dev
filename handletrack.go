@@ -1,5 +1,4 @@
-package main
-
+package main 
 import (
 	"./models"
 	"./utils"
@@ -40,8 +39,7 @@ func (ctx Ctx) handleTrack() {
 	        ctx.ReturnBadRequest("Origin header can not be empty, not set or \"null\"")
 	}
 
-
-	//
+//
 	// set expire
 	//
 	ctx.w.Header().Set("Expires", now.Format("Mon, 2 Jan 2006")+" 23:59:59 GMT")
@@ -135,5 +133,9 @@ func (ctx Ctx) handleTrack() {
 func Origin2SiteId(origin string) string{
     // this function returns 
     var re = regexp.MustCompile(`^.*?:\/\/(?:www.)?(.*)$`)
-    return re.FindStringSubmatch(origin)[0]
+    var match = re.FindStringSubmatch(origin)
+    if len(match) < 1 {
+        return origin
+    }
+    return match[1]
 }
