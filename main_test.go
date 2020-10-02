@@ -189,11 +189,13 @@ func TestGetPrefsVals(t *testing.T) {
 func TestCreateThanDeleteSiteVisits(t *testing.T) {
 	john := app.OpenUser("john")
         site := john.NewSite("example.com")
-        site.SaveVisit(models.Visit{}, utils.TimeNow(0))
-        site.SaveVisit(models.Visit{}, utils.TimeNow(0))
+        site.SaveVisit(models.Visit{"browser": "firefox"}, utils.TimeNow(0))
+        site.SaveVisit(models.Visit{"browser": "firefox"}, utils.TimeNow(0))
         timedVisits, err := site.GetVisits(0)
 	assert.Equal(t, err, nil)
-        assert.Greater(t, len(timedVisits.All), 0)
+        assert.Greater(t, len(timedVisits.All["browser"]), 0)
         site.DelVisits()
-        assert.Equal(t, len(timedVisits.All), 0)
+        newTimedVisits, err := site.GetVisits(0)
+	assert.Equal(t, err, nil)
+        assert.Equal(t, len(newTimedVisits.All["browser"]), 0)
 }
