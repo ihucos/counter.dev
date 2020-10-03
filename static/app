@@ -160,30 +160,25 @@
          <div class="flex-container mx-auto flex-wrap mt-3 pb-3">
             <div class="flex-item w-full max-w-screen-md mx-auto">
                <div>
-                  <div class="px-10">
+                  <div class="px-10 max-w-2xl">
                      <h5 class="text-2xl my-5">Hello <span class="metavar_user">USERNAME</span>,</h5>
-                     <h5 class="text-left text-gray-600 mb-2">Follow these steps:</h5>
                      <div class="">
-                        <span class="text-xl font-bold mr-2">1.</span>
-                        Copy and paste the <a class="link" href="#" onclick="pageOn('overlay'); return false">tracking code</a> into the html of the pages you want to track.
-                        <p class="my-5">
-                           <span class="text-xl font-bold mr-2">2.</span>
-                           Deploy - make your changes online.
-                        </p>
-                        <p class="my-5">
-                           <span class="text-xl font-bold mr-2">3.</span>
-                           Visit a site with the included tracking code (visits over <i>localhost</i> are ignored).
-                        </p>
-                        <div class="my-5">
-                           <span class="text-xl font-bold mr-2">4.</span>
-                           You will be automatically redirected to the dashboard.
-                        </div>
+
+               <h6 class="text-xl font-bold mb-2">1. Tracking Code</h6>
+               <p>This JavaScript snippset is responible for collecting user
+                  statistics. It needs to be added to all html pages you want to track. For example inside the <span class="italic font-mono border bg-gray-100">&lt;head&gt;</span> section.
+               </p>
+            <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; // Simple Web Analytics tracking code
+if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
+    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
+        referrer: document.referrer,
+        screen: screen.width + "x" + screen.height,
+        user: "<span class="metavar_user">USERNAME</span>",
+        utcoffset: <span id="utcoffset">0</span>}));}
+sessionStorage.setItem("_swa", "1");
+&lt;/script&gt;</code></pre>
                      </div>
-                  </div>
-                  <div class="coffee mx-auto mt-24 mb-16">
-                     <div></div>
-                     <div></div>
-                     <div></div>
+                  <h6 class="text-xl font-bold mt-12 mb-12">2. Visit a site with the included tacking code</h6>
                   </div>
                   <p class="text-sm text-left text-gray-700" style="position: relative; top: 1.5em;">
                      <span class="mx-1">Got stuck? <a class="link" href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a></span>
