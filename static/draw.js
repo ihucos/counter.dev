@@ -513,7 +513,7 @@ function drawLastDays(elemId, date_keys, date_vals) {
 
 function drawScreenList(elemId, screenData) {
     if (Object.keys(screenData).length === 0 && screenData.constructor === Object) {
-        document.getElementById(elemId).innerHTML = '<div class="font-xl p-5 italic">In order to view screen sizes of your users, you must include the updated <a href="#" onclick="pageOn(\"overlay\"); return false" class="link">tracking code</button>.</div>'
+        document.getElementById(elemId).innerHTML = '<div class="font-xl p-5 italic">In order to view screen sizes of your users, you must include the updated <a href="#" onclick="pageOn(\'overlay\'); return false" class="link">tracking code</button>.</div>'
     } else {
         drawList("list_screen", screenData, false, false)
     }
