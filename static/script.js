@@ -109,15 +109,15 @@ function login() {
 }
 
 
-function handleUserData(resp){
-        prefOption = document.querySelector("select#time-range option[value=" + resp.prefs.range + "]")
-        if (prefOption !== null) {
-           prefOption.selected = true
-        }
-        metaData = resp.meta // metaData is global
-        user = resp.meta.user // user is global
-        handleSiteLinksData(resp.site_links)
-        drawMetaVars()
+function handleUserData(resp) {
+    prefOption = document.querySelector("select#time-range option[value=" + resp.prefs.range + "]")
+    if (prefOption !== null) {
+        prefOption.selected = true
+    }
+    metaData = resp.meta // metaData is global
+    user = resp.meta.user // user is global
+    handleSiteLinksData(resp.site_links)
+    drawMetaVars()
 }
 
 
@@ -129,15 +129,15 @@ function handleDataResp(resp) {
         logData = resp.logs // logData is global
         console.log("new data")
         console.log(timedData)
-        if (!(Object.keys(resp.site_links).length === 0 && resp.site_links.constructor === Object)){
+        if (!(Object.keys(resp.site_links).length === 0 && resp.site_links.constructor === Object)) {
             draw()
         }
     }
 
 }
 
-function handleSiteLinksData(siteLinks){
-    if ((Object.keys(siteLinks).length === 0 && siteLinks.constructor === Object) && pageNow() !== 'page-setup'){
+function handleSiteLinksData(siteLinks) {
+    if ((Object.keys(siteLinks).length === 0 && siteLinks.constructor === Object) && pageNow() !== 'page-setup') {
         pageOnly("page-setup")
     }
     drawSiteSelector(siteLinks)
@@ -145,7 +145,7 @@ function handleSiteLinksData(siteLinks){
 
 
 function getDataAndUpdate() {
-    fetch("/ping?"+(getSelectedSite() || "dummysite"), {
+    fetch("/ping?" + (getSelectedSite() || "dummysite"), {
         method: "GET",
     }).then(resp => {
         if (resp.status == 200) {
@@ -436,17 +436,17 @@ function ifUser(trueCallback, falseCallback) {
     })
 }
 
-function getSelectedSite(){
+function getSelectedSite() {
     return document.getElementById("site-selector").value
 }
 
-function getDataAndUpdateAlways(){
-        getDataAndUpdate()
-        setInterval(function() {
-            if (pageNow() === "page-graphs" || pageNow() === "page-setup") {
-                getDataAndUpdate();
-            }
-        }, 5000);
+function getDataAndUpdateAlways() {
+    getDataAndUpdate()
+    setInterval(function() {
+        if (pageNow() === "page-graphs" || pageNow() === "page-setup") {
+            getDataAndUpdate();
+        }
+    }, 5000);
 
 }
 
@@ -454,10 +454,12 @@ function main() {
     pageOnly("loading")
     handleHash()
     ifUser(userData => {
-        handleUserData(userData)
-        getDataAndUpdateAlways()
-    },
-    ()=> {
-      if (pageNow() === "loading"){pageOnly("page-index")}
-    })
+            handleUserData(userData)
+            getDataAndUpdateAlways()
+        },
+        () => {
+            if (pageNow() === "loading") {
+                pageOnly("page-index")
+            }
+        })
 }

@@ -1,11 +1,12 @@
-package main 
+package main
+
 import (
 	"./models"
 	"./utils"
 	"fmt"
 	"net/url"
-	"strings"
 	"regexp"
+	"strings"
 
 	"github.com/avct/uasurfer"
 	"golang.org/x/text/language"
@@ -20,12 +21,12 @@ func (ctx Ctx) handleTrack() {
 	//
 	userId := ctx.r.FormValue("user")
 	if userId == "" {
-                // this has to be supported until the end of time, or
-                // alternatively all current users are not using that option.
-                userId = ctx.r.FormValue("site")
-	        if userId == "" {
-		    ctx.ReturnBadRequest("missing site param")
-                }
+		// this has to be supported until the end of time, or
+		// alternatively all current users are not using that option.
+		userId = ctx.r.FormValue("site")
+		if userId == "" {
+			ctx.ReturnBadRequest("missing site param")
+		}
 	}
 
 	//
@@ -36,10 +37,10 @@ func (ctx Ctx) handleTrack() {
 	ua := uasurfer.Parse(userAgent)
 	origin := ctx.r.Header.Get("Origin")
 	if origin == "" || origin == "null" {
-	        ctx.ReturnBadRequest("Origin header can not be empty, not set or \"null\"")
+		ctx.ReturnBadRequest("Origin header can not be empty, not set or \"null\"")
 	}
 
-//
+	//
 	// set expire
 	//
 	ctx.w.Header().Set("Expires", now.Format("Mon, 2 Jan 2006")+" 23:59:59 GMT")
@@ -115,13 +116,13 @@ func (ctx Ctx) handleTrack() {
 	//
 	logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, userAgent)
 
-        siteId := Origin2SiteId(origin)
-        user := ctx.app.OpenUser(userId)
+	siteId := Origin2SiteId(origin)
+	user := ctx.app.OpenUser(userId)
 	defer user.Close()
 	visits := user.NewSite(siteId)
 	visits.SaveVisit(visit, now)
 	visits.Log(logLine)
-        user.IncrSiteLink(siteId)
+	user.IncrSiteLink(siteId)
 
 	ctx.w.Header().Set("Content-Type", "text/plain")
 	ctx.w.Header().Set("Cache-Control", "public, immutable")
@@ -129,13 +130,12 @@ func (ctx Ctx) handleTrack() {
 
 }
 
-
-func Origin2SiteId(origin string) string{
-    // this function returns 
-    var re = regexp.MustCompile(`^.*?:\/\/(?:www.)?(.*)$`)
-    var match = re.FindStringSubmatch(origin)
-    if len(match) < 1 {
-        return origin
-    }
-    return match[1]
+func Origin2SiteId(origin string) string {
+	// this function returns
+	var re = regexp.MustCompile(`^.*?:\/\/(?:www.)?(.*)$`)
+	var match = re.FindStringSubmatch(origin)
+	if len(match) < 1 {
+		return origin
+	}
+	return match[1]
 }

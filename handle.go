@@ -69,31 +69,30 @@ func (ctx Ctx) handleSetPrefRange() {
 
 }
 
-
 type PingDataResp struct {
-	Visits  models.TimedVisits      `json:"visits"`
-	Logs models.LogData      `json:"logs"`
-	SiteLinks map[string]int      `json:"site_links"`
+	Visits    models.TimedVisits `json:"visits"`
+	Logs      models.LogData     `json:"logs"`
+	SiteLinks map[string]int     `json:"site_links"`
 }
 
-func (ctx Ctx) handlePing(){
-    siteId := ctx.r.URL.RawQuery
-    if siteId == "" {
-        ctx.ReturnBadRequest("no siteId given as raw query param")
-    }
-    user := ctx.ForceUser()
-    defer user.Close()
-    visits := user.NewSite(siteId)
-    timedVisits, err := visits.GetVisits(ctx.ParseUTCOffset("utcoffset"))
-    ctx.CatchError(err)
-    logs, err := visits.GetLogs()
-    ctx.CatchError(err)
-    siteLinks, err := user.GetSiteLinks()
-    ctx.CatchError(err)
-    resp := PingDataResp{Visits: timedVisits, Logs: logs, SiteLinks: siteLinks}
-    ctx.ReturnJSON(resp, 200)
+func (ctx Ctx) handlePing() {
+	siteId := ctx.r.URL.RawQuery
+	if siteId == "" {
+		ctx.ReturnBadRequest("no siteId given as raw query param")
+	}
+	user := ctx.ForceUser()
+	defer user.Close()
+	visits := user.NewSite(siteId)
+	timedVisits, err := visits.GetVisits(ctx.ParseUTCOffset("utcoffset"))
+	ctx.CatchError(err)
+	logs, err := visits.GetLogs()
+	ctx.CatchError(err)
+	siteLinks, err := user.GetSiteLinks()
+	ctx.CatchError(err)
+	resp := PingDataResp{Visits: timedVisits, Logs: logs, SiteLinks: siteLinks}
+	ctx.ReturnJSON(resp, 200)
 }
 
-func (ctx Ctx) handleUser(){
-    ctx.ReturnUser()
+func (ctx Ctx) handleUser() {
+	ctx.ReturnUser()
 }

@@ -52,11 +52,13 @@ func (user User) Close() {
 
 func (user User) delAllVisits() error {
 	linkedSites, err := user.GetSiteLinks()
-        if err != nil {return err}
-        for siteId, _ := range linkedSites { 
-            user.NewSite(siteId).DelVisits()
-        }
-        return nil
+	if err != nil {
+		return err
+	}
+	for siteId, _ := range linkedSites {
+		user.NewSite(siteId).DelVisits()
+	}
+	return nil
 }
 
 func (user User) readToken() (string, error) {
@@ -153,7 +155,7 @@ func (user User) GetPrefs() (map[string]string, error) {
 
 func (user User) GetSiteLinks() (map[string]int, error) {
 	val, err := redis.IntMap(user.redis.Do("HGETALL", fmt.Sprintf("sites:%s", user.id)))
-        empty := map[string]int{}
+	empty := map[string]int{}
 	if err == redis.ErrNil {
 		return empty, nil
 	} else if err != nil {

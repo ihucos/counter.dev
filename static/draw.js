@@ -754,13 +754,13 @@ function draw() {
     disableAnimation()
 }
 
-function drawSiteSelector(sitesHash){
+function drawSiteSelector(sitesHash) {
     var html = ""
     sites = Object.keys(sitesHash)
     sites.sort()
     for (let i in sites) {
-      var site = sites[i]
-      html += "<option value='" + escapeHtml(site) + "'>" + escapeHtml(site) + "</option>"
+        var site = sites[i]
+        html += "<option value='" + escapeHtml(site) + "'>" + escapeHtml(site) + "</option>"
     }
     document.getElementById("site-selector").innerHTML = html
 }

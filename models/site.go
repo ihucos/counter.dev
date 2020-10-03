@@ -1,13 +1,12 @@
 package models
 
 import (
-
+	"../utils"
+	"fmt"
 	"github.com/gomodule/redigo/redis"
-        "fmt"
-        "time"
-        "net/url"
-        "math/rand"
-        "../utils"
+	"math/rand"
+	"net/url"
+	"time"
 )
 
 // set needs to overgrow sometimes so it does allow for "trending" new entries
@@ -17,10 +16,8 @@ const zetTrimEveryCalls = 100
 const truncateAt = 256
 const loglinesKeep = 30
 
-
 var fieldsZet = []string{"lang", "origin", "ref", "loc"}
 var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device", "country", "screen"}
-
 
 type VisitsData map[string]map[string]int64
 type LogData map[string]int64
@@ -51,8 +48,8 @@ func (vik VisitItemKey) String() string {
 
 type Site struct {
 	redis  redis.Conn
-	id string
-        userId string
+	id     string
+	userId string
 }
 
 // taken from here at August 2020:
@@ -79,9 +76,8 @@ var ScreenResolutions = map[string]bool{
 	"414x896":   true,
 	"768x1024":  true}
 
-
 func (site Site) Close() {
-    site.redis.Close()
+	site.redis.Close()
 }
 
 func (site Site) saveVisitPart(timeRange string, data Visit, expireEntry int) {
@@ -142,24 +138,24 @@ func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 }
 
 func (site Site) delVisitPart(timeRange string) {
-        var redisKey string
+	var redisKey string
 	for _, field := range fieldsZet {
 		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
-                site.redis.Send("DEL", redisKey)
+		site.redis.Send("DEL", redisKey)
 	}
 	for _, field := range fieldsHash {
 		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
-                site.redis.Send("DEL", redisKey)
+		site.redis.Send("DEL", redisKey)
 	}
 }
 
 func (site Site) DelVisits() {
 
-        // we ignore the fact that at any given time in reality there are three
-        // dates going on at the same time and not as this code naively assumes
-        // two.
-        minDate := utils.TimeNow(-12)
-        maxDate := utils.TimeNow(12)
+	// we ignore the fact that at any given time in reality there are three
+	// dates going on at the same time and not as this code naively assumes
+	// two.
+	minDate := utils.TimeNow(-12)
+	maxDate := utils.TimeNow(12)
 
 	site.delVisitPart(maxDate.Format("2006"))
 	site.delVisitPart(minDate.Format("2006"))
@@ -169,7 +165,6 @@ func (site Site) DelVisits() {
 	site.delVisitPart(minDate.Format("2006-01-02"))
 	site.delVisitPart("all")
 }
-
 
 func (site Site) GetVisits(utcOffset int) (TimedVisits, error) {
 	nullData := TimedVisits{nil, nil, nil, nil}

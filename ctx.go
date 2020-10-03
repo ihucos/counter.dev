@@ -8,11 +8,10 @@ import (
 	"strconv"
 )
 
-
 type UserDataResp struct {
-	Meta  models.MetaData      `json:"meta"`
-	Prefs models.MetaData      `json:"prefs"`
-	SiteLinks map[string]int      `json:"site_links"`
+	Meta      models.MetaData `json:"meta"`
+	Prefs     models.MetaData `json:"prefs"`
+	SiteLinks map[string]int  `json:"site_links"`
 }
 
 type Ctx struct {
@@ -64,7 +63,6 @@ func (ctx Ctx) ReturnUser() {
 	data := UserDataResp{Meta: metaData, Prefs: prefsData, SiteLinks: SiteLinksData}
 	ctx.ReturnJSON(data, 200)
 }
-
 
 func (ctx Ctx) ParseUTCOffset(key string) int {
 

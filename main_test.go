@@ -2,11 +2,11 @@ package main
 
 import (
 	"./models"
+	"./utils"
 	"github.com/steinfletcher/apitest"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
-        "./utils"
 )
 
 var app *App
@@ -185,23 +185,21 @@ func TestGetPrefsVals(t *testing.T) {
 	assert.Equal(t, val, map[string]string{"key1": "da", "key2": "da2"})
 }
 
-
 func TestCreateThanDeleteSiteVisits(t *testing.T) {
 	john := app.OpenUser("john")
-        site := john.NewSite("example.com")
-        site.SaveVisit(models.Visit{"browser": "firefox"}, utils.TimeNow(0))
-        site.SaveVisit(models.Visit{"browser": "firefox"}, utils.TimeNow(0))
-        timedVisits, err := site.GetVisits(0)
+	site := john.NewSite("example.com")
+	site.SaveVisit(models.Visit{"browser": "firefox"}, utils.TimeNow(0))
+	site.SaveVisit(models.Visit{"browser": "firefox"}, utils.TimeNow(0))
+	timedVisits, err := site.GetVisits(0)
 	assert.Equal(t, err, nil)
-        assert.Greater(t, len(timedVisits.All["browser"]), 0)
-        site.DelVisits()
-        newTimedVisits, err := site.GetVisits(0)
+	assert.Greater(t, len(timedVisits.All["browser"]), 0)
+	site.DelVisits()
+	newTimedVisits, err := site.GetVisits(0)
 	assert.Equal(t, err, nil)
-        assert.Equal(t, len(newTimedVisits.All["browser"]), 0)
+	assert.Equal(t, len(newTimedVisits.All["browser"]), 0)
 }
 
-
-func TestOrigin2SiteId(t *testing.T){
+func TestOrigin2SiteId(t *testing.T) {
 	assert.Equal(t, "example.com", Origin2SiteId("https://example.com"))
 	assert.Equal(t, "example.com", Origin2SiteId("http://example.com"))
 	assert.Equal(t, "example.com", Origin2SiteId("://example.com"))
