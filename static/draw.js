@@ -204,7 +204,7 @@ function drawMap(elemId) {
 
 
 function drawTitle(user) {
-    document.title = "Simple Web Analytics for " + user
+    document.title = "Counter Analytics for " + user
 }
 
 

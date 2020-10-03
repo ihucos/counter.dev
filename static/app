@@ -4,7 +4,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="Free analytics tool with all common features.">
-      <title>Simple Web Analytics</title>
+      <title>Counter Analytics</title>
       <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
       <link href="loading.css" rel="stylesheet">
       <link href="loadingcoin.css" rel="stylesheet">
@@ -17,7 +17,7 @@
       <script data-goatcounter="https://simple-web-analytics.goatcounter.com/count"
          async src="//gc.zgo.at/count.js"></script>
       <script>
-         // Simple Web Analytics tracking code
+         // counter.dev tracking code
          if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
              fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
                  referrer: document.referrer,
@@ -168,9 +168,9 @@
                <p>This JavaScript snippset is responible for collecting user
                   statistics. It needs to be added to all html pages you want to track. For example inside the <span class="italic font-mono border bg-gray-100">&lt;head&gt;</span> section.
                </p>
-            <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; // Simple Web Analytics tracking code
+            <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; // counter.dev tracking code
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
+    fetch("https://counter.dev/track?" + new URLSearchParams({
         referrer: document.referrer,
         screen: screen.width + "x" + screen.height,
         user: "<span class="metavar_user">USERNAME</span>",
@@ -322,9 +322,9 @@ sessionStorage.setItem("_swa", "1");
                   statistics. It needs to be added to all html pages you want to track. For example inside the <span class="italic font-mono border bg-gray-100">&lt;head&gt;</span> section.
                </p>
             </div>
-            <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; // Simple Web Analytics tracking code
+            <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; // counter.dev tracking code
 if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-    fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
+    fetch("https://counter.dev/track?" + new URLSearchParams({
         referrer: document.referrer,
         screen: screen.width + "x" + screen.height,
         user: "<span class="metavar_user">USERNAME</span>",
@@ -337,7 +337,7 @@ sessionStorage.setItem("_swa", "1");
                <p class="mb-5">
                   You can share access to this account via the following link.
                </p>
-               <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>https://simple-web-analytics.com/app#share,<span class="metavar_user">USERNAME</span>,<span class="metavar_token">TOKEN</span></code></pre>
+               <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>https://counter.dev/app#share,<span class="metavar_user">USERNAME</span>,<span class="metavar_token">TOKEN</span></code></pre>
             </div>
             <div class="text-center mt-5">
                <a href="#" onclick="pageOff('overlay'); return false;" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Close</a>
