@@ -45,7 +45,7 @@ for key in r.keys("*"):
             pipe.rename(key.decode(), newkey)
 
 for user, origin in userorigins.items():
-    pipe.hincrby("sites:" + user, user, counts[user])
+    pipe.hincrby("sites:" + user, origin, counts[user])
 
 
 for key in r.keys("log:*"):
