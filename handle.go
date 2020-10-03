@@ -69,6 +69,14 @@ func (ctx Ctx) handleSetPrefRange() {
 
 }
 
+func (ctx Ctx) handleSetPrefSite() {
+	user := ctx.ForceUser()
+	defer user.Close()
+	err := user.SetPref("site", ctx.r.URL.RawQuery)
+	ctx.CatchError(err)
+
+}
+
 type PingDataResp struct {
 	Visits    models.TimedVisits `json:"visits"`
 	Logs      models.LogData     `json:"logs"`

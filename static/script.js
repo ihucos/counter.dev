@@ -114,6 +114,12 @@ function handleUserData(resp) {
     if (prefOption !== null) {
         prefOption.selected = true
     }
+
+    prefOption = document.querySelector("select#site-selector option[value=\"" + resp.prefs.site + "\"]")
+    if (prefOption !== null) {
+        prefOption.selected = true
+    }
+
     metaData = resp.meta // metaData is global
     user = resp.meta.user // user is global
     handleSiteLinksData(resp.site_links)
@@ -140,12 +146,12 @@ function handleSiteLinksData(siteLinks) {
     if ((Object.keys(siteLinks).length === 0 && siteLinks.constructor === Object) && pageNow() !== 'page-setup') {
         pageOnly("page-setup")
     }
-    drawSiteSelector(siteLinks)
+    drawSiteSelector(siteLinks, getSelectedSite())
 }
 
 
 function getDataAndUpdate() {
-    fetch("/ping?" + (getSelectedSite() || "dummysite"), {
+    fetch("/ping?" + (getSelectedSite()), {
         method: "GET",
     }).then(resp => {
         if (resp.status == 200) {
@@ -221,6 +227,12 @@ function onTimeRangeChanged() {
     enableAnimation()
     draw()
     fetch("/setPrefRange?" + encodeURIComponent(range))
+}
+
+function onSiteChanged() {
+    fetch("/setPrefSite?" + encodeURIComponent(getSelectedSite()))
+    pageOnly("loading")
+    getDataAndUpdate()
 }
 
 function getUTCOffset() {

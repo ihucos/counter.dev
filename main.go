@@ -63,6 +63,7 @@ func (app *App) SetupUrls() {
 	app.Connect("/register", func(ctx Ctx) { ctx.handleRegister() })
 	app.Connect("/ping", func(ctx Ctx) { ctx.handlePing() })
 	app.Connect("/setPrefRange", func(ctx Ctx) { ctx.handleSetPrefRange() })
+	app.Connect("/setPrefSite", func(ctx Ctx) { ctx.handleSetPrefSite() })
 	app.Connect("/track", func(ctx Ctx) { ctx.handleTrack() })
 	app.Connect("/user", func(ctx Ctx) { ctx.handleUser() })
 }
