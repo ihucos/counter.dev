@@ -53,7 +53,7 @@ for key in r.keys("log:*"):
     try:
         site_id = userorigins[user]
     except KeyError:
-        print("KeyError", user)
+        r.delete(key)
         continue
     new = "log:"+ site_id+":" + user
     pipe.rename(key, new)
