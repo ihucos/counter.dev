@@ -178,7 +178,7 @@ if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protoc
 sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
                      </div>
-                  <h6 class="text-xl font-bold mt-12 mb-12">2. Visit a site with the included tacking code</h6>
+                  <h6 class="text-xl font-bold mt-12 mb-12">2. Visit a site with the included tacking code &nbsp;<img class="inline-block" style="width: 1em;" src="loading.gif"></img></h6>
                   </div>
                   <p class="text-sm text-left text-gray-700" style="position: relative; top: 1.5em;">
                      <span class="mx-1">Got stuck? <a class="link" href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a></span>
