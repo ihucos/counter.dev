@@ -41,7 +41,7 @@ for key in r.keys("*"):
             except KeyError:
                 r.delete(key)
                 continue
-            newkey = "v:{site_id},{user},{field},{trange}".format(site_id=site_id, field=kname, trange=krange, user=quote_plus(kuser))
+            newkey = "v:{site_id},{user},{field},{trange}".format(site_id=quote_plus(site_id), field=kname, trange=krange, user=quote_plus(kuser))
             pipe.rename(key.decode(), newkey)
 
 for user, origin in userorigins.items():
@@ -51,9 +51,9 @@ for user, origin in userorigins.items():
 for key in r.keys("log:*"):
     _, user = key.decode().split(":", 1)
     try:
-        site_id = userorigins[kuser]
+        site_id = userorigins[user]
     except KeyError:
-        print("KeyError", kuser)
+        print("KeyError", user)
         continue
     new = "log:"+ site_id+":" + user
     pipe.rename(key, new)
