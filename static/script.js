@@ -151,7 +151,7 @@ function handleSiteLinksData(siteLinks) {
 
 
 function getDataAndUpdate() {
-    fetch("/ping?" + (getSelectedSite()), {
+    fetch("/ping?" + (getSelectedSite() || "dummysite"), {
         method: "GET",
     }).then(resp => {
         if (resp.status == 200) {
