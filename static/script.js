@@ -9,11 +9,11 @@ function destroyRegisteredCharts() {
 }
 
 function enableAnimation() {
-    Chart.defaults.global.animation = defaultAnimation
+    //Chart.defaults.global.animation = defaultAnimation
 }
 
 function disableAnimation() {
-    Chart.defaults.global.animation = 0
+    //Chart.defaults.global.animation = 0
 }
 
 function rand(min, max) {
@@ -224,7 +224,6 @@ function sum(array) {
 function onTimeRangeChanged() {
     var range = getSelectedTimeRange()
     data = timedData[range]
-    enableAnimation()
     draw()
     fetch("/setPrefRange?" + encodeURIComponent(range))
 }

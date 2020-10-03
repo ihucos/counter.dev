@@ -35,8 +35,6 @@ Chart.defaults.global.defaultFontFamily = '-apple-system,BlinkMacSystemFont,"Seg
 
 
 
-defaultAnimation = Chart.defaults.global.animation
-
 function drawMetaVars() {
     var els, i
     for (key in metaData) {
@@ -751,7 +749,6 @@ function draw() {
             },
         },
     }))
-    disableAnimation()
 }
 
 function drawSiteSelector(sitesHash, select) {
