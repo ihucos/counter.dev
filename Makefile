@@ -23,11 +23,11 @@ logs:
 
 deploy:
 	$(go) build .
-	tar cf - static config webstats scripts | ssh root@172.104.148.60 tar xvf - -C /root
+	deploy-static
 	ssh root@172.104.148.60 "pkill -x dtach; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
 
 deploy-static:
-	tar cf - static scripts | ssh root@172.104.148.60 tar xvf - -C /root
+	rsync static config webstats scripts root@172.104.148.60:/tmp -rv
 
 redis-server:
 	scp root@172.104.148.60:/var/lib/redis/dump.rdb /tmp/webstats-production.rdb
