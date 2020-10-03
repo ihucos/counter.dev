@@ -122,7 +122,7 @@ function handleUserData(resp) {
 
     metaData = resp.meta // metaData is global
     user = resp.meta.user // user is global
-    handleSiteLinksData(resp.site_links)
+    handleSiteLinksData(resp.site_links, resp.prefs.site)
     drawMetaVars()
 }
 
@@ -142,11 +142,11 @@ function handleDataResp(resp) {
 
 }
 
-function handleSiteLinksData(siteLinks) {
+function handleSiteLinksData(siteLinks, prefSite) {
     if ((Object.keys(siteLinks).length === 0 && siteLinks.constructor === Object) && pageNow() !== 'page-setup') {
         pageOnly("page-setup")
     }
-    drawSiteSelector(siteLinks, getSelectedSite())
+    drawSiteSelector(siteLinks, getSelectedSite() || prefSite || "")
 }
 
 
