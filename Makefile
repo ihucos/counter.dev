@@ -24,7 +24,7 @@ logs:
 deploy:
 	$(go) build .
 	tar cf - static config webstats scripts | ssh root@172.104.148.60 tar xvf - -C /root
-	ssh root@172.104.148.60 "pkill -x ./scripts/prodrun; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
+	ssh root@172.104.148.60 "pkill -x dtach; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
 
 deploy-static:
 	tar cf - static scripts | ssh root@172.104.148.60 tar xvf - -C /root
