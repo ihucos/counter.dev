@@ -2,6 +2,7 @@ log
 webstats
 *.swp
 config/production.sh
+config/makefile.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
