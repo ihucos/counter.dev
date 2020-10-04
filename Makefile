@@ -27,7 +27,7 @@ deploy:
 	ssh root@172.104.148.60 "pkill -x dtach; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
 
 deploy-static:
-	rsync static config webstats scripts root@172.104.148.60:/tmp -rv
+	rsync static config webstats scripts root@172.104.148.60: -av
 	curl -X POST "https://api.cloudflare.com/client/v4/zones/698637ff675feb43f4dc93564d5f1ba5/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer B3cTUWQ5ATgfvklh9LhMaRFFpewranBZluBRSOfY" --data '{"purge_everything":true}' --fail
 	curl -X POST "https://api.cloudflare.com/client/v4/zones/d6895f8575e01d241ede8071af890331/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer B3cTUWQ5ATgfvklh9LhMaRFFpewranBZluBRSOfY" --data '{"purge_everything":true}' --fail
 
