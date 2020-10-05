@@ -1,4 +1,3 @@
-normalFont = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
 orange = "#1e87f0"
 
 palette = [
@@ -27,12 +26,16 @@ Chart.defaults.global.layout = {
     }
 }
 
-
 pieBorderColor = 'white'
 pieBorderWidth = 1.2
 
 Chart.defaults.global.defaultFontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
 
+NO_DATA_TEXT = 'No data for selected time'
+NO_DATA_FONT_SIZE = "12px"
+NO_DATA_FONT_STYLE = "italic"
+NO_DATA_FONT = Chart.defaults.global.defaultFontFamily
+NO_DATA_HTML = '<div style="font-size: '+NO_DATA_FONT_SIZE+';margin-top: 5em; text-align: center; font-style: '+NO_DATA_FONT_STYLE+';">'+NO_DATA_TEXT+'</div>'
 
 
 function drawMetaVars() {
@@ -55,7 +58,7 @@ function drawList(elem_id, dataItem, useLink, useFavicon) {
     var elem = document.getElementById(elem_id)
 
     if (Object.keys(dataItem).length === 0 && dataItem.constructor === Object) {
-        elem.innerHTML = '<span class="text-muted">Empty</span>'
+        elem.innerHTML = NO_DATA_HTML
         return
     }
     elem.innerHTML = ''
@@ -212,7 +215,7 @@ function drawCountries(elemId, countries) {
     var elem = document.getElementById(elemId)
 
     if (Object.keys(countries).length === 0 && countries.constructor === Object) {
-        elem.innerHTML = '<span class="text-muted">Empty</span>'
+        elem.innerHTML = NO_DATA_HTML
         return
     }
     elem.innerHTML = ''
@@ -230,7 +233,7 @@ function drawCountries(elemId, countries) {
         listTotal += list[i][1]
     }
 
-    var html = '<tr><th>Country</th><th colspan=2>Visits</th></tr>'
+    var html = '<table><tr><th>Country</th><th colspan=2>Visits</th></tr>'
     for (var i = 0; i < list.length; i++) {
         var percent = list[i][1] / listTotal * 100
         var val = kFormat(list[i][1])
@@ -250,6 +253,8 @@ function drawCountries(elemId, countries) {
         html += '</td>'
         html += "</tr>"
     }
+    html += "</table>"
+    console.log(html)
 
     elem.innerHTML += html
 }
@@ -325,12 +330,12 @@ function drawTime() {
             ],
             datasets: [{
                 maxBarThickness: 10,
-                data: [
+                data: emptyIfSumZero([
                     sumHours([5, 6, 7, 8, 9, 10, 11]),
                     sumHours([12, 13, 14, 15]),
                     sumHours([16, 17, 18, 19, 20, 21]),
                     sumHours([22, 23, 24, 0, 1, 2, 3, 4]),
-                ],
+                ]),
                 backgroundColor: makeGradient('time'),
             }, ],
         },
@@ -404,7 +409,7 @@ function drawRefChart(elemId) {
             datasets: [{
                 borderWidth: pieBorderWidth,
                 borderColor: pieBorderColor,
-                data: entries.map(x => x.value),
+                data: emptyIfSumZero(entries.map(x => x.value)),
                 backgroundColor: entries.map(x => x.color),
             }, ],
         },
@@ -643,7 +648,7 @@ function draw() {
                 "23",
             ],
             datasets: [{
-                data: [
+                data: emptyIfSumZero([
                     data['hour'][0] || 0,
                     data['hour'][1] || 0,
                     data['hour'][2] || 0,
@@ -668,7 +673,7 @@ function draw() {
                     data['hour'][21] || 0,
                     data['hour'][22] || 0,
                     data['hour'][23] || 0,
-                ],
+                ]),
                 backgroundColor: makeGradient("hour"),
                 borderWidth: 1,
                 borderColor: 'transparent',
@@ -707,7 +712,7 @@ function draw() {
         data: {
             labels: ['Mo.', 'Tu.', 'We.', 'Th.', 'Fr.', 'Sa.', 'Su.'],
             datasets: [{
-                data: [
+                data: emptyIfSumZero([
                     data['weekday'][0] || 0,
                     data['weekday'][1] || 0,
                     data['weekday'][2] || 0,
@@ -715,7 +720,7 @@ function draw() {
                     data['weekday'][4] || 0,
                     data['weekday'][5] || 0,
                     data['weekday'][6] || 0,
-                ],
+                ]),
                 backgroundColor: makeGradient("weekday"),
                 borderWidth: 1,
                 borderColor: 'transparent',
@@ -764,3 +769,29 @@ function drawSiteSelector(sitesHash, select) {
     }
     document.getElementById("site-selector").innerHTML = html
 }
+
+function emptyIfSumZero(arr){
+    if (arr.reduce((pv, cv) => pv + cv, 0) === 0){
+        return []
+    }
+    return arr
+}
+
+
+Chart.plugins.register({
+	afterDraw: function(chart) {
+		if (chart.data.datasets[0].data.length === 0) {
+			// No data is present
+			ctx = chart.chart.ctx;
+			var width = chart.chart.width;
+			var height = chart.chart.height;
+			chart.clear();
+			ctx.save();
+			ctx.textAlign = 'center';
+			ctx.textBaseline = 'middle';
+			ctx.font = NO_DATA_FONT_STYLE + " " + NO_DATA_FONT_SIZE+" " + NO_DATA_FONT;
+			ctx.fillText(NO_DATA_TEXT, width / 2, height / 2);
+			ctx.restore();
+		}
+	}
+});
