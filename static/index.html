@@ -198,7 +198,10 @@ body {
   </head>
   <body>
 
-  
+<div id="deprmsg" class="text-center border-b w-full fixed h-6" style="display: none; font-size: 0.85em; background-color: white; z-index: 100">
+We are now available under <a href="https://counter.dev">counter.dev</a>
+</div>
+
 <div class="flex flex-wrap pt-24 pb-0 border-b" style="background: linear-gradient(to left top, #28a5f5, #1e87f0) 0 0 no-repeat;">
     <div class="text-center w-full p-5">
 
@@ -516,6 +519,13 @@ var date_vals;
 [date_keys, date_vals] = dGetNormalizedDateData(timedData.all.date)
 drawLastDays("last_days_chart", date_keys, date_vals)
 </script>
+
+<script>
+if (window.location.hostname === "simple-web-analycs.com"){
+  document.getElementById("deprmsg").style.display = "block"
+}
+</script>
+  
 
 </body>
 </html>
