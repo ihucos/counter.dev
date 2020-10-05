@@ -120,7 +120,7 @@
                <h1 class="text-center font-bold text-4xl text-gray-500 leading-none">Welcome</h1>
                <div class="mb-10 mx-2 text-center">
                   <a class="link" href="" id="demo" onclick="demo(); return false">Demo</a> |
-                  <a class="link" href="mailto:info@simple-web-analytics.com">Help</a> |
+                  <a class="link" href="mailto:hey@counter.dev">Help</a> |
                   <a class="link" href="/">About</a> 
                </div>
                <div class="font-bold mx-2 p-2 text-center text-orange-900 bg-gray-300 border rounded login-alert" id="alert_login" style="display: none;"></div>
@@ -186,7 +186,7 @@ sessionStorage.setItem("_swa", "1");
                   <h6 class="text-xl font-bold mt-12 mb-12">2. Visit a site with the included tacking code &nbsp;<img class="inline-block" style="width: 1em;" src="loading.gif"></img></h6>
                   </div>
                   <p class="text-sm text-left text-gray-700" style="position: relative; top: 1.5em;">
-                     <span class="mx-1">Got stuck? <a class="link" href="mailto:info@simple-web-analytics.com">info@simple-web-analytics.com</a></span>
+                     <span class="mx-1">Got stuck? <a class="link" href="mailto:hey@counter.dev">hey@counter.dev</a></span>
                      <a class="link mx-1 text-sm text-right inline-block text-gray-700 float-right" href="/logout">Logout</a>
                   </p>
                </div>
