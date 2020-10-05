@@ -352,7 +352,7 @@ sessionStorage.setItem("_swa", "1");
       </script>
 
       <script>
-      if (window.location.hostname === "simple-web-analycs.com"){
+      if (window.location.hostname === "simple-web-analytics.com"){
         document.getElementById("deprmsg").style.display = "block"
       }
       </script>
