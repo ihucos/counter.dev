@@ -549,7 +549,6 @@ function draw() {
     drawPie("browser", dGroupData(data.browser, 3), "Browsers")
     drawPie("platform", dGroupData(data.platform, 3), "Platforms")
     drawPie("device", dGroupData(data.device, 3), "Devices")
-    drawList("list_origin", data.origin, true, false)
     drawLog()
 
     //document.getElementById('val_visits').innerHTML = escapeHtml(date_vals.slice(-1)[0])

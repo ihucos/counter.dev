@@ -271,16 +271,13 @@ sessionStorage.setItem("_swa", "1");
                      <a onclick="openTab(1); return false" href="#">Landing Pages</a>
                   </li>
                   <li class="mr-1">
-                     <a onclick="openTab(2); return false" href="#">Origins</a>
+                     <a onclick="openTab(2); return false" href="#">Screens</a>
                   </li>
                   <li class="mr-1">
-                     <a onclick="openTab(3); return false" href="#">Screens</a>
+                     <a onclick="openTab(3); return false" href="#">Languages</a>
                   </li>
                   <li class="mr-1">
-                     <a onclick="openTab(4); return false" href="#">Languages</a>
-                  </li>
-                  <li class="mr-1">
-                     <a onclick="openTab(5); return false" href="#">Visits</a>
+                     <a onclick="openTab(4); return false" href="#">Visits</a>
                   </li>
                </ul>
             </div>
@@ -288,7 +285,6 @@ sessionStorage.setItem("_swa", "1");
                <div id="tabs_content" style="min-height: 100vh; overflow-y: auto;">
                   <div id="list_ref" style="display: none;"></div>
                   <div id="list_loc" style="display: none;"></div>
-                  <div id="list_origin" style="display: none;"></div>
                   <div id="list_screen" style="display: none;"></div>
                   <div id="list_lang" style="display: none;"></div>
                   <div class="overflow-y-auto max-w-4xl" style="display: none;">

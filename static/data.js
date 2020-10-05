@@ -177,15 +177,6 @@ data = {
       "[2020-08-03 13:40:18] DE  Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:79.0) Gecko/20100101 Firefox/79.0":1596454818
    
 },
-   "origin":{
-      "http://192.168.1.27":2,
-      "http://192.168.2.106":2,
-      "https://3961968ce745.ngrok.io":1,
-      "https://developer.mozilla.org":1,
-      "https://simple-web-analytics.com":2,
-      "https://www.simple-web-analytics.com":14
-   
-},
    "platform":{
       "Linux":703,
       "Mac":151,
