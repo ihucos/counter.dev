@@ -230,7 +230,6 @@ function onTimeRangeChanged() {
 
 function onSiteChanged() {
     fetch("/setPrefSite?" + encodeURIComponent(getSelectedSite()))
-    pageOnly("loading")
     getDataAndUpdate()
 }
 
