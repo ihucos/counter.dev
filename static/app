@@ -111,7 +111,7 @@
    <body>
 
       <div id="deprmsg" class="text-center border-b w-full h-6" style="display: none; font-size: 0.85em; background-color: white; z-index: 100">
-      We are now available under <a class="link" href="https://counter.dev">counter.dev</a>
+      We are now available at <a class="link" href="https://counter.dev">counter.dev</a>
       </div>
 
       <section id="page-index" class="hidden">
