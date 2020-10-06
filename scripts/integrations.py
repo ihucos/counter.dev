@@ -3,7 +3,7 @@ import base64
 
 
 BLOCKLIST = [
-'simple-web-analytics.com',
+'counter',
 'demo',
 'zpkg',
 'test',

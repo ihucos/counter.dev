@@ -184,7 +184,7 @@ function escapeHtml(unsafe) {
 
 
 function demo() {
-    pressLogin("simple-web-analytics.com", "demodemo")
+    pressLogin("counter", "demodemo")
 }
 
 
