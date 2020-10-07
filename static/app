@@ -16,6 +16,10 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
       <script data-goatcounter="https://simple-web-analytics.goatcounter.com/count"
          async src="//gc.zgo.at/count.js"></script>
+
+     <script src="/comps/lists.js"></script>
+
+
       <script>
          // counter.dev tracking code
          if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
@@ -109,6 +113,7 @@
       </style>
    </head>
    <body>
+
 
       <div id="deprmsg" class="text-center border-b w-full h-6" style="display: none; font-size: 0.85em; background-color: white; z-index: 100">
       We are now available at <a class="link" href="https://counter.dev">counter.dev</a>
@@ -288,10 +293,10 @@ sessionStorage.setItem("_swa", "1");
             </div>
             <div class="pt-0 flex-item w-full" style="padding-top: 0px;">
                <div id="tabs_content" style="min-height: 100vh; overflow-y: auto;">
-                  <div id="list_ref" style="display: none;"></div>
+                  <list-referrals style="display: none;"></list-referrals>
                   <div id="list_loc" style="display: none;"></div>
                   <div id="list_screen" style="display: none;"></div>
-                  <div id="list_lang" style="display: none;"></div>
+                  <list-languages style="display: none;"></list-languages>
                   <div class="overflow-y-auto max-w-4xl" style="display: none;">
                      <table>
                         <thead>

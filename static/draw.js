@@ -35,7 +35,7 @@ NO_DATA_TEXT = 'No data for selected time'
 NO_DATA_FONT_SIZE = "12px"
 NO_DATA_FONT_STYLE = "italic"
 NO_DATA_FONT = Chart.defaults.global.defaultFontFamily
-NO_DATA_HTML = '<div style="font-size: '+NO_DATA_FONT_SIZE+';margin-top: 5em; text-align: center; font-style: '+NO_DATA_FONT_STYLE+';">'+NO_DATA_TEXT+'</div>'
+NO_DATA_HTML = '<div style="font-size: ' + NO_DATA_FONT_SIZE + ';margin-top: 5em; text-align: center; font-style: ' + NO_DATA_FONT_STYLE + ';">' + NO_DATA_TEXT + '</div>'
 
 
 function drawMetaVars() {
@@ -254,7 +254,6 @@ function drawCountries(elemId, countries) {
         html += "</tr>"
     }
     html += "</table>"
-    console.log(html)
 
     elem.innerHTML += html
 }
@@ -534,6 +533,20 @@ function draw() {
     pageOnly("page-graphs")
     document.getElementById("share-account").style.display = "block" // hacky
 
+
+
+
+
+    document.getElementsByTagName('list-languages')[0].entries = data.lang
+    document.getElementsByTagName('list-referrals')[0].entries = data.ref
+
+
+
+
+
+
+
+
     drawUTCOffsetVar()
     drawMap("world")
     drawTitle(user)
@@ -545,9 +558,9 @@ function draw() {
     var date_vals;
     [date_keys, date_vals] = dGetNormalizedDateData(timedData.all.date)
 
-    drawList("list_ref", data.ref, true, true)
+    //drawList("list_ref", data.ref, true, true)
     drawList("list_loc", data.loc, false, false)
-    drawList("list_lang", data.lang, false, false)
+        //drawList("list_lang", data.lang, false, false)
     drawScreenList("list_screen", data.screen)
     drawCountries("world_list", data.country)
     drawLastDays("last_days_chart", date_keys, date_vals)
@@ -761,7 +774,7 @@ function drawSiteSelector(sitesHash, select) {
     sites.sort()
     for (let i in sites) {
         var site = sites[i]
-        if (site === select){
+        if (site === select) {
             html += "<option selected=selected value='" + escapeHtml(site) + "'>" + escapeHtml(site) + "</option>"
         } else {
             html += "<option value='" + escapeHtml(site) + "'>" + escapeHtml(site) + "</option>"
@@ -770,8 +783,8 @@ function drawSiteSelector(sitesHash, select) {
     document.getElementById("site-selector").innerHTML = html
 }
 
-function emptyIfSumZero(arr){
-    if (arr.reduce((pv, cv) => pv + cv, 0) === 0){
+function emptyIfSumZero(arr) {
+    if (arr.reduce((pv, cv) => pv + cv, 0) === 0) {
         return []
     }
     return arr
@@ -779,19 +792,19 @@ function emptyIfSumZero(arr){
 
 
 Chart.plugins.register({
-	afterDraw: function(chart) {
-		if (chart.data.datasets[0].data.length === 0) {
-			// No data is present
-			ctx = chart.chart.ctx;
-			var width = chart.chart.width;
-			var height = chart.chart.height;
-			chart.clear();
-			ctx.save();
-			ctx.textAlign = 'center';
-			ctx.textBaseline = 'middle';
-			ctx.font = NO_DATA_FONT_STYLE + " " + NO_DATA_FONT_SIZE+" " + NO_DATA_FONT;
-			ctx.fillText(NO_DATA_TEXT, width / 2, height / 2);
-			ctx.restore();
-		}
-	}
+    afterDraw: function(chart) {
+        if (chart.data.datasets[0].data.length === 0) {
+            // No data is present
+            ctx = chart.chart.ctx;
+            var width = chart.chart.width;
+            var height = chart.chart.height;
+            chart.clear();
+            ctx.save();
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.font = NO_DATA_FONT_STYLE + " " + NO_DATA_FONT_SIZE + " " + NO_DATA_FONT;
+            ctx.fillText(NO_DATA_TEXT, width / 2, height / 2);
+            ctx.restore();
+        }
+    }
 });
