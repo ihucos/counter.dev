@@ -10,8 +10,6 @@ customElements.define('counter-visits',
         }
 
         set entries(entries) {
-
-
             var visits = Object
                 .entries(entries)
                 .sort((a, b) => (b[1] - a[1]))
@@ -30,7 +28,7 @@ customElements.define('counter-visits',
                        <tr>
                            ${this.visitRow(visit).map(val => `<td>${val}</td>`).join('')}
                        </tr>
-                       `)}
+                       `).join('')}
                      </table>`
         }
 
@@ -50,6 +48,7 @@ customElements.define('counter-visits',
                 logReferrer = ''
                 logUserAgent = `Mozilla/5.0 ${logUserAgent}`
             }
+
             if (logCountry === '' || logCountry === 'xx') {
                 logCountry = '-'
             } else {
