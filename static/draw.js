@@ -54,71 +54,6 @@ function drawUTCOffsetVar() {
 }
 
 
-function drawList(elem_id, dataItem, useLink, useFavicon) {
-    var elem = document.getElementById(elem_id)
-
-    if (Object.keys(dataItem).length === 0 && dataItem.constructor === Object) {
-        elem.innerHTML = NO_DATA_HTML
-        return
-    }
-    elem.innerHTML = ''
-
-    var completeList = [];
-    for (var key in dataItem) {
-        completeList.push([key, dataItem[key]]);
-    }
-
-    completeList.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-
-    var list = completeList
-
-    var listTotal = 0
-    for (var i = 0; i < completeList.length; i++) {
-        listTotal += completeList[i][1]
-    }
-
-    var html = '<table>'
-    for (var i = 0; i < list.length; i++) {
-        var percent = list[i][1] / listTotal * 100
-        var val = commaFormat(list[i][1])
-        html += '<td class="w-full truncate">'
-        var key = escapeHtml(list[i][0])
-        if (useLink) {
-            if (!key.includes("://")) {
-                var link = "//" + key
-            } else {
-                var link = key
-            }
-
-            if (useFavicon) {
-                html += "<img src='https://icons.duckduckgo.com/ip3/" + key + ".ico' style='height: 0.8em; width: 0.8em; display: inline-block'/>"
-            }
-            html += "<a class='link' target='_blank' href='" + link + "'>" + key + '</a>'
-        } else {
-            html += key
-        }
-        html += '</td><td style="white-space: nowrap"><b>'
-        html += escapeHtml(val)
-        html += '</b></td>'
-        html += '<td style="white-space: nowrap;" class="text-sm text-gray-700">'
-        var percentRepr = Math.round(percent) + '%'
-        if (percentRepr === '0%') {
-            percentRepr = '<1%'
-        }
-        html += escapeHtml(percentRepr)
-        html += '</td>'
-
-        html += "</tr>"
-    }
-    html += "</table>"
-
-    elem.innerHTML = html
-}
-
-
-
 function drawLog() {
 
     var completeLines = Object.keys(logData).reverse()
@@ -515,17 +450,6 @@ function drawLastDays(elemId, date_keys, date_vals) {
 
 }
 
-function drawScreenList(elemId, screenData) {
-    if (Object.keys(screenData).length === 0 && screenData.constructor === Object) {
-        document.getElementById(elemId).innerHTML = '<div class="font-xl p-5 italic">In order to view screen sizes of your users, you must include the updated <a href="#" onclick="pageOn(\'overlay\'); return false" class="link">tracking code</button>.</div>'
-    } else {
-        drawList("list_screen", screenData, false, false)
-    }
-}
-
-
-
-
 function draw() {
     console.log("redrawing")
     destroyRegisteredCharts()
@@ -562,10 +486,6 @@ function draw() {
     var date_vals;
     [date_keys, date_vals] = dGetNormalizedDateData(timedData.all.date)
 
-    //drawList("list_ref", data.ref, true, true)
-    drawList("list_loc", data.loc, false, false)
-        //drawList("list_lang", data.lang, false, false)
-    drawScreenList("list_screen", data.screen)
     drawCountries("world_list", data.country)
     drawLastDays("last_days_chart", date_keys, date_vals)
     drawPie("browser", dGroupData(data.browser, 3), "Browsers")

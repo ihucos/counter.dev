@@ -4,6 +4,7 @@ class BaseList extends HTMLElement {
         this.attachShadow({
             mode: "open"
         });
+        this.shadowRoot.innerHTML = "No data provided"
     }
 
     tableRow(key, value) {
@@ -50,6 +51,18 @@ class BaseList extends HTMLElement {
 customElements.define('list-languages',
         class extends BaseList {
             tableHeaderFst = "Language"
+        }
+)
+
+customElements.define('list-screens',
+        class extends BaseList {
+            tableHeaderFst = "Screen"
+        }
+)
+
+customElements.define('list-locations',
+        class extends BaseList {
+            tableHeaderFst = "Location"
         }
 )
 
