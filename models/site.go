@@ -203,3 +203,22 @@ func (site Site) GetLogs() (LogData, error) {
 
 	return logData, nil
 }
+
+func (site Site) Signal() {
+	site.redis.Send("PUBLISH", fmt.Sprintf("signal:%s:%s", site.id, site.userId), "")
+}
+
+func (site Site) WaitForSignal() error {
+	psc := redis.PubSubConn{site.redis}
+	psc.Subscribe(fmt.Sprintf("signal:%s:%s", site.id, site.userId))
+	defer psc.Unsubscribe()
+
+	for {
+		switch v := psc.Receive().(type) {
+		case redis.Message:
+                        return nil
+		case error:
+			return v
+		}
+	}
+}

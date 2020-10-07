@@ -1,20 +1,20 @@
 customElements.define('counter-visits',
-    class extends HTMLElement {
+        class extends HTMLElement {
 
-        constructor() {
-            super()
-            this.attachShadow({
-                mode: "open"
-            });
-            this.shadowRoot.innerHTML = "No data provided"
-        }
+            constructor() {
+                super()
+                this.attachShadow({
+                    mode: "open"
+                });
+                this.shadowRoot.innerHTML = "No data provided"
+            }
 
-        set entries(entries) {
-            var visits = Object
-                .entries(entries)
-                .sort((a, b) => (b[1] - a[1]))
-                .map(i => i[0]);
-            this.shadowRoot.innerHTML = `
+            set entries(entries) {
+                    var visits = Object
+                        .entries(entries)
+                        .sort((a, b) => (b[1] - a[1]))
+                        .map(i => i[0]);
+                    this.shadowRoot.innerHTML = `
                      <table>
                         <tr>
                            <th>Date</th>
