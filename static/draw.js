@@ -537,8 +537,12 @@ function draw() {
 
 
 
-    document.getElementsByTagName('list-languages')[0].entries = data.lang
-    document.getElementsByTagName('list-referrals')[0].entries = data.ref
+    Array.from(document.querySelectorAll('[data-consume]')).map(el => {
+        let entries = data[el.dataset.consume]
+        if (entries !== undefined){
+            el.entries = entries
+        }
+    })
 
 
 

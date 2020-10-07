@@ -293,10 +293,10 @@ sessionStorage.setItem("_swa", "1");
             </div>
             <div class="pt-0 flex-item w-full" style="padding-top: 0px;">
                <div id="tabs_content" style="min-height: 100vh; overflow-y: auto;">
-                  <list-referrals style="display: none;"></list-referrals>
+                  <list-referrals data-consume="ref" style="display: none;"></list-referrals>
                   <div id="list_loc" style="display: none;"></div>
                   <div id="list_screen" style="display: none;"></div>
-                  <list-languages style="display: none;"></list-languages>
+                  <list-languages data-consume="lang" style="display: none;"></list-languages>
                   <div class="overflow-y-auto max-w-4xl" style="display: none;">
                      <table>
                         <thead>
