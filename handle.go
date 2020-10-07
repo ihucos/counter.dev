@@ -92,9 +92,9 @@ func (ctx Ctx) handlePing() {
 	defer user.Close()
 	visits := user.NewSite(siteId)
 
-        // if parameter wait is set:
+	// if parameter wait is set:
 	//err := visits.WaitForSignal()
-        //ctx.CatchError(err)
+	//ctx.CatchError(err)
 
 	timedVisits, err := visits.GetVisits(ctx.ParseUTCOffset("utcoffset"))
 	ctx.CatchError(err)

@@ -216,7 +216,7 @@ func (site Site) WaitForSignal() error {
 	for {
 		switch v := psc.Receive().(type) {
 		case redis.Message:
-                        return nil
+			return nil
 		case error:
 			return v
 		}
