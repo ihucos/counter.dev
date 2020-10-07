@@ -256,18 +256,6 @@ function splitObject(obj, sort_keys) {
 }
 
 
-function resolveCountry(code) {
-    entry = JQVMap.maps["world_en"].paths[code]
-    if (code === "us") {
-        return "USA"
-    }
-    if (entry) {
-        return entry["name"]
-    } else {
-        return "Unknown"
-    }
-}
-
 
 
 function dGetNormalizedDateData(dates) {

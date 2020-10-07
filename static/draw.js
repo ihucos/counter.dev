@@ -146,53 +146,6 @@ function drawTitle(user) {
 }
 
 
-function drawCountries(elemId, countries) {
-    var elem = document.getElementById(elemId)
-
-    if (Object.keys(countries).length === 0 && countries.constructor === Object) {
-        elem.innerHTML = NO_DATA_HTML
-        return
-    }
-    elem.innerHTML = ''
-
-    var list = [];
-    for (var key in countries) {
-        list.push([key, countries[key]]);
-    }
-    list.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-
-    var listTotal = 0
-    for (var i = 0; i < list.length; i++) {
-        listTotal += list[i][1]
-    }
-
-    var html = '<table><tr><th>Country</th><th colspan=2>Visits</th></tr>'
-    for (var i = 0; i < list.length; i++) {
-        var percent = list[i][1] / listTotal * 100
-        var val = kFormat(list[i][1])
-        html += '<tr>'
-        html += '<td class="w-full">'
-        var key = escapeHtml(list[i][0])
-        html += '<img class="inline-block" src="/famfamfam_flags/gif/' + escapeHtml(key) + '.gif"/>'
-        html += resolveCountry(key)
-        html += "</td>"
-        html += '<td style="white-space: nowrap;" class="text-center"><b>' + escapeHtml(val) + '</b></td>'
-        html += '<td style="white-space: nowrap;" class="text-sm text-gray-700">'
-        var percentRepr = Math.round(percent) + '%'
-        if (percentRepr === '0%') {
-            percentRepr = '<1%'
-        }
-        html += escapeHtml(percentRepr)
-        html += '</td>'
-        html += "</tr>"
-    }
-    html += "</table>"
-
-    elem.innerHTML += html
-}
-
 function drawPie(elemId, entries, title) {
 
     var list = [];
@@ -457,22 +410,12 @@ function draw() {
     pageOnly("page-graphs")
     document.getElementById("share-account").style.display = "block" // hacky
 
-
-
-
-
     Array.from(document.querySelectorAll('[data-consume]')).map(el => {
         let entries = data[el.dataset.consume]
         if (entries !== undefined){
             el.entries = entries
         }
     })
-
-
-
-
-
-
 
 
     drawUTCOffsetVar()
@@ -486,7 +429,6 @@ function draw() {
     var date_vals;
     [date_keys, date_vals] = dGetNormalizedDateData(timedData.all.date)
 
-    drawCountries("world_list", data.country)
     drawLastDays("last_days_chart", date_keys, date_vals)
     drawPie("browser", dGroupData(data.browser, 3), "Browsers")
     drawPie("platform", dGroupData(data.platform, 3), "Platforms")

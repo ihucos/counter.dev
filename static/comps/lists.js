@@ -1,3 +1,16 @@
+
+
+
+////
+//// DO NOT DEPLOY
+//// DO NOT DEPLOY
+//// DO NOT DEPLOY
+/// LOTS OF HTML INJECTION VULNERABILITIES!!
+///
+
+
+
+
 class BaseList extends HTMLElement {
     constructor() {
         super()
@@ -48,26 +61,26 @@ class BaseList extends HTMLElement {
 }
 
 
-customElements.define('list-languages',
+customElements.define('table-languages',
         class extends BaseList {
             tableHeaderFst = "Language"
         }
 )
 
-customElements.define('list-screens',
+customElements.define('table-screens',
         class extends BaseList {
             tableHeaderFst = "Screen"
         }
 )
 
-customElements.define('list-locations',
+customElements.define('table-locations',
         class extends BaseList {
             tableHeaderFst = "Location"
         }
 )
 
 
-customElements.define('list-referrals',
+customElements.define('table-referrals',
         class extends BaseList {
              tableHeaderFst = "referral"
              tableRow(key, value) {
@@ -78,5 +91,33 @@ customElements.define('list-referrals',
                      <img src="https://icons.duckduckgo.com/ip3/${ref}.ico"></img>
                      <a href="${ref}">${ref}</a>`
              }
+        }
+)
+
+customElements.define('table-countries',
+        class extends BaseList {
+            tableHeaderFst = "Country"
+             tableRow(key, value) {
+                 return [this.decorateCountry(key), value, this.percentRepr(value)]
+             }
+             decorateCountry(code){
+                 return `
+                     <img src="/famfamfam_flags/gif/${code}.gif">
+                     ${this.resolveCountry(code)}</img>`
+             }
+             resolveCountry(code) {
+                 // hidden jqvmap dependency
+                 var entry = JQVMap.maps["world_en"].paths[code]
+                 if (code === "us") {
+                     return "USA"
+                 }
+                 if (entry) {
+                     return entry["name"]
+                 } else {
+                     return "Unknown"
+                 }
+             }
+
+
         }
 )
