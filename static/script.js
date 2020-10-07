@@ -349,7 +349,7 @@ function onclickOverlay() {
 
 tabActive = "bg-gray-200 inline-block border rounded py-2 px-4 text-dark-900 font-semibold mt-2"
 tabNotActive = "bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold mt-2 shadow"
-tabPanels = document.querySelectorAll('#tabs_content *')
+tabPanels = document.querySelectorAll('#tabs_content > *')
 tabTabs = document.querySelectorAll('#tabs_tabs li a')
 
 function openTab(elemId) {

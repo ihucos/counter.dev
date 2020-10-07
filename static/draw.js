@@ -54,65 +54,6 @@ function drawUTCOffsetVar() {
 }
 
 
-function drawLog() {
-
-    var completeLines = Object.keys(logData).reverse()
-
-    var lines = completeLines
-
-    var html = ''
-    for (var i = 0; i < lines.length; i++) {
-        var line = lines[i]
-        match = (/\[(.*?) (.*?):..\] (.*?) (.*?) (.*)/g).exec(line)
-        if (match === null) {
-            continue
-        }
-        var logDate = match[1]
-        var logTime = match[2]
-        var logCountry = match[3].toLowerCase()
-        var logReferrer = match[4]
-        var logUserAgent = match[5]
-
-        // UGLY HACK, remove in a couple of months or so: June 2020
-        if (logReferrer === "Mozilla/5.0") {
-            logReferrer = ""
-            logUserAgent = "Mozilla/5.0 " + logUserAgent
-        }
-
-        html += "<tr>"
-        html += "<td class='whitespace-no-wrap'>" + escapeHtml(logDate) + "</td>"
-        html += "<td>" + escapeHtml(logTime) + "</td>"
-
-        if (logCountry === '' || logCountry === 'xx') {
-            html += '<td>-</td>'
-        } else {
-            html += '<td> <img title="' + escapeHtml(resolveCountry(logCountry)) + '" src="/famfamfam_flags/gif/' + escapeHtml(logCountry) + '.gif"></img></td>'
-        }
-
-        if (logReferrer === "") {
-            html += "<td>-</td>"
-        } else {
-            try {
-                var url = new URL(logReferrer)
-            } catch (err) {
-                var url = null
-            }
-            if (url === null) {
-                html += '<td>?</td>'
-            } else {
-                html += '<td class="whitespace-no-wrap"><a class="link" target="_blank" href="' + escapeHtml(logReferrer) + '">' + escapeHtml(url.host) + '</a></td>'
-            }
-
-        }
-        html += "<td class='truncate'>" + escapeHtml(logUserAgent) + "</td>"
-        html += "</tr>"
-
-    }
-    if (html !== "") {
-        document.getElementById("log_body").innerHTML = html
-    }
-}
-
 function drawMap(elemId) {
     jQuery("#world svg").remove()
     jQuery("#" + elemId).vectorMap({
@@ -412,10 +353,11 @@ function draw() {
 
     Array.from(document.querySelectorAll('[data-consume]')).map(el => {
         let entries = data[el.dataset.consume]
-        if (entries !== undefined){
+        if (entries !== undefined) {
             el.entries = entries
         }
     })
+    document.querySelector('counter-visits').entries = logData
 
 
     drawUTCOffsetVar()
@@ -433,7 +375,6 @@ function draw() {
     drawPie("browser", dGroupData(data.browser, 3), "Browsers")
     drawPie("platform", dGroupData(data.platform, 3), "Platforms")
     drawPie("device", dGroupData(data.device, 3), "Devices")
-    drawLog()
 
     //document.getElementById('val_visits').innerHTML = escapeHtml(date_vals.slice(-1)[0])
 

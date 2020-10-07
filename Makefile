@@ -17,7 +17,8 @@ devserver:
 format:
 	js-beautify --replace static/script.js
 	js-beautify --replace static/draw.js
-	js-beautify --replace static/comps/lists.js
+	js-beautify --replace static/comps/tables.js
+	js-beautify --replace static/comps/visits.js
 	$(go) fmt *.go
 	$(go) fmt models/*.go
 
