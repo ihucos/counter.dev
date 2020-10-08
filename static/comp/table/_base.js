@@ -35,7 +35,7 @@ class BaseTable extends HTMLElement {
     }
 
 
-    set entries(entries) {
+    draw(entries) {
 
             var array = Object.entries(entries).sort((a, b) => (b[1] - a[1]))
             this.arrayTotal = array.map(a => a[1]).reduce((a, b) => a + b, 0)
@@ -45,7 +45,7 @@ class BaseTable extends HTMLElement {
                 return
             }
 
-            // ESCAPE XXXXXXXXXXXXXXXXXXXXXXXXXXXX SECURITY 
+            // ESCAPE XXXXXXXXXXXXXXXXXXXXXXXXXXXX SECURITY  DO NOT DEPLOY - DO NOT DEPLOY - DO NOT DEPLOY
             this.shadowRoot.innerHTML = `
                 <table>
                   ${this.tableHeader ? this.tableHeader.map(val => `<th>${val}</th>`).join(''):''}

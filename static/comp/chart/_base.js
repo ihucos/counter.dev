@@ -10,10 +10,10 @@ class BaseGraph extends HTMLElement {
             return gradientStroke
         }
 
-        set entries(entries) {
+        draw(...args) {
             this.innerHTML = "<canvas></canvas>"
             this.canvas = this.children[0]
-            new Chart(this.canvas, this.getChart(entries))
+            new Chart(this.canvas, this.getChart(...args))
         }
 
 

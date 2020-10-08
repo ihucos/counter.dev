@@ -215,12 +215,16 @@ function draw() {
 
     Array.from(document.querySelectorAll(getGeneratedTagNames().join(','))).map(el => {
        if (el.consumes){
-          console.log(el)
-          console.log(el.consumes)
-          el.entries = data[el.consumes[0]]
+
+
+          // very britle hack, refactor this away
+          if (el.consumes[0] === 'log') {
+              el.draw(logData)
+          } else {
+             el.draw(...el.consumes.map(key => data[key]))
+          }
        }
     })
-    document.querySelector('comp-table-visits').entries = logData
 
 
     drawUTCOffsetVar()

@@ -1,6 +1,7 @@
 customElements.define(tagName(),
         class extends HTMLElement {
 
+            consumes = ['log']
             constructor() {
                 super()
                 this.attachShadow({
@@ -9,7 +10,7 @@ customElements.define(tagName(),
                 this.shadowRoot.innerHTML = "No data provided"
             }
 
-            set entries(entries) {
+            draw(entries) {
                     var visits = Object
                         .entries(entries)
                         .sort((a, b) => (b[1] - a[1]))
