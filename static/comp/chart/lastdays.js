@@ -1,7 +1,7 @@
 customElements.define(tagName(),
     class extends BaseGraph {
-        consumes = ["hour"]
-        getChart(hours) {
+        consumes = []
+        getChart() {
 
             var date_keys;
             var date_vals;
