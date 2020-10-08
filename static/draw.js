@@ -87,7 +87,6 @@ function draw() {
 
 
     drawUTCOffsetVar()
-    drawMap("world")
     drawTitle(user)
 
 }

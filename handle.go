@@ -110,8 +110,13 @@ func (ctx Ctx) handlePing() {
 }
 
 func (ctx Ctx) handleLoadComponentsJS() {
-        files, err := filepath.Glob("./static/comp/**/*.js")
+        files1, err := filepath.Glob("./static/comp/*.js")
         ctx.CatchError(err)
+        files2, err := filepath.Glob("./static/comp/*/*.js")
+        ctx.CatchError(err)
+        files3, err := filepath.Glob("./static/comp/*/*/*.js")
+        ctx.CatchError(err)
+        files := append(append(files1, files2...), files3...)
         filesJson, err := json.Marshal(files)
         ctx.CatchError(err)
         ctx.Return(fmt.Sprintf(`
