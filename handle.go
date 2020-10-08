@@ -116,7 +116,8 @@ func (ctx Ctx) handleLoadComponentsJS() {
         ctx.CatchError(err)
         ctx.Return(fmt.Sprintf(`
         %s.sort().map(file => {
-            let script = document.createElement("script"); script.src = file.slice(7)
+            let script = document.createElement("script");
+            script.src = file.slice(7); script.async = false;
             document.head.appendChild(script)})`, filesJson), 200)
 }
 

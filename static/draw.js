@@ -87,60 +87,6 @@ function drawTitle(user) {
 }
 
 
-function drawPie(elemId, entries, title) {
-
-    var list = [];
-    for (var key in entries) {
-        list.push([key, entries[key]]);
-    }
-    list.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-
-    registerChart(new Chart(document.getElementById(elemId), {
-        type: 'pie',
-        data: {
-            labels: list.map(x => x[0]),
-            datasets: [{
-                borderWidth: pieBorderWidth,
-                borderColor: pieBorderColor,
-                data: list.map(x => x[1]),
-                backgroundColor: palette,
-            }, ],
-        },
-        options: {
-            cutoutPercentage: 35,
-            tooltips: {
-                mode: 'index'
-            },
-            legend: {
-                position: 'bottom',
-                labels: {
-                    usePointStyle: 'true'
-                },
-                align: 'center'
-            },
-            title: {
-                display: true,
-                text: title
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        display: false,
-                    },
-                    ticks: {
-                        display: false,
-                    }
-                }, ],
-            },
-        },
-    }))
-
-}
-
-
-
 
 
 
@@ -214,15 +160,15 @@ function draw() {
 
 
     Array.from(document.querySelectorAll(getGeneratedTagNames().join(','))).map(el => {
-       if (el.consumes){
+        if (el.consumes) {
 
-          // very britle hack, refactor this away
-          if (el.consumes[0] === 'log') {
-              el.draw(logData)
-          } else {
-             el.draw(...el.consumes.map(key => data[key]))
-          }
-       }
+            // very britle hack, refactor this away
+            if (el.consumes[0] === 'log') {
+                el.draw(logData)
+            } else {
+                el.draw(...el.consumes.map(key => data[key]))
+            }
+        }
     })
 
 
@@ -235,9 +181,9 @@ function draw() {
     [date_keys, date_vals] = dGetNormalizedDateData(timedData.all.date)
 
     drawLastDays("last_days_chart", date_keys, date_vals)
-    drawPie("browser", dGroupData(data.browser, 3), "Browsers")
-    drawPie("platform", dGroupData(data.platform, 3), "Platforms")
-    drawPie("device", dGroupData(data.device, 3), "Devices")
+    //drawPie("browser", dGroupData(data.browser, 3), "Browsers")
+    //drawPie("platform", dGroupData(data.platform, 3), "Platforms")
+    //drawPie("device", dGroupData(data.device, 3), "Devices")
 
 
     registerChart(new Chart(document.getElementById("graph"), {

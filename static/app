@@ -242,15 +242,9 @@ sessionStorage.setItem("_swa", "1");
                <canvas id="last_days_chart"></canvas>
             </div>
             <comp-chart-referrers class="flex-item w-full md:w-1/3" style="height: 200px;"></comp-chart-referrers>
-            <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
-               <canvas id="device"></canvas>
-            </div>
-            <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
-               <canvas id="platform"></canvas>
-            </div>
-            <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
-               <canvas id="browser"></canvas>
-            </div>
+            <comp-chart-device class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-device>
+            <comp-chart-platform class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-platform>
+            <comp-chart-browser class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-browser>
             <comp-chart-time class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-time>
             <comp-chart-hour class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-hour>
             <comp-chart-weekday class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-weekday>
