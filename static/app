@@ -238,8 +238,7 @@ sessionStorage.setItem("_swa", "1");
             <div class="flex-item w-full" style="height: 200px;">
                <canvas id="graph"></canvas>
             </div>
-            <div class="flex-item w-full md:w-2/3" style="height: 200px;">
-               <canvas id="last_days_chart"></canvas>
+            <comp-chart-lastdays class="flex-item w-full md:w-2/3" style="height: 200px;"></comp-chart-lastdays>
             </div>
             <comp-chart-referrers class="flex-item w-full md:w-1/3" style="height: 200px;"></comp-chart-referrers>
             <comp-chart-device class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-device>
