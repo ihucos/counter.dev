@@ -259,9 +259,7 @@ sessionStorage.setItem("_swa", "1");
             <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
                <canvas id="hour"></canvas>
             </div>
-            <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
-               <canvas id="weekday"></canvas>
-            </div>
+            <counter-weekday data-consume="weekday" class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></counter-weekday>
             <div class="flex-item w-full md:w-2/3 md:my-5" style="height: 450px">
                <div id="world">
                   <h5>World map</h5>

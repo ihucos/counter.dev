@@ -465,52 +465,6 @@ function draw() {
         },
     }))
 
-    registerChart(new Chart(document.getElementById("weekday"), {
-        type: 'radar',
-        data: {
-            labels: ['Mo.', 'Tu.', 'We.', 'Th.', 'Fr.', 'Sa.', 'Su.'],
-            datasets: [{
-                data: emptyIfSumZero([
-                    data['weekday'][0] || 0,
-                    data['weekday'][1] || 0,
-                    data['weekday'][2] || 0,
-                    data['weekday'][3] || 0,
-                    data['weekday'][4] || 0,
-                    data['weekday'][5] || 0,
-                    data['weekday'][6] || 0,
-                ]),
-                backgroundColor: makeGradient("weekday"),
-                borderWidth: 1,
-                borderColor: 'transparent',
-                pointBackgroundColor: 'white',
-                pointRadius: 3,
-                pointBorderColor: orange,
-                lineTension: 0.4,
-            }, ],
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'Visits by weekday',
-                position: "top",
-            },
-            tooltips: {
-                mode: 'index'
-            },
-            legend: {
-                display: false
-            },
-            scale: {
-                gridLines: {
-                    display: true,
-                    circular: true
-                },
-                ticks: {
-                    display: false,
-                }
-            },
-        },
-    }))
 }
 
 function drawSiteSelector(sitesHash, select) {
