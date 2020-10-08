@@ -67,7 +67,6 @@ function drawTitle(user) {
 
 function draw() {
     console.log("redrawing")
-    destroyRegisteredCharts()
 
     pageOnly("page-graphs")
     document.getElementById("share-account").style.display = "block" // hacky

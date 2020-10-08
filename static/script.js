@@ -1,46 +1,10 @@
 registeredCharts = []
 
-function registerChart(chart) {
-    registeredCharts.push(chart)
-}
-
-function destroyRegisteredCharts() {
-    registeredCharts.forEach(chart => chart.destroy())
-}
-
-function enableAnimation() {
-    //Chart.defaults.global.animation = defaultAnimation
-}
-
-function disableAnimation() {
-    //Chart.defaults.global.animation = 0
-}
-
-function rand(min, max) {
-    return Math.random() * (max - min) + min;
-}
-
-function toColor(str) {
-    hue = rand(0, 360)
-    saturation = rand(0, 100)
-    lightness = rand(35, 80)
-    return 'hsl(' + hue + ', ' + saturation + '%, ' + lightness + '%)'
-}
 
 function getSelectedTimeRange() {
     return document.getElementById('time-range').value
 }
 
-
-function makeGradient(id, alpha1, alpha2) {
-    alpha1 = (typeof alpha1 !== 'undefined') ? alpha1 : 0.6;
-    alpha2 = (typeof alpha2 !== 'undefined') ? alpha2 : 1;
-    var ctx = document.getElementById(id).getContext("2d")
-    var gradientStroke = ctx.createLinearGradient(0, 0, 0, 200);
-    gradientStroke.addColorStop(0, "rgba(30, 135, 240, " + alpha1 + ")");
-    gradientStroke.addColorStop(1, "rgba(30, 135, 240, " + alpha2 + ")");
-    return gradientStroke
-}
 
 
 function postUserAction(endpoint, body, success, fail) {
@@ -173,16 +137,6 @@ function getDataAndUpdate() {
     })
 }
 
-function escapeHtml(unsafe) {
-    return (unsafe + "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-
 function demo() {
     pressLogin("counter", "demodemo")
 }
@@ -197,29 +151,6 @@ function pressLogin(user, password) {
 
 
 
-function getUTCMinusElevenNow() {
-    var date = new Date();
-    var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-        date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-
-    d = new Date(now_utc);
-    d.setHours(d.getHours() - 11)
-    return d
-}
-
-function commaFormat(x) {
-    return Math.round(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-function kFormat(num) {
-    num = Math.floor(num)
-    return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(1)) + 'K' : Math.sign(num) * Math.abs(num) + ""
-}
-
-function sum(array) {
-    return array.reduce((acc, next) => acc + next, 0)
-
-}
 
 function onTimeRangeChanged() {
     var range = getSelectedTimeRange()
@@ -231,93 +162,6 @@ function onTimeRangeChanged() {
 function onSiteChanged() {
     fetch("/setPrefSite?" + encodeURIComponent(getSelectedSite()))
     getDataAndUpdate()
-}
-
-function getUTCOffset() {
-    return Math.round(-1 * new Date().getTimezoneOffset() / 60)
-}
-
-function splitObject(obj, sort_keys) {
-    var sortable = [];
-    for (var key in obj) {
-        sortable.push([key, obj[key]]);
-    }
-    if (sort_keys) {
-        sortable.sort(function(a, b) {
-            return a[0] - b[0];
-        });
-    } else {
-        sortable.sort(function(a, b) {
-            return b[1] - a[1];
-        });
-    }
-
-    return [sortable.map(x => x[0]), sortable.map(x => x[1])]
-}
-
-
-
-
-function dGetNormalizedDateData(dates) {
-
-    var daysRange = function(s, e) {
-        var s = new Date(s)
-        var e = new Date(e)
-        var o = {}
-        for (var a = [], d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
-            o[new Date(d).toISOString().substring(0, 10)] = 0;
-        }
-        return o;
-    };
-
-    var keys = Object.keys(dates)
-    keys.sort((a, b) => {
-        return a > b;
-    });
-
-
-    var calc_min = getUTCMinusElevenNow()
-    calc_min.setDate(calc_min.getDate() - 7)
-    calc_min = calc_min.toISOString().substring(0, 10)
-
-    if (keys.length != 0) {
-        data_min = keys[0]
-        if (new Date(data_min).getTime() < new Date(calc_min).getTime()) {
-            min = data_min
-        } else {
-            min = calc_min
-        }
-    } else {
-        min = calc_min
-    }
-
-
-    var max = getUTCMinusElevenNow().toISOString().substring(0, 10)
-    var date_data = {...daysRange(min, max),
-        ...dates
-    }
-
-    return splitObject(date_data, true)
-}
-
-function dGroupData(entries, cutAt) {
-    var entrs = Object.entries(entries)
-    entrs = entrs.sort((a, b) => b[1] - a[1])
-    var top = entrs.slice(0, cutAt)
-    var bottom = entrs.slice(cutAt)
-
-    otherVal = 0
-    bottom.forEach(el => otherVal += el[1])
-    if (otherVal) {
-        top.push(["Other", otherVal])
-    }
-
-    var res = Object.fromEntries(top)
-    if ("Unknown" in res) {
-        res["Other"] = (res["Other"] || 0) + res["Unknown"]
-        delete res["Unknown"]
-    }
-    return res
 }
 
 function download(filename, text) {
