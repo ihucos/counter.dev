@@ -20,8 +20,9 @@
 
      <script src="/comp/chart/_base.js"></script>
      <script src="/comp/chart/time.js"></script>
-     <script src="/comp/chart/topreferrers.js"></script>
+     <script src="/comp/chart/referrers.js"></script>
      <script src="/comp/chart/weekday.js"></script>
+     <script src="/comp/chart/hour.js"></script>
 
      <script src="/comp/table/_base.js"></script>
      <script src="/comp/table/countries.js"></script>
@@ -252,7 +253,7 @@ sessionStorage.setItem("_swa", "1");
             <div class="flex-item w-full md:w-2/3" style="height: 200px;">
                <canvas id="last_days_chart"></canvas>
             </div>
-            <comp-chart-topreferrers class="flex-item w-full md:w-1/3" style="height: 200px;"></comp-chart-topreferrers>
+            <comp-chart-referrers class="flex-item w-full md:w-1/3" style="height: 200px;"></comp-chart-referrers>
             <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
                <canvas id="device"></canvas>
             </div>
@@ -263,9 +264,7 @@ sessionStorage.setItem("_swa", "1");
                <canvas id="browser"></canvas>
             </div>
             <comp-chart-time class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-time>
-            <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
-               <canvas id="hour"></canvas>
-            </div>
+            <comp-chart-hour class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-hour>
             <comp-chart-weekday class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-weekday>
             <div class="flex-item w-full md:w-2/3 md:my-5" style="height: 450px">
                <div id="world">
