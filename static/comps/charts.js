@@ -1,9 +1,5 @@
-customElements.define('counter-time',
-    class extends HTMLElement {
-        constructor() {
-            super()
-        }
 
+class Graph extends HTMLElement {
         makeGradient(alpha1, alpha2) {
             alpha1 = (typeof alpha1 !== 'undefined') ? alpha1 : 0.6;
             alpha2 = (typeof alpha2 !== 'undefined') ? alpha2 : 1;
@@ -14,10 +10,19 @@ customElements.define('counter-time',
             return gradientStroke
         }
 
-
         set entries(entries) {
             this.innerHTML = "<canvas></canvas>"
             this.canvas = this.children[0]
+            new Chart(this.canvas, this.getChart(entries))
+        }
+
+
+}
+
+customElements.define('counter-time',
+    class extends Graph {
+
+        getChart(entries) {
 
             var sumHours = function(arr) {
                 var sum = 0
@@ -25,7 +30,7 @@ customElements.define('counter-time',
                 return sum
             }
 
-            new Chart(this.canvas, {
+            return {
                 type: 'bar',
                 data: {
                     labels: [
@@ -77,7 +82,7 @@ customElements.define('counter-time',
                         }, ],
                     },
                 },
-            })
+            }
         }
 
     }
@@ -86,27 +91,11 @@ customElements.define('counter-time',
 
 
 customElements.define('counter-weekday',
-    class extends HTMLElement {
-        constructor() {
-            super()
-        }
+    class extends Graph {
 
-        makeGradient(alpha1, alpha2) {
-            alpha1 = (typeof alpha1 !== 'undefined') ? alpha1 : 0.6;
-            alpha2 = (typeof alpha2 !== 'undefined') ? alpha2 : 1;
-            var ctx = this.canvas.getContext("2d")
-            var gradientStroke = ctx.createLinearGradient(0, 0, 0, 200);
-            gradientStroke.addColorStop(0, "rgba(30, 135, 240, " + alpha1 + ")");
-            gradientStroke.addColorStop(1, "rgba(30, 135, 240, " + alpha2 + ")");
-            return gradientStroke
-        }
+        getChart(entries){
 
-
-        set entries(entries) {
-            this.innerHTML = "<canvas></canvas>"
-            this.canvas = this.children[0]
-
-            new Chart(this.canvas, {
+            return {
                 type: 'radar',
                 data: {
                     labels: ['Mo.', 'Tu.', 'We.', 'Th.', 'Fr.', 'Sa.', 'Su.'],
@@ -151,31 +140,16 @@ customElements.define('counter-weekday',
                         }
                     },
                 },
-            })
+            }
         }
     })
 
 
 customElements.define('counter-top-referrers',
-    class extends HTMLElement {
-        constructor() {
-            super()
-        }
-
-        makeGradient(alpha1, alpha2) {
-            alpha1 = (typeof alpha1 !== 'undefined') ? alpha1 : 0.6;
-            alpha2 = (typeof alpha2 !== 'undefined') ? alpha2 : 1;
-            var ctx = this.canvas.getContext("2d")
-            var gradientStroke = ctx.createLinearGradient(0, 0, 0, 200);
-            gradientStroke.addColorStop(0, "rgba(30, 135, 240, " + alpha1 + ")");
-            gradientStroke.addColorStop(1, "rgba(30, 135, 240, " + alpha2 + ")");
-            return gradientStroke
-        }
+    class extends Graph {
 
 
-        set entries(refentries) {
-            this.innerHTML = "<canvas></canvas>"
-            this.canvas = this.children[0]
+        getChart(refentries) {
 
             var colors = [palette[2], palette[1], palette[0]]
             var otherColor = palette[3]
@@ -203,7 +177,7 @@ customElements.define('counter-top-referrers',
                 })
             }
 
-            new Chart(this.canvas, {
+            return {
                 type: 'pie',
                 data: {
                     labels: entries.map(x => x.label),
@@ -252,6 +226,6 @@ customElements.define('counter-top-referrers',
                         }, ],
                     },
                 },
-            })
+            }
         }
     })
