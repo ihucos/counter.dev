@@ -1,7 +1,7 @@
 
 customElements.define(tagName(),
-        consumes = ["loc"]
         class extends BaseTable {
+        consumes = ["loc"]
             tableHeaderFst = "Location"
         }
 )

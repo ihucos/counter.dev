@@ -1,6 +1,6 @@
 customElements.define(tagName(),
-        consumes = ["lang"]
         class extends BaseTable {
+        consumes = ["lang"]
             tableHeaderFst = "Language"
         }
 )

@@ -212,11 +212,13 @@ function draw() {
     pageOnly("page-graphs")
     document.getElementById("share-account").style.display = "block" // hacky
 
-    Array.from(document.querySelectorAll('[data-consume]')).map(el => {
-        let entries = data[el.dataset.consume]
-        if (entries !== undefined) {
-            el.entries = entries
-        }
+
+    Array.from(document.querySelectorAll(getGeneratedTagNames().join(','))).map(el => {
+       if (el.consumes){
+          console.log(el)
+          console.log(el.consumes)
+          el.entries = data[el.consumes[0]]
+       }
     })
     document.querySelector('comp-table-visits').entries = logData
 
