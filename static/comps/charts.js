@@ -2,11 +2,6 @@ customElements.define('counter-time',
     class extends HTMLElement {
         constructor() {
             super()
-            this.attachShadow({
-                mode: "open"
-            });
-            this.shadowRoot.innerHTML = "<canvas></canvas>"
-            this.canvas = this.shadowRoot.children[0]
         }
 
         makeGradient(alpha1, alpha2) {
@@ -21,6 +16,8 @@ customElements.define('counter-time',
 
 
         set entries(entries) {
+            this.innerHTML = "<canvas></canvas>"
+            this.canvas = this.children[0]
 
             var sumHours = function(arr) {
                 var sum = 0

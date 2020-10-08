@@ -255,9 +255,7 @@ sessionStorage.setItem("_swa", "1");
             <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
                <canvas id="browser"></canvas>
             </div>
-            <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
-               <counter-time data-consume="hour"></counter-time>
-            </div>
+            <counter-time data-consume="hour" class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></counter-time>
             <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
                <canvas id="hour"></canvas>
             </div>
