@@ -1,6 +1,7 @@
 
 customElements.define(tagName(),
         class extends BaseTable {
+             consumes = ["ref"]
              tableHeaderFst = "referral"
              tableRow(key, value) {
                  return [this.decorateReferrer(key), value, this.percentRepr(value)]

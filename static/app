@@ -31,7 +31,6 @@
      <script src="/comp/table/screens.js"></script>
      <script src="/comp/table/visits.js"></script>
 
-
       <script>
          // counter.dev tracking code
          if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
@@ -253,7 +252,7 @@ sessionStorage.setItem("_swa", "1");
             <div class="flex-item w-full md:w-2/3" style="height: 200px;">
                <canvas id="last_days_chart"></canvas>
             </div>
-            <comp-chart-topreferrers data-consume="ref" class="flex-item w-full md:w-1/3" style="height: 200px;"></comp-chart-topreferrers>
+            <comp-chart-topreferrers class="flex-item w-full md:w-1/3" style="height: 200px;"></comp-chart-topreferrers>
             <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
                <canvas id="device"></canvas>
             </div>
@@ -263,11 +262,11 @@ sessionStorage.setItem("_swa", "1");
             <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
                <canvas id="browser"></canvas>
             </div>
-            <comp-chart-time data-consume="hour" class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-time>
+            <comp-chart-time class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-time>
             <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
                <canvas id="hour"></canvas>
             </div>
-            <comp-chart-weekday data-consume="weekday" class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-weekday>
+            <comp-chart-weekday class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-weekday>
             <div class="flex-item w-full md:w-2/3 md:my-5" style="height: 450px">
                <div id="world">
                   <h5>World map</h5>
@@ -275,7 +274,7 @@ sessionStorage.setItem("_swa", "1");
             </div>
             <div class="flex-item w-full md:w-1/3 md:my-5" style="height: 450px">
                <div style="overflow-y: auto; ">
-                  <comp-table-countries data-consume="country"></comp-table-countries>
+                  <comp-table-countries></comp-table-countries>
                </div>
             </div>
             <div class="flex-item w-full">
@@ -299,10 +298,10 @@ sessionStorage.setItem("_swa", "1");
             </div>
             <div class="pt-0 flex-item w-full" style="padding-top: 0px;">
                <div id="tabs_content" style="min-height: 100vh; overflow-y: auto;">
-                  <comp-table-referrals data-consume="ref" style="display: none;"></comp-table-referrals>
-                  <comp-table-locations data-consume="loc" style="display: none;"></comp-table-locations>
-                  <comp-table-screens data-consume="screen" style="display: none;"></comp-table-screens>
-                  <comp-table-languages data-consume="lang" style="display: none;"></comp-table-languages>
+                  <comp-table-referrals style="display: none;"></comp-table-referrals>
+                  <comp-table-locations style="display: none;"></comp-table-locations>
+                  <comp-table-screens style="display: none;"></comp-table-screens>
+                  <comp-table-languages style="display: none;"></comp-table-languages>
                   <div class="overflow-y-auto max-w-4xl" style="display: none;">
                     <comp-table-visits></comp-table-visits>
                   </div>

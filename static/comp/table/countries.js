@@ -1,6 +1,7 @@
 
 customElements.define(tagName(),
         class extends BaseTable {
+            consumes = ["country"]
             tableHeaderFst = "Country"
              tableRow(key, value) {
                  return [this.decorateCountry(key), value, this.percentRepr(value)]
