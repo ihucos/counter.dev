@@ -37,7 +37,7 @@ class BaseTable extends HTMLElement {
     set entries(entries) {
 
             var array = Object.entries(entries).sort((a, b) => (b[1] - a[1]))
-            this.arrayTotal = array.map(a => a[1]).reduce((a, b) => a + b)
+            this.arrayTotal = array.map(a => a[1]).reduce((a, b) => a + b, 0)
 
             if (array.length === 0) {
                 this.shadowRoot.innerHTML = NO_DATA_HTML
