@@ -6,7 +6,6 @@
       <meta name="description" content="Free analytics tool with all common features.">
       <title>Counter Analytics</title>
       <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-      <link href="loading.css" rel="stylesheet">
       <link href="loadingcoin.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
       <script src="moment.min.js"></script>
@@ -243,9 +242,7 @@ sessionStorage.setItem("_swa", "1");
             <div class="flex-item w-full md:w-2/3" style="height: 200px;">
                <canvas id="last_days_chart"></canvas>
             </div>
-            <div class="flex-item w-full md:w-1/3" style="height: 200px;">
-               <canvas id="ref_chart"></canvas>
-            </div>
+            <counter-top-referrers data-consume="ref" class="flex-item w-full md:w-1/3" style="height: 200px;"></counter-top-referrers>
             <div class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;">
                <canvas id="device"></canvas>
             </div>
