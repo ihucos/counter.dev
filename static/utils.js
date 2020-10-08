@@ -13,3 +13,10 @@ function tagName(){
 function getGeneratedTagNames(){
    return _tagNames
 }
+
+function emptyIfSumZero(arr) {
+    if (arr.reduce((pv, cv) => pv + cv, 0) === 0) {
+        return []
+    }
+    return arr
+}

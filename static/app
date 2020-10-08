@@ -237,7 +237,6 @@ sessionStorage.setItem("_swa", "1");
             </div>
             <comp-chart-alldays class="flex-item w-full" style="height: 200px;"> </comp-chart-alldays>
             <comp-chart-lastdays class="flex-item w-full md:w-2/3" style="height: 200px;"></comp-chart-lastdays>
-            </div>
             <comp-chart-referrers class="flex-item w-full md:w-1/3" style="height: 200px;"></comp-chart-referrers>
             <comp-chart-device class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-device>
             <comp-chart-platform class="flex-item w-full md:w-1/2 lg:w-1/3" style="height: 200px;"></comp-chart-platform>

@@ -54,32 +54,6 @@ function drawUTCOffsetVar() {
 }
 
 
-function drawMap(elemId) {
-    jQuery("#world svg").remove()
-    jQuery("#" + elemId).vectorMap({
-        map: 'world_en',
-        backgroundColor: '#fff',
-        color: '#ffffff',
-        hoverOpacity: 0.7,
-        selectedColor: null,
-        enableZoom: false,
-        showTooltip: true,
-        borderOpacity: 0.8,
-        color: '#eee',
-        values: data.country,
-        scaleColors: ['#73B4F3', '#0457A8'],
-        normalizeFunction: 'polynomial',
-        onLabelShow: function(event, label, region) {
-            label[0].innerHTML += (
-                '&nbsp;<img title="' + escapeHtml(region) +
-                '" src="/famfamfam_flags/gif/' +
-                escapeHtml(region) +
-                '.gif"></img> </br>' +
-                (data.country[region] || "0") +
-                " Visits")
-        }
-    });
-}
 
 
 function drawTitle(user) {
@@ -116,13 +90,6 @@ function draw() {
     drawMap("world")
     drawTitle(user)
 
-    var date_keys;
-    var date_vals;
-    [date_keys, date_vals] = dGetNormalizedDateData(timedData.all.date)
-
-
-
-
 }
 
 function drawSiteSelector(sitesHash, select) {
@@ -140,12 +107,6 @@ function drawSiteSelector(sitesHash, select) {
     document.getElementById("site-selector").innerHTML = html
 }
 
-function emptyIfSumZero(arr) {
-    if (arr.reduce((pv, cv) => pv + cv, 0) === 0) {
-        return []
-    }
-    return arr
-}
 
 
 Chart.plugins.register({
