@@ -216,7 +216,6 @@ function draw() {
     Array.from(document.querySelectorAll(getGeneratedTagNames().join(','))).map(el => {
        if (el.consumes){
 
-
           // very britle hack, refactor this away
           if (el.consumes[0] === 'log') {
               el.draw(logData)
