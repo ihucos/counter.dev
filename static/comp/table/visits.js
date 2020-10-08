@@ -1,4 +1,4 @@
-customElements.define('counter-visits',
+customElements.define(tagName(),
         class extends HTMLElement {
 
             constructor() {

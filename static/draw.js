@@ -218,7 +218,7 @@ function draw() {
             el.entries = entries
         }
     })
-    document.querySelector('counter-visits').entries = logData
+    document.querySelector('comp-table-visits').entries = logData
 
 
     drawUTCOffsetVar()
@@ -234,7 +234,6 @@ function draw() {
     drawPie("platform", dGroupData(data.platform, 3), "Platforms")
     drawPie("device", dGroupData(data.device, 3), "Devices")
 
-    //document.getElementById('val_visits').innerHTML = escapeHtml(date_vals.slice(-1)[0])
 
     registerChart(new Chart(document.getElementById("graph"), {
         type: 'bar',
