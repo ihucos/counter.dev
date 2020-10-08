@@ -66,6 +66,7 @@ func (app *App) SetupUrls() {
 	app.Connect("/setPrefSite", func(ctx Ctx) { ctx.handleSetPrefSite() })
 	app.Connect("/track", func(ctx Ctx) { ctx.handleTrack() })
 	app.Connect("/user", func(ctx Ctx) { ctx.handleUser() })
+	app.Connect("/loadComponents.js", func(ctx Ctx) { ctx.handleLoadComponentsJS() })
 }
 
 func NewApp() *App {

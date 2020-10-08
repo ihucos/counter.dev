@@ -18,19 +18,7 @@
 
      <script src="/utils.js"></script>
 
-     <script src="/comp/chart/_base.js"></script>
-     <script src="/comp/chart/time.js"></script>
-     <script src="/comp/chart/referrers.js"></script>
-     <script src="/comp/chart/weekday.js"></script>
-     <script src="/comp/chart/hour.js"></script>
-
-     <script src="/comp/table/_base.js"></script>
-     <script src="/comp/table/countries.js"></script>
-     <script src="/comp/table/languages.js"></script>
-     <script src="/comp/table/locations.js"></script>
-     <script src="/comp/table/referrals.js"></script>
-     <script src="/comp/table/screens.js"></script>
-     <script src="/comp/table/visits.js"></script>
+     <script src="loadComponents.js"></script>
 
       <script>
          // counter.dev tracking code

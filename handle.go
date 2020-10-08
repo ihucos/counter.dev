@@ -3,6 +3,9 @@ package main
 import (
 	"./models"
 	"net/http"
+	"path/filepath"
+	"fmt"
+	"encoding/json"
 )
 
 func (ctx Ctx) handleLogin() {
@@ -104,6 +107,17 @@ func (ctx Ctx) handlePing() {
 	ctx.CatchError(err)
 	resp := PingDataResp{Visits: timedVisits, Logs: logs, SiteLinks: siteLinks}
 	ctx.ReturnJSON(resp, 200)
+}
+
+func (ctx Ctx) handleLoadComponentsJS() {
+        files, err := filepath.Glob("./static/comp/**/*.js")
+        ctx.CatchError(err)
+        filesJson, err := json.Marshal(files)
+        ctx.CatchError(err)
+        ctx.Return(fmt.Sprintf(`
+        %s.sort().map(file => {
+            let script = document.createElement("script"); script.src = file
+            document.head.appendChild(script)})`, filesJson), 200)
 }
 
 func (ctx Ctx) handleUser() {
