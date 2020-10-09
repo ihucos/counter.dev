@@ -187,22 +187,21 @@ func (ctx Ctx) handleDump() {
 	sitesLink, err := user.GetSiteLinks()
 	ctx.CatchError(err)
 
-
-        sitesDump := make(SitesDump)
-        for siteId, count := range sitesLink {
-            site := user.NewSite(siteId)
-            logs, err := site.GetLogs()
-            ctx.CatchError(err)
-            visits, err := site.GetVisits(ctx.ParseUTCOffset("utcoffset"))
-            ctx.CatchError(err)
-            sitesDump[siteId] = SitesDumpVal{
-                Logs: logs,
-                Visits: visits,
-                Count: count,
-            }
-        }
+	sitesDump := make(SitesDump)
+	for siteId, count := range sitesLink {
+		site := user.NewSite(siteId)
+		logs, err := site.GetLogs()
+		ctx.CatchError(err)
+		visits, err := site.GetVisits(ctx.ParseUTCOffset("utcoffset"))
+		ctx.CatchError(err)
+		sitesDump[siteId] = SitesDumpVal{
+			Logs:   logs,
+			Visits: visits,
+			Count:  count,
+		}
+	}
 
 	userDump := UserDump{Id: user.Id, Token: token, Prefs: prefsData}
-        dump := Dump{User: userDump, Sites: sitesDump}
+	dump := Dump{User: userDump, Sites: sitesDump}
 	ctx.ReturnJSON(dump, 200)
 }
