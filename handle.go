@@ -155,6 +155,7 @@ func (ctx Ctx) handlePing() {
 }
 
 func (ctx Ctx) handleLoadComponentsJS() {
+        // SEND HEADERS FOR CLOUDFROM HTTP PUSH AND TEST THAT
 	files1, err := filepath.Glob("./static/comp/*.js")
 	ctx.CatchError(err)
 	files2, err := filepath.Glob("./static/comp/*/*.js")
@@ -177,6 +178,11 @@ func (ctx Ctx) handleUser() {
 
 func (ctx Ctx) handleDump() {
 	user := ctx.ForceUser()
+	defer user.Close()
+
+	if ctx.r.FormValue("block") != "" {
+            user.WaitForSignal()
+        }
 
 	prefsData, err := user.GetPrefs()
 	ctx.CatchError(err)

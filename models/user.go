@@ -179,3 +179,21 @@ func (user User) NewSite(Id string) Site {
 func (user User) IncrSiteLink(siteId string) {
 	user.redis.Send("HINCRBY", fmt.Sprintf("sites:%s", user.Id), siteId, 1)
 }
+
+func (user User) Signal() {
+	user.redis.Send("PUBLISH", fmt.Sprintf("user:%s", user.Id), "")
+}
+
+func (user User) WaitForSignal() error {
+	psc := redis.PubSubConn{user.redis}
+	psc.Subscribe(fmt.Sprintf("user:%s", user.Id))
+	defer psc.Unsubscribe()
+	for {
+		switch v := psc.Receive().(type) {
+		case redis.Message:
+			return nil
+		case error:
+			return v
+		}
+	}
+}

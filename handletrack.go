@@ -123,7 +123,7 @@ func (ctx Ctx) handleTrack() {
 	visits.SaveVisit(visit, now)
 	visits.Log(logLine)
 	user.IncrSiteLink(siteId)
-	visits.Signal()
+	user.Signal()
 
 	ctx.w.Header().Set("Content-Type", "text/plain")
 	ctx.w.Header().Set("Cache-Control", "public, immutable")
