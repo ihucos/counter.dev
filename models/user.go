@@ -11,7 +11,7 @@ import (
 
 type User struct {
 	redis redis.Conn
-	id    string
+	Id    string
 }
 
 type ErrCreate struct {
@@ -43,7 +43,7 @@ func truncate(stri string) string {
 }
 
 func NewUser(conn redis.Conn, userId string) User {
-	return User{redis: conn, id: truncate(userId)}
+	return User{redis: conn, Id: truncate(userId)}
 }
 
 func (user User) Close() {
@@ -61,8 +61,8 @@ func (user User) delAllVisits() error {
 	return nil
 }
 
-func (user User) readToken() (string, error) {
-	token, err := redis.String(user.redis.Do("HGET", "tokens", user.id))
+func (user User) ReadToken() (string, error) {
+	token, err := redis.String(user.redis.Do("HGET", "tokens", user.Id))
 	if err != nil {
 		return "", err
 	}
@@ -71,23 +71,23 @@ func (user User) readToken() (string, error) {
 
 func (user User) GetMetaData() (MetaData, error) {
 	meta := make(MetaData)
-	token, err := user.readToken()
+	token, err := user.ReadToken()
 	if err != nil {
 		return meta, err
 	}
 	meta["token"] = token
-	meta["user"] = user.id
+	meta["user"] = user.Id
 
 	return meta, nil
 }
 
 func (user User) TouchAccess() {
-	user.redis.Send("HSET", "access", user.id, utils.TimeNow(0).Format("2006-01-02"))
+	user.redis.Send("HSET", "access", user.Id, utils.TimeNow(0).Format("2006-01-02"))
 }
 
 func (user User) Create(password string) error {
 
-	if len(user.id) < 4 {
+	if len(user.Id) < 4 {
 		return &ErrCreate{"User must have at least 4 charachters"}
 	}
 
@@ -96,8 +96,8 @@ func (user User) Create(password string) error {
 	}
 
 	user.redis.Send("MULTI")
-	user.redis.Send("HSETNX", "users", user.id, hash(password))
-	user.redis.Send("HSETNX", "tokens", user.id, randToken())
+	user.redis.Send("HSETNX", "users", user.Id, hash(password))
+	user.redis.Send("HSETNX", "tokens", user.Id, randToken())
 	userVarsStatus, err := redis.Ints(user.redis.Do("EXEC"))
 	if err != nil {
 		return err
@@ -114,7 +114,7 @@ func (user User) Create(password string) error {
 }
 
 func (user User) VerifyPassword(password string) (bool, error) {
-	hashedPassword, err := redis.String(user.redis.Do("HGET", "users", user.id))
+	hashedPassword, err := redis.String(user.redis.Do("HGET", "users", user.Id))
 	if err == redis.ErrNil {
 		return false, nil
 	} else if err != nil {
@@ -124,7 +124,7 @@ func (user User) VerifyPassword(password string) (bool, error) {
 }
 
 func (user User) VerifyToken(token string) (bool, error) {
-	dbToken, err := user.readToken()
+	dbToken, err := user.ReadToken()
 	if err == redis.ErrNil {
 		return false, nil
 	} else if err != nil {
@@ -134,7 +134,7 @@ func (user User) VerifyToken(token string) (bool, error) {
 }
 
 func (user User) GetPref(key string) (string, error) {
-	val, err := redis.String(user.redis.Do("HGET", fmt.Sprintf("prefs:%s", user.id), key))
+	val, err := redis.String(user.redis.Do("HGET", fmt.Sprintf("prefs:%s", user.Id), key))
 	if err == redis.ErrNil {
 		return "", nil
 	} else if err != nil {
@@ -144,7 +144,7 @@ func (user User) GetPref(key string) (string, error) {
 }
 
 func (user User) GetPrefs() (map[string]string, error) {
-	val, err := redis.StringMap(user.redis.Do("HGETALL", fmt.Sprintf("prefs:%s", user.id)))
+	val, err := redis.StringMap(user.redis.Do("HGETALL", fmt.Sprintf("prefs:%s", user.Id)))
 	if err == redis.ErrNil {
 		return map[string]string{}, nil
 	} else if err != nil {
@@ -154,7 +154,7 @@ func (user User) GetPrefs() (map[string]string, error) {
 }
 
 func (user User) GetSiteLinks() (map[string]int, error) {
-	val, err := redis.IntMap(user.redis.Do("HGETALL", fmt.Sprintf("sites:%s", user.id)))
+	val, err := redis.IntMap(user.redis.Do("HGETALL", fmt.Sprintf("sites:%s", user.Id)))
 	empty := map[string]int{}
 	if err == redis.ErrNil {
 		return empty, nil
@@ -165,17 +165,17 @@ func (user User) GetSiteLinks() (map[string]int, error) {
 }
 
 func (user User) SetPref(key string, value string) error {
-	_, err := user.redis.Do("HSET", fmt.Sprintf("prefs:%s", user.id), key, value)
+	_, err := user.redis.Do("HSET", fmt.Sprintf("prefs:%s", user.Id), key, value)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (user User) NewSite(id string) Site {
-	return Site{redis: user.redis, userId: user.id, id: id}
+func (user User) NewSite(Id string) Site {
+	return Site{redis: user.redis, userId: user.Id, id: Id}
 }
 
 func (user User) IncrSiteLink(siteId string) {
-	user.redis.Send("HINCRBY", fmt.Sprintf("sites:%s", user.id), siteId, 1)
+	user.redis.Send("HINCRBY", fmt.Sprintf("sites:%s", user.Id), siteId, 1)
 }

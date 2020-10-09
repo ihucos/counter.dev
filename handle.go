@@ -2,11 +2,56 @@ package main
 
 import (
 	"./models"
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"path/filepath"
-	"fmt"
-	"encoding/json"
 )
+
+//{
+//
+//sites: {
+//    {
+//      "example.com":
+//        count: 56
+//        log: ["da"]
+//        visits: {
+//          day: {}
+//          month: {}
+//          year: {}
+//          all: {}
+//        }
+//    }
+//}
+//user: {
+//    id: "adsf"
+//    token: "asdf",
+//    prefs: {
+//      range: "da",
+//      site: "du",
+//    }
+//}
+//
+//}
+
+type UserDump struct {
+	Id    string            `json:"id"`
+	Token string            `json:"token"`
+	Prefs map[string]string `json:"prefs"`
+}
+
+type SitesDumpVal struct {
+	Count  int                `json:"sites"`
+	Logs   models.LogData     `json:"logs"`
+	Visits models.TimedVisits `json:"visits"`
+}
+
+type SitesDump map[string]SitesDumpVal
+
+type Dump struct {
+	Sites SitesDump `json:"sites"`
+	User  UserDump  `json:"user"`
+}
 
 func (ctx Ctx) handleLogin() {
 	userId := ctx.r.FormValue("user")
@@ -110,16 +155,16 @@ func (ctx Ctx) handlePing() {
 }
 
 func (ctx Ctx) handleLoadComponentsJS() {
-        files1, err := filepath.Glob("./static/comp/*.js")
-        ctx.CatchError(err)
-        files2, err := filepath.Glob("./static/comp/*/*.js")
-        ctx.CatchError(err)
-        files3, err := filepath.Glob("./static/comp/*/*/*.js")
-        ctx.CatchError(err)
-        files := append(append(files1, files2...), files3...)
-        filesJson, err := json.Marshal(files)
-        ctx.CatchError(err)
-        ctx.Return(fmt.Sprintf(`
+	files1, err := filepath.Glob("./static/comp/*.js")
+	ctx.CatchError(err)
+	files2, err := filepath.Glob("./static/comp/*/*.js")
+	ctx.CatchError(err)
+	files3, err := filepath.Glob("./static/comp/*/*/*.js")
+	ctx.CatchError(err)
+	files := append(append(files1, files2...), files3...)
+	filesJson, err := json.Marshal(files)
+	ctx.CatchError(err)
+	ctx.Return(fmt.Sprintf(`
         %s.sort().map(file => {
             let script = document.createElement("script");
             script.src = file.slice(7); script.async = false;
@@ -128,4 +173,36 @@ func (ctx Ctx) handleLoadComponentsJS() {
 
 func (ctx Ctx) handleUser() {
 	ctx.ReturnUser()
+}
+
+func (ctx Ctx) handleDump() {
+	user := ctx.ForceUser()
+
+	prefsData, err := user.GetPrefs()
+	ctx.CatchError(err)
+
+	token, err := user.ReadToken()
+	ctx.CatchError(err)
+
+	sitesLink, err := user.GetSiteLinks()
+	ctx.CatchError(err)
+
+
+        sitesDump := make(SitesDump)
+        for siteId, count := range sitesLink {
+            site := user.NewSite(siteId)
+            logs, err := site.GetLogs()
+            ctx.CatchError(err)
+            visits, err := site.GetVisits(ctx.ParseUTCOffset("utcoffset"))
+            ctx.CatchError(err)
+            sitesDump[siteId] = SitesDumpVal{
+                Logs: logs,
+                Visits: visits,
+                Count: count,
+            }
+        }
+
+	userDump := UserDump{Id: user.Id, Token: token, Prefs: prefsData}
+        dump := Dump{User: userDump, Sites: sitesDump}
+	ctx.ReturnJSON(dump, 200)
 }
