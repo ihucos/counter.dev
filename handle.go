@@ -180,10 +180,11 @@ func (ctx Ctx) handleDump() {
 	user := ctx.ForceUser()
 	defer user.Close()
 
-	if ctx.r.FormValue("block") != "" {
-            user.WaitForSignal()
-        }
+	//if ctx.r.FormValue("block") != "" {
+        //    user.WaitForSignal()
+        //}
 
+        for {
 	prefsData, err := user.GetPrefs()
 	ctx.CatchError(err)
 
@@ -209,5 +210,12 @@ func (ctx Ctx) handleDump() {
 
 	userDump := UserDump{Id: user.Id, Token: token, Prefs: prefsData}
 	dump := Dump{User: userDump, Sites: sitesDump}
-	ctx.ReturnJSON(dump, 200)
+	jsonString, err := json.Marshal(dump)
+	ctx.CatchError(err)
+        fmt.Fprintf(ctx.w, "%s\n", string(jsonString))
+if f, ok := ctx.w.(http.Flusher); ok { 
+f.Flush() 
+}
+        user.WaitForSignal()
+        }
 }
