@@ -174,6 +174,11 @@ function connectData(tag, getData){
     })
 }
 
-maintainDump()
+setTimeout(()=>{ // only needed because of selectors, stays here only to continue developint sth
+
 
 connectData("comp-chart-alldays", (dump, cursite) => dump.sites[cursite].visits.all.date)
+
+maintainDump()
+
+}, 500)
