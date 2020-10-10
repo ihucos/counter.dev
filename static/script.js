@@ -157,11 +157,13 @@ function onTimeRangeChanged() {
     data = timedData[range]
     draw()
     fetch("/setPrefRange?" + encodeURIComponent(range))
+    triggerRedraw()
 }
 
 function onSiteChanged() {
     fetch("/setPrefSite?" + encodeURIComponent(getSelectedSite()))
     getDataAndUpdate()
+    triggerRedraw()
 }
 
 function download(filename, text) {
