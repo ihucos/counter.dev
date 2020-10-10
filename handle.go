@@ -184,6 +184,8 @@ func (ctx Ctx) handleDump() {
         //    user.WaitForSignal()
         //}
 
+        // XXXXXXXXXXXXXXXXxx use EventSource ?
+
         for {
 	prefsData, err := user.GetPrefs()
 	ctx.CatchError(err)
