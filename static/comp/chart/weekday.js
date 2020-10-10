@@ -1,7 +1,6 @@
 
 customElements.define(tagName(),
     class extends BaseGraph {
-        consumes = ["weekday"]
 
         getChart(entries){
 

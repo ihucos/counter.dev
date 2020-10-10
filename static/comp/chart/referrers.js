@@ -1,17 +1,14 @@
 
 customElements.define(tagName(),
     class extends BaseGraph {
-        consumes = ["ref"]
 
-
-        getChart(refentries) {
-
+        getChart(refentries, dates) {
             var colors = [palette[2], palette[1], palette[0]]
             var otherColor = palette[3]
             var directColor = 'rgba(0,0,0,0.12)'
 
             var topRefs = dGroupData(refentries, 3)
-            var total = sum(Object.values(data.date)) ///////////// GLOBAL DATA REF
+            var total = sum(Object.values(dates))
             var ref = sum(Object.values(refentries))
             var direct = total - ref
             topRefs["Direct"] = direct

@@ -1,11 +1,10 @@
 customElements.define(tagName(),
     class extends BaseGraph {
-        consumes = []
-        getChart() {
+        getChart(dates) {
 
             var date_keys;
             var date_vals;
-            [date_keys, date_vals] = dGetNormalizedDateData(timedData.all.date) // GLOBAL STATE
+            [date_keys, date_vals] = dGetNormalizedDateData(dates)
 
             var num = 7
             return {

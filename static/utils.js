@@ -169,16 +169,28 @@ function connectData(tag, getData) {
         var data = getData(dump, getSelectedSite(), getSelectedTimeRange())
         Array.from(document.querySelectorAll(tag)).map(el => {
             customElements.upgrade(el)
-            el.draw(data)
+            el.draw(...data)
         })
 
     })
 }
 
+function k(key){
+    return (dump, cursite, curtime) => [dump.sites[cursite].visits[curtime][key]]
+}
+
 setTimeout(() => { // only needed because of selectors, stays here only to continue developint sth
 
 
-    connectData("comp-chart-alldays", (dump, cursite) => dump.sites[cursite].visits.all.date)
+    connectData("comp-chart-alldays", (dump, cursite) => [dump.sites[cursite].visits.all.date])
+    connectData("comp-chart-lastdays", (dump, cursite) => [dump.sites[cursite].visits.all.date])
+    connectData("comp-chart-browser",   k("browser"))
+    connectData("comp-chart-platform",  k("platform"))
+    connectData("comp-chart-referrers", (dump, cursite, curtime) => [dump.sites[cursite].visits[curtime]["ref"], dump.sites[cursite].visits[curtime]["date"]])
+    connectData("comp-chart-device",    k("device"))
+    connectData("comp-chart-hour", k("hour"))
+    connectData("comp-chart-time", k("hour"))
+    connectData("comp-chart-weekday", k("weekday"))
 
     maintainDump()
 
