@@ -175,8 +175,8 @@ function connectData(tag, getData) {
     })
 }
 
-function k(key){
-    return (dump, cursite, curtime) => [dump.sites[cursite].visits[curtime][key]]
+function k(...keys){
+    return (dump, cursite, curtime) => keys.map(key => dump.sites[cursite].visits[curtime][key])
 }
 
 setTimeout(() => { // only needed because of selectors, stays here only to continue developint sth
@@ -186,7 +186,7 @@ setTimeout(() => { // only needed because of selectors, stays here only to conti
     connectData("comp-chart-lastdays", (dump, cursite) => [dump.sites[cursite].visits.all.date])
     connectData("comp-chart-browser",   k("browser"))
     connectData("comp-chart-platform",  k("platform"))
-    connectData("comp-chart-referrers", (dump, cursite, curtime) => [dump.sites[cursite].visits[curtime]["ref"], dump.sites[cursite].visits[curtime]["date"]])
+    connectData("comp-chart-referrers", k("ref", "date"))
     connectData("comp-chart-device",    k("device"))
     connectData("comp-chart-hour", k("hour"))
     connectData("comp-chart-time", k("hour"))
