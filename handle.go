@@ -41,7 +41,7 @@ type UserDump struct {
 }
 
 type SitesDumpVal struct {
-	Count  int                `json:"sites"`
+	Count  int                `json:"count"`
 	Logs   models.LogData     `json:"logs"`
 	Visits models.TimedVisits `json:"visits"`
 }
@@ -220,10 +220,8 @@ func (ctx Ctx) handleDump() {
 	defer user.Close()
 
 	f, ok := ctx.w.(http.Flusher)
-	if ok {
-		fmt.Println("flush ok")
-	} else {
-		panic("not ok")
+	if !ok {
+		panic("Flush not supported by library")
 	}
 
 	ctx.w.Header().Set("Content-Type", "text/event-stream")
@@ -234,7 +232,7 @@ func (ctx Ctx) handleDump() {
 		ctx.CatchError(err)
 		jsonString, err := json.Marshal(dump)
 		ctx.CatchError(err)
-		fmt.Fprintf(ctx.w, "message: %s\n\n", string(jsonString))
+		fmt.Fprintf(ctx.w, "data: %s\n\n", string(jsonString))
 		f.Flush()
 		user.WaitForSignal()
 
