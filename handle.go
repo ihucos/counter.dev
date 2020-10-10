@@ -225,10 +225,11 @@ func (ctx Ctx) handleDump() {
 		panic("Flush not supported by library")
 	}
 
-	user := ctx.ForceUser()
-	defer user.Close()
+	utcOffset := ctx.ParseUTCOffset("utcoffset")
         sendDump := func(){
-		dump, err := LoadDump(user, ctx.ParseUTCOffset("utcoffset"))
+	        user := ctx.ForceUser()
+	        defer user.Close()
+		dump, err := LoadDump(user, utcOffset)
 		ctx.CatchError(err)
 		jsonString, err := json.Marshal(dump)
 		ctx.CatchError(err)
