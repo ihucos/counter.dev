@@ -216,25 +216,31 @@ func (ctx Ctx) handleUser() {
 
 func (ctx Ctx) handleDump() {
 
-	user := ctx.ForceUser()
-	defer user.Close()
+	ctx.w.Header().Set("Content-Type", "text/event-stream")
+	ctx.w.Header().Set("Cache-Control", "no-cache")
+	ctx.w.Header().Set("Connection", "keep-alive")
 
 	f, ok := ctx.w.(http.Flusher)
 	if !ok {
 		panic("Flush not supported by library")
 	}
 
-	ctx.w.Header().Set("Content-Type", "text/event-stream")
-	ctx.w.Header().Set("Cache-Control", "no-cache")
-	ctx.w.Header().Set("Connection", "keep-alive")
-	for {
+	user := ctx.ForceUser()
+	defer user.Close()
+        sendDump := func(){
 		dump, err := LoadDump(user, ctx.ParseUTCOffset("utcoffset"))
 		ctx.CatchError(err)
 		jsonString, err := json.Marshal(dump)
 		ctx.CatchError(err)
 		fmt.Fprintf(ctx.w, "data: %s\n\n", string(jsonString))
 		f.Flush()
-		user.WaitForSignal()
+        }
 
-	}
+        sendDump()
+        signalUser := ctx.ForceUser()
+        defer signalUser.Close()
+	signalUser.HandleSignals(func(err error) {
+                ctx.CatchError(err)
+                sendDump()
+	})
 }

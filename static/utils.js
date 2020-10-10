@@ -155,6 +155,7 @@ function onRedraw(cb){
 function maintainDump(){
     var source = new EventSource("/dump");
     source.onmessage = event => {
+      alert(event.data)
       window.dump = JSON.parse(event.data)
     }; 
 }
