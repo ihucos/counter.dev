@@ -97,7 +97,7 @@ func (user User) Create(password string) error {
 
 	user.redis.Send("MULTI")
 	user.redis.Send("HSETNX", "users", user.id, hash(password))
-	user.redis.Send("HSETNX", "tokens", user.id, randToken()[:24])
+	user.redis.Send("HSETNX", "tokens", user.id, randToken()[:12])
 	userVarsStatus, err := redis.Ints(user.redis.Do("EXEC"))
 	if err != nil {
 		return err
