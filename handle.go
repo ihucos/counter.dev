@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"net/http"
 	"path/filepath"
-	"time"
 )
 
 //{
@@ -52,6 +51,44 @@ type SitesDump map[string]SitesDumpVal
 type Dump struct {
 	Sites SitesDump `json:"sites"`
 	User  UserDump  `json:"user"`
+}
+
+func LoadDump(user models.User, utcOffset int) (Dump, error) {
+	prefsData, err := user.GetPrefs()
+	if err != nil {
+		return Dump{}, err
+	}
+
+	token, err := user.ReadToken()
+	if err != nil {
+		return Dump{}, err
+	}
+
+	sitesLink, err := user.GetSiteLinks()
+	if err != nil {
+		return Dump{}, err
+	}
+
+	sitesDump := make(SitesDump)
+	for siteId, count := range sitesLink {
+		site := user.NewSite(siteId)
+		logs, err := site.GetLogs()
+		if err != nil {
+			return Dump{}, err
+		}
+		visits, err := site.GetVisits(utcOffset)
+		if err != nil {
+			return Dump{}, err
+		}
+		sitesDump[siteId] = SitesDumpVal{
+			Logs:   logs,
+			Visits: visits,
+			Count:  count,
+		}
+	}
+
+	userDump := UserDump{Id: user.Id, Token: token, Prefs: prefsData}
+	return Dump{User: userDump, Sites: sitesDump}, nil
 }
 
 func (ctx Ctx) handleLogin() {
@@ -178,64 +215,28 @@ func (ctx Ctx) handleUser() {
 }
 
 func (ctx Ctx) handleDump() {
+
 	user := ctx.ForceUser()
 	defer user.Close()
 
-	ctx.w.Header().Set("Content-Type", "text/event-stream")
-	ctx.w.Header().Set("Cache-Control", "no-cache")
-	//ctx.w.Header().Set("Connection", "keep-alive")
-
-        for i := 1; i < 4; i++ {
-		fmt.Fprintf(ctx.w, "da\n\n")
-
-		if f, ok := ctx.w.(http.Flusher); ok {
-			f.Flush()
-		}
-
-		time.Sleep(1 * time.Second)
+	f, ok := ctx.w.(http.Flusher)
+	if ok {
+		fmt.Println("flush ok")
+	} else {
+		panic("not ok")
 	}
 
-	//if ctx.r.FormValue("block") != "" {
-	//    user.WaitForSignal()
-	//}
+	ctx.w.Header().Set("Content-Type", "text/event-stream")
+	ctx.w.Header().Set("Cache-Control", "no-cache")
+	ctx.w.Header().Set("Connection", "keep-alive")
+	for {
+		dump, err := LoadDump(user, ctx.ParseUTCOffset("utcoffset"))
+		ctx.CatchError(err)
+		jsonString, err := json.Marshal(dump)
+		ctx.CatchError(err)
+		fmt.Fprintf(ctx.w, "message: %s\n\n", string(jsonString))
+		f.Flush()
+		user.WaitForSignal()
 
-	// XXXXXXXXXXXXXXXXxx use EventSource ?
-
-	//        for {
-	//	prefsData, err := user.GetPrefs()
-	//	ctx.CatchError(err)
-	//
-	//	token, err := user.ReadToken()
-	//	ctx.CatchError(err)
-	//
-	//	sitesLink, err := user.GetSiteLinks()
-	//	ctx.CatchError(err)
-	//
-	//	sitesDump := make(SitesDump)
-	//	for siteId, count := range sitesLink {
-	//		site := user.NewSite(siteId)
-	//		logs, err := site.GetLogs()
-	//		ctx.CatchError(err)
-	//		visits, err := site.GetVisits(ctx.ParseUTCOffset("utcoffset"))
-	//		ctx.CatchError(err)
-	//		sitesDump[siteId] = SitesDumpVal{
-	//			Logs:   logs,
-	//			Visits: visits,
-	//			Count:  count,
-	//		}
-	//	}
-	//
-	//	userDump := UserDump{Id: user.Id, Token: token, Prefs: prefsData}
-	//	dump := Dump{User: userDump, Sites: sitesDump}
-	//	jsonString, err := json.Marshal(dump)
-	//	ctx.CatchError(err)
-	//        fmt.Fprintf(ctx.w, "%s\n", string(jsonString))
-	//if f, ok := ctx.w.(http.Flusher); ok {
-	//f.Flush()
-	//}
-	//        user.WaitForSignal()
-	//
-	//        fmt.Fprintf(ctx.w, "\n\n")
-	//
-	//        }
+	}
 }

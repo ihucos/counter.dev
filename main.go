@@ -9,7 +9,6 @@ import (
 
 	"./config"
 	"./models"
-	"github.com/NYTimes/gziphandler"
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
 	"log"
@@ -58,10 +57,6 @@ func (app *App) Connect(path string, f func(Ctx)) {
 	app.ServeMux.Handle(path, app.CtxHandlerToHandler(f))
 }
 
-func (app *App) ConnectGzip(path string, f func(Ctx)) {
-	app.ServeMux.Handle(path, gziphandler.GzipHandler(app.CtxHandlerToHandler(f)))
-}
-
 func (app *App) SetupUrls() {
 	app.Connect("/login", func(ctx Ctx) { ctx.handleLogin() })
 	app.Connect("/logout", func(ctx Ctx) { ctx.handleLogout() })
@@ -71,7 +66,7 @@ func (app *App) SetupUrls() {
 	app.Connect("/setPrefSite", func(ctx Ctx) { ctx.handleSetPrefSite() })
 	app.Connect("/track", func(ctx Ctx) { ctx.handleTrack() })
 	app.Connect("/user", func(ctx Ctx) { ctx.handleUser() })
-	app.ConnectGzip("/dump", func(ctx Ctx) { ctx.handleDump() })
+	app.Connect("/dump", func(ctx Ctx) { ctx.handleDump() })
 	app.Connect("/loadComponents.js", func(ctx Ctx) { ctx.handleLoadComponentsJS() })
 }
 
