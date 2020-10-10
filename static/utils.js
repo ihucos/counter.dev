@@ -155,10 +155,25 @@ function onRedraw(cb){
 function maintainDump(){
     var source = new EventSource("/dump");
     source.onmessage = event => {
-      alert(event.data)
       window.dump = JSON.parse(event.data)
+      triggerRedraw()
     }; 
 }
 
 
+//onRedraw()
+
+function connectData(tag, getData){
+    onRedraw(()=>{
+        var data = getData(dump, getSelectedSite(), getSelectedTimeRange())
+	    Array.from(document.querySelectorAll(tag)).map(el => {
+                customElements.upgrade(el)
+                el.draw(data)
+            })
+    
+    })
+}
+
 maintainDump()
+
+connectData("comp-chart-alldays", (dump, cursite) => dump.sites[cursite].visits.all.date)
