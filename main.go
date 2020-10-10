@@ -71,7 +71,7 @@ func (app *App) SetupUrls() {
 	app.Connect("/setPrefSite", func(ctx Ctx) { ctx.handleSetPrefSite() })
 	app.Connect("/track", func(ctx Ctx) { ctx.handleTrack() })
 	app.Connect("/user", func(ctx Ctx) { ctx.handleUser() })
-	app.ConnectGzip("/dump", func(ctx Ctx) { ctx.handleDump()})
+	app.ConnectGzip("/dump", func(ctx Ctx) { ctx.handleDump() })
 	app.Connect("/loadComponents.js", func(ctx Ctx) { ctx.handleLoadComponentsJS() })
 }
 

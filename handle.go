@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"path/filepath"
+	"time"
 )
 
 //{
@@ -155,7 +156,7 @@ func (ctx Ctx) handlePing() {
 }
 
 func (ctx Ctx) handleLoadComponentsJS() {
-        // SEND HEADERS FOR CLOUDFROM HTTP PUSH AND TEST THAT
+	// SEND HEADERS FOR CLOUDFROM HTTP PUSH AND TEST THAT
 	files1, err := filepath.Glob("./static/comp/*.js")
 	ctx.CatchError(err)
 	files2, err := filepath.Glob("./static/comp/*/*.js")
@@ -180,44 +181,61 @@ func (ctx Ctx) handleDump() {
 	user := ctx.ForceUser()
 	defer user.Close()
 
-	//if ctx.r.FormValue("block") != "" {
-        //    user.WaitForSignal()
-        //}
+	ctx.w.Header().Set("Content-Type", "text/event-stream")
+	ctx.w.Header().Set("Cache-Control", "no-cache")
+	//ctx.w.Header().Set("Connection", "keep-alive")
 
-        // XXXXXXXXXXXXXXXXxx use EventSource ?
+        for i := 1; i < 4; i++ {
+		fmt.Fprintf(ctx.w, "da\n\n")
 
-        for {
-	prefsData, err := user.GetPrefs()
-	ctx.CatchError(err)
-
-	token, err := user.ReadToken()
-	ctx.CatchError(err)
-
-	sitesLink, err := user.GetSiteLinks()
-	ctx.CatchError(err)
-
-	sitesDump := make(SitesDump)
-	for siteId, count := range sitesLink {
-		site := user.NewSite(siteId)
-		logs, err := site.GetLogs()
-		ctx.CatchError(err)
-		visits, err := site.GetVisits(ctx.ParseUTCOffset("utcoffset"))
-		ctx.CatchError(err)
-		sitesDump[siteId] = SitesDumpVal{
-			Logs:   logs,
-			Visits: visits,
-			Count:  count,
+		if f, ok := ctx.w.(http.Flusher); ok {
+			f.Flush()
 		}
+
+		time.Sleep(1 * time.Second)
 	}
 
-	userDump := UserDump{Id: user.Id, Token: token, Prefs: prefsData}
-	dump := Dump{User: userDump, Sites: sitesDump}
-	jsonString, err := json.Marshal(dump)
-	ctx.CatchError(err)
-        fmt.Fprintf(ctx.w, "%s\n", string(jsonString))
-if f, ok := ctx.w.(http.Flusher); ok { 
-f.Flush() 
-}
-        user.WaitForSignal()
-        }
+	//if ctx.r.FormValue("block") != "" {
+	//    user.WaitForSignal()
+	//}
+
+	// XXXXXXXXXXXXXXXXxx use EventSource ?
+
+	//        for {
+	//	prefsData, err := user.GetPrefs()
+	//	ctx.CatchError(err)
+	//
+	//	token, err := user.ReadToken()
+	//	ctx.CatchError(err)
+	//
+	//	sitesLink, err := user.GetSiteLinks()
+	//	ctx.CatchError(err)
+	//
+	//	sitesDump := make(SitesDump)
+	//	for siteId, count := range sitesLink {
+	//		site := user.NewSite(siteId)
+	//		logs, err := site.GetLogs()
+	//		ctx.CatchError(err)
+	//		visits, err := site.GetVisits(ctx.ParseUTCOffset("utcoffset"))
+	//		ctx.CatchError(err)
+	//		sitesDump[siteId] = SitesDumpVal{
+	//			Logs:   logs,
+	//			Visits: visits,
+	//			Count:  count,
+	//		}
+	//	}
+	//
+	//	userDump := UserDump{Id: user.Id, Token: token, Prefs: prefsData}
+	//	dump := Dump{User: userDump, Sites: sitesDump}
+	//	jsonString, err := json.Marshal(dump)
+	//	ctx.CatchError(err)
+	//        fmt.Fprintf(ctx.w, "%s\n", string(jsonString))
+	//if f, ok := ctx.w.(http.Flusher); ok {
+	//f.Flush()
+	//}
+	//        user.WaitForSignal()
+	//
+	//        fmt.Fprintf(ctx.w, "\n\n")
+	//
+	//        }
 }
