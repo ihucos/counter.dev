@@ -175,22 +175,41 @@ function connectData(tag, getData) {
     })
 }
 
-function k(...keys){
-    return (dump, cursite, curtime) => keys.map(key => dump.sites[cursite].visits[curtime][key])
+function k(...keys) {
+    return (dump, cursite, curtime) => keys.map(
+    	key => dump.sites[cursite].visits[curtime][key])
 }
 
 setTimeout(() => { // only needed because of selectors, stays here only to continue developint sth
 
 
+    //
+    // charts
+    //
     connectData("comp-chart-alldays", (dump, cursite) => [dump.sites[cursite].visits.all.date])
     connectData("comp-chart-lastdays", (dump, cursite) => [dump.sites[cursite].visits.all.date])
-    connectData("comp-chart-browser",   k("browser"))
-    connectData("comp-chart-platform",  k("platform"))
+    connectData("comp-chart-browser", k("browser"))
+    connectData("comp-chart-platform", k("platform"))
     connectData("comp-chart-referrers", k("ref", "date"))
-    connectData("comp-chart-device",    k("device"))
+    connectData("comp-chart-device", k("device"))
     connectData("comp-chart-hour", k("hour"))
     connectData("comp-chart-time", k("hour"))
     connectData("comp-chart-weekday", k("weekday"))
+
+    //
+    // tables
+    //
+    connectData("comp-table-countries", k("country"))
+    connectData("comp-table-languages", k("lang"))
+    connectData("comp-table-locations", k("loc"))
+    connectData("comp-table-referrals", k("ref"))
+    connectData("comp-table-screens", k("screen"))
+    connectData("comp-table-visits", (dump, cursite) => [dump.sites[cursite].logs])
+
+    //
+    // Others
+    //
+    connectData("comp-map", k("country"))
 
     maintainDump()
 

@@ -72,19 +72,6 @@ function draw() {
     document.getElementById("share-account").style.display = "block" // hacky
 
 
-    Array.from(document.querySelectorAll(getGeneratedTagNames().join(','))).map(el => {
-        if (el.consumes) {
-
-            // very britle hack, refactor this away
-            if (el.consumes[0] === 'log') {
-                el.draw(logData)
-            } else {
-                el.draw(...el.consumes.map(key => data[key]))
-            }
-        }
-    })
-
-
     drawUTCOffsetVar()
     drawTitle(user)
 

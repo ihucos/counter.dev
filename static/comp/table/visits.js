@@ -1,7 +1,6 @@
 customElements.define(tagName(),
         class extends HTMLElement {
 
-            consumes = ['log']
             constructor() {
                 super()
                 this.attachShadow({

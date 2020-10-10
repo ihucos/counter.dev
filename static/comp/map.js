@@ -1,9 +1,6 @@
 customElements.define(tagName(),
     class extends HTMLElement {
 
-        consumes = ['country']
-
-
         draw(countries) {
             this.innerHTML = "<div><h5>World map</h5></div>"
             var el = this.children[0]
