@@ -1,8 +1,6 @@
-
-
-
 _tagNames = []
-function tagName(){
+
+function tagName() {
     var tagName = new URL(document.currentScript.src).pathname
         .slice(1, -3)
         .replaceAll('/', '-');
@@ -10,8 +8,8 @@ function tagName(){
     return tagName
 }
 
-function getGeneratedTagNames(){
-   return _tagNames
+function getGeneratedTagNames() {
+    return _tagNames
 }
 
 function emptyIfSumZero(arr) {
@@ -115,7 +113,8 @@ function dGetNormalizedDateData(dates) {
 
 
     var max = getUTCMinusElevenNow().toISOString().substring(0, 10)
-    var date_data = {...daysRange(min, max),
+    var date_data = {
+        ...daysRange(min, max),
         ...dates
     }
 
@@ -143,42 +142,44 @@ function dGroupData(entries, cutAt) {
 }
 
 
-function triggerRedraw(){
+function triggerRedraw() {
     document.dispatchEvent(new Event("redraw"))
 }
 
 
-function onRedraw(cb){
-  document.addEventListener("redraw", function(event){cb()});
+function onRedraw(cb) {
+    document.addEventListener("redraw", function(event) {
+        cb()
+    });
 }
 
-function maintainDump(){
+function maintainDump() {
     var source = new EventSource("/dump");
     source.onmessage = event => {
-      window.dump = JSON.parse(event.data)
-      triggerRedraw()
-    }; 
+        window.dump = JSON.parse(event.data)
+        triggerRedraw()
+    };
 }
 
 
 //onRedraw()
 
-function connectData(tag, getData){
-    onRedraw(()=>{
+function connectData(tag, getData) {
+    onRedraw(() => {
         var data = getData(dump, getSelectedSite(), getSelectedTimeRange())
-	    Array.from(document.querySelectorAll(tag)).map(el => {
-                customElements.upgrade(el)
-                el.draw(data)
-            })
-    
+        Array.from(document.querySelectorAll(tag)).map(el => {
+            customElements.upgrade(el)
+            el.draw(data)
+        })
+
     })
 }
 
-setTimeout(()=>{ // only needed because of selectors, stays here only to continue developint sth
+setTimeout(() => { // only needed because of selectors, stays here only to continue developint sth
 
 
-connectData("comp-chart-alldays", (dump, cursite) => dump.sites[cursite].visits.all.date)
+    connectData("comp-chart-alldays", (dump, cursite) => dump.sites[cursite].visits.all.date)
 
-maintainDump()
+    maintainDump()
 
 }, 500)
