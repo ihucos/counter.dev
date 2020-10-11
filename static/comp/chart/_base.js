@@ -1,4 +1,13 @@
 class BaseGraph extends HTMLElement {
+
+    palette = [
+        "#1e87f0",
+        "hsl(28, 45%, 50%)",
+        "hsl(118, 45%, 50%)",
+        "hsl(298, 35%, 60%)",
+    ]
+
+
     makeGradient(alpha1, alpha2) {
         alpha1 = (typeof alpha1 !== 'undefined') ? alpha1 : 0.6;
         alpha2 = (typeof alpha2 !== 'undefined') ? alpha2 : 1;
@@ -46,7 +55,7 @@ class BasePie extends BaseGraph {
                     borderWidth: pieBorderWidth,
                     borderColor: pieBorderColor,
                     data: list.map(x => x[1]),
-                    backgroundColor: palette,
+                    backgroundColor: this.palette,
                 }, ],
             },
             options: {

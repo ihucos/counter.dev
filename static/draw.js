@@ -1,13 +1,3 @@
-orange = "#1e87f0"
-
-palette = [
-    orange,
-    "hsl(28, 45%, 50%)",
-    "hsl(118, 45%, 50%)",
-    "hsl(298, 35%, 60%)",
-
-
-]
 
 // I don't completely get this one, but it is quite important
 Chart.defaults.global.maintainAspectRatio = false

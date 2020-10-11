@@ -3,8 +3,8 @@ customElements.define(tagName(),
     class extends BaseGraph {
 
         getChart(refentries, dates) {
-            var colors = [palette[2], palette[1], palette[0]]
-            var otherColor = palette[3]
+            var colors = [this.palette[2], this.palette[1], this.palette[0]]
+            var otherColor = this.palette[3]
             var directColor = 'rgba(0,0,0,0.12)'
 
             var topRefs = dGroupData(refentries, 3)
