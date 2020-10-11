@@ -35,7 +35,6 @@ function postUserAction(endpoint, body, success, fail) {
         if (typeof arg === 'string' || arg instanceof String) {
             fail(arg)
         } else {
-            handleUserData(arg)
             success()
         }
     })
@@ -73,68 +72,6 @@ function login() {
 }
 
 
-function handleUserData(resp) {
-    prefOption = document.querySelector("select#time-range option[value=" + resp.prefs.range + "]")
-    if (prefOption !== null) {
-        prefOption.selected = true
-    }
-
-    prefOption = document.querySelector("select#site-selector option[value=\"" + resp.prefs.site + "\"]")
-    if (prefOption !== null) {
-        prefOption.selected = true
-    }
-
-    metaData = resp.meta // metaData is global
-    user = resp.meta.user // user is global
-    handleSiteLinksData(resp.site_links, resp.prefs.site)
-}
-
-
-function handleDataResp(resp) {
-    handleSiteLinksData(resp.site_links)
-    if (JSON.stringify(resp.visits) !== JSON.stringify(window.timedData || {})) {
-        timedData = resp.visits // timedData is global
-        data = timedData[getSelectedTimeRange()] // data is global
-        logData = resp.logs // logData is global
-        console.log("new data")
-        console.log(timedData)
-        if (!(Object.keys(resp.site_links).length === 0 && resp.site_links.constructor === Object)) {
-            draw()
-        }
-    }
-
-}
-
-function handleSiteLinksData(siteLinks, prefSite) {
-    if ((Object.keys(siteLinks).length === 0 && siteLinks.constructor === Object) && pageNow() !== 'page-setup') {
-        pageOnly("page-setup")
-    }
-    drawSiteSelector(siteLinks, getSelectedSite() || prefSite || "")
-}
-
-
-function getDataAndUpdate() {
-    fetch("/ping?" + (getSelectedSite() || "dummysite"), {
-        method: "GET",
-    }).then(resp => {
-        if (resp.status == 200) {
-            return resp.json()
-        } else if (resp.status == 403) {
-            if (pageNow() === "page-graphs") {
-                location.href = window.location.href.split('#')[0]
-            }
-            pageOnly("page-index")
-            return null
-        } else {
-            alert("Bad server status code: " + resp.status)
-            return null
-        }
-    }).then(resp => {
-        if (resp != null) {
-            handleDataResp(resp)
-        }
-    })
-}
 
 function demo() {
     pressLogin("counter", "demodemo")
@@ -153,16 +90,14 @@ function pressLogin(user, password) {
 
 function onTimeRangeChanged() {
     var range = getSelectedTimeRange()
-    data = timedData[range]
     draw()
     fetch("/setPrefRange?" + encodeURIComponent(range))
-    triggerRedraw()
+    document.dispatchEvent(new Event("redraw"))
 }
 
 function onSiteChanged() {
     fetch("/setPrefSite?" + encodeURIComponent(getSelectedSite()))
-    getDataAndUpdate()
-    triggerRedraw()
+    document.dispatchEvent(new Event("redraw"))
 }
 
 function download(filename, text) {
@@ -283,26 +218,16 @@ function getSelectedSite() {
     return document.getElementById("site-selector").value
 }
 
-function getDataAndUpdateAlways() {
-    getDataAndUpdate()
-    setInterval(function() {
-        if (pageNow() === "page-graphs" || pageNow() === "page-setup") {
-            getDataAndUpdate();
-        }
-    }, 5000);
-
-}
-
 function main() {
-    pageOnly("loading")
+    pageOnly("page-graphs")
     handleHash()
-    ifUser(userData => {
-            handleUserData(userData)
-            getDataAndUpdateAlways()
-        },
-        () => {
-            if (pageNow() === "loading") {
-                pageOnly("page-index")
-            }
-        })
+//    ifUser(userData => {
+//            handleUserData(userData)
+//            getDataAndUpdateAlways()
+//        },
+//        () => {
+//            if (pageNow() === "loading") {
+//                pageOnly("page-index")
+//            }
+//        })
 }

@@ -136,32 +136,24 @@ function dGroupData(entries, cutAt) {
 }
 
 
-function triggerRedraw() {
-    document.dispatchEvent(new Event("redraw"))
-}
-
-
-function onRedraw(cb) {
-    document.addEventListener("redraw", function(event) {
-        cb()
-    });
-}
-
+window.dump = undefined
 function maintainDump() {
     var source = new EventSource("/dump");
     source.onmessage = event => {
+        let lastDump = window.dump
         window.dump = JSON.parse(event.data)
-        triggerRedraw()
+        if (lastDump === undefined){
+       		init()
+        }
+       	document.dispatchEvent(new Event("redraw"))
     };
 }
 
 
-//onRedraw()
-
 function connectData(tag, getData) {
-    onRedraw(() => {
+    document.addEventListener("redraw", () => {
         var data = getData(dump, getSelectedSite(), getSelectedTimeRange())
-        Array.from(document.querySelectorAll(tag)).map(el => {
+        Array.from(document.getElementsByTagName(tag)).map(el => {
             customElements.upgrade(el)
             el.draw(...data)
         })
@@ -174,38 +166,50 @@ function k(...keys) {
     	key => dump.sites[cursite].visits[curtime][key])
 }
 
-setTimeout(() => { // only needed because of selectors, stays here only to continue developint sth
+function setupSelector(){
+	let el = document.getElementsByTagName('comp-selector')[0]
+        customElements.upgrade(el)
+        E = el
+        el.draw(Object.keys(dump.sites), dump.user.prefs)
+}
 
 
-    //
-    // charts
-    //
-    connectData("comp-chart-alldays", (dump, cursite) => [dump.sites[cursite].visits.all.date])
-    connectData("comp-chart-lastdays", (dump, cursite) => [dump.sites[cursite].visits.all.date])
-    connectData("comp-chart-browser", k("browser"))
-    connectData("comp-chart-platform", k("platform"))
-    connectData("comp-chart-referrers", k("ref", "date"))
-    connectData("comp-chart-device", k("device"))
-    connectData("comp-chart-hour", k("hour"))
-    connectData("comp-chart-time", k("hour"))
-    connectData("comp-chart-weekday", k("weekday"))
+function init() {
 
-    //
-    // tables
-    //
-    connectData("comp-table-countries", k("country"))
-    connectData("comp-table-languages", k("lang"))
-    connectData("comp-table-locations", k("loc"))
-    connectData("comp-table-referrals", k("ref"))
-    connectData("comp-table-screens", k("screen"))
-    connectData("comp-table-visits", (dump, cursite) => [dump.sites[cursite].logs])
+     	setupSelector()
 
-    //
-    // Others
-    //
-    connectData("comp-map", k("country"))
-    connectData("comp-uservar", dump => [dump.user])
+        //
+        // charts
+        //
+        connectData("comp-chart-alldays", (dump, cursite) => [dump.sites[cursite].visits.all.date])
+        connectData("comp-chart-lastdays", (dump, cursite) => [dump.sites[cursite].visits.all.date])
+        connectData("comp-chart-browser", k("browser"))
+        connectData("comp-chart-platform", k("platform"))
+        connectData("comp-chart-referrers", k("ref", "date"))
+        connectData("comp-chart-device", k("device"))
+        connectData("comp-chart-hour", k("hour"))
+        connectData("comp-chart-time", k("hour"))
+        connectData("comp-chart-weekday", k("weekday"))
+        
+        //
+        // tables
+        //
+        connectData("comp-table-countries", k("country"))
+        connectData("comp-table-languages", k("lang"))
+        connectData("comp-table-locations", k("loc"))
+        connectData("comp-table-referrals", k("ref"))
+        connectData("comp-table-screens", k("screen"))
+        connectData("comp-table-visits", (dump, cursite) => [dump.sites[cursite].logs])
+        
+        //
+        // Others
+        //
+        connectData("comp-map", k("country"))
+        connectData("comp-uservar", dump => [dump.user])
+        // connect selector!
+}
 
-    maintainDump()
 
-}, 500)
+setTimeout(() => {
+maintainDump()
+}, 500) // yeahh.. we need to all web components defintions to load ....

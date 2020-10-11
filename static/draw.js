@@ -47,18 +47,6 @@ function drawTitle(user) {
 
 
 
-
-
-function draw() {
-    console.log("redrawing")
-
-    pageOnly("page-graphs")
-    document.getElementById("share-account").style.display = "block" // hacky
-
-    drawTitle(user)
-
-}
-
 function drawSiteSelector(sitesHash, select) {
     var html = ""
     sites = Object.keys(sitesHash)
