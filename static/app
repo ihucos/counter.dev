@@ -16,7 +16,6 @@
       <script data-goatcounter="https://simple-web-analytics.goatcounter.com/count"
          async src="//gc.zgo.at/count.js"></script>
 
-     <script src="/utils.js"></script>
 
      <script src="loadComponents.js"></script>
 
@@ -178,15 +177,7 @@
                <p>This JavaScript snippset is responible for collecting user
                   statistics. It needs to be added to all html pages you want to track. For example inside the <span class="italic font-mono border bg-gray-100">&lt;head&gt;</span> section.
                </p>
-            <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; // counter.dev tracking code
-if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-    fetch("https://counter.dev/track?" + new URLSearchParams({
-        referrer: document.referrer,
-        screen: screen.width + "x" + screen.height,
-        user: "<comp-uservar key="id"></comp-uservar>",
-        utcoffset: <comp-utcoffset></comp-utcoffset>}));}
-sessionStorage.setItem("_swa", "1");
-&lt;/script&gt;</code></pre>
+            <comp-trackingcode></comp-trackingcode>
                      </div>
                   <h6 class="text-xl font-bold mt-12 mb-12">2. Visit a site with the included tacking code &nbsp;<img class="inline-block" style="width: 1em;" src="loading.gif"></img></h6>
                   </div>
@@ -285,16 +276,7 @@ sessionStorage.setItem("_swa", "1");
                   statistics. It needs to be added to all html pages you want to track. For example inside the <span class="italic font-mono border bg-gray-100">&lt;head&gt;</span> section.
                </p>
             </div>
-            <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>&lt;script&gt; // counter.dev tracking code
-if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-    fetch("https://counter.dev/track?" + new URLSearchParams({
-        referrer: document.referrer,
-        screen: screen.width + "x" + screen.height,
-        user: "<comp-uservar key="id"></comp-uservar>",
-        utcoffset: <comp-utcoffset></comp-utcoffset>}));}
-sessionStorage.setItem("_swa", "1");
-&lt;/script&gt;</code></pre>
-
+            <comp-trackingcode></comp-trackingcode>
             <div id="share-account" style="display: none;">
                <h5 class="text-xl mt-8">Share account</h5>
                <p class="mb-5">
@@ -308,10 +290,7 @@ sessionStorage.setItem("_swa", "1");
          </div>
       </section>
       <script src="script.js"></script>
-      <script src="draw.js"></script>
-      <script>
-         main()
-      </script>
+      <script src="/utils.js"></script>
 
       <script>
       if (window.location.hostname === "simple-web-analytics.com"){

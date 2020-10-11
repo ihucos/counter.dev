@@ -167,7 +167,7 @@ class StateMngr {
         _ready = new Set([]);
         _dump = null
 
-        customElementsReady(){ // this is the starting point
+        start(){
             this._requestSetup("user-auth")
         }
 
@@ -308,6 +308,7 @@ document.addEventListener('setup-user-auth', () => {
         }
     }).then(userData => {
         if (userData !== null) {
+            pageOnly("page-graphs")
             state.userReady()
         } else {
             pageOnly("page-index")
@@ -320,7 +321,8 @@ document.addEventListener('setup-user-auth', () => {
 setChartJSDefaults()
 
 state = new StateMngr()
-setTimeout(()=> state.customElementsReady(), 500) // remove fake!
+pageOnly("loading")
+state.start()
 
 
 
