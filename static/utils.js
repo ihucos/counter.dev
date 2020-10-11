@@ -1,15 +1,9 @@
-_tagNames = []
 
 function tagName() {
     var tagName = new URL(document.currentScript.src).pathname
         .slice(1, -3)
         .replaceAll('/', '-');
-    _tagNames.push(tagName)
     return tagName
-}
-
-function getGeneratedTagNames() {
-    return _tagNames
 }
 
 function emptyIfSumZero(arr) {
@@ -210,6 +204,7 @@ setTimeout(() => { // only needed because of selectors, stays here only to conti
     // Others
     //
     connectData("comp-map", k("country"))
+    connectData("comp-uservar", dump => [dump.user])
 
     maintainDump()
 

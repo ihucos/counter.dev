@@ -171,7 +171,7 @@
             <div class="flex-item w-full max-w-screen-md mx-auto">
                <div>
                   <div class="px-10 max-w-2xl">
-                     <h5 class="text-2xl my-5">Hello <span class="metavar_user">USERNAME</span>,</h5>
+                     <h5 class="text-2xl my-5">Hello <comp-uservar key="id"></comp-uservar>,</h5>
                      <div class="">
 
                <h6 class="text-xl font-bold mb-2">1. Tracking Code</h6>
@@ -183,7 +183,7 @@ if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protoc
     fetch("https://counter.dev/track?" + new URLSearchParams({
         referrer: document.referrer,
         screen: screen.width + "x" + screen.height,
-        user: "<span class="metavar_user">USERNAME</span>",
+        user: "<comp-uservar key="id"></comp-uservar>",
         utcoffset: <comp-utcoffset></comp-utcoffset>}));}
 sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
@@ -299,7 +299,7 @@ if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protoc
     fetch("https://counter.dev/track?" + new URLSearchParams({
         referrer: document.referrer,
         screen: screen.width + "x" + screen.height,
-        user: "<span class="metavar_user">USERNAME</span>",
+        user: "<comp-uservar key="id"></comp-uservar>",
         utcoffset: <comp-utcoffset></comp-utcoffset>}));}
 sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
@@ -309,7 +309,7 @@ sessionStorage.setItem("_swa", "1");
                <p class="mb-5">
                   You can share access to this account via the following link.
                </p>
-               <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>https://counter.dev/app#share,<span class="metavar_user">USERNAME</span>,<span class="metavar_token">TOKEN</span></code></pre>
+               <pre class="rounded mt-3 leading-normal text-xs bg-gray-100 text-gray-700 border py-1 pl-2 overflow-auto max-w-screen-md" ><code>https://counter.dev/app#share,<comp-uservar key="id"></comp-uservar>,<comp-uservar key="token"></comp-uservar></code></pre>
             </div>
             <div class="text-center mt-5">
                <a href="#" onclick="pageOff('overlay'); return false;" class="shadow-xs bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs font-bold py-2 px-4 rounded inline-flex items-center mr-1">Close</a>

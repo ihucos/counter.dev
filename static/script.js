@@ -87,7 +87,6 @@ function handleUserData(resp) {
     metaData = resp.meta // metaData is global
     user = resp.meta.user // user is global
     handleSiteLinksData(resp.site_links, resp.prefs.site)
-    drawMetaVars()
 }
 
 

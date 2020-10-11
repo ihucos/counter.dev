@@ -38,16 +38,6 @@ NO_DATA_FONT = Chart.defaults.global.defaultFontFamily
 NO_DATA_HTML = '<div style="font-size: ' + NO_DATA_FONT_SIZE + ';margin-top: 5em; text-align: center; font-style: ' + NO_DATA_FONT_STYLE + ';">' + NO_DATA_TEXT + '</div>'
 
 
-function drawMetaVars() {
-    var els, i
-    for (key in metaData) {
-        els = document.getElementsByClassName("metavar_" + key);
-        for (i = 0; i < els.length; i++) {
-            els[i].innerHTML = escapeHtml(metaData[key])
-        }
-    }
-}
-
 
 
 function drawTitle(user) {
