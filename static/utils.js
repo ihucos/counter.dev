@@ -237,7 +237,8 @@ document.addEventListener('setup-dump-loader', () => {
 document.addEventListener('setup-selector', () => {
 	let el = document.getElementsByTagName('comp-selector')[0]
         customElements.upgrade(el)
-        el.draw(Object.keys(state.getDump().sites), state.getDump().user.prefs)
+        var dump = state.getDump()
+        el.draw(Object.keys(dump.sites), dump.user.prefs.site, dump.user.prefs.range)
         state.selectorReady()
 })
 
