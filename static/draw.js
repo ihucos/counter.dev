@@ -40,30 +40,6 @@ NO_DATA_HTML = '<div style="font-size: ' + NO_DATA_FONT_SIZE + ';margin-top: 5em
 
 
 
-function drawTitle(user) {
-    document.title = "Counter Analytics for " + user
-}
-
-
-
-
-function drawSiteSelector(sitesHash, select) {
-    var html = ""
-    sites = Object.keys(sitesHash)
-    sites.sort()
-    for (let i in sites) {
-        var site = sites[i]
-        if (site === select) {
-            html += "<option selected=selected value='" + escapeHtml(site) + "'>" + escapeHtml(site) + "</option>"
-        } else {
-            html += "<option value='" + escapeHtml(site) + "'>" + escapeHtml(site) + "</option>"
-        }
-    }
-    document.getElementById("site-selector").innerHTML = html
-}
-
-
-
 Chart.plugins.register({
     afterDraw: function(chart) {
         if (chart.data.datasets[0].data.length === 0) {

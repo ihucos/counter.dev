@@ -146,7 +146,15 @@ class StateMngr {
         _dump = null
 
         customElementsReady(){ // this is the starting point
-                this._ready.add('custom-elements')
+            this._requestSetup("user-auth")
+        }
+
+	userAuthReady(){
+            this._ready.add('user-auth')
+        }
+
+	userReady(){
+            this._ready.add('user')
         	this._requestSetup("dump-loader")
         }
 
@@ -267,6 +275,24 @@ document.addEventListener('setup-redrawing', () => {
 })
 
 
+document.addEventListener('setup-user-auth', () => {
+    fetch("/user").then(resp => {
+        if (resp.status == 200) {
+            return resp.json()
+        } else if (resp.status == 403) {
+            return null
+        } else {
+            return "Bad server status code: " + resp.status
+        }
+    }).then(userData => {
+        if (userData !== null) {
+            state.userReady()
+        } else {
+            pageOnly("page-index")
+        }
+    })
+    state.userAuthReady()
+})
 
 
 

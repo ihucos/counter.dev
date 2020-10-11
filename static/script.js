@@ -48,7 +48,8 @@ function register() {
     var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
     pageOnly("loading")
     postUserAction("/register", body, () => {
-        getDataAndUpdateAlways()
+        pageOnly("page-graphs")
+        state.userReady()
     }, (errMsg) => {
         pageOnly("page-index")
         document.getElementById("alert_register").style.display = "block"
@@ -63,7 +64,8 @@ function login() {
     var body = "user=" + encodeURIComponent(user) + '&password=' + encodeURIComponent(password) + '&utcoffset=' + getUTCOffset()
     pageOnly("loading")
     postUserAction("/login", body, () => {
-        getDataAndUpdateAlways()
+        pageOnly("page-graphs")
+        state.userReady()
     }, (errMsg) => {
         pageOnly("page-index")
         document.getElementById("alert_login").style.display = "block"
@@ -194,24 +196,6 @@ function pageNow(name) {
     }
 }
 
-
-function ifUser(trueCallback, falseCallback) {
-    fetch("/user").then(resp => {
-        if (resp.status == 200) {
-            return resp.json()
-        } else if (resp.status == 403) {
-            return null
-        } else {
-            return "Bad server status code: " + resp.status
-        }
-    }).then(userData => {
-        if (userData !== null) {
-            trueCallback(userData)
-        } else {
-            falseCallback()
-        }
-    })
-}
 
 function getSelectedSite() {
     return document.getElementById("site-selector").value
