@@ -16,7 +16,4 @@ Chart.defaults.global.layout = {
     }
 }
 
-pieBorderColor = 'white'
-pieBorderWidth = 1.2
-
 Chart.defaults.global.defaultFontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';

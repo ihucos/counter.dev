@@ -1,5 +1,8 @@
 class BaseGraph extends HTMLElement {
 
+    pieBorderColor = 'white'
+    pieBorderWidth = 1.2
+
     palette = [
         "#1e87f0",
         "hsl(28, 45%, 50%)",
@@ -52,8 +55,8 @@ class BasePie extends BaseGraph {
             data: {
                 labels: list.map(x => x[0]),
                 datasets: [{
-                    borderWidth: pieBorderWidth,
-                    borderColor: pieBorderColor,
+                    borderWidth: this.pieBorderWidth,
+                    borderColor: this.pieBorderColor,
                     data: list.map(x => x[1]),
                     backgroundColor: this.palette,
                 }, ],

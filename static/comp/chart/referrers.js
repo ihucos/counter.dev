@@ -34,8 +34,8 @@ customElements.define(tagName(),
                 data: {
                     labels: entries.map(x => x.label),
                     datasets: [{
-                        borderWidth: pieBorderWidth,
-                        borderColor: pieBorderColor,
+                        borderWidth: this.pieBorderWidth,
+                        borderColor: this.pieBorderColor,
                         data: emptyIfSumZero(entries.map(x => x.value)),
                         backgroundColor: entries.map(x => x.color),
                     }, ],
