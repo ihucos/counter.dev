@@ -136,19 +136,6 @@ function dGroupData(entries, cutAt) {
 }
 
 
-window.dump = undefined
-function maintainDump() {
-    var source = new EventSource("/dump");
-    source.onmessage = event => {
-        let lastDump = window.dump
-        window.dump = JSON.parse(event.data)
-        if (lastDump === undefined){
-       		init()
-        }
-       	document.dispatchEvent(new Event("redraw"))
-    };
-}
-
 
 function connectData(tag, getData) {
     document.addEventListener("redraw", () => {
@@ -166,17 +153,67 @@ function k(...keys) {
     	key => dump.sites[cursite].visits[curtime][key])
 }
 
-function setupSelector(){
-	let el = document.getElementsByTagName('comp-selector')[0]
-        customElements.upgrade(el)
-        E = el
-        el.draw(Object.keys(dump.sites), dump.user.prefs)
+
+
+//setTimeout(() => { }, 500) // yeahh.. we need to all web components defintions to load ....
+
+
+class StateMngr {
+        _ready = new Set([]);
+        _dump = null
+
+        start(){
+        	this._requestSetup("dump-loader")
+        }
+
+	customElementsReady(){
+            this._ready.add('custom-elements')
+        }
+
+	dumpLoaderReady(){
+            this._ready.add('dump-loader')
+        }
+
+        selectorReady(){
+            this._ready.add('selector')
+            this._requestSetup("redrawers")
+        }
+
+        dumpAvailable(dump){
+            if (!this._ready.has("dump")){
+            	this._requestSetup("selector")
+            }
+            this._ready.add("dump")
+            document.dispatchEvent(new Event("redraw"));
+        }
+
+        _requestSetup(name){
+        	document.dispatchEvent(new Event("setup-" + name));
+                if (!this._ready.has(name)){
+                        throw(`StateMngr: unsucessfully requested to setup: ${name}`)
+                }
+        }
 }
 
+document.addEventListener('setup-dump-loader', () => {
+    var source = new EventSource("/dump");
+    source.onmessage = event => {
+        let dump = JSON.parse(event.data)
+        state.dumpAvailable(dump)
+    };
+    state.dumpLoaderReady()
+})
 
-function init() {
+document.addEventListener('setup-selector', () => {
+	let el = document.getElementsByTagName('comp-selector')[0]
+        customElements.upgrade(el)
+        el.draw(Object.keys(dump.sites), dump.user.prefs)
+        state.selectorReady()
+})
 
-     	setupSelector()
+
+
+document.addEventListener('setup-redrawers', () => {
 
         //
         // charts
@@ -207,9 +244,11 @@ function init() {
         connectData("comp-map", k("country"))
         connectData("comp-uservar", dump => [dump.user])
         // connect selector!
-}
+})
 
 
-setTimeout(() => {
-maintainDump()
-}, 500) // yeahh.. we need to all web components defintions to load ....
+
+
+state = new StateMngr()
+state.start()
+

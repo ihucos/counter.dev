@@ -90,7 +90,6 @@ function pressLogin(user, password) {
 
 function onTimeRangeChanged() {
     var range = getSelectedTimeRange()
-    draw()
     fetch("/setPrefRange?" + encodeURIComponent(range))
     document.dispatchEvent(new Event("redraw"))
 }
