@@ -184,7 +184,7 @@ if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protoc
         referrer: document.referrer,
         screen: screen.width + "x" + screen.height,
         user: "<span class="metavar_user">USERNAME</span>",
-        utcoffset: <span id="utcoffset">0</span>}));}
+        utcoffset: <comp-utcoffset></comp-utcoffset>}));}
 sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
                      </div>
@@ -300,7 +300,7 @@ if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protoc
         referrer: document.referrer,
         screen: screen.width + "x" + screen.height,
         user: "<span class="metavar_user">USERNAME</span>",
-        utcoffset: <span id="utcoffset">0</span>}));}
+        utcoffset: <comp-utcoffset></comp-utcoffset>}));}
 sessionStorage.setItem("_swa", "1");
 &lt;/script&gt;</code></pre>
 

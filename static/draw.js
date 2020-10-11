@@ -49,12 +49,6 @@ function drawMetaVars() {
 }
 
 
-function drawUTCOffsetVar() {
-    document.getElementById("utcoffset").innerHTML = getUTCOffset()
-}
-
-
-
 
 function drawTitle(user) {
     document.title = "Counter Analytics for " + user
@@ -71,8 +65,6 @@ function draw() {
     pageOnly("page-graphs")
     document.getElementById("share-account").style.display = "block" // hacky
 
-
-    drawUTCOffsetVar()
     drawTitle(user)
 
 }
