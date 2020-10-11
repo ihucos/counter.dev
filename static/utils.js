@@ -139,7 +139,7 @@ function dGroupData(entries, cutAt) {
 
 function connectData(tag, getData) {
     document.addEventListener("redraw", () => {
-        var data = getData(dump, getSelectedSite(), getSelectedTimeRange())
+        var data = getData(state.getDump(), getSelectedSite(), getSelectedTimeRange())
         Array.from(document.getElementsByTagName(tag)).map(el => {
             customElements.upgrade(el)
             el.draw(...data)
@@ -162,29 +162,38 @@ class StateMngr {
         _ready = new Set([]);
         _dump = null
 
-        start(){
+        customElementsReady(){ // this is the starting point
+                this._ready.add('custom-elements')
         	this._requestSetup("dump-loader")
-        }
-
-	customElementsReady(){
-            this._ready.add('custom-elements')
         }
 
 	dumpLoaderReady(){
             this._ready.add('dump-loader')
         }
 
+	redrawingReady(){
+            this._ready.add('redrawing')
+        }
+
         selectorReady(){
             this._ready.add('selector')
-            this._requestSetup("redrawers")
+            this._requestSetup("redrawing")
         }
 
         dumpAvailable(dump){
+            this._dump = dump
             if (!this._ready.has("dump")){
             	this._requestSetup("selector")
             }
             this._ready.add("dump")
             document.dispatchEvent(new Event("redraw"));
+        }
+
+        getDump(){
+            if (this._dump === null){
+            	throw "dump not available (yet?)"
+            }
+            return this._dump
         }
 
         _requestSetup(name){
@@ -207,13 +216,13 @@ document.addEventListener('setup-dump-loader', () => {
 document.addEventListener('setup-selector', () => {
 	let el = document.getElementsByTagName('comp-selector')[0]
         customElements.upgrade(el)
-        el.draw(Object.keys(dump.sites), dump.user.prefs)
+        el.draw(Object.keys(state.getDump().sites), state.getDump().user.prefs)
         state.selectorReady()
 })
 
 
 
-document.addEventListener('setup-redrawers', () => {
+document.addEventListener('setup-redrawing', () => {
 
         //
         // charts
@@ -244,11 +253,14 @@ document.addEventListener('setup-redrawers', () => {
         connectData("comp-map", k("country"))
         connectData("comp-uservar", dump => [dump.user])
         // connect selector!
+
+        state.redrawingReady()
 })
 
 
 
 
+
 state = new StateMngr()
-state.start()
+setTimeout(()=> state.customElementsReady(), 500) // remove fake!
 
