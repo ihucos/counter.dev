@@ -12,7 +12,12 @@ class BaseGraph extends HTMLElement {
     draw(...args) {
         this.innerHTML = "<canvas></canvas>"
         this.canvas = this.children[0]
-        new Chart(this.canvas, this.getChart(...args))
+        var chartData = this.getChart(...args)
+        if (chartData.data.datasets[0].data.length === 0){
+            this.innerHTML = "<comp-nodata></comp-nodata>"
+        } else {
+            new Chart(this.canvas, chartData)
+        }
     }
 
 

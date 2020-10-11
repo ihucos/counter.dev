@@ -41,7 +41,7 @@ class BaseTable extends HTMLElement {
             this.arrayTotal = array.map(a => a[1]).reduce((a, b) => a + b, 0)
 
             if (array.length === 0) {
-                this.shadowRoot.innerHTML = NO_DATA_HTML
+                this.shadowRoot.innerHTML = "<comp-nodata></comp-nodata>"
                 return
             }
 

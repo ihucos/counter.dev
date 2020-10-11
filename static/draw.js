@@ -30,30 +30,3 @@ pieBorderColor = 'white'
 pieBorderWidth = 1.2
 
 Chart.defaults.global.defaultFontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
-
-NO_DATA_TEXT = 'No data for selected time'
-NO_DATA_FONT_SIZE = "12px"
-NO_DATA_FONT_STYLE = "italic"
-NO_DATA_FONT = Chart.defaults.global.defaultFontFamily
-NO_DATA_HTML = '<div style="font-size: ' + NO_DATA_FONT_SIZE + ';margin-top: 5em; text-align: center; font-style: ' + NO_DATA_FONT_STYLE + ';">' + NO_DATA_TEXT + '</div>'
-
-
-
-
-Chart.plugins.register({
-    afterDraw: function(chart) {
-        if (chart.data.datasets[0].data.length === 0) {
-            // No data is present
-            ctx = chart.chart.ctx;
-            var width = chart.chart.width;
-            var height = chart.chart.height;
-            chart.clear();
-            ctx.save();
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.font = NO_DATA_FONT_STYLE + " " + NO_DATA_FONT_SIZE + " " + NO_DATA_FONT;
-            ctx.fillText(NO_DATA_TEXT, width / 2, height / 2);
-            ctx.restore();
-        }
-    }
-});
