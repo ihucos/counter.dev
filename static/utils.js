@@ -202,6 +202,14 @@ class StateMngr {
                         throw(`StateMngr: unsucessfully requested to setup: ${name}`)
                 }
         }
+
+        rangeSelChanged(){
+            document.dispatchEvent(new Event("redraw"));
+        }
+
+        siteSelChanged(){
+            document.dispatchEvent(new Event("redraw"));
+        }
 }
 
 document.addEventListener('setup-dump-loader', () => {

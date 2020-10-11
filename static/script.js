@@ -91,12 +91,12 @@ function pressLogin(user, password) {
 function onTimeRangeChanged() {
     var range = getSelectedTimeRange()
     fetch("/setPrefRange?" + encodeURIComponent(range))
-    document.dispatchEvent(new Event("redraw"))
+    state.rangeSelChanged()
 }
 
 function onSiteChanged() {
     fetch("/setPrefSite?" + encodeURIComponent(getSelectedSite()))
-    document.dispatchEvent(new Event("redraw"))
+    state.siteSelChanged()
 }
 
 function download(filename, text) {
