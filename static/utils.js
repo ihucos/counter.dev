@@ -137,23 +137,6 @@ function dGroupData(entries, cutAt) {
 
 
 
-function connectData(tag, getData) {
-    document.addEventListener("redraw", () => {
-        var data = getData(state.getDump(), getSelectedSite(), getSelectedTimeRange())
-        Array.from(document.getElementsByTagName(tag)).map(el => {
-            customElements.upgrade(el)
-            el.draw(...data)
-        })
-
-    })
-}
-
-function k(...keys) {
-    return (dump, cursite, curtime) => keys.map(
-    	key => dump.sites[cursite].visits[curtime][key])
-}
-
-
 
 //setTimeout(() => { }, 500) // yeahh.. we need to all web components defintions to load ....
 
@@ -231,6 +214,24 @@ document.addEventListener('setup-selector', () => {
 
 
 document.addEventListener('setup-redrawing', () => {
+
+
+        var connectData = (tag, getData) => {
+            document.addEventListener("redraw", () => {
+                var data = getData(state.getDump(), getSelectedSite(), getSelectedTimeRange())
+                Array.from(document.getElementsByTagName(tag)).map(el => {
+                    customElements.upgrade(el)
+                    el.draw(...data)
+                })
+        
+            })
+        }
+        
+        var k = (...keys) => {
+            return (dump, cursite, curtime) => keys.map(
+            	key => dump.sites[cursite].visits[curtime][key])
+        }
+
 
         //
         // charts
