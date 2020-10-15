@@ -1,497 +1,649 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta name="flattr:id" content="g69ydw" />
 
-    <meta name="flattr:id" content="g69ydw">
+    <meta
+      name="description"
+      content="Web Analytics made simple and therefore privacy friendly. It’s Free."
+    />
 
-    <meta name="description" 
-    content="Web Analytics made simple and therefore privacy friendly. It’s Free.">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;800&display=swap" rel="stylesheet"> 
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;800&display=swap"
+      rel="stylesheet"
+    />
 
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
-<script src="moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
-<script src="data.js"></script>
-<script src="draw.js"></script>
-<script src="script.js"></script>
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css"
+    />
+    <script src="moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
+    <script src="data.js"></script>
+    <script src="draw.js"></script>
+    <script src="script.js"></script>
 
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
 
     <!-- Bootstrap CSS -->
 
     <title>Counter - Simple Web Analytics</title>
 
+    <style>
+      .tile {
+        border-radius: 5px;
+        box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.1);
+        background-color: white;
+      }
 
+      .gradient {
+        background-image: linear-gradient(-225deg, #76a5cf 0%, #0b4273 100%);
+      }
 
-  <style>
+      .browser-mockup {
+        border-top: 2em solid rgba(230, 230, 230, 0.7);
+        box-shadow: 0 0.1em 1em 0 rgba(0, 0, 0, 0.4);
+        position: relative;
+        border-radius: 3px 3px 0 0;
+      }
 
-.tile {
-	border-radius: 5px;
-	box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.1);
-	background-color: white;
-}
+      .browser-mockup:before {
+        display: block;
+        position: absolute;
+        content: "";
+        top: -1.25em;
+        left: 1em;
+        width: 0.5em;
+        height: 0.5em;
+        border-radius: 50%;
+        background-color: #f44;
+        box-shadow: 0 0 0 2px #f44, 1.5em 0 0 2px #9b3, 3em 0 0 2px #fb5;
+      }
 
-.gradient {
-  background-image: linear-gradient(-225deg, #76A5CF 0%, #0B4273 100%);
-}
+      .browser-mockup.with-tab:after {
+        display: block;
+        position: absolute;
+        content: "";
+        top: -2em;
+        left: 5.5em;
+        width: 20%;
+        height: 0em;
+        border-bottom: 2em solid white;
+        border-left: 0.8em solid transparent;
+        border-right: 0.8em solid transparent;
+      }
 
+      .browser-mockup.with-url:after {
+        display: block;
+        position: absolute;
+        content: "";
+        top: -1.6em;
+        left: 5.5em;
+        width: calc(100% - 6em);
+        height: 1.2em;
+        border-radius: 2px;
+        background-color: white;
+      }
 
-.browser-mockup {
-  border-top: 2em solid rgba(230, 230, 230, 0.7);
-  box-shadow: 0 0.1em 1em 0 rgba(0, 0, 0, 0.4);
-  position: relative;
-  border-radius: 3px 3px 0 0
-}
+      .browser-mockup > * {
+        display: block;
+      }
 
-.browser-mockup:before {
-  display: block;
-  position: absolute;
-  content: '';
-  top: -1.25em;
-  left: 1em;
-  width: 0.5em;
-  height: 0.5em;
-  border-radius: 50%;
-  background-color: #f44;
-  box-shadow: 0 0 0 2px #f44, 1.5em 0 0 2px #9b3, 3em 0 0 2px #fb5;
-}
-    
-.browser-mockup.with-tab:after {
-  display: block;
-  position: absolute;
-  content: '';
-  top: -2em;
-  left: 5.5em;
-  width: 20%;
-  height: 0em;
-  border-bottom: 2em solid white;
-  border-left: 0.8em solid transparent;
-  border-right: 0.8em solid transparent;
-}
+      body {
+        font-family: "Inter", sans-serif;
+        font-weight: 300;
+      }
 
-.browser-mockup.with-url:after {
-  display: block;
-  position: absolute;
-  content: '';
-  top: -1.6em;
-  left: 5.5em;
-  width: calc(100% - 6em);
-  height: 1.2em;
-  border-radius: 2px;
-  background-color: white;
-}
+      .sub {
+        text-shadow: -1px 1px 1px hsl(0, 0%, 35%);
+      }
 
-.browser-mockup > * {
-  display: block;
-}
+      a {
+        color: #2f6ca2;
+      }
 
+      .usp {
+        box-shadow: 0px 4px 200px 50px rgb(47, 108, 162, 0.1);
+      }
 
-body {
-  font-family: 'Inter', sans-serif;
-  font-weight: 300;
-}
+      .usp h2 {
+        display: inline-block;
+      }
 
+      .usp img {
+        display: none;
+        height: 1em;
+        margin: 0.2em;
+        position: relative;
+        bottom: 0.5em;
+      }
 
+      .screenshot {
+        width: 45em;
+        margin-top: 1em;
+        position: relative;
+        top: 4.7em;
+      }
 
+      .featuring {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 5px solid transparent;
+      }
 
+      .featuring tr,
+      .featuring td {
+        padding: 0px;
+      }
 
-.sub {
-  text-shadow: 
-    -1px 1px 1px hsl(0,0%,35%)
-}
+      .featuring td:first-of-type {
+        border-bottom: 1px solid #ddd;
+        border-right: 10px solid transparent;
+        font-weight: 500;
+      }
 
-
-  a {
-    color: #2F6CA2;;
-  
-  }
-
-  .usp {
-    box-shadow: 0px 4px 200px 50px rgb(47, 108, 162, 0.1);
-  }
-
-  .usp h2 {
-    display: inline-block;
-  
-  }
-
-  .usp img {
-    display: none;
-    height: 1em;
-    margin: 0.2em;
-    position: relative;
-    bottom: 0.5em;
-  
-  }
-
-  .screenshot {
-    width: 45em;
-    margin-top: 1em;
-    position: relative;
-    top: 4.7em;
-  }
-
-
-  .featuring {
-      border-collapse: collapse;
-      border-spacing: 0;
-      border: 5px solid transparent;
-  }
-
-  .featuring tr, .featuring td {
-      padding: 0px
-  }
-
-  .featuring td:first-of-type {
-      border-bottom: 1px solid #ddd;
-      border-right: 10px solid transparent;
-      font-weight: 500;
-  }
-
-  .featuring img {
-      /*filter: grayscale(100%) opacity(1);
+      .featuring img {
+        /*filter: grayscale(100%) opacity(1);
       -webkit-filter: grayscale(100%) opacity(1);*/
-      display: inline-block;
-      background-color: rgba(0,0,0,0.03);
-      height: 3.5em;
-      padding: 0.5em;
-      margin: 2px;
-      border-radius: 5px;
-  }
+        display: inline-block;
+        background-color: rgba(0, 0, 0, 0.03);
+        height: 3.5em;
+        padding: 0.5em;
+        margin: 2px;
+        border-radius: 5px;
+      }
 
+      .features p {
+        display: list-item;
+        list-style-type: disc;
+        list-style-position: inside;
+        font-weight: 500;
+      }
 
-  .features p {
-    display: list-item;
-    list-style-type: disc;
-    list-style-position: inside;
-    font-weight: 500;
-  }
+      .hr-1 {
+        transform: rotate(0.5deg);
+      }
+      .hr-2 {
+        transform: rotate(-0.5deg);
+      }
+      .hr-3 {
+        transform: rotate(0.5deg);
+      }
+      .hr-4 {
+        transform: rotate(-0.5deg);
+      }
+      .hr-5 {
+        transform: rotate(0.5deg);
+      }
+    </style>
 
-  .hr-1 {transform: rotate(0.5deg);}
-  .hr-2 {transform: rotate(-0.5deg);}
-  .hr-3 {transform: rotate(0.5deg);}
-  .hr-4 {transform: rotate(-0.5deg);}
-  .hr-5 {transform: rotate(0.5deg);}
-
-  </style>
-
-  <script> // counter.dev tracking code
-  if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-      fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
-          referrer: document.referrer,
-          screen: screen.width + "x" + screen.height,
-          site: "counter",
-          utcoffset: 2}))}
-  sessionStorage.setItem("_swa", "1");
-  </script>
-
+    <script>
+      // counter.dev tracking code
+      if (
+        !sessionStorage.getItem("_swa") &&
+        document.referrer.indexOf(location.protocol + "//" + location.host) !==
+          0
+      ) {
+        fetch(
+          "https://simple-web-analytics.com/track?" +
+            new URLSearchParams({
+              referrer: document.referrer,
+              screen: screen.width + "x" + screen.height,
+              site: "counter",
+              utcoffset: 2,
+            })
+        );
+      }
+      sessionStorage.setItem("_swa", "1");
+    </script>
   </head>
   <body>
+    <div
+      id="deprmsg"
+      class="text-center border-b w-full fixed h-6"
+      style="
+        display: none;
+        font-size: 0.85em;
+        background-color: white;
+        z-index: 100;
+      "
+    >
+      We are now available at <a href="https://counter.dev">counter.dev</a>
+    </div>
 
-<div id="deprmsg" class="text-center border-b w-full fixed h-6" style="display: none; font-size: 0.85em; background-color: white; z-index: 100">
-We are now available at <a href="https://counter.dev">counter.dev</a>
-</div>
-
-<div class="flex flex-wrap pt-24 pb-0 border-b" style="background: linear-gradient(to left top, #28a5f5, #1e87f0) 0 0 no-repeat;">
-    <div class="text-center w-full p-5">
-
+    <div
+      class="flex flex-wrap pt-24 pb-0 border-b"
+      style="
+        background: linear-gradient(to left top, #28a5f5, #1e87f0) 0 0 no-repeat;
+      "
+    >
+      <div class="text-center w-full p-5">
         <div class="text-left inline-block">
-            <h1 class="text-white text-4xl text-center font-bold">Simple Web Analytics</h1>
-            <h5 class="sub text-white pb-4">Web Analytics made simple and therefore privacy friendly.</h5>
+          <h1 class="text-white text-4xl text-center font-bold">
+            Simple Web Analytics
+          </h1>
+          <h5 class="sub text-white pb-4">
+            Web Analytics made simple and therefore privacy friendly.
+          </h5>
         </div>
 
         <div class="mt-5">
-            <a href="/app" class="bg-gray-800 hover:bg-gray-900 text-gray-200 font-bold py-2 px-4 rounded shadow mr-2">Open app</a>
-            <a href="/app#demo" class="bg-gray-700 hover:bg-gray-800 text-gray-200 font-bold py-2 px-4 rounded shadow" target="_blank">Demo</a>
+          <a
+            href="/app"
+            class="bg-gray-800 hover:bg-gray-900 text-gray-200 font-bold py-2 px-4 rounded shadow mr-2"
+            >Open app</a
+          >
+          <a
+            href="/app#demo"
+            class="bg-gray-700 hover:bg-gray-800 text-gray-200 font-bold py-2 px-4 rounded shadow"
+            target="_blank"
+            >Demo</a
+          >
         </div>
+      </div>
+      <div class="browser-mockup with-url screenshot ml-auto mr-auto w-full">
+        <a href="/app#demo" target="_blank"><img src="screenshot.png" /></a>
+      </div>
     </div>
-    <div class="browser-mockup with-url screenshot ml-auto mr-auto w-full">
-<a href="/app#demo" target="_blank"><img src="screenshot.png"  /></a>
-</div>
-</div>
 
-<section class="max-w-4xl mx-auto flex flex-wrap md:space-x-16 md:mt-40 mt-20">
-<div class="w-full md:flex-1 usp border rounded p-6">
-<h1 class="text-xl font-bold mb-1 text-gray-800">✓ Free</h1>
-<p>
-  Technical design choices allow serving many users with little hosting costs.
-</p>
-</div>
-<div class="w-full md:flex-1 usp border rounded p-6">
-<h1 class="text-xl font-bold mb-1 text-gray-800">✓ Open Source</h1>
-<p>
-  The source code is published under the <a href="https://www.gnu.org/licenses/agpl-3.0.de.html" target="_blank">AGPL-v3</a> licence.
-</p>
-</div>
-<div class="w-full md:flex-1 usp border rounded p-6">
-<h1 class="text-xl font-bold mb-1 text-gray-800">✓ Privacy Friendly</h1>
-<p>
-  No cookies. No logging or hashing IP addresses.
-</p>
-</div>
-</section>
+    <section
+      class="max-w-4xl mx-auto flex flex-wrap md:space-x-16 md:mt-40 mt-20"
+    >
+      <div class="w-full md:flex-1 usp border rounded p-6">
+        <h1 class="text-xl font-bold mb-1 text-gray-800">✓ Free</h1>
+        <p>
+          Technical design choices allow serving many users with little hosting
+          costs.
+        </p>
+      </div>
+      <div class="w-full md:flex-1 usp border rounded p-6">
+        <h1 class="text-xl font-bold mb-1 text-gray-800">✓ Open Source</h1>
+        <p>
+          The source code is published under the
+          <a
+            href="https://www.gnu.org/licenses/agpl-3.0.de.html"
+            target="_blank"
+            >AGPL-v3</a
+          >
+          licence.
+        </p>
+      </div>
+      <div class="w-full md:flex-1 usp border rounded p-6">
+        <h1 class="text-xl font-bold mb-1 text-gray-800">✓ Privacy Friendly</h1>
+        <p>No cookies. No logging or hashing IP addresses.</p>
+      </div>
+    </section>
 
-
-
-
-<div class="md:bg-gray-100 md:border-b md:border-t md:mt-16 ">
-
-
-<section class="my-32 mt-24">
-
-    <!-- title -->
-    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
-        Counts unique visits
-    </h2>
-    <div class="mb-8 hidden md:block">
-        <div class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 16em;"></div>
-    </div>
-    
-    <div class="max-w-screen-sm mx-auto flex flex-wrap">
-
-        <div class="w-1/2">
-            <canvas class="tile" id="last_days_chart" height=170 />
+    <div class="md:bg-gray-100 md:border-b md:border-t md:mt-16">
+      <section class="my-32 mt-24">
+        <!-- title -->
+        <h2
+          class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
+        >
+          Counts unique visits
+        </h2>
+        <div class="mb-8 hidden md:block">
+          <div
+            class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t"
+            style="width: 16em"
+          ></div>
         </div>
-        
-        <p class="w-1/2 pl-5">
-          All metrics are based on visits, which is a browser session at a given
-          day. For example: if the same user visited your site yesteday and today, that is
-          counted as two visits.
-        </p>
-    </div>
 
-</section>
+        <div class="max-w-screen-sm mx-auto flex flex-wrap">
+          <div class="w-1/2">
+            <canvas class="tile" id="last_days_chart" height="170" />
+          </div>
 
-<section class="my-32 mt-24">
-
-    <!-- title -->
-    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
-        Traffic sources
-    </h2>
-    <div class="mb-8 hidden md:block">
-        <div class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 11em;"></div>
-    </div>
-    
-    <div class="max-w-screen-sm mx-auto flex flex-wrap">
-        
-        <p class="w-1/2 pr-5">
-            You can see which other websites link to you and how many users got to
-            your site via external links. This can be viewed as an overview and
-            in detail.
-        </p>
-
-        <div class="w-1/2">
-            <canvas class="tile" id="ref_chart" height=200 />
+          <p class="w-1/2 pl-5">
+            All metrics are based on visits, which is a browser session at a
+            given day. For example: if the same user visited your site yesteday
+            and today, that is counted as two visits.
+          </p>
         </div>
-    </div>
+      </section>
 
-</section>
-
-
-
-<section class="my-32 mt-24">
-
-    <!-- title -->
-    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
-        Geographical locations
-    </h2>
-    <div class="mb-8 hidden md:block">
-        <div class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 17em;"></div>
-    </div>
-    
-    <div class="max-w-screen-sm mx-auto flex flex-wrap">
-
-        <div class="w-1/2">
-               <div id="world" class="tile px-2" style="height: 200px;">
-               </div>
+      <section class="my-32 mt-24">
+        <!-- title -->
+        <h2
+          class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
+        >
+          Traffic sources
+        </h2>
+        <div class="mb-8 hidden md:block">
+          <div
+            class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t"
+            style="width: 11em"
+          ></div>
         </div>
-        
-        <p class="w-1/2 pl-5">
-            There's a map and a list view with the geographical location of visitors.
-        </p>
-    </div>
 
-</section>
+        <div class="max-w-screen-sm mx-auto flex flex-wrap">
+          <p class="w-1/2 pr-5">
+            You can see which other websites link to you and how many users got
+            to your site via external links. This can be viewed as an overview
+            and in detail.
+          </p>
 
+          <div class="w-1/2">
+            <canvas class="tile" id="ref_chart" height="200" />
+          </div>
+        </div>
+      </section>
 
-<section class="my-32">
-    <!-- title -->
-    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
-        The friendly alternative
-    </h2>
-    <div class="mb-8 hidden md:block">
-        <div class="hr-2 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 18em;" ></div>
-    </div>
-    <div class="flex max-w-md mx-auto">
-        <p class="flex-1" style="flex-grow: 2">
-            
-            You don't have to choose between free or privacy friendy. We offer
-            a free and privacy friendly analytics service for everyone.
+      <section class="my-32 mt-24">
+        <!-- title -->
+        <h2
+          class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
+        >
+          Geographical locations
+        </h2>
+        <div class="mb-8 hidden md:block">
+          <div
+            class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t"
+            style="width: 17em"
+          ></div>
+        </div>
 
-        </p>
-        <img src="trophy.svg" class="flex-1" />
-    </div>
-</section>
+        <div class="max-w-screen-sm mx-auto flex flex-wrap">
+          <div class="w-1/2">
+            <div id="world" class="tile px-2" style="height: 200px"></div>
+          </div>
 
+          <p class="w-1/2 pl-5">
+            There's a map and a list view with the geographical location of
+            visitors.
+          </p>
+        </div>
+      </section>
 
-<section class="my-32 mb-24">
-    <!-- title -->
-    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
-        Open Source
-    </h2>
-    <div class="mb-8 hidden md:block">
-        <div class="hr-3 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 10em;"></div>
-    </div>
-    
-    <table class="featuring mx-auto">
-        <tbody>
+      <section class="my-32">
+        <!-- title -->
+        <h2
+          class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
+        >
+          The friendly alternative
+        </h2>
+        <div class="mb-8 hidden md:block">
+          <div
+            class="hr-2 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t"
+            style="width: 18em"
+          ></div>
+        </div>
+        <div class="flex max-w-md mx-auto">
+          <p class="flex-1" style="flex-grow: 2">
+            You don't have to choose between free or privacy friendy. We offer a
+            free and privacy friendly analytics service for everyone.
+          </p>
+          <img src="trophy.svg" class="flex-1" />
+        </div>
+      </section>
+
+      <section class="my-32 mb-24">
+        <!-- title -->
+        <h2
+          class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
+        >
+          Open Source
+        </h2>
+        <div class="mb-8 hidden md:block">
+          <div
+            class="hr-3 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t"
+            style="width: 10em"
+          ></div>
+        </div>
+
+        <table class="featuring mx-auto">
+          <tbody>
             <tr>
-                <td>Frontend</td>
-                <td>
-                    <a target="_blank" href="https://www.chartjs.org/" class="float-left">
-                        <img src="featuring/chartjs.png" class="border" target="_blank" />
-                    </a>
-                    <a target="_blank" href="https://tailwindcss.com/" class="float-left">
-                        <img src="featuring/tailwind.svg" class="border" target="" />
-                    </a>
-                </td>
+              <td>Frontend</td>
+              <td>
+                <a
+                  target="_blank"
+                  href="https://www.chartjs.org/"
+                  class="float-left"
+                >
+                  <img
+                    src="featuring/chartjs.png"
+                    class="border"
+                    target="_blank"
+                  />
+                </a>
+                <a
+                  target="_blank"
+                  href="https://tailwindcss.com/"
+                  class="float-left"
+                >
+                  <img src="featuring/tailwind.svg" class="border" target="" />
+                </a>
+              </td>
             </tr>
             <tr>
-                <td>Backend</td>
-                <td>
-                    <a target="_blank" href="https://golang.org/" class="float-left">
-                        <img src="featuring/go.svg" class="border" style="padding: 0.5em;" />
-                    </a>
-                    <a target="_blank" href="https://redis.io/" class="float-left">
-                        <img src="featuring/redis.svg" class="border" style="padding: 0.6em;" />
-                    </a>
-                </td>
+              <td>Backend</td>
+              <td>
+                <a
+                  target="_blank"
+                  href="https://golang.org/"
+                  class="float-left"
+                >
+                  <img
+                    src="featuring/go.svg"
+                    class="border"
+                    style="padding: 0.5em"
+                  />
+                </a>
+                <a target="_blank" href="https://redis.io/" class="float-left">
+                  <img
+                    src="featuring/redis.svg"
+                    class="border"
+                    style="padding: 0.6em"
+                  />
+                </a>
+              </td>
             </tr>
             <tr>
-                <td>Services</td>
-                <td>
-                    <a target="_blank" href="https://github.com/" class="float-left">
-                        <img src="featuring/github.svg" class="border" style="padding: 1.1em;" />
-                    </a>
-                    <a target="_blank" href="https://www.linode.com/" class="float-left">
-                        <img src="featuring/linode.svg" class="border" style="padding: 0em;" />
-                    </a>
-                    <a target="_blank" href="https://www.cloudflare.com/" class="float-left">
-                        <img src="featuring/cloudflare.svg" class="border" style="padding: 0em;" />
-                    </a>
-                </td>
+              <td>Services</td>
+              <td>
+                <a
+                  target="_blank"
+                  href="https://github.com/"
+                  class="float-left"
+                >
+                  <img
+                    src="featuring/github.svg"
+                    class="border"
+                    style="padding: 1.1em"
+                  />
+                </a>
+                <a
+                  target="_blank"
+                  href="https://www.linode.com/"
+                  class="float-left"
+                >
+                  <img
+                    src="featuring/linode.svg"
+                    class="border"
+                    style="padding: 0em"
+                  />
+                </a>
+                <a
+                  target="_blank"
+                  href="https://www.cloudflare.com/"
+                  class="float-left"
+                >
+                  <img
+                    src="featuring/cloudflare.svg"
+                    class="border"
+                    style="padding: 0em"
+                  />
+                </a>
+              </td>
             </tr>
-        </tbody>
-    </table>
-    <a href="https://github.com/ihucos/counter.dev" target="_blank" class="px-3 mt-8 mx-auto block text-center">
-        View project
-    </a>
+          </tbody>
+        </table>
+        <a
+          href="https://github.com/ihucos/counter.dev"
+          target="_blank"
+          class="px-3 mt-8 mx-auto block text-center"
+        >
+          View project
+        </a>
+      </section>
+    </div>
+    <!-- the gray color -->
 
-</section>
-
-
-</div> <!-- the gray color -->
-
-
-<section class="my-32">
-    <!-- title -->
-    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
+    <section class="my-32">
+      <!-- title -->
+      <h2
+        class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
+      >
         Features
-    </h2>
-    <div class="mb-8 hidden md:block">
-        <div class="hr-4 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 8em;"></div>
-    </div>
+      </h2>
+      <div class="mb-8 hidden md:block">
+        <div
+          class="hr-4 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t"
+          style="width: 8em"
+        ></div>
+      </div>
 
-    <div class="mx-auto md:table features">
+      <div class="mx-auto md:table features">
         <div class="md:table-row">
           <div class="md:table-cell"><p class="py-4 px-5">One screen</p></div>
           <div class="md:table-cell"><p class="py-4 px-5">No menus</p></div>
         </div>
         <div class="md:table-row">
-          <div class="md:table-cell"><p class="py-4 px-5">Down to earth</p></div>
-          <div class="md:table-cell"><p class="py-4 px-5">Charts you understand</p></div>
+          <div class="md:table-cell">
+            <p class="py-4 px-5">Down to earth</p>
+          </div>
+          <div class="md:table-cell">
+            <p class="py-4 px-5">Charts you understand</p>
+          </div>
         </div>
         <div class="md:table-row">
-          <div class="md:table-cell"><p class="py-4 px-5">Export to CSV</p></div>
+          <div class="md:table-cell">
+            <p class="py-4 px-5">Export to CSV</p>
+          </div>
         </div>
-    </div>
+      </div>
+    </section>
 
-</section>
-
-
-<section class="my-32">
-    <!-- title -->
-    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
+    <section class="my-32">
+      <!-- title -->
+      <h2
+        class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
+      >
         Pay what you want
-    </h2>
-    <div class="mb-8 hidden md:block">
-        <div class="hr-5 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t" style="width: 14em;"  ></div>
-    </div>
+      </h2>
+      <div class="mb-8 hidden md:block">
+        <div
+          class="hr-5 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t"
+          style="width: 14em"
+        ></div>
+      </div>
 
-    <div class="text-center">
-        <p>We still do encourage users with commercial projects to pay for this product.</p>
-        <p class="mb-12">The amount could be comparable with what similiar services charge. </p>
+      <div class="text-center">
+        <p>
+          We still do encourage users with commercial projects to pay for this
+          product.
+        </p>
+        <p class="mb-12">
+          The amount could be comparable with what similiar services charge.
+        </p>
         <div class="mt-5">
-            <a href="/app#demo" class="bg-gray-700 hover:bg-gray-800 text-gray-200 font-bold py-2 px-4 rounded shadow" target="_blank">Demo</a>
-            ->
-            <a href="/app" class="bg-gray-800 hover:bg-gray-900 text-gray-200 font-bold py-2 px-4 rounded shadow">Register</a>
-            ->
-            <a href="https://flattr.com/@ihucos" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow" target="_blank">donate</a>
+          <a
+            href="/app#demo"
+            class="bg-gray-700 hover:bg-gray-800 text-gray-200 font-bold py-2 px-4 rounded shadow"
+            target="_blank"
+            >Demo</a
+          >
+          ->
+          <a
+            href="/app"
+            class="bg-gray-800 hover:bg-gray-900 text-gray-200 font-bold py-2 px-4 rounded shadow"
+            >Register</a
+          >
+          ->
+          <a
+            href="https://flattr.com/@ihucos"
+            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow"
+            target="_blank"
+            >donate</a
+          >
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-
-<section class="mt-64 mb-32">
-    <!-- title -->
-    <h2 class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font">
+    <section class="mt-64 mb-32">
+      <!-- title -->
+      <h2
+        class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
+      >
         Feedback
-    </h2>
-    <div class="mb-4 hidden md:block">
-        <div class="h-1 mx-auto gradient w-32 opacity-25 my-0 py-0 rounded-t" ></div>
-    </div>
+      </h2>
+      <div class="mb-4 hidden md:block">
+        <div
+          class="h-1 mx-auto gradient w-32 opacity-25 my-0 py-0 rounded-t"
+        ></div>
+      </div>
 
-    <div class="text-center pt-5">
-        <a href="mailto:hey@counter.dev" class="font-mono p-3">hey@counter.dev</a>
+      <div class="text-center pt-5">
+        <a href="mailto:hey@counter.dev" class="font-mono p-3"
+          >hey@counter.dev</a
+        >
         <div class="py-3">- or -</div>
-        <a class="font-mono p-3" target="_blank" href="https://feedback.userreport.com/bf68adbd-d870-49de-94db-368289d21551/">Add an idea</a>
-    </div>
-</section>
+        <a
+          class="font-mono p-3"
+          target="_blank"
+          href="https://feedback.userreport.com/bf68adbd-d870-49de-94db-368289d21551/"
+          >Add an idea</a
+        >
+      </div>
+    </section>
 
-
-<section class="flex">
-
-    <div class="self-end" style="flex-grow: 5">
+    <section class="flex">
+      <div class="self-end" style="flex-grow: 5">
         <h1 class="font-bold text-xl text-left font-mono text-gray-500">
-            &lt;/html&gt; :-)
+          &lt;/html&gt; :-)
         </h1>
-    </div>
-    <div class="self-end" style="flex-grow: 1">
+      </div>
+      <div class="self-end" style="flex-grow: 1">
         <div class="inline-block">
-            <a href="#" onclick="alert('You clicked the plant, congratulations.'); return false;" >
-                <img src="plant.svg" class="block relative opacity-75" style="width: 15em; right: 0em;" />
-            </a>
-            <a href="#" class="text-center block text-xl bg-yellow-800 rounded opacity-50 p-1 mx-12 rounded text-white" onclick="impressum(); return false">Impressum</a>
+          <a
+            href="#"
+            onclick="alert('You clicked the plant, congratulations.'); return false;"
+          >
+            <img
+              src="plant.svg"
+              class="block relative opacity-75"
+              style="width: 15em; right: 0em"
+            />
+          </a>
+          <a
+            href="#"
+            class="text-center block text-xl bg-yellow-800 rounded opacity-50 p-1 mx-12 rounded text-white"
+            onclick="impressum(); return false"
+            >Impressum</a
+          >
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-
-
-<script>
-function impressum(){
-var x = "@"
-var s = "\
+    <script>
+      function impressum() {
+        var x = "@";
+        var s =
+          "\
 INFORMATION REQUIRED BY GERMAN LAW\n\
 \n\
 Angaben gemäß § 5 TMG\n\
@@ -502,30 +654,36 @@ Bochumerstr. 10\n\
 \n\
 Kontakt:\n\
 \n\
-Telefon: 017644"+ "" + "4915" + 2+1 + "4 \n\
+Telefon: 017644" +
+          "" +
+          "4915" +
+          2 +
+          1 +
+          "4 \n\
 (note: this a personal mobile number, customer support is per mail)\n\
 \n\
-E-Mail: info"+  x + "" + "simple-web-analytcs.com"
+E-Mail: info" +
+          x +
+          "" +
+          "simple-web-analytcs.com";
 
-alert(s);
-}
-</script>
+        alert(s);
+      }
+    </script>
 
-<script>
-drawRefChart("ref_chart")
-drawMap("world")
-var date_keys;
-var date_vals;
-[date_keys, date_vals] = dGetNormalizedDateData(timedData.all.date)
-drawLastDays("last_days_chart", date_keys, date_vals)
-</script>
+    <script>
+      drawRefChart("ref_chart");
+      drawMap("world");
+      var date_keys;
+      var date_vals;
+      [date_keys, date_vals] = dGetNormalizedDateData(timedData.all.date);
+      drawLastDays("last_days_chart", date_keys, date_vals);
+    </script>
 
-<script>
-if (window.location.hostname === "simple-web-analytics.com"){
-  document.getElementById("deprmsg").style.display = "block"
-}
-</script>
-  
-
-</body>
+    <script>
+      if (window.location.hostname === "simple-web-analytics.com") {
+        document.getElementById("deprmsg").style.display = "block";
+      }
+    </script>
+  </body>
 </html>

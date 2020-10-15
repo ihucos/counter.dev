@@ -1,5 +1,6 @@
-
-customElements.define(tagName(),
-    class extends BasePie {
-        title = "Devices"
-    })
+customElements.define(
+  tagName(),
+  class extends BasePie {
+    title = "Devices";
+  }
+);

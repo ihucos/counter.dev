@@ -1,5 +1,6 @@
-customElements.define(tagName(),
-        class extends BaseTable {
-            tableHeaderFst = "Language"
-        }
-)
+customElements.define(
+  tagName(),
+  class extends BaseTable {
+    tableHeaderFst = "Language";
+  }
+);
