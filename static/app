@@ -290,7 +290,6 @@
          </div>
       </section>
       <script src="script.js"></script>
-      <script src="/utils.js"></script>
 
       <script>
       if (window.location.hostname === "simple-web-analytics.com"){
