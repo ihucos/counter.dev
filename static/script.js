@@ -385,21 +385,17 @@ class StateMngr {
             this._ready.add('redrawing')
         }
 
-        selectorReady(){
-            this._ready.add('selector')
-            this._requestSetup("redrawing")
-        }
-
         dumpAvailable(dump){
             this._dump = dump
+            document.dispatchEvent(new Event("redraw-selector"));
             if (!this._ready.has("dump")){
-            	this._requestSetup("selector")
+               this._requestSetup("redrawing")
             }
             this._ready.add("dump")
             document.dispatchEvent(new Event("redraw"));
         }
 
-        getDump(){
+        get dump(){
             if (this._dump === null){
             	throw "dump not available (yet?)"
             }
@@ -427,12 +423,8 @@ document.addEventListener('setup-dump-loader', () => {
     state.dumpLoaderReady()
 })
 
-document.addEventListener('setup-selector', () => {
-	let el = document.getElementsByTagName('comp-selector')[0]
-        customElements.upgrade(el)
-        var dump = state.getDump()
-        el.draw(Object.keys(dump.sites), dump.user.prefs.site, dump.user.prefs.range)
-        state.selectorReady()
+document.addEventListener('redraw-selector', () => {
+        getSelector().draw(Object.keys(state.dump.sites), state.dump.user.prefs.site, state.dump.user.prefs.range)
 })
 
 
@@ -442,12 +434,22 @@ document.addEventListener('setup-redrawing', () => {
 
         var connectData = (tag, getData) => {
             document.addEventListener("redraw", () => {
-                var data = getData(state.getDump(), getSelector().site, getSelector().range)
-                Array.from(document.getElementsByTagName(tag)).map(el => {
-                    customElements.upgrade(el)
-                    el.draw(...data)
-                })
-        
+	        var site = getSelector().site
+                var range = getSelector().range
+                var data
+                if (getData.length <= 1)
+                    data = getData(state.dump)
+                else if (site === "" || range === ""){
+                     data = null
+                } else {
+                     data = getData(state.dump, site, range)
+                }
+                if (data !== null){
+                    Array.from(document.getElementsByTagName(tag)).forEach(el => {
+                        customElements.upgrade(el)
+                        el.draw(...data)
+                    })
+                }
             })
         }
         
@@ -502,7 +504,6 @@ document.addEventListener('setup-user-auth', () => {
         }
     }).then(userData => {
         if (userData !== null) {
-            pageOnly("page-graphs")
             state.userReady()
         } else {
             pageOnly("page-index")
@@ -513,6 +514,17 @@ document.addEventListener('setup-user-auth', () => {
 
 
 
+document.addEventListener("redraw", () => {
+        if(Object.keys(state.dump.sites).length === 0){
+            pageOnly("page-setup")
+        } else {
+            pageOnly("page-graphs")
+        }
+})
+
+document.addEventListener("redraw", () => {
+	console.log("redraw", state.dump)
+})
 
 
 
