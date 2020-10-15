@@ -283,7 +283,7 @@
                </p>
             </div>
             <comp-trackingcode></comp-trackingcode>
-            <div id="share-account" style="display: none;">
+            <div id="share-account">
                <h5 class="text-xl mt-8">Share account</h5>
                <p class="mb-5">
                   You can share access to this account via the following link.
