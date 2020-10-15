@@ -12,10 +12,8 @@
 class BaseTable extends HTMLElement {
     constructor() {
         super()
-        this.attachShadow({
-            mode: "open"
-        });
-        this.shadowRoot.innerHTML = "No data provided"
+        this.innerHTML = "<comp-nodata></comp-nodata>"
+        this.classList.add("comp-table")
     }
 
     tableRow(key, value) {
@@ -31,7 +29,7 @@ class BaseTable extends HTMLElement {
     }
 
     get tableHeader() {
-        return [this.tableHeaderFst, "Visitors", '%']
+        return [this.tableHeaderFst, "Visitors", 'Percent']
     }
 
 
@@ -41,12 +39,12 @@ class BaseTable extends HTMLElement {
             this.arrayTotal = array.map(a => a[1]).reduce((a, b) => a + b, 0)
 
             if (array.length === 0) {
-                this.shadowRoot.innerHTML = "<comp-nodata></comp-nodata>"
+                this.innerHTML = "<comp-nodata></comp-nodata>"
                 return
             }
 
             // ESCAPE XXXXXXXXXXXXXXXXXXXXXXXXXXXX SECURITY  DO NOT DEPLOY - DO NOT DEPLOY - DO NOT DEPLOY
-            this.shadowRoot.innerHTML = `
+            this.innerHTML = `
                 <table>
                   ${this.tableHeader ? this.tableHeader.map(val => `<th>${val}</th>`).join(''):''}
                   ${array.map(entr => `

@@ -89,6 +89,7 @@
          .list td,
          .list tr {}
          table {
+         width: 100%;
          line-height: 2;
          color: rgba(0, 0, 0, 0.7)
          }
@@ -101,6 +102,11 @@
          }
          table img {
          margin-right: 10px;
+         display: inline-block;
+         height: 1em;
+         }
+         table th {
+         text-align: left;
          }
          table tr:nth-child(even) {
          background-color: rgba(30, 135, 240, 0.1);
