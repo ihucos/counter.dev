@@ -216,11 +216,7 @@ class StateMngr {
                 }
         }
 
-        rangeSelChanged(){
-            document.dispatchEvent(new Event("redraw"));
-        }
-
-        siteSelChanged(){
+        selectorChanged(){
             document.dispatchEvent(new Event("redraw"));
         }
 }
@@ -249,7 +245,7 @@ document.addEventListener('setup-redrawing', () => {
 
         var connectData = (tag, getData) => {
             document.addEventListener("redraw", () => {
-                var data = getData(state.getDump(), getSelectedSite(), getSelectedTimeRange())
+                var data = getData(state.getDump(), getSelector().site, getSelector().range)
                 Array.from(document.getElementsByTagName(tag)).map(el => {
                     customElements.upgrade(el)
                     el.draw(...data)

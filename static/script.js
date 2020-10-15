@@ -1,9 +1,11 @@
-registeredCharts = []
 
 
-function getSelectedTimeRange() {
-    return document.getElementById('time-range').value
+function getSelector(){
+    let selector = document.getElementsByTagName('comp-selector')[0]
+    customElements.upgrade(selector)
+    return selector
 }
+
 
 
 
@@ -88,18 +90,6 @@ function pressLogin(user, password) {
 }
 
 
-
-
-function onTimeRangeChanged() {
-    var range = getSelectedTimeRange()
-    fetch("/setPrefRange?" + encodeURIComponent(range))
-    state.rangeSelChanged()
-}
-
-function onSiteChanged() {
-    fetch("/setPrefSite?" + encodeURIComponent(getSelectedSite()))
-    state.siteSelChanged()
-}
 
 function download(filename, text) {
     var element = document.createElement('a');
@@ -196,10 +186,15 @@ function pageNow(name) {
     }
 }
 
+getSelector().addEventListener("range-changed", () => {
+    fetch("/setPrefRange?" + encodeURIComponent(getSelector().range))
+    state.selectorChanged()})
 
-function getSelectedSite() {
-    return document.getElementById("site-selector").value
-}
+getSelector().addEventListener("site-changed", () => {
+    fetch("/setPrefSite?" + encodeURIComponent(getSelector().site))
+    state.selectorChanged()})
+
+
 
 function main() {
     pageOnly("page-graphs")
