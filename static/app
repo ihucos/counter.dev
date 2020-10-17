@@ -31,6 +31,12 @@
          sessionStorage.setItem("_swa", "1");
       </script>
       <style>
+         comp-nodata div {
+            font-size: 12px;
+            padding-top: 5em;
+            text-align: center;
+            font-style: italic;
+         }
          a.link:link,
          a.link:visited,
          a.link:hover,
@@ -79,6 +85,7 @@
          display: flex;
          }
          .flex-item>div,
+         .flex-item>comp-nodata,
          .flex-item>canvas {
          border-radius: 5px;
          flex: 1 1 auto;

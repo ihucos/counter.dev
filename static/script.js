@@ -400,6 +400,9 @@ class StateMngr {
   }
 
   _requestSetup(name) {
+    if (this._ready.has(name)) {
+      return;
+    }
     document.dispatchEvent(new Event("setup-" + name));
     if (!this._ready.has(name)) {
       throw `StateMngr: unsucessfully requested to setup: ${name}`;
@@ -522,7 +525,7 @@ document.addEventListener("redraw", () => {
   }
 });
 
-document.addEventListener("redraw", () => {
+document.addEventListener("redraw", (e) => {
   console.log("redraw", state.dump);
 });
 
