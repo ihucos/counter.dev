@@ -7,7 +7,6 @@
 class BaseTable extends HTMLElement {
   constructor() {
     super();
-    this.innerHTML = "<comp-nodata></comp-nodata>";
     this.classList.add("comp-table");
   }
 
