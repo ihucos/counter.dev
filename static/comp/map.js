@@ -2,7 +2,7 @@ customElements.define(
   tagName(),
   class extends HTMLElement {
     draw(countries) {
-      this.innerHTML = "<div><h5>World map</h5></div>";
+      this.innerHTML = "<div style='height: 100%;'><h5>World map</h5></div>";
       var el = this.children[0];
       jQuery(el).vectorMap({
         map: "world_en",

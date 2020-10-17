@@ -153,7 +153,6 @@ function openTab(elemId) {
   tabPanels[elemId].style.display = "block";
   tabTabs[elemId].className = tabActive;
 }
-openTab(0);
 
 function handleHash() {
   // There are external links to this, so it has to be maintained
@@ -205,16 +204,6 @@ function pageNow(name) {
   }
 }
 
-getSelector().addEventListener("range-changed", () => {
-  fetch("/setPrefRange?" + encodeURIComponent(getSelector().range));
-  state.selectorChanged();
-});
-
-getSelector().addEventListener("site-changed", () => {
-  fetch("/setPrefSite?" + encodeURIComponent(getSelector().site));
-  state.selectorChanged();
-});
-
 function setChartJSDefaults() {
   // I don't completely get this one, but it is quite important
   Chart.defaults.global.maintainAspectRatio = false;
@@ -233,13 +222,6 @@ function setChartJSDefaults() {
       bottom: 10,
     },
   };
-}
-
-function tagName() {
-  var tagName = new URL(document.currentScript.src).pathname
-    .slice(1, -3)
-    .replaceAll("/", "-");
-  return tagName;
 }
 
 function emptyIfSumZero(arr) {
@@ -544,8 +526,21 @@ document.addEventListener("redraw", () => {
   console.log("redraw", state.dump);
 });
 
-setChartJSDefaults();
-handleHash();
-state = new StateMngr();
-pageOnly("loading");
-state.start();
+function main() {
+  getSelector().addEventListener("range-changed", () => {
+    fetch("/setPrefRange?" + encodeURIComponent(getSelector().range));
+    state.selectorChanged();
+  });
+
+  getSelector().addEventListener("site-changed", () => {
+    fetch("/setPrefSite?" + encodeURIComponent(getSelector().site));
+    state.selectorChanged();
+  });
+
+  openTab(0);
+  setChartJSDefaults();
+  handleHash();
+  state = new StateMngr();
+  pageOnly("loading");
+  state.start();
+}

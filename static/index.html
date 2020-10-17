@@ -17,15 +17,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css"
     />
-    <script src="moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
-    <script src="data.js"></script>
-    <script src="draw.js"></script>
-    <script src="script.js"></script>
-
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -38,7 +29,14 @@
       rel="stylesheet"
     />
 
-    <!-- Bootstrap CSS -->
+    <script src="moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
+
+    <script src="script.js"></script>
+    <script src="loadComponents.js"></script>
 
     <title>Counter - Simple Web Analytics</title>
 
@@ -188,6 +186,19 @@
       .hr-5 {
         transform: rotate(0.5deg);
       }
+
+      comp-map h5 {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+          "Segoe UI Emoji", "Segoe UI Symbol";
+        color: rgba(0, 0, 0, 0.7);
+        font-size: 16px;
+        line-height: 1.2;
+        padding-top: 7px;
+        padding-bottom: 8px;
+        font-weight: bold;
+        text-align: center;
+      }
     </style>
 
     <script>
@@ -304,7 +315,10 @@
 
         <div class="max-w-screen-sm mx-auto flex flex-wrap">
           <div class="w-1/2">
-            <canvas class="tile" id="last_days_chart" height="170" />
+            <comp-chart-lastdays
+              class="tile"
+              style="display: flex; height: 170px"
+            ></comp-chart-lastdays>
           </div>
 
           <p class="w-1/2 pl-5">
@@ -337,7 +351,10 @@
           </p>
 
           <div class="w-1/2">
-            <canvas class="tile" id="ref_chart" height="200" />
+            <comp-chart-referrers
+              class="tile"
+              style="display: flex; height: 200px"
+            ></comp-chart-referrers>
           </div>
         </div>
       </section>
@@ -357,9 +374,7 @@
         </div>
 
         <div class="max-w-screen-sm mx-auto flex flex-wrap">
-          <div class="w-1/2">
-            <div id="world" class="tile px-2" style="height: 200px"></div>
-          </div>
+          <comp-map class="w-1/2 tile px-2" style="height: 200px"></comp-map>
 
           <p class="w-1/2 pl-5">
             There's a map and a list view with the geographical location of
@@ -670,14 +685,114 @@ E-Mail: info" +
         alert(s);
       }
     </script>
-
     <script>
-      drawRefChart("ref_chart");
-      drawMap("world");
-      var date_keys;
-      var date_vals;
-      [date_keys, date_vals] = dGetNormalizedDateData(timedData.all.date);
-      drawLastDays("last_days_chart", date_keys, date_vals);
+      date = {};
+      date[moment().subtract(6, "day").format("YYYY-MM-DD")] = 1800;
+      date[moment().subtract(5, "day").format("YYYY-MM-DD")] = 2048;
+      date[moment().subtract(4, "day").format("YYYY-MM-DD")] = 2407;
+      date[moment().subtract(3, "day").format("YYYY-MM-DD")] = 2503;
+      date[moment().subtract(2, "day").format("YYYY-MM-DD")] = 2710;
+      date[moment().subtract(1, "day").format("YYYY-MM-DD")] = 2572;
+      date[moment().subtract(0, "day").format("YYYY-MM-DD")] = 2998;
+
+      ref = {
+        "facebook.com": 4501,
+        "news.ycombinator.com": 2349,
+        "com.linkedin.android": 1801,
+        "other.com": 1800,
+      };
+
+      countries = {
+        ae: 8,
+        ar: 1,
+        at: 5,
+        au: 13,
+        ax: 17,
+        ba: 4,
+        be: 8,
+        bg: 3,
+        br: 10,
+        by: 2,
+        ca: 15,
+        ch: 1,
+        cl: 3,
+        cn: 22,
+        co: 5,
+        cu: 1,
+        cy: 41,
+        de: 26,
+        dk: 9,
+        ee: 4,
+        eg: 1,
+        es: 8,
+        fi: 9,
+        fr: 13,
+        gb: 26,
+        gt: 1,
+        hk: 4,
+        hn: 1,
+        ht: 1,
+        id: 5,
+        ie: 5,
+        il: 4,
+        in: 90,
+        iq: 1,
+        it: 4,
+        jp: 10,
+        ke: 2,
+        kr: 1,
+        lt: 2,
+        lu: 1,
+        md: 1,
+        mx: 2,
+        my: 1,
+        ng: 1,
+        nl: 10,
+        no: 3,
+        np: 1,
+        nz: 2,
+        pe: 1,
+        ph: 1,
+        pk: 1,
+        pl: 11,
+        pt: 1,
+        ro: 4,
+        ru: 3,
+        sa: 2,
+        se: 4,
+        sg: 2,
+        si: 1,
+        sk: 1,
+        so: 1,
+        t1: 2,
+        th: 1,
+        tn: 3,
+        tr: 4,
+        tt: 1,
+        tw: 1,
+        ua: 30,
+        us: 96,
+        uy: 1,
+        vn: 1,
+        za: 1,
+      };
+
+      customElements.whenDefined("comp-chart-lastdays").then(() => {
+        var el = document.getElementsByTagName("comp-chart-lastdays")[0];
+        el.draw(date);
+      });
+
+      customElements.whenDefined("comp-chart-referrers").then(() => {
+        var el = document.getElementsByTagName("comp-chart-referrers")[0];
+        //el.draw(date)
+        el.draw(ref, date);
+      });
+
+      customElements.whenDefined("comp-map").then(() => {
+        var el = document.getElementsByTagName("comp-map")[0];
+        //el.draw(date)
+        el.draw(countries);
+      });
     </script>
 
     <script>
