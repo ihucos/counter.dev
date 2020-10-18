@@ -202,9 +202,10 @@ func (ctx Ctx) handleLoadComponentsJS() {
 	ctx.CatchError(err)
 	files := append(append(files1, files2...), files3...)
 
-        for _, file := range files {
-	 ctx.w.Header().Add("Link", fmt.Sprintf("</%s>; rel=preload;", file))
-        }
+        // this works, but breaks the frontend - you fix it!
+        //for _, file := range files {
+	// ctx.w.Header().Add("Link", fmt.Sprintf("</%s>; rel=preload;", file))
+        //}
 
 	filesJson, err := json.Marshal(files)
 	ctx.CatchError(err)
