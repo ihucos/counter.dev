@@ -28,7 +28,7 @@ logs:
 
 deploy:
 	$(go) build .
-	deploy-static
+	make deploy-static
 	ssh root@172.104.148.60 "pkill -x dtach; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
 
 deploy-static:
