@@ -116,7 +116,9 @@ function download(filename, text) {
 }
 
 function downloadData() {
+  // this function should be a component
   var csv = "";
+  let data = state.dump.sites[getSelector().site].visits[getSelector().range];
   Object.keys(data).forEach(function (namespace, _) {
     Object.keys(data[namespace]).forEach(function (key, _) {
       var val = data[namespace][key];
@@ -127,7 +129,7 @@ function downloadData() {
         "\n";
     });
   });
-  download("swa-" + user + "-data.csv", csv);
+  download("swa-" + state.dump.user.id + "-data.csv", csv);
 }
 
 function onclickOverlay() {
