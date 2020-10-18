@@ -1,9 +1,3 @@
-////
-//// DO NOT DEPLOY
-//// DO NOT DEPLOY
-//// DO NOT DEPLOY
-/// LOTS OF HTML INJECTION VULNERABILITIES!!
-
 class BaseTable extends HTMLElement {
   constructor() {
     super();
@@ -35,7 +29,6 @@ class BaseTable extends HTMLElement {
       return;
     }
 
-    // ESCAPE XXXXXXXXXXXXXXXXXXXXXXXXXXXX SECURITY  DO NOT DEPLOY - DO NOT DEPLOY - DO NOT DEPLOY
     this.innerHTML = `
                 <table>
                   ${
