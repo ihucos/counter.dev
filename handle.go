@@ -201,6 +201,11 @@ func (ctx Ctx) handleLoadComponentsJS() {
 	files3, err := filepath.Glob("./static/comp/*/*/*.js")
 	ctx.CatchError(err)
 	files := append(append(files1, files2...), files3...)
+
+        for _, file := range files {
+	 ctx.w.Header().Add("Link", fmt.Sprintf("</%s>; rel=preload;", file))
+        }
+
 	filesJson, err := json.Marshal(files)
 	ctx.CatchError(err)
 	ctx.Return(fmt.Sprintf(`
