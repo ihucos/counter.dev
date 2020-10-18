@@ -231,15 +231,6 @@ function emptyIfSumZero(arr) {
   return arr;
 }
 
-function escapeHtml(unsafe) {
-  return (unsafe + "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
 function getUTCMinusElevenNow() {
   var date = new Date();
   var now_utc = Date.UTC(
@@ -383,7 +374,11 @@ class StateMngr {
   }
 
   dumpAvailable(dump) {
+    // it's very important to escape all elements in dump.
+    //let escapedDump = escapeObject(dump)
+    //this._dump = escapedDump;
     this._dump = dump;
+
     document.dispatchEvent(new Event("redraw-selector"));
     if (!this._ready.has("dump")) {
       this._requestSetup("redrawing");
@@ -546,4 +541,25 @@ function main() {
   state = new StateMngr();
   pageOnly("loading");
   state.start();
+}
+
+function escapeHtml(unsafe) {
+  return (unsafe + "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function escapeObject(obj) {
+  if (typeof obj === "number") {
+    return obj;
+  }
+  if (typeof obj === "string") {
+    return escapeHtml(obj);
+  }
+  return Object.fromEntries(
+    Object.entries(obj).map((v) => [escapeObject(v[0]), escapeObject(v[1])])
+  );
 }
