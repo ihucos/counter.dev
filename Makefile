@@ -2,7 +2,6 @@
 alpineversion = 3.11
 go = ./scripts/go
 
-include config/makefile.env
 export
 
 .PHONY: tests
