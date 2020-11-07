@@ -17,6 +17,7 @@ type UserDataResp struct {
 type Ctx struct {
 	w   http.ResponseWriter
 	r   *http.Request
+	cleanups []func()
 	app *App
 }
 
@@ -28,6 +29,16 @@ func (ctx Ctx) Return(content string, statusCode int) {
 	ctx.w.WriteHeader(statusCode)
 	ctx.w.Write([]byte(content))
 	ctx.Abort()
+}
+
+func (ctx Ctx) Cleanup(cleanup func()) {
+	ctx.cleanups = append(ctx.cleanups, cleanup)
+}
+
+func (ctx Ctx) RunCleanup() {
+    for _, fn := range ctx.cleanups {
+        fn()
+    }
 }
 
 func (ctx Ctx) ReturnBadRequest(message string) {
@@ -108,7 +119,14 @@ func (ctx Ctx) Logout() {
 	session.Save(ctx.r, ctx.w)
 }
 
+func (ctx Ctx) User(userId string) models.User {
+	conn := ctx.app.RedisPool.Get()
+	user := models.NewUser(conn, userId)
+	ctx.Cleanup(func(){conn.Close()})
+	return user
+}
+
 func (ctx Ctx) ForceUser() models.User {
-	return ctx.app.OpenUser(ctx.ForceUserId())
+	return ctx.User(ctx.ForceUserId())
 
 }

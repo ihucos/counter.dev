@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"./config"
-	"./models"
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
 	"log"
@@ -30,7 +29,9 @@ func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}()
-	ah.fn(ah.app.NewContext(w, r))
+	ctx := ah.app.NewContext(w, r)
+	ah.fn(ctx)
+	ctx.RunCleanup()
 }
 
 type App struct {
@@ -47,10 +48,6 @@ func (app *App) NewContext(w http.ResponseWriter, r *http.Request) Ctx {
 
 func (app *App) CtxHandlerToHandler(fn func(Ctx)) http.Handler {
 	return appAdapter{app, fn}
-}
-
-func (app *App) OpenUser(userId string) models.User {
-	return models.NewUser(app.RedisPool.Get(), userId)
 }
 
 func (app *App) Connect(path string, f func(Ctx)) {
@@ -112,5 +109,4 @@ func main() {
 	if err != nil {
 		panic(fmt.Sprintf("ListenAndServe: %s", err))
 	}
-
 }

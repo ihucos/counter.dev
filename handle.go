@@ -98,8 +98,7 @@ func (ctx Ctx) handleLogin() {
 		ctx.ReturnBadRequest("Missing Input")
 	}
 
-	user := ctx.app.OpenUser(userId)
-	defer user.Close()
+	user := ctx.User(userId)
 
 	passwordOk, err := user.VerifyPassword(passwordInput)
 	ctx.CatchError(err)
@@ -130,8 +129,7 @@ func (ctx Ctx) handleRegister() {
 		ctx.ReturnBadRequest("Missing Input")
 	}
 
-	user := ctx.app.OpenUser(userId)
-	defer user.Close()
+	user := ctx.User(userId)
 
 	err := user.Create(password)
 	switch err.(type) {
@@ -149,7 +147,6 @@ func (ctx Ctx) handleRegister() {
 
 func (ctx Ctx) handleSetPrefRange() {
 	user := ctx.ForceUser()
-	defer user.Close()
 	err := user.SetPref("range", ctx.r.URL.RawQuery)
 	ctx.CatchError(err)
 
@@ -157,7 +154,6 @@ func (ctx Ctx) handleSetPrefRange() {
 
 func (ctx Ctx) handleSetPrefSite() {
 	user := ctx.ForceUser()
-	defer user.Close()
 	err := user.SetPref("site", ctx.r.URL.RawQuery)
 	ctx.CatchError(err)
 
@@ -175,7 +171,6 @@ func (ctx Ctx) handlePing() {
 		ctx.ReturnBadRequest("no siteId given as raw query param")
 	}
 	user := ctx.ForceUser()
-	defer user.Close()
 	visits := user.NewSite(siteId)
 
 	// if parameter wait is set:
@@ -234,7 +229,6 @@ func (ctx Ctx) handleDump() {
 	utcOffset := ctx.ParseUTCOffset("utcoffset")
         sendDump := func(){
 	        user := ctx.ForceUser()
-	        defer user.Close()
 		dump, err := LoadDump(user, utcOffset)
 		ctx.CatchError(err)
 		jsonString, err := json.Marshal(dump)
@@ -245,7 +239,6 @@ func (ctx Ctx) handleDump() {
 
         sendDump()
         signalUser := ctx.ForceUser()
-        defer signalUser.Close()
 	signalUser.HandleSignals(func(err error) {
                 ctx.CatchError(err)
                 sendDump()

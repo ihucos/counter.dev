@@ -46,10 +46,6 @@ func NewUser(conn redis.Conn, userId string) User {
 	return User{redis: conn, Id: truncate(userId)}
 }
 
-func (user User) Close() {
-	user.redis.Close()
-}
-
 func (user User) delAllVisits() error {
 	linkedSites, err := user.GetSiteLinks()
 	if err != nil {
