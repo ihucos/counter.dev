@@ -188,6 +188,7 @@ func (user User) HandleSignals(cb func(error)) {
 	psc := redis.PubSubConn{user.redis}
 	psc.Subscribe(fmt.Sprintf("user:%s", user.Id))
 	defer psc.Unsubscribe()
+	defer psc.Close()
 	for {
 		switch v := psc.Receive().(type) {
 		case redis.Message:
