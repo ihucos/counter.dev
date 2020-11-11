@@ -91,7 +91,7 @@ func LoadDump(user models.User, utcOffset int) (Dump, error) {
 	return Dump{User: userDump, Sites: sitesDump}, nil
 }
 
-func (ctx Ctx) handleLogin() {
+func (ctx *Ctx) handleLogin() {
 	userId := ctx.r.FormValue("user")
 	passwordInput := ctx.r.FormValue("password")
 	if userId == "" || passwordInput == "" {
@@ -117,12 +117,12 @@ func (ctx Ctx) handleLogin() {
 	}
 }
 
-func (ctx Ctx) handleLogout() {
+func (ctx *Ctx) handleLogout() {
 	ctx.Logout()
 	http.Redirect(ctx.w, ctx.r, "/app", http.StatusTemporaryRedirect)
 }
 
-func (ctx Ctx) handleRegister() {
+func (ctx *Ctx) handleRegister() {
 	userId := ctx.r.FormValue("user")
 	password := ctx.r.FormValue("password")
 	if userId == "" || password == "" {
@@ -145,14 +145,14 @@ func (ctx Ctx) handleRegister() {
 	}
 }
 
-func (ctx Ctx) handleSetPrefRange() {
+func (ctx *Ctx) handleSetPrefRange() {
 	user := ctx.ForceUser()
 	err := user.SetPref("range", ctx.r.URL.RawQuery)
 	ctx.CatchError(err)
 
 }
 
-func (ctx Ctx) handleSetPrefSite() {
+func (ctx *Ctx) handleSetPrefSite() {
 	user := ctx.ForceUser()
 	err := user.SetPref("site", ctx.r.URL.RawQuery)
 	ctx.CatchError(err)
@@ -165,7 +165,7 @@ type PingDataResp struct {
 	SiteLinks map[string]int     `json:"site_links"`
 }
 
-func (ctx Ctx) handlePing() {
+func (ctx *Ctx) handlePing() {
 	siteId := ctx.r.URL.RawQuery
 	if siteId == "" {
 		ctx.ReturnBadRequest("no siteId given as raw query param")
@@ -187,7 +187,7 @@ func (ctx Ctx) handlePing() {
 	ctx.ReturnJSON(resp, 200)
 }
 
-func (ctx Ctx) handleLoadComponentsJS() {
+func (ctx *Ctx) handleLoadComponentsJS() {
 	// SEND HEADERS FOR CLOUDFROM HTTP PUSH AND TEST THAT
 	files1, err := filepath.Glob("./static/comp/*.js")
 	ctx.CatchError(err)
@@ -211,11 +211,11 @@ func (ctx Ctx) handleLoadComponentsJS() {
             document.head.appendChild(script)})`, filesJson), 200)
 }
 
-func (ctx Ctx) handleUser() {
+func (ctx *Ctx) handleUser() {
 	ctx.ReturnUser()
 }
 
-func (ctx Ctx) handleDump() {
+func (ctx *Ctx) handleDump() {
 
 	ctx.w.Header().Set("Content-Type", "text/event-stream")
 	ctx.w.Header().Set("Cache-Control", "no-cache")

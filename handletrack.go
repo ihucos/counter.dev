@@ -13,7 +13,7 @@ import (
 	"golang.org/x/text/language/display"
 )
 
-func (ctx Ctx) handleTrack() {
+func (ctx *Ctx) handleTrack() {
 	visit := make(models.Visit)
 
 	//

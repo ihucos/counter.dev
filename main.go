@@ -15,7 +15,7 @@ import (
 
 type appAdapter struct {
 	app *App
-	fn  func(Ctx)
+	fn  func(*Ctx)
 }
 
 func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -23,15 +23,15 @@ func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		r := recover()
 		if r != nil {
 			switch r.(type) {
-			case Ctx:
+			case *Ctx:
 			default:
 				panic(r)
 			}
 		}
 	}()
 	ctx := ah.app.NewContext(w, r)
+	defer ctx.RunCleanup()
 	ah.fn(ctx)
-	ctx.RunCleanup()
 }
 
 type App struct {
@@ -42,29 +42,30 @@ type App struct {
 	config       config.Config
 }
 
-func (app *App) NewContext(w http.ResponseWriter, r *http.Request) Ctx {
-	return Ctx{w: w, r: r, app: app}
+func (app *App) NewContext(w http.ResponseWriter, r *http.Request) *Ctx {
+	return &Ctx{w: w, r: r, app: app}
 }
 
-func (app *App) CtxHandlerToHandler(fn func(Ctx)) http.Handler {
+func (app *App) CtxHandlerToHandler(fn func(*Ctx)) http.Handler {
 	return appAdapter{app, fn}
 }
 
-func (app *App) Connect(path string, f func(Ctx)) {
+func (app *App) Connect(path string, f func(*Ctx)) {
 	app.ServeMux.Handle(path, app.CtxHandlerToHandler(f))
 }
 
 func (app *App) SetupUrls() {
-	app.Connect("/login", func(ctx Ctx) { ctx.handleLogin() })
-	app.Connect("/logout", func(ctx Ctx) { ctx.handleLogout() })
-	app.Connect("/register", func(ctx Ctx) { ctx.handleRegister() })
-	app.Connect("/ping", func(ctx Ctx) { ctx.handlePing() })
-	app.Connect("/setPrefRange", func(ctx Ctx) { ctx.handleSetPrefRange() })
-	app.Connect("/setPrefSite", func(ctx Ctx) { ctx.handleSetPrefSite() })
-	app.Connect("/track", func(ctx Ctx) { ctx.handleTrack() })
-	app.Connect("/user", func(ctx Ctx) { ctx.handleUser() })
-	app.Connect("/dump", func(ctx Ctx) { ctx.handleDump() })
-	app.Connect("/loadComponents.js", func(ctx Ctx) { ctx.handleLoadComponentsJS() })
+	app.Connect("/login", func(ctx *Ctx) { ctx.handleLogin() })
+	app.Connect("/logout", func(ctx *Ctx) { ctx.handleLogout() })
+	app.Connect("/register", func(ctx *Ctx) { ctx.handleRegister() })
+	app.Connect("/ping", func(ctx *Ctx) { ctx.handlePing() })
+	app.Connect("/setPrefRange", func(ctx *Ctx) { ctx.handleSetPrefRange() })
+	app.Connect("/setPrefSite", func(ctx *Ctx) { ctx.handleSetPrefSite() })
+	app.Connect("/track", func(ctx *Ctx) { ctx.handleTrack() })
+	app.Connect("/user", func(ctx *Ctx) { ctx.handleUser() })
+	app.Connect("/dump", func(ctx *Ctx) { ctx.handleDump() })
+	app.Connect("/count", func(ctx *Ctx) { ctx.Return(fmt.Sprintf("%d", ctx.app.RedisPool.ActiveCount()), 200) }) // DEBUG CODE
+	app.Connect("/loadComponents.js", func(ctx *Ctx) { ctx.handleLoadComponentsJS() })
 }
 
 func NewApp() *App {
