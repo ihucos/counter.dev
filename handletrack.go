@@ -13,7 +13,7 @@ import (
 	"golang.org/x/text/language/display"
 )
 
-func (ctx Ctx) handleTrack() {
+func (ctx *Ctx) handleTrack() {
 	visit := make(models.Visit)
 
 	//
@@ -117,8 +117,7 @@ func (ctx Ctx) handleTrack() {
 	logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, userAgent)
 
 	siteId := Origin2SiteId(origin)
-	user := ctx.app.OpenUser(userId)
-	defer user.Close()
+	user := ctx.User(userId)
 	visits := user.NewSite(siteId)
 	visits.SaveVisit(visit, now)
 	visits.Log(logLine)

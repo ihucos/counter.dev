@@ -28,6 +28,12 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
+func OpenUser(userId string) models.User {
+	conn := app.RedisPool.Get()
+	user := models.NewUser(conn, userId)
+	return user
+}
+
 func setupSubTest(t *testing.T) func(t *testing.T) {
 	t.Log("setup sub test")
 	return func(t *testing.T) {
@@ -54,7 +60,7 @@ func loginCookie(t *testing.T, user string, password string) *apitest.Cookie {
 
 func TestCreateSuccess(t *testing.T) {
 	ResetRedis()
-	user := app.OpenUser("peter")
+	user := OpenUser("peter")
 	err := user.Create("mypassmypass")
 	assert.Equal(t, err, nil)
 
@@ -62,14 +68,14 @@ func TestCreateSuccess(t *testing.T) {
 
 func TestCreateShortPass(t *testing.T) {
 	ResetRedis()
-	user := app.OpenUser("peter")
+	user := OpenUser("peter")
 	err := user.Create("mypadd")
 	assert.Contains(t, err.Error(), "at least")
 }
 
 func TestCreateUsernameTaken(t *testing.T) {
 	ResetRedis()
-	user := app.OpenUser("peter")
+	user := OpenUser("peter")
 	user.Create("mypassmypass")
 
 	err := user.Create("mypassmypass")
@@ -78,13 +84,13 @@ func TestCreateUsernameTaken(t *testing.T) {
 
 func TestVerifyPasswordSuccess(t *testing.T) {
 	ResetRedis()
-	success, _ := app.OpenUser("john").VerifyPassword("johnjohn")
+	success, _ := OpenUser("john").VerifyPassword("johnjohn")
 	assert.Equal(t, success, true)
 }
 
 func TestVerifyPasswordFail(t *testing.T) {
 	ResetRedis()
-	success, _ := app.OpenUser("john").VerifyPassword("xxx")
+	success, _ := OpenUser("john").VerifyPassword("xxx")
 	assert.Equal(t, success, false)
 }
 
@@ -149,7 +155,7 @@ func TestApiAuthFailure(t *testing.T) {
 
 func TestGetPrefEmpty(t *testing.T) {
 	ResetRedis()
-	user := app.OpenUser("peter")
+	user := OpenUser("peter")
 	val, err := user.GetPref("blah")
 	assert.Equal(t, err, nil)
 	assert.Equal(t, val, "")
@@ -157,7 +163,7 @@ func TestGetPrefEmpty(t *testing.T) {
 
 func TestSetAndGetPref(t *testing.T) {
 	ResetRedis()
-	user := app.OpenUser("peter")
+	user := OpenUser("peter")
 	err := user.SetPref("key", "da")
 	assert.Equal(t, err, nil)
 	val, err := user.GetPref("key")
@@ -167,7 +173,7 @@ func TestSetAndGetPref(t *testing.T) {
 
 func TestGetPrefsEmpty(t *testing.T) {
 	ResetRedis()
-	user := app.OpenUser("peter")
+	user := OpenUser("peter")
 	val, err := user.GetPrefs()
 	assert.Equal(t, err, nil)
 	assert.Equal(t, val, map[string]string{})
@@ -175,7 +181,7 @@ func TestGetPrefsEmpty(t *testing.T) {
 
 func TestGetPrefsVals(t *testing.T) {
 	ResetRedis()
-	user := app.OpenUser("peter")
+	user := OpenUser("peter")
 	err := user.SetPref("key1", "da")
 	assert.Equal(t, err, nil)
 	err = user.SetPref("key2", "da2")
@@ -186,7 +192,7 @@ func TestGetPrefsVals(t *testing.T) {
 }
 
 func TestCreateThanDeleteSiteVisits(t *testing.T) {
-	john := app.OpenUser("john")
+	john := OpenUser("john")
 	site := john.NewSite("example.com")
 	site.SaveVisit(models.Visit{"browser": "firefox"}, utils.TimeNow(0))
 	site.SaveVisit(models.Visit{"browser": "firefox"}, utils.TimeNow(0))
