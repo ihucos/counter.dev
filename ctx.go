@@ -51,15 +51,19 @@ func (ctx *Ctx) ReturnJSON(v interface{}, statusCode int) {
 	ctx.Return(string(jsonString), statusCode)
 }
 
-func (ctx *Ctx) ReturnInternalError(err error) {
-	_, file, line, _ := runtime.Caller(1)
+func (ctx *Ctx) ReturnInternalErrorWithSkip(err error,  skip  int) {
+	_, file, line, _ := runtime.Caller(skip)
 	ctx.app.Logger.Printf("%s:%d %s: %v\n", file, line, ctx.r.URL, err)
 	ctx.Return(err.Error(), 500)
 }
 
+func (ctx *Ctx) ReturnInternalError(err error) {
+        ctx.ReturnInternalErrorWithSkip(err,  1)
+}
+
 func (ctx *Ctx) CatchError(err error) {
 	if err != nil {
-		ctx.ReturnInternalError(err)
+		ctx.ReturnInternalErrorWithSkip(err,  2)
 	}
 }
 

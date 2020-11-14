@@ -180,8 +180,8 @@ func (user User) Signal() {
 	user.redis.Send("PUBLISH", fmt.Sprintf("user:%s", user.Id), "")
 }
 
-func (user User) HandleSignals(cb func(error)) {
-	psc := redis.PubSubConn{user.redis}
+func (user User) HandleSignals(conn redis.Conn, cb func(error)) {
+	psc := redis.PubSubConn{conn}
 	psc.Subscribe(fmt.Sprintf("user:%s", user.Id))
 	defer psc.Unsubscribe()
 	defer psc.Close()

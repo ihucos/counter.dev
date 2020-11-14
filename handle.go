@@ -2,37 +2,13 @@ package main
 
 import (
 	"./models"
+	"github.com/gomodule/redigo/redis"
 	"encoding/json"
 	"fmt"
+	"strings"
 	"net/http"
 	"path/filepath"
 )
-
-//{
-//
-//sites: {
-//    {
-//      "example.com":
-//        count: 56
-//        log: ["da"]
-//        visits: {
-//          day: {}
-//          month: {}
-//          year: {}
-//          all: {}
-//        }
-//    }
-//}
-//user: {
-//    id: "adsf"
-//    token: "asdf",
-//    prefs: {
-//      range: "da",
-//      site: "du",
-//    }
-//}
-//
-//}
 
 type UserDump struct {
 	Id    string            `json:"id"`
@@ -227,8 +203,8 @@ func (ctx *Ctx) handleDump() {
 	}
 
 	utcOffset := ctx.ParseUTCOffset("utcoffset")
+	user := ctx.ForceUser()
         sendDump := func(){
-	        user := ctx.ForceUser()
 		dump, err := LoadDump(user, utcOffset)
 		ctx.CatchError(err)
 		jsonString, err := json.Marshal(dump)
@@ -238,13 +214,15 @@ func (ctx *Ctx) handleDump() {
         }
 
         sendDump()
-        signalUser := ctx.ForceUser()
-	signalUser.HandleSignals(func(err error) {
+        conn, err := redis.DialURL(ctx.app.config.RedisUrl)
+        ctx.CatchError(err)
+	ctx.openConns = append(ctx.openConns, conn)
+	user.HandleSignals(conn, func(err error) {
 
 		// this happens because we close the connection to redis when
 		// we lose the http connection tot he client. But this piece of
 		// code apparently still remains there int he air.
-		if err.Error() == "redigo: connection closed" {
+		if strings.Contains(err.Error(), "use of closed network connection") {
 			ctx.Abort()
 		}
 
