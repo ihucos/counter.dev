@@ -30,7 +30,10 @@ func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 	}()
 	ctx := ah.app.NewContext(w, r)
-	defer ctx.RunCleanup()
+	go func() {
+	        <-r.Context().Done()
+		ctx.RunCleanup()
+	}()
 	ah.fn(ctx)
 }
 
@@ -73,8 +76,8 @@ func NewApp() *App {
 	config := config.NewConfigFromEnv()
 
 	redisPool := &redis.Pool{
-		MaxIdle:     10,
-		IdleTimeout: 240 * time.Second,
+		//MaxIdle:     0,
+		//IdleTimeout: 240 * time.Second,
 		Dial: func() (redis.Conn, error) {
 			return redis.DialURL(config.RedisUrl)
 		},
@@ -103,11 +106,22 @@ func NewApp() *App {
 	return app
 }
 
-func main() {
-	app := NewApp()
-	app.Logger.Println("Start")
-	err := http.ListenAndServe(app.config.Bind, app.ServeMux)
+func (app App) Serve() {
+	srv := &http.Server{
+		Addr:         app.config.Bind,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  120 * time.Second,
+		Handler:      app.ServeMux,
+	}
+	err := srv.ListenAndServe()
 	if err != nil {
 		panic(fmt.Sprintf("ListenAndServe: %s", err))
 	}
+}
+
+func main() {
+	app := NewApp()
+	app.Logger.Println("Start")
+	app.Serve()
 }
