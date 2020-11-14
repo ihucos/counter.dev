@@ -240,6 +240,14 @@ func (ctx *Ctx) handleDump() {
         sendDump()
         signalUser := ctx.ForceUser()
 	signalUser.HandleSignals(func(err error) {
+
+		// this happens because we close the connection to redis when
+		// we lose the http connection tot he client. But this piece of
+		// code apparently still remains there int he air.
+		if err.Error() == "redigo: connection closed" {
+			ctx.Abort()
+		}
+
                 ctx.CatchError(err)
                 sendDump()
 	})

@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"runtime"
 	"strconv"
+	"io"
 	"fmt"
 )
 
@@ -18,7 +19,7 @@ type UserDataResp struct {
 type Ctx struct {
 	w   http.ResponseWriter
 	r   *http.Request
-	cleanups []func()
+	openConns []io.Closer
 	app *App
 }
 
@@ -32,16 +33,12 @@ func (ctx *Ctx) Return(content string, statusCode int) {
 	ctx.Abort()
 }
 
-func (ctx *Ctx) Cleanup(cleanup func()) {
-	ctx.cleanups = append(ctx.cleanups, cleanup)
-	fmt.Println("Cleanup", ctx.r.URL.Path, ctx.cleanups)
-}
-
 func (ctx *Ctx) RunCleanup() {
-	fmt.Println("RunCleanup", ctx.r.URL.Path, ctx.cleanups)
-    for _, fn := range ctx.cleanups {
-        fn()
-    }
+	for _, conn := range ctx.openConns {
+		fmt.Println("closing", conn)
+		err := conn.Close()
+		if err != nil {fmt.Println(err.Error())}
+	}
 }
 
 func (ctx *Ctx) ReturnBadRequest(message string) {
@@ -125,7 +122,7 @@ func (ctx *Ctx) Logout() {
 func (ctx *Ctx) User(userId string) models.User {
 	conn := ctx.app.RedisPool.Get()
 	user := models.NewUser(conn, userId)
-	ctx.Cleanup(func(){conn.Close()})
+	ctx.openConns = append(ctx.openConns, conn)
 	return user
 }
 
