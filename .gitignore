@@ -1,4 +1,5 @@
 log
+counter.dev
 webstats
 *.swp
 config/production.sh

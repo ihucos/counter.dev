@@ -1,0 +1,1399 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Counter - Dashboard</title>
+    <meta name="description" content="Web Analytics made simple and therefore privacy friendly. It’s Free.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="dashboard.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/simplebar/5.3.0/simplebar.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.css">
+    <link rel="shortcut icon" href="img/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tabslet.js/1.7.3/jquery.tabslet.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplebar/5.3.0/simplebar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <!-- Navbar -->
+      <section class="navbar">
+        <div class="content">
+          <a href="https://counter.dev" class="logotype"></a>
+          <span class="version caption blue ml16">v 2.0</span>
+          <!-- Navigation -->
+          <nav class="nav-header">
+            <a href="#" class="mr32" target="_blank" rel="nofollow">Blog</a>
+            <a href="#" class="mr32" target="_blank" rel="nofollow">Feedback</a>
+            <a href="#" class="mr32" target="_blank" rel="nofollow">Donate</a>
+            <a href="#" class="github-blue mr16" target="_blank" rel="nofollow"></a>
+            <a href="#" class="twitter-blue mr32" target="_blank" rel="nofollow"></a>
+            <!-- Guest -->
+            <span class="profile-guest" style="display: none;">
+              <a href="#" class="ml32 mr32">Sign in</a>
+              <a href="#" class="btn-primary">Sign up</a>
+            </span>
+            <!-- User -->
+            <div class="dropdown">
+              <div class="profile-user">slomchinskiy</div>
+              <div class="dropdown-content">
+                <a href="#modal-account" rel="modal:open">Edit account</a>
+                <a href="#">Sign out</a>
+              </div>
+            </div>
+            <!-- /// -->
+          </nav>
+          <!-- Hamburger -->
+          <div class="hamburger-menu">
+            <input id="hamburger-toggle" type="checkbox" />
+            <label class="hamburger-btn" for="hamburger-toggle"></label>
+            <div class="hamburger-box">
+              <div class="hamburger-content">
+                <img src="img/avatar.svg" width="96" height="96" alt="Avatar">
+                <!-- Navigation -->
+                <nav class="nav-header-mob">
+                  <!-- Guest -->
+                  <span class="mt48 mb48" style="display: none;">
+                    <a href="#" class="btn-primary mr16">Sign in</a>
+                    <a href="#" class="btn-secondary">Sign up</a>
+                  </span>
+                  <!-- User -->
+                  <span class="mt24">slomchinskiy</span>
+                  <span class="mt24 mb48">
+                    <a href="#modal-account" class="btn-primary mr16" rel="modal:open" onClick="document.getElementById('hamburger-toggle').checked=false">Edit account</a>
+                    <a href="#" class="btn-secondary">Sign out</a>
+                  </span>
+                  <!-- /// -->
+                  <a href="#" class="mb24" target="_blank" rel="nofollow">Blog</a>
+                  <a href="#" class="mb24" target="_blank" rel="nofollow">Feedback</a>
+                  <a href="#" target="_blank" rel="nofollow">Donate</a>
+                  <span class="mt48">
+                    <a href="#" class="github-blue mr24" target="_blank" rel="nofollow"></a>
+                    <a href="#" class="twitter-blue" target="_blank" rel="nofollow"></a>
+                  </span>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </header>
+    <!-- Dashboard -->
+    <!-- Headline -->
+    <section class="headline">
+      <div class="content">
+        <div class="headline-left">
+          <h2>Analytics</h2>
+          <div class="refresh">
+            <img src="img/refresh.svg" width="18" height="18" alt="Refresh">
+            <span class="caption gray ml8">5s.</span>
+          </div>
+        </div>
+        <div class="headline-right caption">
+          <!-- Shareable -->
+          <img src="img/eye.svg" width="20" height="18" alt="Shareable">
+          <span class="gray ml8 mr16">This account is shareable</span>
+          <a href="#" class="mr16 caption-strong black">Copy url</a>
+          <a href="#" class="caption-strong black">Remove url</a>
+          <!-- Not shareable (Remove this <span> with "display: none") -->
+          <span style="display: none;">
+            <img src="img/eye-slash.svg" width="20" height="18" alt="Not shareable">
+            <span class="gray ml8 mr16">This account is not shareable</span>
+            <a href="#" class="caption-strong black">Share</a>
+          </span>
+          <!-- /// -->
+        </div>
+      </div>
+    </section>
+    <!-- Dashboard settings -->
+    <section class="settings">
+      <div class="content">
+        <div class="settings-left">
+          <div class="project mr16">
+            <img src="img-delete/bell.png" width="16" height="16" alt="Favicon">
+            <select>
+              <option>bell.so</option>
+              <option>bone.is</option>
+            </select>
+          </div>
+          <select>
+            <option>Today</option>
+            <option>This month</option>
+            <option>This year</option>
+            <option>All</option>
+          </select>
+        </div>
+        <div class="settings-right">
+          <a href="#" class="btn-secondary btn-icon mr16"><img src="img/download.svg" width="24" height="24" alt="Download"></a>
+          <a href="#modal-settings" class="btn-secondary btn-icon mr16" rel="modal:open"><img src="img/settings.svg" width="24" height="24" alt="Settings"></a>
+          <a href="#modal-add" class="btn-primary" rel="modal:open">Add a website</a>
+        </div>
+      </div>
+    </section>
+    <!-- Categories of visits -->
+    <section class="categories">
+      <div class="content">
+        <div class="category">
+          <div class="h2 blue">9680</div>
+          <div class="category-label">
+            Visitors
+            <div class="dynamics negative caption"><span class="dynamics-mobile">47%</span></div>
+          </div>
+        </div>
+        <div class="category">
+          <div class="h2 blue">670</div>
+          <div class="category-label">
+            Search engines
+            <div class="dynamics positive caption"><span class="dynamics-mobile">62%</span></div>
+          </div>
+        </div>
+        <div class="category">
+          <div class="h2 blue">209</div>
+          <div class="category-label">
+            Social networks
+            <div class="dynamics stability caption"></div>
+          </div>
+        </div>
+        <div class="category">
+          <div class="h2 blue">83</div>
+          <div class="category-label">
+            Direct
+            <div class="dynamics positive caption"><span class="dynamics-mobile">90%</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Graph -->
+    <section class="graph">
+      <div class="content shadow-lg radius-lg">
+        <div class="graph-wrap"></div>
+        <!-- Positive -->
+        <div class="graph-dynamics">
+          <img src="img/rocket.png" srcset="img/rocket@2x.png 2x" width="60" height="60" alt="Rocket">
+          <div class="graph-dynamics-content gradient-green radius-lg">
+            <div class="dynamics positive caption">62%</div>
+            <div class="strong mt16 mb8">Positive dynamics</div>
+            <div class="caption gray mb32">You are on the right track :)</div>
+            <a href="#modal-tips" class="btn-white" rel="modal:open">Our tips</a>
+          </div>
+        </div>
+        <!-- Negative -->
+        <div class="graph-dynamics" style="display: none;">
+          <img src="img/volcano.png" srcset="img/volcano@2x.png 2x" width="60" height="60" alt="Volcano">
+          <div class="graph-dynamics-content gradient-red radius-lg">
+            <div class="dynamics negative caption">27%</div>
+            <div class="strong mt16 mb8">Negative dynamics</div>
+            <div class="caption gray mb32">Something went wrong :(</div>
+            <a href="#modal-tips" class="btn-white" rel="modal:open">Our tips</a>
+          </div>
+        </div>
+        <!-- Stability -->
+        <div class="graph-dynamics" style="display: none;">
+          <img src="img/grow.png" srcset="img/grow@2x.png 2x" width="60" height="60" alt="Grow">
+          <div class="graph-dynamics-content bg-gray radius-lg">
+            <div class="dynamics stability caption"></div>
+            <div class="strong mt16 mb8">Good stability</div>
+            <div class="caption gray mb32">But you need to grow!</div>
+            <a href="#modal-tips" class="btn-white" rel="modal:open">Our tips</a>
+          </div>
+        </div>
+        <!-- /// -->
+      </div>
+    </section>
+    <!-- Sources and countries -->
+    <section class="metrics-one">
+      <div class="content radius-lg responsive-tabs">
+        <!-- Mobile tabs -->
+        <ul class="responsive-tabs-menu bg-white shadow-sm">
+          <li><a href="#sources"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.2398 7.76001L14.1198 14.12L7.75977 16.24L9.87977 9.88001L16.2398 7.76001Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+          <li><a href="#countries"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12H22" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 2C14.5013 4.73835 15.9228 8.29203 16 12C15.9228 15.708 14.5013 19.2616 12 22C9.49872 19.2616 8.07725 15.708 8 12C8.07725 8.29203 9.49872 4.73835 12 2V2Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+        </ul>
+        <!-- Sources -->
+        <div class="sources" id="sources">
+          <div class="metrics-headline">
+            <img src="img/sources.svg" width="24" height="24" alt="Sources">
+            <h3 class="ml16">Sources</h3>
+          </div>
+          <div class="sources-countries-data caption gray bg-gray mt16 mb24">
+            <span>Source</span>
+            <span>Visitors</span>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 100%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/tw.png" width="16" height="16" alt="Twitter">
+                <a href="#" class="black" target="_blank" rel="nofollow">twitter.com</a>
+              </span>
+              <span>
+                <span class="strong mr16">307</span>
+                <span class="item-percent bg-blue blue caption">100%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 90%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/google.png" width="16" height="16" alt="Google">
+                <a href="#" class="black" target="_blank" rel="nofollow">google.com</a>
+              </span>
+              <span>
+                <span class="strong mr16">268</span>
+                <span class="item-percent bg-blue blue caption">90%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 80%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/yahoo.png" width="16" height="16" alt="Yahoo">
+                <a href="#" class="black" target="_blank" rel="nofollow">yahoo.com</a>
+              </span>
+              <span>
+                <span class="strong mr16">220</span>
+                <span class="item-percent bg-blue blue caption">80%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 70%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/alternativeto.png" width="16" height="16" alt="Alternativeto">
+                <a href="#" class="black" target="_blank" rel="nofollow">alternativeto.net</a>
+              </span>
+              <span>
+                <span class="strong mr16">183</span>
+                <span class="item-percent bg-blue blue caption">70%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 60%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/github.png" width="16" height="16" alt="Github">
+                <a href="#" class="black" target="_blank" rel="nofollow">github.com</a>
+              </span>
+              <span>
+                <span class="strong mr16">147</span>
+                <span class="item-percent bg-blue blue caption">60%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 50%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/healeycodes.png" width="16" height="16" alt="Healeycodes">
+                <a href="#" class="black" target="_blank" rel="nofollow">healeycodes.com</a>
+              </span>
+              <span>
+                <span class="strong mr16">108</span>
+                <span class="item-percent bg-blue blue caption">50%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 40%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/msn.png" width="16" height="16" alt="Msn">
+                <a href="#" class="black" target="_blank" rel="nofollow">msn.com</a>
+              </span>
+              <span>
+                <span class="strong mr16">95</span>
+                <span class="item-percent bg-blue blue caption">40%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 30%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/producthunt.png" width="16" height="16" alt="Producthunt">
+                <a href="#" class="black" target="_blank" rel="nofollow">producthunt.com</a>
+              </span>
+              <span>
+                <span class="strong mr16">86</span>
+                <span class="item-percent bg-blue blue caption">30%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 20%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/facebook.png" width="16" height="16" alt="Facebook">
+                <a href="#" class="black" target="_blank" rel="nofollow">facebook.com</a>
+              </span>
+              <span>
+                <span class="strong mr16">37</span>
+                <span class="item-percent bg-blue blue caption">20%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 10%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/duckduckgo.png" width="16" height="16" alt="Duckduckgo">
+                <a href="#" class="black" target="_blank" rel="nofollow">duckduckgo.com</a>
+              </span>
+              <span>
+                <span class="strong mr16">18</span>
+                <span class="item-percent bg-blue blue caption">10%</span>
+              </span>
+            </div>
+          </div>
+          <!-- View all -->
+          <a href="#modal-sources" class="sources-countries-item sources-countries-item-wrap view-all shadow-sm" rel="modal:open">
+            <span>
+              <div class="view-all-icon animation"></div>
+              <span class="black strong view-all-text animation">View all</span>
+            </span>
+            <img src="img/chevron-right.svg" width="24" height="24" alt="Chevron">
+          </a>
+          <!-- /// -->
+        </div>
+        <!-- Countries -->
+        <div class="countries" id="countries">
+          <div class="metrics-headline">
+            <img src="img/countries.svg" width="24" height="24" alt="Countries">
+            <h3 class="ml16">Countries</h3>
+          </div>
+          <div class="sources-countries-data caption gray bg-gray mt16 mb24">
+            <span>Country</span>
+            <span>Visitors</span>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 100%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/germany.png" width="16" height="11" alt="Germany">
+                Germany
+              </span>
+              <span>
+                <span class="strong mr16">307</span>
+                <span class="item-percent bg-blue blue caption">100%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 90%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/kingdom.png" width="16" height="11" alt="United Kingdom">
+                United Kingdom
+              </span>
+              <span>
+                <span class="strong mr16">268</span>
+                <span class="item-percent bg-blue blue caption">90%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 80%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/usa.png" width="16" height="11" alt="USA">
+                USA
+              </span>
+              <span>
+                <span class="strong mr16">220</span>
+                <span class="item-percent bg-blue blue caption">80%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 70%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/cyprus.png" width="16" height="11" alt="Cyprus">
+                Cyprus
+              </span>
+              <span>
+                <span class="strong mr16">183</span>
+                <span class="item-percent bg-blue blue caption">70%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 60%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/ukraine.png" width="16" height="11" alt="Ukraine">
+                Ukraine
+              </span>
+              <span>
+                <span class="strong mr16">147</span>
+                <span class="item-percent bg-blue blue caption">60%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 50%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/india.png" width="16" height="11" alt="India">
+                India
+              </span>
+              <span>
+                <span class="strong mr16">108</span>
+                <span class="item-percent bg-blue blue caption">50%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 40%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/china.png" width="16" height="11" alt="China">
+                China
+              </span>
+              <span>
+                <span class="strong mr16">95</span>
+                <span class="item-percent bg-blue blue caption">40%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 30%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/poland.png" width="16" height="11" alt="Poland">
+                Poland
+              </span>
+              <span>
+                <span class="strong mr16">86</span>
+                <span class="item-percent bg-blue blue caption">30%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 20%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/france.png" width="16" height="11" alt="France">
+                France
+              </span>
+              <span>
+                <span class="strong mr16">37</span>
+                <span class="item-percent bg-blue blue caption">20%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 10%;"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img src="img-delete/canada.png" width="16" height="11" alt="Canada">
+                Canada
+              </span>
+              <span>
+                <span class="strong mr16">18</span>
+                <span class="item-percent bg-blue blue caption">10%</span>
+              </span>
+            </div>
+          </div>
+          <!-- View all -->
+          <a href="#modal-countries" class="sources-countries-item sources-countries-item-wrap view-all shadow-sm" rel="modal:open">
+            <span>
+              <div class="view-all-icon animation"></div>
+              <span class="black strong view-all-text animation">View all</span>
+            </span>
+            <img src="img/chevron-right.svg" width="24" height="24" alt="Chevron">
+          </a>
+          <!-- /// -->
+        </div>
+      </div>
+    </section>
+    <!-- Devices, platforms, browsers and AD -->
+    <section class="metrics-two">
+      <div class="content radius-lg bg-gray responsive-tabs">
+        <!-- Mobile tabs -->
+        <ul class="responsive-tabs-menu bg-white shadow-sm">
+          <li><a href="#devices"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V4C20 2.89543 19.1046 2 18 2Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="18" r="0.5" stroke="#9E9E9E"/></svg></a></li>
+          <li><a href="#platforms"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 3H3V10H10V3Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 3H14V10H21V3Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 14H14V21H21V14Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 14H3V21H10V14Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+          <li><a href="#browsers"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.17 8H12" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.9502 6.06006L8.5402 14.0001" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.8799 21.94L15.4599 14" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+        </ul>
+        <!-- Devices -->
+        <div class="metrics-two-item" id="devices">
+          <div class="metrics-headline">
+            <img src="img/devices.svg" width="24" height="24" alt="Devices">
+            <h3 class="ml16">Devices</h3>
+          </div>
+          <div class="metrics-two-data bg-white shadow-sm radius-lg">
+            <div class="metrics-two-graph-wrap"></div>
+            <div class="caption mt24">
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
+                Desktop
+                <span class="caption-strong">247</span>
+              </span>
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-red mr8"></span>
+                Laptop
+                <span class="caption-strong">109</span>
+              </span>
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-green mr8"></span>
+                Mobile
+                <span class="caption-strong">68</span>
+              </span>
+              <span class="graph-dot">
+                <span class="graph-dot-ellipse bg-yellow mr8"></span>
+                Other
+                <span class="caption-strong">17</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Platforms -->
+        <div class="metrics-two-item" id="platforms">
+          <div class="metrics-headline">
+            <img src="img/platforms.svg" width="24" height="24" alt="Platforms">
+            <h3 class="ml16">Platforms</h3>
+          </div>
+          <div class="metrics-two-data bg-white shadow-sm radius-lg">
+            <div class="metrics-two-graph-wrap"></div>
+            <div class="caption mt24">
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
+                Windows
+                <span class="caption-strong">247</span>
+              </span>
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-red mr8"></span>
+                Linux
+                <span class="caption-strong">109</span>
+              </span>
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-green mr8"></span>
+                Mac OS
+                <span class="caption-strong">68</span>
+              </span>
+              <span class="graph-dot">
+                <span class="graph-dot-ellipse bg-yellow mr8"></span>
+                Other
+                <span class="caption-strong">17</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Browsers -->
+        <div class="metrics-two-item" id="browsers">
+          <div class="metrics-headline">
+            <img src="img/browsers.svg" width="24" height="24" alt="Browsers">
+            <h3 class="ml16">Browsers</h3>
+          </div>
+          <div class="metrics-two-data bg-white shadow-sm radius-lg">
+            <div class="metrics-two-graph-wrap"></div>
+            <div class="caption mt24">
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
+                Chrome
+                <span class="caption-strong">247</span>
+              </span>
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-red mr8"></span>
+                Firefox
+                <span class="caption-strong">109</span>
+              </span>
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-green mr8"></span>
+                Safari
+                <span class="caption-strong">68</span>
+              </span>
+              <span class="graph-dot">
+                <span class="graph-dot-ellipse bg-yellow mr8"></span>
+                Other
+                <span class="caption-strong">17</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Ad -->
+        <div class="ad bg-white shadow-sm radius-lg">
+          <img src="img/ad.svg" class="radius-lg" width="318" height="212" alt="Ad">
+          <div class="ad-content mt16">
+            <span class="ad-label caption red mr16">Ad</span>
+            <span class="caption">Advertise your product</span>
+            <a href="#" class="strong black">Advertise</a>
+          </div>
+        </div>
+        <!-- /// -->
+      </div>
+    </section>
+    <!-- Languages, screens and time -->
+    <section class="metrics-three">
+      <div class="content bg-blue radius-lg">
+        <div class="languages-screens-group responsive-tabs">
+          <!-- Mobile tabs -->
+          <ul class="responsive-tabs-menu bg-white shadow-sm">
+            <li><a href="#languages"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            <li><a href="#screens"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3H5C4.46957 3 3.96086 3.21071 3.58579 3.58579C3.21071 3.96086 3 4.46957 3 5V8M21 8V5C21 4.46957 20.7893 3.96086 20.4142 3.58579C20.0391 3.21071 19.5304 3 19 3H16M16 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V16M3 16V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H8" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+          </ul>
+          <!-- Languages -->
+          <div class="metrics-three-item" id="languages">
+            <div class="metrics-headline">
+              <img src="img/languages.svg" width="24" height="24" alt="Languages">
+              <h3 class="ml16">Languages</h3>
+            </div>
+            <div class="metrics-three-data bg-white radius-lg shadow-sm">
+              <div class="metrics-three-data-headline shadow-sm caption gray">
+                <span>Language</span>
+                <span>Visitors</span>
+              </div>
+              <div class="metrics-three-data-content" data-simplebar data-simplebar-auto-hide="false">
+                <!-- Item -->
+                <div class="metrics-three-data-content-item">
+                  American English
+                  <span>
+                    <span class="strong mr16">95</span>
+                    <span class="item-percent bg-blue blue caption">88%</span>
+                  </span>
+                </div>
+                <!-- Item -->
+                <div class="metrics-three-data-content-item">
+                  British English
+                  <span>
+                    <span class="strong mr16">82</span>
+                    <span class="item-percent bg-blue blue caption">71%</span>
+                  </span>
+                </div>
+                <!-- Item -->
+                <div class="metrics-three-data-content-item">
+                  Russian
+                  <span>
+                    <span class="strong mr16">70</span>
+                    <span class="item-percent bg-blue blue caption">53%</span>
+                  </span>
+                </div>
+                <!-- Item -->
+                <div class="metrics-three-data-content-item">
+                  Spanish
+                  <span>
+                    <span class="strong mr16">49</span>
+                    <span class="item-percent bg-blue blue caption">37%</span>
+                  </span>
+                </div>
+                <!-- Item -->
+                <div class="metrics-three-data-content-item">
+                  Japanese
+                  <span>
+                    <span class="strong mr16">38</span>
+                    <span class="item-percent bg-blue blue caption">20%</span>
+                  </span>
+                </div>
+                <!-- Item -->
+                <div class="metrics-three-data-content-item">
+                  German
+                  <span>
+                    <span class="strong mr16">21</span>
+                    <span class="item-percent bg-blue blue caption">16%</span>
+                  </span>
+                </div>
+                <!-- Item -->
+                <div class="metrics-three-data-content-item">
+                  Polish
+                  <span>
+                    <span class="strong mr16">8</span>
+                    <span class="item-percent bg-blue blue caption">6%</span>
+                  </span>
+                </div>
+                <!-- /// -->
+              </div>
+              <div class="metrics-three-data-footer bg-white"></div>
+            </div>
+          </div>
+          <!-- Screens -->
+          <div class="metrics-three-item" id="screens">
+            <div class="metrics-headline">
+              <img src="img/screens.svg" width="24" height="24" alt="Screens">
+              <h3 class="ml16">Screens</h3>
+            </div>
+            <div class="metrics-three-data bg-white radius-lg shadow-sm">
+              <div class="metrics-three-data-headline shadow-sm caption gray">
+                <span>Dimensions</span>
+                <span>Visitors</span>
+              </div>
+              <div class="metrics-three-data-content" data-simplebar data-simplebar-auto-hide="false">
+                <!-- Item -->
+                <div class="metrics-three-data-content-item">
+                  1920x1080
+                  <span>
+                    <span class="strong mr16">95</span>
+                    <span class="item-percent bg-blue blue caption">88%</span>
+                  </span>
+                </div>
+                <!-- Item -->
+                <div class="metrics-three-data-content-item">
+                  1280x800
+                  <span>
+                    <span class="strong mr16">82</span>
+                    <span class="item-percent bg-blue blue caption">71%</span>
+                  </span>
+                </div>
+                <!-- Item -->
+                <div class="metrics-three-data-content-item">
+                  1280x720
+                  <span>
+                    <span class="strong mr16">70</span>
+                    <span class="item-percent bg-blue blue caption">53%</span>
+                  </span>
+                </div>
+                <!-- Item -->
+                <div class="metrics-three-data-content-item">
+                  360x640
+                  <span>
+                    <span class="strong mr16">49</span>
+                    <span class="item-percent bg-blue blue caption">37%</span>
+                  </span>
+                </div>
+                <!-- Item -->
+                <div class="metrics-three-data-content-item">
+                  375x812
+                  <span>
+                    <span class="strong mr16">38</span>
+                    <span class="item-percent bg-blue blue caption">20%</span>
+                  </span>
+                </div>
+                <!-- Item -->
+                <div class="metrics-three-data-content-item">
+                  360x760
+                  <span>
+                    <span class="strong mr16">21</span>
+                    <span class="item-percent bg-blue blue caption">16%</span>
+                  </span>
+                </div>
+                <!-- Item -->
+                <div class="metrics-three-data-content-item">
+                  Other
+                  <span>
+                    <span class="strong mr16">8</span>
+                    <span class="item-percent bg-blue blue caption">6%</span>
+                  </span>
+                </div>
+                <!-- /// -->
+              </div>
+              <div class="metrics-three-data-footer bg-white"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Time -->
+        <div class="metrics-two-item">
+          <div class="metrics-headline">
+            <img src="img/time.svg" width="24" height="24" alt="Time">
+            <h3 class="ml16">Time</h3>
+          </div>
+          <div class="metrics-three-data bg-white shadow-sm radius-lg tabs">
+            <!-- Tabs -->
+            <ul class="tabs-menu shadow-sm">
+              <li><a href="#day"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 1V3" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 21V23" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.21973 4.21997L5.63973 5.63997" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.3604 18.3601L19.7804 19.7801" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 12H3" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12H23" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.21973 19.7801L5.63973 18.3601" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.3604 5.63997L19.7804 4.21997" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+              <li><a href="#hour"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+              <li><a href="#week"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 2V6" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 2V6" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 10H21" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            </ul>
+            <!-- Day -->
+            <div class="metrics-three-data-content-day" id="day">
+              <div class="metrics-three-graph-wrap"></div>
+              <div class="caption mt24">
+                <span class="graph-dot mb8">
+                  <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
+                  Morning
+                  <span class="caption-strong">247</span>
+                </span>
+                <span class="graph-dot mb8">
+                  <span class="graph-dot-ellipse bg-red mr8"></span>
+                  Afternoon
+                  <span class="caption-strong">109</span>
+                </span>
+                <span class="graph-dot mb8">
+                  <span class="graph-dot-ellipse bg-green mr8"></span>
+                  Evening
+                  <span class="caption-strong">68</span>
+                </span>
+                <span class="graph-dot">
+                  <span class="graph-dot-ellipse bg-yellow mr8"></span>
+                  Night
+                  <span class="caption-strong">17</span>
+                </span>
+              </div>
+            </div>
+            <!-- Hour -->
+            <div id="hour">
+              <div class="metrics-three-data-content caption" data-simplebar data-simplebar-auto-hide="false">
+                <!-- Item -->
+                <div class="hour-item">
+                  00:00
+                  <span class="caption-strong">7864</span>
+                </div>
+                <!-- Item -->
+                <div class="hour-item">
+                  01:00
+                  <span class="caption-strong">5365</span>
+                </div>
+                <!-- Item -->
+                <div class="hour-item">
+                  02:00
+                  <span class="caption-strong">2450</span>
+                </div>
+                <!-- Item -->
+                <div class="hour-item">
+                  03:00
+                  <span class="caption-strong">1089</span>
+                </div>
+                <!-- Item -->
+                <div class="hour-item">
+                  04:00
+                  <span class="caption-strong">560</span>
+                </div>
+                <!-- Item -->
+                <div class="hour-item">
+                  05:00
+                  <span class="caption-strong">327</span>
+                </div>
+                <!-- Item -->
+                <div class="hour-item">
+                  06:00
+                  <span class="caption-strong">94</span>
+                </div>
+                <!-- Item -->
+                <div class="hour-item">
+                  07:00
+                  <span class="caption-strong">26</span>
+                </div>
+                <!-- /// -->
+              </div>
+              <div class="metrics-three-data-footer bg-white"></div>
+            </div>
+            <!-- Week -->
+            <div class="metrics-three-data-content-day caption" id="week">
+              <div class="metrics-three-graph-wrap"></div>
+              <div class="week-column-wrap mt24">
+                <div class="week-column">
+                  <span class="graph-dot mb8">
+                    <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
+                    Mo.
+                    <span class="caption-strong">247</span>
+                  </span>
+                  <span class="graph-dot mb8">
+                    <span class="graph-dot-ellipse bg-red mr8"></span>
+                    Tu.
+                    <span class="caption-strong">109</span>
+                  </span>
+                  <span class="graph-dot mb8">
+                    <span class="graph-dot-ellipse bg-green mr8"></span>
+                    We.
+                    <span class="caption-strong">68</span>
+                  </span>
+                  <span class="graph-dot">
+                    <span class="graph-dot-ellipse bg-yellow mr8"></span>
+                    Th.
+                    <span class="caption-strong">17</span>
+                  </span>
+                </div>
+                <div class="week-column">
+                  <span class="graph-dot mb8">
+                    <span class="graph-dot-ellipse bg-orange mr8"></span>
+                    Fr.
+                    <span class="caption-strong">247</span>
+                  </span>
+                  <span class="graph-dot mb8">
+                    <span class="graph-dot-ellipse bg-light-blue mr8"></span>
+                    Sa.
+                    <span class="caption-strong">109</span>
+                  </span>
+                  <span class="graph-dot">
+                    <span class="graph-dot-ellipse bg-dark-gray mr8"></span>
+                    Su.
+                    <span class="caption-strong">68</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Pages and visits -->
+    <section class="metrics-four">
+      <div class="content radius-lg bg-gray responsive-tabs">
+        <!-- Mobile tabs -->
+        <ul class="responsive-tabs-menu bg-white shadow-sm">
+          <li><a href="#pages"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V9L13 2Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 2V9H20" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+          <li><a href="#visits"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H15" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 17L15 12L10 7" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 12H3" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+        </ul>
+        <!-- Pages -->
+        <div class="metrics-four-item" id="pages">
+          <div class="metrics-headline">
+            <img src="img/pages.svg" width="24" height="24" alt="Pages">
+            <h3 class="ml16">Pages</h3>
+          </div>
+          <div class="metrics-three-data bg-white radius-lg shadow-sm">
+            <div class="metrics-three-data-headline shadow-sm caption gray">
+              <span>Page</span>
+              <span>Visitors</span>
+            </div>
+            <div class="metrics-three-data-content caption" data-simplebar data-simplebar-auto-hide="false">
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="page">/</span>
+                <span class="caption-strong">7864</span>
+              </div>
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="page">/settings</span>
+                <span class="caption-strong">5365</span>
+              </div>
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="page">/login</span>
+                <span class="caption-strong">2450</span>
+              </div>
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="page">/register</span>
+                <span class="caption-strong">1089</span>
+              </div>
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="page">/sites/new</span>
+                <span class="caption-strong">560</span>
+              </div>
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="page">/blog/open-source-funding</span>
+                <span class="caption-strong">327</span>
+              </div>
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="page">/open-source-website-analytics</span>
+                <span class="caption-strong">94</span>
+              </div>
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="page">/app</span>
+                <span class="caption-strong">26</span>
+              </div>
+              <!-- /// -->
+            </div>
+            <div class="metrics-three-data-footer bg-white"></div>
+          </div>
+        </div>
+        <!-- Visits -->
+        <div class="metrics-four-item" id="visits">
+          <div class="metrics-headline">
+            <img src="img/visit.svg" width="24" height="24" alt="Visits">
+            <h3 class="ml16">Visits</h3>
+          </div>
+          <div class="metrics-three-data bg-white radius-lg shadow-sm">
+            <div class="metrics-three-data-headline shadow-sm caption gray">
+              <span class="visits-date">Date</span>
+              <span class="visits-time">Time</span>
+              <span class="visits-ip">IP</span>
+              <span class="visits-referrer">Referrer</span>
+            </div>
+            <div class="metrics-three-data-content caption" data-simplebar data-simplebar-auto-hide="false">
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="visits-date">2020-09-12</span>
+                <span class="visits-time caption-strong">19:42</span>
+                <img src="img-delete/kingdom.png" width="16" height="11" alt="United Kingdom">
+                <a href="#" class="visits-referrer black">baidu.com</a>
+              </div>
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="visits-date">2020-09-12</span>
+                <span class="visits-time caption-strong">19:24</span>
+                <img src="img-delete/germany.png" width="16" height="11" alt="Germany">
+                <a href="#" class="visits-referrer black">github.com</a>
+              </div>
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="visits-date">2020-09-12</span>
+                <span class="visits-time caption-strong">16:03</span>
+                <img src="img-delete/usa.png" width="16" height="11" alt="USA">
+                <span class="visits-referrer">-</span>
+              </div>
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="visits-date">2020-09-12</span>
+                <span class="visits-time caption-strong">10:54</span>
+                <img src="img-delete/cyprus.png" width="16" height="11" alt="Cyprus">
+                <a href="#" class="visits-referrer black">www.producthunt.com</a>
+              </div>
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="visits-date">2020-09-12</span>
+                <span class="visits-time caption-strong">10:33</span>
+                <img src="img-delete/ukraine.png" width="16" height="11" alt="Ukraine">
+                <span class="visits-referrer black">-</span>
+              </div>
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="visits-date">2020-09-12</span>
+                <span class="visits-time caption-strong">09:16</span>
+                <img src="img-delete/kingdom.png" width="16" height="11" alt="United Kingdom">
+                <a href="#" class="visits-referrer black">alternativeto.net</a>
+              </div>
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="visits-date">2020-09-12</span>
+                <span class="visits-time caption-strong">02:02</span>
+                <img src="img-delete/usa.png" width="16" height="11" alt="USA">
+                <a href="#" class="visits-referrer black">google.com</a>
+              </div>
+              <!-- Item -->
+              <div class="hour-item">
+                <span class="visits-date">2020-09-12</span>
+                <span class="visits-time caption-strong">03:25</span>
+                <img src="img-delete/germany.png" width="16" height="11" alt="Germany">
+                <span class="visits-referrer">-</span>
+              </div>
+              <!-- /// -->
+            </div>
+            <div class="metrics-three-data-footer bg-white"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Donate -->
+    <section>
+      <div class="content">
+        <div class="donate-wrap">
+          <div class="donate-icon"></div>
+          <div class="donate-description">
+            <div class="h3 mb8">Pay what you want</div>
+            <div class="gray">We still do encourage users with commercial projects to pay for this product.<br>
+            The amount could be comparable with what similiar services charge.</div>
+          </div>
+          <a href="#" class="btn-primary" target="_blank" rel="nofollow">Donate now</a>
+        </div>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+      <section class="footer">
+        <div class="content">
+          <div class="footer-logo">
+            <img src="img/logotype--gray.svg" width="140" height="32" alt="Logotype">
+            <div class="caption gray">© 2020 Counter. All rights reserved.</div>
+          </div>
+          <nav class="nav-footer">
+            <div class="nav-footer-one">
+              <ul>
+                <li><a href="#" target="_blank" rel="nofollow">Blog</a></li>
+                <li><a href="#" target="_blank" rel="nofollow">Feedback</a></li>
+                <li><a href="#" target="_blank" rel="nofollow">Donate</a></li>
+              </ul>
+            </div>
+            <div class="nav-footer-two">
+              <ul>
+                <li><a href="#" target="_blank" rel="nofollow">Changelog</a></li>
+                <li><a href="#" target="_blank" rel="nofollow">Roadmap</a></li>
+                <li><a href="#" target="_blank" rel="nofollow">Privacy</a></li>
+              </ul>
+            </div>
+          </nav>
+          <div class="footer-contacts">
+            <div class="footer-contacts-social mb16">
+              <a href="#" class="github mr16" target="_blank" rel="nofollow"></a>
+              <a href="#" class="twitter" target="_blank" rel="nofollow"></a>
+            </div>
+            <div class="caption gray mb8">Developed by <a href="#" class="gray underline">Naive&nbsp;Team</a></div>
+            <div class="caption gray">Have a question? – <a href="mailto:hey@counter.dev" class="caption gray underline">hey@counter.dev</a></div>
+          </div>
+        </div>
+      </section>
+    </footer>
+    <!-- Sources modal -->
+    <div id="modal-sources" style="display: none;">
+      <div class="modal-header">
+        <img src="img/sources.svg" width="24" height="24" alt="Sources">
+        <h3 class="ml16">Sources</h3>
+        <a href="#" class="btn-close" rel="modal:close"></a>
+      </div>
+      <div class="modal-content">
+        <!-- Item -->
+        <div class="sources-countries-item shadow-sm mb8">
+          <div class="percent-line" style="width: 100%;"></div>
+          <div class="sources-countries-item-wrap">
+            <span>
+              <img src="img-delete/tw.png" width="16" height="16" alt="Twitter">
+              <a href="#" class="black" target="_blank" rel="nofollow">twitter.com</a>
+            </span>
+            <span>
+              <span class="strong mr16">307</span>
+              <span class="item-percent bg-blue blue caption">100%</span>
+            </span>
+          </div>
+        </div>
+        <!-- Item -->
+        <div class="sources-countries-item shadow-sm mb8">
+          <div class="percent-line" style="width: 90%;"></div>
+          <div class="sources-countries-item-wrap">
+            <span>
+              <img src="img-delete/google.png" width="16" height="16" alt="Google">
+              <a href="#" class="black" target="_blank" rel="nofollow">google.com</a>
+            </span>
+            <span>
+              <span class="strong mr16">268</span>
+              <span class="item-percent bg-blue blue caption">90%</span>
+            </span>
+          </div>
+        </div>
+        <!-- /// -->
+      </div>
+    </div>
+    <!-- Countries modal -->
+    <div id="modal-countries" style="display: none;">
+      <div class="modal-header">
+        <img src="img/countries.svg" width="24" height="24" alt="Countries">
+        <h3 class="ml16">Countries</h3>
+        <a href="#" class="btn-close" rel="modal:close"></a>
+      </div>
+      <div class="modal-content">
+        <!-- Item -->
+        <div class="sources-countries-item shadow-sm mb8">
+          <div class="percent-line" style="width: 100%;"></div>
+          <div class="sources-countries-item-wrap">
+            <span>
+              <img src="img-delete/germany.png" width="16" height="11" alt="Germany">
+              Germany
+            </span>
+            <span>
+              <span class="strong mr16">307</span>
+              <span class="item-percent bg-blue blue caption">100%</span>
+            </span>
+          </div>
+        </div>
+        <!-- Item -->
+        <div class="sources-countries-item shadow-sm mb8">
+          <div class="percent-line" style="width: 90%;"></div>
+          <div class="sources-countries-item-wrap">
+            <span>
+              <img src="img-delete/kingdom.png" width="16" height="11" alt="United Kingdom">
+              United Kingdom
+            </span>
+            <span>
+              <span class="strong mr16">268</span>
+              <span class="item-percent bg-blue blue caption">90%</span>
+            </span>
+          </div>
+        </div>
+        <!-- /// -->
+      </div>
+    </div>
+    <!-- Our tips modal -->
+    <div id="modal-tips" style="display: none;">
+      <div class="modal-header">
+        <img src="img/tips.svg" width="24" height="24" alt="Our tips">
+        <h3 class="ml16">Our tips</h3>
+        <a href="#" class="btn-close" rel="modal:close"></a>
+      </div>
+      <div class="modal-content">
+        <div class="title mb16">10 tips to boost your growth</div>
+        <ul class="accordion-list">
+          <!-- Item -->
+          <li>
+            <div id="tip-1" class="accordion">
+              <span class="accordion-title">
+                <span class="tip-number gradient-red caption red mr16">1</span>
+                <a href="#tip-1" class="black">Mobile version of the site</a>
+                <img src="img/arrow--blue.svg" width="24" height="24" alt="Arrow">
+              </span>
+              <div class="accordion-content caption gray">
+                Mobile is changing the world. Today, everyone has smartphones with them, constantly communicating and looking for information.
+              </div>
+            </div>
+          </li>
+          <!-- Item -->
+          <li>
+            <div id="tip-2" class="accordion">
+              <span class="accordion-title">
+                <span class="tip-number gradient-red caption red mr16">2</span>
+                <a href="#tip-2" class="black">Mobile version of the site</a>
+                <img src="img/arrow--blue.svg" width="24" height="24" alt="Arrow">
+              </span>
+              <div class="accordion-content caption gray">
+                Mobile is changing the world. Today, everyone has smartphones with them, constantly communicating and looking for information.
+              </div>
+            </div>
+          </li>
+          <!-- Item -->
+          <li>
+            <div id="tip-3" class="accordion">
+              <span class="accordion-title">
+                <span class="tip-number gradient-green caption mr16">3</span>
+                <a href="#tip-3" class="black">Mobile version of the site</a>
+                <img src="img/arrow--blue.svg" width="24" height="24" alt="Arrow">
+              </span>
+              <div class="accordion-content caption gray">
+                Mobile is changing the world. Today, everyone has smartphones with them, constantly communicating and looking for information.
+              </div>
+            </div>
+          </li>
+          <!-- /// -->
+        </ul>
+      </div>
+    </div>
+    <!-- Settings modal -->
+    <div id="modal-settings" style="display: none;">
+      <div class="modal-header">
+        <img src="img/settings.svg" width="24" height="24" alt="Settings">
+        <h3 class="ml16">Settings</h3>
+        <a href="#" class="btn-close" rel="modal:close"></a>
+      </div>
+      <div class="modal-content">
+        <!-- Tracking code -->
+        <div class="title mb16">Tracking code</div>
+        <div class="tracking-code mb8">
+          <input type="text" id="tracking" class="full" value='<script>if (!sessionStorage.getItem("_swa") && document.referrer.indexOf...' readonly>
+          <button class="btn-primary btn-copy ml16" data-clipboard-target="#tracking">Copy</button>
+        </div>
+        <span class="caption gray">Inside the <span class="caption-strong">&lt;head&gt;</span> section</span>
+        <!-- Danger -->
+        <div class="title mt24 mb16">Deleting bell.so</div>
+        <div class="danger gradient-red radius-lg">
+          <!-- Request delete -->
+          <div class="delete-request">
+            <div class="danger-message caption full mr16">
+              <img src="img/alert.svg" width="24" height="24" alt="Alert">
+              <span class="ml16">All analytics data will be deleted permanently!</span>
+            </div>
+            <button class="btn-white btn-danger btn-confirm">Delete website</button>
+          </div>
+          <!-- Confirm delete -->
+          <div class="delete-confirm" style="display: none;">
+            <input type="text" class="confirm-input full mr16" placeholder="Enter a domain to confirm">
+            <button class="btn-white btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Add a website modal -->
+    <div id="modal-add" style="display: none;">
+      <div class="modal-header">
+        <img src="img/add.svg" width="24" height="24" alt="Add a website">
+        <h3 class="ml16">Add a website</h3>
+        <a href="#" class="btn-close" rel="modal:close"></a>
+      </div>
+      <div class="modal-content">
+        <div class="title mb8">Tracking code</div>
+        <span class="gray">Include this snippet in the html of any site your wish to track. The tracking data will be grouped by the site's domain.</span>
+        <div class="tracking-code mt16 mb8">
+          <input type="text" id="tracking-two" class="full" value='<script>if (!sessionStorage.getItem("_swa") && document.referrer.indexOf...' readonly>
+          <button class="btn-primary btn-copy ml16" data-clipboard-target="#tracking-two">Copy</button>
+        </div>
+        <span class="caption gray">Inside the <span class="caption-strong">&lt;head&gt;</span> section</span>
+      </div>
+    </div>
+    <!-- Edit account modal -->
+    <div id="modal-account" style="display: none;">
+      <div class="modal-header">
+        <img src="img/account.svg" width="24" height="24" alt="Edit account">
+        <h3 class="ml16">Edit account</h3>
+        <a href="#" class="btn-close" rel="modal:close"></a>
+      </div>
+      <div class="modal-content">
+        <!-- Time zone -->
+        <div class="title mb16">Time zone</div>
+        <select class="width-full">
+          <option>(GMT-03:00) Buenos Aires, Georgetown</option>
+          <option>(GMT-08:00) Pacific Time (US & Canada)</option>
+        </select>
+        <!-- Change password -->
+        <div class="title mb8 mt24">Change password</div>
+        <label class="old-pass width-full">Old password<input class="width-full" type="password" placeholder="Old password"></label>
+        <div class="new-pass flex mb8 mt16">
+          <label class="width-half mr16">New password<input class="width-full" type="password" placeholder="New password"></label>
+          <label class="width-half">Repeat new password<input class="width-full" type="password" placeholder="Repeat new password"></label>
+        </div>
+        <span class="caption gray">The password cannot be recovered!</span>
+        <div class="account-btn-group flex mt24 mb32">
+          <a href="#" class="btn-secondary full mr16" rel="modal:close">Cancel</a>
+          <button class="btn-primary full">Save</button>
+        </div>
+        <!-- Danger -->
+        <div class="delete-account">
+          <div class="title mb16">Account deleting</div>
+          <div class="danger gradient-red radius-lg">
+            <!-- Request delete -->
+            <div class="delete-request">
+              <div class="danger-message caption full mr16">
+                <img src="img/alert.svg" width="24" height="24" alt="Alert">
+                <span class="ml16">Deleting your account removes all sites and stats you've collected!</span>
+              </div>
+              <button class="btn-white btn-danger btn-confirm">Delete account</button>
+            </div>
+            <!-- Confirm delete -->
+            <div class="delete-confirm" style="display: none;">
+              <input type="text" class="confirm-input full mr16" placeholder="Enter username to confirm">
+              <button class="btn-white btn-danger">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        // Responsive tabs
+        checkPosition();
+        // Tabs
+        $('.tabs').tabslet();
+        // Modal
+        $('a[rel="modal:open"]').click(function(event) {
+          $(this).modal({
+            fadeDuration: 200,
+            fadeDelay: 0
+          });
+            return false;
+        });
+        // Copy to clipboard
+        new ClipboardJS('.btn-copy');
+        // Confirm deletion
+        $('.btn-confirm').click(function() {
+          $('.delete-request').hide();
+          $('.delete-confirm').show();
+          $('.danger').toggleClass('gradient-red bg-blue');
+          $('.confirm-input').focus();
+        });
+      });
+      $(window).resize(function() {
+        // Responsive tabs
+        checkPosition();
+      });
+      // Responsive tabs
+      function checkPosition() { if (window.matchMedia('(max-width: 1110px)').matches) { $('.responsive-tabs').tabslet(); } else { $('.responsive-tabs').trigger('destroy'); } }
+    </script>
+  </body>
+</html>
+
+

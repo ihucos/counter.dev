@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Counter - Welcome</title>
+    <meta name="description" content="Web Analytics made simple and therefore privacy friendly. It’s Free.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="welcome.css">
+    <link rel="shortcut icon" href="img/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tabslet.js/1.7.3/jquery.tabslet.min.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <!-- Notification -->
+      <section class="notification">
+        <div class="content">
+          <span>We are now available at <a href="https://counter.dev">Counter.dev</a></span>
+          <div class="btn-close"></div>
+        </div>
+      </section>
+      <!-- Navbar -->
+      <section class="navbar">
+        <div class="content">
+          <a href="https://counter.dev" class="logotype"></a>
+          <span class="version caption blue ml16">v 2.0</span>
+          <!-- Navigation -->
+          <nav class="nav-header">
+            <a href="#" class="mr32" target="_blank" rel="nofollow">Blog</a>
+            <a href="#" class="mr32" target="_blank" rel="nofollow">Feedback</a>
+            <a href="#" class="mr32" target="_blank" rel="nofollow">Donate</a>
+            <a href="#" class="github-blue mr16" target="_blank" rel="nofollow"></a>
+            <a href="#" class="twitter-blue" target="_blank" rel="nofollow"></a>
+          </nav>
+          <!-- Hamburger -->
+          <div class="hamburger-menu">
+            <input id="hamburger-toggle" type="checkbox" />
+            <label class="hamburger-btn" for="hamburger-toggle"></label>
+            <div class="hamburger-box">
+              <div class="hamburger-content">
+                <img src="img/avatar.svg" width="96" height="96" alt="Avatar">
+                <!-- Navigation -->
+                <nav class="nav-header-mob">
+                  <!-- Guest -->
+                  <span class="mt48 mb48" style="display: none;">
+                    <a href="#" class="btn-primary mr16">Sign in</a>
+                    <a href="#" class="btn-secondary">Sign up</a>
+                  </span>
+                  <!-- User -->
+                  <span class="mt24">slomchinskiy</span>
+                  <span class="mt24 mb48">
+                    <a href="#" class="btn-primary mr16">Edit account</a>
+                    <a href="#" class="btn-secondary">Sign out</a>
+                  </span>
+                  <!-- /// -->
+                  <a href="#" class="mb24" target="_blank" rel="nofollow">Blog</a>
+                  <a href="#" class="mb24" target="_blank" rel="nofollow">Feedback</a>
+                  <a href="#" target="_blank" rel="nofollow">Donate</a>
+                  <span class="mt48">
+                    <a href="#" class="github-blue mr24" target="_blank" rel="nofollow"></a>
+                    <a href="#" class="twitter-blue" target="_blank" rel="nofollow"></a>
+                  </span>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </header>
+    <!-- Welcome page -->
+    <section class="welcome">
+      <div class="content">
+        <!-- Text -->
+        <div class="welcome-text">
+          <h1>Welcome</h1>
+          <div class="title gray mt16 mb32">Web Analytics made simple and therefore privacy friendly.</div>
+          <!-- Features -->
+          <!-- Item -->
+          <div class="welcome-features-item flex bg-white radius-sm mb16">
+            <img src="img/free-sm.svg" width="24" height="24" alt="Free">
+            <h3 class="ml16">Free</h3>
+          </div>
+          <!-- Item -->
+          <div class="welcome-features-item flex bg-white radius-sm mb16">
+            <img src="img/open-sm.svg" width="24" height="24" alt="Open Source">
+            <h3 class="ml16">Open Source</h3>
+          </div>
+          <!-- Item -->
+          <div class="welcome-features-item flex bg-white radius-sm">
+            <img src="img/privacy-sm.svg" width="24" height="24" alt="Privacy Friendly">
+            <h3 class="ml16">Privacy Friendly</h3>
+          </div>
+        </div>
+        <!-- Form -->
+        <div class="welcome-form bg-white radius-sm shadow-lg tabs">
+          <!-- Tabs -->
+          <ul class="tabs-menu bg-blue radius-sm">
+            <li><a href="#sign-in">Sign in</a></li>
+            <li><a href="#sign-up">Sign up</a></li>
+          </ul>
+          <!-- Sign in -->
+          <div id="sign-in">
+            <div class="title mb16">Sign in to your account</div>
+            <label class="width-full mb8">Username<input class="width-full" type="text" placeholder="Enter your username"></label>
+            <label class="width-full">Password<input class="width-full" type="password" placeholder="Enter your password"></label>
+            <button class="btn-secondary mt24">Sign in</button>
+          </div>
+          <!-- Sign up -->
+          <div id="sign-up">
+            <div class="title mb16">Sign up to Counter</div>
+            <label class="width-full mb8">Username<input class="width-full" type="text" placeholder="Enter your username"></label>
+            <label class="width-full">Password<input class="width-full" type="password" placeholder="Enter your password"></label>
+            <button class="btn-secondary mt24">Sign up</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+      <section class="footer footer-welcome">
+        <div class="content">
+          <div class="footer-logo">
+            <img src="img/logotype--gray.svg" width="140" height="32" alt="Logotype">
+            <div class="caption gray">© 2020 Counter. All rights reserved.</div>
+          </div>
+          <nav class="nav-footer">
+            <div class="nav-footer-one">
+              <ul>
+                <li><a href="#" target="_blank" rel="nofollow">Blog</a></li>
+                <li><a href="#" target="_blank" rel="nofollow">Feedback</a></li>
+                <li><a href="#" target="_blank" rel="nofollow">Donate</a></li>
+              </ul>
+            </div>
+            <div class="nav-footer-two">
+              <ul>
+                <li><a href="#" target="_blank" rel="nofollow">Changelog</a></li>
+                <li><a href="#" target="_blank" rel="nofollow">Roadmap</a></li>
+                <li><a href="#" target="_blank" rel="nofollow">Privacy</a></li>
+              </ul>
+            </div>
+          </nav>
+          <div class="footer-contacts">
+            <div class="footer-contacts-social mb16">
+              <a href="#" class="github mr16" target="_blank" rel="nofollow"></a>
+              <a href="#" class="twitter" target="_blank" rel="nofollow"></a>
+            </div>
+            <div class="caption gray mb8">Developed by <a href="#" class="gray underline">Naive&nbsp;Team</a></div>
+            <div class="caption gray">Have a question? – <a href="mailto:hey@counter.dev" class="caption gray underline">hey@counter.dev</a></div>
+          </div>
+        </div>
+      </section>
+    </footer>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        // Tabs
+        $('.tabs').tabslet();
+      });
+    </script>
+  </body>
+</html>
