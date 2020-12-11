@@ -41,15 +41,15 @@ customElements.define(
       document.getElementsByClassName("range-select")[0].onchange = () => {
         this.dispatchEvent(new Event("range-changed"));
       };
-      this.draw_called = true
+      this.drawCalled = true
     }
 
     get site() {
-      return this.draw_called && document.getElementsByClassName("site-select")[0].value;
+      return this.drawCalled && document.getElementsByClassName("site-select")[0].value;
     }
 
     get range() {
-      return this.draw_called &&  document.getElementsByClassName("range-select")[0].value;
+      return this.drawCalled &&  document.getElementsByClassName("range-select")[0].value;
     }
   }
 );
