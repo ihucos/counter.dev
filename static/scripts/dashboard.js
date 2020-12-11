@@ -65,9 +65,10 @@ function k(...keys) {
       keys.map((key) => dump.sites[cursite].visits[curtime][key]);
 };
 
-//connectData("comp-chart-alldays", (dump, cursite) => [
-//  dump.sites[cursite].visits.all.date,
-//]);
+connectData("comp-newdesign-graph", (dump, cursite) => [
+  dump.sites[cursite].visits.all.date,
+]);
+
 // connectData("comp-chart-lastdays", (dump, cursite) => [
 //   dump.sites[cursite].visits.all.date,
 // ]);

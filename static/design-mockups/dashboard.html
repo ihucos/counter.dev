@@ -16,6 +16,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplebar/5.3.0/simplebar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
     <script src="/scripts/utils.js"></script>
     <script src="/loadComponents.js"></script>
 
@@ -161,7 +165,9 @@
     <!-- Graph -->
     <section class="graph">
       <div class="content shadow-lg radius-lg">
-        <div class="graph-wrap"></div>
+        <div style="display: flex"> <!-- hacky container for the graphs -->
+	  <comp-newdesign-graph class="graph-wrap"><comp-newdesign-graph/>
+	</div>
         <!-- Positive -->
         <div class="graph-dynamics">
           <img src="img/rocket.png" srcset="img/rocket@2x.png 2x" width="60" height="60" alt="Rocket">
