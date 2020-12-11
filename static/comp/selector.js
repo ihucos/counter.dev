@@ -5,7 +5,6 @@ customElements.define(
       this.style.display = "flex";
       this.style["margin-left"] = "5px";
 
-      // HTML INJECTION!!!!
       this.innerHTML = `<form action="" class="flex" style="margin-left: auto;">
                    <select onchange="onSiteChanged()" class="site-select selector float-right shadow text-gray-800 bg-gray-400 text-sm font-bold py-2 pr-8 rounded inline-flex items-center appearance-none mr-1" name="time-range" style="color: rgba(0,0,0, 0.7); padding-left: 12px;">
                       ${sites
@@ -13,7 +12,7 @@ customElements.define(
                           (site) =>
                             `<option ${
                               sitePref === site ? "selected=selected" : ""
-                            }value="${site}">${site}</option>`
+                            }value="${escapeHtml(site)}">${escapeHtml(site)}</option>`
                         )
                         .join("")}
                    </select>
