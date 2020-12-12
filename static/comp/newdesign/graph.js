@@ -1,22 +1,31 @@
 customElements.define(
   tagName(),
   class extends BaseGraph {
+
+    makeGradient(alpha1, alpha2) {
+      var ctx = this.canvas.getContext("2d");
+      var gradientStroke = ctx.createLinearGradient(0, 0, 0, 200);
+      gradientStroke.addColorStop(0, "rgba(30, 135, 240, 0.6)");
+      gradientStroke.addColorStop(1, "rgba(30, 135, 240, 0.1)");
+      return gradientStroke;
+    }
+
     getChart(dates) {
       var date_keys = Object.keys(dates);
       var date_vals = Object.values(dates);
       return {
-        type: "bar",
+        type: "line",
         data: {
           labels: date_keys,
           datasets: [
             {
-              maxBarThickness: 15,
               data: date_vals,
               label: "Visits",
               backgroundColor: this.makeGradient(),
-              borderColor: this.palette[0],
-              pointBorderColor: this.palette[0],
-              pointBackgroundColor: this.palette[0],
+              borderColor: '#B1E2FF',
+              borderWidth: 1,
+              pointBorderColor: '#FC3158',
+              pointBackgroundColor: '#FFFFFF',
             },
           ],
         },
