@@ -39,23 +39,39 @@ customElements.define(
             enabled: true,
             mode: "index",
             intersect: false,
+            backgroundColor: '#ffffff',
+            borderColor: '#121212',
+            titleFontColor: '#121212',
+            borderWidth: 1,
+            titleFontFamily: 'Nunito Sans',
+            bodyFontColor: '#121212',
+            cornerRadius: 2,
+            caretPadding: 20,
+            xPadding: 8,
+            yPadding: 12,
           },
           scales: {
             yAxes: [
               {
                 gridLines: {
                   color: '#B1E2FF',
+                  zeroLineColor: '#121212',
                   display: true,
                 },
                 scaleLabel: {
-                  display: true,
-                  labelString: "Visitors",
+                  display: false,
+                  //labelString: "Visitors",
+                  //fontColor: "#616161",
+                  //fontSize: 14,
                 },
                 ticks: {
                   beginAtZero: true,
                   userCallback: function (label) {
                     if (Math.floor(label) === label) return kFormat(label);
                   },
+                  fontFamily: 'Nunito Sans',
+                  fontColor: "#616161",
+                  fontSize: 14,
                 },
               },
             ],
@@ -65,12 +81,17 @@ customElements.define(
                   display: false,
                 },
                 type: "time",
-                time: {
-                  unit: "week",
-                },
+                //time: {
+                  //unit: "day",
+                //},
                 scaleLabel: {
                   display: false,
                   //labelString: "Date",
+                },
+                ticks: {
+                  fontFamily: 'Nunito Sans',
+                  fontColor: "#616161",
+                  fontSize: 14,
                 },
               },
             ],
