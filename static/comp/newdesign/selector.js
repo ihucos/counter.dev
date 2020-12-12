@@ -1,13 +1,21 @@
 customElements.define(
   tagName(),
   class extends HTMLElement {
-    draw(sites, sitePref, rangePref) {
+    draw(dump) {
+      // we need the whole drump because we resend it via the redraw event to
+      // all other components
+      var sites = Object.keys(dump.sites)
+      var sitePref = dump.user.prefs.site
+      var rangePref = dump.user.prefs.range
+      
+      this.dump = dump
+
       this.style.display = "flex";
       this.style["margin-left"] = "5px";
 
       this.innerHTML = `
         <div class="project mr16">
-          <img src="img-delete/bell.png" width="16" height="16" alt="Favicon" id="selector-favicon">
+          <img width="16" height="16" alt="Favicon" id="selector-favicon">
           <select onchange="onSiteChanged()" id="site-select">
             ${sites
               .map(
@@ -33,29 +41,46 @@ customElements.define(
           } value="all">All</option>
         </select>`;
 
-      let siteSelectEl = document.getElementById("site-select")
-      siteSelectEl.onchange = (evt) => {
-	this.setFavicon(evt.target.value)
-        this.dispatchEvent(new Event("site-changed"));
-      };
-      this.setFavicon(siteSelectEl.value)
-      document.getElementById("range-select").onchange = () => {
-        this.dispatchEvent(new Event("range-changed"));
-      };
-      this.drawCalled = true
+      this.updateFavicon()
+
+      document.getElementById("site-select").onchange = (evt) => this.onSiteSelChanged(evt)
+      document.getElementById("range-select").onchange = (evt) => this.onRangeSelChanged(evt)
+
     }
 
-    setFavicon(domain){
+    updateFavicon(){
         let favicon = document.getElementById("selector-favicon")
-        favicon.src = `https://icons.duckduckgo.com/ip3/${domain}.ico`
+        favicon.src = `https://icons.duckduckgo.com/ip3/${this.site}.ico`
+    }
+
+    onSiteSelChanged(evt){
+        this.updateFavicon()
+
+	// request change up in the cloud and then also apply that change down
+        // here in the client
+	fetch("/setPrefSite?" + encodeURIComponent(this.site))
+        this.dump.user.prefs.site = this.site
+
+        document.dispatchEvent(new CustomEvent("redraw", {detail: this.dump}));
+    }
+
+    onRangeSelChanged(evt){
+
+	// request change up in the cloud and then also apply that change down
+        // here in the client
+        fetch("/setPrefRange?" + encodeURIComponent(this.range))
+        this.dump.user.prefs.range = this.range
+
+        document.dispatchEvent(new CustomEvent("redraw", {detail: this.dump}));
     }
 
     get site() {
-      return this.drawCalled && document.getElementById("site-select").value;
+      return this.innerHTML !== '' && document.getElementById("site-select").value;
     }
 
     get range() {
-      return this.drawCalled &&  document.getElementById("range-select").value;
+      return this.innerHTML !== ''  &&  document.getElementById("range-select").value;
     }
+
   }
 );

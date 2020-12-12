@@ -40,6 +40,7 @@ function connectData(tag, getData) {
     customElements.upgrade(selector)
     var site = selector.site;
     var range = selector.range;
+	  console.log(site, range)
 
     var data;
     if (getData.length <= 1) data = getData(dump);
@@ -58,7 +59,7 @@ function connectData(tag, getData) {
 };
 
 
-connectData("comp-newdesign-selector", (dump) => [Object.keys(dump.sites), dump.user.prefs.site, dump.user.prefs.range]);
+connectData("comp-newdesign-selector", (dump) => [dump]);
 
 function k(...keys) {
     return (dump, cursite, curtime) =>
