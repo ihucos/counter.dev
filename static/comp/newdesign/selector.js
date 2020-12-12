@@ -4,11 +4,11 @@ customElements.define(
     draw(dump) {
       // we need the whole drump because we resend it via the redraw event to
       // all other components
+      this.dump = dump
+
       var sites = Object.keys(dump.sites)
       var sitePref = dump.user.prefs.site
       var rangePref = dump.user.prefs.range
-      
-      this.dump = dump
 
       this.style.display = "flex";
       this.style["margin-left"] = "5px";

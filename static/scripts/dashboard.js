@@ -59,15 +59,16 @@ function connectData(tag, getData) {
 };
 
 
-connectData("comp-newdesign-selector", (dump) => [dump]);
-
+// helper function for working with connectData
 function k(...keys) {
     return (dump, cursite, curtime) =>
       keys.map((key) => dump.sites[cursite].visits[curtime][key]);
 };
 
-connectData("comp-newdesign-graph", (dump, cursite) => [
-  dump.sites[cursite].visits.all.date,
+connectData("comp-newdesign-selector", (dump) => [dump]);
+
+connectData("comp-newdesign-graph", (dump, cursite, curtime) => [
+  dump.sites[cursite].visits[curtime].date,
 ]);
 
 // connectData("comp-chart-lastdays", (dump, cursite) => [

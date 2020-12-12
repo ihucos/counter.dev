@@ -4,9 +4,9 @@ customElements.define(
 
     makeGradient(alpha1, alpha2) {
       var ctx = this.canvas.getContext("2d");
-      var gradientStroke = ctx.createLinearGradient(0, 0, 0, 200);
-      gradientStroke.addColorStop(0, "rgba(30, 135, 240, 0.6)");
-      gradientStroke.addColorStop(1, "rgba(30, 135, 240, 0.1)");
+      var gradientStroke = ctx.createLinearGradient(0, 0, 0, 400);
+      gradientStroke.addColorStop(0, "rgba(231, 246, 255, 1)");
+      gradientStroke.addColorStop(1, "rgba(255, 255, 255, 0)");
       return gradientStroke;
     }
 
@@ -20,19 +20,20 @@ customElements.define(
           datasets: [
             {
               data: date_vals,
-              label: "Visits",
+              label: "Visitors",
               backgroundColor: this.makeGradient(),
-              borderColor: '#B1E2FF',
+              borderColor: '#147EFB',
               borderWidth: 1,
+		    pointRadius: 4,
               pointBorderColor: '#FC3158',
               pointBackgroundColor: '#FFFFFF',
+              lineTension: 0,
             },
           ],
         },
         options: {
           title: {
-            display: true,
-            text: "All days",
+            display: false,
           },
           tooltips: {
             enabled: true,
@@ -43,11 +44,12 @@ customElements.define(
             yAxes: [
               {
                 gridLines: {
+                  color: '#B1E2FF',
                   display: true,
                 },
                 scaleLabel: {
                   display: true,
-                  labelString: "Visits",
+                  labelString: "Visitors",
                 },
                 ticks: {
                   beginAtZero: true,
