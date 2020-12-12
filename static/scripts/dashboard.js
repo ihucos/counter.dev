@@ -71,6 +71,11 @@ connectData("comp-newdesign-graph", (dump, cursite, curtime) => [
   dump.sites[cursite].visits[curtime].date,
 ]);
 
+connectData("comp-newdesign-counter-visits", k("date"));
+connectData("comp-newdesign-counter-direct", k("date", "ref"));
+
+
+//
 // connectData("comp-chart-lastdays", (dump, cursite) => [
 //   dump.sites[cursite].visits.all.date,
 // ]);

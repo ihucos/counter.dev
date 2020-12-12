@@ -24,7 +24,8 @@ customElements.define(
               backgroundColor: this.makeGradient(),
               borderColor: '#147EFB',
               borderWidth: 1,
-		    pointRadius: 4,
+              // pointRadius: 4,
+              pointRadius: 0,
               pointBorderColor: '#FC3158',
               pointBackgroundColor: '#FFFFFF',
               lineTension: 0,
@@ -91,9 +92,10 @@ customElements.define(
                   display: false,
                 },
                 type: "time",
-                //time: {
+                time: {
                   //unit: "day",
-                //},
+                  //tooltipFormat: 'MM/DD/YYYY'
+                },
                 scaleLabel: {
                   display: false,
                   //labelString: "Date",
