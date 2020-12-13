@@ -75,9 +75,14 @@ connectData("comp-newdesign-graph", (dump, cursite, curtime) => [
 connectData("comp-newdesign-counter-visits", k("date"));
 connectData("comp-newdesign-counter-direct", k("date", "ref"));
 connectData("comp-newdesign-counter-search", k("ref"));
-connectData("comp-newdesign-pie#pie-devices", k("device"));
-connectData("comp-newdesign-pie#pie-platforms", k("platform"));
-connectData("comp-newdesign-pie#pie-browsers", k("browser"));
+
+connectData("#devices comp-newdesign-pie", k("device"));
+connectData("#platforms comp-newdesign-pie", k("platform"));
+connectData("#browsers comp-newdesign-pie", k("browser"));
+
+connectData("#devices comp-newdesign-pielegend", k("device"));
+connectData("#platforms comp-newdesign-pielegend", k("platform"));
+connectData("#browsers comp-newdesign-pielegend", k("browser"));
 
 
 //

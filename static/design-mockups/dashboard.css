@@ -117,7 +117,6 @@
 .metrics-two-data .caption { flex: 1; }
 .graph-dot { display: flex; align-items: center; }
 .graph-dot-ellipse { width: 8px; height: 8px; border-radius: 50%; }
-.graph-dot .caption-strong { display: none; }
 .ad { width: 350px; height: 284px; padding: 16px; }
 .ad img { display: block; }
 .ad-content { display: flex; align-items: center; }

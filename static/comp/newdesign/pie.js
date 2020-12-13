@@ -1,8 +1,8 @@
 customElements.define(
     tagName(),
     class extends BaseGraph {
-        getChart(devices) {
-            var aggr = dGroupData(devices, 3)
+        getChart(obj) {
+            var aggr = dGroupData(obj, 3)
             return {
                 type: 'pie',
                 data: {
