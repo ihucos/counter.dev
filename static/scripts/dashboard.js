@@ -73,6 +73,7 @@ connectData("comp-newdesign-graph", (dump, cursite, curtime) => [
 
 connectData("comp-newdesign-counter-visits", k("date"));
 connectData("comp-newdesign-counter-direct", k("date", "ref"));
+connectData("comp-newdesign-counter-search", k("ref"));
 
 
 //
