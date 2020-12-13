@@ -2,7 +2,8 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(ref) {
-            var refentries = Object.entries(ref)
+            var refEntries = Object.entries(ref).sort((a, b) => b[1] - a[1]).slice(0, 10);
+            this.totalCount = Object.values(ref).reduce((acc, next) => acc + next, 0)
             this.innerHTML = `
         <div class="sources" id="sources">
           <div class="metrics-headline">
@@ -14,7 +15,7 @@ customElements.define(
             <span>Visitors</span>
           </div>
           <!-- Items -->
-          ${refentries.map((item) => this.drawItem(item[0], item[1])).join('')}
+          ${refEntries.map((item) => this.drawItem(item[0], item[1])).join('')}
           <!-- View all -->
           <a href="#modal-sources" class="sources-countries-item sources-countries-item-wrap view-all shadow-sm" rel="modal:open">
             <span>
@@ -29,19 +30,26 @@ customElements.define(
         drawItem(domain, count){
             return `
           <div class="sources-countries-item shadow-sm mb8">
-            <div class="percent-line" style="width: 90%;"></div>
+            <div class="percent-line" style="width: ${escapeHtml(this.percentRepr(count))};"></div>
             <div class="sources-countries-item-wrap">
               <span>
                 <img src="https://icons.duckduckgo.com/ip3/${escapeHtml(domain)}.ico" width="16" height="16" alt="Google">
-                <a href="#" class="black" target="_blank" rel="nofollow">${escapeHtml(domain)}</a>
+                <a href="//${escapeHtml(domain)}" class="black" target="_blank" rel="nofollow">${escapeHtml(domain)}</a>
               </span>
               <span>
                 <span class="strong mr16">${escapeHtml(count)}</span>
-                <span class="item-percent bg-blue blue caption">90%</span>
+                <span class="item-percent bg-blue blue caption">${escapeHtml(this.percentRepr(count))}</span>
               </span>
             </div>
           </div>
           `
+        }
+        percentRepr(value) {
+          var percentRepr = Math.round((value / this.totalCount) * 100) + "%";
+          if (percentRepr === "0%") {
+            percentRepr = "<1%";
+          }
+          return percentRepr;
         }
     }
 );
