@@ -111,7 +111,7 @@
 /* Devices, platforms, browsers and Ad */
 .metrics-two { margin-bottom: 32px; }
 .metrics-two .content { padding: 64px 95px; justify-content: space-between; align-items: flex-end; }
-.metrics-two-graph-wrap { width: 96px; height: 96px; background-color: #F5F5F5; }
+.metrics-two-graph-wrap { width: 96px; height: 96px; }
 .metrics-two-item { width: 160px; }
 .metrics-two-data { padding: 32px; margin-top: 16px; }
 .metrics-two-data .caption { flex: 1; }

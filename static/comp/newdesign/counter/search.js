@@ -4,14 +4,10 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(ref) {
-            var countedSearchEngines = 0
-            for (const [referrer, count] of Object.entries(ref)) {
-                let strippedRef = referrer.replace(/^www\./, '')
-                if (SEARCH_ENGINES.has(strippedRef)) {
-                    countedSearchEngines += count
-                }
-            }
-            this.innerHTML = countedSearchEngines
+            this.innerHTML = Object.entries(ref).reduce(
+                (acc, next) =>
+                acc + (SEARCH_ENGINES.has(next[0]) ? next[1] : 0),
+                0)
         }
     }
 );

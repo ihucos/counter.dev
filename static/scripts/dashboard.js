@@ -40,7 +40,6 @@ function connectData(tag, getData) {
     customElements.upgrade(selector)
     var site = selector.site;
     var range = selector.range;
-	  console.log(site, range)
 
     var data;
     if (getData.length <= 1) data = getData(dump);
@@ -74,6 +73,7 @@ connectData("comp-newdesign-graph", (dump, cursite, curtime) => [
 connectData("comp-newdesign-counter-visits", k("date"));
 connectData("comp-newdesign-counter-direct", k("date", "ref"));
 connectData("comp-newdesign-counter-search", k("ref"));
+connectData("comp-newdesign-pie", k("dev"));
 
 
 //
