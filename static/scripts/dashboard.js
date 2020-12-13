@@ -36,8 +36,10 @@ function connectData(tag, getData) {
   document.addEventListener("redraw", (evt) => {
     var dump = evt.detail
 
+    // ensure the selector is initialized
     let selector = document.getElementsByTagName("comp-newdesign-selector")[0];
     customElements.upgrade(selector)
+
     var site = selector.site;
     var range = selector.range;
 
@@ -49,7 +51,7 @@ function connectData(tag, getData) {
       data = getData(dump, site, range);
     }
     if (data !== null) {
-      Array.from(document.getElementsByTagName(tag)).forEach((el) => {
+      Array.from(document.querySelectorAll(tag)).forEach((el) => {
         customElements.upgrade(el);
         el.draw(...data);
       });
@@ -73,7 +75,9 @@ connectData("comp-newdesign-graph", (dump, cursite, curtime) => [
 connectData("comp-newdesign-counter-visits", k("date"));
 connectData("comp-newdesign-counter-direct", k("date", "ref"));
 connectData("comp-newdesign-counter-search", k("ref"));
-connectData("comp-newdesign-pie", k("dev"));
+connectData("comp-newdesign-pie#pie-devices", k("device"));
+connectData("comp-newdesign-pie#pie-platforms", k("platform"));
+connectData("comp-newdesign-pie#pie-browsers", k("browser"));
 
 
 //

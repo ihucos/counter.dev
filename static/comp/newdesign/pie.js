@@ -1,17 +1,18 @@
 customElements.define(
     tagName(),
     class extends BaseGraph {
-        //draw(dev){this.innerHTML='daaax'}
-        getChart(dev) {
+        getChart(devices) {
+            var aggr = dGroupData(devices, 3)
             return {
                 type: 'pie',
                 data: {
-                    labels: ["Africa", "Asia", "Europe", "Latin America"],
+                    labels: Object.keys(aggr),
                     datasets: [{
                         label: "Population (millions)",
                         backgroundColor: ["#147EFB", "#FC3158", "#53D769", "#FECB2E"],
+                        hoverBorderColor: '#ffffff',
                         borderWidth: 2,
-                        data: [2478, 5267, 734, 784]
+                        data: Object.values(aggr),
                     }]
                 },
                 options: {
