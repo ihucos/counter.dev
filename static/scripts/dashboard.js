@@ -85,6 +85,9 @@ connectData("#platforms comp-newdesign-pielegend", k("platform"));
 connectData("#browsers comp-newdesign-pielegend", k("browser"));
 
 
+connectData("comp-newdesign-sources", k("ref"));
+
+
 //
 // connectData("comp-chart-lastdays", (dump, cursite) => [
 //   dump.sites[cursite].visits.all.date,
