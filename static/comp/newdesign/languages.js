@@ -31,19 +31,12 @@ customElements.define(
                   ${escapeHtml(lang)}
                   <span>
                     <span class="strong mr16">${count}</span>
-                    <span class="item-percent bg-blue blue caption">${this.percentRepr(count, this.totalCount)}</span>
+                    <span class="item-percent bg-blue blue caption">${percentRepr(count, this.totalCount)}</span>
                   </span>
                 </div>
             `
 
         }
 
-        percentRepr(value) {
-            var percentRepr = Math.round((value / this.totalCount) * 100) + "%";
-            if (percentRepr === "0%") {
-                percentRepr = "<1%";
-            }
-            return percentRepr;
-        }
     }
 );

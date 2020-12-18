@@ -15,6 +15,15 @@ function kFormat(num) {
 }
 
 
+function percentRepr(value, total) {
+    var percentRepr = Math.round((value / total) * 100) + "%";
+    if (percentRepr === "0%") {
+        percentRepr = "<1%";
+    }
+    return percentRepr;
+}
+
+
 function dGroupData(entries, cutAt) {
   var entrs = Object.entries(entries);
   entrs = entrs.sort((a, b) => b[1] - a[1]);

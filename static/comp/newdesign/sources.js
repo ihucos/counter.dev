@@ -33,7 +33,7 @@ customElements.define(
         drawItem(domain, count) {
             return `
           <div class="sources-countries-item shadow-sm mb8">
-            <div class="percent-line" style="width: ${escapeHtml(this.percentRepr(count))};"></div>
+            <div class="percent-line" style="width: ${escapeHtml(percentRepr(count, this.totalCount))};"></div>
             <div class="sources-countries-item-wrap">
               <span>
                 <img src="https://icons.duckduckgo.com/ip3/${escapeHtml(domain)}.ico" width="16" height="16" alt="${escapeHtml(domain)}">
@@ -41,7 +41,7 @@ customElements.define(
               </span>
               <span>
                 <span class="strong mr16">${escapeHtml(count)}</span>
-                <span class="item-percent bg-blue blue caption">${escapeHtml(this.percentRepr(count))}</span>
+                <span class="item-percent bg-blue blue caption">${escapeHtml(percentRepr(count, this.totalCount))}</span>
               </span>
             </div>
           </div>
@@ -59,14 +59,6 @@ customElements.define(
                   ${sourcesEntries.map((item) => this.drawItem(item[0], item[1])).join('')}
                 </div>
               </div>`
-        }
-
-        percentRepr(value) {
-            var percentRepr = Math.round((value / this.totalCount) * 100) + "%";
-            if (percentRepr === "0%") {
-                percentRepr = "<1%";
-            }
-            return percentRepr;
         }
     }
 );

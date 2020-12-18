@@ -32,7 +32,7 @@ customElements.define(
         drawItem(countryCode, count) {
             return `
           <div class="sources-countries-item shadow-sm mb8">
-            <div class="percent-line" style="width: ${escapeHtml(this.percentRepr(count))};"></div>
+            <div class="percent-line" style="width: ${escapeHtml(percentRepr(count, this.totalCount))};"></div>
             <div class="sources-countries-item-wrap">
               <span>
                 <img src="/famfamfam_flags/gif/${escapeHtml(countryCode)}.gif" width="16" height="11" alt="${escapeHtml(countryCode)}">
@@ -40,17 +40,10 @@ customElements.define(
               </span>
               <span>
                 <span class="strong mr16">${escapeHtml(count)}</span>
-                <span class="item-percent bg-blue blue caption">${escapeHtml(this.percentRepr(count))}</span>
+                <span class="item-percent bg-blue blue caption">${escapeHtml(percentRepr(count, this.totalCount))}</span>
               </span>
             </div>
           </div>`
-        }
-        percentRepr(value) {
-            var percentRepr = Math.round((value / this.totalCount) * 100) + "%";
-            if (percentRepr === "0%") {
-                percentRepr = "<1%";
-            }
-            return percentRepr;
         }
 
         drawModal(countryEntries) {
