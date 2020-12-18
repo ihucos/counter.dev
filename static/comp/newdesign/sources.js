@@ -1,9 +1,10 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
+        maxEntries = 10
         draw(ref) {
             var allRefEntries = Object.entries(ref).sort((a, b) => b[1] - a[1])
-            var refEntries = allRefEntries.slice(0, 10);
+            var refEntries = allRefEntries.slice(0, this.maxEntries);
             this.totalCount = Object.values(ref).reduce((acc, next) => acc + next, 0)
             this.innerHTML = `
         <div class="sources" id="sources">
@@ -15,19 +16,21 @@ customElements.define(
             <span>Source</span>
             <span>Visitors</span>
           </div>
-          <!-- Items -->
           ${refEntries.map((item) => this.drawItem(item[0], item[1])).join('')}
-          <!-- View all -->
-          <a href="#modal-sources" class="sources-countries-item sources-countries-item-wrap view-all shadow-sm" rel="modal:open">
+          ${allRefEntries.lenght > this.maxEntries ? this.drawViewAll() : ''}
+        </div>
+        ${this.drawModal(allRefEntries)}`
+        }
+
+        drawViewAll(){
+            return `
+           <a href="#modal-sources" class="sources-countries-item sources-countries-item-wrap view-all shadow-sm" rel="modal:open">
             <span>
               <div class="view-all-icon animation"></div>
               <span class="black strong view-all-text animation">View all</span>
             </span>
             <img src="img/chevron-right.svg" width="24" height="24" alt="Chevron">
-          </a>
-          <!-- /// -->
-        </div>
-        ${this.drawModal(allRefEntries)}`
+          </a>`
         }
 
         drawItem(domain, count) {

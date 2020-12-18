@@ -86,8 +86,8 @@ connectData("#platforms comp-newdesign-pielegend", k("platform"));
 connectData("#browsers comp-newdesign-pielegend", k("browser"));
 
 
-connectData("comp-newdesign-sources", k("ref"));
-connectData("comp-newdesign-countries", k("country"));
+connectData("comp-newdesign-sources-countries[type=sources]", k("ref"));
+connectData("comp-newdesign-sources-countries[type=countries]", k("country"));
 
 connectData("comp-newdesign-languages", k("lang"));
 connectData("comp-newdesign-screens", k("screen"));
