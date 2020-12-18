@@ -8,12 +8,14 @@ customElements.define(
             this.totalCount = Object.values(objData).reduce((acc, next) => acc + next, 0)
             if (this.getAttribute('type') === "sources") {
                 this.type = "sources"
-                this.name = "Sources"
+                this.title = "Sources"
+                this.header = "Source"
                 this.img = "img/sources.svg"
                 this.drawItem = this.drawItemSources
             } else { // assume it's countries
                 this.type = "countries"
-                this.name = "Countries"
+                this.title = "Countries"
+                this.header = "Country"
                 this.img = "img/countries.svg"
                 this.drawItem = this.drawItemCountries
             }
@@ -21,11 +23,11 @@ customElements.define(
             this.innerHTML = `
         <div class="${this.type}">
           <div class="metrics-headline">
-            <img src="${this.img}" width="24" height="24" alt="${this.name}">
-            <h3 class="ml16">${this.name}</h3>
+            <img src="${this.img}" width="24" height="24" alt="${this.title}">
+            <h3 class="ml16">${this.title}</h3>
           </div>
           <div class="sources-countries-data caption gray bg-gray mt16 mb24">
-            <span>${this.name}</span>
+            <span>${this.header}</span>
             <span>Visitors</span>
           </div>
           ${entries.map((item) => this.drawItem(item[0], item[1])).join('')}
@@ -90,7 +92,7 @@ customElements.define(
             return `<div id="modal-${this.type}" style="display: none;">
               <div class="modal-header">
                   <img src="${this.img}" width="24" height="24" alt="Countries">
-                  <h3 class="ml16">${this.name}</h3>
+                  <h3 class="ml16">${this.title}</h3>
                   <a href="#" class="btn-close" rel="modal:close"></a>
                 </div>
                 <div class="modal-content">
