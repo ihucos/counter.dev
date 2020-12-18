@@ -1,4 +1,3 @@
-
 customElements.define(
     tagName(),
     class extends HTMLElement {
@@ -25,7 +24,7 @@ customElements.define(
             `
         }
 
-        drawItem(lang, count){
+        drawItem(lang, count) {
             return `
                 <div class="metrics-three-data-content-item">
                   ${escapeHtml(lang)}
@@ -35,7 +34,6 @@ customElements.define(
                   </span>
                 </div>
             `
-
         }
 
     }

@@ -90,6 +90,7 @@ connectData("comp-newdesign-sources", k("ref"));
 connectData("comp-newdesign-countries", k("country"));
 
 connectData("comp-newdesign-languages", k("lang"));
+connectData("comp-newdesign-screens", k("screen"));
 
 
 //
