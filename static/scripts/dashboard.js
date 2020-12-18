@@ -89,6 +89,8 @@ connectData("#browsers comp-newdesign-pielegend", k("browser"));
 connectData("comp-newdesign-sources", k("ref"));
 connectData("comp-newdesign-countries", k("country"));
 
+connectData("comp-newdesign-languages", k("lang"));
+
 
 //
 // connectData("comp-chart-lastdays", (dump, cursite) => [
