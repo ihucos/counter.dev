@@ -92,6 +92,10 @@ connectData("comp-newdesign-sources-countries[type=countries]", k("country"));
 connectData("comp-newdesign-languages", k("lang"));
 connectData("comp-newdesign-screens", k("screen"));
 
+connectData("comp-newdesign-pages", k("loc"));
+
+
+
 
 //
 // connectData("comp-chart-lastdays", (dump, cursite) => [
