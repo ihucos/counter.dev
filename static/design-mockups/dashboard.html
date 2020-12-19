@@ -371,7 +371,9 @@
             </div>
             <!-- Week -->
             <div class="metrics-three-data-content-day caption" id="week">
-              <div class="metrics-three-graph-wrap"></div>
+              <div style="display: flex"> <!-- hacky container for the graphs -->
+                <comp-newdesign-week-graph class="metrics-three-graph-wrap"></comp-newdesign-week-graph>
+              </div>
               <div class="week-column-wrap mt24">
                 <div class="week-column">
                   <span class="graph-dot mb8">

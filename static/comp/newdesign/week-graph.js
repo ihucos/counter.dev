@@ -2,13 +2,6 @@ customElements.define(
     tagName(),
     class extends BaseGraph {
 
-        sumHours(entries, arr) {
-            var sum = 0;
-            arr.forEach((el) => (sum += entries[el] || 0));
-            return sum;
-        };
-
-
         emptyIfSumZero(arr) {
             if (arr.reduce((pv, cv) => pv + cv, 0) === 0) {
                 return [];
@@ -16,20 +9,23 @@ customElements.define(
             return arr;
         }
 
-        getChart(hour) {
+        getChart(entries) {
 
             var hourKeys = Object.keys(hour);
             var hourVals = Object.values(hour);
             return {
                 type: "bar",
                 data: {
-                    labels: ["Morning", "Afternoon", "Evening", "Night"],
+                    labels: ["Mo.", "Tu.", "We.", "Th.", "Fr.", "Sa.", "Su."],
                     datasets: [{
                         data: this.emptyIfSumZero([
-                            this.sumHours(hour, [5, 6, 7, 8, 9, 10, 11]),
-                            this.sumHours(hour, [12, 13, 14, 15]),
-                            this.sumHours(hour, [16, 17, 18, 19, 20, 21]),
-                            this.sumHours(hour, [22, 23, 24, 0, 1, 2, 3, 4]),
+                            entries[0] || 0,
+                            entries[1] || 0,
+                            entries[2] || 0,
+                            entries[3] || 0,
+                            entries[4] || 0,
+                            entries[5] || 0,
+                            entries[6] || 0,
                         ]),
                         label: "Visitors",
                         borderWidth: 0,
