@@ -2,6 +2,7 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
+        topLevelDomainRe = /[-\w]+\.(?:[-\w]+\.xn--[-\w]+|[-\w]{2,}|[-\w]+\.[-\w]{2})$/i
         draw(ref) {
             this.innerHTML = Object.entries(ref).reduce(
                 (acc, next) =>
@@ -12,13 +13,10 @@ customElements.define(
         isSocial(ref){
             let match = this.topLevelDomainRe.exec(ref)
             if (match === null){return null}
-            if (this.social.has(match[0])){console.log(match[0])}
-            return this.social.has(match[0])
+            return this.countList.has(match[0])
         }
 
-        topLevelDomainRe = /[-\w]+\.(?:[-\w]+\.xn--[-\w]+|[-\w]{2,}|[-\w]+\.[-\w]{2})$/i
-
-        social = new Set([
+        countList = new Set([
             "triller.co",
             "wt.social",
             "valence.community",
