@@ -2,10 +2,8 @@
 Chart.defaults.global.tooltips = {...Chart.defaults.global.tooltips, ...{
                         enabled: true,
                         mode: "index",
-                        intersect: false,
                         borderWidth: 1,
                         cornerRadius: 2,
-                        caretPadding: 20,
                         xPadding: 8,
                         yPadding: 12,
                         backgroundColor: '#ffffff',

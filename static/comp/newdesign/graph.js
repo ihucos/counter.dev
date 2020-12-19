@@ -96,6 +96,10 @@ customElements.define(
                     title: {
                         display: false,
                     },
+                    tooltips: {
+                        caretPadding: 20,
+                        intersect: false,
+                    },
                     scales: {
                         yAxes: [{
                             gridLines: {
