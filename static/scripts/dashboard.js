@@ -1,4 +1,27 @@
 
+Chart.defaults.global.tooltips = {...Chart.defaults.global.tooltips, ...{
+                        enabled: true,
+                        mode: "index",
+                        intersect: false,
+                        borderWidth: 1,
+                        cornerRadius: 2,
+                        caretPadding: 20,
+                        xPadding: 8,
+                        yPadding: 12,
+                        backgroundColor: '#ffffff',
+                        borderColor: '#121212',
+
+                        titleFontSize: 12,
+                        titleFontFamily: 'Nunito Sans',
+                        titleFontColor: '#121212',
+
+                        bodyFontSize: 12,
+                        bodyFontFamily: 'Nunito Sans',
+                        bodyFontColor: '#121212',
+                        displayColors: false,
+                    }}
+
+
 $.getJSON('/user', r => {
     var source = new EventSource("/dump");
     source.onmessage = (event) => {
@@ -13,23 +36,6 @@ $.getJSON('/user', r => {
         alert(r.responseText)
     }
 })
-
-
-//function getSelector() {
-//  let selector = document.getElementsByTagName("comp-selector")[0];
-//  customElements.upgrade(selector);
-//  return selector;
-//}
-
-
-
-// document.addEventListener("redraw-selector", () => {
-//   getSelector().draw(
-//     Object.keys(state.dump.sites),
-//     state.dump.user.prefs.site,
-//     state.dump.user.prefs.range
-//   );
-// });
 
 
 function connectData(tag, getData) {

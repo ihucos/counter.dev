@@ -96,31 +96,6 @@ customElements.define(
                     title: {
                         display: false,
                     },
-                    tooltips: {
-                        enabled: true,
-                        mode: "index",
-                        intersect: false,
-                        borderWidth: 1,
-                        cornerRadius: 2,
-                        caretPadding: 20,
-                        xPadding: 8,
-                        yPadding: 12,
-                        backgroundColor: '#ffffff',
-                        borderColor: '#121212',
-
-                        titleFontSize: 12,
-                        titleFontFamily: 'Nunito Sans',
-                        titleFontColor: '#121212',
-
-                        bodyFontSize: 12,
-                        bodyFontFamily: 'Nunito Sans',
-                        bodyFontColor: '#121212',
-                        displayColors: false,
-
-                        callbacks: {
-                            label: (ti) => ti.yLabel + ' visitors',
-                        }
-                    },
                     scales: {
                         yAxes: [{
                             gridLines: {
