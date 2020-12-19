@@ -21,6 +21,7 @@ customElements.define(
                 <span class="caption-strong">${item[1]}</span>
               </div>`).join(''))
               }
+            ${entries.length === 0 ? '<comp-nodata></comp-nodata>' : ''}
             </div>
             <div class="metrics-three-data-footer bg-white"></div>
           </div>

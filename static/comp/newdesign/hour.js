@@ -6,9 +6,11 @@ customElements.define(
                 ...Object.fromEntries([...Array(24).keys()].map(i => [i, 0])),
                 ...hour,
             }
+            //let hourSum = Object.values(hour).reduce((acc, next) => acc + next, 0)
+            let allHoursEntries = Object.entries(allHours)
             this.innerHTML = `
               <div class="metrics-three-data-content caption" data-simplebar data-simplebar-auto-hide="false">
-                ${Object.entries(allHours).map(entry => `
+                ${allHoursEntries.map(entry => `
                 <div class="hour-item">
                   ${('0' + (parseInt(entry[0])+1)).slice(-2)}:00
                   <span class="caption-strong">${entry[1]}</span>
