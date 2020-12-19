@@ -93,6 +93,7 @@ connectData("comp-newdesign-languages", k("lang"));
 connectData("comp-newdesign-screens", k("screen"));
 
 connectData("comp-newdesign-pages", k("loc"));
+connectData("comp-newdesign-visits", (dump, cursite) => [dump.sites[cursite].logs, ]);
 
 
 
