@@ -2,7 +2,7 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(lang) {
-            var langEntries = Object.entries(lang).sort((a, b) => b[1] - a[1])
+            var screenEntries = Object.entries(lang).sort((a, b) => b[1] - a[1])
             this.totalCount = Object.values(lang).reduce((acc, next) => acc + next, 0)
             this.innerHTML = `
           <div class="metrics-three-item" id="screens">
@@ -16,7 +16,8 @@ customElements.define(
                 <span>Visitors</span>
               </div>
               <div class="metrics-three-data-content" data-simplebar data-simplebar-auto-hide="false">
-                ${langEntries.map((item) => this.drawItem(item[0], item[1])).join('')}
+                ${screenEntries.map((item) => this.drawItem(item[0], item[1])).join('')}
+                ${screenEntries.length === 0 ? '<comp-nodata></comp-nodata>' : ''}
               </div>
               <div class="metrics-three-data-footer bg-white"></div>
             </div>

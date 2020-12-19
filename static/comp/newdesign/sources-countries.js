@@ -31,6 +31,7 @@ customElements.define(
             <span>Visitors</span>
           </div>
           ${entries.map((item) => this.drawItem(item[0], item[1])).join('')}
+          ${entries.length === 0 ? '<comp-nodata></comp-nodata>' : ''}
           ${allEntries.length > this.maxEntries ? this.drawViewAll() : ''}
         </div>
         ${this.drawModal(allEntries)}`

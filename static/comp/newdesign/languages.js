@@ -17,6 +17,7 @@ customElements.define(
               </div>
               <div class="metrics-three-data-content" data-simplebar data-simplebar-auto-hide="false">
                 ${langEntries.map((item) => this.drawItem(item[0], item[1])).join('')}
+                ${langEntries.length === 0 ? '<comp-nodata></comp-nodata>' : ''}
               </div>
               <div class="metrics-three-data-footer bg-white"></div>
             </div>
