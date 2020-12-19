@@ -2,12 +2,10 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(hour) {
-            console.log(hour)
             let allHours = {
                 ...Object.fromEntries([...Array(24).keys()].map(i => [i, 0])),
                 ...hour,
             }
-            console.log(allHours)
             this.innerHTML = `
               <div class="metrics-three-data-content caption" data-simplebar data-simplebar-auto-hide="false">
                 ${Object.entries(allHours).map(entry => `
