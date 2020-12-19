@@ -95,6 +95,8 @@ connectData("comp-newdesign-screens", k("screen"));
 connectData("comp-newdesign-pages", k("loc"));
 connectData("comp-newdesign-visits", (dump, cursite) => [dump.sites[cursite].logs, ]);
 
+connectData("comp-newdesign-time-graph", k("hour"));
+
 
 
 

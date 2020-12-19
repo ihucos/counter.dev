@@ -300,7 +300,9 @@
             </ul>
             <!-- Day -->
             <div class="metrics-three-data-content-day" id="day">
-              <div class="metrics-three-graph-wrap"></div>
+              <div style="display: flex"> <!-- hacky container for the graphs -->
+                <comp-newdesign-time-graph class="metrics-three-graph-wrap"></comp-newdesign-time-graph>
+              </div>
               <div class="caption mt24">
                 <span class="graph-dot mb8">
                   <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
