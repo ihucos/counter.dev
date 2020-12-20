@@ -10,77 +10,18 @@ customElements.define(
             return gradientStroke;
         }
 
-        getUTCMinusElevenNow() {
-          var date = new Date();
-          var now_utc = Date.UTC(
-            date.getUTCFullYear(),
-            date.getUTCMonth(),
-            date.getUTCDate(),
-            date.getUTCHours(),
-            date.getUTCMinutes(),
-            date.getUTCSeconds()
-          );
-
-          let d = new Date(now_utc);
-          d.setHours(d.getHours() - 11);
-          return d;
-        }
-
-        daysRange(s, e) {
-          var s = new Date(s);
-          var e = new Date(e);
-          var o = {};
-          for (var a = [], d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
-            o[new Date(d).toISOString().substring(0, 10)] = 0;
-          }
-          return o;
-        };
-
         getChart(dates) {
 
-            // TODO: add 0 values for days that are not accounted for
-            //
+            let vals = dNormalizedDates(dates)
+            let dateKeys = vals[0]
+            let dateVals = vals[1]
 
-
-            var sortedAvailableDates = Object.keys(dates).sort((a, b) => {
-              return a > b;
-            });
-
-
-            var groupedByDay = {
-                ...this.daysRange(sortedAvailableDates[0], this.getUTCMinusElevenNow()),
-                ...dates
-            }
-
-            let groupedByMonth = Object.entries(groupedByDay).reduce((acc, val) => {
-                let group = moment(val[0]).format('MMMM');
-                acc[group] = (acc[group] || 0) + val[1];
-                return acc
-            }, {})
-
-            let groupedByWeek = Object.entries(groupedByDay).reduce((acc, val) => {
-                let group = moment(val[0]).format('[CW]w');
-                acc[group] = (acc[group] || 0) + val[1];
-                return acc
-            }, {})
-
-            var groupedDates = groupedByDay
-            if (Object.keys(groupedDates).length > 31){
-                groupedDates = groupedByWeek
-                // if it's still to big, use months. 16 is a magic number to swap to the per month view
-                if (Object.keys(groupedDates).length > 16){
-                    groupedDates = groupedByMonth
-                }
-            }
-
-            var date_keys = Object.keys(groupedDates);
-            var date_vals = Object.values(groupedDates);
             return {
                 type: "line",
                 data: {
-                    labels: date_keys,
+                    labels: dateKeys,
                     datasets: [{
-                        data: date_vals,
+                        data: dateVals,
                         label: "Visitors",
                         backgroundColor: this.makeGradient(),
                         borderColor: '#147EFB',
