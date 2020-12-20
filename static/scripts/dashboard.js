@@ -72,9 +72,9 @@ function k(...keys) {
 
 connectData("comp-newdesign-selector", (dump) => [dump]);
 
-connectData("comp-newdesign-graph", (dump, cursite, curtime) => [
-  dump.sites[cursite].visits[curtime].date,
-]);
+
+connectData("comp-newdesign-graph", k("date"));
+connectData("comp-newdesign-dynamics", k("date"));
 
 connectData("comp-newdesign-counter-visits", k("date"));
 connectData("comp-newdesign-counter-direct", k("date", "ref"));
