@@ -2,22 +2,7 @@
 
 customElements.define(
     tagName(),
-    class extends HTMLElement {
-        topLevelDomainRe = /[-\w]+\.(?:[-\w]+\.xn--[-\w]+|[-\w]{2,}|[-\w]+\.[-\w]{2})$/i
-        draw(ref) {
-            this.innerHTML = Object.entries(ref).reduce(
-                (acc, next) =>
-                acc + (this.isSocial(next[0]) ? next[1] : 0),
-                0)
-        }
-
-        isSocial(ref) {
-            let match = this.topLevelDomainRe.exec(ref)
-            if (match === null) {
-                return null
-            }
-            return this.countList.has(match[0])
-        }
+    class extends Counter {
 
         countList = new Set([
 

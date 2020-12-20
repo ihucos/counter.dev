@@ -48,8 +48,9 @@ function connectData(tag, getData) {
     var range = selector.range;
 
     var data;
-    if (getData.length <= 1) data = getData(dump);
-    else if (site === "" || range === "") {
+    if (getData.length <= 1) {
+      data = getData(dump)
+    } else if (site === "" || range === "") {
       data = null;
     } else {
       data = getData(dump, site, range);
@@ -70,16 +71,17 @@ function k(...keys) {
       keys.map((key) => dump.sites[cursite].visits[curtime][key]);
 };
 
+// selector must be initialized as first!
 connectData("comp-newdesign-selector", (dump) => [dump]);
 
+connectData("comp-newdesign-counter-visitors", (dump, cursite, curtime) => [dump.sites[cursite].visits, curtime]);
+connectData("comp-newdesign-counter-search", (dump, cursite, curtime) => [dump.sites[cursite].visits, curtime]);
+connectData("comp-newdesign-counter-social", (dump, cursite, curtime) => [dump.sites[cursite].visits, curtime]);
+connectData("comp-newdesign-counter-direct", (dump, cursite, curtime) => [dump.sites[cursite].visits, curtime]);
 
 connectData("comp-newdesign-graph", k("date"));
 connectData("comp-newdesign-dynamics", k("date"));
 
-connectData("comp-newdesign-counter-visits", k("date"));
-connectData("comp-newdesign-counter-direct", k("date", "ref"));
-connectData("comp-newdesign-counter-search", k("ref"));
-connectData("comp-newdesign-counter-social", k("ref"));
 connectData("comp-newdesign-pie", k("dev"));
 
 connectData("#devices comp-newdesign-pie", k("device"));

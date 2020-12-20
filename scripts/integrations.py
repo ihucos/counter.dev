@@ -45,7 +45,7 @@ for key in sorted(r.keys("sites:*")):
     if not token:
         continue
 
-    share_url = "http://counter.dev/app#share,{},{}".format(user, base64.b64encode(token).decode())
+    share_url = "http://localhost:8080/app#share,{},{}".format(user, base64.b64encode(token).decode())
 
     integr = user_integrated_at.get(user)
     if integr:
