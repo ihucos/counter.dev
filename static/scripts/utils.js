@@ -45,24 +45,23 @@ function dGroupData(entries, cutAt) {
 }
 
 
-function dNormalizedDates(dates) {
+function getUTCMinusElevenNow() {
+    var date = new Date();
+    var now_utc = Date.UTC(
+        date.getUTCFullYear(),
+        date.getUTCMonth(),
+        date.getUTCDate(),
+        date.getUTCHours(),
+        date.getUTCMinutes(),
+        date.getUTCSeconds()
+    );
 
-    var getUTCMinusElevenNow = () => {
-        var date = new Date();
-        var now_utc = Date.UTC(
-            date.getUTCFullYear(),
-            date.getUTCMonth(),
-            date.getUTCDate(),
-            date.getUTCHours(),
-            date.getUTCMinutes(),
-            date.getUTCSeconds()
-        );
+    let d = new Date(now_utc);
+    d.setHours(d.getHours() - 11);
+    return d;
+}
 
-        let d = new Date(now_utc);
-        d.setHours(d.getHours() - 11);
-        return d;
-    }
-
+function dPadDates(dates){
     var daysRange = (s, e) => {
         var s = new Date(s);
         var e = new Date(e);
@@ -77,10 +76,16 @@ function dNormalizedDates(dates) {
         return a > b;
     });
 
-    var groupedByDay = {
+    return {
         ...daysRange(sortedAvailableDates[0], getUTCMinusElevenNow()),
         ...dates
     }
+}
+
+
+function dNormalizedDates(dates) {
+
+    let groupedByDay = dPadDates(dates)
 
     let groupedByMonth = Object.entries(groupedByDay).reduce((acc, val) => {
         let group = moment(val[0]).format('MMMM');
