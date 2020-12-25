@@ -103,6 +103,8 @@ connectData("comp-newdesign-time-graph", k("hour"));
 connectData("comp-newdesign-hour", k("hour"));
 connectData("comp-newdesign-week-graph", k("weekday"));
 
+connectData("comp-newdesign-time", k("hour"));
+
 
 
 

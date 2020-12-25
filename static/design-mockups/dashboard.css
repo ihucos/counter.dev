@@ -251,6 +251,10 @@
 }
 
 // for the no-data to be centered
+.simplebar-content-wrapper {
+	height: 100%;
+}
+
 .simplebar-content {
 	height: 100%;
 }
@@ -274,4 +278,5 @@ comp-nodata {
 	align-items: center;
 	justify-content: center;
 	color: #616161;
+	border: 1px solid black;
 }
