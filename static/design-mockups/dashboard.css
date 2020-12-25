@@ -250,5 +250,28 @@
 	.account-btn-group { margin: 16px 0 24px 0; }
 }
 
+// for the no-data to be centered
+.simplebar-content {
+	height: 100%;
+}
 
+comp-nodata img {
+	position: relative;
+	top: 4px;
+	height: 20px;
+	width: 16px;
+	margin-right: 14px;
+}
 
+comp-nodata div {
+	line-height: 19px;
+	font-size: 14px;
+}
+
+comp-nodata {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #616161;
+}

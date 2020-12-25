@@ -10,7 +10,9 @@ customElements.define(
             let groupdedDates = dNormalizedDates(dates)
             let keys = groupdedDates[0]
             let vals = groupdedDates[1]
-            if (vals.length < 3) {
+            if (vals.length === 0){
+                this.innerHTML = "<comp-nodata></comp-nodata>"
+            } else if (vals.length < 3) {
                 this.innerHTML = this.getTrend(this.STABILITY)
                 return
             } else {
