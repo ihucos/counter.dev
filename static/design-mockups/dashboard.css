@@ -251,13 +251,8 @@
 }
 
 // for the no-data to be centered
-.simplebar-content-wrapper {
-	height: 100%;
-}
-
-.simplebar-content {
-	height: 100%;
-}
+.simplebar-content-wrapper {height: 100%;}
+.simplebar-content {height: 100%;}
 
 comp-nodata img {
 	position: relative;
