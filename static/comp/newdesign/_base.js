@@ -8,24 +8,22 @@ class Counter extends HTMLElement {
         'all': 'all',
     }
 
-    draw(allVisits, curtime) {
-        let count = this.count(allVisits[curtime])
-        let nextCount = this.count(allVisits[this.nextTime[curtime]])
+    draw(allVisits, curTime) {
+        let count = this.count(allVisits[curTime])
+        let nextCurTime = this.nextTime[curTime]
+        let nextCount = this.count(allVisits[nextCurTime])
 
         let datesPassedCurTime = Object.keys(dPadDates(
-            allVisits[curtime].date
+            allVisits[curTime].date
         )).length
         let datesPassedNextTime = Object.keys(dPadDates(
-            allVisits[this.nextTime[curtime]].date
+            allVisits[nextCurTime].date
         )).length
         console.log(datesPassedCurTime, datesPassedNextTime)
 
         let perThisTimeRange = count / datesPassedCurTime
         let perNextTimeRange = nextCount / datesPassedNextTime
-
-        //let percent = perThisTimeRange + ' ' + perNextTimeRange
         let percent = Math.round(((perThisTimeRange / perNextTimeRange) - 1) * 100)
-        //let percent = (Math.round(count/nextCount * 100))
 
         let trend
         let percentRepr
@@ -44,8 +42,11 @@ class Counter extends HTMLElement {
         <div class="category">
           <div class="h2 blue">${count}</div>
           <div class="category-label">
-            ${escapeHtml(this.getAttribute('title'))}
-            <div class="dynamics ${trend} caption"><span class="dynamics-mobile">${percentRepr}</span></div>
+            ${escapeHtml(this.getAttribute('text'))}
+            <div
+              class="dynamics ${trend} caption"
+              title='Compares this ${curTime} with this ${nextCurTime}'
+            ><span class="dynamics-mobile">${percentRepr}</span></div>
           </div>
         </div>`
     }
