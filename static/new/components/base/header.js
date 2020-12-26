@@ -110,7 +110,92 @@ customElements.define(
                       </div>
                     </div>
                   </section>
-                </header>`;
+                </header>
+
+
+                <!-- Edit account modal -->
+                <div id="modal-account" style="display: none">
+                  <div class="modal-header">
+                    <img src="img/account.svg" width="24" height="24" alt="Edit account" />
+                    <h3 class="ml16">Edit account</h3>
+                    <a href="#" class="btn-close" rel="modal:close"></a>
+                  </div>
+                  <div class="modal-content">
+                    <!-- Time zone -->
+                    <div class="title mb16">Time zone</div>
+                    <select class="width-full">
+                      <option>(GMT-03:00) Buenos Aires, Georgetown</option>
+                      <option>(GMT-08:00) Pacific Time (US & Canada)</option>
+                    </select>
+                    <!-- Change password -->
+                    <div class="title mb8 mt24">Change password</div>
+                    <label class="old-pass width-full"
+                      >Old password<input
+                        class="width-full"
+                        type="password"
+                        placeholder="Old password"
+                    /></label>
+                    <div class="new-pass flex mb8 mt16">
+                      <label class="width-half mr16"
+                        >New password<input
+                          class="width-full"
+                          type="password"
+                          placeholder="New password"
+                      /></label>
+                      <label class="width-half"
+                        >Repeat new password<input
+                          class="width-full"
+                          type="password"
+                          placeholder="Repeat new password"
+                      /></label>
+                    </div>
+                    <span class="caption gray">The password cannot be recovered!</span>
+                    <div class="account-btn-group flex mt24 mb32">
+                      <a href="#" class="btn-secondary full mr16" rel="modal:close"
+                        >Cancel</a
+                      >
+                      <button class="btn-primary full">Save</button>
+                    </div>
+                    <!-- Danger -->
+                    <div class="delete-account">
+                      <div class="title mb16">Account deleting</div>
+                      <div class="danger gradient-red radius-lg">
+                        <!-- Request delete -->
+                        <div class="delete-request">
+                          <div class="danger-message caption full mr16">
+                            <img src="img/alert.svg" width="24" height="24" alt="Alert" />
+                            <span class="ml16"
+                              >Deleting your account removes all sites and stats you've
+                              collected!</span
+                            >
+                          </div>
+                          <button class="btn-white btn-danger btn-confirm">
+                            Delete account
+                          </button>
+                        </div>
+                        <!-- Confirm delete -->
+                        <div class="delete-confirm" style="display: none">
+                          <input
+                            type="text"
+                            class="confirm-input full mr16"
+                            placeholder="Enter username to confirm"
+                          />
+                          <button class="btn-white btn-danger">Delete</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                `;
+
+            $('a[rel="modal:open"]', this).click(function (event) {
+                $(this).modal({
+                    fadeDuration: 200,
+                    fadeDelay: 0,
+                });
+                return false;
+            });
         }
     }
 );
