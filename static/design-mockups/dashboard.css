@@ -250,10 +250,14 @@
 	.account-btn-group { margin: 16px 0 24px 0; }
 }
 
-// HOTFIX for comp-nodata heights
+// HOTFIXes for comp-nodata heights
 .simplebar-content-wrapper {height: 100%;}
 .simplebar-content {height: 100%;}
 comp-newdesign-pie .metrics-two-data {height: 284px}
+comp-newdesign-dynamics comp-nodata {
+	width: 255px;
+	height: 292px;
+}
 
 comp-nodata img {
 	position: relative;
@@ -274,6 +278,12 @@ comp-nodata {
 	align-items: center;
 	justify-content: center;
 	color: #616161;
-	border: 1px solid black;
+	border: 1px solid #B1E2FF;
+	border-radius: 16px;
 	min-height: 6rem;
+}
+
+.metrics-two-data comp-nodata,
+.metrics-three comp-nodata {
+	border: none;
 }
