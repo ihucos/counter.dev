@@ -1,7 +1,7 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        draw(time) {
+        connectedCallback() {
             this.innerHTML = `
               <div style="display: flex"> <!-- hacky container for the graphs -->
                 <comp-newdesign-time-graph class="metrics-three-graph-wrap"></comp-newdesign-time-graph>
