@@ -42,7 +42,7 @@ function connectData(tag, getData) {
 
         // ensure the selector is initialized
         let selector = document.getElementsByTagName(
-            "comp-newdesign-selector"
+            "dashboard-selector"
         )[0];
         customElements.upgrade(selector);
 
@@ -73,68 +73,68 @@ function k(...keys) {
 }
 
 // selector must be initialized as first!
-connectData("comp-newdesign-selector", (dump) => [dump]);
+connectData("dashboard-selector", (dump) => [dump]);
 
-connectData("comp-newdesign-counter-visitors", (dump, cursite, curtime) => [
+connectData("dashboard-counter-visitors", (dump, cursite, curtime) => [
     dump.sites[cursite].visits,
     curtime,
 ]);
-connectData("comp-newdesign-counter-search", (dump, cursite, curtime) => [
+connectData("dashboard-counter-search", (dump, cursite, curtime) => [
     dump.sites[cursite].visits,
     curtime,
 ]);
-connectData("comp-newdesign-counter-social", (dump, cursite, curtime) => [
+connectData("dashboard-counter-social", (dump, cursite, curtime) => [
     dump.sites[cursite].visits,
     curtime,
 ]);
-connectData("comp-newdesign-counter-direct", (dump, cursite, curtime) => [
+connectData("dashboard-counter-direct", (dump, cursite, curtime) => [
     dump.sites[cursite].visits,
     curtime,
 ]);
 
-connectData("comp-newdesign-graph", k("date", "hour"));
-connectData("comp-newdesign-dynamics", k("date"));
+connectData("dashboard-graph", k("date", "hour"));
+connectData("dashboard-dynamics", k("date"));
 
-connectData("comp-newdesign-pie#devices", k("device"));
-connectData("comp-newdesign-pie#platforms ", k("platform"));
-connectData("comp-newdesign-pie#browsers", k("browser"));
+connectData("dashboard-pie#devices", k("device"));
+connectData("dashboard-pie#platforms ", k("platform"));
+connectData("dashboard-pie#browsers", k("browser"));
 
-connectData("comp-newdesign-pie#devices comp-newdesign-piegraph", k("device"));
+connectData("dashboard-pie#devices dashboard-piegraph", k("device"));
 connectData(
-    "comp-newdesign-pie#platforms comp-newdesign-piegraph",
+    "dashboard-pie#platforms dashboard-piegraph",
     k("platform")
 );
 connectData(
-    "comp-newdesign-pie#browsers comp-newdesign-piegraph",
+    "dashboard-pie#browsers dashboard-piegraph",
     k("browser")
 );
 
-connectData("comp-newdesign-pie#devices comp-newdesign-pielegend", k("device"));
+connectData("dashboard-pie#devices dashboard-pielegend", k("device"));
 connectData(
-    "comp-newdesign-pie#platforms comp-newdesign-pielegend",
+    "dashboard-pie#platforms dashboard-pielegend",
     k("platform")
 );
 connectData(
-    "comp-newdesign-pie#browsers comp-newdesign-pielegend",
+    "dashboard-pie#browsers dashboard-pielegend",
     k("browser")
 );
 
-connectData("comp-newdesign-sources-countries[type=sources]", k("ref"));
-connectData("comp-newdesign-sources-countries[type=countries]", k("country"));
+connectData("dashboard-sources-countries[type=sources]", k("ref"));
+connectData("dashboard-sources-countries[type=countries]", k("country"));
 
-connectData("comp-newdesign-languages", k("lang"));
-connectData("comp-newdesign-screens", k("screen"));
+connectData("dashboard-languages", k("lang"));
+connectData("dashboard-screens", k("screen"));
 
-connectData("comp-newdesign-pages", k("loc"));
-connectData("comp-newdesign-visits", (dump, cursite) => [
+connectData("dashboard-pages", k("loc"));
+connectData("dashboard-visits", (dump, cursite) => [
     dump.sites[cursite].logs,
 ]);
 
-connectData("comp-newdesign-time-graph", k("hour"));
-connectData("comp-newdesign-hour", k("hour"));
-connectData("comp-newdesign-week-graph", k("weekday"));
+connectData("dashboard-time-graph", k("hour"));
+connectData("dashboard-hour", k("hour"));
+connectData("dashboard-week-graph", k("weekday"));
 
-connectData("comp-newdesign-time-graph", k("hour"));
+connectData("dashboard-time-graph", k("hour"));
 
 //
 // connectData("comp-chart-lastdays", (dump, cursite) => [

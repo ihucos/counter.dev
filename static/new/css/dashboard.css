@@ -631,10 +631,10 @@
 .simplebar-content {
   height: 100%;
 }
-comp-newdesign-pie .metrics-two-data {
+dashboard-pie .metrics-two-data {
   height: 284px;
 }
-comp-newdesign-dynamics comp-nodata {
+dashboard-dynamics comp-nodata {
   width: 255px;
   height: 292px;
 }

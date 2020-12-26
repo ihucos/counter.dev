@@ -3,7 +3,7 @@ function tagName() {
     var tagName = new URL(document.currentScript.src).pathname
         .slice(1, -3)
         .replace(/\//g, "-");
-    return 'comp' +  tagName.slice(14)
+    return tagName.slice(15)
 }
 
 

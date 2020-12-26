@@ -119,7 +119,7 @@
     <section class="settings">
       <div class="content">
         <div class="settings-left">
-          <comp-newdesign-selector></comp-newdesign-selector>
+          <dashboard-selector></dashboard-selector>
         </div>
         <div class="settings-right">
           <a href="#" class="btn-secondary btn-icon mr16"><img src="img/download.svg" width="24" height="24" alt="Download"></a>
@@ -131,18 +131,18 @@
     <!-- Categories of visits -->
     <section class="categories">
       <div class="content">
-        <comp-newdesign-counter-visitors text="Visitors"></comp-newdesign-counter-visitors>
-        <comp-newdesign-counter-search text="Search engines"></comp-newdesign-counter-search>
-        <comp-newdesign-counter-social text="Social networks"></comp-newdesign-counter-social>
-        <comp-newdesign-counter-direct text="Direct"></comp-newdesign-direct>
+        <dashboard-counter-visitors text="Visitors"></dashboard-counter-visitors>
+        <dashboard-counter-search text="Search engines"></dashboard-counter-search>
+        <dashboard-counter-social text="Social networks"></dashboard-counter-social>
+        <dashboard-counter-direct text="Direct"></dashboard-direct>
     </section>
     <!-- Graph -->
     <section class="graph">
       <div class="content shadow-lg radius-lg">
         <div style="display: flex"> <!-- hacky container for the graphs -->
-	  <comp-newdesign-graph class="graph-wrap"><comp-newdesign-graph/>
+	  <dashboard-graph class="graph-wrap"><dashboard-graph/>
 	</div>
-        <comp-newdesign-dynamics></comp-newdesign-dynamics>
+        <dashboard-dynamics></dashboard-dynamics>
       </div>
     </section>
     <!-- Sources and countries -->
@@ -153,8 +153,8 @@
           <li><a href="#sources"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.2398 7.76001L14.1198 14.12L7.75977 16.24L9.87977 9.88001L16.2398 7.76001Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
           <li><a href="#countries"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12H22" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 2C14.5013 4.73835 15.9228 8.29203 16 12C15.9228 15.708 14.5013 19.2616 12 22C9.49872 19.2616 8.07725 15.708 8 12C8.07725 8.29203 9.49872 4.73835 12 2V2Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
         </ul>
-        <comp-newdesign-sources-countries type="sources" ></comp-newdesign-sources-countries>
-        <comp-newdesign-sources-countries type="countries" ></comp-newdesign-sources-countries>
+        <dashboard-sources-countries type="sources" ></dashboard-sources-countries>
+        <dashboard-sources-countries type="countries" ></dashboard-sources-countries>
       </div>
     </section>
     <!-- Devices, platforms, browsers and AD -->
@@ -166,9 +166,9 @@
           <li><a href="#platforms"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 3H3V10H10V3Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 3H14V10H21V3Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 14H14V21H21V14Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 14H3V21H10V14Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
           <li><a href="#browsers"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.17 8H12" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.9502 6.06006L8.5402 14.0001" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.8799 21.94L15.4599 14" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
         </ul>
-        <comp-newdesign-pie class="metrics-two-item" image="img/devices.svg" id="devices" caption="Devices"></comp-newdesign-pie>
-        <comp-newdesign-pie class="metrics-two-item" image="img/platforms.svg" id="platforms" caption="Platforms"></comp-newdesign-pie>
-        <comp-newdesign-pie class="metrics-two-item" image="img/browsers.svg" id="browsers" caption="Browsers"></comp-newdesign-pie>
+        <dashboard-pie class="metrics-two-item" image="img/devices.svg" id="devices" caption="Devices"></dashboard-pie>
+        <dashboard-pie class="metrics-two-item" image="img/platforms.svg" id="platforms" caption="Platforms"></dashboard-pie>
+        <dashboard-pie class="metrics-two-item" image="img/browsers.svg" id="browsers" caption="Browsers"></dashboard-pie>
         <!-- Ad -->
         <div class="ad bg-white shadow-sm radius-lg">
           <img src="img/ad.svg" class="radius-lg" width="318" height="212" alt="Ad">
@@ -190,8 +190,8 @@
             <li><a href="#languages"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
             <li><a href="#screens"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3H5C4.46957 3 3.96086 3.21071 3.58579 3.58579C3.21071 3.96086 3 4.46957 3 5V8M21 8V5C21 4.46957 20.7893 3.96086 20.4142 3.58579C20.0391 3.21071 19.5304 3 19 3H16M16 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V16M3 16V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H8" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
           </ul>
-          <comp-newdesign-languages></comp-newdesign-languages>
-          <comp-newdesign-screens></comp-newdesign-screens>
+          <dashboard-languages></dashboard-languages>
+          <dashboard-screens></dashboard-screens>
         </div>
         <!-- Time -->
         <div class="metrics-two-item">
@@ -208,15 +208,15 @@
             </ul>
             <!-- Day -->
             <div class="metrics-three-data-content-day" id="day">
-              <comp-newdesign-time></comp-newdesign-time>
+              <dashboard-time></dashboard-time>
             </div>
             <div id="hour">
-              <comp-newdesign-hour></comp-newdesign-hour>
+              <dashboard-hour></dashboard-hour>
             </div>
             <!-- Week -->
             <div class="metrics-three-data-content-day caption" id="week">
               <div style="display: flex"> <!-- hacky container for the graphs -->
-                <comp-newdesign-week-graph class="metrics-three-graph-wrap"></comp-newdesign-week-graph>
+                <dashboard-week-graph class="metrics-three-graph-wrap"></dashboard-week-graph>
               </div>
               <div class="week-column-wrap mt24">
                 <div class="week-column">
@@ -265,8 +265,8 @@
           <li><a href="#pages"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V9L13 2Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 2V9H20" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
           <li><a href="#visits"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H15" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 17L15 12L10 7" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 12H3" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
         </ul>
-        <comp-newdesign-pages></comp-newdesign-pages>
-        <comp-newdesign-visits></comp-newdesign-visits>
+        <dashboard-pages></dashboard-pages>
+        <dashboard-visits></dashboard-visits>
       </div>
     </section>
     <!-- Donate -->
