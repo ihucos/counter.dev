@@ -48,6 +48,7 @@ customElements.define(
                               username
                           )}</div>
                           <div class="dropdown-content">
+                            <a href="dashboard.html">Dashboard</a>
                             <a href="#modal-account" rel="modal:open">Edit account</a>
                             <a href="/logout">Sign out</a>
                           </div>
