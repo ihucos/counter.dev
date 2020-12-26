@@ -69,10 +69,6 @@ customElements.define(
                                 display: false,
                             },
                             //type: "time",
-                            time: {
-                                //unit: "day",
-                                //tooltipFormat: 'MM/DD/YYYY'
-                            },
                             scaleLabel: {
                                 display: false,
                                 //labelString: "Date",
@@ -81,6 +77,14 @@ customElements.define(
                                 fontFamily: 'Nunito Sans',
                                 fontColor: "#616161",
                                 fontSize: 14,
+                                userCallback: function(label) {
+
+                                    // this should be in dGroupData instead
+                                    if (((label.split('-').length - 1) === 2)){
+                                        return moment(label).format("Do")
+                                    }
+                                    return label
+                                },
                             },
                         }, ],
                     },
