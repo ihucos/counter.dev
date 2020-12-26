@@ -10,18 +10,25 @@ customElements.define(
             return gradientStroke;
         }
 
-        getChart(dates) {
+        getChart(dates, hour) {
 
             let vals = dNormalizedDates(dates)
-            let dateKeys = vals[0]
-            let dateVals = vals[1]
+            let labels = vals[0]
+            let data = vals[1]
+
+            // assume this is today, show hours
+            if (labels.length === 1){
+                hour = dGetNormalizedHours(hour)
+                labels = Object.keys(hour)
+                data = Object.values(hour)
+            }
 
             return {
                 type: "line",
                 data: {
-                    labels: dateKeys,
+                    labels: labels,
                     datasets: [{
-                        data: dateVals,
+                        data: data,
                         label: "Visitors",
                         backgroundColor: this.makeGradient(),
                         borderColor: '#147EFB',
@@ -78,6 +85,8 @@ customElements.define(
                                 fontColor: "#616161",
                                 fontSize: 14,
                                 userCallback: function(label) {
+
+                                    //return label + ':00'
 
                                     // this should be in dGroupData instead
                                     if (((label.split('-').length - 1) === 2)){

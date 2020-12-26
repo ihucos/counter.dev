@@ -79,7 +79,7 @@ connectData("comp-newdesign-counter-search", (dump, cursite, curtime) => [dump.s
 connectData("comp-newdesign-counter-social", (dump, cursite, curtime) => [dump.sites[cursite].visits, curtime]);
 connectData("comp-newdesign-counter-direct", (dump, cursite, curtime) => [dump.sites[cursite].visits, curtime]);
 
-connectData("comp-newdesign-graph", k("date"));
+connectData("comp-newdesign-graph", k("date", "hour"));
 connectData("comp-newdesign-dynamics", k("date"));
 
 connectData("comp-newdesign-pie#devices", k("device"));

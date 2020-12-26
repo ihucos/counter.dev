@@ -61,7 +61,7 @@ function getUTCMinusElevenNow() {
     return d;
 }
 
-function dPadDates(dates){
+function dPadDates(dates) {
     var daysRange = (s, e) => {
         var s = new Date(s);
         var e = new Date(e);
@@ -109,4 +109,40 @@ function dNormalizedDates(dates) {
     }
 
     return [Object.keys(groupedDates), Object.values(groupedDates)]
+}
+
+HOUR_AM_PM = {
+    0: '12 midnight',
+    1: '1 a.m.',
+    2: '2 a.m.',
+    3: '3 a.m.',
+    4: '4 a.m.',
+    5: '5 a.m.',
+    6: '6 a.m.',
+    7: '7 a.m.',
+    8: '8 a.m.',
+    9: '9 a.m.',
+    10: '10 a.m.',
+    11: '11 a.m.',
+    12: '12 noon',
+    13: '1 p.m.',
+    14: '2 p.m.',
+    15: '3 p.m.',
+    16: '4 p.m.',
+    17: '5 p.m.',
+    18: '6 p.m.',
+    19: '7 p.m.',
+    20: '8 p.m.',
+    21: '9 p.m.',
+    22: '10 p.m.',
+    23: '11 p.m.',
+}
+
+function dGetNormalizedHours(hours) {
+    let pad = Object.fromEntries([...Array(24).keys()].map(i => [HOUR_AM_PM[i], 0]))
+    let formatedHours = Object.fromEntries(Object.entries(hours).map(i => [HOUR_AM_PM[i[0]], i[1]]))
+    return {
+        ...pad,
+        ...formatedHours
+    }
 }
