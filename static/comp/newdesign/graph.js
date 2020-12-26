@@ -85,10 +85,6 @@ customElements.define(
                                 fontColor: "#616161",
                                 fontSize: 14,
                                 userCallback: function(label) {
-
-                                    //return label + ':00'
-
-                                    // this should be in dGroupData instead
                                     if (((label.split('-').length - 1) === 2)){
                                         return moment(label).format("Do")
                                     }

@@ -4,7 +4,7 @@ customElements.define(
         draw(obj) {
             this.innerHTML = `
                 <div class="metrics-headline">
-                  <img src="img/browsers.svg" width="24" height="24" alt="${this.getAttribute('caption')}">
+                  <img src="${this.getAttribute('image')}" width="24" height="24" alt="${this.getAttribute('caption')}">
                   <h3 class="ml16">${this.getAttribute('caption')}</h3>
                 </div>
                 <div class="metrics-two-data bg-white shadow-sm radius-lg">

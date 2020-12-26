@@ -112,7 +112,7 @@ function dNormalizedDates(dates) {
 }
 
 HOUR_AM_PM = {
-    0: '12 midnight',
+    0: '12 a.m.',
     1: '1 a.m.',
     2: '2 a.m.',
     3: '3 a.m.',
