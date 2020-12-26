@@ -250,9 +250,10 @@
 	.account-btn-group { margin: 16px 0 24px 0; }
 }
 
-// for the no-data to be centered
+// HOTFIX for comp-nodata heights
 .simplebar-content-wrapper {height: 100%;}
 .simplebar-content {height: 100%;}
+comp-newdesign-pie .metrics-two-data {height: 284px}
 
 comp-nodata img {
 	position: relative;
@@ -274,4 +275,5 @@ comp-nodata {
 	justify-content: center;
 	color: #616161;
 	border: 1px solid black;
+	min-height: 6rem;
 }
