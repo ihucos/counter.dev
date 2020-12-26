@@ -1,11 +1,14 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        //connectedCallback() {
-        //        fetch("/username")
-        //            .then((response) => response.text())
-        //            .then((username) => this.draw(username));
-        //}
+        escapeHtml(unsafe) {
+            return (unsafe + "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
 
         connectedCallback() {
             this.innerHTML = `
@@ -41,7 +44,9 @@ customElements.define(
                         </span>`
                                 : `
                         <div class="dropdown">
-                          <div class="profile-user">${escapeHtml(username)}</div>
+                          <div class="profile-user">${this.escapeHtml(
+                              username
+                          )}</div>
                           <div class="dropdown-content">
                             <a href="#modal-account" rel="modal:open">Edit account</a>
                             <a href="/logout">Sign out</a>

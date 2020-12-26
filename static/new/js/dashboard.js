@@ -21,16 +21,16 @@ Chart.defaults.global.tooltips = {
     },
 };
 
-if (window.username !== null){
+if (window.username === null) {
+    window.location.href = "welcome.html";
+} else {
     var source = new EventSource("/dump");
     source.onmessage = (event) => {
         let dump = JSON.parse(event.data);
         console.log(dump);
         document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
     };
-} else {
-    window.location.href = "welcome.html";
-};
+}
 
 function connectData(tag, getData) {
     document.addEventListener("redraw", (evt) => {

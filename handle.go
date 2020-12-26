@@ -204,7 +204,7 @@ func (ctx *Ctx) handleLoad() {
 
 	session, _ := ctx.app.SessionStore.Get(ctx.r, "swa")
 	userId, ok := session.Values["user"].(string)
-	var usernameJson []byte;
+	var usernameJson []byte
 	if !ok {
 		usernameJson, err = json.Marshal(nil)
 		ctx.CatchError(err)
