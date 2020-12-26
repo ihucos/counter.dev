@@ -187,6 +187,31 @@ func (ctx *Ctx) handleLoadComponentsJS() {
             document.head.appendChild(script)})`, filesJson), 200)
 }
 
+
+func (ctx *Ctx) handleLoadComponentsJS2() {
+	// SEND HEADERS FOR CLOUDFROM HTTP PUSH AND TEST THAT
+	files1, err := filepath.Glob("./static/new/components/*.js")
+	ctx.CatchError(err)
+	files2, err := filepath.Glob("./static/new/components/*/*.js")
+	ctx.CatchError(err)
+	files3, err := filepath.Glob("./static/new/components/*/*/*.js")
+	ctx.CatchError(err)
+	files := append(append(files1, files2...), files3...)
+
+        // this works, but breaks the frontend - you fix it!
+        //for _, file := range files {
+	// ctx.w.Header().Add("Link", fmt.Sprintf("</%s>; rel=preload;", file))
+        //}
+
+	filesJson, err := json.Marshal(files)
+	ctx.CatchError(err)
+	ctx.Return(fmt.Sprintf(`
+        %s.sort().map(file => {
+            let script = document.createElement("script");
+            script.src = '/' + file.slice(7); script.async = false;
+            document.head.appendChild(script)})`, filesJson), 200)
+}
+
 func (ctx *Ctx) handleUser() {
 	ctx.ReturnUser()
 }
