@@ -1,14 +1,11 @@
-
 function tagName() {
     var tagName = new URL(document.currentScript.src).pathname
         .slice(1, -3)
         .replace(/\//g, "-");
-    return tagName.slice(15)
+    return tagName.slice(15);
 }
 
-
 class BaseGraph extends HTMLElement {
-
     draw(...args) {
         this.innerHTML = "<canvas></canvas>";
         this.canvas = this.children[0];

@@ -5,8 +5,8 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"time"
 	"syscall"
+	"time"
 
 	"./config"
 	"github.com/gomodule/redigo/redis"
@@ -32,7 +32,7 @@ func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}()
 	ctx := ah.app.NewContext(w, r)
 	go func() {
-	        <-r.Context().Done()
+		<-r.Context().Done()
 		ctx.RunCleanup()
 	}()
 	ah.fn(ctx)
@@ -80,7 +80,7 @@ func NewApp() *App {
 	redisPool := &redis.Pool{
 		//MaxIdle:     0,
 		//IdleTimeout: 240 * time.Second,
-                //MaxActive: 10,
+		//MaxActive: 10,
 		Dial: func() (redis.Conn, error) {
 			return redis.DialURL(config.RedisUrl)
 		},
@@ -125,15 +125,14 @@ func (app App) Serve() {
 
 func main() {
 
-
-        // HOTFIX
-        var rLimit syscall.Rlimit
-        rLimit.Max = 100307
-        rLimit.Cur = 100307
-        err := syscall.Setrlimit(syscall.RLIMIT_NOFILE, &rLimit)
-        if err != nil {
-            fmt.Println("Error Setting Rlimit ", err)
-         }
+	// HOTFIX
+	var rLimit syscall.Rlimit
+	rLimit.Max = 100307
+	rLimit.Cur = 100307
+	err := syscall.Setrlimit(syscall.RLIMIT_NOFILE, &rLimit)
+	if err != nil {
+		fmt.Println("Error Setting Rlimit ", err)
+	}
 
 	app := NewApp()
 	app.Logger.Println("Start")

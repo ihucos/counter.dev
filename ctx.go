@@ -3,11 +3,11 @@ package main
 import (
 	"./models"
 	"encoding/json"
+	"fmt"
+	"io"
 	"net/http"
 	"runtime"
 	"strconv"
-	"io"
-	"fmt"
 )
 
 type UserDataResp struct {
@@ -17,10 +17,10 @@ type UserDataResp struct {
 }
 
 type Ctx struct {
-	w   http.ResponseWriter
-	r   *http.Request
+	w         http.ResponseWriter
+	r         *http.Request
 	openConns []io.Closer
-	app *App
+	app       *App
 }
 
 func (ctx *Ctx) Abort() {
@@ -37,7 +37,9 @@ func (ctx *Ctx) RunCleanup() {
 	for _, conn := range ctx.openConns {
 		fmt.Println("closing", conn)
 		err := conn.Close()
-		if err != nil {fmt.Println(err.Error())}
+		if err != nil {
+			fmt.Println(err.Error())
+		}
 	}
 }
 
@@ -51,19 +53,19 @@ func (ctx *Ctx) ReturnJSON(v interface{}, statusCode int) {
 	ctx.Return(string(jsonString), statusCode)
 }
 
-func (ctx *Ctx) ReturnInternalErrorWithSkip(err error,  skip  int) {
+func (ctx *Ctx) ReturnInternalErrorWithSkip(err error, skip int) {
 	_, file, line, _ := runtime.Caller(skip)
 	ctx.app.Logger.Printf("%s:%d %s: %v\n", file, line, ctx.r.URL, err)
 	ctx.Return(err.Error(), 500)
 }
 
 func (ctx *Ctx) ReturnInternalError(err error) {
-        ctx.ReturnInternalErrorWithSkip(err,  1)
+	ctx.ReturnInternalErrorWithSkip(err, 1)
 }
 
 func (ctx *Ctx) CatchError(err error) {
 	if err != nil {
-		ctx.ReturnInternalErrorWithSkip(err,  2)
+		ctx.ReturnInternalErrorWithSkip(err, 2)
 	}
 }
 

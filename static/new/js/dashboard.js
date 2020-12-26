@@ -41,9 +41,7 @@ function connectData(tag, getData) {
         var dump = evt.detail;
 
         // ensure the selector is initialized
-        let selector = document.getElementsByTagName(
-            "dashboard-selector"
-        )[0];
+        let selector = document.getElementsByTagName("dashboard-selector")[0];
         customElements.upgrade(selector);
 
         var site = selector.site;
@@ -100,24 +98,12 @@ connectData("dashboard-pie#platforms ", k("platform"));
 connectData("dashboard-pie#browsers", k("browser"));
 
 connectData("dashboard-pie#devices dashboard-piegraph", k("device"));
-connectData(
-    "dashboard-pie#platforms dashboard-piegraph",
-    k("platform")
-);
-connectData(
-    "dashboard-pie#browsers dashboard-piegraph",
-    k("browser")
-);
+connectData("dashboard-pie#platforms dashboard-piegraph", k("platform"));
+connectData("dashboard-pie#browsers dashboard-piegraph", k("browser"));
 
 connectData("dashboard-pie#devices dashboard-pielegend", k("device"));
-connectData(
-    "dashboard-pie#platforms dashboard-pielegend",
-    k("platform")
-);
-connectData(
-    "dashboard-pie#browsers dashboard-pielegend",
-    k("browser")
-);
+connectData("dashboard-pie#platforms dashboard-pielegend", k("platform"));
+connectData("dashboard-pie#browsers dashboard-pielegend", k("browser"));
 
 connectData("dashboard-sources-countries[type=sources]", k("ref"));
 connectData("dashboard-sources-countries[type=countries]", k("country"));
@@ -126,9 +112,7 @@ connectData("dashboard-languages", k("lang"));
 connectData("dashboard-screens", k("screen"));
 
 connectData("dashboard-pages", k("loc"));
-connectData("dashboard-visits", (dump, cursite) => [
-    dump.sites[cursite].logs,
-]);
+connectData("dashboard-visits", (dump, cursite) => [dump.sites[cursite].logs]);
 
 connectData("dashboard-time-graph", k("hour"));
 connectData("dashboard-hour", k("hour"));
@@ -145,7 +129,6 @@ connectData("dashboard-time-graph", k("hour"));
 // connectData("comp-chart-referrers", k("ref", "date"));
 // connectData("comp-chart-device", k("device"));
 // connectData("comp-chart-hour", k("hour"));
-
 
 function escapeHtml(unsafe) {
     return (unsafe + "")

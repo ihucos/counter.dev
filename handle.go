@@ -2,12 +2,12 @@ package main
 
 import (
 	"./models"
-	"github.com/gomodule/redigo/redis"
 	"encoding/json"
 	"fmt"
-	"strings"
+	"github.com/gomodule/redigo/redis"
 	"net/http"
 	"path/filepath"
+	"strings"
 )
 
 type UserDump struct {
@@ -173,10 +173,10 @@ func (ctx *Ctx) handleLoadComponentsJS() {
 	ctx.CatchError(err)
 	files := append(append(files1, files2...), files3...)
 
-        // this works, but breaks the frontend - you fix it!
-        //for _, file := range files {
+	// this works, but breaks the frontend - you fix it!
+	//for _, file := range files {
 	// ctx.w.Header().Add("Link", fmt.Sprintf("</%s>; rel=preload;", file))
-        //}
+	//}
 
 	filesJson, err := json.Marshal(files)
 	ctx.CatchError(err)
@@ -186,7 +186,6 @@ func (ctx *Ctx) handleLoadComponentsJS() {
             script.src = '/' + file.slice(7); script.async = false;
             document.head.appendChild(script)})`, filesJson), 200)
 }
-
 
 func (ctx *Ctx) handleLoadComponentsJS2() {
 	// SEND HEADERS FOR CLOUDFROM HTTP PUSH AND TEST THAT
@@ -198,10 +197,10 @@ func (ctx *Ctx) handleLoadComponentsJS2() {
 	ctx.CatchError(err)
 	files := append(append(files1, files2...), files3...)
 
-        // this works, but breaks the frontend - you fix it!
-        //for _, file := range files {
+	// this works, but breaks the frontend - you fix it!
+	//for _, file := range files {
 	// ctx.w.Header().Add("Link", fmt.Sprintf("</%s>; rel=preload;", file))
-        //}
+	//}
 
 	filesJson, err := json.Marshal(files)
 	ctx.CatchError(err)
@@ -229,18 +228,18 @@ func (ctx *Ctx) handleDump() {
 
 	utcOffset := ctx.ParseUTCOffset("utcoffset")
 	user := ctx.ForceUser()
-        sendDump := func(){
+	sendDump := func() {
 		dump, err := LoadDump(user, utcOffset)
 		ctx.CatchError(err)
 		jsonString, err := json.Marshal(dump)
 		ctx.CatchError(err)
 		fmt.Fprintf(ctx.w, "data: %s\n\n", string(jsonString))
 		f.Flush()
-        }
+	}
 
-        sendDump()
-        conn, err := redis.DialURL(ctx.app.config.RedisUrl)
-        ctx.CatchError(err)
+	sendDump()
+	conn, err := redis.DialURL(ctx.app.config.RedisUrl)
+	ctx.CatchError(err)
 	ctx.openConns = append(ctx.openConns, conn)
 	user.HandleSignals(conn, func(err error) {
 
@@ -251,7 +250,7 @@ func (ctx *Ctx) handleDump() {
 			ctx.Abort()
 		}
 
-                ctx.CatchError(err)
-                sendDump()
+		ctx.CatchError(err)
+		sendDump()
 	})
 }
