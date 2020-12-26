@@ -1,6 +1,6 @@
 customElements.define(
-  tagName(),
-  class extends BaseTable {
-    tableHeaderFst = "Screen";
-  }
+    tagName(),
+    class extends BaseTable {
+        tableHeaderFst = "Screen";
+    }
 );

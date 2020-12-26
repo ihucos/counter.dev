@@ -108,6 +108,6 @@ customElements.define(
             // addedd manually.
             "indiehackers.com",
             "dev.to",
-        ])
+        ]);
     }
 );

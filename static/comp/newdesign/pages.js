@@ -2,7 +2,7 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(loc) {
-            var entries = Object.entries(loc).sort((a, b) => b[1] - a[1])
+            var entries = Object.entries(loc).sort((a, b) => b[1] - a[1]);
             this.innerHTML = `
         <div class="metrics-four-item" id="pages">
           <div class="metrics-headline">
@@ -15,17 +15,20 @@ customElements.define(
               <span>Visitors</span>
             </div>
             <div class="metrics-three-data-content caption" data-simplebar data-simplebar-auto-hide="false">
-              ${(entries.map((item) => `
+              ${entries
+                  .map(
+                      (item) => `
               <div class="hour-item">
                 <span class="page">${escapeHtml(item[0])}</span>
                 <span class="caption-strong">${item[1]}</span>
-              </div>`).join(''))
-              }
-            ${entries.length === 0 ? '<comp-nodata></comp-nodata>' : ''}
+              </div>`
+                  )
+                  .join("")}
+            ${entries.length === 0 ? "<comp-nodata></comp-nodata>" : ""}
             </div>
             <div class="metrics-three-data-footer bg-white"></div>
           </div>
-        </div>`
+        </div>`;
         }
     }
 );

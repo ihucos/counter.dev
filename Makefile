@@ -16,10 +16,7 @@ devserver:
 	 . config/dev.sh && $(go) run .
 
 format:
-	js-beautify --replace static/script.js
-	js-beautify --replace static/draw.js
-	js-beautify --replace static/comps/tables.js
-	js-beautify --replace static/comps/visits.js
+	plash --from alpine:3.11 --apk npm --run 'npm i prettier --global' -- prettier --write .
 	$(go) fmt *.go
 	$(go) fmt models/*.go
 

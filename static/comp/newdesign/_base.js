@@ -1,68 +1,69 @@
 class Counter extends HTMLElement {
-    topLevelDomainRe = /[-\w]+\.(?:[-\w]+\.xn--[-\w]+|[-\w]{2,}|[-\w]+\.[-\w]{2})$/i
+    topLevelDomainRe = /[-\w]+\.(?:[-\w]+\.xn--[-\w]+|[-\w]{2,}|[-\w]+\.[-\w]{2})$/i;
 
     nextTime = {
-        'day': 'month',
-        'month': 'year',
-        'year': 'all',
-        'all': 'all',
-    }
+        day: "month",
+        month: "year",
+        year: "all",
+        all: "all",
+    };
 
     draw(allVisits, curTime) {
-        let count = this.count(allVisits[curTime])
-        let nextCurTime = this.nextTime[curTime]
-        let nextCount = this.count(allVisits[nextCurTime])
+        let count = this.count(allVisits[curTime]);
+        let nextCurTime = this.nextTime[curTime];
+        let nextCount = this.count(allVisits[nextCurTime]);
 
-        let datesPassedCurTime = Object.keys(dPadDates(
-            allVisits[curTime].date
-        )).length
-        let datesPassedNextTime = Object.keys(dPadDates(
-            allVisits[nextCurTime].date
-        )).length
-        console.log(datesPassedCurTime, datesPassedNextTime)
+        let datesPassedCurTime = Object.keys(dPadDates(allVisits[curTime].date))
+            .length;
+        let datesPassedNextTime = Object.keys(
+            dPadDates(allVisits[nextCurTime].date)
+        ).length;
+        console.log(datesPassedCurTime, datesPassedNextTime);
 
-        let perThisTimeRange = count / datesPassedCurTime
-        let perNextTimeRange = nextCount / datesPassedNextTime
-        let percent = Math.round(((perThisTimeRange / perNextTimeRange) - 1) * 100)
+        let perThisTimeRange = count / datesPassedCurTime;
+        let perNextTimeRange = nextCount / datesPassedNextTime;
+        let percent = Math.round(
+            (perThisTimeRange / perNextTimeRange - 1) * 100
+        );
 
-        let trend
-        let percentRepr
+        let trend;
+        let percentRepr;
         if (percent < 0) {
-            trend = 'negative'
-            percentRepr = `${Math.abs(percent)}%`
+            trend = "negative";
+            percentRepr = `${Math.abs(percent)}%`;
         } else if (percent > 0) {
-            trend = 'positive'
-            percentRepr = `${percent}%`
+            trend = "positive";
+            percentRepr = `${percent}%`;
         } else {
-            trend = 'stability'
-            percentRepr = ''
+            trend = "stability";
+            percentRepr = "";
         }
 
         this.innerHTML = `
         <div class="category">
           <div class="h2 blue">${count}</div>
           <div class="category-label">
-            ${escapeHtml(this.getAttribute('text'))}
+            ${escapeHtml(this.getAttribute("text"))}
             <div
               class="dynamics ${trend} caption"
               title='Compares this ${curTime} (${count}) with this ${nextCurTime} (${nextCount})'
             ><span class="dynamics-mobile">${percentRepr}</span></div>
           </div>
-        </div>`
+        </div>`;
     }
 
     count(visits) {
         return Object.entries(visits.ref).reduce(
-            (acc, next) =>
-            acc + (this.isMatch(next[0]) ? next[1] : 0),
-            0)
+            (acc, next) => acc + (this.isMatch(next[0]) ? next[1] : 0),
+            0
+        );
     }
 
     isMatch(ref) {
-        let match = this.topLevelDomainRe.exec(ref)
+        let match = this.topLevelDomainRe.exec(ref);
         if (match === null) {
-            return null
+            return null;
         }
-        return this.countList.has(match[0])
+        return this.countList.has(match[0]);
     }
 }

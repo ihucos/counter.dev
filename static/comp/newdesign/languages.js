@@ -2,8 +2,11 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(lang) {
-            var langEntries = Object.entries(lang).sort((a, b) => b[1] - a[1])
-            this.totalCount = Object.values(lang).reduce((acc, next) => acc + next, 0)
+            var langEntries = Object.entries(lang).sort((a, b) => b[1] - a[1]);
+            this.totalCount = Object.values(lang).reduce(
+                (acc, next) => acc + next,
+                0
+            );
             this.innerHTML = `
           <div class="metrics-three-item" id="languages">
             <div class="metrics-headline">
@@ -16,13 +19,15 @@ customElements.define(
                 <span>Visitors</span>
               </div>
               <div class="metrics-three-data-content" data-simplebar data-simplebar-auto-hide="false">
-                ${langEntries.map((item) => this.drawItem(item[0], item[1])).join('')}
-                ${langEntries.length === 0 ? '<comp-nodata></comp-nodata>' : ''}
+                ${langEntries
+                    .map((item) => this.drawItem(item[0], item[1]))
+                    .join("")}
+                ${langEntries.length === 0 ? "<comp-nodata></comp-nodata>" : ""}
               </div>
               <div class="metrics-three-data-footer bg-white"></div>
             </div>
           </div>
-            `
+            `;
         }
 
         drawItem(lang, count) {
@@ -31,11 +36,13 @@ customElements.define(
                   ${escapeHtml(lang)}
                   <span>
                     <span class="strong mr16">${count}</span>
-                    <span class="item-percent bg-blue blue caption">${percentRepr(count, this.totalCount)}</span>
+                    <span class="item-percent bg-blue blue caption">${percentRepr(
+                        count,
+                        this.totalCount
+                    )}</span>
                   </span>
                 </div>
-            `
+            `;
         }
-
     }
 );

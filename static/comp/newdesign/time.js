@@ -23,6 +23,7 @@ customElements.define(
                   <span class="graph-dot-ellipse bg-yellow mr8"></span>
                   Night
                 </span>
-              </div>`
+              </div>`;
         }
-    });
+    }
+);

@@ -1,11 +1,11 @@
 customElements.define(
-  tagName(),
-  class extends HTMLElement {
-    constructor() {
-      super();
+    tagName(),
+    class extends HTMLElement {
+        constructor() {
+            super();
+        }
+        connectedCallback() {
+            this.innerHTML = getUTCOffset();
+        }
     }
-    connectedCallback() {
-      this.innerHTML = getUTCOffset();
-    }
-  }
 );
