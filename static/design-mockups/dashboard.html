@@ -167,45 +167,9 @@
           <li><a href="#platforms"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 3H3V10H10V3Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 3H14V10H21V3Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 14H14V21H21V14Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 14H3V21H10V14Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
           <li><a href="#browsers"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.17 8H12" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.9502 6.06006L8.5402 14.0001" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.8799 21.94L15.4599 14" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
         </ul>
-        <!-- Devices -->
-        <div class="metrics-two-item" id="devices">
-          <div class="metrics-headline">
-            <img src="img/devices.svg" width="24" height="24" alt="Devices">
-            <h3 class="ml16">Devices</h3>
-          </div>
-          <div class="metrics-two-data bg-white shadow-sm radius-lg">
-            <div style="display: flex"> <!-- another hacky container-->
-              <comp-newdesign-pie  class="metrics-two-graph-wrap"></comp-newdesign-pie>
-            </div>
-            <comp-newdesign-pielegend></comp-newdesign-pielegend>
-          </div>
-        </div>
-        <!-- Platforms -->
-        <div class="metrics-two-item" id="platforms">
-          <div class="metrics-headline">
-            <img src="img/platforms.svg" width="24" height="24" alt="Platforms">
-            <h3 class="ml16">Platforms</h3>
-          </div>
-          <div class="metrics-two-data bg-white shadow-sm radius-lg">
-            <div style="display: flex"> <!-- another hacky container-->
-              <comp-newdesign-pie  class="metrics-two-graph-wrap"></comp-newdesign-pie>
-            </div>
-            <comp-newdesign-pielegend></comp-newdesign-pielegend>
-          </div>
-        </div>
-        <!-- Browsers -->
-        <div class="metrics-two-item" id="browsers">
-          <div class="metrics-headline">
-            <img src="img/browsers.svg" width="24" height="24" alt="Browsers">
-            <h3 class="ml16">Browsers</h3>
-          </div>
-          <div class="metrics-two-data bg-white shadow-sm radius-lg">
-            <div style="display: flex"> <!-- another hacky container-->
-              <comp-newdesign-pie  class="metrics-two-graph-wrap"></comp-newdesign-pie>
-            </div>
-            <comp-newdesign-pielegend></comp-newdesign-pielegend>
-          </div>
-        </div>
+        <comp-newdesign-pie class="metrics-two-item" id="devices" caption="Devices"></comp-newdesign-pie>
+        <comp-newdesign-pie class="metrics-two-item" id="platforms" caption="Platforms"></comp-newdesign-pie>
+        <comp-newdesign-pie class="metrics-two-item" id="browsers" caption="Browsers"></comp-newdesign-pie>
         <!-- Ad -->
         <div class="ad bg-white shadow-sm radius-lg">
           <img src="img/ad.svg" class="radius-lg" width="318" height="212" alt="Ad">

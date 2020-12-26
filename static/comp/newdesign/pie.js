@@ -1,27 +1,22 @@
 customElements.define(
     tagName(),
-    class extends BaseGraph {
-        getChart(obj) {
-            var aggr = dGroupData(obj, 3)
-            return {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(aggr),
-                    datasets: [{
-                        label: "Population (millions)",
-                        backgroundColor: ["#147EFB", "#FC3158", "#53D769", "#FECB2E"],
-                        hoverBorderColor: '#ffffff',
-                        borderWidth: 2,
-                        data: Object.values(aggr),
-                    }]
-                },
-                options: {
-                    cutoutPercentage: 33.33,
-                    aspectRatio: 1,
-                    legend: {
-                        display: false,
-                    }
-                }
+    class extends HTMLElement {
+        draw(obj) {
+            if (Object.keys(obj).length > 0) {
+                this.innerHTML = `
+                <div class="metrics-headline">
+                  <img src="img/browsers.svg" width="24" height="24" alt="${this.getAttribute('caption')}">
+                  <h3 class="ml16">${this.getAttribute('caption')}</h3>
+                </div>
+                <div class="metrics-two-data bg-white shadow-sm radius-lg">
+                  <div style="display: flex"> <!-- another hacky container-->
+                    <comp-newdesign-piegraph  class="metrics-two-graph-wrap"></comp-newdesign-piegraph>
+                  </div>
+                  <comp-newdesign-pielegend></comp-newdesign-pielegend>
+                </div>`
+            } else {
+                this.innerHTML = `<comp-nodata></comp-nodata>`
             }
         }
-    })
+    }
+);

@@ -82,13 +82,17 @@ connectData("comp-newdesign-counter-direct", (dump, cursite, curtime) => [dump.s
 connectData("comp-newdesign-graph", k("date"));
 connectData("comp-newdesign-dynamics", k("date"));
 
-connectData("#devices comp-newdesign-pie", k("device"));
-connectData("#platforms comp-newdesign-pie", k("platform"));
-connectData("#browsers comp-newdesign-pie", k("browser"));
+connectData("comp-newdesign-pie#devices", k("device"));
+connectData("comp-newdesign-pie#platforms ", k("platform"));
+connectData("comp-newdesign-pie#browsers", k("browser"));
 
-connectData("#devices comp-newdesign-pielegend", k("device"));
-connectData("#platforms comp-newdesign-pielegend", k("platform"));
-connectData("#browsers comp-newdesign-pielegend", k("browser"));
+connectData("comp-newdesign-pie#devices comp-newdesign-piegraph", k("device"));
+connectData("comp-newdesign-pie#platforms comp-newdesign-piegraph", k("platform"));
+connectData("comp-newdesign-pie#browsers comp-newdesign-piegraph", k("browser"));
+
+connectData("comp-newdesign-pie#devices comp-newdesign-pielegend", k("device"));
+connectData("comp-newdesign-pie#platforms comp-newdesign-pielegend", k("platform"));
+connectData("comp-newdesign-pie#browsers comp-newdesign-pielegend", k("browser"));
 
 connectData("comp-newdesign-sources-countries[type=sources]", k("ref"));
 connectData("comp-newdesign-sources-countries[type=countries]", k("country"));
