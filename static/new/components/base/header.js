@@ -16,13 +16,13 @@ customElements.define(
                   <!-- Navbar -->
                   <section class="navbar">
                     <div class="content">
-                      <a href="https://counter.dev" class="logotype"></a>
+                      <a href="index.html" class="logotype"></a>
                       <span class="version caption blue ml16">v 2.0</span>
                       <!-- Navigation -->
                       <nav class="nav-header">
                         <a href="#" class="mr32" target="_blank" rel="nofollow">Blog</a>
-                        <a href="#" class="mr32" target="_blank" rel="nofollow">Feedback</a>
-                        <a href="#" class="mr32" target="_blank" rel="nofollow">Donate</a>
+                        <a href="mailto:hey@counter.dev" class="mr32" target="_blank" rel="nofollow">Feedback</a>
+                        <a href="//flattr.com/@ihucos" class="mr32" target="_blank" rel="nofollow">Donate</a>
                         <a
                           href="#"
                           class="github-blue mr16"

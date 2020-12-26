@@ -44,3 +44,10 @@ $(document).ready(function () {
         active: active,
     });
 });
+
+if (window.location.hash === "#demo"){
+    login("counter", "demodemo").then((msg) => {
+            window.location.href = "dashboard.html";
+        })
+        .catch(alert);
+}
