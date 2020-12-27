@@ -39,7 +39,7 @@ class Counter extends HTMLElement {
             percentRepr = "";
         }
 
-        this.classList.add("category")
+        this.classList.add("category");
         this.innerHTML = `
           <div class="h2 blue">${count}</div>
           <div class="category-label">

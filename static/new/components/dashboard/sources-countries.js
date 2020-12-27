@@ -1,7 +1,7 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        MAX_ENTRIES = 10
+        MAX_ENTRIES = 10;
 
         drawItemSources(domain, count, totalCount) {
             return `
@@ -60,13 +60,15 @@ customElements.define(
           </div>`;
         }
 
-        draw(sources, countries){
-
+        draw(sources, countries) {
             // prepare sources
             this.allSourcesEntries = Object.entries(sources).sort(
                 (a, b) => b[1] - a[1]
             );
-            this.sourcesEntries = this.allSourcesEntries.slice(0, this.MAX_ENTRIES);
+            this.sourcesEntries = this.allSourcesEntries.slice(
+                0,
+                this.MAX_ENTRIES
+            );
             this.sourcesTotalCount = Object.values(sources).reduce(
                 (acc, next) => acc + next,
                 0
@@ -76,7 +78,10 @@ customElements.define(
             this.allCountriesEntries = Object.entries(countries).sort(
                 (a, b) => b[1] - a[1]
             );
-            this.countriesEntries = this.allCountriesEntries.slice(0, this.MAX_ENTRIES);
+            this.countriesEntries = this.allCountriesEntries.slice(
+                0,
+                this.MAX_ENTRIES
+            );
             this.countriesTotalCount = Object.values(countries).reduce(
                 (acc, next) => acc + next,
                 0
@@ -155,9 +160,23 @@ customElements.define(
                       <span>Visitors</span>
                     </div>
                     <!-- Items -->
-                    ${this.sourcesEntries.map((item) => this.drawItemSources(item[0], item[1], this.sourcesTotalCount)).join("")}
-                    ${this.sourcesEntries.length === 0 ? "<comp-nodata></comp-nodata>" : ""}
-                    ${this.allSourcesEntries.length > this.MAX_ENTRIES ? `
+                    ${this.sourcesEntries
+                        .map((item) =>
+                            this.drawItemSources(
+                                item[0],
+                                item[1],
+                                this.sourcesTotalCount
+                            )
+                        )
+                        .join("")}
+                    ${
+                        this.sourcesEntries.length === 0
+                            ? "<comp-nodata></comp-nodata>"
+                            : ""
+                    }
+                    ${
+                        this.allSourcesEntries.length > this.MAX_ENTRIES
+                            ? `
                         <!-- View all -->
                         <a
                           href="#modal-sources"
@@ -174,7 +193,9 @@ customElements.define(
                             height="24"
                             alt="Chevron"
                           />
-                        </a>` : ""}
+                        </a>`
+                            : ""
+                    }
                     <!-- /// -->
                   </div>
                   <!-- Countries -->
@@ -193,9 +214,23 @@ customElements.define(
                       <span>Visitors</span>
                     </div>
                     <!-- Items -->
-                    ${this.countriesEntries.map((item) => this.drawItemCountries(item[0], item[1], this.countriesTotalCount)).join("")}
-                    ${this.countriesEntries.length === 0 ? "<comp-nodata></comp-nodata>" : ""}
-                    ${this.allCountriesEntries.length > this.MAX_ENTRIES ? `
+                    ${this.countriesEntries
+                        .map((item) =>
+                            this.drawItemCountries(
+                                item[0],
+                                item[1],
+                                this.countriesTotalCount
+                            )
+                        )
+                        .join("")}
+                    ${
+                        this.countriesEntries.length === 0
+                            ? "<comp-nodata></comp-nodata>"
+                            : ""
+                    }
+                    ${
+                        this.allCountriesEntries.length > this.MAX_ENTRIES
+                            ? `
                         <!-- View all -->
                         <a
                           href="#modal-countries"
@@ -212,15 +247,16 @@ customElements.define(
                             height="24"
                             alt="Chevron"
                           />
-                        </a>` : ""}
+                        </a>`
+                            : ""
+                    }
                     <!-- /// -->
                   </div>
                 </div>
-                ${this.drawModals()}`
+                ${this.drawModals()}`;
         }
 
-
-        drawModals(){
+        drawModals() {
             return `
                 <!-- Sources modal -->
                 <div id="modal-sources" style="display: none">
@@ -252,7 +288,15 @@ customElements.define(
                       </div>
                     </div>
                     <!-- Items -->
-                    ${this.allSourcesEntries.map((item) => this.drawItemSources(item[0], item[1], this.sourcesTotalCount)).join("")}
+                    ${this.allSourcesEntries
+                        .map((item) =>
+                            this.drawItemSources(
+                                item[0],
+                                item[1],
+                                this.sourcesTotalCount
+                            )
+                        )
+                        .join("")}
                     <!-- /// -->
                   </div>
                 </div>
@@ -265,10 +309,18 @@ customElements.define(
                   </div>
                   <div class="modal-content">
                     <!-- Items -->
-                    ${this.allCountriesEntries.map((item) => this.drawItemCountries(item[0], item[1], this.countriesTotalCount)).join("")}
+                    ${this.allCountriesEntries
+                        .map((item) =>
+                            this.drawItemCountries(
+                                item[0],
+                                item[1],
+                                this.countriesTotalCount
+                            )
+                        )
+                        .join("")}
                     <!-- /// -->
                   </div>
-                </div>`
+                </div>`;
         }
 
         getCountryName(countryCode) {
@@ -526,6 +578,5 @@ customElements.define(
             ZM: "Zambia",
             ZW: "Zimbabwe",
         };
-
-
-})
+    }
+);
