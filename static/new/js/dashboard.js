@@ -101,8 +101,7 @@ connectData("dashboard-pie#devices dashboard-pielegend", k("device"));
 connectData("dashboard-pie#platforms dashboard-pielegend", k("platform"));
 connectData("dashboard-pie#browsers dashboard-pielegend", k("browser"));
 
-connectData("dashboard-sources-countries[type=sources]", k("ref"));
-connectData("dashboard-sources-countries[type=countries]", k("country"));
+connectData("dashboard-sources-countries", k("ref", "country"));
 
 connectData("dashboard-languages", k("lang"));
 connectData("dashboard-screens", k("screen"));
