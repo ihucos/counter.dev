@@ -39,8 +39,8 @@ class Counter extends HTMLElement {
             percentRepr = "";
         }
 
+        this.classList.add("category")
         this.innerHTML = `
-        <div class="category">
           <div class="h2 blue">${count}</div>
           <div class="category-label">
             ${escapeHtml(this.getAttribute("text"))}
@@ -48,8 +48,7 @@ class Counter extends HTMLElement {
               class="dynamics ${trend} caption"
               title='Compares this ${curTime} (${count}) with this ${nextCurTime} (${nextCount})'
             ><span class="dynamics-mobile">${percentRepr}</span></div>
-          </div>
-        </div>`;
+          </div>`;
     }
 
     count(visits) {

@@ -2,7 +2,7 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         connectedCallback() {
-                this.innerHTML = `
+            this.innerHTML = `
                     <footer>
                       <section class="footer">
                         <div class="content">
@@ -56,7 +56,7 @@ customElements.define(
                           </div>
                         </div>
                       </section>
-                    </footer>`
+                    </footer>`;
         }
     }
 );

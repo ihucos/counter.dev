@@ -45,8 +45,9 @@ $(document).ready(function () {
     });
 });
 
-if (window.location.hash === "#demo"){
-    login("counter", "demodemo").then((msg) => {
+if (window.location.hash === "#demo") {
+    login("counter", "demodemo")
+        .then((msg) => {
             window.location.href = "dashboard.html";
         })
         .catch(alert);
