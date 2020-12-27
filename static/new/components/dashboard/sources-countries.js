@@ -3,27 +3,6 @@ customElements.define(
     class extends HTMLElement {
         MAX_ENTRIES = 10
 
-        drawViewAll(){
-                    return`<!-- View all -->
-                    <a
-                      href="#modal-sources"
-                      class="sources-countries-item sources-countries-item-wrap view-all shadow-sm"
-                      rel="modal:open"
-                    >
-                      <span>
-                        <div class="view-all-icon animation"></div>
-                        <span class="black strong view-all-text animation">View all</span>
-                      </span>
-                      <img
-                        src="img/chevron-right.svg"
-                        width="24"
-                        height="24"
-                        alt="Chevron"
-                      />
-                    </a>
-                    <!-- /// -->`
-        }
-
         drawItemSources(domain, count, totalCount) {
             return `
           <div class="sources-countries-item shadow-sm mb8">
@@ -84,21 +63,21 @@ customElements.define(
         draw(sources, countries){
 
             // prepare sources
-            let allSourcesEntries = Object.entries(sources).sort(
+            this.allSourcesEntries = Object.entries(sources).sort(
                 (a, b) => b[1] - a[1]
             );
-            let sourcesEntries = allSourcesEntries.slice(0, this.MAX_ENTRIES);
-            let sourcesTotalCount = Object.values(sources).reduce(
+            this.sourcesEntries = this.allSourcesEntries.slice(0, this.MAX_ENTRIES);
+            this.sourcesTotalCount = Object.values(sources).reduce(
                 (acc, next) => acc + next,
                 0
             );
 
             // prepare countries
-            let allCountriesEntries = Object.entries(countries).sort(
+            this.allCountriesEntries = Object.entries(countries).sort(
                 (a, b) => b[1] - a[1]
             );
-            let countriesEntries = allCountriesEntries.slice(0, this.MAX_ENTRIES);
-            let countriesTotalCount = Object.values(countries).reduce(
+            this.countriesEntries = this.allCountriesEntries.slice(0, this.MAX_ENTRIES);
+            this.countriesTotalCount = Object.values(countries).reduce(
                 (acc, next) => acc + next,
                 0
             );
@@ -176,9 +155,26 @@ customElements.define(
                       <span>Visitors</span>
                     </div>
                     <!-- Items -->
-                    ${sourcesEntries.map((item) => this.drawItemSources(item[0], item[1], sourcesTotalCount)).join("")}
-                    ${sourcesEntries.length === 0 ? "<comp-nodata></comp-nodata>" : ""}
-                    ${allSourcesEntries.length > this.MAX_ENTRIES ? this.drawViewAll() : ""}
+                    ${this.sourcesEntries.map((item) => this.drawItemSources(item[0], item[1], this.sourcesTotalCount)).join("")}
+                    ${this.sourcesEntries.length === 0 ? "<comp-nodata></comp-nodata>" : ""}
+                    ${this.allSourcesEntries.length > this.MAX_ENTRIES ? `
+                        <!-- View all -->
+                        <a
+                          href="#modal-sources"
+                          class="sources-countries-item sources-countries-item-wrap view-all shadow-sm"
+                          rel="modal:open"
+                        >
+                          <span>
+                            <div class="view-all-icon animation"></div>
+                            <span class="black strong view-all-text animation">View all</span>
+                          </span>
+                          <img
+                            src="img/chevron-right.svg"
+                            width="24"
+                            height="24"
+                            alt="Chevron"
+                          />
+                        </a>` : ""}
                     <!-- /// -->
                   </div>
                   <!-- Countries -->
@@ -197,9 +193,79 @@ customElements.define(
                       <span>Visitors</span>
                     </div>
                     <!-- Items -->
-                    ${countriesEntries.map((item) => this.drawItemCountries(item[0], item[1], countriesTotalCount)).join("")}
-                    ${countriesEntries.length === 0 ? "<comp-nodata></comp-nodata>" : ""}
-                    ${allCountriesEntries.length > this.MAX_ENTRIES ? this.drawViewAll() : ""}
+                    ${this.countriesEntries.map((item) => this.drawItemCountries(item[0], item[1], this.countriesTotalCount)).join("")}
+                    ${this.countriesEntries.length === 0 ? "<comp-nodata></comp-nodata>" : ""}
+                    ${this.allCountriesEntries.length > this.MAX_ENTRIES ? `
+                        <!-- View all -->
+                        <a
+                          href="#modal-countries"
+                          class="sources-countries-item sources-countries-item-wrap view-all shadow-sm"
+                          rel="modal:open"
+                        >
+                          <span>
+                            <div class="view-all-icon animation"></div>
+                            <span class="black strong view-all-text animation">View all</span>
+                          </span>
+                          <img
+                            src="img/chevron-right.svg"
+                            width="24"
+                            height="24"
+                            alt="Chevron"
+                          />
+                        </a>` : ""}
+                    <!-- /// -->
+                  </div>
+                </div>
+                ${this.drawModals()}`
+        }
+
+
+        drawModals(){
+            return `
+                <!-- Sources modal -->
+                <div id="modal-sources" style="display: none">
+                  <div class="modal-header">
+                    <img src="img/sources.svg" width="24" height="24" alt="Sources" />
+                    <h3 class="ml16">Sources</h3>
+                    <a href="#" class="btn-close" rel="modal:close"></a>
+                  </div>
+                  <div class="modal-content">
+                    <!-- Item -->
+                    <div class="sources-countries-item shadow-sm mb8">
+                      <div class="percent-line" style="width: 100%"></div>
+                      <div class="sources-countries-item-wrap">
+                        <span>
+                          <img
+                            src="img-delete/tw.png"
+                            width="16"
+                            height="16"
+                            alt="Twitter"
+                          />
+                          <a href="#" class="black" target="_blank" rel="nofollow"
+                            >twitter.com</a
+                          >
+                        </span>
+                        <span>
+                          <span class="strong mr16">307</span>
+                          <span class="item-percent bg-blue blue caption">100%</span>
+                        </span>
+                      </div>
+                    </div>
+                    <!-- Items -->
+                    ${this.allSourcesEntries.map((item) => this.drawItemSources(item[0], item[1], this.sourcesTotalCount)).join("")}
+                    <!-- /// -->
+                  </div>
+                </div>
+                <!-- Countries modal -->
+                <div id="modal-countries" style="display: none">
+                  <div class="modal-header">
+                    <img src="img/countries.svg" width="24" height="24" alt="Countries" />
+                    <h3 class="ml16">Countries</h3>
+                    <a href="#" class="btn-close" rel="modal:close"></a>
+                  </div>
+                  <div class="modal-content">
+                    <!-- Items -->
+                    ${this.allCountriesEntries.map((item) => this.drawItemCountries(item[0], item[1], this.countriesTotalCount)).join("")}
                     <!-- /// -->
                   </div>
                 </div>`
@@ -463,78 +529,3 @@ customElements.define(
 
 
 })
-
-//customElements.define(
-//    tagName(),
-//    class extends HTMLElement {
-//        maxEntries = 10;
-//        draw(objData) {
-//            var allEntries = Object.entries(objData).sort(
-//                (a, b) => b[1] - a[1]
-//            );
-//            var entries = allEntries.slice(0, this.maxEntries);
-//            this.totalCount = Object.values(objData).reduce(
-//                (acc, next) => acc + next,
-//                0
-//            );
-//            if (this.getAttribute("type") === "sources") {
-//                this.type = "sources";
-//                this.title = "Sources";
-//                this.header = "Source";
-//                this.img = "img/sources.svg";
-//                this.drawItem = this.drawItemSources;
-//            } else {
-//                // assume it's countries
-//                this.type = "countries";
-//                this.title = "Countries";
-//                this.header = "Country";
-//                this.img = "img/countries.svg";
-//                this.drawItem = this.drawItemCountries;
-//            }
-//
-//            this.innerHTML = `
-//        <div class="${this.type}">
-//          <div class="metrics-headline">
-//            <img src="${this.img}" width="24" height="24" alt="${this.title}">
-//            <h3 class="ml16">${this.title}</h3>
-//          </div>
-//          <div class="sources-countries-data caption gray bg-gray mt16 mb24">
-//            <span>${this.header}</span>
-//            <span>Visitors</span>
-//          </div>
-//          ${entries.map((item) => this.drawItem(item[0], item[1])).join("")}
-//          ${entries.length === 0 ? "<comp-nodata></comp-nodata>" : ""}
-//          ${allEntries.length > this.maxEntries ? this.drawViewAll() : ""}
-//        </div>
-//        ${this.drawModal(allEntries)}`;
-//        }
-//
-//        drawViewAll() {
-//            return `
-//           <a href="#modal-${this.type}" class="sources-countries-item sources-countries-item-wrap view-all shadow-sm" rel="modal:open">
-//            <span>
-//              <div class="view-all-icon animation"></div>
-//              <span class="black strong view-all-text animation">View all</span>
-//            </span>
-//            <img src="img/chevron-right.svg" width="24" height="24" alt="Chevron">
-//          </a>`;
-//        }
-//
-//
-//        drawModal(sourcesEntries) {
-//            return `<div id="modal-${this.type}" style="display: none;">
-//              <div class="modal-header">
-//                  <img src="${this.img}" width="24" height="24" alt="Countries">
-//                  <h3 class="ml16">${this.title}</h3>
-//                  <a href="#" class="btn-close" rel="modal:close"></a>
-//                </div>
-//                <div class="modal-content">
-//                  ${sourcesEntries
-//                      .map((item) => this.drawItem(item[0], item[1]))
-//                      .join("")}
-//                </div>
-//              </div>`;
-//        }
-//
-//    }
-//);
