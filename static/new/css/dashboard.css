@@ -624,7 +624,7 @@
   }
 }
 
-// HOTFIXes for comp-nodata heights
+/* HOTFIXes for comp-nodata heights */
 .simplebar-content-wrapper {
   height: 100%;
 }
