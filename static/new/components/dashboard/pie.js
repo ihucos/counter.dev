@@ -25,37 +25,38 @@ customElements.define(
         }
 
         getLegend(obj) {
-            var aggr = dGroupData(obj, 3);
-            var aggrkeys = Object.keys(dGroupData(obj, 3));
+            let aggr = dGroupData(obj, 3);
+            let aggrKeys = Object.keys(aggr);
+            let aggrVals = Object.values(aggr);
             return `
             <div class="caption mt24">
               <span class="graph-dot mb8" style="visibility: ${
-                  aggrkeys.length < 1 ? "hidden" : "visible"
+                  aggrKeys.length < 1 ? "hidden" : "visible"
               }">
                 <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
-                ${escapeHtml(aggrkeys[0])}
-                <span class="caption-strong">247</span>
+                ${escapeHtml(aggrKeys[0])}
+                <span class="caption-strong">${escapeHtml(aggrVals[0])}</span>
               </span>
               <span class="graph-dot mb8" style="visibility: ${
-                  aggrkeys.length < 2 ? "hidden" : "visible"
+                  aggrKeys.length < 2 ? "hidden" : "visible"
               }">
                 <span class="graph-dot-ellipse bg-red mr8"></span>
-                ${escapeHtml(aggrkeys[1])}
-                <span class="caption-strong">247</span>
+                ${escapeHtml(aggrKeys[1])}
+                <span class="caption-strong">${escapeHtml(aggrVals[1])}</span>
               </span>
               <span class="graph-dot mb8" style="visibility: ${
-                  aggrkeys.length < 3 ? "hidden" : "visible"
+                  aggrKeys.length < 3 ? "hidden" : "visible"
               }">
                 <span class="graph-dot-ellipse bg-green mr8"></span>
-                ${escapeHtml(aggrkeys[2])}
-                <span class="caption-strong">247</span>
+                ${escapeHtml(aggrKeys[2])}
+                <span class="caption-strong">${escapeHtml(aggrVals[2])}</span>
               </span>
               <span class="graph-dot"     style="visibility: ${
-                  aggrkeys.length < 4 ? "hidden" : "visible"
+                  aggrKeys.length < 4 ? "hidden" : "visible"
               }">
                 <span class="graph-dot-ellipse bg-yellow mr8"></span>
-                ${escapeHtml(aggrkeys[3])}
-                <span class="caption-strong">247</span>
+                ${escapeHtml(aggrKeys[3])}
+                <span class="caption-strong">${escapeHtml(aggrVals[3])}</span>
               </span>
             </div>`;
         }
