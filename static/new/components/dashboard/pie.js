@@ -16,7 +16,7 @@ customElements.define(
                       Object.keys(obj).length > 0
                           ? `<dashboard-piegraph class="metrics-two-graph-wrap"></dashboard-piegraph>
                       ${this.getLegend(obj)}`
-                          : `<comp-nodata></comp-nodata>`
+                          : `<dashboard-nodata></dashboard-nodata>`
                   }
                 </div>`;
         }

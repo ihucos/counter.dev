@@ -26,7 +26,7 @@ customElements.define(
                     .join("")}
                 ${
                     screenEntries.length === 0
-                        ? "<comp-nodata></comp-nodata>"
+                        ? "<dashboard-nodata></dashboard-nodata>"
                         : ""
                 }
               </div>

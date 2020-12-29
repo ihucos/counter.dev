@@ -20,7 +20,7 @@ customElements.define(
                       </div>
                       <comp-newdesign-pielegend></comp-newdesign-pielegend>
                       `
-                          : `<comp-nodata></comp-nodata>`
+                          : `<dashboard-nodata></dashboard-nodata>`
                   }
                 </div>`;
         }

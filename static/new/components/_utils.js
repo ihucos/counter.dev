@@ -15,7 +15,7 @@ class BaseGraph extends HTMLElement {
         this.canvas = this.children[0];
         var chartData = this.getChart(...args);
         if (chartData.data.datasets[0].data.length === 0) {
-            this.innerHTML = "<comp-nodata></comp-nodata>";
+            this.innerHTML = "<dashboard-nodata></dashboard-nodata>";
         } else {
             new Chart(this.canvas, chartData);
         }

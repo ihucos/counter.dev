@@ -11,7 +11,7 @@ customElements.define(
             let keys = groupdedDates[0];
             let vals = groupdedDates[1];
             if (vals.length === 0) {
-                this.innerHTML = "<comp-nodata></comp-nodata>";
+                this.innerHTML = "<dashboard-nodata></dashboard-nodata>";
             } else if (vals.length < 3) {
                 this.innerHTML = this.getTrend(
                     this.STABILITY,

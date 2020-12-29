@@ -171,7 +171,7 @@ customElements.define(
                         .join("")}
                     ${
                         this.sourcesEntries.length === 0
-                            ? "<comp-nodata></comp-nodata>"
+                            ? "<dashboard-nodata></dashboard-nodata>"
                             : ""
                     }
                     ${
@@ -225,7 +225,7 @@ customElements.define(
                         .join("")}
                     ${
                         this.countriesEntries.length === 0
-                            ? "<comp-nodata></comp-nodata>"
+                            ? "<dashboard-nodata></dashboard-nodata>"
                             : ""
                     }
                     ${

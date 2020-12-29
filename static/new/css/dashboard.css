@@ -630,7 +630,7 @@
   }
 }
 
-/* HOTFIXes for comp-nodata heights */
+/* HOTFIXes for dashboard-nodata heights */
 .simplebar-content-wrapper {
   height: 100%;
 }
@@ -640,12 +640,12 @@
 dashboard-pie .metrics-two-data {
   /*height: 284px; does not work in mobile version*/
 }
-dashboard-dynamics comp-nodata {
+dashboard-dynamics dashboard-nodata {
   width: 255px;
   height: 292px;
 }
 
-comp-nodata img {
+dashboard-nodata img {
   position: relative;
   top: 4px;
   height: 20px;
@@ -653,12 +653,12 @@ comp-nodata img {
   margin-right: 14px;
 }
 
-comp-nodata div {
+dashboard-nodata div {
   line-height: 19px;
   font-size: 14px;
 }
 
-comp-nodata {
+dashboard-nodata {
   height: 100%;
   display: flex;
   align-items: center;
@@ -669,7 +669,7 @@ comp-nodata {
   min-height: 6rem;
 }
 
-.metrics-two-data comp-nodata,
-.metrics-three comp-nodata {
+.metrics-two-data dashboard-nodata,
+.metrics-three dashboard-nodata {
   border: none;
 }
