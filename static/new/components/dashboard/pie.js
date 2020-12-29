@@ -14,10 +14,7 @@ customElements.define(
                 <div class="metrics-two-data bg-white shadow-sm radius-lg">
                   ${
                       Object.keys(obj).length > 0
-                          ? `
-                      <div style="display: flex"> <!-- another hacky container-->
-                        <dashboard-piegraph  class="metrics-two-graph-wrap"></dashboard-piegraph>
-                      </div>
+                          ? `<dashboard-piegraph class="metrics-two-graph-wrap"></dashboard-piegraph>
                       ${this.getLegend(obj)}`
                           : `<comp-nodata></comp-nodata>`
                   }

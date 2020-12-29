@@ -8,6 +8,10 @@ function tagName() {
 class BaseGraph extends HTMLElement {
     draw(...args) {
         this.innerHTML = "<canvas></canvas>";
+        //
+        // I don't know why this is needed but its important
+        this.style.display = "flex"
+
         this.canvas = this.children[0];
         var chartData = this.getChart(...args);
         if (chartData.data.datasets[0].data.length === 0) {
