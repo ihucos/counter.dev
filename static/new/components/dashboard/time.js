@@ -2,6 +2,7 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         connectedCallback() {
+            this.classList.add("metrics-three-data-content-day")
             this.innerHTML = `
               <div style="display: flex"> <!-- hacky container for the graphs -->
                 <dashboard-time-graph class="metrics-three-graph-wrap"></dashboard-time-graph>
