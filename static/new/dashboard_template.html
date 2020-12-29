@@ -8,7 +8,7 @@
       content="Web Analytics made simple and therefore privacy friendly. It’s Free."
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="css/dashboard.css" />
+    <link rel="stylesheet" type="text/css" href="dashboard.css" />
     <link
       rel="stylesheet"
       type="text/css"
@@ -34,10 +34,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplebar/5.3.0/simplebar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-
-    <script src="/load.js"></script>
   </head>
   <body>
     <!-- Header -->
@@ -169,7 +165,26 @@
     <!-- Dashboard settings -->
     <section class="settings">
       <div class="content">
-        <dashboard-selector class="settings-left"></dashboard-selector>
+        <div class="settings-left">
+          <div class="project mr16">
+            <img
+              src="img-delete/bell.png"
+              width="16"
+              height="16"
+              alt="Favicon"
+            />
+            <select>
+              <option>bell.so</option>
+              <option>bone.is</option>
+            </select>
+          </div>
+          <select>
+            <option>Today</option>
+            <option>This month</option>
+            <option>This year</option>
+            <option>All</option>
+          </select>
+        </div>
         <div class="settings-right">
           <a href="#" class="btn-secondary btn-icon mr16"
             ><img src="img/download.svg" width="24" height="24" alt="Download"
@@ -189,16 +204,40 @@
     <!-- Categories of visits -->
     <section class="categories">
       <div class="content">
-        <dashboard-counter-visitors
-          text="Visitors"
-        ></dashboard-counter-visitors>
-        <dashboard-counter-search
-          text="Search engines"
-        ></dashboard-counter-search>
-        <dashboard-counter-social
-          text="Social networks"
-        ></dashboard-counter-social>
-        <dashboard-counter-direct text="Direct"></dashboard-counter-direct>
+        <div class="category">
+          <div class="h2 blue">9680</div>
+          <div class="category-label">
+            Visitors
+            <div class="dynamics negative caption">
+              <span class="dynamics-mobile">47%</span>
+            </div>
+          </div>
+        </div>
+        <div class="category">
+          <div class="h2 blue">670</div>
+          <div class="category-label">
+            Search engines
+            <div class="dynamics positive caption">
+              <span class="dynamics-mobile">62%</span>
+            </div>
+          </div>
+        </div>
+        <div class="category">
+          <div class="h2 blue">209</div>
+          <div class="category-label">
+            Social networks
+            <div class="dynamics stability caption"></div>
+          </div>
+        </div>
+        <div class="category">
+          <div class="h2 blue">83</div>
+          <div class="category-label">
+            Direct
+            <div class="dynamics positive caption">
+              <span class="dynamics-mobile">90%</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
     <!-- Graph -->
@@ -264,7 +303,531 @@
     </section>
     <!-- Sources and countries -->
     <section class="metrics-one">
-      <dashboard-sources-countries></dashboard-sources-countries>
+      <div class="content radius-lg responsive-tabs">
+        <!-- Mobile tabs -->
+        <ul class="responsive-tabs-menu bg-white shadow-sm">
+          <li>
+            <a href="#sources"
+              ><svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                  stroke="#9E9E9E"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M16.2398 7.76001L14.1198 14.12L7.75977 16.24L9.87977 9.88001L16.2398 7.76001Z"
+                  stroke="#9E9E9E"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                /></svg
+            ></a>
+          </li>
+          <li>
+            <a href="#countries"
+              ><svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                  stroke="#9E9E9E"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M2 12H22"
+                  stroke="#9E9E9E"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 2C14.5013 4.73835 15.9228 8.29203 16 12C15.9228 15.708 14.5013 19.2616 12 22C9.49872 19.2616 8.07725 15.708 8 12C8.07725 8.29203 9.49872 4.73835 12 2V2Z"
+                  stroke="#9E9E9E"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                /></svg
+            ></a>
+          </li>
+        </ul>
+        <!-- Sources -->
+        <div class="sources" id="sources">
+          <div class="metrics-headline">
+            <img src="img/sources.svg" width="24" height="24" alt="Sources" />
+            <h3 class="ml16">Sources</h3>
+          </div>
+          <div class="sources-countries-data caption gray bg-gray mt16 mb24">
+            <span>Source</span>
+            <span>Visitors</span>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 100%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/tw.png"
+                  width="16"
+                  height="16"
+                  alt="Twitter"
+                />
+                <a href="#" class="black" target="_blank" rel="nofollow"
+                  >twitter.com</a
+                >
+              </span>
+              <span>
+                <span class="strong mr16">307</span>
+                <span class="item-percent bg-blue blue caption">100%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 90%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/google.png"
+                  width="16"
+                  height="16"
+                  alt="Google"
+                />
+                <a href="#" class="black" target="_blank" rel="nofollow"
+                  >google.com</a
+                >
+              </span>
+              <span>
+                <span class="strong mr16">268</span>
+                <span class="item-percent bg-blue blue caption">90%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 80%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/yahoo.png"
+                  width="16"
+                  height="16"
+                  alt="Yahoo"
+                />
+                <a href="#" class="black" target="_blank" rel="nofollow"
+                  >yahoo.com</a
+                >
+              </span>
+              <span>
+                <span class="strong mr16">220</span>
+                <span class="item-percent bg-blue blue caption">80%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 70%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/alternativeto.png"
+                  width="16"
+                  height="16"
+                  alt="Alternativeto"
+                />
+                <a href="#" class="black" target="_blank" rel="nofollow"
+                  >alternativeto.net</a
+                >
+              </span>
+              <span>
+                <span class="strong mr16">183</span>
+                <span class="item-percent bg-blue blue caption">70%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 60%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/github.png"
+                  width="16"
+                  height="16"
+                  alt="Github"
+                />
+                <a href="#" class="black" target="_blank" rel="nofollow"
+                  >github.com</a
+                >
+              </span>
+              <span>
+                <span class="strong mr16">147</span>
+                <span class="item-percent bg-blue blue caption">60%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 50%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/healeycodes.png"
+                  width="16"
+                  height="16"
+                  alt="Healeycodes"
+                />
+                <a href="#" class="black" target="_blank" rel="nofollow"
+                  >healeycodes.com</a
+                >
+              </span>
+              <span>
+                <span class="strong mr16">108</span>
+                <span class="item-percent bg-blue blue caption">50%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 40%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/msn.png"
+                  width="16"
+                  height="16"
+                  alt="Msn"
+                />
+                <a href="#" class="black" target="_blank" rel="nofollow"
+                  >msn.com</a
+                >
+              </span>
+              <span>
+                <span class="strong mr16">95</span>
+                <span class="item-percent bg-blue blue caption">40%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 30%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/producthunt.png"
+                  width="16"
+                  height="16"
+                  alt="Producthunt"
+                />
+                <a href="#" class="black" target="_blank" rel="nofollow"
+                  >producthunt.com</a
+                >
+              </span>
+              <span>
+                <span class="strong mr16">86</span>
+                <span class="item-percent bg-blue blue caption">30%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 20%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/facebook.png"
+                  width="16"
+                  height="16"
+                  alt="Facebook"
+                />
+                <a href="#" class="black" target="_blank" rel="nofollow"
+                  >facebook.com</a
+                >
+              </span>
+              <span>
+                <span class="strong mr16">37</span>
+                <span class="item-percent bg-blue blue caption">20%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 10%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/duckduckgo.png"
+                  width="16"
+                  height="16"
+                  alt="Duckduckgo"
+                />
+                <a href="#" class="black" target="_blank" rel="nofollow"
+                  >duckduckgo.com</a
+                >
+              </span>
+              <span>
+                <span class="strong mr16">18</span>
+                <span class="item-percent bg-blue blue caption">10%</span>
+              </span>
+            </div>
+          </div>
+          <!-- View all -->
+          <a
+            href="#modal-sources"
+            class="sources-countries-item sources-countries-item-wrap view-all shadow-sm"
+            rel="modal:open"
+          >
+            <span>
+              <div class="view-all-icon animation"></div>
+              <span class="black strong view-all-text animation">View all</span>
+            </span>
+            <img
+              src="img/chevron-right.svg"
+              width="24"
+              height="24"
+              alt="Chevron"
+            />
+          </a>
+          <!-- /// -->
+        </div>
+        <!-- Countries -->
+        <div class="countries" id="countries">
+          <div class="metrics-headline">
+            <img
+              src="img/countries.svg"
+              width="24"
+              height="24"
+              alt="Countries"
+            />
+            <h3 class="ml16">Countries</h3>
+          </div>
+          <div class="sources-countries-data caption gray bg-gray mt16 mb24">
+            <span>Country</span>
+            <span>Visitors</span>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 100%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/germany.png"
+                  width="16"
+                  height="11"
+                  alt="Germany"
+                />
+                Germany
+              </span>
+              <span>
+                <span class="strong mr16">307</span>
+                <span class="item-percent bg-blue blue caption">100%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 90%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/kingdom.png"
+                  width="16"
+                  height="11"
+                  alt="United Kingdom"
+                />
+                United Kingdom
+              </span>
+              <span>
+                <span class="strong mr16">268</span>
+                <span class="item-percent bg-blue blue caption">90%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 80%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/usa.png"
+                  width="16"
+                  height="11"
+                  alt="USA"
+                />
+                USA
+              </span>
+              <span>
+                <span class="strong mr16">220</span>
+                <span class="item-percent bg-blue blue caption">80%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 70%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/cyprus.png"
+                  width="16"
+                  height="11"
+                  alt="Cyprus"
+                />
+                Cyprus
+              </span>
+              <span>
+                <span class="strong mr16">183</span>
+                <span class="item-percent bg-blue blue caption">70%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 60%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/ukraine.png"
+                  width="16"
+                  height="11"
+                  alt="Ukraine"
+                />
+                Ukraine
+              </span>
+              <span>
+                <span class="strong mr16">147</span>
+                <span class="item-percent bg-blue blue caption">60%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 50%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/india.png"
+                  width="16"
+                  height="11"
+                  alt="India"
+                />
+                India
+              </span>
+              <span>
+                <span class="strong mr16">108</span>
+                <span class="item-percent bg-blue blue caption">50%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 40%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/china.png"
+                  width="16"
+                  height="11"
+                  alt="China"
+                />
+                China
+              </span>
+              <span>
+                <span class="strong mr16">95</span>
+                <span class="item-percent bg-blue blue caption">40%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 30%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/poland.png"
+                  width="16"
+                  height="11"
+                  alt="Poland"
+                />
+                Poland
+              </span>
+              <span>
+                <span class="strong mr16">86</span>
+                <span class="item-percent bg-blue blue caption">30%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 20%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/france.png"
+                  width="16"
+                  height="11"
+                  alt="France"
+                />
+                France
+              </span>
+              <span>
+                <span class="strong mr16">37</span>
+                <span class="item-percent bg-blue blue caption">20%</span>
+              </span>
+            </div>
+          </div>
+          <!-- Item -->
+          <div class="sources-countries-item shadow-sm mb8">
+            <div class="percent-line" style="width: 10%"></div>
+            <div class="sources-countries-item-wrap">
+              <span>
+                <img
+                  src="img-delete/canada.png"
+                  width="16"
+                  height="11"
+                  alt="Canada"
+                />
+                Canada
+              </span>
+              <span>
+                <span class="strong mr16">18</span>
+                <span class="item-percent bg-blue blue caption">10%</span>
+              </span>
+            </div>
+          </div>
+          <!-- View all -->
+          <a
+            href="#modal-countries"
+            class="sources-countries-item sources-countries-item-wrap view-all shadow-sm"
+            rel="modal:open"
+          >
+            <span>
+              <div class="view-all-icon animation"></div>
+              <span class="black strong view-all-text animation">View all</span>
+            </span>
+            <img
+              src="img/chevron-right.svg"
+              width="24"
+              height="24"
+              alt="Chevron"
+            />
+          </a>
+          <!-- /// -->
+        </div>
+      </div>
     </section>
     <!-- Devices, platforms, browsers and AD -->
     <section class="metrics-two">
@@ -376,23 +939,106 @@
             ></a>
           </li>
         </ul>
-        <div id="devices" class="metrics-two-item">
-          <dashboard-pie
-            image="img/devices.svg"
-            caption="Devices"
-          ></dashboard-pie>
+        <!-- Devices -->
+        <div class="metrics-two-item" id="devices">
+          <div class="metrics-headline">
+            <img src="img/devices.svg" width="24" height="24" alt="Devices" />
+            <h3 class="ml16">Devices</h3>
+          </div>
+          <div class="metrics-two-data bg-white shadow-sm radius-lg">
+            <div class="metrics-two-graph-wrap"></div>
+            <div class="caption mt24">
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
+                Desktop
+                <span class="caption-strong">247</span>
+              </span>
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-red mr8"></span>
+                Laptop
+                <span class="caption-strong">109</span>
+              </span>
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-green mr8"></span>
+                Mobile
+                <span class="caption-strong">68</span>
+              </span>
+              <span class="graph-dot">
+                <span class="graph-dot-ellipse bg-yellow mr8"></span>
+                Other
+                <span class="caption-strong">17</span>
+              </span>
+            </div>
+          </div>
         </div>
-        <div id="platforms" class="metrics-two-item">
-          <dashboard-pie
-            image="img/platforms.svg"
-            caption="Platforms"
-          ></dashboard-pie>
+        <!-- Platforms -->
+        <div class="metrics-two-item" id="platforms">
+          <div class="metrics-headline">
+            <img
+              src="img/platforms.svg"
+              width="24"
+              height="24"
+              alt="Platforms"
+            />
+            <h3 class="ml16">Platforms</h3>
+          </div>
+          <div class="metrics-two-data bg-white shadow-sm radius-lg">
+            <div class="metrics-two-graph-wrap"></div>
+            <div class="caption mt24">
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
+                Windows
+                <span class="caption-strong">247</span>
+              </span>
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-red mr8"></span>
+                Linux
+                <span class="caption-strong">109</span>
+              </span>
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-green mr8"></span>
+                Mac OS
+                <span class="caption-strong">68</span>
+              </span>
+              <span class="graph-dot">
+                <span class="graph-dot-ellipse bg-yellow mr8"></span>
+                Other
+                <span class="caption-strong">17</span>
+              </span>
+            </div>
+          </div>
         </div>
-        <div id="browsers" class="metrics-two-item">
-          <dashboard-pie
-            image="img/browsers.svg"
-            caption="Browsers"
-          ></dashboard-pie>
+        <!-- Browsers -->
+        <div class="metrics-two-item" id="browsers">
+          <div class="metrics-headline">
+            <img src="img/browsers.svg" width="24" height="24" alt="Browsers" />
+            <h3 class="ml16">Browsers</h3>
+          </div>
+          <div class="metrics-two-data bg-white shadow-sm radius-lg">
+            <div class="metrics-two-graph-wrap"></div>
+            <div class="caption mt24">
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
+                Chrome
+                <span class="caption-strong">247</span>
+              </span>
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-red mr8"></span>
+                Firefox
+                <span class="caption-strong">109</span>
+              </span>
+              <span class="graph-dot mb8">
+                <span class="graph-dot-ellipse bg-green mr8"></span>
+                Safari
+                <span class="caption-strong">68</span>
+              </span>
+              <span class="graph-dot">
+                <span class="graph-dot-ellipse bg-yellow mr8"></span>
+                Other
+                <span class="caption-strong">17</span>
+              </span>
+            </div>
+          </div>
         </div>
         <!-- Ad -->
         <div class="ad bg-white shadow-sm radius-lg">
@@ -1210,6 +1856,108 @@
         </div>
       </section>
     </footer>
+    <!-- Sources modal -->
+    <div id="modal-sources" style="display: none">
+      <div class="modal-header">
+        <img src="img/sources.svg" width="24" height="24" alt="Sources" />
+        <h3 class="ml16">Sources</h3>
+        <a href="#" class="btn-close" rel="modal:close"></a>
+      </div>
+      <div class="modal-content">
+        <!-- Item -->
+        <div class="sources-countries-item shadow-sm mb8">
+          <div class="percent-line" style="width: 100%"></div>
+          <div class="sources-countries-item-wrap">
+            <span>
+              <img
+                src="img-delete/tw.png"
+                width="16"
+                height="16"
+                alt="Twitter"
+              />
+              <a href="#" class="black" target="_blank" rel="nofollow"
+                >twitter.com</a
+              >
+            </span>
+            <span>
+              <span class="strong mr16">307</span>
+              <span class="item-percent bg-blue blue caption">100%</span>
+            </span>
+          </div>
+        </div>
+        <!-- Item -->
+        <div class="sources-countries-item shadow-sm mb8">
+          <div class="percent-line" style="width: 90%"></div>
+          <div class="sources-countries-item-wrap">
+            <span>
+              <img
+                src="img-delete/google.png"
+                width="16"
+                height="16"
+                alt="Google"
+              />
+              <a href="#" class="black" target="_blank" rel="nofollow"
+                >google.com</a
+              >
+            </span>
+            <span>
+              <span class="strong mr16">268</span>
+              <span class="item-percent bg-blue blue caption">90%</span>
+            </span>
+          </div>
+        </div>
+        <!-- /// -->
+      </div>
+    </div>
+    <!-- Countries modal -->
+    <div id="modal-countries" style="display: none">
+      <div class="modal-header">
+        <img src="img/countries.svg" width="24" height="24" alt="Countries" />
+        <h3 class="ml16">Countries</h3>
+        <a href="#" class="btn-close" rel="modal:close"></a>
+      </div>
+      <div class="modal-content">
+        <!-- Item -->
+        <div class="sources-countries-item shadow-sm mb8">
+          <div class="percent-line" style="width: 100%"></div>
+          <div class="sources-countries-item-wrap">
+            <span>
+              <img
+                src="img-delete/germany.png"
+                width="16"
+                height="11"
+                alt="Germany"
+              />
+              Germany
+            </span>
+            <span>
+              <span class="strong mr16">307</span>
+              <span class="item-percent bg-blue blue caption">100%</span>
+            </span>
+          </div>
+        </div>
+        <!-- Item -->
+        <div class="sources-countries-item shadow-sm mb8">
+          <div class="percent-line" style="width: 90%"></div>
+          <div class="sources-countries-item-wrap">
+            <span>
+              <img
+                src="img-delete/kingdom.png"
+                width="16"
+                height="11"
+                alt="United Kingdom"
+              />
+              United Kingdom
+            </span>
+            <span>
+              <span class="strong mr16">268</span>
+              <span class="item-percent bg-blue blue caption">90%</span>
+            </span>
+          </div>
+        </div>
+        <!-- /// -->
+      </div>
+    </div>
     <!-- Our tips modal -->
     <div id="modal-tips" style="display: none">
       <div class="modal-header">
@@ -1481,6 +2229,5 @@
         }
       }
     </script>
-    <script src="js/dashboard.js"></script>
   </body>
 </html>

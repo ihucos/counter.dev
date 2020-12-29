@@ -37,7 +37,13 @@ function connectData(tag, getData) {
         var dump = evt.detail;
 
         // ensure the selector is initialized
-        let selector = document.getElementsByTagName("dashboard-selector")[0];
+        let selectorMatch = document.getElementsByTagName("dashboard-selector");
+        if (selectorMatch.length > 0) {
+            var selector = selectorMatch[0];
+        } else {
+            throw `connectData: tag dashboard-selector not found`;
+            return;
+        }
         customElements.upgrade(selector);
 
         var site = selector.site;
@@ -54,6 +60,7 @@ function connectData(tag, getData) {
         if (data !== null) {
             Array.from(document.querySelectorAll(tag)).forEach((el) => {
                 customElements.upgrade(el);
+                console.log(el);
                 el.draw(...data);
             });
         }
@@ -89,17 +96,17 @@ connectData("dashboard-counter-direct", (dump, cursite, curtime) => [
 connectData("dashboard-graph", k("date", "hour"));
 connectData("dashboard-dynamics", k("date"));
 
-connectData("dashboard-pie#devices", k("device"));
-connectData("dashboard-pie#platforms ", k("platform"));
-connectData("dashboard-pie#browsers", k("browser"));
+connectData("#devices dashboard-pie", k("device"));
+connectData("#platforms dashboard-pie ", k("platform"));
+connectData("#browsers dashboard-pie", k("browser"));
 
-connectData("dashboard-pie#devices dashboard-piegraph", k("device"));
-connectData("dashboard-pie#platforms dashboard-piegraph", k("platform"));
-connectData("dashboard-pie#browsers dashboard-piegraph", k("browser"));
+connectData("#devices dashboard-pie dashboard-piegraph", k("device"));
+connectData("#platforms dashboard-pie dashboard-piegraph", k("platform"));
+connectData("#browsers dashboard-pie dashboard-piegraph", k("browser"));
 
-connectData("dashboard-pie#devices dashboard-pielegend", k("device"));
-connectData("dashboard-pie#platforms dashboard-pielegend", k("platform"));
-connectData("dashboard-pie#browsers dashboard-pielegend", k("browser"));
+connectData("#devices dashboard-pie dashboard-pielegend", k("device"));
+connectData("#platforms dashboard-pie dashboard-pielegend", k("platform"));
+connectData("#browsers dashboard-pie dashboard-pielegend", k("browser"));
 
 connectData("dashboard-sources-countries", k("ref", "country"));
 

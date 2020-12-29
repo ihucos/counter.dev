@@ -461,7 +461,7 @@ a:active {
 .btn-close {
   width: 24px;
   height: 24px;
-  background-image: url(../img/close.svg);
+  background-image: url(img/close.svg);
   cursor: pointer;
   transition: 0.2s;
   margin-left: auto;
@@ -535,7 +535,7 @@ select {
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.04);
   font: 400 18px "Nunito Sans";
   color: #121212;
-  background: url(../img/arrow--blue.svg) right 12px center no-repeat #ffffff;
+  background: url(img/arrow--blue.svg) right 12px center no-repeat #ffffff;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -748,7 +748,7 @@ header {
   display: block;
   width: 140px;
   height: 32px;
-  background-image: url(../img/logotype.svg);
+  background-image: url(img/logotype.svg);
   transition: opacity 0.2s;
 }
 
@@ -778,7 +778,7 @@ nav a {
   display: inline-block;
   width: 24px;
   height: 24px;
-  background-image: url(../img/github--blue.svg);
+  background-image: url(img/github--blue.svg);
   transition: opacity 0.2s;
 }
 
@@ -786,7 +786,7 @@ nav a {
   display: inline-block;
   width: 24px;
   height: 24px;
-  background-image: url(../img/twitter--blue.svg);
+  background-image: url(img/twitter--blue.svg);
   transition: opacity 0.2s;
 }
 
@@ -803,7 +803,7 @@ nav a {
   border-radius: 3px;
   padding: 0 48px 0 24px;
   box-shadow: -1px 0px 0px #147efb, 0px 2px 2px rgba(0, 0, 0, 0.04);
-  background: url(../img/menu.svg) right 16px center no-repeat #ffffff;
+  background: url(img/menu.svg) right 16px center no-repeat #ffffff;
   line-height: 48px;
   cursor: pointer;
   transition: all 0.2s;
@@ -837,7 +837,7 @@ nav a {
 }
 .dropdown:hover .profile-user {
   box-shadow: -1px 0px 0px #e0e0e0;
-  background: url(../img/menu.svg) right 16px bottom 10px no-repeat #fafafa;
+  background: url(img/menu.svg) right 16px bottom 10px no-repeat #fafafa;
 }
 
 /* Hamburger */
@@ -850,7 +850,7 @@ nav a {
   display: block;
   width: 24px;
   height: 24px;
-  background-image: url(../img/hamburger.svg);
+  background-image: url(img/hamburger.svg);
 }
 #hamburger-toggle {
   opacity: 0;
@@ -890,7 +890,7 @@ nav a {
 }
 #hamburger-toggle:checked ~ .hamburger-btn {
   position: fixed;
-  background-image: url(../img/close.svg);
+  background-image: url(img/close.svg);
   z-index: 999999;
 }
 
@@ -970,7 +970,7 @@ nav a {
   width: 120px;
   height: 88px;
   box-shadow: 1px 0px 0px #e0e0e0;
-  background: url(../img/donate.svg) center no-repeat;
+  background: url(img/donate.svg) center no-repeat;
 }
 
 .donate-description {
@@ -1027,7 +1027,7 @@ nav a {
   display: inline-block;
   width: 24px;
   height: 24px;
-  background-image: url(../img/github.svg);
+  background-image: url(img/github.svg);
   transition: opacity 0.2s;
 }
 
@@ -1035,7 +1035,7 @@ nav a {
   display: inline-block;
   width: 24px;
   height: 24px;
-  background-image: url(../img/twitter.svg);
+  background-image: url(img/twitter.svg);
   transition: opacity 0.2s;
 }
 

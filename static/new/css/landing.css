@@ -15,13 +15,13 @@
 .hero {
   width: 540px;
   height: 486px;
-  background-image: url(../img/hero.svg);
+  background-image: url(img/hero.svg);
 }
 
 .hero-cards {
   width: 540px;
   height: 436px;
-  background-image: url(../img/hero-cards.svg);
+  background-image: url(img/hero-cards.svg);
   animation-duration: 5s;
   animation-iteration-count: infinite;
 }
@@ -48,7 +48,7 @@
 /* Benefits */
 .benefits {
   height: 659px;
-  background: url(../img/graph.svg) bottom no-repeat;
+  background: url(img/graph.svg) bottom no-repeat;
   margin-top: 96px;
 }
 
@@ -84,17 +84,17 @@
 .benefits-item-icon-free {
   width: 48px;
   height: 48px;
-  background-image: url(../img/free.svg);
+  background-image: url(img/free.svg);
 }
 .benefits-item-icon-open {
   width: 48px;
   height: 48px;
-  background-image: url(../img/open.svg);
+  background-image: url(img/open.svg);
 }
 .benefits-item-icon-privacy {
   width: 48px;
   height: 48px;
-  background-image: url(../img/privacy.svg);
+  background-image: url(img/privacy.svg);
 }
 .benefits-item-description {
   width: 380px;
@@ -103,7 +103,7 @@
 .benefits-pic {
   width: 445px;
   height: 488px;
-  background-image: url(../img/user.svg);
+  background-image: url(img/user.svg);
 }
 
 /* Features */
@@ -146,7 +146,7 @@
   display: flex;
   align-items: flex-end;
   font: 700 18px "Nunito Sans";
-  background: url(../img/services.svg) top no-repeat;
+  background: url(img/services.svg) top no-repeat;
 }
 
 .open-source-services span:nth-child(1) {
@@ -197,17 +197,17 @@
   .benefits-item-icon-free {
     width: 24px;
     height: 24px;
-    background-image: url(../img/free-sm.svg);
+    background-image: url(img/free-sm.svg);
   }
   .benefits-item-icon-open {
     width: 24px;
     height: 24px;
-    background-image: url(../img/open-sm.svg);
+    background-image: url(img/open-sm.svg);
   }
   .benefits-item-icon-privacy {
     width: 24px;
     height: 24px;
-    background-image: url(../img/privacy-sm.svg);
+    background-image: url(img/privacy-sm.svg);
   }
   .benefits-item-description {
     width: unset;

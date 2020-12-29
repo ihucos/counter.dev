@@ -88,13 +88,13 @@
   border-radius: 12px;
 }
 .positive {
-  background: url(../img/positive.svg) left 7px center no-repeat;
+  background: url(img/positive.svg) left 7px center no-repeat;
 }
 .negative {
-  background: url(../img/negative.svg) left 7px center no-repeat;
+  background: url(img/negative.svg) left 7px center no-repeat;
 }
 .stability {
-  background: url(../img/stability.svg) left 7px center no-repeat;
+  background: url(img/stability.svg) left 7px center no-repeat;
   padding: 0 11px;
 }
 
@@ -113,6 +113,7 @@
 .graph-wrap {
   width: 635px;
   height: 292px;
+  background-color: #f5f5f5;
 }
 
 .graph-dynamics {
@@ -227,6 +228,7 @@
 .metrics-two-graph-wrap {
   width: 96px;
   height: 96px;
+  background-color: #f5f5f5;
 }
 .metrics-two-item {
   width: 160px;
@@ -246,6 +248,9 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
+}
+.graph-dot .caption-strong {
+  display: none;
 }
 .ad {
   width: 350px;
@@ -323,6 +328,7 @@
 .metrics-three-graph-wrap {
   width: 96px;
   height: 108px;
+  background-color: #f5f5f5;
 }
 .week-column-wrap {
   display: flex;
@@ -632,7 +638,7 @@
   height: 100%;
 }
 dashboard-pie .metrics-two-data {
-  height: 284px;
+  /*height: 284px; does not work in mobile version*/
 }
 dashboard-dynamics comp-nodata {
   width: 255px;
