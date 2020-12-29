@@ -563,7 +563,7 @@
             </ul>
             <!-- Day -->
             <div class="metrics-three-data-content-day" id="day">
-              <div class="metrics-three-graph-wrap"></div>
+              <dashboard-time-graph class="metrics-three-graph-wrap"></dashboard-time-graph>
               <div class="caption mt24">
                 <span class="graph-dot mb8">
                   <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
@@ -589,54 +589,7 @@
             </div>
             <!-- Hour -->
             <div id="hour">
-              <div
-                class="metrics-three-data-content caption"
-                data-simplebar
-                data-simplebar-auto-hide="false"
-              >
-                <!-- Item -->
-                <div class="hour-item">
-                  00:00
-                  <span class="caption-strong">7864</span>
-                </div>
-                <!-- Item -->
-                <div class="hour-item">
-                  01:00
-                  <span class="caption-strong">5365</span>
-                </div>
-                <!-- Item -->
-                <div class="hour-item">
-                  02:00
-                  <span class="caption-strong">2450</span>
-                </div>
-                <!-- Item -->
-                <div class="hour-item">
-                  03:00
-                  <span class="caption-strong">1089</span>
-                </div>
-                <!-- Item -->
-                <div class="hour-item">
-                  04:00
-                  <span class="caption-strong">560</span>
-                </div>
-                <!-- Item -->
-                <div class="hour-item">
-                  05:00
-                  <span class="caption-strong">327</span>
-                </div>
-                <!-- Item -->
-                <div class="hour-item">
-                  06:00
-                  <span class="caption-strong">94</span>
-                </div>
-                <!-- Item -->
-                <div class="hour-item">
-                  07:00
-                  <span class="caption-strong">26</span>
-                </div>
-                <!-- /// -->
-              </div>
-              <div class="metrics-three-data-footer bg-white"></div>
+              <dashboard-hour></dashboard-hour>
             </div>
             <!-- Week -->
             <div class="metrics-three-data-content-day caption" id="week">
