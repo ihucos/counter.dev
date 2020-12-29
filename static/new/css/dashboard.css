@@ -117,6 +117,11 @@
 }
 
 .graph-dynamics {
+
+  /* this is so when displaying no data it can expand */
+  display: flex;
+  flex-grow: 1;
+
   position: relative;
   width: 255px;
   height: 292px;
@@ -629,47 +634,23 @@
     margin: 16px 0 24px 0;
   }
 }
-
-/* HOTFIXes for dashboard-nodata heights */
-.simplebar-content-wrapper {
-  height: 100%;
-}
-.simplebar-content {
-  height: 100%;
-}
-dashboard-pie .metrics-two-data {
-  /*height: 284px; does not work in mobile version*/
-}
-dashboard-dynamics dashboard-nodata {
-  width: 255px;
-  height: 292px;
-}
-
 dashboard-nodata img {
-  position: relative;
-  top: 4px;
+  position: static; /* overwrite some other style */
   height: 20px;
   width: 16px;
   margin-right: 14px;
 }
 
-dashboard-nodata div {
-  line-height: 19px;
-  font-size: 14px;
-}
 
 dashboard-nodata {
-  height: 100%;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  color: #616161;
-  border: 1px solid #b1e2ff;
   border-radius: 16px;
+  border: 1px solid #b1e2ff;
+  color: #616161;
+  display: flex;
+  flex-grow: 1;
+  font-size: 14px;
+  justify-content: center;
+  line-height: 19px;
   min-height: 6rem;
-}
-
-.metrics-two-data dashboard-nodata,
-.metrics-three dashboard-nodata {
-  border: none;
 }
