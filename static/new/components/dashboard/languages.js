@@ -8,7 +8,7 @@ customElements.define(
                 0
             );
             this.innerHTML = `
-          <div class="metrics-three-item" id="languages">
+          <div class="metrics-three-item">
             <div class="metrics-headline">
               <img src="img/languages.svg" width="24" height="24" alt="Languages">
               <h3 class="ml16">Languages</h3>

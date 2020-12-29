@@ -4,7 +4,7 @@ customElements.define(
         draw(loc) {
             var entries = Object.entries(loc).sort((a, b) => b[1] - a[1]);
             this.innerHTML = `
-        <div class="metrics-four-item" id="pages">
+        <div class="metrics-four-item">
           <div class="metrics-headline">
             <img src="img/pages.svg" width="24" height="24" alt="Pages">
             <h3 class="ml16">Pages</h3>

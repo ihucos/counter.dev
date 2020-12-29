@@ -10,7 +10,7 @@ customElements.define(
                 0
             );
             this.innerHTML = `
-          <div class="metrics-three-item" id="screens">
+          <div class="metrics-three-item">
             <div class="metrics-headline">
               <img src="img/screens.svg" width="24" height="24" alt="Screens">
               <h3 class="ml16">Screens</h3>

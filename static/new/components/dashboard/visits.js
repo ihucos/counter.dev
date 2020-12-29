@@ -5,7 +5,7 @@ customElements.define(
             var entries = Object.entries(logs).sort((a, b) => b[1] - a[1]);
             var parsedLogs = entries.map((e) => this.parseLogEntry(e[0]));
             this.innerHTML = `
-        <div class="metrics-four-item" id="visits">
+        <div class="metrics-four-item">
           <div class="metrics-headline">
             <img src="img/visit.svg" width="24" height="24" alt="Visits">
             <h3 class="ml16">Visits</h3>
