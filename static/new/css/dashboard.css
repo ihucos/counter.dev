@@ -88,13 +88,13 @@
   border-radius: 12px;
 }
 .positive {
-  background: url(img/positive.svg) left 7px center no-repeat;
+  background: url(../img/positive.svg) left 7px center no-repeat;
 }
 .negative {
-  background: url(img/negative.svg) left 7px center no-repeat;
+  background: url(../img/negative.svg) left 7px center no-repeat;
 }
 .stability {
-  background: url(img/stability.svg) left 7px center no-repeat;
+  background: url(../img/stability.svg) left 7px center no-repeat;
   padding: 0 11px;
 }
 
