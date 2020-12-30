@@ -11,7 +11,7 @@ customElements.define(
             let keys = groupdedDates[0];
             let vals = groupdedDates[1];
             if (vals.length === 0) {
-                this.innerHTML = "<dashboard-nodata></dashboard-nodata>";
+                this.innerHTML = '<dashboard-nodata></dashboard-nodata>';
             } else if (vals.length < 3) {
                 this.drawTrend(
                     this.STABILITY,
@@ -58,7 +58,6 @@ customElements.define(
         drawTrend(trend, percent, title) {
             let percentAbs = Math.abs(percent);
             this.classList.add('graph-dynamics')
-            alert(this.classList)
             if (trend === this.POSITIVE) {
                 this.innerHTML = `
                  <img src="img/rocket.png" srcset="img/rocket@2x.png 2x" width="60" height="60" alt="Rocket">

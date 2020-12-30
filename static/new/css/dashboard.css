@@ -117,11 +117,6 @@
 }
 
 .graph-dynamics {
-
-  /* this is so when displaying no data it can expand */
-  display: flex;
-  flex-grow: 1;
-
   position: relative;
   width: 255px;
   height: 292px;
@@ -641,7 +636,6 @@ dashboard-nodata img {
   margin-right: 14px;
 }
 
-
 dashboard-nodata {
   align-items: center;
   border-radius: 16px;
@@ -653,4 +647,9 @@ dashboard-nodata {
   justify-content: center;
   line-height: 19px;
   min-height: 6rem;
+}
+
+dashboard-dynamics dashboard-nodata {
+  width: 255px;
+  height: 292px;
 }
