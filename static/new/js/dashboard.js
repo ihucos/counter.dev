@@ -31,34 +31,26 @@ function getSelectorEl() {
     }
 }
 
+allConnectedData = [];
 function connectData(tag, getData) {
-    document.addEventListener("redraw", (evt) => {
-        var dump = evt.detail;
-
-        let selector = getSelectorEl();
-
-        var site = selector.site;
-        var range = selector.range;
-
-        var data;
-        if (getData.length <= 1) {
-            data = getData(dump);
-        } else if (site === "" || range === "") {
-            data = null;
-        } else {
-            data = getData(dump, site, range);
-        }
-        if (data !== null) {
-            Array.from(document.querySelectorAll(tag)).forEach((el) => {
-                customElements.whenDefined(el.localName).then(() => {
-                    customElements.upgrade(el);
-                    console.log(el);
-                    el.draw(...data);
-                });
-            });
-        }
+    Array.from(document.querySelectorAll(tag)).forEach((el) => {
+        allConnectedData.push([el, getData]);
     });
 }
+
+document.addEventListener("redraw", (evt) => {
+    let dump = evt.detail;
+    let selector = getSelectorEl();
+    for (var i = 0; i < allConnectedData.length; i++) {
+        let el = allConnectedData[i][0];
+        let getData = allConnectedData[i][1];
+        let drawData = getData(dump, selector.site, selector.range);
+        customElements.whenDefined(el.localName).then(() => {
+            customElements.upgrade(el);
+            el.draw(...drawData);
+        });
+    }
+});
 
 // helper function for working with connectData
 function k(...keys) {
