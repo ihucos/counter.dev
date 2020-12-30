@@ -300,7 +300,8 @@
   padding: 0 24px;
 }
 
-.metrics-three-data-content {
+.metrics-three-data-content,
+.metrics-three-data-content dashboard-nodata {
   height: 280px;
   padding: 0 24px;
 }
@@ -587,7 +588,8 @@
   .week-column:nth-child(1) {
     margin-right: 16px;
   }
-  .metrics-three-data-content {
+  .metrics-three-data-content,
+  .metrics-three-data-content dashboard-nodata {
     height: 168px;
   }
   .metrics-four {
