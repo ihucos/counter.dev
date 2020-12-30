@@ -10,7 +10,7 @@ class BaseGraph extends HTMLElement {
         this.innerHTML = "<canvas></canvas>";
         //
         // I don't know why this is needed but its important
-        this.style.display = "flex"
+        this.style.display = "flex";
 
         this.canvas = this.children[0];
         var chartData = this.getChart(...args);

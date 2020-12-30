@@ -24,7 +24,11 @@ customElements.define(
               </div>`
                   )
                   .join("")}
-            ${entries.length === 0 ? "<dashboard-nodata></dashboard-nodata>" : ""}
+            ${
+                entries.length === 0
+                    ? "<dashboard-nodata></dashboard-nodata>"
+                    : ""
+            }
             </div>
             <div class="metrics-three-data-footer bg-white"></div>
           </div>

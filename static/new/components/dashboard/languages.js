@@ -22,7 +22,11 @@ customElements.define(
                 ${langEntries
                     .map((item) => this.drawItem(item[0], item[1]))
                     .join("")}
-                ${langEntries.length === 0 ? "<dashboard-nodata></dashboard-nodata>" : ""}
+                ${
+                    langEntries.length === 0
+                        ? "<dashboard-nodata></dashboard-nodata>"
+                        : ""
+                }
               </div>
               <div class="metrics-three-data-footer bg-white"></div>
             </div>

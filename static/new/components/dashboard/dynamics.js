@@ -11,7 +11,7 @@ customElements.define(
             let keys = groupdedDates[0];
             let vals = groupdedDates[1];
             if (vals.length === 0) {
-                this.innerHTML = '<dashboard-nodata></dashboard-nodata>';
+                this.innerHTML = "<dashboard-nodata></dashboard-nodata>";
             } else if (vals.length < 3) {
                 this.drawTrend(
                     this.STABILITY,
@@ -35,18 +35,10 @@ customElements.define(
                 //let dd = vals.slice(0, -1)
 
                 if (percent > 10) {
-                    this.drawTrend(
-                        this.POSITIVE,
-                        percent,
-                        title
-                    );
+                    this.drawTrend(this.POSITIVE, percent, title);
                     return;
                 } else if (percent < -10) {
-                    this.drawTrend(
-                        this.NEGATIVE,
-                        percent,
-                        title
-                    );
+                    this.drawTrend(this.NEGATIVE, percent, title);
                     return;
                 } else {
                     this.drawTrend(this.STABILITY, null, title);
@@ -57,7 +49,7 @@ customElements.define(
 
         drawTrend(trend, percent, title) {
             let percentAbs = Math.abs(percent);
-            this.classList.add('graph-dynamics')
+            this.classList.add("graph-dynamics");
             if (trend === this.POSITIVE) {
                 this.innerHTML = `
                  <img src="img/rocket.png" srcset="img/rocket@2x.png 2x" width="60" height="60" alt="Rocket">
@@ -91,7 +83,9 @@ customElements.define(
                    <div class="caption gray mb32">But you need to grow!</div>
                    <a href="#modal-tips" class="btn-white" rel="modal:open">Our tips</a>
                  </div>`;
-            } else {alert("unknown trend " + trend)}
+            } else {
+                alert("unknown trend " + trend);
+            }
         }
     }
 );

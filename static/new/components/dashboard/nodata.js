@@ -1,9 +1,9 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        constructor(){
-            super()
-            this.attachShadow({mode: 'open'}).innerHTML = `
+        constructor() {
+            super();
+            this.attachShadow({ mode: "open" }).innerHTML = `
                 <style>
                 img {
                   height: 20px;
