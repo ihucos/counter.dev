@@ -21,30 +21,21 @@ Chart.defaults.global.tooltips = {
     },
 };
 
-if (window.username === null) {
-    window.location.href = "welcome.html";
-} else {
-    var source = new EventSource("/dump");
-    source.onmessage = (event) => {
-        let dump = JSON.parse(event.data);
-        console.log(dump);
-        document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
-    };
+function getSelectorEl() {
+    let selectorMatch = document.getElementsByTagName("dashboard-selector");
+    if (selectorMatch.length > 0) {
+        return selectorMatch[0];
+    } else {
+        throw `connectData: tag dashboard-selector not found`;
+        return;
+    }
 }
 
 function connectData(tag, getData) {
     document.addEventListener("redraw", (evt) => {
         var dump = evt.detail;
 
-        // ensure the selector is initialized
-        let selectorMatch = document.getElementsByTagName("dashboard-selector");
-        if (selectorMatch.length > 0) {
-            var selector = selectorMatch[0];
-        } else {
-            throw `connectData: tag dashboard-selector not found`;
-            return;
-        }
-        customElements.upgrade(selector);
+        let selector = getSelectorEl();
 
         var site = selector.site;
         var range = selector.range;
@@ -59,9 +50,11 @@ function connectData(tag, getData) {
         }
         if (data !== null) {
             Array.from(document.querySelectorAll(tag)).forEach((el) => {
-                customElements.upgrade(el);
-                console.log(el);
-                el.draw(...data);
+                customElements.whenDefined(el.localName).then(() => {
+                    customElements.upgrade(el);
+                    console.log(el);
+                    el.draw(...data);
+                });
             });
         }
     });
@@ -72,9 +65,6 @@ function k(...keys) {
     return (dump, cursite, curtime) =>
         keys.map((key) => dump.sites[cursite].visits[curtime][key]);
 }
-
-// selector must be initialized as first!
-connectData("dashboard-selector", (dump) => [dump]);
 
 connectData("dashboard-counter-visitors", (dump, cursite, curtime) => [
     dump.sites[cursite].visits,
@@ -92,45 +82,42 @@ connectData("dashboard-counter-direct", (dump, cursite, curtime) => [
     dump.sites[cursite].visits,
     curtime,
 ]);
-
 connectData("dashboard-graph", k("date", "hour"));
 connectData("dashboard-dynamics", k("date"));
-
 connectData("#devices dashboard-pie", k("device"));
 connectData("#platforms dashboard-pie ", k("platform"));
 connectData("#browsers dashboard-pie", k("browser"));
-
 connectData("#devices dashboard-pie dashboard-piegraph", k("device"));
 connectData("#platforms dashboard-pie dashboard-piegraph", k("platform"));
 connectData("#browsers dashboard-pie dashboard-piegraph", k("browser"));
-
 connectData("#devices dashboard-pie dashboard-pielegend", k("device"));
 connectData("#platforms dashboard-pie dashboard-pielegend", k("platform"));
 connectData("#browsers dashboard-pie dashboard-pielegend", k("browser"));
-
 connectData("dashboard-sources-countries", k("ref", "country"));
-
 connectData("dashboard-languages", k("lang"));
 connectData("dashboard-screens", k("screen"));
-
 connectData("dashboard-pages", k("loc"));
 connectData("dashboard-visits", (dump, cursite) => [dump.sites[cursite].logs]);
-
 connectData("dashboard-time-graph", k("hour"));
 connectData("dashboard-hour", k("hour"));
 connectData("dashboard-week-graph", k("weekday"));
-
 connectData("dashboard-time-graph", k("hour"));
 
-//
-// connectData("comp-chart-lastdays", (dump, cursite) => [
-//   dump.sites[cursite].visits.all.date,
-// ]);
-// connectData("comp-chart-browser", k("browser"));
-// connectData("comp-chart-platform", k("platform"));
-// connectData("comp-chart-referrers", k("ref", "date"));
-// connectData("comp-chart-device", k("device"));
-// connectData("comp-chart-hour", k("hour"));
+if (window.username === null) {
+    window.location.href = "welcome.html";
+} else {
+    var source = new EventSource("/dump");
+    source.onmessage = (event) => {
+        let dump = JSON.parse(event.data);
+
+        let selector = getSelectorEl();
+        customElements.whenDefined(selector.localName).then(() => {
+            customElements.upgrade(selector);
+            selector.draw(dump);
+            document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
+        });
+    };
+}
 
 function escapeHtml(unsafe) {
     return (unsafe + "")
