@@ -631,25 +631,6 @@
     margin: 16px 0 24px 0;
   }
 }
-dashboard-nodata img {
-  position: static; /* overwrite some other style */
-  height: 20px;
-  width: 16px;
-  margin-right: 14px;
-}
-
-dashboard-nodata {
-  align-items: center;
-  border-radius: 16px;
-  border: 1px solid #b1e2ff;
-  color: #616161;
-  display: flex;
-  flex-grow: 1;
-  font-size: 14px;
-  justify-content: center;
-  line-height: 19px;
-  min-height: 6rem;
-}
 
 dashboard-dynamics dashboard-nodata {
   width: 255px;
