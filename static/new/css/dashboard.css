@@ -635,4 +635,5 @@
 dashboard-dynamics dashboard-nodata {
   width: 255px;
   height: 292px;
+  padding-top: 0px;
 }
