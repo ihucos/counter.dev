@@ -46,6 +46,7 @@ document.addEventListener("redraw", (evt) => {
         let getData = allConnectedData[i][1];
         let drawData = getData(dump, selector.site, selector.range);
         customElements.whenDefined(el.localName).then(() => {
+            //console.log("draw", el.localName, el, drawData)
             customElements.upgrade(el);
             el.draw(...drawData);
         });
@@ -79,12 +80,6 @@ connectData("dashboard-dynamics", k("date"));
 connectData("#devices dashboard-pie", k("device"));
 connectData("#platforms dashboard-pie ", k("platform"));
 connectData("#browsers dashboard-pie", k("browser"));
-connectData("#devices dashboard-pie dashboard-piegraph", k("device"));
-connectData("#platforms dashboard-pie dashboard-piegraph", k("platform"));
-connectData("#browsers dashboard-pie dashboard-piegraph", k("browser"));
-connectData("#devices dashboard-pie dashboard-pielegend", k("device"));
-connectData("#platforms dashboard-pie dashboard-pielegend", k("platform"));
-connectData("#browsers dashboard-pie dashboard-pielegend", k("browser"));
 connectData("dashboard-sources-countries", k("ref", "country"));
 connectData("dashboard-languages", k("lang"));
 connectData("dashboard-screens", k("screen"));

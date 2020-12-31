@@ -14,11 +14,16 @@ customElements.define(
                 <div class="metrics-two-data bg-white shadow-sm radius-lg">
                   ${
                       Object.keys(obj).length > 0
-                          ? `<dashboard-piegraph class="metrics-two-graph-wrap"></dashboard-piegraph>
+                          ? `<canvas style="display: flex" class="metrics-two-graph-wrap"></canvas>
                       ${this.getLegend(obj)}`
                           : `<dashboard-nodata></dashboard-nodata>`
                   }
                 </div>`;
+            let canvas = this.getElementsByTagName("canvas")[0];
+            if (canvas) {
+                let chartData = this.getChart(obj);
+                new Chart(canvas, chartData);
+            }
         }
 
         getLegend(obj) {
@@ -56,6 +61,36 @@ customElements.define(
                 <span class="caption-strong">${escapeHtml(aggrVals[3])}</span>
               </span>
             </div>`;
+        }
+
+        getChart(obj) {
+            var aggr = dGroupData(obj, 3);
+            return {
+                type: "pie",
+                data: {
+                    labels: Object.keys(aggr),
+                    datasets: [
+                        {
+                            backgroundColor: [
+                                "#147EFB",
+                                "#FC3158",
+                                "#53D769",
+                                "#FECB2E",
+                            ],
+                            hoverBorderColor: "#ffffff",
+                            borderWidth: 2,
+                            data: Object.values(aggr),
+                        },
+                    ],
+                },
+                options: {
+                    cutoutPercentage: 33.33,
+                    aspectRatio: 1,
+                    legend: {
+                        display: false,
+                    },
+                },
+            };
         }
     }
 );
