@@ -254,6 +254,10 @@ customElements.define(
                   </div>
                 </div>
                 ${this.drawModals()}`;
+
+            // HOTFIX: This component gets loaded after enabling tabslet for all
+            // other elements
+            $(".responsive-tabs", this).tabslet();
         }
 
         drawModals() {

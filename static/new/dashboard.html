@@ -562,32 +562,9 @@
               </li>
             </ul>
             <!-- Day -->
-            <div class="metrics-three-data-content-day" id="day">
-              <dashboard-time-graph
-                class="metrics-three-graph-wrap"
-              ></dashboard-time-graph>
-              <div class="caption mt24">
-                <span class="graph-dot mb8">
-                  <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
-                  Morning
-                  <span class="caption-strong">247</span>
-                </span>
-                <span class="graph-dot mb8">
-                  <span class="graph-dot-ellipse bg-red mr8"></span>
-                  Afternoon
-                  <span class="caption-strong">109</span>
-                </span>
-                <span class="graph-dot mb8">
-                  <span class="graph-dot-ellipse bg-green mr8"></span>
-                  Evening
-                  <span class="caption-strong">68</span>
-                </span>
-                <span class="graph-dot">
-                  <span class="graph-dot-ellipse bg-yellow mr8"></span>
-                  Night
-                  <span class="caption-strong">17</span>
-                </span>
-              </div>
+            <!-- Wrappers are for the tab plugin -->
+            <div id="day">
+              <dashboard-time></dashboard-time>
             </div>
             <!-- Hour -->
             <div id="hour">
