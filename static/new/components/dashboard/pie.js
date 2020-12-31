@@ -14,9 +14,12 @@ customElements.define(
                 <div class="metrics-two-data bg-white shadow-sm radius-lg">
                   ${
                       Object.keys(obj).length > 0
-                          ? `<canvas style="display: flex" class="metrics-two-graph-wrap"></canvas>
+                          ? `
+                          <div class="metrics-two-graph-wrap">
+                            <canvas></canvas>
+                          </div>
                       ${this.getLegend(obj)}`
-                          : `<dashboard-nodata></dashboard-nodata>`
+                      : `<dashboard-nodata></dashboard-nodata>`
                   }
                 </div>`;
             let canvas = this.getElementsByTagName("canvas")[0];
