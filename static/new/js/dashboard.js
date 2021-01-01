@@ -34,50 +34,33 @@ function getSelectorEl() {
         return;
     }
 }
+selector = getSelectorEl() // very import element
 
-allConnectedData = [];
-function connectData(tag, getData) {
-    Array.from(document.querySelectorAll(tag)).forEach((el) => {
-        allConnectedData.push([el, getData]);
-    });
-}
-
-document.addEventListener("redraw", (evt) => {
-    let dump = evt.detail;
-    let selector = getSelectorEl();
-    for (var i = 0; i < allConnectedData.length; i++) {
-        let el = allConnectedData[i][0];
-        let getData = allConnectedData[i][1];
-        let drawData = getData(dump, selector.site, selector.range);
-        customElements.whenDefined(el.localName).then(() => {
-            //console.log("draw", el.localName, el, drawData)
-            customElements.upgrade(el);
-            el.draw(...drawData);
-        });
-    }
-});
 
 // helper function for working with connectData
 function k(...keys) {
-    return (dump, cursite, curtime) =>
-        keys.map((key) => dump.sites[cursite].visits[curtime][key]);
+    return (dump) => {
+        return keys.map((key) => dump.sites[selector.site].visits[selector.range][key])
+    };
 }
 
-connectData("dashboard-counter-visitors", (dump, cursite, curtime) => [
-    dump.sites[cursite].visits,
-    curtime,
+connectData("dashboard-selector", (dump) => [dump]);
+
+connectData("dashboard-counter-visitors", dump => [
+    dump.sites[selector.site].visits,
+    selector.range,
 ]);
-connectData("dashboard-counter-search", (dump, cursite, curtime) => [
-    dump.sites[cursite].visits,
-    curtime,
+connectData("dashboard-counter-search", dump => [
+    dump.sites[selector.site].visits,
+    selector.range,
 ]);
-connectData("dashboard-counter-social", (dump, cursite, curtime) => [
-    dump.sites[cursite].visits,
-    curtime,
+connectData("dashboard-counter-social", dump => [
+    dump.sites[selector.site].visits,
+    selector.range,
 ]);
-connectData("dashboard-counter-direct", (dump, cursite, curtime) => [
-    dump.sites[cursite].visits,
-    curtime,
+connectData("dashboard-counter-direct", dump => [
+    dump.sites[selector.site].visits,
+    selector.range,
 ]);
 connectData("dashboard-graph", k("date", "hour"));
 connectData("dashboard-dynamics", k("date"));
@@ -88,39 +71,26 @@ connectData("dashboard-sources-countries", k("ref", "country"));
 connectData("dashboard-languages", k("lang"));
 connectData("dashboard-screens", k("screen"));
 connectData("dashboard-pages", k("loc"));
-connectData("dashboard-visits", (dump, cursite) => [dump.sites[cursite].logs]);
+connectData("dashboard-visits", dump => [dump.sites[selector.site].logs]);
 connectData("dashboard-hour", k("hour"));
 connectData("dashboard-week", k("weekday"));
 connectData("dashboard-time", k("hour"));
 connectData("dashboard-share-account", (dump) => [dump.user]);
 
-
-function getDumpURL(){
-    let hashParse = document.location.hash.slice(1).split(':', 2)
-    if (hashParse.length == 2){
-        urlExtra = `&user=${hashParse[0]}&token=${hashParse[1]}`
+function getDumpURL() {
+    let hashParse = document.location.hash.slice(1).split(":", 2);
+    if (hashParse.length == 2) {
+        urlExtra = `&user=${hashParse[0]}&token=${hashParse[1]}`;
     } else {
-        urlExtra = ''
+        urlExtra = "";
     }
-    return `/dump?utcoffset=${getUTCOffset()}${urlExtra}`
+    return `/dump?utcoffset=${getUTCOffset()}${urlExtra}`;
 }
 
-if (window.username === null) {
-    window.location.href = "welcome.html";
-} else {
-    var source = new EventSource(getDumpURL());
-    source.onmessage = (event) => {
-        let dump = JSON.parse(event.data);
-
-        let selector = getSelectorEl();
-        customElements.whenDefined(selector.localName).then(() => {
-            customElements.upgrade(selector);
-            console.log(dump);
-            selector.draw(dump);
-            document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
-        });
-    };
-}
+customElements.whenDefined(selector.localName).then(() => {
+    customElements.upgrade(selector)
+    drawComponents(getDumpURL())
+})
 
 function escapeHtml(unsafe) {
     return (unsafe + "")

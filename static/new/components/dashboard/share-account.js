@@ -5,11 +5,18 @@ customElements.define(
             this.classList.add("headline-right");
             this.classList.add("caption");
             if (user.token) {
-                let shareLink = window.location.href.split('#')[0] + "#" + encodeURIComponent(user.id) + ":" + encodeURIComponent(user.token)
+                let shareLink =
+                    window.location.href.split("#")[0] +
+                    "#" +
+                    encodeURIComponent(user.id) +
+                    ":" +
+                    encodeURIComponent(user.token);
                 this.innerHTML = `
                     <img src="img/eye.svg" width="20" height="18" alt="Shareable" />
                     <span class="gray ml8 mr16">This account is shareable</span>
-                    <a data-clipboard-text="${escapeHtml(shareLink)}" href="#" class="mr16 caption-strong black btn-copy">Copy url</a>
+                    <a data-clipboard-text="${escapeHtml(
+                        shareLink
+                    )}" href="#" class="mr16 caption-strong black btn-copy">Copy url</a>
                     <a id="share-remove" href="#" class="caption-strong black">Remove url</a>`;
             } else {
                 this.innerHTML = `
