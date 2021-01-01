@@ -197,7 +197,7 @@ func (ctx *Ctx) handleLoadComponentsJS() {
             document.head.appendChild(script)})`, filesJson), 200)
 }
 
-func (ctx *Ctx) handleLoad() {
+func (ctx *Ctx) handleLoadComponentsJS2() {
 	// SEND HEADERS FOR CLOUDFROM HTTP PUSH AND TEST THAT
 	files1, err := filepath.Glob("./static/new/components/*.js")
 	ctx.CatchError(err)
@@ -212,25 +212,13 @@ func (ctx *Ctx) handleLoad() {
 	// ctx.w.Header().Add("Link", fmt.Sprintf("</%s>; rel=preload;", file))
 	//}
 
-	session, _ := ctx.app.SessionStore.Get(ctx.r, "swa")
-	userId, ok := session.Values["user"].(string)
-	var usernameJson []byte
-	if !ok {
-		usernameJson, err = json.Marshal(nil)
-		ctx.CatchError(err)
-	} else {
-		usernameJson, err = json.Marshal(userId)
-		ctx.CatchError(err)
-	}
-
 	filesJson, err := json.Marshal(files)
 	ctx.CatchError(err)
 	ctx.Return(fmt.Sprintf(`
-	window.username = %s;
         %s.sort().map(file => {
             let script = document.createElement("script");
             script.src = '/' + file.slice(7); script.async = false;
-            document.head.appendChild(script)})`, usernameJson, filesJson), 200)
+            document.head.appendChild(script)})`, filesJson), 200)
 }
 
 func (ctx *Ctx) handleUser() {
