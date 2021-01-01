@@ -88,6 +88,7 @@ connectData("dashboard-visits", (dump, cursite) => [dump.sites[cursite].logs]);
 connectData("dashboard-hour", k("hour"));
 connectData("dashboard-week", k("weekday"));
 connectData("dashboard-time", k("hour"));
+connectData("dashboard-share-account", (dump) => [dump.user]);
 
 if (window.username === null) {
     window.location.href = "welcome.html";
