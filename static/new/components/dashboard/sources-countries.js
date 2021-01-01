@@ -257,7 +257,9 @@ customElements.define(
 
             // HOTFIX: This component gets loaded after enabling tabslet for all
             // other elements
-            $(".responsive-tabs", this).tabslet();
+            if (window.matchMedia("(max-width: 1110px)").matches) {
+                $(".responsive-tabs", this).tabslet();
+            }
         }
 
         drawModals() {
