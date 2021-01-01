@@ -272,27 +272,6 @@ customElements.define(
                     <a href="#" class="btn-close" rel="modal:close"></a>
                   </div>
                   <div class="modal-content">
-                    <!-- Item -->
-                    <div class="sources-countries-item shadow-sm mb8">
-                      <div class="percent-line" style="width: 100%"></div>
-                      <div class="sources-countries-item-wrap">
-                        <span>
-                          <img
-                            src="img-delete/tw.png"
-                            width="16"
-                            height="16"
-                            alt="Twitter"
-                          />
-                          <a href="#" class="black" target="_blank" rel="nofollow"
-                            >twitter.com</a
-                          >
-                        </span>
-                        <span>
-                          <span class="strong mr16">307</span>
-                          <span class="item-percent bg-blue blue caption">100%</span>
-                        </span>
-                      </div>
-                    </div>
                     <!-- Items -->
                     ${this.allSourcesEntries
                         .map((item) =>
