@@ -21,6 +21,10 @@ Chart.defaults.global.tooltips = {
     },
 };
 
+function getUTCOffset() {
+    return Math.round((-1 * new Date().getTimezoneOffset()) / 60);
+}
+
 function getSelectorEl() {
     let selectorMatch = document.getElementsByTagName("dashboard-selector");
     if (selectorMatch.length > 0) {
@@ -93,7 +97,7 @@ connectData("dashboard-share-account", (dump) => [dump.user]);
 if (window.username === null) {
     window.location.href = "welcome.html";
 } else {
-    var source = new EventSource("/dump");
+    var source = new EventSource("/dump?utcoffset=" + getUTCOffset());
     source.onmessage = (event) => {
         let dump = JSON.parse(event.data);
 
