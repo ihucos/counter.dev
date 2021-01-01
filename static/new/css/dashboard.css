@@ -630,7 +630,8 @@
 }
 
 dashboard-dynamics dashboard-nodata {
+  position: relative;
+  bottom: 30px; /* compensate padding-top in a different place */
   width: 255px;
   height: 292px;
-  padding-top: 0px;
 }
