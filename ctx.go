@@ -111,15 +111,23 @@ func (ctx *Ctx) SetSessionUser(userId string) {
 }
 
 func (ctx *Ctx) ForceUserId() string {
-	session, _ := ctx.app.SessionStore.Get(ctx.r, "swa")
-	userId, ok := session.Values["user"].(string)
-	if !ok {
+	userId := ctx.GetUserId()
+	if userId == "" {
 		ctx.Return("Forbidden", 403)
 	}
 	return userId
 }
 
-func (ctx *Ctx) ForceUserSessionless() (models.User, bool) {
+func (ctx *Ctx) GetUserId() string {
+	session, _ := ctx.app.SessionStore.Get(ctx.r, "swa")
+	userId, ok := session.Values["user"].(string)
+	if !ok {
+		return ""
+	}
+	return userId
+}
+
+func (ctx *Ctx) GetSessionlessUserId() string {
 	shareUser := ctx.r.FormValue("user")
 	shareToken := ctx.r.FormValue("token")
 	var user models.User
@@ -127,13 +135,11 @@ func (ctx *Ctx) ForceUserSessionless() (models.User, bool) {
 		user = ctx.User(shareUser)
 		tokenValid, err := user.VerifyToken(shareToken)
 		ctx.CatchError(err)
-		if ! tokenValid {
-			return ctx.ForceUser(), false
+		if tokenValid {
+			return shareUser
 		}
-		return user, true
-	} else {
-		return ctx.ForceUser(), false
 	}
+	return ""
 }
 
 func (ctx *Ctx) Logout() {

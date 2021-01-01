@@ -239,19 +239,24 @@ func (ctx *Ctx) handleDump() {
 	}
 
 	utcOffset := ctx.ParseUTCOffset("utcoffset")
-
-	//
-	// attempt to load user from session or query parameters
-	//
-
-	user, userIsSessionless := ctx.ForceUserSessionless()
+	sessionlessUserId := ctx.GetSessionlessUserId()
+	userId := ctx.GetUserId()
+	var user models.User;
+	if sessionlessUserId != "" {
+		user = ctx.User(sessionlessUserId)
+	} else if userId != "" {
+		user = ctx.User(userId)
+	} else {
+		fmt.Fprintf(ctx.w, "data: null\n\n")
+		return
+	}
 
 	sendDump := func() {
 		dump, err := LoadDump(user, utcOffset)
-		if userIsSessionless {
+		ctx.CatchError(err)
+		if sessionlessUserId != "" {
 			dump.Meta["sessionless"] = "1"
 		}
-		ctx.CatchError(err)
 		jsonString, err := json.Marshal(dump)
 		ctx.CatchError(err)
 		fmt.Fprintf(ctx.w, "data: %s\n\n", string(jsonString))
