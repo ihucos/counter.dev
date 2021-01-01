@@ -113,7 +113,6 @@
 .graph-wrap {
   width: 635px;
   height: 292px;
-  background-color: #f5f5f5;
 }
 
 .graph-dynamics {
@@ -228,7 +227,6 @@
 .metrics-two-graph-wrap {
   width: 96px;
   height: 96px;
-  background-color: #f5f5f5;
 }
 .metrics-two-item {
   width: 160px;
@@ -329,7 +327,6 @@
 .metrics-three-graph-wrap {
   width: 96px;
   height: 108px;
-  background-color: #f5f5f5;
 }
 .week-column-wrap {
   display: flex;
