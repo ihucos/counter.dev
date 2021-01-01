@@ -119,6 +119,23 @@ func (ctx *Ctx) ForceUserId() string {
 	return userId
 }
 
+func (ctx *Ctx) ForceUserSessionless() (models.User, bool) {
+	shareUser := ctx.r.FormValue("user")
+	shareToken := ctx.r.FormValue("token")
+	var user models.User
+	if shareUser != "" && shareToken != "" {
+		user = ctx.User(shareUser)
+		tokenValid, err := user.VerifyToken(shareToken)
+		ctx.CatchError(err)
+		if ! tokenValid {
+			return ctx.ForceUser(), false
+		}
+		return user, true
+	} else {
+		return ctx.ForceUser(), false
+	}
+}
+
 func (ctx *Ctx) Logout() {
 	session, _ := ctx.app.SessionStore.Get(ctx.r, "swa")
 	session.Options.MaxAge = -1

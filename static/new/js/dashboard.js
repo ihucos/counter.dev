@@ -94,10 +94,21 @@ connectData("dashboard-week", k("weekday"));
 connectData("dashboard-time", k("hour"));
 connectData("dashboard-share-account", (dump) => [dump.user]);
 
+
+function getDumpURL(){
+    let hashParse = document.location.hash.slice(1).split(':', 2)
+    if (hashParse.length == 2){
+        urlExtra = `&user=${hashParse[0]}&token=${hashParse[1]}`
+    } else {
+        urlExtra = ''
+    }
+    return `/dump?utcoffset=${getUTCOffset()}${urlExtra}`
+}
+
 if (window.username === null) {
     window.location.href = "welcome.html";
 } else {
-    var source = new EventSource("/dump?utcoffset=" + getUTCOffset());
+    var source = new EventSource(getDumpURL());
     source.onmessage = (event) => {
         let dump = JSON.parse(event.data);
 

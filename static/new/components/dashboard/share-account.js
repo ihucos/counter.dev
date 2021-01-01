@@ -5,7 +5,7 @@ customElements.define(
             this.classList.add("headline-right");
             this.classList.add("caption");
             if (user.token) {
-                let shareLink = window.location.href.split('#')[0] + "#shared-" + user.token
+                let shareLink = window.location.href.split('#')[0] + "#" + encodeURIComponent(user.id) + ":" + encodeURIComponent(user.token)
                 this.innerHTML = `
                     <img src="img/eye.svg" width="20" height="18" alt="Shareable" />
                     <span class="gray ml8 mr16">This account is shareable</span>

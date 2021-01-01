@@ -23,10 +23,12 @@ type SitesDumpVal struct {
 }
 
 type SitesDump map[string]SitesDumpVal
+type Meta map[string]string
 
 type Dump struct {
 	Sites SitesDump `json:"sites"`
 	User  UserDump  `json:"user"`
+	Meta map[string]string `json:"meta"`
 }
 
 func LoadSitesDump(user models.User, utcOffset int) (SitesDump, error) {
@@ -74,7 +76,7 @@ func LoadDump(user models.User, utcOffset int) (Dump, error) {
 
 
 	userDump := UserDump{Id: user.Id, Token: token, Prefs: prefsData}
-	return Dump{User: userDump, Sites: sitesDump}, nil
+	return Dump{User: userDump, Sites: sitesDump, Meta: Meta{}}, nil
 }
 
 func (ctx *Ctx) handleLogin() {
@@ -237,9 +239,18 @@ func (ctx *Ctx) handleDump() {
 	}
 
 	utcOffset := ctx.ParseUTCOffset("utcoffset")
-	user := ctx.ForceUser()
+
+	//
+	// attempt to load user from session or query parameters
+	//
+
+	user, userIsSessionless := ctx.ForceUserSessionless()
+
 	sendDump := func() {
 		dump, err := LoadDump(user, utcOffset)
+		if userIsSessionless {
+			dump.Meta["sessionless"] = "1"
+		}
 		ctx.CatchError(err)
 		jsonString, err := json.Marshal(dump)
 		ctx.CatchError(err)
