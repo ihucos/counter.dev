@@ -85,10 +85,9 @@ connectData("dashboard-languages", k("lang"));
 connectData("dashboard-screens", k("screen"));
 connectData("dashboard-pages", k("loc"));
 connectData("dashboard-visits", (dump, cursite) => [dump.sites[cursite].logs]);
-connectData("dashboard-time-graph", k("hour"));
 connectData("dashboard-hour", k("hour"));
-connectData("dashboard-week-graph", k("weekday"));
-connectData("dashboard-time-graph", k("hour"));
+connectData("dashboard-week", k("weekday"));
+connectData("dashboard-time", k("hour"));
 
 if (window.username === null) {
     window.location.href = "welcome.html";
@@ -100,6 +99,7 @@ if (window.username === null) {
         let selector = getSelectorEl();
         customElements.whenDefined(selector.localName).then(() => {
             customElements.upgrade(selector);
+            console.log(dump);
             selector.draw(dump);
             document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
         });

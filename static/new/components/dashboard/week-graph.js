@@ -9,8 +9,6 @@ customElements.define(
         }
 
         getChart(entries) {
-            var hourKeys = Object.keys(hour);
-            var hourVals = Object.values(hour);
             return {
                 type: "bar",
                 data: {

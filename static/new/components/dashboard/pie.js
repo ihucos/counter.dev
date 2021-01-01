@@ -19,7 +19,7 @@ customElements.define(
                             <canvas></canvas>
                           </div>
                       ${this.getLegend(obj)}`
-                      : `<dashboard-nodata></dashboard-nodata>`
+                          : `<dashboard-nodata></dashboard-nodata>`
                   }
                 </div>`;
             let canvas = this.getElementsByTagName("canvas")[0];
