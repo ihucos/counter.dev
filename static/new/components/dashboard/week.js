@@ -1,8 +1,7 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-
-        draw(weekday){
+        draw(weekday) {
             this.innerHTML = `<div class="metrics-three-data-content-day caption">
               <dashboard-week-graph
                 class="metrics-three-graph-wrap"
@@ -48,8 +47,8 @@ customElements.define(
                   </span>
                 </div>
               </div>
-            </div>`
-            this.getElementsByTagName("dashboard-week-graph")[0].draw(weekday)
+            </div>`;
+            this.getElementsByTagName("dashboard-week-graph")[0].draw(weekday);
         }
     }
-)
+);

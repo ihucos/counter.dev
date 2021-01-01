@@ -29,6 +29,33 @@ type Dump struct {
 	User  UserDump  `json:"user"`
 }
 
+func LoadSitesDump(user models.User, utcOffset int) (SitesDump, error) {
+	sitesDump := make(SitesDump)
+
+	sitesLink, err := user.GetSiteLinks()
+	if err != nil {
+		return SitesDump{}, err
+	}
+
+	for siteId, count := range sitesLink {
+		site := user.NewSite(siteId)
+		logs, err := site.GetLogs()
+		if err != nil {
+			return SitesDump{}, err
+		}
+		visits, err := site.GetVisits(utcOffset)
+		if err != nil {
+			return SitesDump{}, err
+		}
+		sitesDump[siteId] = SitesDumpVal{
+			Logs:   logs,
+			Visits: visits,
+			Count:  count,
+		}
+	}
+	return sitesDump, nil
+}
+
 func LoadDump(user models.User, utcOffset int) (Dump, error) {
 	prefsData, err := user.GetPrefs()
 	if err != nil {
@@ -40,28 +67,11 @@ func LoadDump(user models.User, utcOffset int) (Dump, error) {
 		return Dump{}, err
 	}
 
-	sitesLink, err := user.GetSiteLinks()
+	sitesDump, err := LoadSitesDump(user, utcOffset)
 	if err != nil {
 		return Dump{}, err
 	}
 
-	sitesDump := make(SitesDump)
-	for siteId, count := range sitesLink {
-		site := user.NewSite(siteId)
-		logs, err := site.GetLogs()
-		if err != nil {
-			return Dump{}, err
-		}
-		visits, err := site.GetVisits(utcOffset)
-		if err != nil {
-			return Dump{}, err
-		}
-		sitesDump[siteId] = SitesDumpVal{
-			Logs:   logs,
-			Visits: visits,
-			Count:  count,
-		}
-	}
 
 	userDump := UserDump{Id: user.Id, Token: token, Prefs: prefsData}
 	return Dump{User: userDump, Sites: sitesDump}, nil
