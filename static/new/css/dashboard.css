@@ -636,8 +636,8 @@ dashboard-dynamics dashboard-nodata {
   height: 292px;
 }
 
-.showMe {
-  animation: cssAnimation 0s 5s forwards;
+.postponed-visibility {
+  animation: cssAnimation 0s 3s forwards;
   visibility: hidden;
 }
 

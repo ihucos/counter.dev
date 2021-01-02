@@ -39,7 +39,7 @@ customElements.define(
         }
 
         post(url){
-            this.innerHTML = `<span class="gray ml8 mr16">Loading...</span>`
+            this.innerHTML = `<span class="gray ml8 mr16 postponed-visibility">Still loading (error?)...</span>`
             fetch(url, {method: "post"})
         }
     }
