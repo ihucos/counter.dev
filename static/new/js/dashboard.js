@@ -20,7 +20,7 @@ Chart.defaults.global.tooltips = {
         displayColors: false,
     },
 };
-Chart.defaults.global.animation.duration = 0
+Chart.defaults.global.animation.duration = 0;
 
 function getUTCOffset() {
     return Math.round((-1 * new Date().getTimezoneOffset()) / 60);
@@ -56,6 +56,14 @@ function k(...keys) {
 // this one must be first
 connectData("dashboard-selector", (dump) => [dump]);
 
+connectData("dashboard-settings", (dump) => [
+    {
+        cursite: selector.site,
+        userId: dump.user.id,
+        sessionless: dump.meta.sessionless,
+    },
+]);
+
 connectData("dashboard-counter-visitors", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
@@ -85,16 +93,21 @@ connectData("dashboard-visits", (dump) => [dump.sites[selector.site].logs]);
 connectData("dashboard-hour", k("hour"));
 connectData("dashboard-week", k("weekday"));
 connectData("dashboard-time", k("hour"));
-connectData("dashboard-share-account", (dump) => [dump.user, dump.meta.sessionless]);
+connectData("dashboard-share-account", (dump) => [
+    dump.user,
+    dump.meta.sessionless,
+]);
 
 function drawComponents(url) {
     var source = new EventSource(url);
-    customElements.whenDefined('dashboard-connstatus').then((el)=>{
-        let connstatus = document.getElementsByTagName('dashboard-connstatus')[0]
-        connstatus.message("Connecting...")
-        source.onopen = ()=> connstatus.message("Live")
-        source.onerror = (err)=> connstatus.message("Disconnected")
-    })
+    customElements.whenDefined("dashboard-connstatus").then((el) => {
+        let connstatus = document.getElementsByTagName(
+            "dashboard-connstatus"
+        )[0];
+        connstatus.message("Connecting...");
+        source.onopen = () => connstatus.message("Live");
+        source.onerror = (err) => connstatus.message("Disconnected");
+    });
     source.onmessage = (event) => {
         let dump = JSON.parse(event.data);
         if (!dump) {
@@ -107,7 +120,7 @@ function drawComponents(url) {
 
 document.addEventListener("redraw", (evt) => {
     let dump = evt.detail;
-    console.log("redraw", dump)
+    console.log("redraw", dump);
     allConnectedData.forEach(([el, getData]) => {
         if (customElements.get(el.localName)) {
             el.draw(...getData(dump));

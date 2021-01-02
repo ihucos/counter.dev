@@ -64,6 +64,7 @@ func (app *App) SetupUrls() {
 	app.Connect("/logout2", func(ctx *Ctx) { ctx.handleLogout2() })
 	app.Connect("/deletetoken", func(ctx *Ctx) { ctx.HandleDeleteToken() })
 	app.Connect("/resettoken", func(ctx *Ctx) { ctx.HandleResetToken() })
+	app.Connect("/deletesite", func(ctx *Ctx) { ctx.HandleDeleteSite() })
 	app.Connect("/register", func(ctx *Ctx) { ctx.handleRegister() })
 	app.Connect("/ping", func(ctx *Ctx) { ctx.handlePing() })
 	app.Connect("/setPrefRange", func(ctx *Ctx) { ctx.handleSetPrefRange() })

@@ -642,5 +642,7 @@ dashboard-dynamics dashboard-nodata {
 }
 
 @keyframes cssAnimation {
-  to   { visibility: visible; }
+  to {
+    visibility: visible;
+  }
 }

@@ -90,7 +90,7 @@ func (ctx *Ctx) handleLogin() {
 
 	passwordOk, err := user.VerifyPassword(passwordInput)
 	ctx.CatchError(err)
-	tokenOk, err := user.VerifyToken(passwordInput)
+	tokenOk, err := user.VerifyToken(passwordInput) // XXXXXXXXXX with the new design implementation remove login access for tokens!
 	ctx.CatchError(err)
 
 	if passwordOk || tokenOk {
@@ -113,6 +113,18 @@ func (ctx *Ctx) handleLogout() {
 func (ctx *Ctx) handleLogout2() {
 	ctx.Logout()
 	http.Redirect(ctx.w, ctx.r, "/new", http.StatusTemporaryRedirect)
+}
+
+func (ctx *Ctx) HandleDeleteSite() {
+	user := ctx.ForceUser()
+	site := ctx.r.FormValue("site")
+	if site == "" {
+		ctx.ReturnBadRequest("param site has no value")
+	}
+	user.DelSiteLink(site)
+	user.NewSite(site).DelVisits()
+	user.Signal()
+	http.Redirect(ctx.w, ctx.r, "/new/dashboard.html", http.StatusTemporaryRedirect)
 }
 
 func (ctx *Ctx) HandleDeleteToken() {

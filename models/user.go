@@ -186,6 +186,9 @@ func (user User) IncrSiteLink(siteId string) {
 	user.redis.Send("HINCRBY", fmt.Sprintf("sites:%s", user.Id), siteId, 1)
 }
 
+func (user User) DelSiteLink(siteId string) {
+	user.redis.Send("HDEL", fmt.Sprintf("sites:%s", user.Id), siteId)
+}
 func (user User) Signal() {
 	user.redis.Send("PUBLISH", fmt.Sprintf("user:%s", user.Id), "")
 }
