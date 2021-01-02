@@ -116,7 +116,10 @@ func (app App) Serve() {
 	srv := &http.Server{
 		Addr:         app.config.Bind,
 		ReadTimeout:  5 * time.Second,
-		WriteTimeout: 10 * time.Second,
+
+		// we cant have write a write timeout because of the streaming response
+		WriteTimeout: 0,
+
 		IdleTimeout:  120 * time.Second,
 		Handler:      app.ServeMux,
 	}

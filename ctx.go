@@ -35,7 +35,6 @@ func (ctx *Ctx) Return(content string, statusCode int) {
 
 func (ctx *Ctx) RunCleanup() {
 	for _, conn := range ctx.openConns {
-		fmt.Println("closing", conn)
 		err := conn.Close()
 		if err != nil {
 			fmt.Println(err.Error())

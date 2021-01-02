@@ -88,19 +88,25 @@ connectData("dashboard-share-account", (dump) => [dump.user, dump.meta.sessionle
 
 function drawComponents(url) {
     var source = new EventSource(url);
+    customElements.whenDefined('dashboard-connstatus').then((el)=>{
+        let connstatus = document.getElementsByTagName('dashboard-connstatus')[0]
+        connstatus.message("Connecting...")
+        source.onopen = ()=> connstatus.message("Live")
+        source.onerror = (err)=> connstatus.message("Disconnected")
+    })
     source.onmessage = (event) => {
         let dump = JSON.parse(event.data);
         if (!dump) {
             window.location.href = "welcome.html";
             return;
         }
-        console.log(dump);
         document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
     };
 }
 
 document.addEventListener("redraw", (evt) => {
     let dump = evt.detail;
+    console.log("redraw", dump)
     allConnectedData.forEach(([el, getData]) => {
         if (customElements.get(el.localName)) {
             el.draw(...getData(dump));
