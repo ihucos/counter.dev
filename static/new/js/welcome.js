@@ -39,11 +39,12 @@ $("#sign-up form").submit((evt) => {
 });
 
 $(document).ready(function () {
-    let active = window.location.hash === "#sign-up" ? 2 : 1;
+    let active = window.location.href.endsWith("?sign-up") ? 2 : 1;
     $(".tabs").tabslet({
         active: active,
     });
 });
+
 
 if (window.location.hash === "#demo") {
     login("counter", "demodemo")

@@ -35,7 +35,7 @@ customElements.define(
         hasUser(user){
             document.getElementById('has-user').style.display = "block"
             Array.from(document.getElementsByClassName('fill-username')).forEach((el) => {
-                el.innerHTML = escapeHtml(user)
+                el.innerHTML = this.escapeHtml(user)
             })
         }
 
@@ -73,8 +73,8 @@ customElements.define(
                           </div>
                         </div>
                         <span id="no-user" class="profile-guest" style="display: none">
-                          <a href="welcome.html" class="ml32 mr32">Sign in</a>
-                          <a href="welcome.html" class="btn-primary">Sign up</a>
+                          <a href="welcome.html?sign-in" class="ml32 mr32">Sign in</a>
+                          <a href="welcome.html?sign-up" class="btn-primary">Sign up</a>
                         </span>
                         <!-- /// -->
                       </nav>
