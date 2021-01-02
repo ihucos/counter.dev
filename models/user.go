@@ -65,6 +65,16 @@ func (user User) ReadToken() (string, error) {
 	return base64.StdEncoding.EncodeToString([]byte(token)), nil
 }
 
+func (user User) DeleteToken() error {
+	_, err := user.redis.Do("HSET", "tokens", user.Id, "")
+	return err
+}
+
+func (user User) ResetToken() error {
+	_, err := user.redis.Do("HSET", "tokens", user.Id, randToken()[:12])
+	return err
+}
+
 func (user User) GetMetaData() (MetaData, error) {
 	meta := make(MetaData)
 	token, err := user.ReadToken()

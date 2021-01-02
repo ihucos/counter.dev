@@ -36,14 +36,12 @@ function getSelectorEl() {
 }
 selector = getSelectorEl(); // very import element
 
-
 allConnectedData = [];
 function connectData(selector, getData) {
     Array.from(document.querySelectorAll(selector)).forEach((el) => {
         allConnectedData.push([el, getData]);
     });
 }
-
 
 // helper function for working with connectData
 function k(...keys) {
@@ -86,16 +84,15 @@ connectData("dashboard-visits", (dump) => [dump.sites[selector.site].logs]);
 connectData("dashboard-hour", k("hour"));
 connectData("dashboard-week", k("weekday"));
 connectData("dashboard-time", k("hour"));
-connectData("dashboard-share-account", (dump) => [dump.user]);
-
+connectData("dashboard-share-account", (dump) => [dump.user, dump.meta.sessionless]);
 
 function drawComponents(url) {
     var source = new EventSource(url);
     source.onmessage = (event) => {
         let dump = JSON.parse(event.data);
-        if (!dump){
-            window.location.href = "welcome.html"
-            return
+        if (!dump) {
+            window.location.href = "welcome.html";
+            return;
         }
         console.log(dump);
         document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
@@ -124,8 +121,6 @@ function getDumpURL() {
     }
     return `/dump?utcoffset=${getUTCOffset()}${urlExtra}`;
 }
-
-
 
 customElements.whenDefined(selector.localName).then(() => {
     customElements.upgrade(selector);

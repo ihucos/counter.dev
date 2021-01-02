@@ -10,36 +10,38 @@ customElements.define(
                 .replace(/'/g, "&#039;");
         }
 
-        loadUser(){
-            if (!document.cookie.includes('swa=')){
-                this.noUser()
-                return
+        loadUser() {
+            if (!document.cookie.includes("swa=")) {
+                this.noUser();
+                return;
             }
 
             var source = new EventSource("/dump");
             source.onmessage = (event) => {
                 let dump = JSON.parse(event.data);
-                if (!dump){
-                    this.noUser()
+                if (!dump) {
+                    this.noUser();
                 } else {
-                    this.hasUser(dump.user.id)
+                    this.hasUser(dump.user.id);
                 }
-                source.close() // don't leave an open connection to server to save resources
+                source.close(); // don't leave an open connection to server to save resources
             };
         }
 
-        noUser(){
-            document.getElementById('no-user').style.display = "block"
+        noUser() {
+            document.getElementById("no-user").style.display = "block";
         }
 
-        hasUser(user){
-            document.getElementById('has-user').style.display = "block"
-            Array.from(document.getElementsByClassName('fill-username')).forEach((el) => {
-                el.innerHTML = this.escapeHtml(user)
-            })
+        hasUser(user) {
+            document.getElementById("has-user").style.display = "block";
+            Array.from(
+                document.getElementsByClassName("fill-username")
+            ).forEach((el) => {
+                el.innerHTML = this.escapeHtml(user);
+            });
         }
 
-        connectedCallback(){
+        connectedCallback() {
             this.innerHTML = `
                 <header>
                   <!-- Navbar -->
@@ -217,7 +219,7 @@ customElements.define(
                 });
                 return false;
             });
-            this.loadUser()
+            this.loadUser();
         }
     }
 );

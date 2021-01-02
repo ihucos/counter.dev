@@ -45,7 +45,6 @@ $(document).ready(function () {
     });
 });
 
-
 if (window.location.hash === "#demo") {
     login("counter", "demodemo")
         .then((msg) => {

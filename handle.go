@@ -115,6 +115,20 @@ func (ctx *Ctx) handleLogout2() {
 	http.Redirect(ctx.w, ctx.r, "/new", http.StatusTemporaryRedirect)
 }
 
+func (ctx *Ctx) HandleDeleteToken() {
+	user := ctx.ForceUser()
+	err := user.DeleteToken()
+	ctx.CatchError(err)
+	user.Signal()
+}
+
+func (ctx *Ctx) HandleResetToken() {
+	user := ctx.ForceUser()
+	err := user.ResetToken()
+	ctx.CatchError(err)
+	user.Signal()
+}
+
 func (ctx *Ctx) handleRegister() {
 	userId := ctx.r.FormValue("user")
 	password := ctx.r.FormValue("password")
@@ -277,7 +291,7 @@ func (ctx *Ctx) handleDump() {
 		// this happens because we close the connection to redis when
 		// we lose the http connection tot he client. But this piece of
 		// code apparently still remains there int he air.
-		if strings.Contains(err.Error(), "use of closed network connection") {
+		if err != nil && strings.Contains(err.Error(), "use of closed network connection") {
 			ctx.Abort()
 		}
 
