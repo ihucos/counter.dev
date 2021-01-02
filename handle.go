@@ -110,6 +110,11 @@ func (ctx *Ctx) handleLogout() {
 	http.Redirect(ctx.w, ctx.r, "/app", http.StatusTemporaryRedirect)
 }
 
+func (ctx *Ctx) handleLogout2() {
+	ctx.Logout()
+	http.Redirect(ctx.w, ctx.r, "/new", http.StatusTemporaryRedirect)
+}
+
 func (ctx *Ctx) handleRegister() {
 	userId := ctx.r.FormValue("user")
 	password := ctx.r.FormValue("password")

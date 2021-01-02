@@ -34,31 +34,42 @@ function getSelectorEl() {
         return;
     }
 }
-selector = getSelectorEl() // very import element
+selector = getSelectorEl(); // very import element
+
+
+allConnectedData = [];
+function connectData(selector, getData) {
+    Array.from(document.querySelectorAll(selector)).forEach((el) => {
+        allConnectedData.push([el, getData]);
+    });
+}
 
 
 // helper function for working with connectData
 function k(...keys) {
     return (dump) => {
-        return keys.map((key) => dump.sites[selector.site].visits[selector.range][key])
+        return keys.map(
+            (key) => dump.sites[selector.site].visits[selector.range][key]
+        );
     };
 }
 
+// this one must be first
 connectData("dashboard-selector", (dump) => [dump]);
 
-connectData("dashboard-counter-visitors", dump => [
+connectData("dashboard-counter-visitors", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
 ]);
-connectData("dashboard-counter-search", dump => [
+connectData("dashboard-counter-search", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
 ]);
-connectData("dashboard-counter-social", dump => [
+connectData("dashboard-counter-social", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
 ]);
-connectData("dashboard-counter-direct", dump => [
+connectData("dashboard-counter-direct", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
 ]);
@@ -71,11 +82,38 @@ connectData("dashboard-sources-countries", k("ref", "country"));
 connectData("dashboard-languages", k("lang"));
 connectData("dashboard-screens", k("screen"));
 connectData("dashboard-pages", k("loc"));
-connectData("dashboard-visits", dump => [dump.sites[selector.site].logs]);
+connectData("dashboard-visits", (dump) => [dump.sites[selector.site].logs]);
 connectData("dashboard-hour", k("hour"));
 connectData("dashboard-week", k("weekday"));
 connectData("dashboard-time", k("hour"));
 connectData("dashboard-share-account", (dump) => [dump.user]);
+
+
+function drawComponents(url) {
+    var source = new EventSource(url);
+    source.onmessage = (event) => {
+        let dump = JSON.parse(event.data);
+        if (!dump){
+            window.location.href = "welcome.html"
+            return
+        }
+        console.log(dump);
+        document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
+    };
+}
+
+document.addEventListener("redraw", (evt) => {
+    let dump = evt.detail;
+    allConnectedData.forEach(([el, getData]) => {
+        if (customElements.get(el.localName)) {
+            el.draw(...getData(dump));
+        } else {
+            customElements
+                .whenDefined(el.localName)
+                .then(() => el.draw(...getData(dump)));
+        }
+    });
+});
 
 function getDumpURL() {
     let hashParse = document.location.hash.slice(1).split(":", 2);
@@ -87,10 +125,12 @@ function getDumpURL() {
     return `/dump?utcoffset=${getUTCOffset()}${urlExtra}`;
 }
 
+
+
 customElements.whenDefined(selector.localName).then(() => {
-    customElements.upgrade(selector)
-    drawComponents(getDumpURL())
-})
+    customElements.upgrade(selector);
+    drawComponents(getDumpURL());
+});
 
 function escapeHtml(unsafe) {
     return (unsafe + "")

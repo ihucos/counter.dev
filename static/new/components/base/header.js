@@ -10,7 +10,36 @@ customElements.define(
                 .replace(/'/g, "&#039;");
         }
 
-        connectedCallback() {
+        loadUser(){
+            if (!document.cookie.includes('swa=')){
+                this.noUser()
+                return
+            }
+
+            var source = new EventSource("/dump");
+            source.onmessage = (event) => {
+                let dump = JSON.parse(event.data);
+                if (!dump){
+                    this.noUser()
+                } else {
+                    this.hasUser(dump.user.id)
+                }
+                source.close() // don't leave an open connection to server to save resources
+            };
+        }
+
+        noUser(){
+            document.getElementById('no-user').style.display = "block"
+        }
+
+        hasUser(user){
+            document.getElementById('has-user').style.display = "block"
+            Array.from(document.getElementsByClassName('fill-username')).forEach((el) => {
+                el.innerHTML = escapeHtml(user)
+            })
+        }
+
+        connectedCallback(){
             this.innerHTML = `
                 <header>
                   <!-- Navbar -->
@@ -35,26 +64,18 @@ customElements.define(
                           target="_blank"
                           rel="nofollow"
                         ></a>
-                        ${
-                            window.username === null
-                                ? `
-                        <span class="profile-guest">
-                          <a href="#" class="ml32 mr32">Sign in</a>
-                          <a href="#" class="btn-primary">Sign up</a>
-                        </span>`
-                                : `
-                        <div class="dropdown">
-                          <div class="profile-user">${this.escapeHtml(
-                              username
-                          )}</div>
+                        <div id="has-user" class="dropdown" style="display: none">
+                          <div class="profile-user fill-username"></div>
                           <div class="dropdown-content">
                             <a href="dashboard.html">Dashboard</a>
                             <a href="#modal-account" rel="modal:open">Edit account</a>
-                            <a href="/logout">Sign out</a>
+                            <a href="/logout2">Sign out</a>
                           </div>
                         </div>
-                        `
-                        }
+                        <span id="no-user" class="profile-guest" style="display: none">
+                          <a href="welcome.html" class="ml32 mr32">Sign in</a>
+                          <a href="welcome.html" class="btn-primary">Sign up</a>
+                        </span>
                         <!-- /// -->
                       </nav>
                       <!-- Hamburger -->
@@ -72,7 +93,7 @@ customElements.define(
                                 <a href="#" class="btn-secondary">Sign up</a>
                               </span>
                               <!-- User -->
-                              <span class="mt24">slomchinskiy</span>
+                              <span class="mt24 fill-username"></span>
                               <span class="mt24 mb48">
                                 <a
                                   href="#modal-account"
@@ -112,7 +133,6 @@ customElements.define(
                     </div>
                   </section>
                 </header>
-
 
                 <!-- Edit account modal -->
                 <div id="modal-account" style="display: none">
@@ -197,6 +217,7 @@ customElements.define(
                 });
                 return false;
             });
+            this.loadUser()
         }
     }
 );
