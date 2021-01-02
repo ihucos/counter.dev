@@ -20,6 +20,7 @@ Chart.defaults.global.tooltips = {
         displayColors: false,
     },
 };
+Chart.defaults.global.animation.duration = 0
 
 function getUTCOffset() {
     return Math.round((-1 * new Date().getTimezoneOffset()) / 60);
