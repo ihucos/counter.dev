@@ -18,11 +18,11 @@ type ErrCreate struct {
 	msg string
 }
 
-type MetaData map[string]string
-
 func (c *ErrCreate) Error() string {
 	return c.msg
 }
+
+type MetaData map[string]string
 
 func hash(stri string) string {
 	h := sha256.Sum256([]byte(stri))
@@ -46,13 +46,13 @@ func NewUser(conn redis.Conn, userId string) User {
 	return User{redis: conn, Id: truncate(userId)}
 }
 
-func (user User) delAllVisits() error {
+func (user User) DelAllSites() error {
 	linkedSites, err := user.GetSiteLinks()
 	if err != nil {
 		return err
 	}
 	for siteId, _ := range linkedSites {
-		user.NewSite(siteId).DelVisits()
+		user.NewSite(siteId).Del()
 	}
 	return nil
 }
@@ -114,7 +114,7 @@ func (user User) Create(password string) error {
 
 	// because user data could have been saved for this user id without an
 	// user existing.
-	user.delAllVisits()
+	user.DelAllSites()
 
 	return nil
 }

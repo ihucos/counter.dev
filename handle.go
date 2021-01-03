@@ -175,6 +175,29 @@ func (ctx *Ctx) handleRegister() {
 	}
 }
 
+func (ctx *Ctx) handleChgpwd() {
+	password := ctx.r.FormValue("password")
+	newPassword := ctx.r.FormValue("new_password")
+	if userId == "" || password == "" || newPassword == ""{
+		ctx.ReturnBadRequest("Missing Input")
+	}
+
+	user := ctx.ForceUserId()
+
+	err := user.Create(password)
+	switch err.(type) {
+	case nil:
+		ctx.SetSessionUser(userId)
+		ctx.ReturnUser()
+
+	case *models.ErrCreate:
+		ctx.ReturnBadRequest(err.Error())
+
+	default:
+		ctx.ReturnInternalError(err)
+	}
+}
+
 func (ctx *Ctx) handleSetPrefRange() {
 	user := ctx.ForceUser()
 	err := user.SetPref("range", ctx.r.URL.RawQuery)
