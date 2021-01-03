@@ -151,34 +151,39 @@ customElements.define(
                       <option>(GMT-08:00) Pacific Time (US & Canada)</option>
                     </select>
                     <!-- Change password -->
-                    <div class="title mb8 mt24">Change password</div>
-                    <label class="old-pass width-full"
-                      >Old password<input
-                        class="width-full"
-                        type="password"
-                        placeholder="Old password"
-                    /></label>
-                    <div class="new-pass flex mb8 mt16">
-                      <label class="width-half mr16"
-                        >New password<input
-                          class="width-full"
-                          type="password"
-                          placeholder="New password"
-                      /></label>
-                      <label class="width-half"
-                        >Repeat new password<input
-                          class="width-full"
-                          type="password"
-                          placeholder="Repeat new password"
-                      /></label>
-                    </div>
-                    <span class="caption gray">The password cannot be recovered!</span>
-                    <div class="account-btn-group flex mt24 mb32">
-                      <a href="#" class="btn-secondary full mr16" rel="modal:close"
-                        >Cancel</a
-                      >
-                      <button class="btn-primary full">Save</button>
-                    </div>
+                    <form action="/chgpwd" method="POST" id="chgpwd">
+                        <div class="title mb8 mt24">Change password</div>
+                        <label class="old-pass width-full"
+                          >Old password<input
+                            name="password"
+                            class="width-full"
+                            type="password"
+                            placeholder="Old password"
+                        /></label>
+                        <div class="new-pass flex mb8 mt16">
+                          <label class="width-half mr16"
+                            >New password<input
+                              name="new_password"
+                              class="width-full"
+                              type="password"
+                              placeholder="New password"
+                          /></label>
+                          <label class="width-half"
+                            >Repeat new password<input
+                              name="repeat_new_password"
+                              class="width-full"
+                              type="password"
+                              placeholder="Repeat new password"
+                          /></label>
+                        </div>
+                        <span class="caption gray">We do not recover passwords!</span>
+                        <div class="account-btn-group flex mt24 mb32">
+                          <a href="#" class="btn-secondary full mr16" rel="modal:close"
+                            >Cancel</a
+                          >
+                          <button type="submit" class="btn-primary full">Save</button>
+                        </div>
+                    </form>
                     <!-- Danger -->
                     <div class="delete-account">
                       <div class="title mb16">Account deleting</div>
@@ -211,6 +216,20 @@ customElements.define(
                 </div>
 
                 `;
+
+            document.getElementById('chgpwd').onsubmit = ()=> {
+                $.ajax({
+                    type: 'POST',
+                    url: $("#chgpwd").attr("action"),
+                    data: $("#chgpwd").serialize(),
+                    success: function(response) { alert('success') },
+                    error: function (request, status, error) {
+                        alert(request.responseText);
+                    }
+                });
+                $('#chgpwd button["type=submit"]').remove()
+                return false
+            }
 
             $('a[rel="modal:open"]', this).click(function (event) {
                 $(this).modal({

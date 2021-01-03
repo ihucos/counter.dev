@@ -65,14 +65,14 @@ customElements.define(
                       </button>
                     </div>
                     <!-- Confirm delete -->
-                    <form class="delete-confirm" action="/deletesite" method="POST" style="display: none">
+                    <form class="delete-confirm" action="/deletesite" method="POST" style="display: none" id="site-delete">
                       <input
                         name="site"
                         type="text"
                         class="confirm-input full mr16"
                         placeholder="Enter the domain to confirm"
                       />
-                      <button id="site-delete" class="btn-white btn-danger">Delete</button>
+                      <button class="btn-white btn-danger">Delete</button>
                     <formdiv>
                   </div>
                 </div>
@@ -87,14 +87,14 @@ customElements.define(
                 $(`#modal-settings .confirm-input`).focus();
             });
 
-            $("#site-delete").click(() => {
+            document.getElementById("site-delete").onsubmit = () => {
                 let inp = $(`#modal-settings .confirm-input`).val();
                 if (opts.cursite !== inp) {
                     alert("Confirmation failed.");
                     return false;
                 }
                 return;
-            });
+            };
 
 
         }

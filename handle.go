@@ -167,7 +167,7 @@ func (ctx *Ctx) handleRegister() {
 		ctx.SetSessionUser(userId)
 		ctx.ReturnUser()
 
-	case *models.ErrCreate:
+	case *models.ErrUser:
 		ctx.ReturnBadRequest(err.Error())
 
 	default:
@@ -175,27 +175,33 @@ func (ctx *Ctx) handleRegister() {
 	}
 }
 
-func (ctx *Ctx) handleChgpwd() {
+func (ctx *Ctx) HandleChgpwd() {
 	password := ctx.r.FormValue("password")
 	newPassword := ctx.r.FormValue("new_password")
-	if userId == "" || password == "" || newPassword == ""{
+	repeatNewPassword := ctx.r.FormValue("repeat_new_password")
+	user := ctx.ForceUser()
+
+	if password == "" || newPassword == "" || repeatNewPassword == ""{
 		ctx.ReturnBadRequest("Missing Input")
 	}
 
-	user := ctx.ForceUserId()
-
-	err := user.Create(password)
-	switch err.(type) {
-	case nil:
-		ctx.SetSessionUser(userId)
-		ctx.ReturnUser()
-
-	case *models.ErrCreate:
-		ctx.ReturnBadRequest(err.Error())
-
-	default:
-		ctx.ReturnInternalError(err)
+	if len(newPassword) < 8 {
+		ctx.ReturnBadRequest("New password must have at least 8 charachters")
 	}
+
+	if newPassword != repeatNewPassword {
+		ctx.ReturnBadRequest("Repeated new password does not match with new password")
+	}
+
+	correctPassword, err := user.VerifyPassword(password)
+	ctx.CatchError(err)
+
+	if ! correctPassword {
+		ctx.ReturnBadRequest("Old password is wrong")
+	}
+
+	err = user.ChangePassword(password)
+	ctx.CatchError(err)
 }
 
 func (ctx *Ctx) handleSetPrefRange() {

@@ -14,11 +14,11 @@ type User struct {
 	Id    string
 }
 
-type ErrCreate struct {
+type ErrUser struct {
 	msg string
 }
 
-func (c *ErrCreate) Error() string {
+func (c *ErrUser) Error() string {
 	return c.msg
 }
 
@@ -94,11 +94,11 @@ func (user User) TouchAccess() {
 func (user User) Create(password string) error {
 
 	if len(user.Id) < 4 {
-		return &ErrCreate{"User must have at least 4 charachters"}
+		return &ErrUser{"User must have at least 4 charachters"}
 	}
 
 	if len(password) < 8 {
-		return &ErrCreate{"Password must have at least 8 charachters"}
+		return &ErrUser{"Password must have at least 8 charachters"}
 	}
 
 	user.redis.Send("MULTI")
@@ -109,13 +109,21 @@ func (user User) Create(password string) error {
 		return err
 	}
 	if userVarsStatus[0] == 0 {
-		return &ErrCreate{"Username taken"}
+		return &ErrUser{"Username taken"}
 	}
 
 	// because user data could have been saved for this user id without an
 	// user existing.
 	user.DelAllSites()
 
+	return nil
+}
+
+func (user User) ChangePassword(password string) error {
+	_, err := user.redis.Do("HSET", "users", user.Id, hash(password))
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
