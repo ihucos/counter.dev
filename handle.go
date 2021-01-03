@@ -133,7 +133,7 @@ func (ctx *Ctx) HandleDeleteSite() {
 		ctx.ReturnBadRequest("param site has no value")
 	}
 	user.DelSiteLink(site)
-	user.NewSite(site).DelVisits()
+	user.NewSite(site).Del()
 	user.Signal()
 	http.Redirect(ctx.w, ctx.r, "/dashboard", http.StatusTemporaryRedirect)
 }

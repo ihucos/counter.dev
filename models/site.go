@@ -162,6 +162,16 @@ func (site Site) DelVisits() {
 	site.delVisitPart("all")
 }
 
+func (site Site) DelLogs() {
+	redisKey := fmt.Sprintf("log:%s:%s", site.id, site.userId)
+	site.redis.Send("DEL", redisKey)
+}
+
+func (site Site) Del() {
+	site.DelVisits()
+	site.DelLogs()
+}
+
 func (site Site) GetVisits(utcOffset int) (TimedVisits, error) {
 	nullData := TimedVisits{nil, nil, nil, nil}
 	now := utils.TimeNow(utcOffset)
