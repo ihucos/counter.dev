@@ -56,6 +56,8 @@ function k(...keys) {
 // this one must be first
 connectData("dashboard-selector", (dump) => [dump]);
 
+connectData("dashboard-demo-flash", (dump) => [dump.meta.demo]);
+
 connectData("dashboard-settings", (dump) => [
     {
         cursite: selector.site,
@@ -151,6 +153,11 @@ customElements.whenDefined(selector.localName).then(() => {
     customElements.upgrade(selector);
     drawComponents(getDumpURL());
 });
+
+// not used currently
+function flash(msg){
+    document.getElementsByTagName('base-flash')[0].flash(msg)
+}
 
 function escapeHtml(unsafe) {
     return (unsafe + "")

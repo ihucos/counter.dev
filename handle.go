@@ -313,12 +313,15 @@ func (ctx *Ctx) handleDump() {
 	sessionlessUserId := ctx.GetSessionlessUserId()
 	userId := ctx.GetUserId()
 	var user models.User;
+	meta := map[string]string{}
 	if sessionlessUserId != "" {
 		user = ctx.User(sessionlessUserId)
+		meta = map[string]string{"sessionless": "1"}
 	} else if userId != "" {
 		user = ctx.User(userId)
 	} else if ctx.r.FormValue("demo") != "" {
 		user = ctx.User("counter")  // counter is the magic demo user
+		meta = map[string]string{"demo": "1"}
 	} else {
 		fmt.Fprintf(ctx.w, "data: null\n\n")
 		return
@@ -327,9 +330,7 @@ func (ctx *Ctx) handleDump() {
 	sendDump := func() {
 		dump, err := LoadDump(user, utcOffset)
 		ctx.CatchError(err)
-		if sessionlessUserId != "" {
-			dump.Meta["sessionless"] = "1"
-		}
+		dump.Meta = meta
 		jsonString, err := json.Marshal(dump)
 		ctx.CatchError(err)
 		fmt.Fprintf(ctx.w, "data: %s\n\n", string(jsonString))
