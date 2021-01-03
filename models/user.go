@@ -170,6 +170,10 @@ func (user User) GetSiteLinks() (map[string]int, error) {
 	return val, nil
 }
 
+func (user User) HasSiteLinks() (bool, error) {
+    return redis.Bool(user.redis.Do("EXISTS", fmt.Sprintf("sites:%s", user.Id)))
+}
+
 func (user User) SetPref(key string, value string) error {
 	_, err := user.redis.Do("HSET", fmt.Sprintf("prefs:%s", user.Id), key, value)
 	if err != nil {

@@ -110,11 +110,19 @@ function drawComponents(url) {
     });
     source.onmessage = (event) => {
         let dump = JSON.parse(event.data);
+
         if (!dump) {
             window.location.href = "welcome.html";
             return;
         }
+
+        if (Object.keys(dump.sites).length === 0){
+            window.location.href = "tracking.html";
+        }
+
         document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
+
+        //document.getElementsByTagName("body")[0].style.display = "block";
     };
 }
 

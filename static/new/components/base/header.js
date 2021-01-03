@@ -69,7 +69,7 @@ customElements.define(
                         <div id="has-user" class="dropdown" style="display: none">
                           <div class="profile-user fill-username"></div>
                           <div class="dropdown-content">
-                            <a href="dashboard.html">Dashboard</a>
+                            <a href="/dashboard">Dashboard</a>
                             <a href="#modal-account" rel="modal:open">Edit account</a>
                             <a href="/logout2">Sign out</a>
                           </div>

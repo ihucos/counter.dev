@@ -105,6 +105,17 @@ func (ctx *Ctx) handleLogin() {
 	}
 }
 
+func (ctx *Ctx) HandleDashboard() {
+	user := ctx.ForceUser()
+	hasSites, err := user.HasSiteLinks()
+	ctx.CatchError(err)
+	if hasSites {
+		http.Redirect(ctx.w, ctx.r, "/new/dashboard.html", http.StatusTemporaryRedirect)
+	} else {
+		http.Redirect(ctx.w, ctx.r, "/new/tracking.html", http.StatusTemporaryRedirect)
+	}
+}
+
 func (ctx *Ctx) handleLogout() {
 	ctx.Logout()
 	http.Redirect(ctx.w, ctx.r, "/app", http.StatusTemporaryRedirect)
