@@ -2,7 +2,7 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(opts) {
-            if (opts.sessionless || !opts.userId) {
+            if (opts.meta.sessionless || !opts.userId) {
                 return;
             }
 
@@ -91,6 +91,10 @@ customElements.define(
                 let inp = $(`#modal-settings .confirm-input`).val();
                 if (opts.cursite !== inp) {
                     alert("Confirmation failed.");
+                    return false;
+                }
+                if (opts.meta.demo) {
+                    alert("Not available in demo.");
                     return false;
                 }
                 return;

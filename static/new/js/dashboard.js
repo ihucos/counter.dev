@@ -62,7 +62,7 @@ connectData("dashboard-settings", (dump) => [
     {
         cursite: selector.site,
         userId: dump.user.id,
-        sessionless: dump.meta.sessionless,
+        meta: dump.meta,
     },
 ]);
 
@@ -97,7 +97,7 @@ connectData("dashboard-week", k("weekday"));
 connectData("dashboard-time", k("hour"));
 connectData("dashboard-share-account", (dump) => [
     dump.user,
-    dump.meta.sessionless,
+    dump.meta,
 ]);
 
 function drawComponents(url) {

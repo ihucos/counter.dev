@@ -1,11 +1,11 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        draw(user, sessionless) {
+        draw(user, meta) {
             this.classList.add("headline-right");
             this.classList.add("caption");
             let baseUrl = window.location.href.split("?")[0]
-            if (sessionless) {
+            if (meta.sessionless) {
                 this.innerHTML = `
                     <img src="img/eye.svg" width="20" height="18" alt="Shareable" />
                     <span class="gray ml8 mr16">You are viewing ${escapeHtml(
@@ -26,8 +26,13 @@ customElements.define(
                         shareLink
                     )}" href="#" class="mr16 caption-strong black btn-copy">Copy url</a>
                     <a href="#" class="caption-strong black" >Remove</a>`;
-                this.getElementsByTagName("a")[1].onclick = () =>
+                this.getElementsByTagName("a")[1].onclick = () =>{
+                    if (meta.demo){
+                        alert("Not available in demo")
+                        return
+                    }
                     this.post("/deletetoken");
+                }
             } else {
                 this.innerHTML = `
                     <img
@@ -38,8 +43,13 @@ customElements.define(
                     />
                     <span class="gray ml8 mr16">This account has no guest access</span>
                     <a href="#" class="caption-strong black" >Share</a>`;
-                this.getElementsByTagName("a")[0].onclick = () =>
+                this.getElementsByTagName("a")[0].onclick = () =>{
+                    if (meta.demo){
+                        alert("Not available in demo")
+                        return
+                    }
                     this.post("/resettoken");
+                }
             }
         }
 
