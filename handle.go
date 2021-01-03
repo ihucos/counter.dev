@@ -112,7 +112,7 @@ func (ctx *Ctx) HandleDashboard() {
 	if hasSites {
 		http.Redirect(ctx.w, ctx.r, "/new/dashboard.html", http.StatusTemporaryRedirect)
 	} else {
-		http.Redirect(ctx.w, ctx.r, "/new/tracking.html", http.StatusTemporaryRedirect)
+		http.Redirect(ctx.w, ctx.r, "/new/setup.html", http.StatusTemporaryRedirect)
 	}
 }
 
@@ -135,7 +135,7 @@ func (ctx *Ctx) HandleDeleteSite() {
 	user.DelSiteLink(site)
 	user.NewSite(site).DelVisits()
 	user.Signal()
-	http.Redirect(ctx.w, ctx.r, "/new/dashboard.html", http.StatusTemporaryRedirect)
+	http.Redirect(ctx.w, ctx.r, "/dashboard", http.StatusTemporaryRedirect)
 }
 
 func (ctx *Ctx) HandleDeleteToken() {

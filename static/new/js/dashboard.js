@@ -117,7 +117,7 @@ function drawComponents(url) {
         }
 
         if (Object.keys(dump.sites).length === 0){
-            window.location.href = "tracking.html";
+            window.location.href = "setup.html";
         }
 
         document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
