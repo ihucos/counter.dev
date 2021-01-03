@@ -317,6 +317,8 @@ func (ctx *Ctx) handleDump() {
 		user = ctx.User(sessionlessUserId)
 	} else if userId != "" {
 		user = ctx.User(userId)
+	} else if ctx.r.FormValue("demo") != "" {
+		user = ctx.User("counter")  // counter is the magic demo user
 	} else {
 		fmt.Fprintf(ctx.w, "data: null\n\n")
 		return

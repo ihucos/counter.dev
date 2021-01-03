@@ -4,19 +4,20 @@ customElements.define(
         draw(user, sessionless) {
             this.classList.add("headline-right");
             this.classList.add("caption");
+            let baseUrl = window.location.href.split("?")[0]
             if (sessionless) {
                 this.innerHTML = `
                     <img src="img/eye.svg" width="20" height="18" alt="Shareable" />
                     <span class="gray ml8 mr16">You are viewing ${escapeHtml(
                         user.id
                     )}'s dashboard as guest</span>
-                    <a id="share-create" href="" class="caption-strong black">Exit</a>`;
+                    <a id="share-create" href="${escapeHtml(baseUrl)}" class="caption-strong black">Exit</a>`;
             } else if (user.token) {
                 let shareLink =
-                    window.location.href.split("#")[0] +
-                    "#" +
+                    baseUrl +
+                    "?user=" +
                     encodeURIComponent(user.id) +
-                    ":" +
+                    "&token=" +
                     encodeURIComponent(user.token);
                 this.innerHTML = `
                     <img src="img/eye.svg" width="20" height="18" alt="Shareable" />

@@ -141,13 +141,10 @@ document.addEventListener("redraw", (evt) => {
 });
 
 function getDumpURL() {
-    let hashParse = document.location.hash.slice(1).split(":", 2);
-    if (hashParse.length == 2) {
-        urlExtra = `&user=${hashParse[0]}&token=${hashParse[1]}`;
-    } else {
-        urlExtra = "";
-    }
-    return `/dump?utcoffset=${getUTCOffset()}${urlExtra}`;
+    let url = new URL(window.location.href);
+    let params = new URLSearchParams(url.search);
+    params.set('utcoffset', getUTCOffset())
+    return "/dump?" + params.toString()
 }
 
 customElements.whenDefined(selector.localName).then(() => {
