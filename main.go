@@ -60,6 +60,7 @@ func (app *App) Connect(path string, f func(*Ctx)) {
 
 func (app *App) SetupUrls() {
 	app.Connect("/login", func(ctx *Ctx) { ctx.handleLogin() })
+	app.Connect("/login2", func(ctx *Ctx) { ctx.HandleLogin2() })
 	app.Connect("/logout", func(ctx *Ctx) { ctx.handleLogout() })
 	app.Connect("/logout2", func(ctx *Ctx) { ctx.handleLogout2() })
 	app.Connect("/deletetoken", func(ctx *Ctx) { ctx.HandleDeleteToken() })

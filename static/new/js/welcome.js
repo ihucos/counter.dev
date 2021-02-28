@@ -21,7 +21,9 @@ function register(user, password) {
 }
 
 $("#sign-in form").submit((evt) => {
-    login($("#sign-in-user").val(), $("#sign-in-password").val())
+    var user = $("#sign-in .user-input").val()
+    var password = $("#sign-in .password-input").val()
+    login(user, password)
         .then((msg) => {
             window.location.href = "/dashboard";
         })
@@ -30,7 +32,9 @@ $("#sign-in form").submit((evt) => {
 });
 
 $("#sign-up form").submit((evt) => {
-    register($("#sign-up-user").val(), $("#sign-up-password").val())
+    var user = $("#sign-up .user-input").val()
+    var password = $("#sign-up .password-input").val()
+    register(user, password)
         .then((msg) => {
             window.location.href = "/dashboard";
         })
@@ -44,11 +48,3 @@ $(document).ready(function () {
         active: active,
     });
 });
-
-if (window.location.hash === "#demo") {
-    login("counter", "demodemo")
-        .then((msg) => {
-            window.location.href = "/dashboard";
-        })
-        .catch(alert);
-}

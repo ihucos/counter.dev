@@ -105,6 +105,12 @@ func (ctx *Ctx) handleLogin() {
 	}
 }
 
+
+func (ctx *Ctx) HandleLogin2() {
+	ctx.w.Header().Add("Set-Cookie", "flash=mymsg")
+	http.Redirect(ctx.w, ctx.r, "/new/welcome.html", http.StatusTemporaryRedirect)
+}
+
 func (ctx *Ctx) HandleDashboard() {
 	user := ctx.ForceUser()
 	hasSites, err := user.HasSiteLinks()
@@ -314,7 +320,10 @@ func (ctx *Ctx) handleDump() {
 	userId := ctx.GetUserId()
 	var user models.User;
 	meta := map[string]string{}
-	if sessionlessUserId != "" {
+	if ctx.r.FormValue("demo") != "" {
+		user = ctx.User("counter")  // counter is the magic demo user
+		meta = map[string]string{"demo": "1"}
+	} else if sessionlessUserId != "" {
 		user = ctx.User(sessionlessUserId)
 		meta = map[string]string{"sessionless": "1"}
 	} else if userId != "" {
