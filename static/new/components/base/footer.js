@@ -18,7 +18,7 @@ customElements.define(
                           <nav class="nav-footer">
                             <div class="nav-footer-one">
                               <ul>
-                                <li><a href="#" target="_blank" rel="nofollow">Blog</a></li>
+                                <!-- <li><a href="#" target="_blank" rel="nofollow">Blog</a></li> -->
                                 <li><a href="mailto:hey@counter.dev" target="_blank" rel="nofollow">Feedback</a></li>
                                 <li><a href="//flattr.com/@ihucos" target="_blank" rel="nofollow">Donate</a></li>
                               </ul>
@@ -36,12 +36,12 @@ customElements.define(
                           <div class="footer-contacts">
                             <div class="footer-contacts-social mb16">
                               <a
-                                href="#"
+                                href="https://github.com/ihucos/counter.dev"
                                 class="github mr16"
                                 target="_blank"
                                 rel="nofollow"
                               ></a>
-                              <a href="#" class="twitter" target="_blank" rel="nofollow"></a>
+                              <a href="https://twitter.com/DevCounter" class="twitter" target="_blank" rel="nofollow"></a>
                             </div>
                             <div class="caption gray mb8">
                               Developed by
