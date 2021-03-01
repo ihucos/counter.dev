@@ -158,3 +158,16 @@ func (ctx *Ctx) ForceUser() models.User {
 	return ctx.User(ctx.ForceUserId())
 
 }
+
+func (ctx *Ctx) checkMethod(methods ...string) {
+
+	found := false
+	for _, method := range methods {
+		if ctx.r.Method == method {
+			found = true
+		}
+	}
+	if !found{
+		ctx.Return("Method Not Allowed", 405)
+	}
+}

@@ -57,6 +57,18 @@ func (user User) DelAllSites() error {
 	return nil
 }
 
+func (user User) Disable() error {
+	err := user.redis.Send("HSET", "tokens", user.Id, "")
+	if err != nil {
+		return err
+	}
+	err = user.redis.Send("HSET", "users", user.Id, "")
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (user User) ReadToken() (string, error) {
 	token, err := redis.String(user.redis.Do("HGET", "tokens", user.Id))
 	if err != nil {

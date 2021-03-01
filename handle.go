@@ -82,8 +82,11 @@ func LoadDump(user models.User, utcOffset int) (Dump, error) {
 func (ctx *Ctx) handleLogin() {
 	userId := ctx.r.FormValue("user")
 	passwordInput := ctx.r.FormValue("password")
-	if userId == "" || passwordInput == "" {
-		ctx.ReturnBadRequest("Missing Input")
+	if userId == "" {
+		ctx.ReturnBadRequest("Missing Input: user")
+	}
+	if passwordInput == "" {
+		ctx.ReturnBadRequest("Missing Input: password")
 	}
 
 	user := ctx.User(userId)
@@ -139,6 +142,19 @@ func (ctx *Ctx) handleLogout2() {
 	http.Redirect(ctx.w, ctx.r, redirectURL, http.StatusTemporaryRedirect)
 }
 
+func (ctx *Ctx) handleDeleteUser() {
+	ctx.checkMethod("POST")
+	confirmUser := ctx.r.FormValue("confirmUser")
+	user := ctx.ForceUser()
+	if user.Id != confirmUser {
+		ctx.ReturnBadRequest("Confirmation failed")
+	}
+	ctx.Logout()
+	user.DelAllSites()
+	user.Disable()
+	http.Redirect(ctx.w, ctx.r, "/new", http.StatusTemporaryRedirect)
+}
+
 func (ctx *Ctx) HandleDeleteSite() {
 	user := ctx.ForceUser()
 	site := ctx.r.FormValue("site")
@@ -168,8 +184,11 @@ func (ctx *Ctx) HandleResetToken() {
 func (ctx *Ctx) handleRegister() {
 	userId := ctx.r.FormValue("user")
 	password := ctx.r.FormValue("password")
-	if userId == "" || password == "" {
-		ctx.ReturnBadRequest("Missing Input")
+	if userId == "" {
+		ctx.ReturnBadRequest("Missing Input: user")
+	}
+	if password == "" {
+		ctx.ReturnBadRequest("Missing Input: password")
 	}
 
 	user := ctx.User(userId)

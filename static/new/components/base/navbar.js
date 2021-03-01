@@ -149,7 +149,7 @@ customElements.define(
                       <option>(GMT-08:00) Pacific Time (US & Canada)</option>
                     </select>
                     <!-- Change password -->
-                    <form action="/chgpwd" method="POST" id="chgpwd">
+                    <form action="" id="chgpwd" method="post">
                         <div class="title mb8 mt24">Change password</div>
                         <label class="old-pass width-full"
                           >Old password<input
@@ -200,25 +200,45 @@ customElements.define(
                           </button>
                         </div>
                         <!-- Confirm delete -->
-                        <div class="delete-confirm" style="display: none">
-                          <input
-                            type="text"
-                            class="confirm-input full mr16"
-                            placeholder="Enter username to confirm"
-                          />
-                          <button class="btn-white btn-danger">Delete</button>
-                        </div>
+                        <form class="delete-confirm" style="display: none">
+                            <input
+                              type="text"
+                              class="confirm-input full mr16"
+                              name="confirmUser"
+                              placeholder="Enter username to confirm"
+                            />
+                            <button type="submit" class="btn-white btn-danger">Delete</button>
+                        </form>
                       </div>
                     </div>
                   </div>
-                </div>
+                </div>`;
 
-                `;
+
+            document.querySelector('.delete-account .delete-request button').onclick = ()=> {
+                document.querySelector('.delete-account .delete-request').style.display = 'none'
+                document.querySelector('.delete-account .delete-confirm').style.display = 'flex'
+            }
+
+            document.querySelector('.delete-account .delete-confirm').onsubmit = ()=> {
+                $.ajax({
+                    type: 'POST',
+                    url: '/deleteUser',
+                    data: $('.delete-account .delete-confirm').serialize(),
+                    success: function(response) {
+                        window.location.href = "/new"
+                    },
+                    error: function (request, status, error) {
+                        alert(request.responseText);
+                    }
+                });
+                return false
+            }
 
             document.getElementById('chgpwd').onsubmit = ()=> {
                 $.ajax({
                     type: 'POST',
-                    url: $("#chgpwd").attr("action"),
+                    url: '/chgpwd',
                     data: $("#chgpwd").serialize(),
                     success: function(response) {
                         window.location.href = "/logout2?next=login"
@@ -227,7 +247,6 @@ customElements.define(
                         alert(request.responseText);
                     }
                 });
-                //$('#chgpwd button["type=submit"]').remove()
                 return false
             }
 
