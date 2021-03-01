@@ -129,7 +129,14 @@ func (ctx *Ctx) handleLogout() {
 
 func (ctx *Ctx) handleLogout2() {
 	ctx.Logout()
-	http.Redirect(ctx.w, ctx.r, "/new", http.StatusTemporaryRedirect)
+	next := ctx.r.FormValue("next")
+	var redirectURL string;
+	if next == "login" {
+		redirectURL = "/new/welcome.html?sign-in"
+	} else {
+		redirectURL = "/new"
+	}
+	http.Redirect(ctx.w, ctx.r, redirectURL, http.StatusTemporaryRedirect)
 }
 
 func (ctx *Ctx) HandleDeleteSite() {
@@ -182,13 +189,19 @@ func (ctx *Ctx) handleRegister() {
 }
 
 func (ctx *Ctx) HandleChgpwd() {
-	password := ctx.r.FormValue("password")
+	currentPassword := ctx.r.FormValue("current_password")
 	newPassword := ctx.r.FormValue("new_password")
 	repeatNewPassword := ctx.r.FormValue("repeat_new_password")
 	user := ctx.ForceUser()
 
-	if password == "" || newPassword == "" || repeatNewPassword == ""{
-		ctx.ReturnBadRequest("Missing Input")
+	if currentPassword == "" {
+		ctx.ReturnBadRequest("Missing Input: current password")
+	}
+	if newPassword == "" {
+		ctx.ReturnBadRequest("Missing Input: new password")
+	}
+	if repeatNewPassword == ""{
+		ctx.ReturnBadRequest("Missing Input: repeat new password")
 	}
 
 	if len(newPassword) < 8 {
@@ -199,14 +212,14 @@ func (ctx *Ctx) HandleChgpwd() {
 		ctx.ReturnBadRequest("Repeated new password does not match with new password")
 	}
 
-	correctPassword, err := user.VerifyPassword(password)
+	correctPassword, err := user.VerifyPassword(currentPassword)
 	ctx.CatchError(err)
 
 	if ! correctPassword {
-		ctx.ReturnBadRequest("Old password is wrong")
+		ctx.ReturnBadRequest("Current password is wrong")
 	}
 
-	err = user.ChangePassword(password)
+	err = user.ChangePassword(newPassword)
 	ctx.CatchError(err)
 }
 

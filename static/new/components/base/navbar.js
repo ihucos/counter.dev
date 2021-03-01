@@ -153,7 +153,7 @@ customElements.define(
                         <div class="title mb8 mt24">Change password</div>
                         <label class="old-pass width-full"
                           >Old password<input
-                            name="password"
+                            name="current_password"
                             class="width-full"
                             type="password"
                             placeholder="Old password"
@@ -220,12 +220,14 @@ customElements.define(
                     type: 'POST',
                     url: $("#chgpwd").attr("action"),
                     data: $("#chgpwd").serialize(),
-                    success: function(response) { alert('success') },
+                    success: function(response) {
+                        window.location.href = "/logout2?next=login"
+                    },
                     error: function (request, status, error) {
                         alert(request.responseText);
                     }
                 });
-                $('#chgpwd button["type=submit"]').remove()
+                //$('#chgpwd button["type=submit"]').remove()
                 return false
             }
 
