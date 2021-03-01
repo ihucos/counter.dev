@@ -54,6 +54,7 @@ func (user User) DelAllSites() error {
 	for siteId, _ := range linkedSites {
 		user.NewSite(siteId).Del()
 	}
+	user.delAllSiteLinks()
 	return nil
 }
 
@@ -213,6 +214,11 @@ func (user User) IncrSiteLink(siteId string) {
 func (user User) DelSiteLink(siteId string) {
 	user.redis.Send("HDEL", fmt.Sprintf("sites:%s", user.Id), siteId)
 }
+
+func (user User) delAllSiteLinks() {
+	user.redis.Send("DEL", fmt.Sprintf("sites:%s", user.Id))
+}
+
 func (user User) Signal() {
 	user.redis.Send("PUBLISH", fmt.Sprintf("user:%s", user.Id), "")
 }
