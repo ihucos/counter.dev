@@ -28,25 +28,7 @@ customElements.define(
                 <div class="modal-content">
                   <!-- Tracking code -->
                   <div class="title mb16">Tracking code</div>
-                  <div class="tracking-code mb8">
-                    <input
-                      type="text"
-                      id="tracking"
-                      class="full"
-                      value='<script>if (!sessionStorage.getItem("_swa") && document.referrer.indexOf...'
-                      readonly
-                    />
-                    <button
-                      class="btn-primary btn-copy ml16"
-                      data-clipboard-target="#tracking"
-                    >
-                      Copy
-                    </button>
-                  </div>
-                  <span class="caption gray"
-                    >Inside the
-                    <span class="caption-strong">&lt;head&gt;</span> section</span
-                  >
+                  <counter-trackingcode></counter-trackingcode>
                   <!-- Danger -->
                   <div class="title mt24 mb16">Delete ${escapeHtml(
                       opts.cursite

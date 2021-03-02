@@ -1,9 +1,6 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        constructor() {
-            super();
-        }
         draw(siteData, siteName, timeRange) {
             this.innerHTML = `
                 <a class="btn-secondary btn-icon" href="#">

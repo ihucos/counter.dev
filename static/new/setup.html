@@ -47,21 +47,7 @@
             statistics. It needs to be added to all html pages you want to
             track.
           </div>
-          <div class="tracking-code mb8 mt24">
-            <input
-              type="text"
-              id="tracking"
-              class="full"
-              value='<script>if (!sessionStorage.getItem("_swa") && document.referrer.indexOf...'
-              readonly
-            />
-            <button
-              class="btn-primary btn-copy ml16"
-              data-clipboard-target="#tracking"
-            >
-              Copy
-            </button>
-          </div>
+          <counter-trackingcode class="mt24"></counter-trackingcode>
           <span class="caption gray"
             >Inside the
             <span class="caption-strong">&lt;head&gt;</span> section</span
