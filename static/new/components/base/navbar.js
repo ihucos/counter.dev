@@ -144,9 +144,8 @@ customElements.define(
                   <div class="modal-content">
                     <!-- Time zone -->
                     <div class="title mb16">Time zone</div>
-                    <select class="width-full">
-                      <option>(GMT-03:00) Buenos Aires, Georgetown</option>
-                      <option>(GMT-08:00) Pacific Time (US & Canada)</option>
+                    <select id="timezone-selector" class="width-full">
+                      ${this.TIME_ZONES.map((i)=>`<option value="${escapeHtml(i[0])}">${escapeHtml(i[1])}</option>`).join('')}
                     </select>
                     <!-- Change password -->
                     <form action="/chgpwd" id="chgpwd" method="POST">
@@ -222,6 +221,9 @@ customElements.define(
 
             simpleForm('#chgpwd', "/logout2?next=login")
             simpleForm(".delete-account .delete-confirm", "/new")
+            document.querySelector('#timezone-selector').onchange = (evt) =>{
+                fetch("/setPrefTimezone?" + encodeURIComponent(evt.target.value));
+            }
 
             $('a[rel="modal:open"]', this).click(function (event) {
                 $(this).modal({
@@ -232,5 +234,36 @@ customElements.define(
             });
             this.loadUser();
         }
+
+        TIME_ZONES = [
+
+            [-12, '[UTC-12:00] United States Minor Outlying Islands'],
+            [-11, '[UTC-11:00] United States Minor Outlying Islands'],
+            [-10, '[UTC-10:00] Honolulu'],
+            [-9,  '[UTC-09:00] Anchorage'],
+            [-8,  '[UTC-08:00] Los Angeles, Vancouver, Tijuana'],
+            [-7,  '[UTC-07:00] Denver, Edmonton, Ciudad Juárez'],
+            [-6,  '[UTC-06:00] Mexico City, Chicago, Guatemala City'],
+            [-5,  '[UTC-05:00] New York, Toronto, Bogotá'],
+            [-4,  '[UTC-04:00] Santiago, Santo Domingo, Manaus'],
+            [-3,  '[UTC-03:00] São Paulo, Buenos Aires, Montevideo'],
+            [-2,  '[UTC-02:00] Fernando de Noronha'],
+            [-1,  '[UTC-01:00] Cape Verde, Azores islands'],
+            [0,   '[UTC+00:00] London, Dublin, Lisbon'],
+            [1,   '[UTC+01:00] Berlin, Rome, Paris'],
+            [2,   '[UTC+02:00] Cairo, Johannesburg, Khartoum'],
+            [3,   '[UTC+03:00] Moscow, Istanbul, Riyadh'],
+            [4,   '[UTC+04:00] Dubai, Baku, Tbilisi'],
+            [5,   '[UTC+05:00] Karachi, Tashkent, Yekaterinburg'],
+            [6,   '[UTC+06:00] Dhaka, Almaty, Omsk'],
+            [7,   '[UTC+07:00] Jakarta, Ho Chi Minh City, Bangkok'],
+            [8,   '[UTC+08:00] Shanghai, Taipei, Kuala Lumpur'],
+            [9,   '[UTC+09:00] Tokyo, Seoul, Pyongyang, Ambon'],
+            [10,  '[UTC+10:00] Sydney, Port Moresby, Vladivostok'],
+            [11,  '[UTC+11:00] Nouméa, Magadan'],
+            [12,  '[UTC+12:00] Auckland, Suva, Petropavlovsk-Kamchatsky'],
+            [13,  '[UTC+13:00] Phoenix Islands, Samoa'],
+            [14,  '[UTC+14:00] Line Islands']
+        ]
     }
 );

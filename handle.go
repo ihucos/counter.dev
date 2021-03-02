@@ -276,6 +276,13 @@ func (ctx *Ctx) handleSetPrefSite() {
 
 }
 
+func (ctx *Ctx) handleSetPrefTimezone() {
+	user := ctx.ForceUser()
+	err := user.SetPref("timezone", ctx.r.URL.RawQuery)
+	ctx.CatchError(err)
+
+}
+
 type PingDataResp struct {
 	Visits    models.TimedVisits `json:"visits"`
 	Logs      models.LogData     `json:"logs"`
