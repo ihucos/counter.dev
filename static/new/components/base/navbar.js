@@ -149,7 +149,7 @@ customElements.define(
                       <option>(GMT-08:00) Pacific Time (US & Canada)</option>
                     </select>
                     <!-- Change password -->
-                    <form action="" id="chgpwd" method="post">
+                    <form action="/chgpwd" id="chgpwd" method="POST">
                         <div class="title mb8 mt24">Change password</div>
                         <label class="old-pass width-full"
                           >Old password<input
@@ -200,7 +200,7 @@ customElements.define(
                           </button>
                         </div>
                         <!-- Confirm delete -->
-                        <form class="delete-confirm" style="display: none">
+                        <form action="/deleteUser" class="delete-confirm" method="POST" style="display: none">
                             <input
                               type="text"
                               class="confirm-input full mr16"
@@ -220,35 +220,8 @@ customElements.define(
                 document.querySelector('.delete-account .delete-confirm').style.display = 'flex'
             }
 
-            document.querySelector('.delete-account .delete-confirm').onsubmit = ()=> {
-                $.ajax({
-                    type: 'POST',
-                    url: '/deleteUser',
-                    data: $('.delete-account .delete-confirm').serialize(),
-                    success: function(response) {
-                        window.location.href = "/new"
-                    },
-                    error: function (request, status, error) {
-                        alert(request.responseText);
-                    }
-                });
-                return false
-            }
-
-            document.getElementById('chgpwd').onsubmit = ()=> {
-                $.ajax({
-                    type: 'POST',
-                    url: '/chgpwd',
-                    data: $("#chgpwd").serialize(),
-                    success: function(response) {
-                        window.location.href = "/logout2?next=login"
-                    },
-                    error: function (request, status, error) {
-                        alert(request.responseText);
-                    }
-                });
-                return false
-            }
+            simpleForm('#chgpwd', "/logout2?next=login")
+            simpleForm(".delete-account .delete-confirm", "/new")
 
             $('a[rel="modal:open"]', this).click(function (event) {
                 $(this).modal({

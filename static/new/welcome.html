@@ -23,6 +23,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tabslet.js/1.7.3/jquery.tabslet.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+    <script src="js/utils.js"></script>
     <script src="/load.js"></script>
   </head>
   <body>
@@ -78,13 +79,15 @@
               <div class="title mb16">Sign in to your account</div>
               <label class="width-full mb8"
                 >Username<input
-                  class="user-input width-full"
+                  class="width-full"
                   type="text"
+                  name="user"
                   placeholder="Enter your username"
               /></label>
               <label class="width-full"
                 >Password<input
-                  class="width-full password-input"
+                  class="width-full"
+                  name="password"
                   type="password"
                   placeholder="Enter your password"
               /></label>
@@ -93,17 +96,19 @@
           </div>
           <!-- Sign up -->
           <div id="sign-up">
-            <form>
+            <form action="/register" method="POST">
               <div class="title mb16">Sign up to Counter</div>
               <label class="width-full mb8"
                 >Username<input
-                  class="user-input width-full"
+                  class="width-full"
+                  name="user"
                   type="text"
                   placeholder="Enter your username"
               /></label>
               <label class="width-full"
                 >Password<input
                   class="password-input width-full"
+                  name="password"
                   type="password"
                   placeholder="Enter your password"
               /></label>

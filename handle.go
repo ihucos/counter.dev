@@ -108,11 +108,31 @@ func (ctx *Ctx) handleLogin() {
 	}
 }
 
-
 func (ctx *Ctx) HandleLogin2() {
-	ctx.w.Header().Add("Set-Cookie", "flash=mymsg")
-	http.Redirect(ctx.w, ctx.r, "/new/welcome.html", http.StatusTemporaryRedirect)
+	userId := ctx.r.FormValue("user")
+	passwordInput := ctx.r.FormValue("password")
+	if userId == "" {
+		ctx.ReturnBadRequest("Missing Input: user")
+	}
+	if passwordInput == "" {
+		ctx.ReturnBadRequest("Missing Input: password")
+	}
+
+	user := ctx.User(userId)
+
+	passwordOk, err := user.VerifyPassword(passwordInput)
+	ctx.CatchError(err)
+
+	if passwordOk {
+		user.TouchAccess()
+		ctx.SetSessionUser(userId)
+		ctx.ReturnUser()
+
+	} else {
+		ctx.ReturnBadRequest("Wrong username or password")
+	}
 }
+
 
 func (ctx *Ctx) HandleDashboard() {
 	user := ctx.ForceUser()
@@ -158,13 +178,13 @@ func (ctx *Ctx) handleDeleteUser() {
 func (ctx *Ctx) HandleDeleteSite() {
 	user := ctx.ForceUser()
 	site := ctx.r.FormValue("site")
-	if site == "" {
-		ctx.ReturnBadRequest("param site has no value")
+	confirmSite := ctx.r.FormValue("confirmSite")
+	if site != confirmSite {
+		ctx.ReturnBadRequest("Confirmation failed")
 	}
-	user.DelSiteLink(site)
 	user.NewSite(site).Del()
+	user.DelSiteLink(site)
 	user.Signal()
-	http.Redirect(ctx.w, ctx.r, "/dashboard", http.StatusTemporaryRedirect)
 }
 
 func (ctx *Ctx) HandleDeleteToken() {
@@ -360,9 +380,6 @@ func (ctx *Ctx) handleDump() {
 		meta = map[string]string{"sessionless": "1"}
 	} else if userId != "" {
 		user = ctx.User(userId)
-	} else if ctx.r.FormValue("demo") != "" {
-		user = ctx.User("counter")  // counter is the magic demo user
-		meta = map[string]string{"demo": "1"}
 	} else {
 		fmt.Fprintf(ctx.w, "data: null\n\n")
 		return

@@ -68,6 +68,11 @@ customElements.define(
                     <form class="delete-confirm" action="/deletesite" method="POST" style="display: none" id="site-delete">
                       <input
                         name="site"
+                        type="hidden"
+                        value="${escapeHtml(opts.cursite)}"
+                      />
+                      <input
+                        name="confirmSite"
                         type="text"
                         class="confirm-input full mr16"
                         placeholder="Enter the domain to confirm"
@@ -87,18 +92,7 @@ customElements.define(
                 $(`#modal-settings .confirm-input`).focus();
             });
 
-            document.getElementById("site-delete").onsubmit = () => {
-                let inp = $(`#modal-settings .confirm-input`).val();
-                if (opts.cursite !== inp) {
-                    alert("Confirmation failed.");
-                    return false;
-                }
-                if (opts.meta.demo) {
-                    alert("Not available in demo.");
-                    return false;
-                }
-                return;
-            };
+            simpleForm('#site-delete', '/new/dashboard.html')
 
 
         }
