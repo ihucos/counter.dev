@@ -105,6 +105,10 @@
                   type="text"
                   placeholder="Enter your username"
               /></label>
+              <script>
+                document.write(`<input type="hidden" name="utcoffset" value="${getUTCOffset()}">
+                  </input>`)
+              </script>
               <label class="width-full"
                 >Password<input
                   class="password-input width-full"

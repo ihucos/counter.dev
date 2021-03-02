@@ -8,15 +8,15 @@ class Counter extends HTMLElement {
         all: "all",
     };
 
-    draw(allVisits, curTime) {
+    draw(allVisits, curTime, utcoffset) {
         let count = this.count(allVisits[curTime]);
         let nextCurTime = this.nextTime[curTime];
         let nextCount = this.count(allVisits[nextCurTime]);
 
-        let datesPassedCurTime = Object.keys(dPadDates(allVisits[curTime].date))
+        let datesPassedCurTime = Object.keys(dPadDates(allVisits[curTime].date), utcoffset)
             .length;
         let datesPassedNextTime = Object.keys(
-            dPadDates(allVisits[nextCurTime].date)
+            dPadDates(allVisits[nextCurTime].date, utcoffset)
         ).length;
         console.log(datesPassedCurTime, datesPassedNextTime);
 

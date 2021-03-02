@@ -23,6 +23,9 @@ customElements.define(
                     this.noUser();
                 } else {
                     this.hasUser(dump.user.id);
+                    // the fallback is because older user's dont set the
+                    // timezone by default
+                    this.setTimezone(dump.user.prefs.timezone || getUTCOffset())
                 }
                 source.close(); // don't leave an open connection to server to save resources
             };
@@ -39,6 +42,12 @@ customElements.define(
             ).forEach((el) => {
                 el.innerHTML = this.escapeHtml(user);
             });
+        }
+
+        setTimezone(timezone){
+            if (!isNaN(timezone)){  // just validation
+                document.querySelector(`#account-edit option[value="${timezone}"]`).setAttribute('selected', 'selected')
+            }
         }
 
         connectedCallback() {
@@ -144,11 +153,11 @@ customElements.define(
                   <div class="modal-content">
                     <!-- Time zone -->
                     <div class="title mb16">Time zone</div>
-                    <select id="timezone-selector" class="width-full">
-                      ${this.TIME_ZONES.map((i)=>`<option value="${escapeHtml(i[0])}">${escapeHtml(i[1])}</option>`).join('')}
-                    </select>
-                    <!-- Change password -->
-                    <form action="/chgpwd" id="chgpwd" method="POST">
+                    <form action="/accountedit" id="account-edit" method="POST">
+                        <select class="width-full" name="utcoffset">
+                          ${this.TIME_ZONES.map((i)=>`<option value="${this.escapeHtml(i[0])}">${this.escapeHtml(i[1])}</option>`).join('')}
+                        </select>
+                        <!-- Change password -->
                         <div class="title mb8 mt24">Change password</div>
                         <label class="old-pass width-full"
                           >Old password<input
@@ -219,12 +228,8 @@ customElements.define(
                 document.querySelector('.delete-account .delete-confirm').style.display = 'flex'
             }
 
-            simpleForm('#chgpwd', "/logout2?next=login")
+            simpleForm('#account-edit', window.location.href)
             simpleForm(".delete-account .delete-confirm", "/new")
-            document.querySelector('#timezone-selector').onchange = (evt) =>{
-                fetch("/setPrefTimezone?" + encodeURIComponent(evt.target.value));
-            }
-
             $('a[rel="modal:open"]', this).click(function (event) {
                 $(this).modal({
                     fadeDuration: 200,

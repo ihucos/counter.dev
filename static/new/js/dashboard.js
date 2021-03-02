@@ -22,10 +22,6 @@ Chart.defaults.global.tooltips = {
 };
 Chart.defaults.global.animation.duration = 0;
 
-function getUTCOffset() {
-    return Math.round((-1 * new Date().getTimezoneOffset()) / 60);
-}
-
 function getSelectorEl() {
     let selectorMatch = document.getElementsByTagName("dashboard-selector");
     if (selectorMatch.length > 0) {
@@ -75,18 +71,22 @@ connectData("dashboard-settings", (dump) => [
 connectData("dashboard-counter-visitors", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
+    dump.user.prefs.timezone || getUTCOffset() // fallback for older users
 ]);
 connectData("dashboard-counter-search", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
+    dump.user.prefs.timezone || getUTCOffset()
 ]);
 connectData("dashboard-counter-social", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
+    dump.user.prefs.timezone || getUTCOffset()
 ]);
 connectData("dashboard-counter-direct", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
+    dump.user.prefs.timezone || getUTCOffset()
 ]);
 connectData("dashboard-graph", k("date", "hour"));
 connectData("dashboard-dynamics", k("date"));
@@ -209,7 +209,7 @@ function dGroupData(entries, cutAt) {
     return res;
 }
 
-function getUTCMinusElevenNow() {
+function getUTCMinusElevenNow(utcoffset) {
     var date = new Date();
     var now_utc = Date.UTC(
         date.getUTCFullYear(),
@@ -221,11 +221,11 @@ function getUTCMinusElevenNow() {
     );
 
     let d = new Date(now_utc);
-    d.setHours(d.getHours() - 11);
+    d.setHours(d.getHours() + utcoffset);
     return d;
 }
 
-function dPadDates(dates) {
+function dPadDates(dates, utcoffset) {
     var daysRange = (s, e) => {
         var s = new Date(s);
         var e = new Date(e);
@@ -241,7 +241,7 @@ function dPadDates(dates) {
     });
 
     return {
-        ...daysRange(sortedAvailableDates[0], getUTCMinusElevenNow()),
+        ...daysRange(sortedAvailableDates[0], getUTCMinusElevenNow(utcoffset)),
         ...dates,
     };
 }

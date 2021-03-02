@@ -26,9 +26,9 @@ type SitesDump map[string]SitesDumpVal
 type Meta map[string]string
 
 type Dump struct {
-	Sites SitesDump `json:"sites"`
-	User  UserDump  `json:"user"`
-	Meta map[string]string `json:"meta"`
+	Sites SitesDump         `json:"sites"`
+	User  UserDump          `json:"user"`
+	Meta  map[string]string `json:"meta"`
 }
 
 func LoadSitesDump(user models.User, utcOffset int) (SitesDump, error) {
@@ -73,7 +73,6 @@ func LoadDump(user models.User, utcOffset int) (Dump, error) {
 	if err != nil {
 		return Dump{}, err
 	}
-
 
 	userDump := UserDump{Id: user.Id, Token: token, Prefs: prefsData}
 	return Dump{User: userDump, Sites: sitesDump, Meta: Meta{}}, nil
@@ -133,7 +132,6 @@ func (ctx *Ctx) HandleLogin2() {
 	}
 }
 
-
 func (ctx *Ctx) HandleDashboard() {
 	user := ctx.ForceUser()
 	hasSites, err := user.HasSiteLinks()
@@ -153,7 +151,7 @@ func (ctx *Ctx) handleLogout() {
 func (ctx *Ctx) handleLogout2() {
 	ctx.Logout()
 	next := ctx.r.FormValue("next")
-	var redirectURL string;
+	var redirectURL string
 	if next == "login" {
 		redirectURL = "/new/welcome.html?sign-in"
 	} else {
@@ -216,6 +214,11 @@ func (ctx *Ctx) handleRegister() {
 	err := user.Create(password)
 	switch err.(type) {
 	case nil:
+
+		utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
+		err := user.SetPref("timezone", utcoffset)
+		ctx.CatchError(err)
+
 		ctx.SetSessionUser(userId)
 		ctx.ReturnUser()
 
@@ -227,39 +230,53 @@ func (ctx *Ctx) handleRegister() {
 	}
 }
 
-func (ctx *Ctx) HandleChgpwd() {
+func (ctx *Ctx) handleAccountEdit() {
+	ctx.checkMethod("POST")
 	currentPassword := ctx.r.FormValue("current_password")
 	newPassword := ctx.r.FormValue("new_password")
 	repeatNewPassword := ctx.r.FormValue("repeat_new_password")
+
 	user := ctx.ForceUser()
 
-	if currentPassword == "" {
-		ctx.ReturnBadRequest("Missing Input: current password")
-	}
-	if newPassword == "" {
-		ctx.ReturnBadRequest("Missing Input: new password")
-	}
-	if repeatNewPassword == ""{
-		ctx.ReturnBadRequest("Missing Input: repeat new password")
+	if ctx.r.FormValue("utcoffset") != "" {
+		utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
+		err := user.SetPref("timezone", utcoffset)
+		ctx.CatchError(err)
 	}
 
-	if len(newPassword) < 8 {
-		ctx.ReturnBadRequest("New password must have at least 8 charachters")
+
+	// assume the user is trying to change the password
+	if newPassword != "" || repeatNewPassword != "" {
+
+		if currentPassword == "" {
+			ctx.ReturnBadRequest("Missing Input: current password")
+		}
+		if newPassword == "" {
+			ctx.ReturnBadRequest("Missing Input: new password")
+		}
+		if repeatNewPassword == "" {
+			ctx.ReturnBadRequest("Missing Input: repeat new password")
+		}
+
+		if len(newPassword) < 8 {
+			ctx.ReturnBadRequest("New password must have at least 8 charachters")
+		}
+
+		if newPassword != repeatNewPassword {
+			ctx.ReturnBadRequest("Repeated new password does not match with new password")
+		}
+
+		correctPassword, err := user.VerifyPassword(currentPassword)
+		ctx.CatchError(err)
+
+		if !correctPassword {
+			ctx.ReturnBadRequest("Current password is wrong")
+		}
+
+		err = user.ChangePassword(newPassword)
+		ctx.CatchError(err)
+		ctx.Logout()
 	}
-
-	if newPassword != repeatNewPassword {
-		ctx.ReturnBadRequest("Repeated new password does not match with new password")
-	}
-
-	correctPassword, err := user.VerifyPassword(currentPassword)
-	ctx.CatchError(err)
-
-	if ! correctPassword {
-		ctx.ReturnBadRequest("Current password is wrong")
-	}
-
-	err = user.ChangePassword(newPassword)
-	ctx.CatchError(err)
 }
 
 func (ctx *Ctx) handleSetPrefRange() {
@@ -272,13 +289,6 @@ func (ctx *Ctx) handleSetPrefRange() {
 func (ctx *Ctx) handleSetPrefSite() {
 	user := ctx.ForceUser()
 	err := user.SetPref("site", ctx.r.URL.RawQuery)
-	ctx.CatchError(err)
-
-}
-
-func (ctx *Ctx) handleSetPrefTimezone() {
-	user := ctx.ForceUser()
-	err := user.SetPref("timezone", ctx.r.URL.RawQuery)
 	ctx.CatchError(err)
 
 }
@@ -377,10 +387,10 @@ func (ctx *Ctx) handleDump() {
 	utcOffset := ctx.ParseUTCOffset("utcoffset")
 	sessionlessUserId := ctx.GetSessionlessUserId()
 	userId := ctx.GetUserId()
-	var user models.User;
+	var user models.User
 	meta := map[string]string{}
 	if ctx.r.FormValue("demo") != "" {
-		user = ctx.User("counter")  // counter is the magic demo user
+		user = ctx.User("counter") // counter is the magic demo user
 		meta = map[string]string{"demo": "1"}
 	} else if sessionlessUserId != "" {
 		user = ctx.User(sessionlessUserId)
