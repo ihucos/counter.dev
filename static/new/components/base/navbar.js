@@ -50,17 +50,17 @@ customElements.define(
                    <span class="version caption blue ml16">v 2.0</span>
                    <!-- Navigation -->
                    <nav class="nav-header">
-                     <a href="#" class="mr32" target="_blank" rel="nofollow">Blog</a>
+                     <!-- <a href="#" class="mr32" target="_blank" rel="nofollow">Blog</a> -->
                      <a href="mailto:hey@counter.dev" class="mr32" target="_blank" rel="nofollow">Feedback</a>
                      <a href="//flattr.com/@ihucos" class="mr32" target="_blank" rel="nofollow">Donate</a>
                      <a
-                       href="#"
+                       href="https://github.com/ihucos/counter.dev"
                        class="github-blue mr16"
                        target="_blank"
                        rel="nofollow"
                      ></a>
                      <a
-                       href="#"
+                       href="https://twitter.com/DevCounter"
                        class="twitter-blue mr32"
                        target="_blank"
                        rel="nofollow"
@@ -106,22 +106,22 @@ customElements.define(
                              <a href="#" class="btn-secondary">Sign out</a>
                            </span>
                            <!-- /// -->
-                           <a href="#" class="mb24" target="_blank" rel="nofollow"
+                           <!-- <a href="#" class="mb24" target="_blank" rel="nofollow"
                              >Blog</a
-                           >
+                           > -->
                            <a href="#" class="mb24" target="_blank" rel="nofollow"
                              >Feedback</a
                            >
                            <a href="#" target="_blank" rel="nofollow">Donate</a>
                            <span class="mt48">
                              <a
-                               href="#"
+                               href="https://github.com/ihucos/counter.dev"
                                class="github-blue mr24"
                                target="_blank"
                                rel="nofollow"
                              ></a>
                              <a
-                               href="#"
+                               href="https://twitter.com/DevCounter"
                                class="twitter-blue"
                                target="_blank"
                                rel="nofollow"
