@@ -13,7 +13,7 @@ customElements.define(
             this.innerHTML = `
               <a
                 href="#modal-settings"
-                class="btn-secondary btn-icon mr16"
+                class="btn-secondary btn-icon"
                 rel="modal:open"
                 ><img src="img/settings.svg" width="24" height="24" alt="Settings"
               /></a>

@@ -58,6 +58,12 @@ connectData("dashboard-selector", (dump) => [dump]);
 
 connectData("dashboard-demo-flash", (dump) => [dump.meta.demo]);
 
+connectData("dashboard-download", (dump) => [
+    dump.sites[selector.site].visits[selector.range],
+    selector.site,
+    selector.range
+]);
+
 connectData("dashboard-settings", (dump) => [
     {
         cursite: selector.site,

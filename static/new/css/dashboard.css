@@ -458,11 +458,11 @@
   .settings-right {
     flex-direction: row-reverse;
   }
-  .settings-right a {
+  .settings-right > * {
     margin-right: 0;
     margin-left: 16px;
   }
-  .settings-right a:last-child {
+  .settings-right > *:last-child {
     width: 100%;
     margin: 0;
     text-align: center;

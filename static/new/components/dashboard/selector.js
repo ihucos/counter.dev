@@ -14,7 +14,6 @@ customElements.define(
             var rangePref = dump.user.prefs.range;
 
             this.style.display = "flex";
-            this.style["margin-left"] = "5px";
 
             this.innerHTML = `
         <div class="project mr16">
