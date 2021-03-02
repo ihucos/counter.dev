@@ -57,7 +57,7 @@ connectData("dashboard-demo-flash", (dump) => [dump.meta.demo]);
 connectData("dashboard-download", (dump) => [
     dump.sites[selector.site].visits[selector.range],
     selector.site,
-    selector.range
+    selector.range,
 ]);
 
 connectData("dashboard-settings", (dump) => [
@@ -71,22 +71,22 @@ connectData("dashboard-settings", (dump) => [
 connectData("dashboard-counter-visitors", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
-    dump.user.prefs.timezone || getUTCOffset() // fallback for older users
+    dump.user.prefs.timezone || getUTCOffset(), // fallback for older users
 ]);
 connectData("dashboard-counter-search", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
-    dump.user.prefs.timezone || getUTCOffset()
+    dump.user.prefs.timezone || getUTCOffset(),
 ]);
 connectData("dashboard-counter-social", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
-    dump.user.prefs.timezone || getUTCOffset()
+    dump.user.prefs.timezone || getUTCOffset(),
 ]);
 connectData("dashboard-counter-direct", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
-    dump.user.prefs.timezone || getUTCOffset()
+    dump.user.prefs.timezone || getUTCOffset(),
 ]);
 connectData("dashboard-graph", k("date", "hour"));
 connectData("dashboard-dynamics", k("date"));
@@ -101,10 +101,7 @@ connectData("dashboard-visits", (dump) => [dump.sites[selector.site].logs]);
 connectData("dashboard-hour", k("hour"));
 connectData("dashboard-week", k("weekday"));
 connectData("dashboard-time", k("hour"));
-connectData("dashboard-share-account", (dump) => [
-    dump.user,
-    dump.meta,
-]);
+connectData("dashboard-share-account", (dump) => [dump.user, dump.meta]);
 
 function drawComponents(url) {
     var source = new EventSource(url);
@@ -124,7 +121,7 @@ function drawComponents(url) {
             return;
         }
 
-        if (Object.keys(dump.sites).length === 0){
+        if (Object.keys(dump.sites).length === 0) {
             window.location.href = "setup.html";
         }
 
@@ -151,8 +148,8 @@ document.addEventListener("redraw", (evt) => {
 function getDumpURL() {
     let url = new URL(window.location.href);
     let params = new URLSearchParams(url.search);
-    params.set('utcoffset', getUTCOffset())
-    return "/dump?" + params.toString()
+    params.set("utcoffset", getUTCOffset());
+    return "/dump?" + params.toString();
 }
 
 customElements.whenDefined(selector.localName).then(() => {
@@ -161,8 +158,8 @@ customElements.whenDefined(selector.localName).then(() => {
 });
 
 // not used currently
-function flash(msg){
-    document.getElementsByTagName('base-flash')[0].flash(msg)
+function flash(msg) {
+    document.getElementsByTagName("base-flash")[0].flash(msg);
 }
 
 function escapeHtml(unsafe) {

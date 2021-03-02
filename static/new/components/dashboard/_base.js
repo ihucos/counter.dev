@@ -13,8 +13,10 @@ class Counter extends HTMLElement {
         let nextCurTime = this.nextTime[curTime];
         let nextCount = this.count(allVisits[nextCurTime]);
 
-        let datesPassedCurTime = Object.keys(dPadDates(allVisits[curTime].date), utcoffset)
-            .length;
+        let datesPassedCurTime = Object.keys(
+            dPadDates(allVisits[curTime].date),
+            utcoffset
+        ).length;
         let datesPassedNextTime = Object.keys(
             dPadDates(allVisits[nextCurTime].date, utcoffset)
         ).length;

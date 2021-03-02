@@ -1,9 +1,9 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        draw(isDemo){
-            if (!isDemo){
-                return
+        draw(isDemo) {
+            if (!isDemo) {
+                return;
             }
             this.innerHTML = `
                <!-- Notification -->
@@ -11,7 +11,7 @@ customElements.define(
                  <div class="content">
                    <span>You are viewing the demo <a href="welcome.html">Sign Up</a></span>
                  </div>
-               </section>`
+               </section>`;
         }
     }
-)
+);

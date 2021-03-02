@@ -1,16 +1,17 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        constructor(){
+        constructor() {
             super();
         }
         draw(siteData, siteName, timeRange) {
             this.innerHTML = `
                 <a class="btn-secondary btn-icon" href="#">
                 <img src="img/download.svg" width="24" height="24" alt="Download"/>
-                </a>`
+                </a>`;
 
-            this.querySelector('a').onclick = ()=> this.downloadData(siteData, siteName, timeRange)
+            this.querySelector("a").onclick = () =>
+                this.downloadData(siteData, siteName, timeRange);
         }
 
         download(filename, text) {
@@ -32,19 +33,24 @@ customElements.define(
             Object.keys(siteData).forEach(function (namespace, _) {
                 Object.keys(siteData[namespace]).forEach(function (key, _) {
                     var val = siteData[namespace][key];
-                    csv +=
-                        (namespace + ",") +
-                        (key + ",") +
-                        val +
-                        "\n";
+                    csv += namespace + "," + (key + ",") + val + "\n";
                 });
             });
 
             var today = new Date();
-            var dateStr = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var dateStr =
+                today.getFullYear() +
+                "-" +
+                (today.getMonth() + 1) +
+                "-" +
+                today.getDate();
             this.download(
-                `counter_stats_${timeRange}_${dateStr}_${siteName.replace('.', '-')}.csv`,
-                csv);
+                `counter_stats_${timeRange}_${dateStr}_${siteName.replace(
+                    ".",
+                    "-"
+                )}.csv`,
+                csv
+            );
         }
     }
 );

@@ -1,22 +1,21 @@
-function simpleForm(formSelector, redirectUrl){
-    document.querySelector(formSelector).onsubmit = (evt)=>{
-        var el = evt.target
+function simpleForm(formSelector, redirectUrl) {
+    document.querySelector(formSelector).onsubmit = (evt) => {
+        var el = evt.target;
         $.ajax({
-            type: el.getAttribute('method') || 'POST',
-            url: el.getAttribute('action'),
+            type: el.getAttribute("method") || "POST",
+            url: el.getAttribute("action"),
             data: $(el).serialize(),
-            success: function(response) {
-                window.location.href = redirectUrl
+            success: function (response) {
+                window.location.href = redirectUrl;
             },
             error: function (request, status, error) {
                 alert(request.responseText);
-            }
+            },
         });
-        return false
-    }
+        return false;
+    };
 }
 
 function getUTCOffset() {
     return Math.round((-1 * new Date().getTimezoneOffset()) / 60);
 }
-

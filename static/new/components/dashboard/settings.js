@@ -8,7 +8,7 @@ customElements.define(
 
             // the modal copies this element to the root html element, we need
             // to remove it there
-            $('#modal-settings').remove()
+            $("#modal-settings").remove();
 
             this.innerHTML = `
               <a
@@ -92,9 +92,7 @@ customElements.define(
                 $(`#modal-settings .confirm-input`).focus();
             });
 
-            simpleForm('#site-delete', '/new/dashboard.html')
-
-
+            simpleForm("#site-delete", "/new/dashboard.html");
         }
     }
 );

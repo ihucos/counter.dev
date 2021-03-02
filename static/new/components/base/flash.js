@@ -1,7 +1,7 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        flash(msg){
+        flash(msg) {
             this.innerHTML += `
                <!-- Notification -->
                <section class="notification">
@@ -9,7 +9,7 @@ customElements.define(
                    <span>${msg}</span>
                    <div class="btn-close" onclick="this.closest('section').remove()"></div>
                  </div>
-               </section>`
+               </section>`;
         }
     }
-)
+);
