@@ -211,7 +211,7 @@
                   <a href="/logout" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">
                   Logout
                   </a>
-                  <a href="https://flattr.com/@ihucos" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">Donate</a>
+                  <a href="https://www.paypal.com/donate/?hosted_button_id=GYAY2HGG2YLKL&locale.x=en_DE" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">Donate</a>
                   <button onclick="downloadData()" class="shadow-xs text-white bg-gray-600 hover:bg-gray-700 text-sm font-bold py-2 px-4 rounded flex items-center mr-1">
                      <span>&nbsp;</span>
                      <svg class="fill-current w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

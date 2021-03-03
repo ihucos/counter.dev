@@ -66,7 +66,7 @@ customElements.define(
                    <nav class="nav-header">
                      <!-- <a href="#" class="mr32" target="_blank" rel="nofollow">Blog</a> -->
                      <a href="mailto:hey@counter.dev" class="mr32" target="_blank" rel="nofollow">Feedback</a>
-                     <a href="//flattr.com/@ihucos" class="mr32" target="_blank" rel="nofollow">Donate</a>
+                     <a href="https://www.paypal.com/donate/?hosted_button_id=GYAY2HGG2YLKL&locale.x=en_DE" class="mr32" target="_blank" rel="nofollow">Donate</a>
                      <a
                        href="https://github.com/ihucos/counter.dev"
                        class="github-blue mr16"
@@ -126,7 +126,7 @@ customElements.define(
                            <a href="#" class="mb24" target="_blank" rel="nofollow"
                              >Feedback</a
                            >
-                           <a href="#" target="_blank" rel="nofollow">Donate</a>
+                           <a href="https://www.paypal.com/donate/?hosted_button_id=GYAY2HGG2YLKL&locale.x=en_DE" target="_blank" rel="nofollow">Donate</a>
                            <span class="mt48">
                              <a
                                href="https://github.com/ihucos/counter.dev"
