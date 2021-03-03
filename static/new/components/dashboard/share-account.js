@@ -4,7 +4,7 @@ customElements.define(
         draw(user, meta) {
             this.classList.add("headline-right");
             this.classList.add("caption");
-            let baseUrl = window.location.href.split("?")[0];
+            let baseUrl = window.location.href.split(/[\?#]/)[0];
             if (meta.sessionless) {
                 this.innerHTML = `
                     <img src="img/eye.svg" width="20" height="18" alt="Shareable" />
@@ -28,6 +28,7 @@ customElements.define(
                         shareLink
                     )}" href="#" class="mr16 caption-strong black btn-copy">Copy url</a>
                     <a href="#" class="caption-strong black" >Remove</a>`;
+                new ClipboardJS(this.querySelector("a.btn-copy"))
                 this.getElementsByTagName("a")[1].onclick = () => {
                     if (meta.demo) {
                         alert("Not available in demo");
