@@ -20,7 +20,7 @@ customElements.define(
                               <ul>
                                 <!-- <li><a href="#" target="_blank" rel="nofollow">Blog</a></li> -->
                                 <li><a href="mailto:hey@counter.dev" target="_blank" rel="nofollow">Feedback</a></li>
-                                <li><a href="//flattr.com/@ihucos" target="_blank" rel="nofollow">Donate</a></li>
+                                <li><a href="https://www.paypal.com/donate/?hosted_button_id=GYAY2HGG2YLKL&locale.x=en_DE" target="_blank" rel="nofollow">Donate</a></li>
                               </ul>
                             </div>
                             <div class="nav-footer-two">
