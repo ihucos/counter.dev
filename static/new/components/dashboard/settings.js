@@ -75,6 +75,10 @@ customElements.define(
             });
 
             simpleForm("#site-delete", "/new/dashboard.html");
+
+            let tc = this.querySelector("counter-trackingcode")
+            customElements.upgrade(tc)
+            tc.draw(opts.userId, opts.utcoffset)
         }
     }
 );

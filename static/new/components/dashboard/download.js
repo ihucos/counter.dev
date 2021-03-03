@@ -26,7 +26,7 @@ customElements.define(
 
         downloadData(siteData, siteName, timeRange) {
             // this function should be a component
-            var csv = "dimension;type;count\n";
+            var csv = "dimension,type,count\n";
             Object.keys(siteData).forEach(function (namespace, _) {
                 Object.keys(siteData[namespace]).forEach(function (key, _) {
                     var val = siteData[namespace][key];

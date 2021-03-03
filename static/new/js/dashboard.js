@@ -60,18 +60,24 @@ connectData("dashboard-download", (dump) => [
     selector.range,
 ]);
 
+connectData("counter-trackingcode", (dump) => [
+    dump.user.id,
+    dump.user.prefs.timezone || getUTCOffset(),
+]);
+
 connectData("dashboard-settings", (dump) => [
     {
         cursite: selector.site,
         userId: dump.user.id,
         meta: dump.meta,
+        utcoffset: dump.user.prefs.timezone || getUTCOffset(),
     },
 ]);
 
 connectData("dashboard-counter-visitors", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
-    dump.user.prefs.timezone || getUTCOffset(), // fallback for older users
+    dump.user.prefs.timezone || getUTCOffset(), // getUTCOffset() is a fallback for older users
 ]);
 connectData("dashboard-counter-search", (dump) => [
     dump.sites[selector.site].visits,
