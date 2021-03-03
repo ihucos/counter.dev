@@ -1044,6 +1044,26 @@ nav a {
   opacity: 0.7;
 }
 
+/* Settings */
+.tracking-code {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.delete-request,
+.delete-confirm {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Edit account */
+.delete-account {
+  padding-top: 16px;
+  box-shadow: 0px -1px 0px #e0e0e0;
+}
+
 /* Mobile */
 @media (max-width: 1110px) {
   section .content {
@@ -1145,5 +1165,37 @@ nav a {
   }
   .footer-welcome {
     margin-top: 0;
+  }
+  .delete-request,
+  .delete-confirm {
+    flex-direction: column;
+    align-items: unset;
+  }
+  .danger-message {
+    margin-right: unset;
+    margin-bottom: 24px;
+  }
+  .danger {
+    padding: 24px;
+  }
+  .tracking-code input {
+    min-width: 50%;
+  }
+  .confirm-input {
+    margin: 0 0 16px 0;
+  }
+  .new-pass {
+    flex-direction: column;
+    margin: unset;
+  }
+  .new-pass label {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .old-pass {
+    margin-bottom: 8px;
+  }
+  .account-btn-group {
+    margin: 16px 0 24px 0;
   }
 }

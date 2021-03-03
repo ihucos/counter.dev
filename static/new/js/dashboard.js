@@ -168,15 +168,6 @@ function flash(msg) {
     document.getElementsByTagName("base-flash")[0].flash(msg);
 }
 
-function escapeHtml(unsafe) {
-    return (unsafe + "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
 function kFormat(num) {
     num = Math.floor(num);
     return Math.abs(num) > 999
