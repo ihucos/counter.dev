@@ -28,7 +28,7 @@ customElements.define(
                         shareLink
                     )}" href="#" class="mr16 caption-strong black btn-copy">Copy url</a>
                     <a href="#" class="caption-strong black" >Remove</a>`;
-                new ClipboardJS(this.querySelector("a.btn-copy"))
+                new ClipboardJS(this.querySelector("a.btn-copy"));
                 this.getElementsByTagName("a")[1].onclick = () => {
                     if (meta.demo) {
                         alert("Not available in demo");

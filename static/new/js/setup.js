@@ -2,7 +2,7 @@ var source = new EventSource("/dump");
 source.onmessage = (event) => {
     let dump = JSON.parse(event.data);
     console.log(dump);
-    drawTrackingcode(dump)
+    drawTrackingcode(dump);
     if (!dump) {
         window.location.href = "index.html";
     }
@@ -11,9 +11,9 @@ source.onmessage = (event) => {
     }
 };
 
-function drawTrackingcode(dump){
-    customElements.whenDefined("counter-trackingcode").then(()=>{
-        let el = document.querySelector("counter-trackingcode")
-        el.draw(dump.user.id, dump.user.prefs.timezone || getUTCOffset())
-    })
+function drawTrackingcode(dump) {
+    customElements.whenDefined("counter-trackingcode").then(() => {
+        let el = document.querySelector("counter-trackingcode");
+        el.draw(dump.user.id, dump.user.prefs.timezone || getUTCOffset());
+    });
 }

@@ -6,10 +6,6 @@ customElements.define(
                 return;
             }
 
-            // the modal copies this element to the root html element, we need
-            // to remove it there
-            $("#modal-settings").remove();
-
             this.innerHTML = `
               <a
                 href="#modal-settings"
@@ -76,9 +72,9 @@ customElements.define(
 
             simpleForm("#site-delete", "/new/dashboard.html");
 
-            let tc = this.querySelector("counter-trackingcode")
-            customElements.upgrade(tc)
-            tc.draw(opts.userId, opts.utcoffset)
+            let tc = this.querySelector("counter-trackingcode");
+            customElements.upgrade(tc);
+            tc.draw(opts.userId, opts.utcoffset);
         }
     }
 );
