@@ -70,6 +70,15 @@ customElements.define(
                 $(`#modal-settings .confirm-input`).focus();
             });
 
+            // redraw modal if it is closed
+            var parentThis = this;
+            $("#modal-settings", this).on(
+                $.modal.AFTER_CLOSE,
+                function (event, modal) {
+                    parentThis.draw(opts);
+                }
+            );
+
             simpleForm("#site-delete", "/new/dashboard.html");
 
             let tc = this.querySelector("counter-trackingcode");

@@ -106,6 +106,7 @@ customElements.define(
             simpleForm("#account-edit", window.location.href.split("#")[0]);
             simpleForm(".delete-account .delete-confirm", "/new");
 
+            // redraw modal if it is closed
             var parentThis = this;
             $("#modal-account", this).on(
                 $.modal.AFTER_CLOSE,
