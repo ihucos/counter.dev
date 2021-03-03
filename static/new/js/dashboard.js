@@ -62,7 +62,7 @@ connectData("dashboard-download", (dump) => [
 
 connectData("counter-trackingcode", (dump) => [
     dump.user.id,
-    dump.user.prefs.timezone || getUTCOffset(),
+    dump.user.prefs.utcoffset || getUTCOffset(),
 ]);
 
 connectData("dashboard-settings", (dump) => [
@@ -70,29 +70,29 @@ connectData("dashboard-settings", (dump) => [
         cursite: selector.site,
         userId: dump.user.id,
         meta: dump.meta,
-        utcoffset: dump.user.prefs.timezone || getUTCOffset(),
+        utcoffset: dump.user.prefs.utcoffset || getUTCOffset(),
     },
 ]);
 
 connectData("dashboard-counter-visitors", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
-    dump.user.prefs.timezone || getUTCOffset(), // getUTCOffset() is a fallback for older users
+    dump.user.prefs.utcoffset || getUTCOffset(), // getUTCOffset() is a fallback for older users
 ]);
 connectData("dashboard-counter-search", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
-    dump.user.prefs.timezone || getUTCOffset(),
+    dump.user.prefs.utcoffset || getUTCOffset(),
 ]);
 connectData("dashboard-counter-social", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
-    dump.user.prefs.timezone || getUTCOffset(),
+    dump.user.prefs.utcoffset || getUTCOffset(),
 ]);
 connectData("dashboard-counter-direct", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
-    dump.user.prefs.timezone || getUTCOffset(),
+    dump.user.prefs.utcoffset || getUTCOffset(),
 ]);
 connectData("dashboard-graph", k("date", "hour"));
 connectData("dashboard-dynamics", k("date"));

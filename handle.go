@@ -216,7 +216,7 @@ func (ctx *Ctx) handleRegister() {
 	case nil:
 
 		utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
-		err := user.SetPref("timezone", utcoffset)
+		err := user.SetPref("utcoffset", utcoffset)
 		ctx.CatchError(err)
 
 		ctx.SetSessionUser(userId)
@@ -240,7 +240,7 @@ func (ctx *Ctx) handleAccountEdit() {
 
 	if ctx.r.FormValue("utcoffset") != "" {
 		utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
-		err := user.SetPref("timezone", utcoffset)
+		err := user.SetPref("utcoffset", utcoffset)
 		ctx.CatchError(err)
 	}
 

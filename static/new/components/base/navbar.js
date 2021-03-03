@@ -15,9 +15,9 @@ customElements.define(
                 } else {
                     this.hasUser(dump.user.id);
                     // the fallback is because older user's dont set the
-                    // timezone by default
+                    // utcoffset by default
                     this.drawEditaccount(
-                        dump.user.prefs.timezone || getUTCOffset()
+                        dump.user.prefs.utcoffset || getUTCOffset()
                     );
                 }
                 source.close(); // don't leave an open connection to server to save resources

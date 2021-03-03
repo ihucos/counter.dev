@@ -14,6 +14,6 @@ source.onmessage = (event) => {
 function drawTrackingcode(dump) {
     customElements.whenDefined("counter-trackingcode").then(() => {
         let el = document.querySelector("counter-trackingcode");
-        el.draw(dump.user.id, dump.user.prefs.timezone || getUTCOffset());
+        el.draw(dump.user.id, dump.user.prefs.utcoffset || getUTCOffset());
     });
 }
