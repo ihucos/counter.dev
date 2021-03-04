@@ -10,9 +10,6 @@ BLOCKLIST = [
 'demo\\',
 'XXXXXX',
 'datest',
-'__datest',
-'__test_delme_1234',
-'__testdelme423',
 'asdf',
 ]
 
@@ -36,7 +33,7 @@ for user, v in user_integrations.items():
 data = []
 for key in sorted(r.keys("sites:*")):
     user = key.decode().split(':', 1)[-1]
-    if user in BLOCKLIST:
+    if user in BLOCKLIST or user.startswith('_'):
         continue
 
     token = r.hget("tokens", user)

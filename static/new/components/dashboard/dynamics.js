@@ -6,7 +6,7 @@ customElements.define(
         NEGATIVE = "negative";
 
         draw(dates) {
-            let title;
+            let text;
             let groupdedDates = dNormalizedDates(dates);
             let keys = groupdedDates[0];
             let vals = groupdedDates[1];
@@ -25,11 +25,12 @@ customElements.define(
                 let labelPrevPrev = keys[keys.length - 3];
                 let valPrev = vals[vals.length - 2];
                 let valPrevPrev = vals[vals.length - 3];
-                title = `Compares ${labelPrev} (${valPrev}) with ${labelPrevPrev} (${valPrevPrev})`;
+                text = `When comparing ${labelPrev} with ${labelPrevPrev}`;
 
                 if (valPrevPrev + valPrevPrev <= 2) {
-                    // soo little visits, we can't little calculate much
-                    this.drawTrend(this.STABILITY, null, title);
+                    // soo little visits, we can't calculate much
+                    text = `Few data points in ${labelPrev} and ${labelPrevPrev}`;
+                    this.drawTrend(this.STABILITY, null, text);
                     return;
                 }
 
@@ -37,51 +38,65 @@ customElements.define(
                 //let dd = vals.slice(0, -1)
 
                 if (percent > 10) {
-                    this.drawTrend(this.POSITIVE, percent, title);
+                    this.drawTrend(this.POSITIVE, percent, text);
                     return;
                 } else if (percent < -10) {
-                    this.drawTrend(this.NEGATIVE, percent, title);
+                    this.drawTrend(this.NEGATIVE, percent, text);
                     return;
                 } else {
-                    this.drawTrend(this.STABILITY, null, title);
+                    this.drawTrend(this.STABILITY, null, text);
                     return;
                 }
             }
         }
 
-        drawTrend(trend, percent, title) {
-            let percentAbs = Math.abs(percent);
+        drawTrend(trend, percent, text) {
+            let percentAbs
+            if (percent !== null) {
+                percentAbs = Math.abs(percent) + '%';
+            } else {
+                percentAbs = ''
+            }
             if (trend === this.POSITIVE) {
                 this.innerHTML = `
                  <img src="img/rocket.png" srcset="img/rocket@2x.png 2x" width="60" height="60" alt="Rocket">
                  <div class="graph-dynamics-content gradient-green radius-lg">
-                   <div class="dynamics positive caption" title="${escapeHtml(
-                       title
-                   )}">${escapeHtml(percentAbs)}%</div>
+                   <div class="dynamics positive caption">
+                     ${escapeHtml(percentAbs)}
+                   </div>
                    <div class="strong mt16 mb8">Positive dynamics</div>
-                   <div class="caption gray mb32">You are on the right track :)</div>
+                     <div class="caption gray mb32"
+                          style="padding-left: 4px; padding-right: 4px;">
+                       ${escapeHtml(text)}
+                     </div>
                    <a href="#modal-tips" class="btn-white" rel="modal:open">Our tips</a>
                  </div>`;
             } else if (trend === this.NEGATIVE) {
                 this.innerHTML = `
                  <img src="img/volcano.png" srcset="img/volcano@2x.png 2x" width="60" height="60" alt="Volcano">
                  <div class="graph-dynamics-content gradient-red radius-lg">
-                   <div class="dynamics negative caption" title="${escapeHtml(
-                       title
-                   )}">${escapeHtml(percentAbs)}%</div>
+                   <div class="dynamics negative caption">
+                     ${escapeHtml(percentAbs)}
+                   </div>
                    <div class="strong mt16 mb8">Negative dynamics</div>
-                   <div class="caption gray mb32">Something went wrong :(</div>
+                     <div class="caption gray mb32"
+                          style="padding-left: 4px; padding-right: 4px;">
+                       ${escapeHtml(text)}
+                     </div>
                    <a href="#modal-tips" class="btn-white" rel="modal:open">Our tips</a>
                  </div>`;
             } else if (trend === this.STABILITY) {
                 this.innerHTML = `
                  <img src="img/grow.png" srcset="img/grow@2x.png 2x" width="60" height="60" alt="Grow">
                  <div class="graph-dynamics-content bg-gray radius-lg">
-                   <div class="dynamics stability caption" title="${escapeHtml(
-                       title
-                   )}"></div>
+                   <div class="dynamics stability caption">
+                     ${escapeHtml(percentAbs)}
+                   </div>
                    <div class="strong mt16 mb8">Good stability</div>
-                   <div class="caption gray mb32">But you need to grow!</div>
+                     <div class="caption gray mb32"
+                          style="padding-left: 4px; padding-right: 4px;">
+                       ${escapeHtml(text)}
+                     </div>
                    <a href="#modal-tips" class="btn-white" rel="modal:open">Our tips</a>
                  </div>`;
             } else {
