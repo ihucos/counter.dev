@@ -25,11 +25,11 @@ customElements.define(
         }
 
         noUser() {
-            document.getElementById("no-user").style.display = "block";
+            $(".no-user", this).css("display", "block")
         }
 
         hasUser(user) {
-            document.getElementById("has-user").style.display = "block";
+            $(".has-user", this).css("display", "block")
             Array.from(
                 document.getElementsByClassName("fill-username")
             ).forEach((el) => {
@@ -67,7 +67,7 @@ customElements.define(
                        target="_blank"
                        rel="nofollow"
                      ></a>
-                     <div id="has-user" class="dropdown" style="display: none">
+                     <div class="has-user dropdown" style="display: none">
                        <div class="profile-user fill-username"></div>
                        <div class="dropdown-content">
                          <a href="/dashboard">Dashboard</a>
@@ -75,7 +75,7 @@ customElements.define(
                          <a href="/logout2">Sign out</a>
                        </div>
                      </div>
-                     <span id="no-user" class="profile-guest" style="display: none">
+                     <span class="no-user profile-guest" style="display: none">
                        <a href="welcome.html?sign-in" class="ml32 mr32">Sign in</a>
                        <a href="welcome.html?sign-up" class="btn-primary">Sign up</a>
                      </span>
@@ -91,27 +91,29 @@ customElements.define(
                          <!-- Navigation -->
                          <nav class="nav-header-mob">
                            <!-- Guest -->
-                           <span class="mt48 mb48" style="display: none">
-                             <a href="#" class="btn-primary mr16">Sign in</a>
-                             <a href="#" class="btn-secondary">Sign up</a>
+                           <span class="no-user mt48 mb48" style="display: none">
+                             <a href="welcome.html?sign-in" class="btn-primary mr16">Sign in</a>
+                             <a href="welcome.html?sign-up" class="btn-secondary">Sign up</a>
                            </span>
                            <!-- User -->
-                           <span class="mt24 fill-username"></span>
-                           <span class="mt24 mb48">
-                             <a
-                               href="#modal-account"
-                               class="btn-primary mr16"
-                               rel="modal:open"
-                               onClick="document.getElementById('hamburger-toggle').checked=false"
-                               >Edit account</a
-                             >
-                             <a href="#" class="btn-secondary">Sign out</a>
-                           </span>
+                           <div class="has-user" style="display: none">
+                             <div class="mt24 fill-username"></div>
+                             <div class="mt24 mb48">
+                               <a
+                                 href="#modal-account"
+                                 class="btn-primary mr16"
+                                 rel="modal:open"
+                                 onClick="document.getElementById('hamburger-toggle').checked=false"
+                                 >Edit account</a
+                               >
+                               <a href="/logout2" class="btn-secondary">Sign out</a>
+                             </div>
+                           </div>
                            <!-- /// -->
                            <!-- <a href="#" class="mb24" target="_blank" rel="nofollow"
-                             >Blog</a
+                               >Blog</a
                            > -->
-			   <a href="mailto:hey@counter.dev" class="mb24" target="_blank" rel="nofollow"
+                           <a href="mailto:hey@counter.dev" class="mb24" target="_blank" rel="nofollow"
                              >Feedback</a
                            >
                            <a href="https://www.paypal.com/donate/?hosted_button_id=GYAY2HGG2YLKL&locale.x=en_DE" target="_blank" rel="nofollow">Donate</a>
