@@ -1125,7 +1125,6 @@ nav a {
     float: left;
   }
   .donate-description {
-    display: inline-block;
     width: auto;
   }
   .donate-description .h3 {
