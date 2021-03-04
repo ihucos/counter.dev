@@ -113,6 +113,9 @@ customElements.define(
                            <!-- <a href="#" class="mb24" target="_blank" rel="nofollow"
                                >Blog</a
                            > -->
+                           <a href="/dashboard" class="has-user mb24" target="_blank" rel="nofollow" style="display: none">
+                             Dashboard
+                           </a>
                            <a href="mailto:hey@counter.dev" class="mb24" target="_blank" rel="nofollow"
                              >Feedback</a
                            >
