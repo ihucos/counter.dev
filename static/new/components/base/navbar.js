@@ -113,7 +113,10 @@ customElements.define(
                            <!-- <a href="#" class="mb24" target="_blank" rel="nofollow"
                                >Blog</a
                            > -->
-                           <a href="mailto:hey@counter.dev" class="mb24" target="_blank" rel="nofollow"
+			   <a href="/dashboard" class="has-user mb24" target="_blank" rel="nofollow" style="display: none">
+			     Dashboard
+			   </a>
+			   <a href="mailto:hey@counter.dev" class="mb24" target="_blank" rel="nofollow"
                              >Feedback</a
                            >
                            <a href="https://www.paypal.com/donate/?hosted_button_id=GYAY2HGG2YLKL&locale.x=en_DE" target="_blank" rel="nofollow">Donate</a>
