@@ -1,7 +1,18 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
+        lastSites = null
         draw(sites, sitePref, rangePref) {
+
+            // Only redraw the selector if it would change something, otherwise
+            // redrawing could interrupt and ongoing user interaction with the
+            // selector.
+            if (lastSites == sites){
+                return
+            }
+            lastSites = sites
+
+
             this.style.display = "flex";
             this.style["margin-left"] = "5px";
 
@@ -21,7 +32,7 @@ customElements.define(
                           .join("")}
                    </select>
                 </form>
-                
+
                 <form action="" class="flex" style="margin-left: 5px;">
                      <select onchange="onTimeRangeChanged()" class="range-select selector float-right shadow text-gray-800 bg-gray-400 text-sm font-bold py-2 pr-8 rounded inline-flex items-center appearance-none mr-1" name="time-range" style="color: rgba(0,0,0, 0.7); padding-left: 12px;">
                         <option ${
