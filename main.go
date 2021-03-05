@@ -77,7 +77,6 @@ func (app *App) SetupUrls() {
 	app.Connect("/dump", func(ctx *Ctx) { ctx.handleDump() })
 	app.Connect("/deleteUser", func(ctx *Ctx) { ctx.handleDeleteUser() })
 	app.Connect("/count", func(ctx *Ctx) { ctx.Return(fmt.Sprintf("%d", ctx.app.RedisPool.ActiveCount()), 200) }) // DEBUG CODE
-	app.Connect("/loadComponents.js", func(ctx *Ctx) { ctx.handleLoadComponentsJS() })
 	app.Connect("/load.js", func(ctx *Ctx) { ctx.handleLoadComponentsJS2() })
 }
 

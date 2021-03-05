@@ -137,9 +137,9 @@ func (ctx *Ctx) HandleDashboard() {
 	hasSites, err := user.HasSiteLinks()
 	ctx.CatchError(err)
 	if hasSites {
-		http.Redirect(ctx.w, ctx.r, "/new/dashboard.html", http.StatusTemporaryRedirect)
+		http.Redirect(ctx.w, ctx.r, "/dashboard.html", http.StatusTemporaryRedirect)
 	} else {
-		http.Redirect(ctx.w, ctx.r, "/new/setup.html", http.StatusTemporaryRedirect)
+		http.Redirect(ctx.w, ctx.r, "/setup.html", http.StatusTemporaryRedirect)
 	}
 }
 
@@ -153,9 +153,9 @@ func (ctx *Ctx) handleLogout2() {
 	next := ctx.r.FormValue("next")
 	var redirectURL string
 	if next == "login" {
-		redirectURL = "/new/welcome.html?sign-in"
+		redirectURL = "/welcome.html?sign-in"
 	} else {
-		redirectURL = "/new"
+		redirectURL = "/"
 	}
 	http.Redirect(ctx.w, ctx.r, redirectURL, http.StatusTemporaryRedirect)
 }
@@ -170,7 +170,7 @@ func (ctx *Ctx) handleDeleteUser() {
 	ctx.Logout()
 	user.DelAllSites()
 	user.Disable()
-	http.Redirect(ctx.w, ctx.r, "/new", http.StatusTemporaryRedirect)
+	http.Redirect(ctx.w, ctx.r, "/", http.StatusTemporaryRedirect)
 }
 
 func (ctx *Ctx) HandleDeleteSite() {
@@ -321,37 +321,12 @@ func (ctx *Ctx) handlePing() {
 	ctx.ReturnJSON(resp, 200)
 }
 
-func (ctx *Ctx) handleLoadComponentsJS() {
-	// SEND HEADERS FOR CLOUDFROM HTTP PUSH AND TEST THAT
-	files1, err := filepath.Glob("./static/comp/*.js")
-	ctx.CatchError(err)
-	files2, err := filepath.Glob("./static/comp/*/*.js")
-	ctx.CatchError(err)
-	files3, err := filepath.Glob("./static/comp/*/*/*.js")
-	ctx.CatchError(err)
-	files := append(append(files1, files2...), files3...)
-
-	// this works, but breaks the frontend - you fix it!
-	//for _, file := range files {
-	// ctx.w.Header().Add("Link", fmt.Sprintf("</%s>; rel=preload;", file))
-	//}
-
-	filesJson, err := json.Marshal(files)
-	ctx.CatchError(err)
-	ctx.Return(fmt.Sprintf(`
-        %s.sort().map(file => {
-            let script = document.createElement("script");
-            script.src = '/' + file.slice(7); script.async = false;
-            document.head.appendChild(script)})`, filesJson), 200)
-}
-
 func (ctx *Ctx) handleLoadComponentsJS2() {
-	// SEND HEADERS FOR CLOUDFROM HTTP PUSH AND TEST THAT
-	files1, err := filepath.Glob("./static/new/components/*.js")
+	files1, err := filepath.Glob("./static/components/*.js")
 	ctx.CatchError(err)
-	files2, err := filepath.Glob("./static/new/components/*/*.js")
+	files2, err := filepath.Glob("./static/components/*/*.js")
 	ctx.CatchError(err)
-	files3, err := filepath.Glob("./static/new/components/*/*/*.js")
+	files3, err := filepath.Glob("./static/components/*/*/*.js")
 	ctx.CatchError(err)
 	files := append(append(files1, files2...), files3...)
 

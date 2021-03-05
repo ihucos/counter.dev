@@ -1,806 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta name="flattr:id" content="g69ydw" />
-
-    <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32" />
-
+    <meta charset="utf-8" />
+    <title>Counter - Simple Web Analytics</title>
     <meta
       name="description"
       content="Web Analytics made simple and therefore privacy friendly. It’s Free."
     />
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;800&display=swap"
-      rel="stylesheet"
-    />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="css/landing.css" />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
     />
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-
+    <link rel="shortcut icon" href="img/favicon.png" />
     <link
-      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&family=Poppins:wght@700&display=swap"
       rel="stylesheet"
     />
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.css"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
-
-    <script src="script.js"></script>
-    <script src="loadComponents.js"></script>
-
-    <title>Counter - Simple Web Analytics</title>
-
-    <style>
-      .tile {
-        border-radius: 5px;
-        box-shadow: 0 0.1em 1rem rgba(0, 0, 0, 0.1);
-        background-color: white;
-      }
-
-      .gradient {
-        background-image: linear-gradient(-225deg, #76a5cf 0%, #0b4273 100%);
-      }
-
-      .browser-mockup {
-        border-top: 2em solid rgba(230, 230, 230, 0.7);
-        box-shadow: 0 0.1em 1em 0 rgba(0, 0, 0, 0.4);
-        position: relative;
-        border-radius: 3px 3px 0 0;
-      }
-
-      .browser-mockup:before {
-        display: block;
-        position: absolute;
-        content: "";
-        top: -1.25em;
-        left: 1em;
-        width: 0.5em;
-        height: 0.5em;
-        border-radius: 50%;
-        background-color: #f44;
-        box-shadow: 0 0 0 2px #f44, 1.5em 0 0 2px #9b3, 3em 0 0 2px #fb5;
-      }
-
-      .browser-mockup.with-tab:after {
-        display: block;
-        position: absolute;
-        content: "";
-        top: -2em;
-        left: 5.5em;
-        width: 20%;
-        height: 0em;
-        border-bottom: 2em solid white;
-        border-left: 0.8em solid transparent;
-        border-right: 0.8em solid transparent;
-      }
-
-      .browser-mockup.with-url:after {
-        display: block;
-        position: absolute;
-        content: "";
-        top: -1.6em;
-        left: 5.5em;
-        width: calc(100% - 6em);
-        height: 1.2em;
-        border-radius: 2px;
-        background-color: white;
-      }
-
-      .browser-mockup > * {
-        display: block;
-      }
-
-      body {
-        font-family: "Inter", sans-serif;
-        font-weight: 300;
-      }
-
-      .sub {
-        text-shadow: -1px 1px 1px hsl(0, 0%, 35%);
-      }
-
-      a {
-        color: #2f6ca2;
-      }
-
-      .usp {
-        box-shadow: 0px 4px 200px 50px rgb(47, 108, 162, 0.1);
-      }
-
-      .usp h2 {
-        display: inline-block;
-      }
-
-      .usp img {
-        display: none;
-        height: 1em;
-        margin: 0.2em;
-        position: relative;
-        bottom: 0.5em;
-      }
-
-      .screenshot {
-        width: 45em;
-        margin-top: 1em;
-        position: relative;
-        top: 4.7em;
-      }
-
-      .featuring {
-        border-collapse: collapse;
-        border-spacing: 0;
-        border: 5px solid transparent;
-      }
-
-      .featuring tr,
-      .featuring td {
-        padding: 0px;
-      }
-
-      .featuring td:first-of-type {
-        border-bottom: 1px solid #ddd;
-        border-right: 10px solid transparent;
-        font-weight: 500;
-      }
-
-      .featuring img {
-        /*filter: grayscale(100%) opacity(1);
-      -webkit-filter: grayscale(100%) opacity(1);*/
-        display: inline-block;
-        background-color: rgba(0, 0, 0, 0.03);
-        height: 3.5em;
-        padding: 0.5em;
-        margin: 2px;
-        border-radius: 5px;
-      }
-
-      .features p {
-        display: list-item;
-        list-style-type: disc;
-        list-style-position: inside;
-        font-weight: 500;
-      }
-
-      .hr-1 {
-        transform: rotate(0.5deg);
-      }
-      .hr-2 {
-        transform: rotate(-0.5deg);
-      }
-      .hr-3 {
-        transform: rotate(0.5deg);
-      }
-      .hr-4 {
-        transform: rotate(-0.5deg);
-      }
-      .hr-5 {
-        transform: rotate(0.5deg);
-      }
-
-      comp-map h5 {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
-          "Segoe UI Emoji", "Segoe UI Symbol";
-        color: rgba(0, 0, 0, 0.7);
-        font-size: 16px;
-        line-height: 1.2;
-        padding-top: 7px;
-        padding-bottom: 8px;
-        font-weight: bold;
-        text-align: center;
-      }
-    </style>
-
-    <script>
-      // counter.dev tracking code
-      if (
-        !sessionStorage.getItem("_swa") &&
-        document.referrer.indexOf(location.protocol + "//" + location.host) !==
-          0
-      ) {
-        fetch(
-          "https://simple-web-analytics.com/track?" +
-            new URLSearchParams({
-              referrer: document.referrer,
-              screen: screen.width + "x" + screen.height,
-              site: "counter",
-              utcoffset: 2,
-            })
-        );
-      }
-      sessionStorage.setItem("_swa", "1");
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="components/_base.js"></script>
+    <script src="components/base/editaccount.js"></script>
+    <script src="components/base/navbar.js"></script>
+    <script src="components/base/footer.js"></script>
+    <script src="components/counter-flash.js"></script>
   </head>
   <body>
-    <div
-      id="deprmsg"
-      class="text-center border-b w-full fixed h-6"
-      style="
-        display: none;
-        font-size: 0.85em;
-        background-color: white;
-        z-index: 100;
-      "
-    >
-      We are now available at <a href="https://counter.dev">counter.dev</a>
-    </div>
-
-    <div
-      class="flex flex-wrap pt-24 pb-0 border-b"
-      style="
-        background: linear-gradient(to left top, #28a5f5, #1e87f0) 0 0 no-repeat;
-      "
-    >
-      <div class="text-center w-full p-5">
-        <div class="text-left inline-block">
-          <h1 class="text-white text-4xl text-center font-bold">
-            Simple Web Analytics
-          </h1>
-          <h5 class="sub text-white pb-4">
-            Web Analytics made simple and therefore privacy friendly.
-          </h5>
+    <header>
+      <counter-flash></counter-flash>
+      <base-navbar></base-navbar>
+    </header>
+    <!-- Landing page -->
+    <!-- Hero -->
+    <section>
+      <div class="content">
+        <div class="hero-wrap">
+          <div class="hero">
+            <div class="hero-cards bounce"></div>
+          </div>
+          <div class="description">
+            <h1>Simple Web Analytics</h1>
+            <div class="title gray mt24 mb48">
+              Web Analytics made simple and therefore privacy friendly.
+            </div>
+            <a href="welcome.html" class="btn-primary mr16">Get started</a>
+            <a href="dashboard.html?demo=1" class="btn-secondary">Live demo</a>
+          </div>
         </div>
-
-        <div class="mt-5">
-          <a
-            href="/app"
-            class="bg-gray-800 hover:bg-gray-900 text-gray-200 font-bold py-2 px-4 rounded shadow mr-2"
-            >Open app</a
+      </div>
+    </section>
+    <!-- Benefits -->
+    <section class="benefits">
+      <div class="content">
+        <div class="benefits-wrap">
+          <div class="benefits-items">
+            <!-- Free -->
+            <div class="benefits-item radius-sm">
+              <div class="benefits-item-icon">
+                <div class="benefits-item-icon-free"></div>
+              </div>
+              <div class="benefits-item-description">
+                <h3>Free</h3>
+                <div class="mt8 gray">
+                  We don't collect personal data, which allows serving many
+                  users with little hosting costs.
+                </div>
+              </div>
+            </div>
+            <!-- Open source -->
+            <div class="benefits-item radius-sm">
+              <div class="benefits-item-icon">
+                <div class="benefits-item-icon-open"></div>
+              </div>
+              <div class="benefits-item-description">
+                <h3>Open Source</h3>
+                <div class="mt8 gray">
+                  The source code is published under the AGPL‑v3 licence.
+                  Collaboration is welcome.
+                </div>
+              </div>
+            </div>
+            <!--  Privacy friendly -->
+            <div class="benefits-item radius-sm">
+              <div class="benefits-item-icon">
+                <div class="benefits-item-icon-privacy"></div>
+              </div>
+              <div class="benefits-item-description">
+                <h3>Privacy Friendly</h3>
+                <div class="mt8 gray">
+                  No Cookies. No logging. No IP address fingerprinting.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="benefits-pic"></div>
+        </div>
+      </div>
+    </section>
+    <!-- Features -->
+    <section class="features">
+      <div class="content">
+        <div class="owl-carousel owl-theme">
+          <!-- Counts Daily Unique Visitors -->
+          <div class="features-item radius-sm">
+            <div class="features-item-pic">
+              <img
+                src="img/visits.svg"
+                width="255"
+                height="150"
+                alt="Counts Daily Unique Visitors"
+              />
+            </div>
+            <div class="features-item-description">
+              <h3 class="mb16">Counts Daily Unique Visitors</h3>
+              <span class="gray"
+                >All metrics are based on Daily Unique Visitors which
+                represents a visit at a specific date.
+              </span >
+            </div>
+          </div>
+          <!-- Know your referrers -->
+          <div class="features-item radius-sm">
+            <div class="features-item-pic">
+              <img
+                src="img/traffic.svg"
+                width="255"
+                height="150"
+                alt="Know your referrers"
+              />
+            </div>
+            <div class="features-item-description">
+              <h3 class="mb16">Know your referrers</h3>
+              <span class="gray"
+                > See which other websites, social media or blogs link to your
+                website and learn how many users come from those external links.
+              </span
+              >
+            </div>
+          </div>
+          <!-- Geographical locations -->
+          <div class="features-item radius-sm">
+            <div class="features-item-pic">
+              <img
+                src="img/location.svg"
+                width="255"
+                height="150"
+                alt="Geographical locations"
+              />
+            </div>
+            <div class="features-item-description">
+              <h3 class="mb16">Focus on what matters</h3>
+              <span class="gray"
+                >
+                We try to avoid superfluous and convoluted information and only
+                show what you can actually understand.
+                </span
+              >
+            </div>
+          </div>
+          <!-- The friendly alternative -->
+          <div class="features-item radius-sm">
+            <div class="features-item-pic">
+              <img
+                src="img/friendly.svg"
+                width="255"
+                height="150"
+                alt="The friendly alternative"
+              />
+            </div>
+            <div class="features-item-description">
+              <h3 class="mb16">The friendly alternative</h3>
+              <span class="gray"
+                >You don't have to choose between free or privacy friendy. We
+                offer a free and privacy friendly analytics service for
+                everyone.</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Open source -->
+    <section class="open-source">
+      <div class="content">
+        <div class="open-source-description">
+          <h2>Open Source</h2>
+          <div class="caption gray mt16 mb24">
+            Counter is fully open-source and available on Github.
+          </div>
+          <a href="#" class="btn-secondary" target="_blank" rel="nofollow"
+            >View project</a
           >
+        </div>
+        <div class="open-source-services">
+          <span>Frontend</span><span>Backend</span>Services
+        </div>
+      </div>
+    </section>
+    <!-- Donate -->
+    <section>
+      <div class="content">
+        <div class="donate-wrap">
+          <div class="donate-icon"></div>
+          <div class="donate-description">
+            <div class="h3 mb8">Pay what you want</div>
+            <div class="gray">
+              We do encourage users with commercial projects to pay for
+              this product.<br />
+              The amount could be comparable with what similiar services charge.
+            </div>
+          </div>
           <a
-            href="/app#demo"
-            class="bg-gray-700 hover:bg-gray-800 text-gray-200 font-bold py-2 px-4 rounded shadow"
+            href="https://www.paypal.com/donate/?hosted_button_id=GYAY2HGG2YLKL&locale.x=en_DE"
+            class="btn-primary"
             target="_blank"
-            >Demo</a
-          >
-        </div>
-      </div>
-      <div class="browser-mockup with-url screenshot ml-auto mr-auto w-full">
-        <a href="/app#demo" target="_blank"><img src="screenshot.png" /></a>
-      </div>
-    </div>
-
-    <section
-      class="max-w-4xl mx-auto flex flex-wrap md:space-x-16 md:mt-40 mt-20"
-    >
-      <div class="w-full md:flex-1 usp border rounded p-6">
-        <h1 class="text-xl font-bold mb-1 text-gray-800">✓ Free</h1>
-        <p>
-          Technical design choices allow serving many users with little hosting
-          costs.
-        </p>
-      </div>
-      <div class="w-full md:flex-1 usp border rounded p-6">
-        <h1 class="text-xl font-bold mb-1 text-gray-800">✓ Open Source</h1>
-        <p>
-          The source code is published under the
-          <a
-            href="https://www.gnu.org/licenses/agpl-3.0.de.html"
-            target="_blank"
-            >AGPL-v3</a
-          >
-          licence.
-        </p>
-      </div>
-      <div class="w-full md:flex-1 usp border rounded p-6">
-        <h1 class="text-xl font-bold mb-1 text-gray-800">✓ Privacy Friendly</h1>
-        <p>No cookies. No logging or hashing IP addresses.</p>
-      </div>
-    </section>
-
-    <div class="md:bg-gray-100 md:border-b md:border-t md:mt-16">
-      <section class="my-32 mt-24">
-        <!-- title -->
-        <h2
-          class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
-        >
-          Counts unique visits
-        </h2>
-        <div class="mb-8 hidden md:block">
-          <div
-            class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t"
-            style="width: 16em"
-          ></div>
-        </div>
-
-        <div class="max-w-screen-sm mx-auto flex flex-wrap">
-          <div class="w-1/2">
-            <comp-chart-lastdays
-              class="tile"
-              style="display: flex; height: 170px"
-            ></comp-chart-lastdays>
-          </div>
-
-          <p class="w-1/2 pl-5">
-            All metrics are based on visits, which is a browser session at a
-            given day. For example: if the same user visited your site yesteday
-            and today, that is counted as two visits.
-          </p>
-        </div>
-      </section>
-
-      <section class="my-32 mt-24">
-        <!-- title -->
-        <h2
-          class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
-        >
-          Traffic sources
-        </h2>
-        <div class="mb-8 hidden md:block">
-          <div
-            class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t"
-            style="width: 11em"
-          ></div>
-        </div>
-
-        <div class="max-w-screen-sm mx-auto flex flex-wrap">
-          <p class="w-1/2 pr-5">
-            You can see which other websites link to you and how many users got
-            to your site via external links. This can be viewed as an overview
-            and in detail.
-          </p>
-
-          <div class="w-1/2">
-            <comp-chart-referrers
-              class="tile"
-              style="display: flex; height: 200px"
-            ></comp-chart-referrers>
-          </div>
-        </div>
-      </section>
-
-      <section class="my-32 mt-24">
-        <!-- title -->
-        <h2
-          class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
-        >
-          Geographical locations
-        </h2>
-        <div class="mb-8 hidden md:block">
-          <div
-            class="hr-1 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t"
-            style="width: 17em"
-          ></div>
-        </div>
-
-        <div class="max-w-screen-sm mx-auto flex flex-wrap">
-          <comp-map class="w-1/2 tile px-2" style="height: 200px"></comp-map>
-
-          <p class="w-1/2 pl-5">
-            There's a map and a list view with the geographical location of
-            visitors.
-          </p>
-        </div>
-      </section>
-
-      <section class="my-32">
-        <!-- title -->
-        <h2
-          class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
-        >
-          The friendly alternative
-        </h2>
-        <div class="mb-8 hidden md:block">
-          <div
-            class="hr-2 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t"
-            style="width: 18em"
-          ></div>
-        </div>
-        <div class="flex max-w-md mx-auto">
-          <p class="flex-1" style="flex-grow: 2">
-            You don't have to choose between free or privacy friendy. We offer a
-            free and privacy friendly analytics service for everyone.
-          </p>
-          <img src="trophy.svg" class="flex-1" />
-        </div>
-      </section>
-
-      <section class="my-32 mb-24">
-        <!-- title -->
-        <h2
-          class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
-        >
-          Open Source
-        </h2>
-        <div class="mb-8 hidden md:block">
-          <div
-            class="hr-3 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t"
-            style="width: 10em"
-          ></div>
-        </div>
-
-        <table class="featuring mx-auto">
-          <tbody>
-            <tr>
-              <td>Frontend</td>
-              <td>
-                <a
-                  target="_blank"
-                  href="https://www.chartjs.org/"
-                  class="float-left"
-                >
-                  <img
-                    src="featuring/chartjs.png"
-                    class="border"
-                    target="_blank"
-                  />
-                </a>
-                <a
-                  target="_blank"
-                  href="https://tailwindcss.com/"
-                  class="float-left"
-                >
-                  <img src="featuring/tailwind.svg" class="border" target="" />
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>Backend</td>
-              <td>
-                <a
-                  target="_blank"
-                  href="https://golang.org/"
-                  class="float-left"
-                >
-                  <img
-                    src="featuring/go.svg"
-                    class="border"
-                    style="padding: 0.5em"
-                  />
-                </a>
-                <a target="_blank" href="https://redis.io/" class="float-left">
-                  <img
-                    src="featuring/redis.svg"
-                    class="border"
-                    style="padding: 0.6em"
-                  />
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>Services</td>
-              <td>
-                <a
-                  target="_blank"
-                  href="https://github.com/"
-                  class="float-left"
-                >
-                  <img
-                    src="featuring/github.svg"
-                    class="border"
-                    style="padding: 1.1em"
-                  />
-                </a>
-                <a
-                  target="_blank"
-                  href="https://www.linode.com/"
-                  class="float-left"
-                >
-                  <img
-                    src="featuring/linode.svg"
-                    class="border"
-                    style="padding: 0em"
-                  />
-                </a>
-                <a
-                  target="_blank"
-                  href="https://www.cloudflare.com/"
-                  class="float-left"
-                >
-                  <img
-                    src="featuring/cloudflare.svg"
-                    class="border"
-                    style="padding: 0em"
-                  />
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <a
-          href="https://github.com/ihucos/counter.dev"
-          target="_blank"
-          class="px-3 mt-8 mx-auto block text-center"
-        >
-          View project
-        </a>
-      </section>
-    </div>
-    <!-- the gray color -->
-
-    <section class="my-32">
-      <!-- title -->
-      <h2
-        class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
-      >
-        Features
-      </h2>
-      <div class="mb-8 hidden md:block">
-        <div
-          class="hr-4 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t"
-          style="width: 8em"
-        ></div>
-      </div>
-
-      <div class="mx-auto md:table features">
-        <div class="md:table-row">
-          <div class="md:table-cell"><p class="py-4 px-5">One screen</p></div>
-          <div class="md:table-cell"><p class="py-4 px-5">No menus</p></div>
-        </div>
-        <div class="md:table-row">
-          <div class="md:table-cell">
-            <p class="py-4 px-5">Down to earth</p>
-          </div>
-          <div class="md:table-cell">
-            <p class="py-4 px-5">Charts you understand</p>
-          </div>
-        </div>
-        <div class="md:table-row">
-          <div class="md:table-cell">
-            <p class="py-4 px-5">Export to CSV</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="my-32">
-      <!-- title -->
-      <h2
-        class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
-      >
-        Pay what you want
-      </h2>
-      <div class="mb-8 hidden md:block">
-        <div
-          class="hr-5 h-1 mx-auto gradient opacity-25 my-0 py-0 rounded-t"
-          style="width: 14em"
-        ></div>
-      </div>
-
-      <div class="text-center">
-        <p>
-          We still do encourage users with commercial projects to pay for this
-          product.
-        </p>
-        <p class="mb-12">
-          The amount could be comparable with what similiar services charge.
-        </p>
-        <div class="mt-5">
-          <a
-            href="/app#demo"
-            class="bg-gray-700 hover:bg-gray-800 text-gray-200 font-bold py-2 px-4 rounded shadow"
-            target="_blank"
-            >Demo</a
-          >
-          ->
-          <a
-            href="/app"
-            class="bg-gray-800 hover:bg-gray-900 text-gray-200 font-bold py-2 px-4 rounded shadow"
-            >Register</a
-          >
-          ->
-          <a
-            href="https://flattr.com/@ihucos"
-            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow"
-            target="_blank"
-            >donate</a
+            rel="nofollow"
+            >Donate now</a
           >
         </div>
       </div>
     </section>
-
-    <section class="mt-64 mb-32">
-      <!-- title -->
-      <h2
-        class="my-2 text-2xl font-black leading-tight text-center text-gray-800 header-font"
-      >
-        Feedback
-      </h2>
-      <div class="mb-4 hidden md:block">
-        <div
-          class="h-1 mx-auto gradient w-32 opacity-25 my-0 py-0 rounded-t"
-        ></div>
-      </div>
-
-      <div class="text-center pt-5">
-        <a href="mailto:hey@counter.dev" class="font-mono p-3"
-          >hey@counter.dev</a
-        >
-        <div class="py-3">- or -</div>
-        <a
-          class="font-mono p-3"
-          target="_blank"
-          href="https://feedback.userreport.com/bf68adbd-d870-49de-94db-368289d21551/"
-          >Add an idea</a
-        >
-      </div>
-    </section>
-
-    <section class="flex">
-      <div class="self-end" style="flex-grow: 5">
-        <h1 class="font-bold text-xl text-left font-mono text-gray-500">
-          &lt;/html&gt; :-)
-        </h1>
-      </div>
-      <div class="self-end" style="flex-grow: 1">
-        <div class="inline-block">
-          <a
-            href="#"
-            onclick="alert('You clicked the plant, congratulations.'); return false;"
-          >
-            <img
-              src="plant.svg"
-              class="block relative opacity-75"
-              style="width: 15em; right: 0em"
-            />
-          </a>
-          <a
-            href="#"
-            class="text-center block text-xl bg-yellow-800 rounded opacity-50 p-1 mx-12 rounded text-white"
-            onclick="impressum(); return false"
-            >Impressum</a
-          >
-        </div>
-      </div>
-    </section>
-
-    <script>
-      function impressum() {
-        var x = "@";
-        var s =
-          "\
-INFORMATION REQUIRED BY GERMAN LAW\n\
-\n\
-Angaben gemäß § 5 TMG\n\
-\n\
-Irae Hueck Costa\n\
-Bochumerstr. 10\n\
-10555 Berlin\n\
-\n\
-Kontakt:\n\
-\n\
-Telefon: 017644" +
-          "" +
-          "4915" +
-          2 +
-          1 +
-          "4 \n\
-(note: this a personal mobile number, customer support is per mail)\n\
-\n\
-E-Mail: info" +
-          x +
-          "" +
-          "simple-web-analytcs.com";
-
-        alert(s);
-      }
-    </script>
-    <script>
-      date = {};
-      date[moment().subtract(6, "day").format("YYYY-MM-DD")] = 1800;
-      date[moment().subtract(5, "day").format("YYYY-MM-DD")] = 2048;
-      date[moment().subtract(4, "day").format("YYYY-MM-DD")] = 2407;
-      date[moment().subtract(3, "day").format("YYYY-MM-DD")] = 2503;
-      date[moment().subtract(2, "day").format("YYYY-MM-DD")] = 2710;
-      date[moment().subtract(1, "day").format("YYYY-MM-DD")] = 2572;
-      date[moment().subtract(0, "day").format("YYYY-MM-DD")] = 2998;
-
-      ref = {
-        "facebook.com": 4501,
-        "news.ycombinator.com": 2349,
-        "com.linkedin.android": 1801,
-        "other.com": 1800,
-      };
-
-      countries = {
-        ae: 8,
-        ar: 1,
-        at: 5,
-        au: 13,
-        ax: 17,
-        ba: 4,
-        be: 8,
-        bg: 3,
-        br: 10,
-        by: 2,
-        ca: 15,
-        ch: 1,
-        cl: 3,
-        cn: 22,
-        co: 5,
-        cu: 1,
-        cy: 41,
-        de: 26,
-        dk: 9,
-        ee: 4,
-        eg: 1,
-        es: 8,
-        fi: 9,
-        fr: 13,
-        gb: 26,
-        gt: 1,
-        hk: 4,
-        hn: 1,
-        ht: 1,
-        id: 5,
-        ie: 5,
-        il: 4,
-        in: 90,
-        iq: 1,
-        it: 4,
-        jp: 10,
-        ke: 2,
-        kr: 1,
-        lt: 2,
-        lu: 1,
-        md: 1,
-        mx: 2,
-        my: 1,
-        ng: 1,
-        nl: 10,
-        no: 3,
-        np: 1,
-        nz: 2,
-        pe: 1,
-        ph: 1,
-        pk: 1,
-        pl: 11,
-        pt: 1,
-        ro: 4,
-        ru: 3,
-        sa: 2,
-        se: 4,
-        sg: 2,
-        si: 1,
-        sk: 1,
-        so: 1,
-        t1: 2,
-        th: 1,
-        tn: 3,
-        tr: 4,
-        tt: 1,
-        tw: 1,
-        ua: 30,
-        us: 96,
-        uy: 1,
-        vn: 1,
-        za: 1,
-      };
-
-      customElements.whenDefined("comp-chart-lastdays").then(() => {
-        var el = document.getElementsByTagName("comp-chart-lastdays")[0];
-        el.draw(date);
+    <base-footer></base-footer>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        // Features slider
+        $(".owl-carousel").owlCarousel({
+          items: 1,
+          margin: 30,
+          nav: false,
+          responsive: {
+            1110: { items: 4, margin: 30, mouseDrag: false, nav: false },
+          },
+        });
       });
-
-      customElements.whenDefined("comp-chart-referrers").then(() => {
-        var el = document.getElementsByTagName("comp-chart-referrers")[0];
-        //el.draw(date)
-        el.draw(ref, date);
-      });
-
-      customElements.whenDefined("comp-map").then(() => {
-        var el = document.getElementsByTagName("comp-map")[0];
-        //el.draw(date)
-        el.draw(countries);
-      });
-    </script>
-
-    <script>
-      if (window.location.hostname === "simple-web-analytics.com") {
-        document.getElementById("deprmsg").style.display = "block";
-      }
     </script>
   </body>
 </html>
