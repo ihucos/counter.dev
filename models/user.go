@@ -211,8 +211,9 @@ func (user User) IncrSiteLink(siteId string) {
 	user.redis.Send("HINCRBY", fmt.Sprintf("sites:%s", user.Id), siteId, 1)
 }
 
-func (user User) DelSiteLink(siteId string) {
-	user.redis.Send("HDEL", fmt.Sprintf("sites:%s", user.Id), siteId)
+func (user User) DelSiteLink(siteId string) (bool, error) {
+	deleted, err := redis.Int64(user.redis.Do("HDEL", fmt.Sprintf("sites:%s", user.Id), siteId))
+	return deleted == 1, err
 }
 
 func (user User) delAllSiteLinks() {

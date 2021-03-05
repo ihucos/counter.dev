@@ -147,7 +147,11 @@ func (ctx *Ctx) HandleDeleteSite() {
 		ctx.ReturnBadRequest("Confirmation failed")
 	}
 	user.NewSite(site).Del()
-	user.DelSiteLink(site)
+	deleted, err := user.DelSiteLink(site)
+	ctx.CatchError(err)
+	if ! deleted {
+		ctx.ReturnBadRequest("Logged in user does not have such a site")
+	}
 	user.Signal()
 }
 
