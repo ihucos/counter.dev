@@ -49,7 +49,10 @@ class Counter extends HTMLElement {
             <div
               class="dynamics ${trend} caption"
               title='Compares this ${curTime} (${count}) with this ${nextCurTime} (${nextCount})'
-            ><span class="dynamics-mobile">${percentRepr}</span></div>
+              ${curTime === nextCurTime ? `style="display: none;"` : ``}
+            >
+              <span class="dynamics-mobile">${percentRepr}</span>
+            </div>
           </div>`;
     }
 

@@ -29,7 +29,7 @@ customElements.define(
 
                 if (valPrevPrev + valPrevPrev <= 2) {
                     // soo little visits, we can't calculate much
-                    text = `Few data points in ${labelPrev} and ${labelPrevPrev}`;
+                    text = `But few data points in ${labelPrev} and ${labelPrevPrev}`;
                     this.drawTrend(this.STABILITY, null, text);
                     return;
                 }
