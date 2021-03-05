@@ -79,7 +79,7 @@ customElements.define(
                 }
             );
 
-            simpleForm("#site-delete", "/dashboard.html");
+            simpleForm("#site-delete", "/dashboard");
 
             let tc = this.querySelector("counter-trackingcode");
             customElements.upgrade(tc);
