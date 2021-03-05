@@ -5,9 +5,9 @@ customElements.define(
         STABILITY = "stability";
         NEGATIVE = "negative";
 
-        draw(dates) {
+        draw(dates, utcoffset) {
             let text;
-            let groupdedDates = dNormalizedDates(dates);
+            let groupdedDates = dNormalizedDates(dates, utcoffset);
             let keys = groupdedDates[0];
             let vals = groupdedDates[1];
             this.classList.add("graph-dynamics");
@@ -18,7 +18,7 @@ customElements.define(
                 this.drawTrend(
                     this.STABILITY,
                     null,
-                    "Not enough data to determine trend"
+                    "But not enough data to determine trend"
                 );
             } else {
                 let labelPrev = keys[keys.length - 2];

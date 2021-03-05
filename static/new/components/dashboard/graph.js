@@ -9,8 +9,8 @@ customElements.define(
             return gradientStroke;
         }
 
-        getChart(dates, hour) {
-            let vals = dNormalizedDates(dates);
+        getChart(dates, hour, utcoffset) {
+            let vals = dNormalizedDates(dates, utcoffset);
             let labels = vals[0];
             let data = vals[1];
 

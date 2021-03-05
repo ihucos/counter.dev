@@ -65,6 +65,18 @@ connectData("counter-trackingcode", (dump) => [
     dump.user.prefs.utcoffset || getUTCOffset(),
 ]);
 
+connectData("dashboard-dynamics", (dump) => [
+    dump.sites[selector.site].visits[selector.range]["date"],
+    dump.user.prefs.utcoffset || getUTCOffset(),
+]);
+
+
+connectData("dashboard-graph", (dump) => [
+    dump.sites[selector.site].visits[selector.range]["date"],
+    dump.sites[selector.site].visits[selector.range]["hour"],
+    dump.user.prefs.utcoffset || getUTCOffset(),
+]);
+
 connectData("dashboard-settings", (dump) => [
     {
         cursite: selector.site,
@@ -94,8 +106,6 @@ connectData("dashboard-counter-direct", (dump) => [
     selector.range,
     dump.user.prefs.utcoffset || getUTCOffset(),
 ]);
-connectData("dashboard-graph", k("date", "hour"));
-connectData("dashboard-dynamics", k("date"));
 connectData("#devices dashboard-pie", k("device"));
 connectData("#platforms dashboard-pie ", k("platform"));
 connectData("#browsers dashboard-pie", k("browser"));
@@ -203,20 +213,8 @@ function dGroupData(entries, cutAt) {
     return res;
 }
 
-function getUTCMinusElevenNow(utcoffset) {
-    var date = new Date();
-    var now_utc = Date.UTC(
-        date.getUTCFullYear(),
-        date.getUTCMonth(),
-        date.getUTCDate(),
-        date.getUTCHours(),
-        date.getUTCMinutes(),
-        date.getUTCSeconds()
-    );
-
-    let d = new Date(now_utc);
-    d.setHours(d.getHours() + utcoffset);
-    return d;
+function getUTCNow(utcoffset) {
+    return moment().add(parseInt(utcoffset), "hours").toDate()
 }
 
 function dPadDates(dates, utcoffset) {
@@ -235,13 +233,13 @@ function dPadDates(dates, utcoffset) {
     });
 
     return {
-        ...daysRange(sortedAvailableDates[0], getUTCMinusElevenNow(utcoffset)),
+        ...daysRange(sortedAvailableDates[0], getUTCNow(utcoffset)),
         ...dates,
     };
 }
 
-function dNormalizedDates(dates) {
-    let groupedByDay = dPadDates(dates);
+function dNormalizedDates(dates, utcoffset) {
+    let groupedByDay = dPadDates(dates, utcoffset);
 
     let groupedByMonth = Object.entries(groupedByDay).reduce((acc, val) => {
         let group = moment(val[0]).format("MMMM");

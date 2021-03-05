@@ -8,7 +8,7 @@ customElements.define(
                    <!-- Notification -->
                    <section class="notification">
                      <div class="content">
-                       <span>We are happy to announce this new design!</span>
+                       <span>Enjoy our new design!</span>
                        <div class="btn-close" onclick="this.closest('section').remove()"></div>
                      </div>
                    </section>`;

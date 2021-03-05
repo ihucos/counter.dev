@@ -14,13 +14,12 @@ class Counter extends HTMLElement {
         let nextCount = this.count(allVisits[nextCurTime]);
 
         let datesPassedCurTime = Object.keys(
-            dPadDates(allVisits[curTime].date),
+            dPadDates(allVisits[curTime].date, utcoffset),
             utcoffset
         ).length;
         let datesPassedNextTime = Object.keys(
             dPadDates(allVisits[nextCurTime].date, utcoffset)
         ).length;
-        console.log(datesPassedCurTime, datesPassedNextTime);
 
         let perThisTimeRange = count / datesPassedCurTime;
         let perNextTimeRange = nextCount / datesPassedNextTime;
