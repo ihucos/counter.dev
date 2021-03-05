@@ -269,28 +269,6 @@ type PingDataResp struct {
 	SiteLinks map[string]int     `json:"site_links"`
 }
 
-func (ctx *Ctx) handlePing() {
-	siteId := ctx.r.URL.RawQuery
-	if siteId == "" {
-		ctx.ReturnBadRequest("no siteId given as raw query param")
-	}
-	user := ctx.ForceUser()
-	visits := user.NewSite(siteId)
-
-	// if parameter wait is set:
-	//err := visits.WaitForSignal()
-	//ctx.CatchError(err)
-
-	timedVisits, err := visits.GetVisits(ctx.ParseUTCOffset("utcoffset"))
-	ctx.CatchError(err)
-	logs, err := visits.GetLogs()
-	ctx.CatchError(err)
-	siteLinks, err := user.GetSiteLinks()
-	ctx.CatchError(err)
-	resp := PingDataResp{Visits: timedVisits, Logs: logs, SiteLinks: siteLinks}
-	ctx.ReturnJSON(resp, 200)
-}
-
 func (ctx *Ctx) handleLoadComponentsJS() {
 	files1, err := filepath.Glob("./static/components/*.js")
 	ctx.CatchError(err)
