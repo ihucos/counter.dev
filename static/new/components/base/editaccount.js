@@ -58,14 +58,14 @@ customElements.define(
                     </form>
                     <!-- Danger -->
                     <div class="delete-account">
-                      <div class="title mb16">Account deleting</div>
+                      <div class="title mb16">Delete account</div>
                       <div class="danger gradient-red radius-lg">
                         <!-- Request delete -->
                         <div class="delete-request">
                           <div class="danger-message caption full mr16">
                             <img src="img/alert.svg" width="24" height="24" alt="Alert" />
                             <span class="ml16"
-                              >Deleting your account removes all sites and stats you've
+                              >Deleting your account removes all data you've
                               collected!</span
                             >
                           </div>

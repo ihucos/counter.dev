@@ -35,7 +35,7 @@ customElements.define(
                       <div class="danger-message caption full mr16">
                         <img src="img/alert.svg" width="24" height="24" alt="Alert" />
                         <span class="ml16"
-                          >All analytics data will be deleted permanently!</span
+                          >This website's data will be deleted permanently!</span
                         >
                       </div>
                       <button class="btn-white btn-danger btn-confirm">
