@@ -2,7 +2,8 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(opts) {
-            if (opts.meta.sessionless || !opts.userId) {
+            if (opts.meta.sessionless) {
+                $(this).css('margin', '0')
                 return;
             }
 

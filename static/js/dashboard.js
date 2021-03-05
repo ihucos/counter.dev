@@ -54,10 +54,13 @@ connectData("dashboard-selector", (dump) => [dump]);
 
 connectData("dashboard-demo-flash", (dump) => [dump.meta.demo]);
 
+connectData("dashboard-addbtn", (dump) => [dump.meta.sessionless]);
+
 connectData("dashboard-download", (dump) => [
     dump.sites[selector.site].visits[selector.range],
     selector.site,
     selector.range,
+    dump.meta.sessionless,
 ]);
 
 connectData("counter-trackingcode", (dump) => [

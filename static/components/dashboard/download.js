@@ -1,7 +1,10 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        draw(siteData, siteName, timeRange) {
+        draw(siteData, siteName, timeRange, sessionless) {
+            if (sessionless) {
+                $(this).css('margin', '0')
+            }
             this.innerHTML = `
                 <a class="btn-secondary btn-icon" href="#">
                 <img src="img/download.svg" width="24" height="24" alt="Download"/>
