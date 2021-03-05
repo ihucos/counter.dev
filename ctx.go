@@ -37,7 +37,7 @@ func (ctx *Ctx) RunCleanup() {
 	for _, conn := range ctx.openConns {
 		err := conn.Close()
 		if err != nil {
-			fmt.Println(err.Error())
+			fmt.Println("Error closing connection:", err.Error())
 		}
 	}
 }

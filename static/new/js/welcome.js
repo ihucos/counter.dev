@@ -7,3 +7,8 @@ $(document).ready(function () {
 
 simpleForm("#sign-in form", "/new/dashboard.html");
 simpleForm("#sign-up form", "/new/setup.html");
+
+
+document.addEventListener("userloaded", () => {
+    window.location.href = "dashboard.html"
+})

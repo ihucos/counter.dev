@@ -19,6 +19,7 @@ customElements.define(
                     this.drawEditaccount(
                         dump.user.prefs.utcoffset || getUTCOffset()
                     );
+                    document.dispatchEvent(new CustomEvent("userloaded"));
                 }
                 source.close(); // don't leave an open connection to server to save resources
             };

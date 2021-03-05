@@ -356,9 +356,9 @@ func (ctx *Ctx) handleLoadComponentsJS2() {
 	files := append(append(files1, files2...), files3...)
 
 	// this works, but breaks the frontend - you fix it!
-	//for _, file := range files {
-	// ctx.w.Header().Add("Link", fmt.Sprintf("</%s>; rel=preload;", file))
-	//}
+	for _, file := range files {
+		ctx.w.Header().Add("Link", fmt.Sprintf("<%s>; rel=preload;", file[len("static"):]))
+	}
 
 	filesJson, err := json.Marshal(files)
 	ctx.CatchError(err)
@@ -416,6 +416,12 @@ func (ctx *Ctx) handleDump() {
 	conn, err := redis.DialURL(ctx.app.config.RedisUrl)
 	ctx.CatchError(err)
 	ctx.openConns = append(ctx.openConns, conn)
+
+	//
+	// If the user get's a lot of views, we will suffocate the frontend
+	// with two many dumb pushs. TODO: throttle it to something around max
+	// ~2 pers seconds.
+	//
 	user.HandleSignals(conn, func(err error) {
 
 		// this happens because we close the connection to redis when
