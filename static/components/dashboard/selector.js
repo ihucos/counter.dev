@@ -10,6 +10,10 @@ customElements.define(
                 .sort((a, b) => b[1].count - a[1].count)
                 .map((i) => i[0]);
 
+            if (dump.meta.demo){
+                sites = ['counter.dev', 'simple-web-analytics.com']
+            }
+
             var sitePref = dump.user.prefs.site;
             var rangePref = dump.user.prefs.range;
 

@@ -3,7 +3,7 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         connectedCallback() {
-            if (!window.location.href.endsWith('/dashboard.html?demo=1')){
+            if (!window.location.href.split('#')[0].endsWith('/dashboard.html?demo=1')){
                 this.innerHTML += `
                    <!-- Notification -->
                    <section class="notification">
