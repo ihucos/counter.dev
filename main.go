@@ -59,10 +59,8 @@ func (app *App) Connect(path string, f func(*Ctx)) {
 }
 
 func (app *App) SetupUrls() {
-	app.Connect("/login", func(ctx *Ctx) { ctx.handleLogin() })
-	app.Connect("/login2", func(ctx *Ctx) { ctx.HandleLogin2() })
+	app.Connect("/login", func(ctx *Ctx) { ctx.HandleLogin() })
 	app.Connect("/logout", func(ctx *Ctx) { ctx.handleLogout() })
-	app.Connect("/logout2", func(ctx *Ctx) { ctx.handleLogout2() })
 	app.Connect("/deletetoken", func(ctx *Ctx) { ctx.HandleDeleteToken() })
 	app.Connect("/resettoken", func(ctx *Ctx) { ctx.HandleResetToken() })
 	app.Connect("/deletesite", func(ctx *Ctx) { ctx.HandleDeleteSite() })
@@ -77,7 +75,7 @@ func (app *App) SetupUrls() {
 	app.Connect("/dump", func(ctx *Ctx) { ctx.handleDump() })
 	app.Connect("/deleteUser", func(ctx *Ctx) { ctx.handleDeleteUser() })
 	app.Connect("/count", func(ctx *Ctx) { ctx.Return(fmt.Sprintf("%d", ctx.app.RedisPool.ActiveCount()), 200) }) // DEBUG CODE
-	app.Connect("/load.js", func(ctx *Ctx) { ctx.handleLoadComponentsJS2() })
+	app.Connect("/load.js", func(ctx *Ctx) { ctx.handleLoadComponentsJS() })
 }
 
 func NewApp() *App {

@@ -1,0 +1,60 @@
+/* =========== Tracking page =========== */
+
+/* Import */
+@import url("styles.css");
+
+/* Body */
+.tracking .content {
+  padding: 120px 0 24px 0;
+  justify-content: space-between;
+}
+.tracking-wrap {
+  width: 635px;
+  padding: 48px;
+}
+.tracking-code {
+  display: flex;
+  flex-wrap: wrap;
+}
+.loader img {
+  vertical-align: middle;
+  animation-name: rotation;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile */
+@media (max-width: 1110px) {
+  .tracking .content {
+    padding: 24px 15px 0 15px;
+  }
+  .tracking-wrap {
+    padding: 0;
+    box-shadow: unset;
+  }
+  .tracking-pic {
+    display: none;
+  }
+  .tracking-wrap .h2 {
+    margin-bottom: 16px;
+  }
+  .tracking-code {
+    margin-top: 16px;
+  }
+  .tracking-code input {
+    min-width: 50%;
+  }
+  .loader {
+    margin: 24px 0 16px 0;
+  }
+}

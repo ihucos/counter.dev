@@ -1,0 +1,54 @@
+/* =========== Welcome page =========== */
+
+/* Import */
+@import url("styles.css");
+
+/* Body */
+.welcome {
+  background: linear-gradient(90deg, #ffffff 50%, #147efb 50%);
+}
+.welcome .content {
+  align-items: center;
+  justify-content: space-between;
+  padding: 120px 0;
+}
+.welcome-text,
+.welcome-form {
+  width: 445px;
+}
+.welcome-features-item {
+  align-items: center;
+  height: 64px;
+  box-shadow: -1px 0px 0px #147efb, 0px 2px 2px rgba(0, 0, 0, 0.04);
+  padding: 0 24px;
+}
+.welcome-form-tabs {
+  height: 64px;
+}
+#sign-in,
+#sign-up {
+  padding: 32px 32px 40px 32px;
+}
+
+/* Mobile */
+@media (max-width: 1110px) {
+  .welcome {
+    background: #147efb;
+  }
+  .welcome-text {
+    display: none;
+  }
+  .welcome .content {
+    padding: 15px;
+    align-items: unset;
+    justify-content: unset;
+  }
+  #sign-in,
+  #sign-up {
+    padding: 24px;
+  }
+  #sign-in .title,
+  #sign-up .title {
+    margin-bottom: 8px;
+  }
+}

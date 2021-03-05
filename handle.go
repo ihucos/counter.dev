@@ -78,36 +78,7 @@ func LoadDump(user models.User, utcOffset int) (Dump, error) {
 	return Dump{User: userDump, Sites: sitesDump, Meta: Meta{}}, nil
 }
 
-func (ctx *Ctx) handleLogin() {
-	userId := ctx.r.FormValue("user")
-	passwordInput := ctx.r.FormValue("password")
-	if userId == "" {
-		ctx.ReturnBadRequest("Missing Input: user")
-	}
-	if passwordInput == "" {
-		ctx.ReturnBadRequest("Missing Input: password")
-	}
-
-	user := ctx.User(userId)
-
-	passwordOk, err := user.VerifyPassword(passwordInput)
-	ctx.CatchError(err)
-	tokenOk, err := user.VerifyToken(passwordInput) // XXXXXXXXXX with the new design implementation remove login access for tokens!
-	ctx.CatchError(err)
-
-	if passwordOk || tokenOk {
-		if passwordOk {
-			user.TouchAccess()
-		}
-		ctx.SetSessionUser(userId)
-		ctx.ReturnUser()
-
-	} else {
-		ctx.ReturnBadRequest("Wrong username or password")
-	}
-}
-
-func (ctx *Ctx) HandleLogin2() {
+func (ctx *Ctx) HandleLogin() {
 	userId := ctx.r.FormValue("user")
 	passwordInput := ctx.r.FormValue("password")
 	if userId == "" {
@@ -144,11 +115,6 @@ func (ctx *Ctx) HandleDashboard() {
 }
 
 func (ctx *Ctx) handleLogout() {
-	ctx.Logout()
-	http.Redirect(ctx.w, ctx.r, "/app", http.StatusTemporaryRedirect)
-}
-
-func (ctx *Ctx) handleLogout2() {
 	ctx.Logout()
 	next := ctx.r.FormValue("next")
 	var redirectURL string
@@ -321,7 +287,7 @@ func (ctx *Ctx) handlePing() {
 	ctx.ReturnJSON(resp, 200)
 }
 
-func (ctx *Ctx) handleLoadComponentsJS2() {
+func (ctx *Ctx) handleLoadComponentsJS() {
 	files1, err := filepath.Glob("./static/components/*.js")
 	ctx.CatchError(err)
 	files2, err := filepath.Glob("./static/components/*/*.js")
