@@ -280,7 +280,7 @@ func (ctx *Ctx) handleLoadComponentsJS() {
 
 	// this works, but breaks the frontend - you fix it!
 	for _, file := range files {
-		ctx.w.Header().Add("Link", fmt.Sprintf("<%s>; rel=preload;", file[len("static"):]))
+		ctx.w.Header().Add("Link", fmt.Sprintf("<%s>; rel=preload; as=script", file[len("static"):]))
 	}
 
 	filesJson, err := json.Marshal(files)
