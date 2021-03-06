@@ -25,7 +25,7 @@ customElements.define(
                 let labelPrevPrev = keys[keys.length - 3];
                 let valPrev = vals[vals.length - 2];
                 let valPrevPrev = vals[vals.length - 3];
-                text = `When comparing ${labelPrev} with ${labelPrevPrev}`;
+                text = `Comparing ${labelPrev} and ${labelPrevPrev}`;
 
                 if (valPrevPrev + valPrevPrev <= 2) {
                     // soo little visits, we can't calculate much

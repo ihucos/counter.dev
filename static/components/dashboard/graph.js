@@ -28,7 +28,7 @@ customElements.define(
                     datasets: [
                         {
                             data: data,
-                            label: "Visitors",
+                            label: "Visits",
                             backgroundColor: this.makeGradient(),
                             borderColor: "#147EFB",
                             borderWidth: 1,
@@ -58,7 +58,7 @@ customElements.define(
                                 },
                                 scaleLabel: {
                                     display: false,
-                                    //labelString: "Visitors",
+                                    //labelString: "Visits",
                                     //fontColor: "#616161",
                                     //fontSize: 14,
                                 },

@@ -16,7 +16,7 @@ customElements.define(
                     datasets: [
                         {
                             data: this.emptyIfSumZero(dayparts),
-                            label: "Visitors",
+                            label: "Visits",
                             borderWidth: 0,
                             backgroundColor: [
                                 "#147EFB",

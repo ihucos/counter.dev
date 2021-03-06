@@ -24,7 +24,7 @@ customElements.define(
                                 entries[5] || 0,
                                 entries[6] || 0,
                             ]),
-                            label: "Visitors",
+                            label: "Visits",
                             borderWidth: 0,
                             backgroundColor: [
                                 "#147EFB",

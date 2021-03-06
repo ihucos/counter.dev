@@ -12,7 +12,7 @@ customElements.define(
           <div class="metrics-three-data bg-white radius-lg shadow-sm">
             <div class="metrics-three-data-headline shadow-sm caption gray">
               <span>Page</span>
-              <span>Visitors</span>
+              <span>Visits</span>
             </div>
             <div class="metrics-three-data-content caption" data-simplebar data-simplebar-auto-hide="false">
               ${entries

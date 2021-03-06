@@ -157,7 +157,7 @@ customElements.define(
                     </div>
                     <div class="sources-countries-data caption gray bg-gray mt16 mb24">
                       <span>Source</span>
-                      <span>Visitors</span>
+                      <span>Visits</span>
                     </div>
                     <!-- Items -->
                     ${this.sourcesEntries
@@ -211,7 +211,7 @@ customElements.define(
                     </div>
                     <div class="sources-countries-data caption gray bg-gray mt16 mb24">
                       <span>Country</span>
-                      <span>Visitors</span>
+                      <span>Visits</span>
                     </div>
                     <!-- Items -->
                     ${this.countriesEntries
