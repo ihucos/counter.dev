@@ -38,11 +38,13 @@ type VisitItemKey struct {
 }
 
 func (vik VisitItemKey) String() string {
-	return fmt.Sprintf("v:%s,%s,%s,%s",
+	// XXX: TODO: add hash for extra security!!!
+	hash := hash(fmt.Sprintf("%s,%s,%s,%s",
 		url.QueryEscape(vik.Origin),
 		url.QueryEscape(vik.UserId),
 		url.QueryEscape(vik.field),
-		url.QueryEscape(vik.TimeRange))
+		url.QueryEscape(vik.TimeRange)))
+	return fmt.Sprintf("h:%s", hash)
 
 }
 

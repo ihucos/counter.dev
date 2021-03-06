@@ -12,6 +12,7 @@ import (
 type User struct {
 	redis redis.Conn
 	Id    string
+	Username    string
 }
 
 type ErrUser struct {
@@ -43,7 +44,7 @@ func truncate(stri string) string {
 }
 
 func NewUser(conn redis.Conn, userId string) User {
-	return User{redis: conn, Id: truncate(userId)}
+	return User{redis: conn, Id: hash(userId), Username: userId}
 }
 
 func (user User) DelAllSites() error {

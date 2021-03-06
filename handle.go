@@ -74,7 +74,7 @@ func LoadDump(user models.User, utcOffset int) (Dump, error) {
 		return Dump{}, err
 	}
 
-	userDump := UserDump{Id: user.Id, Token: token, Prefs: prefsData}
+	userDump := UserDump{Id: user.Username, Token: token, Prefs: prefsData}
 	return Dump{User: userDump, Sites: sitesDump, Meta: Meta{}}, nil
 }
 
