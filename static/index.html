@@ -52,7 +52,9 @@
             <div class="title gray mt24 mb48">
               Web Analytics made simple and therefore privacy friendly.
             </div>
-            <a href="welcome.html?sign-up" class="btn-primary mr16">Get started</a>
+            <a href="welcome.html?sign-up" class="btn-primary mr16"
+              >Get started</a
+            >
             <a href="dashboard.html?demo=1" class="btn-secondary">Live demo</a>
           </div>
         </div>
@@ -123,9 +125,9 @@
             <div class="features-item-description">
               <h3 class="mb16">Counts daily unique visitors</h3>
               <span class="gray"
-                >All metrics are based on Daily Unique Visitors which
-                represents a visit at a specific date.
-              </span >
+                >All metrics are based on Daily Unique Visitors which represents
+                a visit at a specific date.
+              </span>
             </div>
           </div>
           <!-- Know your referrers -->
@@ -140,11 +142,10 @@
             </div>
             <div class="features-item-description">
               <h3 class="mb16">Know your referrers</h3>
-              <span class="gray"
-                > See which other websites, social media or blogs link to your
+              <span class="gray">
+                See which other websites, social media or blogs link to your
                 website and learn how many users come from those external links.
-              </span
-              >
+              </span>
             </div>
           </div>
           <!-- Geographical locations -->
@@ -159,12 +160,10 @@
             </div>
             <div class="features-item-description">
               <h3 class="mb16">Focus on what matters</h3>
-              <span class="gray"
-                >
+              <span class="gray">
                 We try to avoid superfluous and convoluted information and only
                 show what you can actually understand.
-                </span
-              >
+              </span>
             </div>
           </div>
           <!-- The friendly alternative -->
@@ -197,7 +196,11 @@
           <div class="caption gray mt16 mb24">
             Counter is fully open-source and available on Github.
           </div>
-          <a href="https://github.com/ihucos/counter.dev" class="btn-secondary" target="_blank" rel="nofollow"
+          <a
+            href="https://github.com/ihucos/counter.dev"
+            class="btn-secondary"
+            target="_blank"
+            rel="nofollow"
             >View project</a
           >
         </div>
@@ -214,8 +217,8 @@
           <div class="donate-description">
             <div class="h3 mb8">Pay what you want</div>
             <div class="gray">
-              We do encourage users with commercial projects to pay for
-              this product.<br />
+              We do encourage users with commercial projects to pay for this
+              product.<br />
               The amount could be comparable with what similiar services charge.
             </div>
           </div>
@@ -245,16 +248,22 @@
     </script>
 
     <script>
-    if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-        fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
-            referrer: document.referrer,
-            screen: screen.width + "x" + screen.height,
-            user: "counter",
-            utcoffset: "1"
-        }))
-    };
-    sessionStorage.setItem("_swa", "1");
+      if (
+        !sessionStorage.getItem("_swa") &&
+        document.referrer.indexOf(location.protocol + "//" + location.host) !==
+          0
+      ) {
+        fetch(
+          "https://simple-web-analytics.com/track?" +
+            new URLSearchParams({
+              referrer: document.referrer,
+              screen: screen.width + "x" + screen.height,
+              user: "counter",
+              utcoffset: "1",
+            })
+        );
+      }
+      sessionStorage.setItem("_swa", "1");
     </script>
-
   </body>
 </html>

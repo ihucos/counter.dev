@@ -8,7 +8,6 @@ $(document).ready(function () {
 simpleForm("#sign-in form", "/dashboard.html");
 simpleForm("#sign-up form", "/setup.html");
 
-
 document.addEventListener("userloaded", () => {
-    window.location.href = "dashboard.html"
-})
+    window.location.href = "dashboard.html";
+});

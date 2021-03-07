@@ -149,7 +149,7 @@ func (ctx *Ctx) HandleDeleteSite() {
 	user.NewSite(site).Del()
 	deleted, err := user.DelSiteLink(site)
 	ctx.CatchError(err)
-	if ! deleted {
+	if !deleted {
 		ctx.ReturnBadRequest("Logged in user does not have such a site")
 	}
 	user.Signal()
@@ -213,7 +213,6 @@ func (ctx *Ctx) handleAccountEdit() {
 		err := user.SetPref("utcoffset", utcoffset)
 		ctx.CatchError(err)
 	}
-
 
 	// assume the user is trying to change the password
 	if newPassword != "" || repeatNewPassword != "" {

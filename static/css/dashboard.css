@@ -193,7 +193,12 @@
 .sources-countries-item img:first-child {
   margin-right: 12px;
 }
-.sources-countries-item a { max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sources-countries-item a {
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .item-percent {
   height: 24px;
   border-radius: 12px;
@@ -576,7 +581,9 @@
   .page {
     width: 230px;
   }
-  .sources-countries-item a { max-width: 180px; }
+  .sources-countries-item a {
+    max-width: 180px;
+  }
 }
 
 dashboard-dynamics dashboard-nodata {

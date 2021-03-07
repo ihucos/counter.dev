@@ -2,13 +2,11 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(screen) {
-            var screenEntries = Object.entries(screen).sort(
-                (a, b) => {
-                    if (a[0] == 'Other') return 1;
-                    if (b[0] == 'Other') return -1;
-                    return b[1] - a[1]
-                }
-            );
+            var screenEntries = Object.entries(screen).sort((a, b) => {
+                if (a[0] == "Other") return 1;
+                if (b[0] == "Other") return -1;
+                return b[1] - a[1];
+            });
             this.totalCount = Object.values(screen).reduce(
                 (acc, next) => acc + next,
                 0

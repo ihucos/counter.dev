@@ -3,7 +3,7 @@ customElements.define(
     class extends HTMLElement {
         draw(siteData, siteName, timeRange, sessionless) {
             if (sessionless) {
-                $(this).css('margin', '0')
+                $(this).css("margin", "0");
             }
             this.innerHTML = `
                 <a class="btn-secondary btn-icon" href="#">

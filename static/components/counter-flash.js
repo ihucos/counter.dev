@@ -1,10 +1,14 @@
-
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        KEY = 'close-enjoy-new-design-msg'
+        KEY = "close-enjoy-new-design-msg";
         connectedCallback() {
-            if ((!window.location.href.split('#')[0].endsWith('/dashboard.html?demo=1') && (!localStorage.getItem(this.KEY)))){
+            if (
+                !window.location.href
+                    .split("#")[0]
+                    .endsWith("/dashboard.html?demo=1") &&
+                !localStorage.getItem(this.KEY)
+            ) {
                 this.innerHTML += `
                    <!-- Notification -->
                    <section class="notification">
@@ -14,10 +18,10 @@ customElements.define(
                      </div>
                    </section>`;
 
-                $('.btn-close').click(()=>{
-                    this.remove()
-                    localStorage.setItem(this.KEY, 'yes')
-                })
+                $(".btn-close").click(() => {
+                    this.remove();
+                    localStorage.setItem(this.KEY, "yes");
+                });
             }
         }
     }

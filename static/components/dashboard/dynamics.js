@@ -15,11 +15,7 @@ customElements.define(
                 this.classList.add("nodata");
                 this.innerHTML = "<dashboard-nodata></dashboard-nodata>";
             } else if (vals.length < 3) {
-                this.drawTrend(
-                    this.STABILITY,
-                    null,
-                    "Not enough data"
-                );
+                this.drawTrend(this.STABILITY, null, "Not enough data");
             } else {
                 let labelPrev = keys[keys.length - 2];
                 let labelPrevPrev = keys[keys.length - 3];
@@ -51,17 +47,19 @@ customElements.define(
         }
 
         drawTrend(trend, percent, text) {
-            let percentAbs
+            let percentAbs;
             if (percent !== null) {
-                percentAbs = Math.abs(percent) + '%';
+                percentAbs = Math.abs(percent) + "%";
             } else {
-                percentAbs = ''
+                percentAbs = "";
             }
             if (trend === this.POSITIVE) {
                 this.innerHTML = `
                  <img src="img/rocket.png" srcset="img/rocket@2x.png 2x" width="60" height="60" alt="Rocket">
                  <div class="graph-dynamics-content gradient-green radius-lg">
-                   <div class="dynamics positive caption" title="${escapeHtml(text)}">
+                   <div class="dynamics positive caption" title="${escapeHtml(
+                       text
+                   )}">
                      ${escapeHtml(percentAbs)}
                    </div>
                    <div class="strong mt16 mb8">Positive dynamics</div>
@@ -75,7 +73,9 @@ customElements.define(
                 this.innerHTML = `
                  <img src="img/volcano.png" srcset="img/volcano@2x.png 2x" width="60" height="60" alt="Volcano">
                  <div class="graph-dynamics-content gradient-red radius-lg">
-                   <div class="dynamics negative caption" title="${escapeHtml(text)}">
+                   <div class="dynamics negative caption" title="${escapeHtml(
+                       text
+                   )}">
                      ${escapeHtml(percentAbs)}
                    </div>
                    <div class="strong mt16 mb8">Negative dynamics</div>
@@ -89,7 +89,9 @@ customElements.define(
                 this.innerHTML = `
                  <img src="img/grow.png" srcset="img/grow@2x.png 2x" width="60" height="60" alt="Grow">
                  <div class="graph-dynamics-content bg-gray radius-lg">
-                   <div class="dynamics stability caption" title="${escapeHtml(text)}">
+                   <div class="dynamics stability caption" title="${escapeHtml(
+                       text
+                   )}">
                      ${escapeHtml(percentAbs)}
                    </div>
                    <div class="strong mt16 mb8">Good stability</div>

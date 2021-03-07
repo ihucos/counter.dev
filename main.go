@@ -115,14 +115,14 @@ func NewApp() *App {
 
 func (app App) Serve() {
 	srv := &http.Server{
-		Addr:         app.config.Bind,
-		ReadTimeout:  5 * time.Second,
+		Addr:        app.config.Bind,
+		ReadTimeout: 5 * time.Second,
 
 		// we cant have write a write timeout because of the streaming response
 		WriteTimeout: 0,
 
-		IdleTimeout:  120 * time.Second,
-		Handler:      app.ServeMux,
+		IdleTimeout: 120 * time.Second,
+		Handler:     app.ServeMux,
 	}
 	err := srv.ListenAndServe()
 	if err != nil {

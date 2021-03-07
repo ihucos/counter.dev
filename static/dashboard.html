@@ -68,9 +68,7 @@
     <!-- Categories of visits -->
     <section class="categories">
       <div class="content">
-        <dashboard-counter-visitors
-          text="Visits"
-        ></dashboard-counter-visitors>
+        <dashboard-counter-visitors text="Visits"></dashboard-counter-visitors>
         <dashboard-counter-search
           text="Search engines"
         ></dashboard-counter-search>
@@ -539,8 +537,8 @@
           <div class="donate-description">
             <div class="h3 mb8">Pay what you want</div>
             <div class="gray">
-              We do encourage users with commercial projects to pay for
-              this product.<br />
+              We do encourage users with commercial projects to pay for this
+              product.<br />
               The amount could be comparable with what similiar services charge.
             </div>
           </div>
@@ -698,8 +696,8 @@
       <div class="modal-content">
         <div class="title mb8">Tracking code</div>
         <span class="gray">
-          Include this code into the source code of all html pages you want to track.
-          The tracked data will be grouped by your used domains.
+          Include this code into the source code of all html pages you want to
+          track. The tracked data will be grouped by your used domains.
         </span>
         <counter-trackingcode class="mt16"></counter-trackingcode>
       </div>
@@ -744,16 +742,22 @@
     <script src="js/dashboard.js"></script>
 
     <script>
-    if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-        fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
-            referrer: document.referrer,
-            screen: screen.width + "x" + screen.height,
-            user: "counter",
-            utcoffset: "1"
-        }))
-    };
-    sessionStorage.setItem("_swa", "1");
+      if (
+        !sessionStorage.getItem("_swa") &&
+        document.referrer.indexOf(location.protocol + "//" + location.host) !==
+          0
+      ) {
+        fetch(
+          "https://simple-web-analytics.com/track?" +
+            new URLSearchParams({
+              referrer: document.referrer,
+              screen: screen.width + "x" + screen.height,
+              user: "counter",
+              utcoffset: "1",
+            })
+        );
+      }
+      sessionStorage.setItem("_swa", "1");
     </script>
-
   </body>
 </html>

@@ -317,11 +317,9 @@ customElements.define(
         }
 
         COUNTRIES = {
-
             // not a country but we it as input
             XX: "Unknown",
             T1: "Tor network",
-
 
             AF: "Afghanistan",
             AX: "Aland Islands",

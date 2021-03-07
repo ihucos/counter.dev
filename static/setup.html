@@ -62,7 +62,9 @@
             Got stuck?
             <a href="/dashboard" class="caption gray underline">Reload</a>
             or
-            <a href="mailto:hey@counter.dev" class="caption gray underline">ask for support.</a>
+            <a href="mailto:hey@counter.dev" class="caption gray underline"
+              >ask for support.</a
+            >
           </span>
         </div>
       </div>
@@ -71,16 +73,22 @@
     <script src="js/setup.js"></script>
 
     <script>
-    if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-        fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
-            referrer: document.referrer,
-            screen: screen.width + "x" + screen.height,
-            user: "counter",
-            utcoffset: "1"
-        }))
-    };
-    sessionStorage.setItem("_swa", "1");
+      if (
+        !sessionStorage.getItem("_swa") &&
+        document.referrer.indexOf(location.protocol + "//" + location.host) !==
+          0
+      ) {
+        fetch(
+          "https://simple-web-analytics.com/track?" +
+            new URLSearchParams({
+              referrer: document.referrer,
+              screen: screen.width + "x" + screen.height,
+              user: "counter",
+              utcoffset: "1",
+            })
+        );
+      }
+      sessionStorage.setItem("_swa", "1");
     </script>
-
   </body>
 </html>

@@ -71,7 +71,6 @@ connectData("dashboard-dynamics", (dump) => [
     dump.user.prefs.utcoffset || getUTCOffset(),
 ]);
 
-
 connectData("dashboard-graph", (dump) => [
     dump.sites[selector.site].visits[selector.range]["date"],
     dump.sites[selector.site].visits[selector.range]["hour"],
@@ -215,7 +214,7 @@ function dGroupData(entries, cutAt) {
 }
 
 function getUTCNow(utcoffset) {
-    return moment().add(parseInt(utcoffset), "hours").toDate()
+    return moment().add(parseInt(utcoffset), "hours").toDate();
 }
 
 function dPadDates(dates, utcoffset) {

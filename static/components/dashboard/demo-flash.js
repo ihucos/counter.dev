@@ -2,7 +2,7 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         connectedCallback() {
-            if (!document.location.href.endsWith('?demo=1')) {
+            if (!document.location.href.endsWith("?demo=1")) {
                 return;
             }
             this.innerHTML = `

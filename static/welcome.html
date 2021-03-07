@@ -37,9 +37,7 @@
         <!-- Text -->
         <div class="welcome-text">
           <h1>Welcome</h1>
-          <div class="title gray mt16 mb32">
-            Sign up in no time.
-          </div>
+          <div class="title gray mt16 mb32">Sign up in no time.</div>
           <!-- Features -->
           <!-- Item -->
           <div class="welcome-features-item flex bg-white radius-sm mb16">
@@ -108,7 +106,7 @@
               /></label>
               <script>
                 document.write(`<input type="hidden" name="utcoffset" value="${getUTCOffset()}">
-                  </input>`)
+                  </input>`);
               </script>
               <label class="width-full"
                 >Password<input
@@ -127,16 +125,22 @@
     <script src="js/welcome.js"></script>
 
     <script>
-    if (!sessionStorage.getItem("_swa") && document.referrer.indexOf(location.protocol + "//" + location.host) !== 0) {
-        fetch("https://simple-web-analytics.com/track?" + new URLSearchParams({
-            referrer: document.referrer,
-            screen: screen.width + "x" + screen.height,
-            user: "counter",
-            utcoffset: "1"
-        }))
-    };
-    sessionStorage.setItem("_swa", "1");
+      if (
+        !sessionStorage.getItem("_swa") &&
+        document.referrer.indexOf(location.protocol + "//" + location.host) !==
+          0
+      ) {
+        fetch(
+          "https://simple-web-analytics.com/track?" +
+            new URLSearchParams({
+              referrer: document.referrer,
+              screen: screen.width + "x" + screen.height,
+              user: "counter",
+              utcoffset: "1",
+            })
+        );
+      }
+      sessionStorage.setItem("_swa", "1");
     </script>
-
   </body>
 </html>

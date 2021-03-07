@@ -192,7 +192,7 @@ func (user User) GetSiteLinks() (map[string]int, error) {
 }
 
 func (user User) HasSiteLinks() (bool, error) {
-    return redis.Bool(user.redis.Do("EXISTS", fmt.Sprintf("sites:%s", user.Id)))
+	return redis.Bool(user.redis.Do("EXISTS", fmt.Sprintf("sites:%s", user.Id)))
 }
 
 func (user User) SetPref(key string, value string) error {

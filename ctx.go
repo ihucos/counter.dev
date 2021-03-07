@@ -167,7 +167,7 @@ func (ctx *Ctx) checkMethod(methods ...string) {
 			found = true
 		}
 	}
-	if !found{
+	if !found {
 		ctx.Return("Method Not Allowed", 405)
 	}
 }
