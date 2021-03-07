@@ -69,6 +69,13 @@ customElements.define(
         }
 
         connectedCallback() {
+
+            // HACK: this should obviously not be in the navbar
+            if (location.href.startsWith('https://simple-web-analytics.com')){
+                location.href = 'https://counter.dev/'
+            }
+
+
             this.innerHTML = `
                <!-- Navbar -->
                <section class="navbar">
