@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="refresh" content="0; url='https://counter.dev/dashboard.html?demo=1'" />
+  </head>
+  <body>
+    <p>You will be redirected <a href="https://counter.dev/dashboard.html?demo=1">this link</a>.</p>
+  </body>
+</html>
