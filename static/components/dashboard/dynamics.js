@@ -18,7 +18,7 @@ customElements.define(
                 this.drawTrend(
                     this.STABILITY,
                     null,
-                    "But not enough data to determine trend"
+                    "Not enough data"
                 );
             } else {
                 let labelPrev = keys[keys.length - 2];
