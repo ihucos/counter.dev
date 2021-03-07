@@ -1,10 +1,33 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
+
+        hash(str) {
+          var hash = 0, i, chr;
+          if (str.length === 0) return hash;
+          for (i = 0; i < str.length; i++) {
+            chr   = str.charCodeAt(i);
+            hash  = ((hash << 5) - hash) + chr;
+            hash |= 0; // Convert to 32bit integer
+          }
+          return hash;
+        };
+
         loadUser() {
             if (!document.cookie.includes("swa=")) {
                 this.noUser();
                 return;
+            }
+
+            // invalidates cache key when cookie changes
+            var usernameCacheKey = "navbar-username-cache-" + this.hash(document.cookie)
+
+            var cachedUsername = sessionStorage.getItem(usernameCacheKey)
+            if (cachedUsername !== null) {
+                // call hasUser before the uncached call with the value from
+                // the server arrives in order to not cause the frontend to
+                // flicker
+                this.hasUser(cachedUsername)
             }
 
             var source = new EventSource("/dump");
@@ -14,6 +37,7 @@ customElements.define(
                     this.noUser();
                 } else {
                     this.hasUser(dump.user.id);
+                    sessionStorage.setItem(usernameCacheKey, dump.user.id)
                     // the fallback is because older user's dont set the
                     // utcoffset by default
                     this.drawEditaccount(
