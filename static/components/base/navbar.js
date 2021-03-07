@@ -26,11 +26,11 @@ customElements.define(
         }
 
         noUser() {
-            $(".no-user", this).css("display", "block")
+            document.querySelector(".no-user").style.display = "block"
         }
 
         hasUser(user) {
-            $(".has-user", this).css("display", "block")
+            document.querySelector(".has-user").style.display = "block"
             Array.from(
                 document.getElementsByClassName("fill-username")
             ).forEach((el) => {
