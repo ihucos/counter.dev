@@ -52,8 +52,6 @@ function k(...keys) {
 // this one must be first
 connectData("dashboard-selector", (dump) => [dump]);
 
-connectData("dashboard-demo-flash", (dump) => [dump.meta.demo]);
-
 connectData("dashboard-addbtn", (dump) => [dump.meta.sessionless]);
 
 connectData("dashboard-download", (dump) => [

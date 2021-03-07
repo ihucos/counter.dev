@@ -1,8 +1,8 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        draw(isDemo) {
-            if (!isDemo) {
+        connectedCallback() {
+            if (!document.location.href.endsWith('?demo=1')) {
                 return;
             }
             this.innerHTML = `
