@@ -309,14 +309,20 @@ customElements.define(
         }
 
         getCountryName(countryCode) {
-            if (this.ISO_COUNTRIES.hasOwnProperty(countryCode)) {
-                return this.ISO_COUNTRIES[countryCode];
+            if (this.COUNTRIES.hasOwnProperty(countryCode)) {
+                return this.COUNTRIES[countryCode];
             } else {
                 return countryCode;
             }
         }
 
-        ISO_COUNTRIES = {
+        COUNTRIES = {
+
+            // not a country but we it as input
+            XX: "Unknown",
+            T1: "Tor network",
+
+
             AF: "Afghanistan",
             AX: "Aland Islands",
             AL: "Albania",
