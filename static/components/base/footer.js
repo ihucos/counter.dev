@@ -13,7 +13,7 @@ customElements.define(
                               height="32"
                               alt="Logotype"
                             />
-                            <div class="caption gray">© 2020 Counter. All rights reserved.</div>
+                            <div class="caption gray">© 2020, 2021 Counter. All rights reserved.</div>
                           </div>
                           <nav class="nav-footer">
                             <div class="nav-footer-one">
@@ -41,11 +41,11 @@ customElements.define(
                             </div>
                             <div class="caption gray mb8">
                               Developed by
-                              <a href="//naive.team" class="gray underline">Naive&nbsp;Team</a>
+                              <a href="//naive.team" class="gray underline" target="_blank" rel="nofollow">Naive&nbsp;Team</a>
                             </div>
                             <div class="caption gray">
                               Have a question? –
-                              <a href="mailto:hey@counter.dev" class="caption gray underline"
+                              <a href="mailto:hey@counter.dev" class="caption gray underline" target="_blank" rel="nofollow"
                                 >hey@counter.dev</a
                               >
                             </div>
