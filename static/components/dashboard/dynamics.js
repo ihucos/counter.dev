@@ -61,13 +61,13 @@ customElements.define(
                 this.innerHTML = `
                  <img src="img/rocket.png" srcset="img/rocket@2x.png 2x" width="60" height="60" alt="Rocket">
                  <div class="graph-dynamics-content gradient-green radius-lg">
-                   <div class="dynamics positive caption">
+                   <div class="dynamics positive caption" title="${escapeHtml(text)}">
                      ${escapeHtml(percentAbs)}
                    </div>
                    <div class="strong mt16 mb8">Positive dynamics</div>
                      <div class="caption gray mb32"
                           style="padding-left: 4px; padding-right: 4px;">
-                       ${escapeHtml(text)}
+                        You are on the right track :)
                      </div>
                    <a href="#modal-tips" class="btn-white" rel="modal:open">Our tips</a>
                  </div>`;
@@ -75,13 +75,13 @@ customElements.define(
                 this.innerHTML = `
                  <img src="img/volcano.png" srcset="img/volcano@2x.png 2x" width="60" height="60" alt="Volcano">
                  <div class="graph-dynamics-content gradient-red radius-lg">
-                   <div class="dynamics negative caption">
+                   <div class="dynamics negative caption" title="${escapeHtml(text)}">
                      ${escapeHtml(percentAbs)}
                    </div>
                    <div class="strong mt16 mb8">Negative dynamics</div>
                      <div class="caption gray mb32"
                           style="padding-left: 4px; padding-right: 4px;">
-                       ${escapeHtml(text)}
+                       Something went wrong :(
                      </div>
                    <a href="#modal-tips" class="btn-white" rel="modal:open">Our tips</a>
                  </div>`;
@@ -89,13 +89,13 @@ customElements.define(
                 this.innerHTML = `
                  <img src="img/grow.png" srcset="img/grow@2x.png 2x" width="60" height="60" alt="Grow">
                  <div class="graph-dynamics-content bg-gray radius-lg">
-                   <div class="dynamics stability caption">
+                   <div class="dynamics stability caption" title="${escapeHtml(text)}">
                      ${escapeHtml(percentAbs)}
                    </div>
                    <div class="strong mt16 mb8">Good stability</div>
                      <div class="caption gray mb32"
                           style="padding-left: 4px; padding-right: 4px;">
-                       ${escapeHtml(text)}
+                       But you need to grow!
                      </div>
                    <a href="#modal-tips" class="btn-white" rel="modal:open">Our tips</a>
                  </div>`;
