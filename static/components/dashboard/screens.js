@@ -1,11 +1,15 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        draw(lang) {
-            var screenEntries = Object.entries(lang).sort(
-                (a, b) => b[1] - a[1]
+        draw(screen) {
+            var screenEntries = Object.entries(screen).sort(
+                (a, b) => {
+                    if (a[0] == 'Other') return 1;
+                    if (b[0] == 'Other') return -1;
+                    return b[1] - a[1]
+                }
             );
-            this.totalCount = Object.values(lang).reduce(
+            this.totalCount = Object.values(screen).reduce(
                 (acc, next) => acc + next,
                 0
             );
@@ -36,10 +40,10 @@ customElements.define(
             `;
         }
 
-        drawItem(lang, count) {
+        drawItem(screen, count) {
             return `
                 <div class="metrics-three-data-content-item">
-                  ${escapeHtml(lang)}
+                  ${escapeHtml(screen)}
                   <span>
                     <span class="strong mr16">${count}</span>
                     <span class="item-percent bg-blue blue caption">${percentRepr(
