@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 type UserDump struct {
@@ -344,6 +345,12 @@ func (ctx *Ctx) handleDump() {
 	// with two many dumb pushs. TODO: throttle it to something around max
 	// ~2 pers seconds.
 	//
+
+	// DOING THE ABOVE COMMENT FOR HACKER NEWS: rework this!
+
+
+	lastDump := time.Now()
+
 	user.HandleSignals(conn, func(err error) {
 
 		// this happens because we close the connection to redis when
@@ -354,6 +361,10 @@ func (ctx *Ctx) handleDump() {
 		}
 
 		ctx.CatchError(err)
-		sendDump()
+
+		if time.Since(lastDump) > time.Second * 1 {
+			sendDump()
+			lastDump = time.Now()
+		}
 	})
 }
