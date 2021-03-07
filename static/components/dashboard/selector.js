@@ -41,7 +41,7 @@ customElements.define(
           } value="day">Today</option>
           <option ${
               rangePref === "month" ? "selected=selected" : ""
-          } value="month">This Month</option>
+          } value="month">This month</option>
           <option ${
               rangePref === "year" ? "selected=selected" : ""
           } value="year">This year</option>
