@@ -50,11 +50,11 @@ customElements.define(
         }
 
         noUser() {
-            document.querySelector(".no-user").style.display = "block"
+            document.querySelectorAll(".no-user").forEach((el) => el.style.display = "block")
         }
 
         hasUser(user) {
-            document.querySelector(".has-user").style.display = "block"
+            document.querySelectorAll(".has-user").forEach((el) => el.style.display = "block")
             Array.from(
                 document.getElementsByClassName("fill-username")
             ).forEach((el) => {

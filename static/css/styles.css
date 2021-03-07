@@ -1106,6 +1106,12 @@ nav a {
   .modal-content {
     padding: 16px;
   }
+
+  /* hotfix - see other comment for th non mobile version of this. */
+  header {
+    min-height: 64px;
+  }
+
   .navbar .content {
     height: 64px;
     justify-content: space-between;
