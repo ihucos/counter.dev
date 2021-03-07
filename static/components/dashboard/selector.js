@@ -6,6 +6,17 @@ customElements.define(
             // all other components
             this.dump = dump;
 
+            // HACKER NEWS HOTFIX XXX
+            if (dump.user.id == "counter"){
+                if (this._drawed){
+                    return
+                } else {
+                    this._drawed = true
+                }
+
+            }
+
+
             var sites = Object.entries(dump.sites)
                 .sort((a, b) => b[1].count - a[1].count)
                 .map((i) => i[0]);
