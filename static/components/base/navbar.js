@@ -108,7 +108,7 @@ customElements.define(
                        </div>
                      </div>
                      <span class="no-user profile-guest" style="display: none">
-                       <a href="welcome.html?sign-in" class="ml32 mr32">Sign in</a>
+                       <a href="welcome.html?sign-in" class="ml32 mr32">Log in</a>
                        <a href="welcome.html?sign-up" class="btn-primary">Sign up</a>
                      </span>
                      <!-- /// -->
@@ -124,7 +124,7 @@ customElements.define(
                          <nav class="nav-header-mob">
                            <!-- Guest -->
                            <span class="no-user mt48 mb48" style="display: none">
-                             <a href="welcome.html?sign-in" class="btn-primary mr16">Sign in</a>
+                             <a href="welcome.html?sign-in" class="btn-primary mr16">Log in</a>
                              <a href="welcome.html?sign-up" class="btn-secondary">Sign up</a>
                            </span>
                            <!-- User -->
