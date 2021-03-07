@@ -113,23 +113,29 @@ func (site Site) SaveVisit(visit Visit, at time.Time) {
 
 func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 
-	var err error
 	var redisKey string
-	m := make(VisitsData)
+	var fields []string
 	for _, field := range fieldsZet {
 		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
-		m[field], err = redis.Int64Map(site.redis.Do("ZRANGE", redisKey, 0, -1, "WITHSCORES"))
-		if err != nil {
-			return nil, err
-		}
+		fields = append(fields, field)
+		site.redis.Send("ZRANGE", redisKey, 0, -1, "WITHSCORES")
 	}
 	for _, field := range fieldsHash {
+		fields = append(fields, field)
 		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
-		m[field], err = redis.Int64Map(site.redis.Do("HGETALL", redisKey))
-		if err != nil {
-			return nil, err
-		}
+		site.redis.Send("HGETALL", redisKey)
 	}
+	site.redis.Flush()
+
+	m := make(VisitsData)
+	for _, key := range fields {
+		v, err := redis.Int64Map(site.redis.Receive())
+		if err != nil {
+			return m, err
+		}
+		m[key] = v
+	}
+
 	return m, nil
 }
 
