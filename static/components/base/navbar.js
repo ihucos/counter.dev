@@ -98,7 +98,7 @@ customElements.define(
                        rel="nofollow"
                      ></a>
                      <a
-                       href="https://twitter.com/DevCounter"
+                       href="https://twitter.com/NaiveTeamHQ"
                        class="twitter-blue mr32"
                        target="_blank"
                        rel="nofollow"
@@ -164,7 +164,7 @@ customElements.define(
                                rel="nofollow"
                              ></a>
                              <a
-                               href="https://twitter.com/DevCounter"
+                               href="https://twitter.com/NaiveTeamHQ"
                                class="twitter-blue"
                                target="_blank"
                                rel="nofollow"
