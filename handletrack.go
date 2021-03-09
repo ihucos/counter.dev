@@ -72,10 +72,16 @@ func (ctx *Ctx) handleTrack() {
 		visit["ref"] = parsedUrl.Host
 	}
 
-	ref := ctx.r.Header.Get("Referer")
-	parsedUrl, err = url.Parse(ref)
-	if err == nil && parsedUrl.Path != "" {
-		visit["loc"] = parsedUrl.Path
+	page := ctx.r.FormValue("page")
+	if page != "" {
+		visit["loc"] = page
+	} else {
+		// Fallback to Referer header
+		ref := ctx.r.Header.Get("Referer")
+		parsedUrl, err = url.Parse(ref)
+		if err == nil && parsedUrl.Path != "" {
+			visit["loc"] = parsedUrl.Path
+		}
 	}
 
 	tags, _, err := language.ParseAcceptLanguage(ctx.r.Header.Get("Accept-Language"))

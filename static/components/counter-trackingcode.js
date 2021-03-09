@@ -2,7 +2,7 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         getTrackingCode(user, utcoffset) {
-            return `<script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:${JSON.stringify(
+            return `<script>if(!sessionStorage.getItem("_swa")&&!document.referrer.startsWith(location.protocol+"//"+location.host)){navigator.sendBeacon("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,page:location.pathname,user:${JSON.stringify(
                 user
             )},utcoffset:${JSON.stringify(
                 utcoffset
