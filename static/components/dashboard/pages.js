@@ -7,7 +7,7 @@ customElements.define(
         <div class="metrics-four-item">
           <div class="metrics-headline">
             <img src="img/pages.svg" width="24" height="24" alt="Pages">
-            <h3 class="ml16">Landing Pages</h3>
+            <h3 class="ml16">Entry Pages</h3>
           </div>
           <div class="metrics-three-data bg-white radius-lg shadow-sm">
             <div class="metrics-three-data-headline shadow-sm caption gray">

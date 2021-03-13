@@ -1,7 +1,7 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        KEY = "close-enjoy-new-design-msg";
+        KEY = "close-looking-for-cofounder";
         connectedCallback() {
             if (
                 !window.location.href
@@ -13,7 +13,7 @@ customElements.define(
                    <!-- Notification -->
                    <section class="notification">
                      <div class="content">
-                       <span>Enjoy our new design!</span>
+                       <span>We are looking for a Co-Founder to make us grow.</span>
                        <div class="btn-close"></div>
                      </div>
                    </section>`;
