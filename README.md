@@ -37,7 +37,7 @@ This project aim is to serve many users for free in a sustainable way.
 
 ## Contributors
 
-- Bogdan Slomchinskiy ([slomchinskiy](https://dribbble.com/slomchinskiy)) - Product Designer
+- Bogdan Slomchinskiy ([slomchinskiy](https://case.desi/@slomchinskiy)) - Product Designer
 - Ana Maria Sandoval Jimenez - Data Scientist
 - Irae Hueck Costa ([ihucos](https://github.com/ihucos/)) - Backend Developer
 
