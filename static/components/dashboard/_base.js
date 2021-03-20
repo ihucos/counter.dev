@@ -48,7 +48,7 @@ class Counter extends HTMLElement {
             ${escapeHtml(this.getAttribute("text"))}
             <div
               class="dynamics ${trend} caption"
-              title='Compares this ${curTime} (${count}) with this ${nextCurTime} (${nextCount})'
+              title='Compares ${curTime} (${count}) with ${nextCurTime} (${nextCount})'
               ${curTime === nextCurTime ? `style="display: none;"` : ``}
             >
               <span class="dynamics-mobile">${percentRepr}</span>
