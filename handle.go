@@ -95,6 +95,7 @@ func (ctx *Ctx) HandleLogin() {
 	ctx.CatchError(err)
 
 	if passwordOk {
+		ctx.LogEvent("login")
 		user.TouchAccess()
 		ctx.SetSessionUser(userId)
 		ctx.ReturnUser()
@@ -185,6 +186,8 @@ func (ctx *Ctx) handleRegister() {
 	err := user.Create(password)
 	switch err.(type) {
 	case nil:
+
+		ctx.LogEvent("register")
 
 		utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
 		err := user.SetPref("utcoffset", utcoffset)
@@ -336,6 +339,7 @@ func (ctx *Ctx) handleDump() {
 	}
 
 	sendDump()
+
 	conn, err := redis.DialURL(ctx.app.config.RedisUrl)
 	ctx.CatchError(err)
 	ctx.openConns = append(ctx.openConns, conn)

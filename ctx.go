@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"./utils"
 	"net/http"
 	"runtime"
 	"strconv"
@@ -152,6 +153,13 @@ func (ctx *Ctx) User(userId string) models.User {
 	user := models.NewUser(conn, userId)
 	ctx.openConns = append(ctx.openConns, conn)
 	return user
+}
+
+func (ctx *Ctx) LogEvent(eventType string) {
+	conn := ctx.app.RedisPool.Get()
+	now := utils.TimeNow(1)  // one is the coolest time zone.
+	conn.Send("HINCRBY", fmt.Sprintf("logevent:%s", eventType), now.Format("2006-01-02"), "1")
+	conn.Close()
 }
 
 func (ctx *Ctx) ForceUser() models.User {
