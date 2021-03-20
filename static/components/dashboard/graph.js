@@ -9,13 +9,13 @@ customElements.define(
             return gradientStroke;
         }
 
-        getChart(dates, hour, utcoffset) {
+        getChart(dates, hour, utcoffset, range) {
             let vals = dNormalizedDates(dates, utcoffset);
             let labels = vals[0];
             let data = vals[1];
 
             // assume this is today, show hours
-            if (labels.length === 1) {
+            if (range === "day" || range == "yesterday") {
                 hour = dGetNormalizedHours(hour);
                 labels = Object.keys(hour);
                 data = Object.values(hour);

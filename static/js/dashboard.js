@@ -75,6 +75,7 @@ connectData("dashboard-graph", (dump) => [
     dump.sites[selector.site].visits[selector.range]["date"],
     dump.sites[selector.site].visits[selector.range]["hour"],
     dump.user.prefs.utcoffset || getUTCOffset(),
+    selector.range,
 ]);
 
 connectData("dashboard-settings", (dump) => [

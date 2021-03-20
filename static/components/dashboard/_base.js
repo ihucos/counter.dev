@@ -2,7 +2,8 @@ class Counter extends HTMLElement {
     topLevelDomainRe = /[-\w]+\.(?:[-\w]+\.xn--[-\w]+|[-\w]{2,}|[-\w]+\.[-\w]{2})$/i;
 
     nextTime = {
-        day: "month",
+        day: "yesterday",
+        yesterday: "month",
         month: "year",
         year: "all",
         all: "all",
