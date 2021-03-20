@@ -40,6 +40,11 @@ func (ctx *Ctx) handleTrack() {
 		ctx.ReturnBadRequest("Origin header can not be empty, not set or \"null\"")
 	}
 
+	// ignore some origins
+	if strings.HasSuffix(origin, ".translate.goog") {
+		ctx.ReturnBadRequest("Ignoring due origin")
+	}
+
 	//
 	// set expire
 	//
