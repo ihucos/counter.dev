@@ -348,7 +348,6 @@ func (ctx *Ctx) handleDump() {
 
 	// DOING THE ABOVE COMMENT FOR HACKER NEWS: rework this!
 
-
 	lastDump := time.Now()
 
 	user.HandleSignals(conn, func(err error) {
@@ -362,7 +361,7 @@ func (ctx *Ctx) handleDump() {
 
 		ctx.CatchError(err)
 
-		if time.Since(lastDump) > time.Second * 1 {
+		if time.Since(lastDump) > time.Second*1 {
 			sendDump()
 			lastDump = time.Now()
 		}

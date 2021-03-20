@@ -22,11 +22,11 @@ var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "dev
 type VisitsData map[string]map[string]int64
 type LogData map[string]int64
 type TimedVisits struct {
-	Day   VisitsData `json:"day"`
-	Yesterday   VisitsData `json:"yesterday"`
-	Month VisitsData `json:"month"`
-	Year  VisitsData `json:"year"`
-	All   VisitsData `json:"all"`
+	Day       VisitsData `json:"day"`
+	Yesterday VisitsData `json:"yesterday"`
+	Month     VisitsData `json:"month"`
+	Year      VisitsData `json:"year"`
+	All       VisitsData `json:"all"`
 }
 
 type Visit map[string]string

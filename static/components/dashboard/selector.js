@@ -7,15 +7,13 @@ customElements.define(
             this.dump = dump;
 
             // HACKER NEWS HOTFIX XXX
-            if (dump.user.id == "counter"){
-                if (this._drawed){
-                    return
+            if (dump.user.id == "counter") {
+                if (this._drawed) {
+                    return;
                 } else {
-                    this._drawed = true
+                    this._drawed = true;
                 }
-
             }
-
 
             var sites = Object.entries(dump.sites)
                 .sort((a, b) => b[1].count - a[1].count)
