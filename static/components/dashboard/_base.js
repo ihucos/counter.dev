@@ -22,6 +22,15 @@ class Counter extends HTMLElement {
             dPadDates(allVisits[nextCurTime].date, utcoffset)
         ).length;
 
+        // hotfix: yesteday is special because it is a point in time and not time range
+        // starting from now
+        if (curTime == 'yesterday'){
+            datesPassedCurTime = 1
+        }
+        if (nextCurTime == 'yesterday'){
+            datesPassedNextTime = 1
+        }
+
         let perThisTimeRange = count / datesPassedCurTime;
         let perNextTimeRange = nextCount / datesPassedNextTime;
         let percent = Math.round(
