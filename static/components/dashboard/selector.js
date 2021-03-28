@@ -57,6 +57,9 @@ customElements.define(
               rangePref === "yesterday" ? "selected=selected" : ""
           } value="yesterday">Yesterday</option>
           <option ${
+              rangePref === "week" ? "selected=selected" : ""
+          } value="week">This Week</option>
+          <option ${
               rangePref === "month" ? "selected=selected" : ""
           } value="month">This month</option>
           <option ${

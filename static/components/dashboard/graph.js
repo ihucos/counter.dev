@@ -90,6 +90,9 @@ customElements.define(
                                     fontSize: 14,
                                     userCallback: function (label) {
                                         if (label.split("-").length - 1 === 2) {
+                                            if (range == "week"){
+                                                return moment(label).format("dddd");
+                                            }
                                             return moment(label).format("Do");
                                         }
                                         return label;

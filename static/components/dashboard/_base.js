@@ -3,7 +3,8 @@ class Counter extends HTMLElement {
 
     nextTime = {
         day: "yesterday",
-        yesterday: "month",
+        yesterday: "week",
+        week: "month",
         month: "year",
         year: "all",
         all: "all",
@@ -42,6 +43,9 @@ class Counter extends HTMLElement {
         if (percent < 0) {
             trend = "negative";
             percentRepr = `${Math.abs(percent)}%`;
+        } else if (!isFinite(percent) && count !== 0) {
+            trend = "positive";
+            percentRepr = '&infin;';
         } else if (percent > 0) {
             trend = "positive";
             percentRepr = `${percent}%`;
