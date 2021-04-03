@@ -15,7 +15,7 @@ customElements.define(
             let data = vals[1];
 
             // Only one day to show, show hours instead
-            if (labels.length === 1) {
+            if (labels.length === 1 || range === "yesterday") {
                 hour = dGetNormalizedHours(hour);
                 labels = Object.keys(hour);
                 data = Object.values(hour);

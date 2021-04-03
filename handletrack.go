@@ -104,6 +104,8 @@ func (ctx *Ctx) handleTrack() {
 		}
 	}
 
+	device := ua.DeviceType.StringTrimPrefix()
+
 	visit["date"] = now.Format("2006-01-02")
 
 	visit["weekday"] = fmt.Sprintf("%d", now.Weekday())
@@ -112,14 +114,14 @@ func (ctx *Ctx) handleTrack() {
 
 	visit["browser"] = ua.Browser.Name.StringTrimPrefix()
 
-	visit["device"] = ua.DeviceType.StringTrimPrefix()
+	visit["device"] = device
 
 	visit["platform"] = ua.OS.Platform.StringTrimPrefix()
 
 	//
 	// save visit map
 	//
-	logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, userAgent)
+	logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, device)
 
 	siteId := Origin2SiteId(origin)
 	user := ctx.User(userId)
