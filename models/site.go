@@ -23,6 +23,13 @@ var fieldsZet = []string{"lang", "ref", "loc"}
 var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device", "country", "screen"}
 
 type VisitsData map[string]map[string]int64
+
+func (vd VisitsData) Merge(other VisitsData) VisitsData{
+	merged := new(VisitsData)
+	return merged
+
+}
+
 type LogData map[string]int64
 type TimedVisits struct {
 	Day       VisitsData `json:"day"`
@@ -82,7 +89,7 @@ var ScreenResolutions = map[string]bool{
 	"414x896":   true,
 	"768x1024":  true}
 
-func formatWeekRedisKey(time time.Time) string{
+func formatWeekKey(time time.Time) string{
 	year, week := time.ISOWeek()
 	return fmt.Sprintf("%d-cw%d", year, week)
 }
@@ -118,7 +125,7 @@ func (site Site) saveVisitPart(timeRange string, data Visit, expireEntry int) {
 func (site Site) SaveVisit(visit Visit, at time.Time) {
 	site.saveVisitPart(at.Format("2006"), visit, 60*60*24*366)
 	site.saveVisitPart(at.Format("2006-01"), visit, 60*60*24*31)
-	site.saveVisitPart(formatWeekRedisKey(at), visit, 60*60*24*7)
+	site.saveVisitPart(formatWeekKey(at), visit, 60*60*24*7)
 
 	// we expire after two days for the yesterday entry
 	site.saveVisitPart(at.Format("2006-01-02"), visit, 60*60*24*2)
@@ -126,7 +133,7 @@ func (site Site) SaveVisit(visit Visit, at time.Time) {
 	site.saveVisitPart("all", visit, -1)
 }
 
-func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
+func (site Site) getHotVisitsPart(timeRange string) (VisitsData, error) {
 
 	var redisKey string
 	var fields []string
@@ -155,7 +162,7 @@ func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 }
 
 
-func (site Site) getArchivedVisitsPart(timeRange string) (VisitsData, error) {
+func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 
 	var fields []string
 	for _, field := range fieldsZet {
@@ -190,8 +197,9 @@ func (site Site) getArchivedVisitsPart(timeRange string) (VisitsData, error) {
 
 }
 
-//func (site Site) getArchiveVisitsDayRange(timeRange string) (VisitsData, error) {
-//}
+func (site Site) getVisitsDayRange(from time.Time, to time.Time) (VisitsData, error) {
+	return 
+}
 
 
 func (site Site) delVisitPart(timeRange string) {
@@ -206,7 +214,7 @@ func (site Site) delVisitPart(timeRange string) {
 	}
 }
 
-func (site Site) DelVisits() {
+func (site Site) delHotVisits() {
 
 	// we ignore the fact that at any given time in reality there are three
 	// dates going on at the same time and not as this code naively assumes
@@ -220,8 +228,8 @@ func (site Site) DelVisits() {
 	site.delVisitPart(maxDate.Format("2006-01"))
 	site.delVisitPart(minDate.Format("2006-01"))
 
-	site.delVisitPart(formatWeekRedisKey(maxDate))
-	site.delVisitPart(formatWeekRedisKey(minDate))
+	site.delVisitPart(formatWeekKey(maxDate))
+	site.delVisitPart(formatWeekKey(minDate))
 
 	site.delVisitPart(maxDate.AddDate(0, 0, -1).Format("2006-01-02"))
 	site.delVisitPart(minDate.AddDate(0, 0, -1).Format("2006-01-02"))
@@ -231,36 +239,37 @@ func (site Site) DelVisits() {
 	site.delVisitPart("all")
 }
 
-func (site Site) DelLogs() {
+func (site Site) delLogs() {
 	redisKey := fmt.Sprintf("log:%s:%s", site.id, site.userId)
 	site.redis.Send("DEL", redisKey)
 }
 
 func (site Site) Del() {
-	site.DelVisits()
-	site.DelLogs()
+	site.delHotVisits()
+	// site.DelVisits() // XXXXXX IMPLEMENTE!
+	site.delLogs()
 }
 
 func (site Site) GetVisits(utcOffset int) (TimedVisits, error) {
 	nullData := TimedVisits{nil, nil, nil, nil, nil, nil}
 	now := utils.TimeNow(utcOffset)
-	allStatData, err := site.getArchivedVisitsPart(now.Format("2006-01-02"))
+	allStatData, err := site.getVisitsPart(now.Format("2006-01-02"))
 	if err != nil {
 		return nullData, err
 	}
-	yearStatData, err := site.getVisitsPart(now.Format("2006"))
+	yearStatData, err := site.getHotVisitsPart(now.Format("2006"))
 	if err != nil {
 		return nullData, err
 	}
-	monthStatData, err := site.getVisitsPart(now.Format("2006-01"))
+	monthStatData, err := site.getHotVisitsPart(now.Format("2006-01"))
 	if err != nil {
 		return nullData, err
 	}
-	weekStatData, err := site.getVisitsPart(formatWeekRedisKey(now))
+	weekStatData, err := site.getHotVisitsPart(formatWeekKey(now))
 	if err != nil {
 		return nullData, err
 	}
-	dayStatData, err := site.getVisitsPart(now.Format("2006-01-02"))
+	dayStatData, err := site.getHotVisitsPart(now.Format("2006-01-02"))
 	if err != nil {
 		return nullData, err
 	}
