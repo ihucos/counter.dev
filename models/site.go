@@ -24,10 +24,16 @@ var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "dev
 
 type VisitsData map[string]map[string]int64
 
-func (vd VisitsData) Merge(other VisitsData) VisitsData{
-	merged := new(VisitsData)
-	return merged
-
+func (vd VisitsData) Merge(other *VisitsData) {
+	for otherField := range *other {
+		for otherKey := range (*other)[otherField] {
+			val, found := (*other)[otherField][otherKey]
+			if ! found {
+				val = 0
+			}
+			vd[otherField][otherKey] += val
+		}
+	}
 }
 
 type LogData map[string]int64
@@ -198,7 +204,16 @@ func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 }
 
 func (site Site) getVisitsDayRange(from time.Time, to time.Time) (VisitsData, error) {
-	return 
+	v := make(VisitsData)
+	for current := from; to.After(current); current = from.AddDate(0, 0, 1) {
+		vPart, err := site.getVisitsPart(current.Format("2006-01-02"))
+		if err != nil {
+			return nil, err
+		}
+		v.Merge(&vPart)
+
+	}
+	return v, nil
 }
 
 
@@ -253,7 +268,7 @@ func (site Site) Del() {
 func (site Site) GetVisits(utcOffset int) (TimedVisits, error) {
 	nullData := TimedVisits{nil, nil, nil, nil, nil, nil}
 	now := utils.TimeNow(utcOffset)
-	allStatData, err := site.getVisitsPart(now.Format("2006-01-02"))
+	allStatData, err := site.getVisitsDayRange(now.AddDate(0, 0, -30), now)
 	if err != nil {
 		return nullData, err
 	}
