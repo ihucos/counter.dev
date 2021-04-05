@@ -181,26 +181,28 @@ func archiveRedisKeys(app *App) {
 		conn.Flush()
 
 
-			for _, key := range keys {
-				key_val, err := redis.Int64Map(conn.Receive())
-				if err != nil {
-					panic(err)
-				}
-				// fmt.Println(key, key_val)
+		for _, key := range keys {
+			key_val, err := redis.Int64Map(conn.Receive())
+			if err != nil {
+				panic(err)
+			}
+			// fmt.Println(key, key_val)
 
-				buf := new(bytes.Buffer)
-				enc := gob.NewEncoder(buf)
-				err = enc.Encode(&key_val)
-				if err != nil {
-					panic(err)
-				}
-
-				//fmt.Println(key, buf.Bytes())
-
-				app.Leveldb.Put([]byte(key), buf.Bytes(), nil)
+			buf := new(bytes.Buffer)
+			enc := gob.NewEncoder(buf)
+			err = enc.Encode(&key_val)
+			if err != nil {
+				panic(err)
 			}
 
-		if iter == 0 {break}
+			//fmt.Println(key, buf.Bytes())
+
+			app.Leveldb.Put([]byte(key), buf.Bytes(), nil)
+		}
+
+		if iter == 0 {
+			fmt.Println("ROUNDROUNDROUNDROUNDROUND")
+		}
 
 	}
 

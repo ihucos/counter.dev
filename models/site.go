@@ -186,7 +186,7 @@ func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 	m := make(VisitsData)
 	for _, field := range fields {
 		dbkey := VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
-		fmt.Println("level db get:", dbkey)
+		//fmt.Println("level db get:", dbkey)
 		encodedVal, err := site.Leveldb.Get([]byte(dbkey), nil)
 		switch err {
 			case leveldb.ErrNotFound:
@@ -210,6 +210,9 @@ func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 }
 
 func (site Site) getVisitsDayRange(from time.Time, to time.Time) (VisitsData, error) {
+	// if you do a range with 30 days he does like 2000 key accesses on
+	// leveldb. This needs to be optimized by using intermediate weeks (and
+	// maybe even months an year) entries when possible.
 	v := make(VisitsData)
 	for current := from; to.After(current); current = current.AddDate(0, 0, 1) {
 		vPart, err := site.getVisitsPart(current.Format("2006-01-02"))
@@ -274,7 +277,7 @@ func (site Site) Del() {
 func (site Site) GetVisits(utcOffset int) (TimedVisits, error) {
 	nullData := TimedVisits{nil, nil, nil, nil, nil, nil}
 	now := utils.TimeNow(utcOffset)
-	allStatData, err := site.getVisitsDayRange(now.AddDate(0, 0, -7), now)
+	allStatData, err := site.getVisitsDayRange(now.AddDate(0, 0, -30), now)
 	if err != nil {
 		return nullData, err
 	}
