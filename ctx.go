@@ -150,7 +150,7 @@ func (ctx *Ctx) Logout() {
 
 func (ctx *Ctx) User(userId string) models.User {
 	conn := ctx.app.RedisPool.Get()
-	user := models.NewUser(conn, userId)
+	user := models.NewUser(conn, ctx.app.Leveldb, userId)
 	ctx.openConns = append(ctx.openConns, conn)
 	return user
 }

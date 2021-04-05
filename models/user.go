@@ -7,10 +7,12 @@ import (
 	"encoding/base64"
 	"fmt"
 	"github.com/gomodule/redigo/redis"
+	"github.com/syndtr/goleveldb/leveldb"
 )
 
 type User struct {
 	redis redis.Conn
+	Leveldb *leveldb.DB
 	Id    string
 }
 
@@ -42,8 +44,8 @@ func truncate(stri string) string {
 	return stri
 }
 
-func NewUser(conn redis.Conn, userId string) User {
-	return User{redis: conn, Id: truncate(userId)}
+func NewUser(conn redis.Conn, leveldb *leveldb.DB, userId string) User {
+	return User{redis: conn, Leveldb: leveldb, Id: truncate(userId)}
 }
 
 func (user User) DelAllSites() error {
@@ -204,7 +206,7 @@ func (user User) SetPref(key string, value string) error {
 }
 
 func (user User) NewSite(Id string) Site {
-	return Site{redis: user.redis, userId: user.Id, id: Id}
+	return Site{redis: user.redis, Leveldb: user.Leveldb, userId: user.Id, id: Id}
 }
 
 func (user User) IncrSiteLink(siteId string) {

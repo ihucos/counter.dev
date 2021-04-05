@@ -12,6 +12,11 @@ import (
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
 	"log"
+
+	"github.com/syndtr/goleveldb/leveldb"
+
+	"encoding/gob"
+	"bytes"
 )
 
 type appAdapter struct {
@@ -40,6 +45,7 @@ func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 type App struct {
 	RedisPool    *redis.Pool
+	Leveldb *leveldb.DB
 	SessionStore *sessions.CookieStore
 	Logger       *log.Logger
 	ServeMux     *http.ServeMux
@@ -90,6 +96,11 @@ func NewApp() *App {
 		},
 	}
 
+	leveldb, err := leveldb.OpenFile("/tmp/my.db", nil)
+	if err != nil {
+		panic(err)
+	}
+
 	sessionStore := sessions.NewCookieStore(config.CookieSecret)
 
 	logFile, err := os.OpenFile("log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
@@ -104,6 +115,7 @@ func NewApp() *App {
 
 	app := &App{
 		RedisPool:    redisPool,
+		Leveldb:      leveldb,
 		SessionStore: sessionStore,
 		Logger:       logger,
 		ServeMux:     serveMux,
@@ -130,6 +142,70 @@ func (app App) Serve() {
 	}
 }
 
+func archiveRedisKeys(app *App) {
+	conn := app.RedisPool.Get()
+	iter := 0
+	var keys []string
+	for {
+		arr, err := redis.Values(conn.Do("SCAN", iter, "MATCH", "v:*", "COUNT", "1000")); 
+		if err != nil {
+			panic(err)
+		}
+		iter, err = redis.Int(arr[0], nil)
+		if err != nil {
+			panic(err)
+		}
+		keys, err = redis.Strings(arr[1], nil)
+		if err != nil {
+			panic(err)
+		}
+
+		for _, key := range keys {
+			conn.Send("TYPE", key)
+		}
+		conn.Flush()
+
+		for _, key := range keys {
+			key_type, err := redis.String(conn.Receive())
+			if err != nil {
+				panic(err)
+			}
+			if key_type == "zset" {
+				conn.Send("ZRANGE", key, "0", "-1", "WITHSCORES")
+			} else if key_type == "hash" {
+				conn.Send("HGETALL", key)
+			} else {
+				panic("bad key type: " + key_type)
+			}
+		}
+		conn.Flush()
+
+
+			for _, key := range keys {
+				key_val, err := redis.Int64Map(conn.Receive())
+				if err != nil {
+					panic(err)
+				}
+				// fmt.Println(key, key_val)
+
+				buf := new(bytes.Buffer)
+				enc := gob.NewEncoder(buf)
+				err = enc.Encode(&key_val)
+				if err != nil {
+					panic(err)
+				}
+
+				//fmt.Println(key, buf.Bytes())
+
+				app.Leveldb.Put([]byte(key), buf.Bytes(), nil)
+			}
+
+		if iter == 0 {break}
+
+	}
+
+}
+
 func main() {
 
 	// HOTFIX
@@ -142,6 +218,9 @@ func main() {
 	}
 
 	app := NewApp()
+
+	go archiveRedisKeys(app)
+
 	app.Logger.Println("Start")
 	app.Serve()
 }

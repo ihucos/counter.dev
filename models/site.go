@@ -7,6 +7,9 @@ import (
 	"math/rand"
 	"net/url"
 	"time"
+	"bytes"
+	"encoding/gob"
+	"github.com/syndtr/goleveldb/leveldb"
 )
 
 // set needs to overgrow sometimes so it does allow for "trending" new entries
@@ -50,6 +53,7 @@ func (vik VisitItemKey) String() string {
 
 type Site struct {
 	redis  redis.Conn
+	Leveldb *leveldb.DB
 	id     string
 	userId string
 }
@@ -150,6 +154,46 @@ func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 	return m, nil
 }
 
+
+func (site Site) getArchivedVisitsPart(timeRange string) (VisitsData, error) {
+
+	var fields []string
+	for _, field := range fieldsZet {
+		fields = append(fields, field)
+	}
+	for _, field := range fieldsHash {
+		fields = append(fields, field)
+	}
+
+	m := make(VisitsData)
+	for _, field := range fields {
+		dbkey := VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		encodedVal, err := site.Leveldb.Get([]byte(dbkey), nil)
+		switch err {
+			case leveldb.ErrNotFound:
+				m[field] = make(map[string]int64)
+			case nil:
+				buffer := bytes.NewBuffer(encodedVal)
+				decoder := gob.NewDecoder(buffer)
+				val := make(map[string]int64)
+				err := decoder.Decode(&val)
+				if err != nil {
+					return m, err
+				}
+				m[field] = val
+			case nil:
+			default:
+				return nil, err
+		}
+	}
+	return m, nil
+
+}
+
+//func (site Site) getArchiveVisitsDayRange(timeRange string) (VisitsData, error) {
+//}
+
+
 func (site Site) delVisitPart(timeRange string) {
 	var redisKey string
 	for _, field := range fieldsZet {
@@ -200,7 +244,7 @@ func (site Site) Del() {
 func (site Site) GetVisits(utcOffset int) (TimedVisits, error) {
 	nullData := TimedVisits{nil, nil, nil, nil, nil, nil}
 	now := utils.TimeNow(utcOffset)
-	allStatData, err := site.getVisitsPart("all")
+	allStatData, err := site.getArchivedVisitsPart(now.Format("2006-01-02"))
 	if err != nil {
 		return nullData, err
 	}
