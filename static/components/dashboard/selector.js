@@ -68,6 +68,14 @@ customElements.define(
           <option ${
               rangePref === "all" ? "selected=selected" : ""
           } value="all">All</option>
+
+                <optgroup label="Archive">
+                <option>2021-01</option>
+                <option>2021-02</option>
+                <option>2021-03</option>
+                <option>2020-12</option>
+                </optgroup>
+
         </select>`;
 
             this.updateFavicon();
