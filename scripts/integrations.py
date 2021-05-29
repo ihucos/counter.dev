@@ -33,7 +33,7 @@ for user, v in user_integrations.items():
     user_integrated_at[user] = min(v)
 
 data = []
-for key in sorted(r.keys("sites:*")):
+for key in sorted(r.scan_iter("sites:*")):
     user = key.decode().split(":", 1)[-1]
     if user in BLOCKLIST or user.startswith("_"):
         continue
