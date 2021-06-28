@@ -136,7 +136,6 @@ customElements.define(
             "google.com.np",
             "google.com.om",
             "google.com.pa",
-            "",
             "google.com.pe",
             "google.com.pg",
             "google.com.ph",
