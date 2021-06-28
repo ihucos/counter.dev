@@ -35,7 +35,7 @@ type Dump struct {
 func LoadSitesDump(user models.User, utcOffset int) (SitesDump, error) {
 	sitesDump := make(SitesDump)
 
-	sitesLink, err := user.GetSiteLinks()
+	sitesLink, err := user.GetAllowedSiteLinks()
 	if err != nil {
 		return SitesDump{}, err
 	}
@@ -209,6 +209,7 @@ func (ctx *Ctx) handleAccountEdit() {
 	currentPassword := ctx.r.FormValue("current_password")
 	newPassword := ctx.r.FormValue("new_password")
 	repeatNewPassword := ctx.r.FormValue("repeat_new_password")
+	sitesFilter := ctx.r.FormValue("sitesfilter")
 
 	user := ctx.ForceUser()
 
@@ -217,6 +218,22 @@ func (ctx *Ctx) handleAccountEdit() {
 		err := user.SetPref("utcoffset", utcoffset)
 		ctx.CatchError(err)
 	}
+
+	siteLinks, err := user.GetSiteLinks()
+	if err != nil {
+		ctx.CatchError(err)
+	}
+
+	filteredSiteLinks, err := user.GetFilteredSiteLinks(sitesFilter)
+	if err != nil {
+		ctx.CatchError(err)
+	}
+
+	if len(siteLinks) != 0 && len(filteredSiteLinks) == 0 {
+		ctx.ReturnBadRequest("Not setting domain display settings that filters our all domains.")
+	}
+	err = user.SetPref("sitesfilter", sitesFilter)
+	ctx.CatchError(err)
 
 	// assume the user is trying to change the password
 	if newPassword != "" || repeatNewPassword != "" {

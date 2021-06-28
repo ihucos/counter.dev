@@ -43,7 +43,8 @@ customElements.define(
                     // the fallback is because older user's dont set the
                     // utcoffset by default
                     this.drawEditaccount(
-                        dump.user.prefs.utcoffset || getUTCOffset()
+                        dump.user.prefs.utcoffset || getUTCOffset(),
+                        dump.user.prefs.sitesfilter || ""
                     );
                     document.dispatchEvent(new CustomEvent("userloaded"));
                 }
@@ -68,10 +69,10 @@ customElements.define(
             });
         }
 
-        drawEditaccount(utcoffset) {
+        drawEditaccount(utcoffset, sitesfilter) {
             var ea = this.querySelector("base-editaccount");
             customElements.upgrade(ea);
-            ea.draw(utcoffset);
+            ea.draw(utcoffset, sitesfilter);
         }
 
         connectedCallback() {

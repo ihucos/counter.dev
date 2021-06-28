@@ -1,7 +1,7 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        draw(utcoffset) {
+        draw(utcoffset, sites) {
             this.innerHTML = `
 
                 <!-- Edit account modal -->
@@ -23,6 +23,14 @@ customElements.define(
                                   )}">${escapeHtml(i[1])}</option>`
                           ).join("")}
                         </select>
+                        <!-- Whitelist domains -->
+                        <div class="title mb16 mt24">Displayed Domains</div>
+                            <label class="width-full"
+                              >Leave empty to display all domains.<textarea
+                                name="sitesfilter"
+                                class="width-full"
+                                placeholder="Allowed domains"
+                            ></textarea></label>
                         <!-- Change password -->
                         <div class="title mb8 mt24">Change password</div>
                         <label class="old-pass width-full"
@@ -96,6 +104,8 @@ customElements.define(
                 );
             }
 
+            this.querySelector('textarea[name="sitesfilter"]').value = sites
+
             var deleteRequest = this.querySelector(".delete-request");
             var deleteConfirm = this.querySelector(".delete-confirm");
             this.querySelector(".delete-request button").onclick = () => {
@@ -111,7 +121,7 @@ customElements.define(
             $("#modal-account", this).on(
                 $.modal.AFTER_CLOSE,
                 function (event, modal) {
-                    parentThis.draw(utcoffset);
+                    parentThis.draw(utcoffset, sites);
                 }
             );
         }

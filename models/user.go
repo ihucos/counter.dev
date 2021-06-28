@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
+	"strings"
 	"github.com/gomodule/redigo/redis"
 )
 
@@ -190,6 +191,39 @@ func (user User) GetSiteLinks() (map[string]int, error) {
 	}
 	return val, nil
 }
+
+func (user User) GetAllowedSiteLinks() (map[string]int, error) {
+	sitesFilter, err := user.GetPref("sitesfilter")
+	if err != nil {
+		return make(map[string]int), err
+	}
+	return user.GetFilteredSiteLinks(sitesFilter)
+
+}
+
+func (user User) GetFilteredSiteLinks(filter string) (map[string]int, error) {
+	returnedSiteLinks := make(map[string]int)
+	allSiteLinks, err := user.GetSiteLinks()
+	if err != nil {
+		return returnedSiteLinks, err
+	}
+
+	if filter == "" {
+		return allSiteLinks, nil
+	}
+	allowedSitesList := strings.Fields(filter)
+
+	for site, _ := range allSiteLinks {
+		for _, allowedSite := range allowedSitesList {
+			if (site == allowedSite || strings.HasSuffix(site, "." + allowedSite)){
+				returnedSiteLinks[site] = allSiteLinks[site]
+				break
+			}
+		}
+	}
+	return returnedSiteLinks, nil
+}
+
 
 func (user User) HasSiteLinks() (bool, error) {
 	return redis.Bool(user.redis.Do("EXISTS", fmt.Sprintf("sites:%s", user.Id)))
