@@ -60,16 +60,37 @@ customElements.define(
           </div>`;
         }
 
+        refGroup(ref) {
+            if (ref.startsWith('www.')){
+                ref = ref.slice(4)
+            }
+            return ref
+
+        }
+
         draw(sources, countries) {
             // prepare sources
-            this.allSourcesEntries = Object.entries(sources).sort(
+
+            // Group similar looking sources (e.G. www.example.com and
+            // example.com)
+            let parentThis = this
+            let groupedSources = {}
+            Object.keys(sources).forEach(function(ref) {
+                let refVisits = sources[ref]
+                let refGroup = parentThis.refGroup(ref)
+                groupedSources[refGroup] = groupedSources[refGroup] || 0;
+                groupedSources[refGroup] += refVisits
+            });
+
+
+            this.allSourcesEntries = Object.entries(groupedSources).sort(
                 (a, b) => b[1] - a[1]
             );
             this.sourcesEntries = this.allSourcesEntries.slice(
                 0,
                 this.MAX_ENTRIES
             );
-            this.sourcesTotalCount = Object.values(sources).reduce(
+            this.sourcesTotalCount = Object.values(groupedSources).reduce(
                 (acc, next) => acc + next,
                 0
             );
