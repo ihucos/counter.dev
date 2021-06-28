@@ -25,7 +25,7 @@ customElements.define(
                             </div>
                             <div class="nav-footer-two">
                               <ul>
-                                <li><a href="privacy.html" target="_blank" rel="nofollow">Privacy</a></li>
+                                <li><a href="privacy.html" rel="nofollow">Privacy</a></li>
                               </ul>
                             </div>
                           </nav>
