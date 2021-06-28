@@ -44,7 +44,8 @@ customElements.define(
                     // utcoffset by default
                     this.drawEditaccount(
                         dump.user.prefs.utcoffset || getUTCOffset(),
-                        dump.user.prefs.sitesfilter || ""
+                        dump.user.prefs.sitesfilter || "",
+                        dump.user.prefs.sitesfilterenabled || ""
                     );
                     document.dispatchEvent(new CustomEvent("userloaded"));
                 }
@@ -69,10 +70,10 @@ customElements.define(
             });
         }
 
-        drawEditaccount(utcoffset, sitesfilter) {
+        drawEditaccount(utcoffset, sitesfilter, statesfilterenabled) {
             var ea = this.querySelector("base-editaccount");
             customElements.upgrade(ea);
-            ea.draw(utcoffset, sitesfilter);
+            ea.draw(utcoffset, sitesfilter, statesfilterenabled);
         }
 
         connectedCallback() {

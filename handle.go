@@ -210,6 +210,7 @@ func (ctx *Ctx) handleAccountEdit() {
 	newPassword := ctx.r.FormValue("new_password")
 	repeatNewPassword := ctx.r.FormValue("repeat_new_password")
 	sitesFilter := ctx.r.FormValue("sitesfilter")
+	sitesFilterEnabled := ctx.r.FormValue("sitesfilterenabled")
 
 	user := ctx.ForceUser()
 
@@ -229,10 +230,11 @@ func (ctx *Ctx) handleAccountEdit() {
 		ctx.CatchError(err)
 	}
 
-	if len(siteLinks) != 0 && len(filteredSiteLinks) == 0 {
+	if sitesFilterEnabled != ""  && len(filteredSiteLinks) == 0 {
 		ctx.ReturnBadRequest("Not setting domain display settings that filters our all domains.")
 	}
 	err = user.SetPref("sitesfilter", sitesFilter)
+	err = user.SetPref("sitesfilterenabled", sitesFilterEnabled)
 	ctx.CatchError(err)
 
 	// assume the user is trying to change the password

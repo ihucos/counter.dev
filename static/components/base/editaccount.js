@@ -1,7 +1,7 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        draw(utcoffset, sites) {
+        draw(utcoffset, sitesfilter, sitesfilterenabled) {
             this.innerHTML = `
 
                 <!-- Edit account modal -->
@@ -13,7 +13,7 @@ customElements.define(
                   </div>
                   <div class="modal-content">
                     <!-- Time zone -->
-                    <div class="title mb16">Time zone</div>
+                    <div class="title mb16">Time Zone</div>
                     <form action="/accountedit" id="account-edit" method="POST">
                         <select class="width-full" name="utcoffset">
                           ${this.TIMEZONES.map(
@@ -24,15 +24,24 @@ customElements.define(
                           ).join("")}
                         </select>
                         <!-- Whitelist domains -->
-                        <div class="title mb16 mt24">Displayed Domains</div>
-                            <label class="width-full"
-                              >Leave empty to display all domains.<textarea
+                        <div class="title mb16 mt24">Websites list</div>
+
+                            <select class="width-full" name="sitesfilterenabled">
+                                  <option value="">
+                                    Show all incomming traffic
+                                  </option>
+                                  <option value="true">
+                                    Show only allowed websites
+                                  </option>
+                            </select>
+                            <label class="width-full mt16"
+                              >Allowed websites list (<i>example.com</i> also matches
+                                  <i>abc.example.com</i>).<textarea
                                 name="sitesfilter"
                                 class="width-full"
-                                placeholder="Allowed domains"
                             ></textarea></label>
                         <!-- Change password -->
-                        <div class="title mb8 mt24">Change password</div>
+                        <div class="title mb8 mt24">Change Password</div>
                         <label class="old-pass width-full"
                           >Old password<input
                             name="current_password"
@@ -96,6 +105,8 @@ customElements.define(
                   </div>
                 </div>`;
 
+            let self = this;
+
             // just validation
             if (!isNaN(utcoffset)) {
                 this.querySelector(`option[value="${utcoffset}"]`).setAttribute(
@@ -104,7 +115,22 @@ customElements.define(
                 );
             }
 
-            this.querySelector('textarea[name="sitesfilter"]').value = sites
+            var sitesfilterEl = self.querySelector('textarea[name="sitesfilter"]')
+            var sitesfilterenabledEl = self.querySelector('select[name="sitesfilterenabled"]')
+            console.log(sitesfilterenabled)
+            sitesfilterenabledEl.value = sitesfilterenabled
+            sitesfilterEl.value = sitesfilter
+            sitesfilterenabledEl.addEventListener(
+                'change',
+                function() {
+                    if (this.value === ""){
+                        $(sitesfilterEl.parentElement).slideUp()
+                    } else {
+                        $(sitesfilterEl.parentElement).slideDown()
+                    }
+                },
+                false
+            )
 
             var deleteRequest = this.querySelector(".delete-request");
             var deleteConfirm = this.querySelector(".delete-confirm");
@@ -117,11 +143,10 @@ customElements.define(
             simpleForm(".delete-account .delete-confirm", "/new");
 
             // redraw modal if it is closed
-            var parentThis = this;
             $("#modal-account", this).on(
                 $.modal.AFTER_CLOSE,
                 function (event, modal) {
-                    parentThis.draw(utcoffset, sites);
+                    self.draw(utcoffset, sitesfilter, sitesfilterenabled);
                 }
             );
         }
