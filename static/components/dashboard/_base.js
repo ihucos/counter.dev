@@ -1,5 +1,5 @@
 class Counter extends HTMLElement {
-    topLevelDomainRe = /[-\w]+\.(?:[-\w]+\.xn--[-\w]+|[-\w]{2,}|[-\w]+\.[-\w]{2})$/i;
+    topLevelDomainRe = /(?:www\.){0,1}([-\w]+\.(?:[-\w]+\.xn--[-\w]+|[-\w]{2,}|[-\w]+\.[-\w]{2})$)/i;
 
     nextTime = {
         day: "yesterday",
@@ -81,6 +81,6 @@ class Counter extends HTMLElement {
         if (match === null) {
             return null;
         }
-        return this.countList.has(match[0]);
+        return this.countList.has(match[1]);
     }
 }
