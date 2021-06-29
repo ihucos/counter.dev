@@ -194,23 +194,27 @@ func (user User) GetSiteLinks() (map[string]int, error) {
 
 
 func (user User) GetPreferredSiteLinks() (map[string]int, error) {
-	limitSites, err := user.GetPref("limitsites")
-	if  limitSites == "" {
-		return user.GetSiteLinks()
-	}
 	preferredSiteLinks := make(map[string]int)
-	siteLinks, err := user.GetSiteLinks()
+	useSites, err := user.GetPref("usesites")
 	if err != nil {
 		return preferredSiteLinks, err
 	}
-	sites, err := user.GetPref("sites")
-	if err != nil {
-		return preferredSiteLinks, err
+	if useSites == "" {
+		return user.GetSiteLinks()
+	} else {
+		sites, err := user.GetPref("sites")
+		if err != nil {
+			return preferredSiteLinks, err
+		}
+		siteLinks, err := user.GetSiteLinks()
+		if err != nil {
+			return preferredSiteLinks, err
+		}
+		for _, site := range strings.Fields(sites){
+			preferredSiteLinks[site] = siteLinks[site]
+		}
+		return preferredSiteLinks, nil
 	}
-	for _, site := range strings.Fields(sites){
-		preferredSiteLinks[site] = siteLinks[site]
-	}
-	return preferredSiteLinks, nil
 }
 
 func (user User) HasSiteLinks() (bool, error) {
