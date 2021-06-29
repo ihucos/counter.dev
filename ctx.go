@@ -75,8 +75,7 @@ func (ctx *Ctx) ReturnUser() {
 	ctx.CatchError(err)
 	prefsData, err := user.GetPrefs()
 	ctx.CatchError(err)
-	var SiteLinksData map[string]int
-	SiteLinksData, err = user.GetPreferredSiteLinks()
+	SiteLinksData, err := user.GetPreferredSiteLinks()
 	ctx.CatchError(err)
 	data := UserDataResp{Meta: metaData, Prefs: prefsData, SiteLinks: SiteLinksData}
 	ctx.ReturnJSON(data, 200)

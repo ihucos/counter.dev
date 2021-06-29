@@ -213,7 +213,7 @@ func (ctx *Ctx) handleAccountEdit() {
 
 	user := ctx.ForceUser()
 
-	if (usePreferredSites == "true" && len(strings.Fields(preferredSites)) < 1) {
+	if (usePreferredSites != "" && len(strings.Fields(preferredSites)) < 1) {
 		ctx.ReturnBadRequest("This 'Listed sites' option needs at least one site as input")
 	}
 	ctx.SetPref("preferredsites", preferredSites)

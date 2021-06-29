@@ -195,7 +195,7 @@ func (user User) GetSiteLinks() (map[string]int, error) {
 
 func (user User) GetPreferredSiteLinks() (map[string]int, error) {
 	usePreferredSites, err := user.GetPref("usepreferredsites")
-	if  usePreferredSites != "true" {
+	if  usePreferredSites == "" {
 		return user.GetSiteLinks()
 	}
 	preferredSiteLinks := make(map[string]int)

@@ -57,7 +57,7 @@ customElements.define(
                                   <option value="">
                                     Show all incomming traffic
                                   </option>
-                                  <option value="true">
+                                  <option value="1">
                                     Limit selectable sites
                                   </option>
                             </select>
