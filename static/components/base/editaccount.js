@@ -51,17 +51,17 @@ customElements.define(
                         </div>
                         <span class="caption gray">We do not recover passwords!</span>
                         <!-- Whitelist domains -->
-                        <div class="title mb16 mt24">Listed sites</div>
+                        <div class="title mb16 mt24">Listed Hosts</div>
 
                             <select class="width-full" name="usesites">
                                   <option value="">
                                     Show all incomming traffic
                                   </option>
                                   <option value="1">
-                                    Limit selectable sites
+                                    Limit selectable hosts
                                   </option>
                             </select>
-                            <label class="width-full mt16">Selectable sites
+                            <label class="width-full mt16">Selectable hosts
                                     separated by newline or space<textarea
                                 name="sites"
                                 class="width-full"
