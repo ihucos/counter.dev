@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
+	"strings"
 	"github.com/gomodule/redigo/redis"
 )
 
@@ -189,6 +190,27 @@ func (user User) GetSiteLinks() (map[string]int, error) {
 		return empty, err
 	}
 	return val, nil
+}
+
+
+func (user User) GetPreferredSiteLinks() (map[string]int, error) {
+	usePreferredSites, err := user.GetPref("usepreferredsites")
+	if  usePreferredSites != "true" {
+		return user.GetSiteLinks()
+	}
+	preferredSiteLinks := make(map[string]int)
+	siteLinks, err := user.GetSiteLinks()
+	if err != nil {
+		return preferredSiteLinks, err
+	}
+	preferredSitesStr, err := user.GetPref("preferredsites")
+	if err != nil {
+		return preferredSiteLinks, err
+	}
+	for _, prefSite := range strings.Fields(preferredSitesStr){
+		preferredSiteLinks[prefSite] = siteLinks[prefSite]
+	}
+	return preferredSiteLinks, nil
 }
 
 func (user User) HasSiteLinks() (bool, error) {

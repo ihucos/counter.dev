@@ -1,7 +1,8 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        draw(utcoffset) {
+        draw(prefs) {
+
             this.innerHTML = `
 
                 <!-- Edit account modal -->
@@ -13,7 +14,7 @@ customElements.define(
                   </div>
                   <div class="modal-content">
                     <!-- Time zone -->
-                    <div class="title mb16">Time zone</div>
+                    <div class="title mb16">Time Zone</div>
                     <form action="/accountedit" id="account-edit" method="POST">
                         <select class="width-full" name="utcoffset">
                           ${this.TIMEZONES.map(
@@ -24,7 +25,7 @@ customElements.define(
                           ).join("")}
                         </select>
                         <!-- Change password -->
-                        <div class="title mb8 mt24">Change password</div>
+                        <div class="title mb8 mt24">Change Password</div>
                         <label class="old-pass width-full"
                           >Old password<input
                             name="current_password"
@@ -49,6 +50,21 @@ customElements.define(
                           /></label>
                         </div>
                         <span class="caption gray">We do not recover passwords!</span>
+                        <!-- Whitelist domains -->
+                        <div class="title mb16 mt24">Listed sites</div>
+
+                            <select class="width-full" name="usepreferredsites">
+                                  <option value="">
+                                    Show all incomming traffic
+                                  </option>
+                                  <option value="true">
+                                    Limit selectable sites
+                                  </option>
+                            </select>
+                            <label class="width-full mt16">Separated by newline or space<textarea
+                                name="preferredsites"
+                                class="width-full"
+                            ></textarea></label>
                         <div class="account-btn-group flex mt24 mb32">
                           <a href="#" class="btn-secondary full mr16" rel="modal:close"
                             >Cancel</a
@@ -88,6 +104,12 @@ customElements.define(
                   </div>
                 </div>`;
 
+            var utcoffset = prefs.utcoffset || getUTCOffset()
+            var preferredSites = prefs.preferredsites || ""
+            var usePreferredSites = prefs.usepreferredsites || ""
+
+            let self = this;
+
             // just validation
             if (!isNaN(utcoffset)) {
                 this.querySelector(`option[value="${utcoffset}"]`).setAttribute(
@@ -95,6 +117,26 @@ customElements.define(
                     "selected"
                 );
             }
+
+            var preferredSitesEl = self.querySelector('textarea[name="preferredsites"]')
+            var usePreferredSitesEl = self.querySelector('select[name="usepreferredsites"]')
+            usePreferredSitesEl.value = usePreferredSites
+            preferredSitesEl.value = preferredSites
+
+            let showHidePrefferedSites = function() {
+                if (usePreferredSitesEl.value === ""){
+                    $(preferredSitesEl.parentElement).slideUp()
+                } else {
+                    $(preferredSitesEl.parentElement).slideDown()
+                }
+            }
+
+            usePreferredSitesEl.addEventListener(
+                'change',
+                showHidePrefferedSites,
+                false
+            )
+            showHidePrefferedSites()
 
             var deleteRequest = this.querySelector(".delete-request");
             var deleteConfirm = this.querySelector(".delete-confirm");
@@ -107,11 +149,10 @@ customElements.define(
             simpleForm(".delete-account .delete-confirm", "/new");
 
             // redraw modal if it is closed
-            var parentThis = this;
             $("#modal-account", this).on(
                 $.modal.AFTER_CLOSE,
                 function (event, modal) {
-                    parentThis.draw(utcoffset);
+                    self.draw(prefs);
                 }
             );
         }

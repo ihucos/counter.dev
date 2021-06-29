@@ -75,10 +75,26 @@ func (ctx *Ctx) ReturnUser() {
 	ctx.CatchError(err)
 	prefsData, err := user.GetPrefs()
 	ctx.CatchError(err)
-	SiteLinksData, err := user.GetSiteLinks()
+	var SiteLinksData map[string]int
+	SiteLinksData, err = user.GetPreferredSiteLinks()
 	ctx.CatchError(err)
 	data := UserDataResp{Meta: metaData, Prefs: prefsData, SiteLinks: SiteLinksData}
 	ctx.ReturnJSON(data, 200)
+}
+
+func (ctx *Ctx) GetPref(key string) string {
+	val, err := ctx.ForceUser().GetPref(key)
+	if err != nil {
+		ctx.CatchError(err)
+	}
+	return val
+}
+
+func (ctx *Ctx) SetPref(key string, value string) {
+	err := ctx.ForceUser().SetPref(key, value)
+	if err != nil {
+		ctx.CatchError(err)
+	}
 }
 
 func (ctx *Ctx) ParseUTCOffset(key string) int {

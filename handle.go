@@ -35,7 +35,7 @@ type Dump struct {
 func LoadSitesDump(user models.User, utcOffset int) (SitesDump, error) {
 	sitesDump := make(SitesDump)
 
-	sitesLink, err := user.GetSiteLinks()
+	sitesLink, err := user.GetPreferredSiteLinks()
 	if err != nil {
 		return SitesDump{}, err
 	}
@@ -190,8 +190,7 @@ func (ctx *Ctx) handleRegister() {
 		ctx.LogEvent("register")
 
 		utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
-		err := user.SetPref("utcoffset", utcoffset)
-		ctx.CatchError(err)
+		ctx.SetPref("utcoffset", utcoffset)
 
 		ctx.SetSessionUser(userId)
 		ctx.ReturnUser()
@@ -209,13 +208,20 @@ func (ctx *Ctx) handleAccountEdit() {
 	currentPassword := ctx.r.FormValue("current_password")
 	newPassword := ctx.r.FormValue("new_password")
 	repeatNewPassword := ctx.r.FormValue("repeat_new_password")
+	preferredSites := ctx.r.FormValue("preferredsites")
+	usePreferredSites := ctx.r.FormValue("usepreferredsites")
 
 	user := ctx.ForceUser()
 
+	if (usePreferredSites == "true" && len(strings.Fields(preferredSites)) < 1) {
+		ctx.ReturnBadRequest("This 'Listed sites' option needs at least one site as input")
+	}
+	ctx.SetPref("preferredsites", preferredSites)
+	ctx.SetPref("usepreferredsites", usePreferredSites)
+
 	if ctx.r.FormValue("utcoffset") != "" {
 		utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
-		err := user.SetPref("utcoffset", utcoffset)
-		ctx.CatchError(err)
+		ctx.SetPref("utcoffset", utcoffset)
 	}
 
 	// assume the user is trying to change the password
@@ -253,16 +259,12 @@ func (ctx *Ctx) handleAccountEdit() {
 }
 
 func (ctx *Ctx) handleSetPrefRange() {
-	user := ctx.ForceUser()
-	err := user.SetPref("range", ctx.r.URL.RawQuery)
-	ctx.CatchError(err)
+	ctx.SetPref("range", ctx.r.URL.RawQuery)
 
 }
 
 func (ctx *Ctx) handleSetPrefSite() {
-	user := ctx.ForceUser()
-	err := user.SetPref("site", ctx.r.URL.RawQuery)
-	ctx.CatchError(err)
+	ctx.SetPref("site", ctx.r.URL.RawQuery)
 
 }
 
