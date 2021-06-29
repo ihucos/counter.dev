@@ -61,8 +61,9 @@ customElements.define(
                                     Limit selectable sites
                                   </option>
                             </select>
-                            <label class="width-full mt16">Separated by newline or space<textarea
-                                name="preferredsites"
+                            <label class="width-full mt16">Selectable sites
+                                    separated by newline or space<textarea
+                                name="sites"
                                 class="width-full"
                             ></textarea></label>
                         <div class="account-btn-group flex mt24 mb32">
@@ -105,8 +106,8 @@ customElements.define(
                 </div>`;
 
             var utcoffset = prefs.utcoffset || getUTCOffset()
-            var preferredSites = prefs.preferredsites || ""
-            var usePreferredSites = prefs.usepreferredsites || ""
+            var sites = prefs.sites || ""
+            var useSites = prefs.usesites || ""
 
             let self = this;
 
@@ -118,20 +119,20 @@ customElements.define(
                 );
             }
 
-            var preferredSitesEl = self.querySelector('textarea[name="preferredsites"]')
-            var usePreferredSitesEl = self.querySelector('select[name="usepreferredsites"]')
-            usePreferredSitesEl.value = usePreferredSites
-            preferredSitesEl.value = preferredSites
+            var sitesEl = self.querySelector('textarea[name="sites"]')
+            var useSitesEl = self.querySelector('select[name="usesites"]')
+            useSitesEl.value = useSites
+            sitesEl.value = sites
 
             let showHidePrefferedSites = function() {
-                if (usePreferredSitesEl.value === ""){
-                    $(preferredSitesEl.parentElement).slideUp()
+                if (useSitesEl.value === ""){
+                    $(sitesEl.parentElement).slideUp()
                 } else {
-                    $(preferredSitesEl.parentElement).slideDown()
+                    $(sitesEl.parentElement).slideDown()
                 }
             }
 
-            usePreferredSitesEl.addEventListener(
+            useSitesEl.addEventListener(
                 'change',
                 showHidePrefferedSites,
                 false

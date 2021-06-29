@@ -208,16 +208,16 @@ func (ctx *Ctx) handleAccountEdit() {
 	currentPassword := ctx.r.FormValue("current_password")
 	newPassword := ctx.r.FormValue("new_password")
 	repeatNewPassword := ctx.r.FormValue("repeat_new_password")
-	preferredSites := ctx.r.FormValue("preferredsites")
-	usePreferredSites := ctx.r.FormValue("usepreferredsites")
+	sites := ctx.r.FormValue("sites")
+	useSites := ctx.r.FormValue("usesites")
 
 	user := ctx.ForceUser()
 
-	if (usePreferredSites != "" && len(strings.Fields(preferredSites)) < 1) {
+	if (useSites != "" && len(strings.Fields(sites)) < 1) {
 		ctx.ReturnBadRequest("This 'Listed sites' option needs at least one site as input")
 	}
-	ctx.SetPref("preferredsites", preferredSites)
-	ctx.SetPref("usepreferredsites", usePreferredSites)
+	ctx.SetPref("sites", sites)
+	ctx.SetPref("usesites", useSites)
 
 	if ctx.r.FormValue("utcoffset") != "" {
 		utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
