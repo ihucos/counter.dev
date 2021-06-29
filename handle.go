@@ -214,7 +214,7 @@ func (ctx *Ctx) handleAccountEdit() {
 	user := ctx.ForceUser()
 
 	if (useSites != "" && len(strings.Fields(sites)) < 1) {
-		ctx.ReturnBadRequest("This 'Listed Hosts' option needs at least one site as input")
+		ctx.ReturnBadRequest("This 'Listed Domains' option needs at least one site as input")
 	}
 	ctx.SetPref("sites", sites)
 	ctx.SetPref("usesites", useSites)
