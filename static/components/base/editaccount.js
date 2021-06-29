@@ -53,7 +53,7 @@ customElements.define(
                         <!-- Whitelist domains -->
                         <div class="title mb16 mt24">Listed sites</div>
 
-                            <select class="width-full" name="usepreferredsites">
+                            <select class="width-full" name="usesites">
                                   <option value="">
                                     Show all incomming traffic
                                   </option>
@@ -106,12 +106,7 @@ customElements.define(
                 </div>`;
 
             var utcoffset = prefs.utcoffset || getUTCOffset()
-            var sites = prefs.sites || ""
-            var useSites = prefs.usesites || ""
 
-            let self = this;
-
-            // just validation
             if (!isNaN(utcoffset)) {
                 this.querySelector(`option[value="${utcoffset}"]`).setAttribute(
                     "selected",
@@ -119,8 +114,11 @@ customElements.define(
                 );
             }
 
-            var sitesEl = self.querySelector('textarea[name="sites"]')
-            var useSitesEl = self.querySelector('select[name="usesites"]')
+            var sites = prefs.sites || ""
+            var useSites = prefs.usesites || ""
+            var sitesEl = this.querySelector('textarea[name="sites"]')
+            var useSitesEl = this.querySelector('select[name="usesites"]')
+
             useSitesEl.value = useSites
             sitesEl.value = sites
 
@@ -131,13 +129,12 @@ customElements.define(
                     $(sitesEl.parentElement).slideDown()
                 }
             }
-
+            showHidePrefferedSites()
             useSitesEl.addEventListener(
                 'change',
                 showHidePrefferedSites,
                 false
             )
-            showHidePrefferedSites()
 
             var deleteRequest = this.querySelector(".delete-request");
             var deleteConfirm = this.querySelector(".delete-confirm");
@@ -152,8 +149,8 @@ customElements.define(
             // redraw modal if it is closed
             $("#modal-account", this).on(
                 $.modal.AFTER_CLOSE,
-                function (event, modal) {
-                    self.draw(prefs);
+                (event, modal) => {
+                    this.draw(prefs);
                 }
             );
         }

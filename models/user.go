@@ -199,6 +199,7 @@ func (user User) GetPreferredSiteLinks() (map[string]int, error) {
 	if err != nil {
 		return preferredSiteLinks, err
 	}
+
 	if useSites == "" {
 		return user.GetSiteLinks()
 	} else {
