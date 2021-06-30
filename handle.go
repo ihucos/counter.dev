@@ -275,11 +275,11 @@ type PingDataResp struct {
 }
 
 func (ctx *Ctx) handleLoadComponentsJS() {
-	files1, err := filepath.Glob("./static/components/*.js")
+	files1, err := filepath.Glob("../static/components/*.js")
 	ctx.CatchError(err)
-	files2, err := filepath.Glob("./static/components/*/*.js")
+	files2, err := filepath.Glob("../static/components/*/*.js")
 	ctx.CatchError(err)
-	files3, err := filepath.Glob("./static/components/*/*/*.js")
+	files3, err := filepath.Glob("../static/components/*/*/*.js")
 	ctx.CatchError(err)
 	files := append(append(files1, files2...), files3...)
 
