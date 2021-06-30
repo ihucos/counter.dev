@@ -294,25 +294,31 @@ func init() {
 	}
 
 	lib.Endpoint("/load.js", func(ctx *lib.Ctx) {
-		files1, err := filepath.Glob("./static/components/*.js")
+		files1, err := filepath.Glob("../static/components/*.js")
 		ctx.CatchError(err)
-		files2, err := filepath.Glob("./static/components/*/*.js")
+		files2, err := filepath.Glob("../static/components/*/*.js")
 		ctx.CatchError(err)
-		files3, err := filepath.Glob("./static/components/*/*/*.js")
+		files3, err := filepath.Glob("../static/components/*/*/*.js")
 		ctx.CatchError(err)
 		files := append(append(files1, files2...), files3...)
 
-		// this works, but breaks the frontend - you fix it!
-		for _, file := range files {
-			ctx.W.Header().Add("Link", fmt.Sprintf("<%s>; rel=preload; as=script", file[len("static"):]))
+		serveableFiles := []string{}
+		for _, file := range files{
+			serveableFiles = append(serveableFiles, file[9:])
 		}
 
-		filesJson, err := json.Marshal(files)
+
+		// this works, but breaks the frontend - you fix it!
+		for _, file := range serveableFiles {
+			ctx.W.Header().Add("Link", fmt.Sprintf("<%s>; rel=preload; as=script", file))
+		}
+
+		filesJson, err := json.Marshal(serveableFiles)
 		ctx.CatchError(err)
 		ctx.Return(fmt.Sprintf(`
 	        %s.sort().map(file => {
 	            let script = document.createElement("script");
-	            script.src = '/' + file.slice(7); script.async = false;
+	            script.src = file; script.async = false;
 	            document.head.appendChild(script)})`, filesJson), 200)
 	})
 
