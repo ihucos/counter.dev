@@ -2,9 +2,10 @@
 alpineversion = 3.11
 go = ./scripts/go
 
-include config/makefile.env
+include backend/config/makefile.env
 
 export
+
 
 .PHONY: tests
 tests:
@@ -13,7 +14,7 @@ tests:
 
 .PHONY: runserver
 devserver:
-	 . config/dev.sh && $(go) run .
+	cd backend && . config/dev.sh && ../$(go) run .
 
 format:
 	plash --from alpine:3.11 --apk npm --run 'npm i prettier --global' -- prettier --write .

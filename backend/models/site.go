@@ -1,7 +1,7 @@
 package models
 
 import (
-	"../utils"
+	"github.com/ihucos/counter.dev/utils"
 	"fmt"
 	"github.com/gomodule/redigo/redis"
 	"math/rand"

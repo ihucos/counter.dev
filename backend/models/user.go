@@ -1,7 +1,7 @@
 package models
 
 import (
-	"../utils"
+	"github.com/ihucos/counter.dev/utils"
 	cryptoRand "crypto/rand"
 	"crypto/sha256"
 	"encoding/base64"
