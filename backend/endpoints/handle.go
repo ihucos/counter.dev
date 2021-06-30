@@ -1,22 +1,9 @@
 package endpoints
 
 import (
-	"encoding/json"
-	"fmt"
-	"github.com/gomodule/redigo/redis"
-	"github.com/ihucos/counter.dev/lib"
 	"github.com/ihucos/counter.dev/models"
-	"github.com/ihucos/counter.dev/utils"
+	"github.com/ihucos/counter.dev/lib"
 	"net/http"
-	"path/filepath"
-	"strings"
-	"time"
-	"regexp"
-	"net/url"
-
-	"github.com/avct/uasurfer"
-	"golang.org/x/text/language"
-	"golang.org/x/text/language/display"
 )
 
 type UserDump struct {
@@ -95,7 +82,4 @@ func LoadDump(user models.User, utcOffset int) (Dump, error) {
 
 	userDump := UserDump{Id: user.Id, Token: token, Prefs: prefsData}
 	return Dump{User: userDump, Sites: sitesDump, Meta: Meta{}}, nil
-}
-
-
 }

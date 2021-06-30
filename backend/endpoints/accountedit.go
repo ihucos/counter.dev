@@ -1,6 +1,10 @@
 package endpoints
 
-import "github.com/ihucos/counter.dev/lib"
+import (
+	"github.com/ihucos/counter.dev/lib"
+	"strings"
+	"fmt"
+)
 
 func init() {
 	lib.Handler(func(ctx *lib.Ctx) {

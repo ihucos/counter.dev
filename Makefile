@@ -7,14 +7,14 @@ include backend/config/makefile.env
 export
 
 
-.PHONY: tests
-tests:
-	. config/test.sh && $(go) test
-
 
 .PHONY: runserver
 devserver:
 	cd backend && . config/dev.sh && ../$(go) run .
+
+.PHONY: tests
+tests:
+	. config/test.sh && $(go) test
 
 format:
 	plash --from alpine:3.11 --apk npm --run 'npm i prettier --global' -- prettier --write .
