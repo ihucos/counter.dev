@@ -497,6 +497,7 @@ label:focus-within {
   color: #147efb;
 }
 
+textarea,
 input[type="text"],
 input[type="password"] {
   display: block;
@@ -509,15 +510,17 @@ input[type="password"] {
   padding: 11px 16px;
   transition: border 0.2s;
 }
-
+textarea:hover,
 input[type="text"]:hover,
 input[type="password"]:hover {
   border: 1px solid #cccccc;
 }
+textarea:focus,
 input[type="text"]:focus,
 input[type="password"]:focus {
   border: 1px solid #147efb;
 }
+textarea:disabled,
 input[type="text"]:disabled,
 input[type="password"]:disabled {
   background: #f5f5f5;

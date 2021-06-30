@@ -42,9 +42,7 @@ customElements.define(
                     sessionStorage.setItem(usernameCacheKey, dump.user.id);
                     // the fallback is because older user's dont set the
                     // utcoffset by default
-                    this.drawEditaccount(
-                        dump.user.prefs.utcoffset || getUTCOffset()
-                    );
+                    this.drawEditaccount(dump.user.prefs);
                     document.dispatchEvent(new CustomEvent("userloaded"));
                 }
                 source.close(); // don't leave an open connection to server to save resources
@@ -68,10 +66,10 @@ customElements.define(
             });
         }
 
-        drawEditaccount(utcoffset) {
+        drawEditaccount(prefs) {
             var ea = this.querySelector("base-editaccount");
             customElements.upgrade(ea);
-            ea.draw(utcoffset);
+            ea.draw(prefs);
         }
 
         connectedCallback() {
