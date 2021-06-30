@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/ihucos/counter.dev/lib"
+	_ "github.com/ihucos/counter.dev/handlers"
 	"syscall"
 	"fmt"
 )
@@ -21,8 +22,7 @@ func main() {
 	}
 
 	app := lib.NewApp()
-
-
+	app.ConnectEndpoints()
 	app.Logger.Println("Start")
 	app.Serve()
 }

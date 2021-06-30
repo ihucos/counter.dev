@@ -18,6 +18,8 @@ type appAdapter struct {
 	fn  func(*Ctx)
 }
 
+var endpoints = map[string]func(*Ctx){}
+
 func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	defer func() {
 		r := recover()
@@ -37,12 +39,23 @@ func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ah.fn(ctx)
 }
 
+func Endpoint(endpoint string, f func(*Ctx)) {
+	endpoints[endpoint] = f
+}
+
+
 type App struct {
 	RedisPool    *redis.Pool
 	SessionStore *sessions.CookieStore
 	Logger       *log.Logger
 	ServeMux     *http.ServeMux
 	Config       config.Config
+}
+
+func (app *App) ConnectEndpoints() {
+	for endpoint, handler := range(endpoints){
+		app.Connect(endpoint, handler)
+	}
 }
 
 func (app *App) NewContext(w http.ResponseWriter, r *http.Request) *Ctx {

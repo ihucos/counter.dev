@@ -40,8 +40,6 @@ type Dump struct {
 	Meta  map[string]string `json:"meta"`
 }
 
-var Endpoint func(string, func(*lib.Ctx))
-
 func Origin2SiteId(origin string) string {
 	// this function returns
 	var re = regexp.MustCompile(`^.*?:\/\/(?:www.)?(.*)$`)
@@ -100,7 +98,7 @@ func LoadDump(user models.User, utcOffset int) (Dump, error) {
 }
 
 func init() {
-	Endpoint("/login", func(ctx *lib.Ctx) {
+	lib.Endpoint("/login", func(ctx *lib.Ctx) {
 		userId := ctx.R.FormValue("user")
 		passwordInput := ctx.R.FormValue("password")
 		if userId == "" {
@@ -126,7 +124,7 @@ func init() {
 		}
 	})
 
-	Endpoint("/dashboard", func(ctx *lib.Ctx) {
+	lib.Endpoint("/dashboard", func(ctx *lib.Ctx) {
 		user := ctx.ForceUser()
 		hasSites, err := user.HasSiteLinks()
 		ctx.CatchError(err)
@@ -137,7 +135,7 @@ func init() {
 		}
 	})
 
-	Endpoint("/logout", func(ctx *lib.Ctx) {
+	lib.Endpoint("/logout", func(ctx *lib.Ctx) {
 		ctx.Logout()
 		next := ctx.R.FormValue("next")
 		var redirectURL string
@@ -149,7 +147,7 @@ func init() {
 		http.Redirect(ctx.W, ctx.R, redirectURL, http.StatusTemporaryRedirect)
 	})
 
-	Endpoint("/deleteUser", func(ctx *lib.Ctx) {
+	lib.Endpoint("/deleteUser", func(ctx *lib.Ctx) {
 		ctx.CheckMethod("POST")
 		confirmUser := ctx.R.FormValue("confirmUser")
 		user := ctx.ForceUser()
@@ -162,7 +160,7 @@ func init() {
 		http.Redirect(ctx.W, ctx.R, "/", http.StatusTemporaryRedirect)
 	})
 
-	Endpoint("/deletesite", func(ctx *lib.Ctx) {
+	lib.Endpoint("/deletesite", func(ctx *lib.Ctx) {
 		user := ctx.ForceUser()
 		site := ctx.R.FormValue("site")
 		confirmSite := ctx.R.FormValue("confirmSite")
@@ -178,21 +176,21 @@ func init() {
 		user.Signal()
 	})
 
-	Endpoint("/deletetoken", func(ctx *lib.Ctx) {
+	lib.Endpoint("/deletetoken", func(ctx *lib.Ctx) {
 		user := ctx.ForceUser()
 		err := user.DeleteToken()
 		ctx.CatchError(err)
 		user.Signal()
 	})
 
-	Endpoint("/resettoken", func(ctx *lib.Ctx) {
+	lib.Endpoint("/resettoken", func(ctx *lib.Ctx) {
 		user := ctx.ForceUser()
 		err := user.ResetToken()
 		ctx.CatchError(err)
 		user.Signal()
 	})
 
-	Endpoint("/register", func(ctx *lib.Ctx) {
+	lib.Endpoint("/register", func(ctx *lib.Ctx) {
 		userId := ctx.R.FormValue("user")
 		password := ctx.R.FormValue("password")
 		if userId == "" {
@@ -224,7 +222,7 @@ func init() {
 		}
 	})
 
-	Endpoint("/accountedit", func(ctx *lib.Ctx) {
+	lib.Endpoint("/accountedit", func(ctx *lib.Ctx) {
 		ctx.CheckMethod("POST")
 		currentPassword := ctx.R.FormValue("current_password")
 		newPassword := ctx.R.FormValue("new_password")
@@ -279,12 +277,12 @@ func init() {
 		}
 	})
 
-	Endpoint("/setPrefRange", func(ctx *lib.Ctx) {
+	lib.Endpoint("/setPrefRange", func(ctx *lib.Ctx) {
 		ctx.SetPref("range", ctx.R.URL.RawQuery)
 
 	})
 
-	Endpoint("/setPrefSite", func(ctx *lib.Ctx) {
+	lib.Endpoint("/setPrefSite", func(ctx *lib.Ctx) {
 		ctx.SetPref("site", ctx.R.URL.RawQuery)
 
 	})
@@ -295,7 +293,7 @@ func init() {
 		SiteLinks map[string]int     `json:"site_links"`
 	}
 
-	Endpoint("/load.js", func(ctx *lib.Ctx) {
+	lib.Endpoint("/load.js", func(ctx *lib.Ctx) {
 		files1, err := filepath.Glob("./static/components/*.js")
 		ctx.CatchError(err)
 		files2, err := filepath.Glob("./static/components/*/*.js")
@@ -318,11 +316,11 @@ func init() {
 	            document.head.appendChild(script)})`, filesJson), 200)
 	})
 
-	Endpoint("/user", func(ctx *lib.Ctx) {
+	lib.Endpoint("/user", func(ctx *lib.Ctx) {
 		ctx.ReturnUser()
 	})
 
-	Endpoint("/dump", func(ctx *lib.Ctx) {
+	lib.Endpoint("/dump", func(ctx *lib.Ctx) {
 
 		ctx.W.Header().Set("Content-Type", "text/event-stream")
 		ctx.W.Header().Set("Cache-Control", "no-cache")
@@ -395,7 +393,7 @@ func init() {
 		})
 	})
 
-	Endpoint("/track", func(ctx *lib.Ctx) {
+	lib.Endpoint("/track", func(ctx *lib.Ctx) {
 		visit := make(models.Visit)
 
 		//
