@@ -3,9 +3,13 @@ package lib
 import (
 	"fmt"
 	"io"
+	"errors"
 	"net/http"
 	"os"
+	"path/filepath"
 	"time"
+	"strings"
+	"runtime"
 
 	"github.com/ihucos/counter.dev/config"
 	"github.com/gomodule/redigo/redis"
@@ -41,6 +45,16 @@ func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func Endpoint(endpoint string, f func(*Ctx)) {
 	endpoints[endpoint] = f
+}
+
+func EndpointName() string {
+    _, fpath, _, ok := runtime.Caller(0)
+    if !ok {
+        err := errors.New("failed to get filename")
+        panic(err)
+    }
+    filename := filepath.Base(fpath)
+    return strings.TrimSuffix(filename, filepath.Ext(filename))
 }
 
 

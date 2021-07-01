@@ -1,9 +1,10 @@
 package endpoints
 
 import "github.com/ihucos/counter.dev/lib"
+import "net/http"
 
 func init() {
-	lib.Handler(func(ctx *lib.Ctx) {
+	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {
 		ctx.CheckMethod("POST")
 		confirmUser := ctx.R.FormValue("confirmUser")
 		user := ctx.ForceUser()

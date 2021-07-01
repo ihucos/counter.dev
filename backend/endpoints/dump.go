@@ -1,9 +1,11 @@
 package endpoints
 
 import "github.com/ihucos/counter.dev/lib"
+import "github.com/ihucos/counter.dev/models"
+import "net/http"
 
 func init() {
-	lib.Handler(func(ctx *lib.Ctx) {
+	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {
 		ctx.W.Header().Set("Content-Type", "text/event-stream")
 		ctx.W.Header().Set("Cache-Control", "no-cache")
 		ctx.W.Header().Set("Connection", "keep-alive")

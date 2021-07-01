@@ -13,7 +13,7 @@ func Origin2SiteId(origin string) string {
 }
 
 func init() {
-	lib.Handler(func(ctx *lib.Ctx) {
+	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {
 		visit := make(models.Visit)
 
 		//

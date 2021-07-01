@@ -27,16 +27,6 @@ type Dump struct {
 	Meta  map[string]string `json:"meta"`
 }
 
-func Origin2SiteId(origin string) string {
-	// this function returns
-	var re = regexp.MustCompile(`^.*?:\/\/(?:www.)?(.*)$`)
-	var match = re.FindStringSubmatch(origin)
-	if len(match) < 1 {
-		return origin
-	}
-	return match[1]
-}
-
 func LoadSitesDump(user models.User, utcOffset int) (SitesDump, error) {
 	sitesDump := make(SitesDump)
 

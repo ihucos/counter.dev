@@ -1,9 +1,12 @@
 package endpoints
 
-import "github.com/ihucos/counter.dev/lib"
+import (
+	"github.com/ihucos/counter.dev/lib"
+"net/http"
+)
 
 func init() {
-	lib.Handler(func(ctx *lib.Ctx) {
+	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {
 		user := ctx.ForceUser()
 		hasSites, err := user.HasSiteLinks()
 		ctx.CatchError(err)

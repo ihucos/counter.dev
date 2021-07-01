@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-	lib.Handler(func(ctx *lib.Ctx) {
+	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {
 		ctx.CheckMethod("POST")
 		currentPassword := ctx.R.FormValue("current_password")
 		newPassword := ctx.R.FormValue("new_password")
