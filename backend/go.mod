@@ -7,4 +7,5 @@ require (
 	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/gorilla/sessions v1.2.1
 	golang.org/x/text v0.3.6
+	golang.org/x/tools v0.1.4 // indirect
 )

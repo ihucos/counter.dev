@@ -1,7 +1,10 @@
 package endpoints
 
-import "github.com/ihucos/counter.dev/lib"
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/ihucos/counter.dev/lib"
+)
 
 func init() {
 	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {

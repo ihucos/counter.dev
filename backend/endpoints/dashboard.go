@@ -1,8 +1,9 @@
 package endpoints
 
 import (
+	"net/http"
+
 	"github.com/ihucos/counter.dev/lib"
-"net/http"
 )
 
 func init() {

@@ -1,6 +1,12 @@
 package endpoints
 
-import "github.com/ihucos/counter.dev/lib"
+import (
+	"encoding/json"
+	"fmt"
+	"path/filepath"
+
+	"github.com/ihucos/counter.dev/lib"
+)
 
 func init() {
 	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {
@@ -13,10 +19,9 @@ func init() {
 		files := append(append(files1, files2...), files3...)
 
 		serveableFiles := []string{}
-		for _, file := range files{
+		for _, file := range files {
 			serveableFiles = append(serveableFiles, file[9:])
 		}
-
 
 		// this works, but breaks the frontend - you fix it!
 		for _, file := range serveableFiles {

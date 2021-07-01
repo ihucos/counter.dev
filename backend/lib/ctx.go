@@ -1,14 +1,15 @@
 package lib
 
 import (
-	"github.com/ihucos/counter.dev/models"
-	"github.com/ihucos/counter.dev/utils"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"runtime"
 	"strconv"
+
+	"github.com/ihucos/counter.dev/models"
+	"github.com/ihucos/counter.dev/utils"
 )
 
 type UserDataResp struct {
@@ -172,7 +173,7 @@ func (ctx *Ctx) User(userId string) models.User {
 
 func (ctx *Ctx) LogEvent(eventType string) {
 	conn := ctx.App.RedisPool.Get()
-	now := utils.TimeNow(1)  // one is the coolest time zone.
+	now := utils.TimeNow(1) // one is the coolest time zone.
 	conn.Send("HINCRBY", fmt.Sprintf("logevent:%s", eventType), now.Format("2006-01-02"), "1")
 	conn.Close()
 }

@@ -1,6 +1,10 @@
 package endpoints
 
-import "github.com/ihucos/counter.dev/lib"
+import (
+	"fmt"
+
+	"github.com/ihucos/counter.dev/lib"
+)
 
 func init() {
 	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {

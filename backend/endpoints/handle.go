@@ -2,8 +2,6 @@ package endpoints
 
 import (
 	"github.com/ihucos/counter.dev/models"
-	"github.com/ihucos/counter.dev/lib"
-	"net/http"
 )
 
 type UserDump struct {

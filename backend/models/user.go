@@ -1,13 +1,14 @@
 package models
 
 import (
-	"github.com/ihucos/counter.dev/utils"
 	cryptoRand "crypto/rand"
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
 	"strings"
+
 	"github.com/gomodule/redigo/redis"
+	"github.com/ihucos/counter.dev/utils"
 )
 
 type User struct {
@@ -192,7 +193,6 @@ func (user User) GetSiteLinks() (map[string]int, error) {
 	return val, nil
 }
 
-
 func (user User) GetPreferredSiteLinks() (map[string]int, error) {
 	useSitesPref, err := user.GetPref("usesites")
 	if err != nil {
@@ -213,7 +213,7 @@ func (user User) GetPreferredSiteLinks() (map[string]int, error) {
 		}
 
 		siteLinks := make(map[string]int)
-		for _, site := range strings.Fields(sitesPref){
+		for _, site := range strings.Fields(sitesPref) {
 			siteLinks[site] = dbSiteLinks[site]
 		}
 		return siteLinks, nil

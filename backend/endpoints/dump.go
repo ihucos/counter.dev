@@ -1,8 +1,16 @@
 package endpoints
 
-import "github.com/ihucos/counter.dev/lib"
-import "github.com/ihucos/counter.dev/models"
-import "net/http"
+import (
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"strings"
+	"time"
+
+	"github.com/gomodule/redigo/redis"
+	"github.com/ihucos/counter.dev/lib"
+	"github.com/ihucos/counter.dev/models"
+)
 
 func init() {
 	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {

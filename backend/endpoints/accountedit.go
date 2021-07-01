@@ -1,9 +1,10 @@
 package endpoints
 
 import (
-	"github.com/ihucos/counter.dev/lib"
-	"strings"
 	"fmt"
+	"strings"
+
+	"github.com/ihucos/counter.dev/lib"
 )
 
 func init() {

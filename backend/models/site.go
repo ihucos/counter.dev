@@ -1,12 +1,13 @@
 package models
 
 import (
-	"github.com/ihucos/counter.dev/utils"
 	"fmt"
-	"github.com/gomodule/redigo/redis"
 	"math/rand"
 	"net/url"
 	"time"
+
+	"github.com/gomodule/redigo/redis"
+	"github.com/ihucos/counter.dev/utils"
 )
 
 // set needs to overgrow sometimes so it does allow for "trending" new entries
@@ -24,7 +25,7 @@ type LogData map[string]int64
 type TimedVisits struct {
 	Day       VisitsData `json:"day"`
 	Yesterday VisitsData `json:"yesterday"`
-	Week VisitsData `json:"week"`
+	Week      VisitsData `json:"week"`
 	Month     VisitsData `json:"month"`
 	Year      VisitsData `json:"year"`
 	All       VisitsData `json:"all"`
@@ -78,7 +79,7 @@ var ScreenResolutions = map[string]bool{
 	"414x896":   true,
 	"768x1024":  true}
 
-func formatWeekRedisKey(time time.Time) string{
+func formatWeekRedisKey(time time.Time) string {
 	year, week := time.ISOWeek()
 	return fmt.Sprintf("%d-cw%d", year, week)
 }

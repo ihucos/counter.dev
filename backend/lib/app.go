@@ -1,20 +1,21 @@
 package lib
 
 import (
+	"errors"
 	"fmt"
 	"io"
-	"errors"
 	"net/http"
 	"os"
 	"path/filepath"
-	"time"
-	"strings"
 	"runtime"
+	"strings"
+	"time"
 
-	"github.com/ihucos/counter.dev/config"
+	"log"
+
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
-	"log"
+	"github.com/ihucos/counter.dev/config"
 )
 
 type appAdapter struct {
@@ -48,15 +49,14 @@ func Endpoint(endpoint string, f func(*Ctx)) {
 }
 
 func EndpointName() string {
-    _, fpath, _, ok := runtime.Caller(0)
-    if !ok {
-        err := errors.New("failed to get filename")
-        panic(err)
-    }
-    filename := filepath.Base(fpath)
-    return strings.TrimSuffix(filename, filepath.Ext(filename))
+	_, fpath, _, ok := runtime.Caller(0)
+	if !ok {
+		err := errors.New("failed to get filename")
+		panic(err)
+	}
+	filename := filepath.Base(fpath)
+	return strings.TrimSuffix(filename, filepath.Ext(filename))
 }
-
 
 type App struct {
 	RedisPool    *redis.Pool
@@ -67,7 +67,7 @@ type App struct {
 }
 
 func (app *App) ConnectEndpoints() {
-	for endpoint, handler := range(endpoints){
+	for endpoint, handler := range endpoints {
 		app.Connect(endpoint, handler)
 	}
 }

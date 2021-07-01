@@ -1,14 +1,12 @@
 package main
 
 import (
-	"github.com/ihucos/counter.dev/lib"
-	_ "github.com/ihucos/counter.dev/endpoints"
-	"syscall"
 	"fmt"
+	"syscall"
+
+	_ "github.com/ihucos/counter.dev/endpoints"
+	"github.com/ihucos/counter.dev/lib"
 )
-
-
-
 
 func main() {
 

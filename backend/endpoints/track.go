@@ -1,6 +1,16 @@
 package endpoints
 
-import "github.com/ihucos/counter.dev/lib"
+import (
+	"fmt"
+	"net/url"
+	"regexp"
+	"strings"
+
+	"github.com/avct/uasurfer"
+	"github.com/ihucos/counter.dev/lib"
+	"golang.org/x/text/language"
+	"golang.org/x/text/language/display"
+)
 
 func Origin2SiteId(origin string) string {
 	// this function returns
