@@ -190,7 +190,8 @@ func (ctx *Ctx) handleRegister() {
 		ctx.LogEvent("register")
 
 		utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
-		ctx.SetPref("utcoffset", utcoffset)
+		err := user.SetPref("utcoffset", utcoffset)
+		ctx.CatchError(err)
 
 		ctx.SetSessionUser(userId)
 		ctx.ReturnUser()
