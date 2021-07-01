@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ihucos/counter.dev/lib"
+	"github.com/ihucos/counter.dev/models"
 )
 
 func init() {

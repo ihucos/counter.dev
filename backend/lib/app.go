@@ -49,13 +49,13 @@ func Endpoint(endpoint string, f func(*Ctx)) {
 }
 
 func EndpointName() string {
-	_, fpath, _, ok := runtime.Caller(0)
+	_, fpath, _, ok := runtime.Caller(1)
 	if !ok {
 		err := errors.New("failed to get filename")
 		panic(err)
 	}
 	filename := filepath.Base(fpath)
-	return strings.TrimSuffix(filename, filepath.Ext(filename))
+	return "/" + strings.TrimSuffix(filename, filepath.Ext(filename))
 }
 
 type App struct {
