@@ -105,7 +105,7 @@ func NewApp() *App {
 	logger := log.New(io.MultiWriter(os.Stdout, logFile), "", log.LstdFlags|log.Lshortfile)
 
 	serveMux := http.NewServeMux()
-	fs := http.FileServer(http.Dir("../static"))
+	fs := http.FileServer(http.Dir("./static"))
 	serveMux.Handle("/", fs)
 
 	app := &App{
