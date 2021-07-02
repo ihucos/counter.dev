@@ -26,6 +26,7 @@ customElements.define(
                             <div class="nav-footer-two">
                               <ul>
                                 <li><a href="privacy.html" rel="nofollow">Privacy</a></li>
+                                <li><a href="cofounder.html" rel="nofollow">Join us</a></li>
                               </ul>
                             </div>
                           </nav>
