@@ -83,7 +83,6 @@ customElements.define(
                <section class="navbar">
                  <div class="content">
                    <a href="index.html" class="logotype"></a>
-                   <span class="version caption blue ml16">v 2.0</span>
                    <!-- Navigation -->
                    <nav class="nav-header">
                      <!-- <a href="#" class="mr32" target="_blank" rel="nofollow">Blog</a> -->

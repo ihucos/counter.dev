@@ -766,13 +766,6 @@ header {
   opacity: 0.7;
 }
 
-.version {
-  height: 24px;
-  background-color: #e7f6ff;
-  border-radius: 12px;
-  padding: 3px 8px;
-}
-
 .nav-header {
   display: flex;
   align-items: center;
@@ -1118,9 +1111,6 @@ nav a {
   .navbar .content {
     height: 64px;
     justify-content: space-between;
-  }
-  .version {
-    display: none;
   }
   .nav-header {
     display: none;
