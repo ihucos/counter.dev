@@ -143,7 +143,7 @@ customElements.define(
             };
 
             simpleForm("#account-edit", window.location.href.split("#")[0]);
-            simpleForm(".delete-account .delete-confirm", "/new");
+            simpleForm(".delete-account .delete-confirm", "/");
 
             // redraw modal if it is closed
             $("#modal-account", this).on(

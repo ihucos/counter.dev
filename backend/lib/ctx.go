@@ -61,7 +61,7 @@ func (ctx *Ctx) ReturnInternalErrorWithSkip(err error, skip int) {
 }
 
 func (ctx *Ctx) ReturnInternalError(err error) {
-	ctx.ReturnInternalErrorWithSkip(err, 1)
+	ctx.ReturnInternalErrorWithSkip(err, 2)
 }
 
 func (ctx *Ctx) CatchError(err error) {
