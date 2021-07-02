@@ -25,11 +25,11 @@ class Counter extends HTMLElement {
 
         // hotfix: yesteday is special because it is a point in time and not time range
         // starting from now
-        if (curTime == 'yesterday'){
-            datesPassedCurTime = 1
+        if (curTime == "yesterday") {
+            datesPassedCurTime = 1;
         }
-        if (nextCurTime == 'yesterday'){
-            datesPassedNextTime = 1
+        if (nextCurTime == "yesterday") {
+            datesPassedNextTime = 1;
         }
 
         let perThisTimeRange = count / datesPassedCurTime;
@@ -45,7 +45,7 @@ class Counter extends HTMLElement {
             percentRepr = `${Math.abs(percent)}%`;
         } else if (!isFinite(percent) && count !== 0) {
             trend = "positive";
-            percentRepr = '&infin;';
+            percentRepr = "&infin;";
         } else if (percent > 0) {
             trend = "positive";
             percentRepr = `${percent}%`;

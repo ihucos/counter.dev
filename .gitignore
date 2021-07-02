@@ -3,8 +3,8 @@ log
 counter.dev
 webstats
 *.swp
-backend/config/production.sh
-backend/config/makefile.env
+.config/production.sh
+.config/makefile.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

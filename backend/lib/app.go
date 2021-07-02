@@ -15,7 +15,6 @@ import (
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
-	"github.com/ihucos/counter.dev/config"
 )
 
 type appAdapter struct {
@@ -63,7 +62,7 @@ type App struct {
 	SessionStore *sessions.CookieStore
 	Logger       *log.Logger
 	ServeMux     *http.ServeMux
-	Config       config.Config
+	Config       Config
 }
 
 func (app *App) ConnectEndpoints() {
@@ -86,7 +85,7 @@ func (app *App) Connect(path string, f func(*Ctx)) {
 
 func NewApp() *App {
 
-	config := config.NewConfigFromEnv()
+	config := NewConfigFromEnv()
 
 	redisPool := &redis.Pool{
 		//MaxIdle:     0,
@@ -99,7 +98,7 @@ func NewApp() *App {
 
 	sessionStore := sessions.NewCookieStore(config.CookieSecret)
 
-	logFile, err := os.OpenFile("log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
+	logFile, err := os.OpenFile("../log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
 	if err != nil {
 		panic(fmt.Sprintf("error opening file: %v", err))
 	}
