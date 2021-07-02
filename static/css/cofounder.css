@@ -1,0 +1,32 @@
+/* =========== Privacy page =========== */
+
+/* Import */
+@import url("styles.css");
+
+/* Body */
+.cofounder .content {
+  padding: 120px 0 24px 0;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.cofounder-wrap {
+  width: 635px;
+  padding: 48px;
+}
+
+/* Mobile */
+@media (max-width: 1110px) {
+  .cofounder .content {
+    padding: 24px 15px 0 15px;
+  }
+  .cofounder-wrap {
+    padding: 0;
+    box-shadow: unset;
+  }
+  .cofounder-pic {
+    display: none;
+  }
+  .cofounder-wrap .h2 {
+    margin-bottom: 16px;
+  }
+}

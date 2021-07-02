@@ -13,7 +13,7 @@ customElements.define(
                    <!-- Notification -->
                    <section class="notification">
                      <div class="content">
-                       <span>We are looking for a Co-Founder to make us grow.</span>
+                       <span>Help us with marketing as our Co-Founder. <a href="/cofounder.html">Learn more.</a></span>
                        <div class="btn-close"></div>
                      </div>
                    </section>`;
