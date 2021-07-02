@@ -2,7 +2,6 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(prefs) {
-
             this.innerHTML = `
 
                 <!-- Edit account modal -->
@@ -104,7 +103,7 @@ customElements.define(
                   </div>
                 </div>`;
 
-            var utcoffset = prefs.utcoffset || getUTCOffset()
+            var utcoffset = prefs.utcoffset || getUTCOffset();
 
             if (!isNaN(utcoffset)) {
                 this.querySelector(`option[value="${utcoffset}"]`).setAttribute(
@@ -113,27 +112,27 @@ customElements.define(
                 );
             }
 
-            var sites = prefs.sites || ""
-            var useSites = prefs.usesites || ""
-            var sitesEl = this.querySelector('textarea[name="sites"]')
-            var useSitesEl = this.querySelector('select[name="usesites"]')
+            var sites = prefs.sites || "";
+            var useSites = prefs.usesites || "";
+            var sitesEl = this.querySelector('textarea[name="sites"]');
+            var useSitesEl = this.querySelector('select[name="usesites"]');
 
-            useSitesEl.value = useSites
-            sitesEl.value = sites
+            useSitesEl.value = useSites;
+            sitesEl.value = sites;
 
-            let showHidePrefferedSites = function() {
-                if (useSitesEl.value === ""){
-                    $(sitesEl.parentElement).slideUp()
+            let showHidePrefferedSites = function () {
+                if (useSitesEl.value === "") {
+                    $(sitesEl.parentElement).slideUp();
                 } else {
-                    $(sitesEl.parentElement).slideDown()
+                    $(sitesEl.parentElement).slideDown();
                 }
-            }
-            showHidePrefferedSites()
+            };
+            showHidePrefferedSites();
             useSitesEl.addEventListener(
-                'change',
+                "change",
                 showHidePrefferedSites,
                 false
-            )
+            );
 
             var deleteRequest = this.querySelector(".delete-request");
             var deleteConfirm = this.querySelector(".delete-confirm");
@@ -143,7 +142,7 @@ customElements.define(
             };
 
             simpleForm("#account-edit", window.location.href.split("#")[0]);
-            simpleForm(".delete-account .delete-confirm", "/new");
+            simpleForm(".delete-account .delete-confirm", "/");
 
             // redraw modal if it is closed
             $("#modal-account", this).on(

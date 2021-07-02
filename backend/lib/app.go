@@ -1,23 +1,28 @@
-package main
+package lib
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
-	"syscall"
+	"path/filepath"
+	"runtime"
+	"strings"
 	"time"
 
-	"./config"
+	"log"
+
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
-	"log"
 )
 
 type appAdapter struct {
-	app *App
+	App *App
 	fn  func(*Ctx)
 }
+
+var endpoints = map[string]func(*Ctx){}
 
 func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	defer func() {
@@ -30,7 +35,7 @@ func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}()
-	ctx := ah.app.NewContext(w, r)
+	ctx := ah.App.NewContext(w, r)
 	go func() {
 		<-r.Context().Done()
 		ctx.RunCleanup()
@@ -38,16 +43,36 @@ func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ah.fn(ctx)
 }
 
+func Endpoint(endpoint string, f func(*Ctx)) {
+	endpoints[endpoint] = f
+}
+
+func EndpointName() string {
+	_, fpath, _, ok := runtime.Caller(1)
+	if !ok {
+		err := errors.New("failed to get filename")
+		panic(err)
+	}
+	filename := filepath.Base(fpath)
+	return "/" + strings.TrimSuffix(filename, filepath.Ext(filename))
+}
+
 type App struct {
 	RedisPool    *redis.Pool
 	SessionStore *sessions.CookieStore
 	Logger       *log.Logger
 	ServeMux     *http.ServeMux
-	config       config.Config
+	Config       Config
+}
+
+func (app *App) ConnectEndpoints() {
+	for endpoint, handler := range endpoints {
+		app.Connect(endpoint, handler)
+	}
 }
 
 func (app *App) NewContext(w http.ResponseWriter, r *http.Request) *Ctx {
-	return &Ctx{w: w, r: r, app: app}
+	return &Ctx{W: w, R: r, App: app}
 }
 
 func (app *App) CtxHandlerToHandler(fn func(*Ctx)) http.Handler {
@@ -58,28 +83,9 @@ func (app *App) Connect(path string, f func(*Ctx)) {
 	app.ServeMux.Handle(path, app.CtxHandlerToHandler(f))
 }
 
-func (app *App) SetupUrls() {
-	app.Connect("/login", func(ctx *Ctx) { ctx.HandleLogin() })
-	app.Connect("/logout", func(ctx *Ctx) { ctx.handleLogout() })
-	app.Connect("/deletetoken", func(ctx *Ctx) { ctx.HandleDeleteToken() })
-	app.Connect("/resettoken", func(ctx *Ctx) { ctx.HandleResetToken() })
-	app.Connect("/deletesite", func(ctx *Ctx) { ctx.HandleDeleteSite() })
-	app.Connect("/dashboard", func(ctx *Ctx) { ctx.HandleDashboard() })
-	app.Connect("/register", func(ctx *Ctx) { ctx.handleRegister() })
-	app.Connect("/setPrefRange", func(ctx *Ctx) { ctx.handleSetPrefRange() })
-	app.Connect("/setPrefSite", func(ctx *Ctx) { ctx.handleSetPrefSite() })
-	app.Connect("/track", func(ctx *Ctx) { ctx.handleTrack() })
-	app.Connect("/accountedit", func(ctx *Ctx) { ctx.handleAccountEdit() })
-	app.Connect("/user", func(ctx *Ctx) { ctx.handleUser() })
-	app.Connect("/dump", func(ctx *Ctx) { ctx.handleDump() })
-	app.Connect("/deleteUser", func(ctx *Ctx) { ctx.handleDeleteUser() })
-	app.Connect("/count", func(ctx *Ctx) { ctx.Return(fmt.Sprintf("%d", ctx.app.RedisPool.ActiveCount()), 200) }) // DEBUG CODE
-	app.Connect("/load.js", func(ctx *Ctx) { ctx.handleLoadComponentsJS() })
-}
-
 func NewApp() *App {
 
-	config := config.NewConfigFromEnv()
+	config := NewConfigFromEnv()
 
 	redisPool := &redis.Pool{
 		//MaxIdle:     0,
@@ -107,15 +113,14 @@ func NewApp() *App {
 		SessionStore: sessionStore,
 		Logger:       logger,
 		ServeMux:     serveMux,
-		config:       config,
+		Config:       config,
 	}
-	app.SetupUrls()
 	return app
 }
 
 func (app App) Serve() {
 	srv := &http.Server{
-		Addr:        app.config.Bind,
+		Addr:        app.Config.Bind,
 		ReadTimeout: 5 * time.Second,
 
 		// we cant have write a write timeout because of the streaming response
@@ -128,20 +133,4 @@ func (app App) Serve() {
 	if err != nil {
 		panic(fmt.Sprintf("ListenAndServe: %s", err))
 	}
-}
-
-func main() {
-
-	// HOTFIX
-	var rLimit syscall.Rlimit
-	rLimit.Max = 100307
-	rLimit.Cur = 100307
-	err := syscall.Setrlimit(syscall.RLIMIT_NOFILE, &rLimit)
-	if err != nil {
-		fmt.Println("Error Setting Rlimit ", err)
-	}
-
-	app := NewApp()
-	app.Logger.Println("Start")
-	app.Serve()
 }

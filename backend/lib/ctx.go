@@ -1,14 +1,15 @@
-package main
+package lib
 
 import (
-	"./models"
 	"encoding/json"
 	"fmt"
 	"io"
-	"./utils"
 	"net/http"
 	"runtime"
 	"strconv"
+
+	"github.com/ihucos/counter.dev/models"
+	"github.com/ihucos/counter.dev/utils"
 )
 
 type UserDataResp struct {
@@ -18,10 +19,10 @@ type UserDataResp struct {
 }
 
 type Ctx struct {
-	w         http.ResponseWriter
-	r         *http.Request
-	openConns []io.Closer
-	app       *App
+	W         http.ResponseWriter
+	R         *http.Request
+	OpenConns []io.Closer
+	App       *App
 }
 
 func (ctx *Ctx) Abort() {
@@ -29,13 +30,13 @@ func (ctx *Ctx) Abort() {
 }
 
 func (ctx *Ctx) Return(content string, statusCode int) {
-	ctx.w.WriteHeader(statusCode)
-	ctx.w.Write([]byte(content))
+	ctx.W.WriteHeader(statusCode)
+	ctx.W.Write([]byte(content))
 	ctx.Abort()
 }
 
 func (ctx *Ctx) RunCleanup() {
-	for _, conn := range ctx.openConns {
+	for _, conn := range ctx.OpenConns {
 		err := conn.Close()
 		if err != nil {
 			fmt.Println("Error closing connection:", err.Error())
@@ -55,12 +56,12 @@ func (ctx *Ctx) ReturnJSON(v interface{}, statusCode int) {
 
 func (ctx *Ctx) ReturnInternalErrorWithSkip(err error, skip int) {
 	_, file, line, _ := runtime.Caller(skip)
-	ctx.app.Logger.Printf("%s:%d %s: %v\n", file, line, ctx.r.URL, err)
+	ctx.App.Logger.Printf("%s:%d %s: %v\n", file, line, ctx.R.URL, err)
 	ctx.Return(err.Error(), 500)
 }
 
 func (ctx *Ctx) ReturnInternalError(err error) {
-	ctx.ReturnInternalErrorWithSkip(err, 1)
+	ctx.ReturnInternalErrorWithSkip(err, 2)
 }
 
 func (ctx *Ctx) CatchError(err error) {
@@ -112,7 +113,7 @@ func (ctx *Ctx) ParseUTCOffset(key string) int {
 		return y
 	}
 
-	utcOffset, err := strconv.Atoi(ctx.r.FormValue(key))
+	utcOffset, err := strconv.Atoi(ctx.R.FormValue(key))
 	if err != nil {
 		utcOffset = 0
 	}
@@ -120,9 +121,9 @@ func (ctx *Ctx) ParseUTCOffset(key string) int {
 }
 
 func (ctx *Ctx) SetSessionUser(userId string) {
-	session, _ := ctx.app.SessionStore.Get(ctx.r, "swa")
+	session, _ := ctx.App.SessionStore.Get(ctx.R, "swa")
 	session.Values["user"] = userId
-	session.Save(ctx.r, ctx.w)
+	session.Save(ctx.R, ctx.W)
 }
 
 func (ctx *Ctx) ForceUserId() string {
@@ -134,7 +135,7 @@ func (ctx *Ctx) ForceUserId() string {
 }
 
 func (ctx *Ctx) GetUserId() string {
-	session, _ := ctx.app.SessionStore.Get(ctx.r, "swa")
+	session, _ := ctx.App.SessionStore.Get(ctx.R, "swa")
 	userId, ok := session.Values["user"].(string)
 	if !ok {
 		return ""
@@ -143,8 +144,8 @@ func (ctx *Ctx) GetUserId() string {
 }
 
 func (ctx *Ctx) GetSessionlessUserId() string {
-	shareUser := ctx.r.FormValue("user")
-	shareToken := ctx.r.FormValue("token")
+	shareUser := ctx.R.FormValue("user")
+	shareToken := ctx.R.FormValue("token")
 	var user models.User
 	if shareUser != "" && shareToken != "" {
 		user = ctx.User(shareUser)
@@ -158,21 +159,21 @@ func (ctx *Ctx) GetSessionlessUserId() string {
 }
 
 func (ctx *Ctx) Logout() {
-	session, _ := ctx.app.SessionStore.Get(ctx.r, "swa")
+	session, _ := ctx.App.SessionStore.Get(ctx.R, "swa")
 	session.Options.MaxAge = -1
-	session.Save(ctx.r, ctx.w)
+	session.Save(ctx.R, ctx.W)
 }
 
 func (ctx *Ctx) User(userId string) models.User {
-	conn := ctx.app.RedisPool.Get()
+	conn := ctx.App.RedisPool.Get()
 	user := models.NewUser(conn, userId)
-	ctx.openConns = append(ctx.openConns, conn)
+	ctx.OpenConns = append(ctx.OpenConns, conn)
 	return user
 }
 
 func (ctx *Ctx) LogEvent(eventType string) {
-	conn := ctx.app.RedisPool.Get()
-	now := utils.TimeNow(1)  // one is the coolest time zone.
+	conn := ctx.App.RedisPool.Get()
+	now := utils.TimeNow(1) // one is the coolest time zone.
 	conn.Send("HINCRBY", fmt.Sprintf("logevent:%s", eventType), now.Format("2006-01-02"), "1")
 	conn.Close()
 }
@@ -182,11 +183,11 @@ func (ctx *Ctx) ForceUser() models.User {
 
 }
 
-func (ctx *Ctx) checkMethod(methods ...string) {
+func (ctx *Ctx) CheckMethod(methods ...string) {
 
 	found := false
 	for _, method := range methods {
-		if ctx.r.Method == method {
+		if ctx.R.Method == method {
 			found = true
 		}
 	}

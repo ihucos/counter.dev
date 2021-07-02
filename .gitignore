@@ -3,8 +3,8 @@ log
 counter.dev
 webstats
 *.swp
-config/production.sh
-config/makefile.env
+.config/production.sh
+.config/makefile.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -22,7 +22,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/

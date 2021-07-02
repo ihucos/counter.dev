@@ -1,30 +1,31 @@
 
 alpineversion = 3.11
-go = ./scripts/go
+go = $(abspath ./scripts/go)
 
-include config/makefile.env
+include .config/makefile.env
 
 export
 
-.PHONY: tests
-tests:
-	. config/test.sh && $(go) test
 
 
 .PHONY: runserver
 devserver:
-	 . config/dev.sh && $(go) run .
+	make build
+	. .config/dev.sh && ./webstats
+
+.PHONY: tests
+tests:
+	. .config/test.sh && $(go) test
 
 format:
 	plash --from alpine:3.11 --apk npm --run 'npm i prettier --global' -- prettier --write .
-	$(go) fmt *.go
-	$(go) fmt models/*.go
+	find -type f -name \*.go | xargs -L1 go fmt
 
 logs:
 	ssh root@172.104.148.60 cat log
 
 build:
-	$(go) build -o webstats
+	cd backend && $(go) build -o ../webstats
 
 deploy:
 	make build
@@ -32,7 +33,7 @@ deploy:
 	ssh root@172.104.148.60 "pkill -x dtach; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
 
 deploy-static:
-	rsync static config webstats scripts root@172.104.148.60: -av
+	rsync static .config webstats scripts root@172.104.148.60: -av
 	curl -X POST "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE1)/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $(CLOUDFLARE_TOKEN)" --data '{"purge_everything":true}' --fail
 	curl -X POST "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE2)/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $(CLOUDFLARE_TOKEN)" --data '{"purge_everything":true}' --fail
 

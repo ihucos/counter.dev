@@ -61,11 +61,10 @@ customElements.define(
         }
 
         refGroup(ref) {
-            if (ref.startsWith('www.')){
-                ref = ref.slice(4)
+            if (ref.startsWith("www.")) {
+                ref = ref.slice(4);
             }
-            return ref
-
+            return ref;
         }
 
         draw(sources, countries) {
@@ -73,15 +72,14 @@ customElements.define(
 
             // Group similar looking sources (e.G. www.example.com and
             // example.com)
-            let parentThis = this
-            let groupedSources = {}
-            Object.keys(sources).forEach(function(ref) {
-                let refVisits = sources[ref]
-                let refGroup = parentThis.refGroup(ref)
+            let parentThis = this;
+            let groupedSources = {};
+            Object.keys(sources).forEach(function (ref) {
+                let refVisits = sources[ref];
+                let refGroup = parentThis.refGroup(ref);
                 groupedSources[refGroup] = groupedSources[refGroup] || 0;
-                groupedSources[refGroup] += refVisits
+                groupedSources[refGroup] += refVisits;
             });
-
 
             this.allSourcesEntries = Object.entries(groupedSources).sort(
                 (a, b) => b[1] - a[1]

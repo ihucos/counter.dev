@@ -1,9 +1,9 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        constructor(){
-            super()
-            this.last_sites = null
+        constructor() {
+            super();
+            this.last_sites = null;
         }
 
         draw(dump) {
@@ -15,14 +15,12 @@ customElements.define(
                 .sort((a, b) => b[1].count - a[1].count)
                 .map((i) => i[0]);
 
-
             // We don't redraw if nothing changed for this component because
             // redrawing closes the dropdown for the user.
-            if (JSON.stringify(this.last_sites) === JSON.stringify(sites)){
-                return
+            if (JSON.stringify(this.last_sites) === JSON.stringify(sites)) {
+                return;
             }
-            this.last_sites = sites
-
+            this.last_sites = sites;
 
             if (dump.meta.demo) {
                 sites = ["counter.dev", "simple-web-analytics.com"];

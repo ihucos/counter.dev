@@ -1,2 +1,2 @@
 #!/bin/sh
-. config/production.sh && exec ./webstats
+. .config/production.sh && exec ./webstats
