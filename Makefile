@@ -10,7 +10,8 @@ export
 
 .PHONY: runserver
 devserver:
-	cd backend && . ../.config/dev.sh && $(go) run .
+	make build
+	. .config/dev.sh && ./webstats
 
 .PHONY: tests
 tests:

@@ -98,7 +98,7 @@ func NewApp() *App {
 
 	sessionStore := sessions.NewCookieStore(config.CookieSecret)
 
-	logFile, err := os.OpenFile("../log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
+	logFile, err := os.OpenFile("log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
 	if err != nil {
 		panic(fmt.Sprintf("error opening file: %v", err))
 	}

@@ -10,17 +10,17 @@ import (
 
 func init() {
 	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {
-		files1, err := filepath.Glob("../static/components/*.js")
+		files1, err := filepath.Glob("./static/components/*.js")
 		ctx.CatchError(err)
-		files2, err := filepath.Glob("../static/components/*/*.js")
+		files2, err := filepath.Glob("./static/components/*/*.js")
 		ctx.CatchError(err)
-		files3, err := filepath.Glob("../static/components/*/*/*.js")
+		files3, err := filepath.Glob("./static/components/*/*/*.js")
 		ctx.CatchError(err)
 		files := append(append(files1, files2...), files3...)
 
 		serveableFiles := []string{}
 		for _, file := range files {
-			serveableFiles = append(serveableFiles, file[9:])
+			serveableFiles = append(serveableFiles, file[6:])
 		}
 
 		// this works, but breaks the frontend - you fix it!
