@@ -89,8 +89,11 @@ func init() {
 			visit["ref"] = parsedUrl.Host
 		}
 
-		ref := ctx.R.Header.Get("Referer")
-		parsedUrl, err = url.Parse(ref)
+		loc := ctx.R.FormValue("loc")
+		if loc == "" {
+			loc := ctx.R.Header.Get("Referer")
+		}
+		parsedUrl, err = url.Parse(loc)
 		if err == nil && parsedUrl.Path != "" {
 			visit["loc"] = parsedUrl.Path
 		}
