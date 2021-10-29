@@ -34,6 +34,14 @@ This project aim is to serve many users for free in a sustainable way.
 
 - Summing up, collecting less the right way considerably decreases hosting expenses in comparison to typical other solutions and is more privacy friendly.
 
+
+## Running locally
+In order to run counter locally for development puproses, run:
+```
+make devserver
+```
+You will need a redis server at localhost and default port.
+
 ## Contributors
 
 - Bogdan Slomchinskiy ([slomchinskiy](https://case.desi/@slomchinskiy)) - Product Designer

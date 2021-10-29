@@ -129,6 +129,7 @@ func (app App) Serve() {
 		IdleTimeout: 120 * time.Second,
 		Handler:     app.ServeMux,
 	}
+	fmt.Println("Listening at", app.Config.Bind)
 	err := srv.ListenAndServe()
 	if err != nil {
 		panic(fmt.Sprintf("ListenAndServe: %s", err))
