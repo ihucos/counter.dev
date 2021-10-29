@@ -2,8 +2,8 @@
 alpineversion = 3.11
 go = $(abspath ./scripts/go)
 
-include .config/makefile.env
 
+include .config/makefile*.env
 export
 
 
