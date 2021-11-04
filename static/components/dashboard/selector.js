@@ -23,7 +23,7 @@ customElements.define(
             this.last_sites = sites;
 
             if (dump.meta.demo) {
-                sites = ["counter.dev", "simple-web-analytics.com"];
+                sites = ["counter.dev"];
             }
 
             var sitePref = dump.user.prefs.site;
