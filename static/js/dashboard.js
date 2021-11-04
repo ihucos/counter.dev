@@ -242,8 +242,19 @@ function dPadDates(dates, utcoffset) {
 function dNormalizedDates(dates, utcoffset) {
     let groupedByDay = dPadDates(dates, utcoffset);
 
+    let allMonths = Object.entries(groupedByDay).reduce((acc, val) => {
+        let group = moment(val[0]).format("MMMM YYYY");
+        acc.add(group)
+        return acc;
+    }, new Set());
+
     let groupedByMonth = Object.entries(groupedByDay).reduce((acc, val) => {
-        let group = moment(val[0]).format("MMMM");
+        let group
+        if ((allMonths.size) <= 12) {
+            group = moment(val[0]).format("MMMM");
+        } else {
+            group = moment(val[0]).format("MMM YY");
+        }
         acc[group] = (acc[group] || 0) + val[1];
         return acc;
     }, {});
