@@ -253,7 +253,7 @@ function dNormalizedDates(dates, utcoffset) {
         if ((allMonths.size) <= 12) {
             group = moment(val[0]).format("MMMM");
         } else {
-            group = moment(val[0]).format("MMM YY");
+            group = moment(val[0]).format("MMM YYYY");
         }
         acc[group] = (acc[group] || 0) + val[1];
         return acc;
