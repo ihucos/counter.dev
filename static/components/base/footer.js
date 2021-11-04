@@ -53,7 +53,31 @@ customElements.define(
                           </div>
                         </div>
                       </section>
+
                     </footer>`;
-        }
+
+                    // SNEAK IN TRACKING CODE HERE
+                    // smuggle in the tracking script here - different domain
+                    // because we can't track counter.dev with counter.dev as an super
+                    // edge case
+                    if (
+                      !sessionStorage.getItem("_swa") &&
+                      document.referrer.indexOf(location.protocol + "//" + location.host) !==
+                        0
+                    ) {
+                      fetch(
+                        "https://simple-web-analytics.com/track?" +
+                          new URLSearchParams({
+                            referrer: document.referrer,
+                            screen: screen.width + "x" + screen.height,
+                            user: "counter",
+                            utcoffset: "1",
+                          }), {
+                              headers: {"X-Referer": window.location.href}
+                          }
+                      );
+                    }
+                    sessionStorage.setItem("_swa", "1");
+    }
     }
 );
