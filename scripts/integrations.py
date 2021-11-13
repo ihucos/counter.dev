@@ -18,7 +18,7 @@ r = redis.StrictRedis()
 user_integrations = {}
 user_sites = {}
 
-for key in r.keys("v:*date,all"):
+for key in r.scan_iter("v:*date,all"):
     vs = key.decode().split(":", 1)[-1].split(",")
     user = vs[1]
     sites =r.hgetall("sites:" + user)
