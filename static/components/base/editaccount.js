@@ -48,7 +48,14 @@ customElements.define(
                               placeholder="Repeat new password"
                           /></label>
                         </div>
-                        <span class="caption gray">We do not recover passwords!</span>
+                        <!-- Mail -->
+                        <div class="title mb8 mt24">Password recovery</div>
+                        <input
+                            name="mail"
+                            class="width-full"
+                            type="email"
+                            placeholder="E-Mail"
+                        /></label>
                         <!-- Whitelist domains -->
                         <div class="title mb16 mt24">Listed Domains</div>
 
@@ -113,12 +120,15 @@ customElements.define(
             }
 
             var sites = prefs.sites || "";
+            var mail = prefs.mail || "";
             var useSites = prefs.usesites || "";
             var sitesEl = this.querySelector('textarea[name="sites"]');
             var useSitesEl = this.querySelector('select[name="usesites"]');
+            var mailEl = this.querySelector('input[name="mail"]');
 
             useSitesEl.value = useSites;
             sitesEl.value = sites;
+            mailEl.value = mail;
 
             let showHidePrefferedSites = function () {
                 if (useSitesEl.value === "") {

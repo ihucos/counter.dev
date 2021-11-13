@@ -15,6 +15,7 @@ func init() {
 		repeatNewPassword := ctx.R.FormValue("repeat_new_password")
 		sites := ctx.R.FormValue("sites")
 		useSites := ctx.R.FormValue("usesites")
+		mail := ctx.R.FormValue("mail")
 
 		user := ctx.ForceUser()
 
@@ -23,6 +24,7 @@ func init() {
 		}
 		ctx.SetPref("sites", sites)
 		ctx.SetPref("usesites", useSites)
+		ctx.SetPref("mail", mail)
 
 		if ctx.R.FormValue("utcoffset") != "" {
 			utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))

@@ -71,6 +71,7 @@
           <ul class="tabs-menu bg-blue radius-sm">
             <li><a href="#sign-in">Log in</a></li>
             <li><a href="#sign-up">Sign up</a></li>
+            <li><a href="#recover">Recover</a></li>
           </ul>
           <!-- Log in -->
           <div id="sign-in" style="display: none">
@@ -91,6 +92,7 @@
                   placeholder="Enter your password"
               /></label>
               <button class="btn-secondary mt24" type="submit">Log in</button>
+              <button class="btn-white mt24" id="password-recover" style="font-weight: 400;" type="submit">Recover password</button>
             </form>
           </div>
           <!-- Sign up -->
@@ -116,6 +118,27 @@
                   placeholder="Enter your password"
               /></label>
               <button class="btn-secondary mt24" type="submit">Sign up</button>
+            </form>
+          </div>
+          <!-- Recover -->
+          <div id="recover">
+            <form action="/register" method="POST">
+              <div class="title mb16">Recover from a lost password</div>
+              <label class="width-full mb8"
+                >Username<input
+                  class="width-full"
+                  name="user"
+                  type="text"
+                  placeholder="Enter your username"
+              /></label>
+              <label class="width-full"
+                >E-Mail<input
+                  class="width-full"
+                  name="mail"
+                  type="email"
+                  placeholder="Enter your E-Mail"
+              /></label>
+              <button class="btn-secondary mt24" type="submit">Recover</button>
             </form>
           </div>
         </div>
