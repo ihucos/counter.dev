@@ -152,6 +152,25 @@ func (user User) VerifyPassword(password string) (bool, error) {
 	return hashedPassword != "" && hashedPassword == hash(password), nil
 }
 
+func (user User) VerifyRecoveryToken(token string) (bool, error) {
+	hashedRecoveryToken, err := redis.String(user.redis.Do("GET",
+		fmt.Sprintf("recover-token:%s", user.Id)))
+	if err == redis.ErrNil {
+		return false, nil
+	} else if err != nil {
+		return false, err
+	}
+	return hashedRecoveryToken != "" && hashedRecoveryToken == hash(token), nil
+}
+
+func (user User) NewRecoveryToken() (string, error) {
+	expire := 60 * 15  // 15 minutes
+	token := randToken()[:12]
+	_, err := user.redis.Do("SETEX",
+		fmt.Sprintf("recover-token:%s", user.Id), expire, hash(token))
+	return token, err
+}
+
 func (user User) VerifyToken(token string) (bool, error) {
 	dbToken, err := user.ReadToken()
 	if err == redis.ErrNil {
@@ -266,4 +285,18 @@ func (user User) HandleSignals(conn redis.Conn, cb func(error)) {
 			cb(v)
 		}
 	}
+}
+
+
+func (user User) PasswordRecovery() error {
+	token, err := user.NewRecoveryToken()
+	if err != nil {
+		return err
+	}
+	mail, err := user.GetPref("mail")
+	if err != nil {
+		return err
+	}
+	// send email with token here
+	return nil
 }

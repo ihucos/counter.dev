@@ -6,7 +6,9 @@ $(document).ready(function () {
 });
 
 simpleForm("#sign-in form[action='/login']", "/dashboard.html");
-simpleForm("#sign-in form[action='/recover']", "/welcome.html");
+simpleForm("#sign-in form[action='/recover']", () => {
+    alert("hi")
+});
 simpleForm("#sign-up form", "/setup.html");
 
 $("#password-recover").click( () => {

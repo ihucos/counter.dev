@@ -13,7 +13,15 @@ func init() {
 			ctx.ReturnBadRequest("Missing Input: Email")
 		}
 
-		//user := ctx.User(userId)
+		user := ctx.User(userId)
+		prefMail, err := ctx.ForceUser().GetPref("mail")
+		if err != nil {
+			ctx.CatchError(err)
+		}
+		if mail == prefMail {
+			ctx.LogEvent("recovery")
+			user.PasswordRecovery()
+		}
 
 	})
 }
