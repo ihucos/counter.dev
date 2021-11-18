@@ -5,8 +5,10 @@ $(document).ready(function () {
     });
 });
 
-simpleForm("#sign-in form", "/dashboard.html");
+simpleForm("#sign-in form[action='/login']", "/dashboard.html");
+simpleForm("#sign-in form[action='/recover']", "/welcome.html");
 simpleForm("#sign-up form", "/setup.html");
+
 $("#password-recover").click( () => {
     $(".tabs").tabslet({
         active: 4,
@@ -17,3 +19,21 @@ $("#password-recover").click( () => {
 document.addEventListener("userloaded", () => {
     window.location.href = "dashboard.html";
 });
+
+$("#password-recover").click((el) => {
+    $("form[action='/login']").hide()
+    $("form[action='/recover']").show()
+})
+
+$("#password-recover").click((el) => {
+    $("form[action='/login']").hide()
+    $("form[action='/recover']").show()
+    return false
+})
+
+
+$("#go-to-login").click((el) => {
+    $("form[action='/recover']").hide()
+    $("form[action='/login']").show()
+    return false
+})
