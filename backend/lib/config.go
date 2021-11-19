@@ -2,6 +2,7 @@ package lib
 
 import (
 	"fmt"
+	"net/smtp"
 	"os"
 )
 
@@ -31,6 +32,9 @@ func NewConfigFromEnv() Config {
 		RedisUrl:     envDefault("WEBSTATS_REDIS_URL", "redis://localhost:6379"),
 		Bind:         envDefault("WEBSTATS_BIND", ":8000"),
 		CookieSecret: []byte(env("WEBSTATS_COOKIE_SECRET")),
+		SmtpFrom:     env("SMTP_FROM"),
+		SmtpPassword: env("SMTP_PASSWORD"),
+		SmtpHost:     env("SMTP_HOST"),
 	}
 
 }
