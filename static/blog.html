@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Counter: Privacy</title>
+    <meta
+      name="description"
+      content="Web Analytics made simple and therefore privacy-friendly."
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="css/blog.css" />
+    <link rel="shortcut icon" href="img/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&family=Poppins:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+    <script src="js/blogindex.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="/load.js"></script>
+  </head>
+  <body>
+    <header>
+      <counter-flash></counter-flash>
+      <base-navbar></base-navbar>
+    </header>
+    <!-- Privacy page -->
+    <section class="blog">
+      <div class="content">
+        <script>
+          postQuery = window.location.search.substring(1)
+
+          //
+          // List blog posts
+          //
+          if (postQuery === ''){
+            $(blogindex['posts']).each((_, post)=>{
+              document.write(`
+                <div>
+                  <a href="?${post.file}">${post.title}</a>
+                  <p>
+                    ${post.date}
+                    ${post.author}
+                  </p>
+                <br>
+                <div>`)})
+          //
+          // show blog post
+          //
+          } else {
+              post = blogindex.byFile[postQuery]
+              document.write(`
+                <div>
+                <p>
+                  <a href="?">blog home</a>
+                </p>
+                <br>
+                <div>
+                    ${post.date}
+                    ${post.author}
+                </div>
+                <div id="postcontent">Loading content...</div>
+                </div>
+                `)
+
+            converter = new showdown.Converter()
+            $.get("blogposts/" + postQuery, (resp) => {
+              html = converter.makeHtml(resp)
+              $("#postcontent").html(html)
+
+            })
+
+          }
+
+        </script>
+      </div>
+    </section>
+    <base-footer></base-footer>
+  </body>
+</html>

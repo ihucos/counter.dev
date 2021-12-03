@@ -1,0 +1,1 @@
+window.blogindex = {"posts": [{"title": "Welcome to Jekyll!", "date": "03-12-2020", "file": "blogposts/hello-world.md"}], "byFile": {"blogposts/hello-world.md": {"title": "Welcome to Jekyll!", "date": "03-12-2020", "file": "blogposts/hello-world.md"}}}

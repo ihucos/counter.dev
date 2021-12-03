@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+
+from pathlib import Path
+import re
+import yaml
+import sys
+import json
+
+project_dir = Path(__file__).resolve().parent.parent
+
+posts = []
+by_file = {}
+
+for file in project_dir.joinpath('static', 'blogposts').iterdir():
+    if file.suffix == '.md':
+        with open(file) as f:
+            content = f.read()
+        match = re.findall('<!---(.*)-->', content, re.DOTALL)
+        if not match:
+            print('error: file {file} has not meta info')
+            sys.exit(1)
+        yamlstr = match[0]
+        meta = yaml.safe_load(yamlstr)
+        assert 'title' in meta, f'no title field in {file}'
+        assert 'date' in meta, f'no date field in {file}'
+        meta['file'] = file.name
+        by_file[file.name] = meta
+
+        posts.append(meta)
+
+posts.sort(key=lambda i: i['date'])
+
+with open(project_dir.joinpath('static', 'js', 'blogindex.js'), 'w') as indexfile:
+    content = json.dumps({'posts': posts, 'byFile': by_file})
+    indexfile.write(f'window.blogindex = {content}')
