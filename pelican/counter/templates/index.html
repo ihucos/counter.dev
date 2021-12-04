@@ -5,6 +5,19 @@
 <h2>All articles</h2>
 {% endblock %}
 
+
+
+  Featured posts:
+  <ul>
+  {% for article in articles[:5] %}
+    {% if article.featured %}
+      <li>
+        <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+      </li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+
 <ol id="post-list">
 {% for article in articles_page.object_list %}
         <li><article class="hentry">

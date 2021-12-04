@@ -2,6 +2,7 @@ Title: My second blog post
 Date: 2010-12-03 10:30
 Category: Review
 Image: frog.jpg
+Featured: true
 
 # Dillinger
 ## _The Last Markdown Editor, Ever_
