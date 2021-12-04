@@ -8,8 +8,15 @@
 <ol id="post-list">
 {% for article in articles_page.object_list %}
         <li><article class="hentry">
+
+                {% if article.image %}
+                  <img src="{{ SITEURL }}/images/{{ article.image }}">{{ author }}</img>
+                {% endif %}
+
                 <header> <h2 class="entry-title"><a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">{{ article.title }}</a></h2> </header>
                 <footer class="post-info">
+
+
                     <time class="published" datetime="{{ article.date.isoformat() }}"> {{ article.locale_date }} </time>
                     <address class="vcard author">By
                     {% for author in article.authors %}

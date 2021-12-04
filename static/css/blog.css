@@ -3,6 +3,10 @@
 /* Import */
 @import url("styles.css");
 
+img {
+  display: block;
+}
+
 /* Body */
 .blog .content {
   padding: 120px 0 24px 0;

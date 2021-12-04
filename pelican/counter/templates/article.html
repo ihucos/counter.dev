@@ -23,7 +23,23 @@
 
 {% block content %}
 <section id="content" class="body">
+
+
+  Latest posts:
+  <ul>
+  {% for article in articles[:5] %}
+    <li>
+      <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+    </li>
+  {% endfor %}
+  </ul>
+
   <header>
+
+    {% if article.image %}
+      <img src="{{ SITEURL }}/images/{{ article.image }}">{{ author }}</img>
+    {% endif %}
+
     <h2 class="entry-title">
       <a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark"
          title="Permalink to {{ article.title|striptags }}">{{ article.title }}</a></h2>
@@ -39,6 +55,7 @@
       {{ article.locale_modified }}
     </time>
     {% endif %}
+
     {% if article.authors %}
     <address class="vcard author">
       By {% for author in article.authors %}
