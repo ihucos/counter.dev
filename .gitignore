@@ -6,7 +6,7 @@ webstats
 .config/production.sh
 .config/makefile.env
 static/blog/*
-!static/blog/images
+!static/blog/img
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

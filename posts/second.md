@@ -1,8 +1,9 @@
 Title: My second blog post
-Date: 2010-12-03 10:30
+Date: 2020-12-03 10:30
 Category: Review
-Image: frog.jpg
+Image: 1.svg
 Featured: true
+Caption: Lorem Ipsum is simply dummy text of the printing and typesetting industry 2.
 
 # Dillinger
 ## _The Last Markdown Editor, Ever_

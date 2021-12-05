@@ -1,47 +1,68 @@
 {% extends "base.html" %}
 {% block content %}
-<section id="content">
-{% block content_title %}
-<h2>All articles</h2>
-{% endblock %}
+<section class="blog">
+    <div class="content">
+        <!-- Articles -->
+        <div class="blog-articles">
+            <h1 class="h2 mb32">Blog</h1>
 
-
-
-  Featured posts:
-  <ul>
-  {% for article in articles[:5] %}
-    {% if article.featured %}
-      <li>
-        <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
-      </li>
-    {% endif %}
-  {% endfor %}
-  </ul>
-
-<ol id="post-list">
-{% for article in articles_page.object_list %}
-        <li><article class="hentry">
+            {% for article in articles_page.object_list %}
+            <!-- Article -->
+            <a href="#" class="blog-article bg-white shadow-sm mb32">
 
                 {% if article.image %}
-                  <img src="{{ SITEURL }}/images/{{ article.image }}">{{ author }}</img>
+                <div class="blog-preview">
+                  <img src="{{ SITEURL }}/img/posts/{{ article.image }}" width="258" height="200" alt="{{ article.title }}">
+                </div>
                 {% endif %}
+                <div class="blog-article-content">
+                  <h2 class="h3 mb16 black">{{ article.title }}</h2>
+                    <div class="blog-description gray mb24">
+                      {{ article.caption }}
+                    </div>
+                    <div class="blog-article-content-info flex caption gray">
+                        <div class="flex">
+                            <img src="/blog/img/roxana.png" alt="author"><span class="ml8 mr24">Roxana Elliott</span>
+                            {{ article.date.strftime('%b %-d, %Y') }}
+                        </div>
+                        <div class="flex">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 6V12L16 14" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="ml8">3 min read</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
 
-                <header> <h2 class="entry-title"><a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">{{ article.title }}</a></h2> </header>
-                <footer class="post-info">
-
-
-                    <time class="published" datetime="{{ article.date.isoformat() }}"> {{ article.locale_date }} </time>
-                    <address class="vcard author">By
-                    {% for author in article.authors %}
-                        <a class="url fn" href="{{ SITEURL }}/{{ author.url }}">{{ author }}</a>
-                    {% endfor %}
-                    </address>
-                </footer><!-- /.post-info -->
-        </article></li>
-{% endfor %}
-</ol><!-- /#posts-list -->
-{% if articles_page.has_other_pages() %}
-    {% include 'pagination.html' %}
-{% endif %}
-</section><!-- /#content -->
+            <!-- Pagination -->
+            <div class="flex blog-pagination">
+                <a href="#" class="btn-secondary">Newer</a>
+                <a href="#" class="btn-secondary">Older</a>
+            </div>
+        </div>
+        <div class="blog-sidebar">
+            <!-- Featured posts -->
+            <div class="posts-list mb32 mt80">
+                <h3 class="mb8">Featured posts</h3>
+                {% for article in articles %}
+                {% if article.featured %}
+                  <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <!-- Newsletter -->
+            <div class="newsletter gradient-green">
+                <h3 class="mb8">Newsletter</h3>
+                <div class="caption gray mb16">
+                    No spam, ever. Only musings and writings.
+                </div>
+                <input type="text" class="width-full mb16" name="newsletter" placeholder="Enter your email">
+                <button type="button" name="button" class="btn-white">Subscribe</button>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock content %}
