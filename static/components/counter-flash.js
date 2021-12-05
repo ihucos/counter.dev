@@ -1,7 +1,7 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        KEY = "close-looking-for-cofounder";
+        KEY = "close-invest";
         connectedCallback() {
             if (
                 !window.location.href
@@ -13,7 +13,7 @@ customElements.define(
                    <!-- Notification -->
                    <section class="notification">
                      <div class="content">
-                       <span>Help us with marketing as our Co-Founder. <a href="/cofounder.html">Learn more.</a></span>
+                       <span>Invest in Counter. <a href="/invest.html">Learn more.</a></span>
                        <div class="btn-close"></div>
                      </div>
                    </section>`;

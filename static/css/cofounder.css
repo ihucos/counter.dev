@@ -3,6 +3,15 @@
 /* Import */
 @import url("styles.css");
 
+td {padding-bottom: 0.5em;}
+
+td:first-child {
+  font-weight: bold;
+  white-space: nowrap;
+  vertical-align: top;
+  padding-right: 1em;
+}
+
 /* Body */
 .cofounder .content {
   padding: 120px 0 24px 0;
