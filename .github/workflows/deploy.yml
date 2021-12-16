@@ -31,5 +31,5 @@ jobs:
         name: "Copy files to server"
         run: |
           cd ${{github.workspace}}
-          rsync static .config webstats scripts root@$IP: -av -ssh "-o StrictHostKeyChecking=no -i ~/.ssh/private.key"
+          rsync static .config webstats scripts root@$IP: -av -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/private.key"
         shell: bash
