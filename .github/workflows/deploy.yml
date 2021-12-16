@@ -29,5 +29,5 @@ jobs:
         env: 
           IP: "${{secrets.IP}}"
         name: "Copy files to server"
-        run: "scp -r -o StrictHostKeyChecking=no -i ~/.ssh/private.key ${{github.workspace}} root@${{secrets.IP}}:/root"
+        run: 'cd ${{github.workspace}} && rsync static .config webstats scripts root@$IP: -av -ssh "-o StrictHostKeyChecking=no -i ~/.ssh/private.key"'
         shell: bash
