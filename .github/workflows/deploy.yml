@@ -13,22 +13,12 @@ jobs:
     steps: 
       - 
         env: 
-          SSH_KEY_PATH: "${{ github.workspace }}/../private.key"
-          IP: "${{secrets.IP}}"
           SSH_PRIVATE_KEY: "${{secrets.SSH_PRIVATE_KEY}}"
         name: "Create SSH key"
         run: |
             mkdir -p ~/.ssh/
             echo "$SSH_PRIVATE_KEY" > ~/.ssh/private.key
             sudo chmod 600 ~/.ssh/private.key
-
-            cat >>~/.ssh/config <<END
-            Host ip
-            HostName $IP
-            User root
-            IdentityFile ~/.ssh/private.key
-            StrictHostKeyChecking no
-            END
         shell: bash
 
       - 
@@ -39,5 +29,5 @@ jobs:
         env: 
           IP: "${{secrets.IP}}"
         name: "Copy files to server"
-        run: "scp ${{github.workspace}} root@${{secrets.IP}}:/tmp/test_adfasdf"
+        run: "scp -o StrictHostKeyChecking=no -i ~/.ssh/private.key ${{github.workspace}} root@${{secrets.IP}}:/tmp/test_adfasdf"
         shell: bash
