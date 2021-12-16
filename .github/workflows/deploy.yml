@@ -23,3 +23,10 @@ jobs:
             sudo chmod 600 ../private.key
             echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
         shell: bash
+      - 
+        env: 
+          IP: "${{secrets.IP}}"
+        name: "Copy files to server"
+        run: |
+            hellowtest
+        shell: bash
