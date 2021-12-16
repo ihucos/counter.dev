@@ -33,6 +33,6 @@ jobs:
           IP: "${{secrets.IP}}"
         name: "Copy files to server"
         run: |
-            hellowtest
             ls ${{ github.workspace }}
+            hellowtest
         shell: bash
