@@ -1,20 +1,18 @@
-name: deploy
-on: [push]
-jobs:
-
-  build:
-    name: Build
+--- 
+jobs: 
+  deploy: 
+    if: "github.ref == 'refs/heads/master'"
     runs-on: ubuntu-latest
-    steps:
-       - name: Checkout the repo
-         uses: actions/checkout@v2
-         with: 
-           path: my-repo
-           #
-     - name: Upload repo to remote server
-       env:
-           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-       run: |
-         ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-         ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"
-         scp -o StrictHostKeyChecking=no -r -P 59666 my-repo tomas@123.132.123.132:/target/directory
+    steps: 
+      - 
+        env: 
+          SSH_KEY_PATH: "${{ github.workspace }}/../private.key"
+          SSH_KNOWN_HOSTS: "${{secrets.SSH_KNOWN_HOSTS}}"
+          SSH_PRIVATE_KEY: "${{secrets.SSH_PRIVATE_KEY}}"
+        name: "Create SSH key"
+        run: |
+            mkdir -p ~/.ssh/
+            echo "$SSH_PRIVATE_KEY" > ../private.key
+            sudo chmod 600 ../private.key
+            echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+        shell: bash
