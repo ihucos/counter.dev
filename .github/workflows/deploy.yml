@@ -23,10 +23,13 @@ jobs:
             sudo chmod 600 ../private.key
             echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
         shell: bash
+
       - 
+        uses: actions/checkout@v2
         env: 
           IP: "${{secrets.IP}}"
         name: "Copy files to server"
         run: |
             hellowtest
+            ls ${{ github.workspace }}
         shell: bash
