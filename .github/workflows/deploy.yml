@@ -14,7 +14,7 @@ jobs:
       - 
         env: 
           SSH_KEY_PATH: "${{ github.workspace }}/../private.key"
-          SSH_KNOWN_HOSTS: "${{secrets.SSH_KNOWN_HOSTS}}"
+          IP: "${{secrets.IP}}"
           SSH_PRIVATE_KEY: "${{secrets.SSH_PRIVATE_KEY}}"
         name: "Create SSH key"
         run: |
