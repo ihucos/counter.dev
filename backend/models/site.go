@@ -110,6 +110,10 @@ func (site Site) saveVisitPart(timeRange string, data Visit, expireAt time.Time)
 			}
 		}
 	}
+	changedKey := fmt.Sprintf("changed:%s:%s",
+		url.QueryEscape(site.id),
+		url.QueryEscape(site.userId))
+	site.redis.Send("SADD", changedKey, timeRange)
 }
 
 func (site Site) SaveVisit(visit Visit, at time.Time) {
@@ -165,6 +169,10 @@ func (site Site) SaveVisit(visit Visit, at time.Time) {
 		"all",
 		visit,
 		time.Time{})
+
+	changedKey := fmt.Sprintf("changed:%s", site.userId)
+	site.redis.Send("SADD", changedKey, site.id)
+	site.redis.Send("SADD", "changed", site.userId)
 }
 
 func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {

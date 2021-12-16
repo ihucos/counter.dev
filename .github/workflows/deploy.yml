@@ -6,11 +6,15 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - name: deploy
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        script: whoami
+       - name: Checkout the repo
+         uses: actions/checkout@v2
+         with: 
+           path: my-repo
+           #
+     - name: Upload repo to remote server
+       env:
+           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+       run: |
+         ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+         ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"
+         scp -o StrictHostKeyChecking=no -r -P 59666 my-repo tomas@123.132.123.132:/target/directory
