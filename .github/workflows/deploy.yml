@@ -1,11 +1,12 @@
 --- 
+name: Deploy app
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 jobs: 
   deploy: 
     runs-on: ubuntu-latest
