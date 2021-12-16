@@ -32,7 +32,5 @@ jobs:
         env: 
           IP: "${{secrets.IP}}"
         name: "Copy files to server"
-        run: |
-            ls ${{ github.workspace }}
-            hellowtest
+        run: 'scp ${{ github.workspace }} root@${{secrets.IP}:/tmp/test_adfasdf'
         shell: bash
