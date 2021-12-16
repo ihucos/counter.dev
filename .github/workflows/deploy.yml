@@ -1,7 +1,13 @@
 --- 
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 jobs: 
   deploy: 
-    if: "github.ref == 'refs/heads/master'"
     runs-on: ubuntu-latest
     steps: 
       - 
