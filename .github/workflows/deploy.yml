@@ -21,7 +21,14 @@ jobs:
             mkdir -p ~/.ssh/
             echo "$SSH_PRIVATE_KEY" > ~/.ssh/private.key
             sudo chmod 600 ~/.ssh/private.key
-            echo "$IP" > ~/.ssh/known_hosts
+
+            cat >>~/.ssh/config <<END
+            Host ip
+            HostName $IP
+            User root
+            IdentityFile ~/.ssh/private.key
+            StrictHostKeyChecking no
+            END
         shell: bash
 
       - 
@@ -32,5 +39,5 @@ jobs:
         env: 
           IP: "${{secrets.IP}}"
         name: "Copy files to server"
-        run: "scp -o StrictHostKeyChecking=no ${{github.workspace}} root@${{secrets.IP}}:/tmp/test_adfasdf"
+        run: "scp ${{github.workspace}} root@${{secrets.IP}}:/tmp/test_adfasdf"
         shell: bash
