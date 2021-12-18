@@ -31,7 +31,7 @@ jobs:
 
       -
         name: "Install pelican"
-        run: pip install pelican
+        run: pip3 install pelican
 
       - 
         name: "Generate blog"
