@@ -26,8 +26,11 @@ jobs:
         uses: actions/checkout@v2
 
       -
-        name: "Install pelican"
+        name: "Use python"
         uses: actions/setup-python@v2
+
+      -
+        name: "Install pelican"
         run: pip install pelican
 
       - 
