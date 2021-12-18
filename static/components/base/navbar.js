@@ -82,7 +82,7 @@ customElements.define(
                <!-- Navbar -->
                <section class="navbar">
                  <div class="content">
-                   <a href="index.html" class="logotype"></a>
+                   <a href="/index.html" class="logotype"></a>
                    <!-- Navigation -->
                    <nav class="nav-header">
                      <!-- <a href="#" class="mr32" target="_blank" rel="nofollow">Blog</a> -->

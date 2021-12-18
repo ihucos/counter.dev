@@ -17,6 +17,10 @@ devserver:
 tests:
 	. .config/test.sh && $(go) test
 
+.PHONY: runserver
+blog:
+	cd pelican && pelican content
+
 format:
 	plash --from alpine:3.11 --apk npm --run 'npm i prettier --global' -- prettier --write .
 	find -type f -name \*.go | xargs -L1 go fmt
