@@ -25,6 +25,16 @@ jobs:
         name: "Checkout"
         uses: actions/checkout@v2
 
+      -
+        name: "Install pelican"
+        uses: actions/setup-python@v2
+        run: pip install pelican
+
+      - 
+        name: "Generate blog"
+        run: make blog
+        shell: bash
+
       - 
         env: 
           IP: "${{secrets.IP}}"
