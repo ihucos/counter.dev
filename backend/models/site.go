@@ -175,6 +175,42 @@ func (site Site) SaveVisit(visit Visit, at time.Time) {
 	site.redis.Send("SADD", "changed", site.userId)
 }
 
+func (site Site) ColdStorage() error {
+	timeKeys, err := redis.Strings(site.redis.Do("SINTER",
+		fmt.Sprintf("changed:%s", site.id)))
+	if err != nil {
+		return err
+	}
+
+	for _, timeKey := range timeKeys {
+		for _, field := range fieldsZet {
+			redisKey := VisitItemKey{TimeRange: timeKey, field: field, Origin: site.id, UserId: site.userId}.String()
+			err = site.coldStoreKey(redisKey)
+			if err != nil {
+				return err
+			}
+		}
+		for _, field := range fieldsHash {
+			redisKey := VisitItemKey{TimeRange: timeKey, field: field, Origin: site.id, UserId: site.userId}.String()
+			err = site.coldStoreKey(redisKey)
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func (site Site) coldStoreKey(redisKey string) error {
+	//get and delete redisKey
+	// save redis key to database
+	return nil
+}
+
+func (site Site) coldGetKey(key string) map[string]int64 {
+	return make(map[string]int64)
+}
+
 func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 
 	var redisKey string
@@ -182,6 +218,37 @@ func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 	for _, field := range fieldsZet {
 		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
 		fields = append(fields, field)
+		site.redis.Send("ZRANGE", redisKey, 0, -1, "WITHSCORES")
+	}
+	for _, field := range fieldsHash {
+		fields = append(fields, field)
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		site.redis.Send("HGETALL", redisKey)
+	}
+	site.redis.Flush()
+
+	m := make(VisitsData)
+	for _, key := range fields {
+		v, err := redis.Int64Map(site.redis.Receive())
+		if err != nil {
+			return m, err
+		}
+		m[key] = v
+	}
+
+	return m, nil
+}
+
+func (site Site) coldGetVisitsPart(timeRange string) (VisitsData, error) {
+
+	var redisKey string
+	var fields []string
+	for _, field := range fieldsZet {
+		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		fields = append(fields, field)
+		// save cold here.
+		// when retrieving all vists, call coldstorage on user before
+		// retrieving his data
 		site.redis.Send("ZRANGE", redisKey, 0, -1, "WITHSCORES")
 	}
 	for _, field := range fieldsHash {
