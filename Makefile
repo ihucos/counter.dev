@@ -17,9 +17,9 @@ devserver:
 tests:
 	. .config/test.sh && $(go) test
 
-.PHONY: runserver
+.PHONY: blog
 blog:
-	cd pelican && pelican content
+	cd .pelican && pelican content
 
 format:
 	plash --from alpine:3.11 --apk npm --run 'npm i prettier --global' -- prettier --write .
