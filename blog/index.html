@@ -38,11 +38,8 @@
             </a>
             {% endfor %}
 
-            <!-- Pagination -->
-            <div class="flex blog-pagination">
-                <a href="#" class="btn-secondary">Newer</a>
-                <a href="#" class="btn-secondary">Older</a>
-            </div>
+            {% include 'pagination.html' %}
+
         </div>
         <div class="blog-sidebar">
             <!-- Featured posts -->
