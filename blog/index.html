@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block content %}
 <section class="blog">
     <div class="content">
@@ -8,7 +9,7 @@
 
             {% for article in articles_page.object_list %}
             <!-- Article -->
-            <a href="#" class="blog-article bg-white shadow-sm mb32">
+            <a href="{{ SITEURL }}/{{ article.url }}"" class="blog-article bg-white shadow-sm mb32">
 
                 {% if article.image %}
                 <div class="blog-preview">
@@ -22,7 +23,7 @@
                     </div>
                     <div class="blog-article-content-info flex caption gray">
                         <div class="flex">
-                            <img src="/blog/img/roxana.png" alt="author"><span class="ml8 mr24">Roxana Elliott</span>
+                            <img src="{{ SITEURL }}/img/{{ article.author | slugify }}.png" alt="author"><span class="ml8 mr24">{{ article.author }}</span>
                             {{ article.date.strftime('%b %-d, %Y') }}
                         </div>
                         <div class="flex">
@@ -30,7 +31,7 @@
                             <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M12 6V12L16 14" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <span class="ml8">3 min read</span>
+                            <span class="ml8">{{ article.content | readtime }} min read</span>
                         </div>
                     </div>
                 </div>
