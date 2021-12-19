@@ -267,16 +267,3 @@ func (user User) HandleSignals(conn redis.Conn, cb func(error)) {
 		}
 	}
 }
-
-func (user User) ColdStorage() error {
-	changedSites, err := redis.Strings(user.redis.Do("SINTER",
-		fmt.Sprintf("changed:%s", user.Id)))
-	if err != nil {
-		return err
-	}
-
-	for _, changedSite := range changedSites {
-		user.NewSite(changedSite).ColdStorage()
-	}
-	return nil
-}
