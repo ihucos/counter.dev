@@ -13,7 +13,7 @@
 
                 {% if article.image %}
                 <div class="blog-preview">
-                  <img src="{{ SITEURL }}/img/posts/{{ article.image }}" width="258" height="200" alt="{{ article.title }}">
+                  <img src="{{ SITEURL }}/images/{{ article.image }}" width="258" height="200" alt="{{ article.title }}">
                 </div>
                 {% endif %}
                 <div class="blog-article-content">
@@ -23,7 +23,7 @@
                     </div>
                     <div class="blog-article-content-info flex caption gray">
                         <div class="flex">
-                            <img src="{{ SITEURL }}/img/{{ article.author | slugify }}.png" alt="author"><span class="ml8 mr24">{{ article.author }}</span>
+                            <img src="{{ SITEURL }}/images/{{ article.author | slugify }}.png" alt="author"><span class="ml8 mr24">{{ article.author }}</span>
                             {{ article.date.strftime('%b %-d, %Y') }}
                         </div>
                         <div class="flex">
