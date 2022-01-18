@@ -89,13 +89,7 @@ func init() {
 			visit["ref"] = parsedUrl.Host
 		}
 
-		var ref string
-		_, ok := ctx.R.Header["X-Referer"]
-		if ok {
-			ref = ctx.R.Header.Get("X-Referer")
-		} else {
-			ref = ctx.R.Header.Get("Referer")
-		}
+		ref := ctx.R.Header.Get("Referer")
 
 		parsedUrl, err = url.Parse(ref)
 		if err == nil && parsedUrl.Path != "" {

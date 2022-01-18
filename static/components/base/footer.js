@@ -73,7 +73,7 @@ customElements.define(
                             user: "counter",
                             utcoffset: "1",
                           }), {
-                              headers: {"X-Referer": window.location.href}
+                              referrerPolicy: "no-referrer-when-downgrade"
                           }
                       );
                     }
