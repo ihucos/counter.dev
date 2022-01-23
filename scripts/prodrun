@@ -1,2 +1,9 @@
 #!/bin/sh
-. .config/production.sh && exec ./webstats
+
+while true
+do
+  . .config/production.sh && ./webstats
+  sleep 1
+  echo "died, restarting..."
+done
+
