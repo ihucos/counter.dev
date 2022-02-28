@@ -109,11 +109,11 @@ func (user User) TouchAccess() {
 func (user User) Create(password string) error {
 
 	if len(user.Id) < 4 {
-		return &ErrUser{"User must have at least 4 charachters"}
+		return &ErrUser{"User must have at least 4 characters"}
 	}
 
 	if len(password) < 8 {
-		return &ErrUser{"Password must have at least 8 charachters"}
+		return &ErrUser{"Password must have at least 8 characters"}
 	}
 
 	user.redis.Send("MULTI")
