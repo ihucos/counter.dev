@@ -43,7 +43,7 @@ func init() {
 			}
 
 			if len(newPassword) < 8 {
-				ctx.ReturnBadRequest("New password must have at least 8 charachters")
+				ctx.ReturnBadRequest("New password must have at least 8 characters")
 			}
 
 			if newPassword != repeatNewPassword {
