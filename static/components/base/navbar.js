@@ -77,7 +77,7 @@ customElements.define(
             fetch("/lang")
                .then(response => response.text())
                .then((response) => {
-                   if (response == "ru"){
+                   if (response == "RU"){
                         var text = `
 <div style="width: 80%; padding: 0.75em;">
 🇷🇺
