@@ -107,6 +107,7 @@ May the world live in peace and unity, we are all the same.<br/>
 <br /><br />
 <i>Our mission at counter is to create simply a good product. But this topic is more important, for all of us. </i>
 <br>
+ <i>1 March 2022</i>
 <br>
 <br>
 🕊
