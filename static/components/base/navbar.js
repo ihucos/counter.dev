@@ -95,21 +95,24 @@ customElements.define(
 <br/>
 You are accessing the site from a Russian internet connection.<br/>
 <br/>
-The Russian government attacked the whole country of Ukraine with Tanks, Bombs, planes and foot soldiers. Many people already died, about 500.000 people already fled to neighbourhood countries. There is no legitimate reason for this hostile action.<br/>
+The Russian government attacked the whole country of Ukraine with tanks, bombs, planes and foot soldiers. Many people already died, about 500.000 people fled to neighbourhood countries. There is no legitimate reason for this hostile action.<br/>
 <br/>
-The person who designs this product lives in Kyiv, hearing explosion and with the fear of not waking up the next morning.<br/>
+The person who designs this product lives in Kyiv, hearing explosions and with the fear of not waking up the next morning.<br/>
 <br/>
-The Backend developer of this product is German and heavily disturbed by another war in Europe. I know the stories and reportings I am hearing from history and my relatives.<br/>
+The Backend-Developer of this product is German and heavily disturbed by another war in Europe. I know the stories and reportings I am hearing, from history and my relatives.<br/>
 <br/>
-If you are Russian and can, please do your part. We need this useless war to stop. Put peaceful pressure on your government. Do what you can, make this stop. Given the current situation we are giving you responsibility.<br/>
+If you are Russian and can, please do your part. We need this useless war to stop. Put peaceful pressure on your government. Do what you can, make this stop, make it happen. Given the current situation we are giving you responsibility.<br/>
 <br/>
 May the world live in peace and unity, we are all the same.<br/>
 <br /><br />
-Our mission at counter is to create simply a good product. But this topic is more important for all of us.
+<i>Our mission at counter is to create simply a good product. But this topic is more important, for all of us. </i>
 <br>
 <br>
 <br>
 🕊
+🕊
+🕊
+
 
                            </div>`
 
