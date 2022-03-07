@@ -54,7 +54,7 @@ customElements.define(
 
                             <select class="width-full" name="usesites">
                                   <option value="">
-                                    Show all incomming traffic
+                                    Show all incoming traffic
                                   </option>
                                   <option value="1">
                                     Limit listed domains
