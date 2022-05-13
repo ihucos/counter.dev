@@ -62,7 +62,7 @@
             <!-- Featured posts -->
             <div class="posts-list mb32">
                 <h3 class="mb8">Latest posts</h3>
-                {% for article in articles | reverse %}
+                {% for article in articles  %}
                   {% if loop.index <= 5 %} {# Show top 5 posts #}
                     <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
                   {% endif %}
