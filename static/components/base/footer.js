@@ -8,7 +8,7 @@ customElements.define(
                         <div class="content">
                           <div class="footer-logo">
                             <img
-                              src="img/logotype--gray.svg"
+                              src="/img/logotype--gray.svg"
                               width="140"
                               height="32"
                               alt="Logotype"
