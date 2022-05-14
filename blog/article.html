@@ -22,62 +22,58 @@
 {% endblock %}
 
 {% block content %}
-<section class="blog">
-    <div class="content">
-        <!-- Full article -->
-        <div class="full-article">
-            <div class="blog-preview">
-                <img src="{{ SITEURL }}/images/{{ article.image }}" width="258" height="200" alt="{{ article.title }}">
-            </div>
-            <div class="blog-full-article-content bg-white shadow-lg">
-                <div class="blog-full-article-content-info flex caption gray mb16">
-                    <div class="flex">
-                        <img src="{{ SITEURL }}/images/{{ article.author | slugify }}.png" alt="author"><span class="ml8 mr24">{{ article.author }}</span>{{ article.date.strftime('%b %-d, %Y') }}
-
-                    </div>
-                    <div class="flex">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M12 6V12L16 14" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span class="ml8">{{ article.content | readtime }} min read</span>
-                    </div>
-                </div>
-                <div class="blog-full-text">
-                    {{ article.content }}
-                </div>
-                <div class="our-product mt32">
-                    <img src="/img/product.svg" alt="Our product">
-                    <div class="our-product-content gradient-red">
-                        <h3>Web analytics counter</h3>
-                        <div class="gray mt8 mb24">
-                            Free. Privacy Friendly. Open Source.
-                        </div>
-                        <a class="btn-white" href="https://counter.dev/welcome.html?sign-up">Get started</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="blog-sidebar">
-            <!-- Featured posts -->
-            <div class="posts-list mb32">
-                <h3 class="mb8">Latest posts</h3>
-                {% for article in articles  %}
-                  {% if loop.index <= 5 %} {# Show top 5 posts #}
-                    <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
-                  {% endif %}
-                {% endfor %}
-            </div>
-            <!-- Newsletter -->
-            <div class="newsletter gradient-green">
-                <h3 class="mb8">Newsletter</h3>
-                <div class="caption gray mb16">
-                    No spam, ever. Only musings and writings.
-                </div>
-                <input type="text" class="width-full mb16" name="newsletter" placeholder="Enter your email">
-                <button type="button" name="button" class="btn-white">Subscribe</button>
-            </div>
-        </div>
+  <!-- Full article -->
+  <div class="full-article">
+    <div class="blog-preview">
+      <img src="{{ SITEURL }}/images/{{ article.image }}" width="258" height="200" alt="{{ article.title }}">
     </div>
-</section>
+    <div class="blog-full-article-content bg-white shadow-lg">
+      <div class="blog-full-article-content-info flex caption gray mb16">
+        <div class="flex">
+          <img src="{{ SITEURL }}/images/{{ article.author | slugify }}.png" alt="author"><span class="ml8 mr24">{{ article.author }}</span>{{ article.date.strftime('%b %-d, %Y') }}
+
+        </div>
+        <div class="flex">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 6V12L16 14" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="ml8">{{ article.content | readtime }} min read</span>
+        </div>
+      </div>
+      <div class="blog-full-text">
+        {{ article.content }}
+      </div>
+      <div class="our-product mt32">
+        <img src="/img/product.svg" alt="Our product">
+        <div class="our-product-content gradient-red">
+          <h3>Web analytics counter</h3>
+          <div class="gray mt8 mb24">
+            Free. Privacy Friendly. Open Source.
+          </div>
+          <a class="btn-white" href="https://counter.dev/welcome.html?sign-up">Get started</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="blog-sidebar">
+    <!-- Featured posts -->
+    <div class="posts-list mb32">
+      <h3 class="mb8">Latest posts</h3>
+      {% for article in articles  %}
+      {% if loop.index <= 5 %} {# Show top 5 posts #}
+      <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+      {% endif %}
+      {% endfor %}
+    </div>
+    <!-- Newsletter -->
+    <div class="newsletter gradient-green">
+      <h3 class="mb8">Newsletter</h3>
+      <div class="caption gray mb16">
+        No spam, ever. Only musings and writings.
+      </div>
+      <input type="text" class="width-full mb16" name="newsletter" placeholder="Enter your email">
+      <button type="button" name="button" class="btn-white">Subscribe</button>
+    </div>
+  </div>
 {% endblock %}
