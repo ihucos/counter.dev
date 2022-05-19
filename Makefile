@@ -8,7 +8,7 @@ export
 
 
 
-.PHONY: runserver
+.PHONY: devserver
 devserver:
 	make build
 	. .config/dev.sh && ./webstats
@@ -21,26 +21,32 @@ tests:
 blog:
 	cd .pelican && pelican content
 
+.PHONY: format
 format:
 	plash --from alpine:3.11 --apk npm --run 'npm i prettier --global' -- prettier --write .
 	find -type f -name \*.go | xargs -L1 go fmt
 
+.PHONY: logs
 logs:
 	ssh root@172.104.148.60 cat log
 
+.PHONY: build
 build:
 	cd backend && $(go) build -o ../webstats
 
+.PHONY: deploy
 deploy:
 	make build
 	make deploy-static
 	ssh root@172.104.148.60 "pkill -x dtach; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
 
+.PHONY: deploy-static
 deploy-static:
 	rsync static .config webstats scripts root@172.104.148.60: -av
 	curl -X POST "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE1)/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $(CLOUDFLARE_TOKEN)" --data '{"purge_everything":true}' --fail
 	curl -X POST "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE2)/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $(CLOUDFLARE_TOKEN)" --data '{"purge_everything":true}' --fail
 
+.PHONY: redis-server
 redis-server:
 	scp root@172.104.148.60:/var/lib/redis/dump.rdb /tmp/webstats-production.rdb
 	plash --from alpine:$(alpineversion) --apk redis -- redis-server --dbfilename webstats-production.rdb --dir /tmp
@@ -49,8 +55,15 @@ redis-server:
 log:
 	ssh root@172.104.148.60 tail log
 
+.PHONY: integrations
 integrations:
 	ssh root@172.104.148.60 python3 scripts/integrations.py
+
+static/imprint.html: static/imprint.html.j2 static/base.html.j2
+	yasha static/imprint.html.j2
+
+
+all: static/imprint.html
 
 
 # Snippset needed when setting counter.dev up in new servers

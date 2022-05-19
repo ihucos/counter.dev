@@ -1010,7 +1010,8 @@ nav a {
   display: flex;
 }
 .nav-footer-one,
-.nav-footer-two {
+.nav-footer-two,
+.nav-footer-three {
   width: 160px;
 }
 .nav-footer-one {

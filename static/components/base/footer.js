@@ -26,6 +26,12 @@ customElements.define(
                             <div class="nav-footer-two">
                               <ul>
                                 <li><a href="/privacy.html" rel="nofollow">Privacy</a></li>
+                                <li><a href="/imprint.html" rel="nofollow">Imprint</a></li>
+                              </ul>
+                            </div>
+                            <div class="nav-footer-three">
+                              <ul>
+                                <li><a href="#" style="visibility: hidden;">dummy</a></li>
                                 <li><a href="/invest.html" rel="nofollow">Invest</a></li>
                               </ul>
                             </div>
