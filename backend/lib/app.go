@@ -108,6 +108,9 @@ func NewApp() *App {
 	fs := http.FileServer(http.Dir("./static"))
 	serveMux.Handle("/", fs)
 
+	fs = http.FileServer(http.Dir("./out/pages"))
+	serveMux.Handle("/pages/", http.StripPrefix("/pages/", fs))
+
 	app := &App{
 		RedisPool:    redisPool,
 		SessionStore: sessionStore,
