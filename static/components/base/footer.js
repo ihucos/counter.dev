@@ -32,7 +32,7 @@ customElements.define(
                             <div class="nav-footer-three">
                               <ul>
                                 <li><a href="#" style="visibility: hidden;">dummy</a></li>
-                                <li><a href="/invest.html" rel="nofollow">Invest</a></li>
+                                <li><a href="/pages/invest.html" rel="nofollow">Invest</a></li>
                               </ul>
                             </div>
                           </nav>
