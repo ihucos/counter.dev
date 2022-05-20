@@ -31,6 +31,10 @@ logs:
 build:
 	cd backend && $(go) build -o ../webstats
 
+.PHONY: chgprodpwd
+chgprodpwd:
+	ssh root@172.104.148.60 python3 scripts/chgpwd.py $(user) $(password)
+
 deploy:
 	make build
 	make deploy-static
