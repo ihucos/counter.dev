@@ -64,7 +64,7 @@ integrations:
 	ssh root@172.104.148.60 python3 scripts/integrations.py
 
 out/pages/imprint.html: templates/pages/imprint.html.j2 templates/pages/base.html.j2
-	yasha templates/pages/base.html.j2 -o out/pages/imprint.html
+	yasha -o out/pages/imprint.html --extensions templates/ext.py templates/pages/imprint.html.j2
 
 
 all: out/pages out/pages/imprint.html
