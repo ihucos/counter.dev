@@ -30,6 +30,10 @@ format:
 logs:
 	ssh root@172.104.148.60 cat log
 
+.PHONY: chgprodpwd
+chgprodpwd:
+	ssh root@172.104.148.60 python3 scripts/chgpwd.py $(user) $(password)
+
 .PHONY: build
 build:
 	cd backend && $(go) build -o ../webstats
@@ -59,11 +63,18 @@ log:
 integrations:
 	ssh root@172.104.148.60 python3 scripts/integrations.py
 
-static/imprint.html: static/imprint.html.j2 static/base.html.j2
-	yasha static/imprint.html.j2
+out/pages/imprint.html: templates/pages/imprint.html.j2 templates/pages/base.html.j2
+	yasha templates/pages/base.html.j2 -o out/pages/imprint.html
 
 
-all: static/imprint.html
+all: out/pages out/pages/imprint.html
+
+.PHONY: clean
+clean:
+	rm -rf out
+
+out/pages:
+	mkdir -p out/pages
 
 
 # Snippset needed when setting counter.dev up in new servers
