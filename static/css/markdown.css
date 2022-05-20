@@ -766,10 +766,6 @@
   border-top: 1px solid #c6cbd1;
 }
 
-.markdown-body table tr:nth-child(2n) {
-  background-color: #f6f8fa;
-}
-
 .markdown-body img {
   max-width: 100%;
   box-sizing: initial;
