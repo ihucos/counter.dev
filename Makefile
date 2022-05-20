@@ -66,8 +66,11 @@ integrations:
 out/pages/imprint.html: templates/pages/imprint.html.j2 templates/pages/base.html.j2
 	yasha -o out/pages/imprint.html --extensions templates/ext.py templates/pages/imprint.html.j2
 
+out/pages/privacy.html: templates/pages/privacy.html.j2 templates/pages/base.html.j2
+	yasha -o out/pages/privacy.html --extensions templates/ext.py templates/pages/privacy.html.j2
 
-all: out/pages out/pages/imprint.html
+
+all: out/pages out/pages/imprint.html out/pages/privacy.html
 
 .PHONY: clean
 clean:
