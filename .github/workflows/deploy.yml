@@ -42,6 +42,10 @@ jobs:
         name: "Install jinja markdown tag"
         run: pip3 install jinja_markdown
 
+      -
+        name: "Build pages"
+        run: make all
+
       - 
         env: 
           IP: "${{secrets.IP}}"
