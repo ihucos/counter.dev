@@ -43,6 +43,10 @@ jobs:
         run: pip3 install jinja_markdown
 
       -
+        name: "Install yasha"
+        run: pip3 install yasha
+
+      -
         name: "Build pages"
         run: make all
 
