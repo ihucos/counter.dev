@@ -30,6 +30,10 @@ format:
 logs:
 	ssh root@172.104.148.60 cat log
 
+.PHONY: logs
+get-newsletter-subscriptions:
+	ssh root@172.104.148.60 /scripts/get-newsletter-subscriptions
+
 .PHONY: chgprodpwd
 chgprodpwd:
 	ssh root@172.104.148.60 python3 scripts/chgpwd.py $(user) $(password)
