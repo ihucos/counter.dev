@@ -50,13 +50,6 @@
                 {% endfor %}
             </div>
             <!-- Newsletter -->
-            <div class="newsletter gradient-green">
-                <h3 class="mb8">Newsletter</h3>
-                <div class="caption gray mb16">
-                    No spam, ever. Only musings and writings.
-                </div>
-                <input type="text" class="width-full mb16" name="newsletter" placeholder="Enter your email">
-                <button type="button" name="button" class="btn-white">Subscribe</button>
-            </div>
+            {% include 'newsletter.html' %}
         </div>
 {% endblock content %}
