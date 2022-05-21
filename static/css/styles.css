@@ -137,17 +137,22 @@ section .content {
 /* Typography */
 h1,
 .h1 {
-  font: 700 72px "Poppins";
+  font: "Poppins";
+  font-size:  72px;
+  font-weight: 700;
   line-height: 96px;
 }
 h2,
 .h2 {
-  font: 700 37px "Poppins";
+  font: "Poppins";
+  font-size:  37px;
+  font-weight: 700;
   line-height: 48px;
 }
 h3,
 .h3 {
-  font: 700 22px "Poppins";
+  font-size: 22px;
+  font-weight: 700;
   line-height: 30px;
 }
 .title {
@@ -1010,7 +1015,8 @@ nav a {
   display: flex;
 }
 .nav-footer-one,
-.nav-footer-two {
+.nav-footer-two,
+.nav-footer-three {
   width: 160px;
 }
 .nav-footer-one {

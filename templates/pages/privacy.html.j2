@@ -1,65 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Counter: Privacy</title>
-    <meta
-      name="description"
-      content="Web Analytics made simple and therefore privacy-friendly."
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="css/privacy.css" />
-    <link rel="shortcut icon" href="img/favicon.png" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&family=Poppins:wght@700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.css"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js"></script>
-    <script
-      type="module"
-      src="https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js">
-    </script>
+{% extends "base.html.j2" %}
 
-    <script src="js/utils.js"></script>
-    <script src="/load.js"></script>
-  </head>
-  <body>
-    <header>
-      <counter-flash></counter-flash>
-      <base-navbar></base-navbar>
-    </header>
-    <!-- Privacy page -->
-    <section class="privacy">
-      <div class="content">
-        <div class="privacy-wrap bg-white shadow-lg radius-lg">
-          <zero-md>
-            <script type="text/markdown">
+{% block title %}
+Counter: Privacy Policy
+{% endblock %}
+
+{% block image %}
+/img/privacy.svg
+{% endblock %}
+
+{% block content %}
+{% markdown %}
 
 # Privacy Policy
 
 This privacy policy will explain how we use the personal data we collect from
 you when you use our website.
-
-## Topics
-- [What data do we collect?](#what-data-do-we-collect)
-- [How do we collect your data?](#how-do-we-collect-your-data)
-- [How do we store your data?](#how-do-we-store-your-data)
-- [What are your data protection rights?](#what-are-your-data-protection-rights)
-- [What are cookies?](#what-are-cookies)
-- [How do we use cookies?](#how-do-we-use-cookies)
-- [How to manage cookies](#how-to-manage-cookies)
-- [Privacy policies of other websites](#privacy-policies-of-other-websites)
-- [Changes to our privacy policy](#changes-to-our-privacy-policy)
-- [How to contact us](#how-to-contact-us)
-- [How to contact the appropriate authority](#how-to-contact-the-appropriate-authority)
-
-
 
 ## What data do we collect?
 
@@ -178,19 +133,6 @@ concern in a satisfactory manner, you may contact the Information Commissioner's
 Email: poststelle@bfdi.bund.de<br/>
 Phone: +49 (0)228-997799-0
 
+{% endmarkdown %}
+{% endblock %}
 
-            </script>
-          </zero-md>
-        </div>
-        <img
-          class="privacy-pic"
-          src="img/key.svg"
-          width="350"
-          height="441"
-          alt="Key"
-        />
-      </div>
-    </section>
-    <base-footer></base-footer>
-  </body>
-</html>
