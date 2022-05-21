@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Counter: Join us as our Co-Founder</title>
+    <title>{% block title %}{% endblock %}</title>
     <meta
       name="description"
       content="Web Analytics made simple and therefore privacy-friendly."
@@ -36,13 +36,15 @@
         <div class="page-wrap bg-white shadow-lg radius-lg markdown-body">
 		{% block content %}{% endblock %}
 	</div>
+	{% if self.image() %}
         <img
           class="page-pic"
-          src="/img/cofounder.svg"
+	  src="{% block image %}{% endblock %}"
           width="350"
           height="441"
           alt="Key"
         />
+	{% endif %}
       </div>
     </section>
     <base-footer></base-footer>
