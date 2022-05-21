@@ -4,5 +4,6 @@ Category: Review
 Image: 2.svg
 Caption: Lorem Ipsum is simply dummy text of the printing and typesetting industry.
 Author: Max Mustermann
+Featured: true
 
 Following is a review of my favorite mechanical keyboard.
