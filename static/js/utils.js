@@ -1,4 +1,4 @@
-function simpleForm(formSelector, redirectUrl) {
+function simpleForm(formSelector, action) {
     document.querySelector(formSelector).onsubmit = (evt) => {
         var el = evt.target;
         $.ajax({
@@ -6,7 +6,12 @@ function simpleForm(formSelector, redirectUrl) {
             url: el.getAttribute("action"),
             data: $(el).serialize(),
             success: function (response) {
-                window.location.href = redirectUrl;
+                if (action instanceof Function) {
+                    window.R = response
+                    action(response)
+                } else {
+                    window.location.href = action;
+                }
             },
             error: function (request, status, error) {
                 alert(request.responseText);
