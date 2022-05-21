@@ -63,14 +63,14 @@ log:
 integrations:
 	ssh root@172.104.148.60 python3 scripts/integrations.py
 
-out/pages/imprint.html: templates/pages/imprint.html.j2 templates/pages/base.html.j2
-	yasha -o out/pages/imprint.html --extensions templates/ext.py templates/pages/imprint.html.j2
+out/pages/imprint.html: templates/pages/imprint.html templates/pages/base.html
+	yasha -o out/pages/imprint.html --extensions templates/ext.py templates/pages/imprint.html
 
-out/pages/privacy.html: templates/pages/privacy.html.j2 templates/pages/base.html.j2
-	yasha -o out/pages/privacy.html --extensions templates/ext.py templates/pages/privacy.html.j2
+out/pages/privacy.html: templates/pages/privacy.html templates/pages/base.html
+	yasha -o out/pages/privacy.html --extensions templates/ext.py templates/pages/privacy.html
 
-out/pages/invest.html: templates/pages/invest.html.j2 templates/pages/base.html.j2
-	yasha -o out/pages/invest.html --extensions templates/ext.py templates/pages/invest.html.j2
+out/pages/invest.html: templates/pages/invest.html templates/pages/base.html
+	yasha -o out/pages/invest.html --extensions templates/ext.py templates/pages/invest.html
 
 
 all: out/pages out/pages/imprint.html out/pages/privacy.html out/pages/invest.html
