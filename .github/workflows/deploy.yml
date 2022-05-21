@@ -38,6 +38,10 @@ jobs:
         run: make blog
         shell: bash
 
+      -
+        name: "Install jinja markdown tag"
+        run: pip3 install jinja_markdown
+
       - 
         env: 
           IP: "${{secrets.IP}}"
