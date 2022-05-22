@@ -33,7 +33,6 @@ jobs:
         name: "Install pelican"
         run: pip3 install pelican Markdown
 
-
       -
         name: "Install jinja markdown tag"
         run: pip3 install jinja_markdown
@@ -43,7 +42,7 @@ jobs:
         run: pip3 install yasha
 
       -
-        name: "Build pages"
+        name: "make all"
         run: make all
 
       - 
