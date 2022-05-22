@@ -10,7 +10,7 @@ THEME = "counter"
 
 PATH = "content"
 
-OUTPUT_PATH = "../static/blog"
+OUTPUT_PATH = "../out/blog"
 
 TIMEZONE = "Europe/Berlin"
 
