@@ -17,10 +17,6 @@ devserver:
 tests:
 	. .config/test.sh && $(go) test
 
-.PHONY: blog
-blog:
-	cd .pelican && pelican content
-
 .PHONY: format
 format:
 	plash --from alpine:3.11 --apk npm --run 'npm i prettier --global' -- prettier --write .
@@ -67,6 +63,12 @@ log:
 integrations:
 	ssh root@172.104.148.60 python3 scripts/integrations.py
 
+
+static/blog: templates/blog/* $(shell find posts)
+	cd .pelican && pelican content
+	touch static/blog # mark as done
+
+
 out/pages/imprint.html: templates/pages/imprint.html templates/pages/base.html
 	yasha -o out/pages/imprint.html --extensions templates/ext.py templates/pages/imprint.html
 
@@ -77,7 +79,7 @@ out/pages/invest.html: templates/pages/invest.html templates/pages/base.html
 	yasha -o out/pages/invest.html --extensions templates/ext.py templates/pages/invest.html
 
 
-all: out/pages out/pages/imprint.html out/pages/privacy.html out/pages/invest.html
+all: out/pages static/blog out/pages/imprint.html out/pages/privacy.html out/pages/invest.html
 
 
 .PHONY: clean

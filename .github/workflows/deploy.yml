@@ -33,10 +33,6 @@ jobs:
         name: "Install pelican"
         run: pip3 install pelican Markdown
 
-      - 
-        name: "Generate blog"
-        run: make blog
-        shell: bash
 
       -
         name: "Install jinja markdown tag"
