@@ -2,10 +2,10 @@
 alpineversion = 3.11
 go = $(abspath ./scripts/go)
 
+.DEFAULT_GOAL := all
 
 include .config/makefile*.env
 export
-
 
 
 .PHONY: devserver
