@@ -1015,8 +1015,7 @@ nav a {
   display: flex;
 }
 .nav-footer-one,
-.nav-footer-two,
-.nav-footer-three {
+.nav-footer-two {
   width: 160px;
 }
 .nav-footer-one {

@@ -18,7 +18,7 @@ customElements.define(
                           <nav class="nav-footer">
                             <div class="nav-footer-one">
                               <ul>
-                                <!-- <li><a href="#" target="_blank" rel="nofollow">Blog</a></li> -->
+                                <li><a href="/blog" target="_blank" rel="nofollow">Blog</a></li>
                                 <li><a href="mailto:hey@counter.dev" target="_blank" rel="nofollow">Feedback</a></li>
                                 <li><a href="https://www.paypal.com/donate/?hosted_button_id=3AV353CXCEN9E" target="_blank" rel="nofollow">Donate</a></li>
                               </ul>
@@ -27,12 +27,6 @@ customElements.define(
                               <ul>
                                 <li><a href="/pages/privacy.html" rel="nofollow">Privacy</a></li>
                                 <li><a href="/pages/imprint.html" rel="nofollow">Imprint</a></li>
-                              </ul>
-                            </div>
-                            <div class="nav-footer-three">
-                              <ul>
-                                <li><a href="#" style="visibility: hidden;">dummy</a></li>
-                                <li><a href="/pages/invest.html" rel="nofollow">Invest</a></li>
                               </ul>
                             </div>
                           </nav>
