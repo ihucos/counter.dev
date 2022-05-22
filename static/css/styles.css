@@ -137,14 +137,14 @@ section .content {
 /* Typography */
 h1,
 .h1 {
-  font: "Poppins";
+  font-family: "Poppins";
   font-size:  72px;
   font-weight: 700;
   line-height: 96px;
 }
 h2,
 .h2 {
-  font: "Poppins";
+  font-family: "Poppins";
   font-size:  37px;
   font-weight: 700;
   line-height: 48px;
