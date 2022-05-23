@@ -1,4 +1,4 @@
-/* =========== © 2020 counter.dev =========== */
+/* =========== © 2022 counter.dev =========== */
 
 /* Reset */
 * {
@@ -137,22 +137,17 @@ section .content {
 /* Typography */
 h1,
 .h1 {
-  font-family: "Poppins";
-  font-size:  72px;
-  font-weight: 700;
+  font: 700 72px "Poppins";
   line-height: 96px;
 }
 h2,
 .h2 {
-  font-family: "Poppins";
-  font-size:  37px;
-  font-weight: 700;
+  font: 700 37px "Poppins";
   line-height: 48px;
 }
 h3,
 .h3 {
-  font-size: 22px;
-  font-weight: 700;
+  font: 700 22px "Poppins";
   line-height: 30px;
 }
 .title {
