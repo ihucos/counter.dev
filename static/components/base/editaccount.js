@@ -48,7 +48,7 @@ customElements.define(
                               placeholder="Repeat new password"
                           /></label>
                         </div>
-                        <span class="caption gray">We do not recover passwords!</span>
+                        <span class="caption gray"><i>We do not recover passwords!</i></span>
                         <!-- Whitelist domains -->
                         <div class="title mb16 mt24">Listed Domains</div>
 
