@@ -6,8 +6,6 @@
 {% block head %}
   {{ super() }}
 
-  <link rel="stylesheet" type="text/css" href="/css/markdown.css" />
-
   {% import 'translations.html' as translations with context %}
   {% if translations.entry_hreflang(article) %}
     {{ translations.entry_hreflang(article) }}

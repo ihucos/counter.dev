@@ -18,7 +18,7 @@ customElements.define(
                           <nav class="nav-footer">
                             <div class="nav-footer-one">
                               <ul>
-                                <li><a href="/blog" target="_blank" rel="nofollow">Blog</a></li>
+                                <li><a href="/blog">Blog</a></li>
                                 <li><a href="mailto:hey@counter.dev" target="_blank" rel="nofollow">Feedback</a></li>
                                 <li><a href="https://www.paypal.com/donate/?hosted_button_id=3AV353CXCEN9E" target="_blank" rel="nofollow">Donate</a></li>
                               </ul>
