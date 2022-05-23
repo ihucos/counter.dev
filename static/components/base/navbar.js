@@ -149,7 +149,7 @@ May the world live in peace and unity, we are all the same.<br/>
                    <a href="/index.html" class="logotype"></a>
                    <!-- Navigation -->
                    <nav class="nav-header">
-                     <!-- <a href="#" class="mr32" target="_blank" rel="nofollow">Blog</a> -->
+                     <a href="/blog" class="mr32">Blog</a>
                      <a href="mailto:hey@counter.dev" class="mr32" target="_blank" rel="nofollow">Feedback</a>
                      <a href="https://www.paypal.com/donate/?hosted_button_id=3AV353CXCEN9E" class="mr32" target="_blank" rel="nofollow">Donate</a>
                      <a
@@ -207,9 +207,7 @@ May the world live in peace and unity, we are all the same.<br/>
                              </div>
                            </div>
                            <!-- /// -->
-                           <!-- <a href="#" class="mb24" target="_blank" rel="nofollow"
-                               >Blog</a
-                           > -->
+                           <a href="/blog" class="mb24">Blog</a>
                            <a href="/dashboard" class="has-user mb24" target="_blank" rel="nofollow" style="display: none">
                              Dashboard
                            </a>
