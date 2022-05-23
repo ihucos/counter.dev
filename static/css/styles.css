@@ -491,7 +491,6 @@ a:active {
 label {
   display: inline-block;
   font: 400 14px "Nunito Sans";
-  line-height: 32px;
 }
 label:focus-within {
   color: #147efb;
@@ -508,6 +507,7 @@ input[type="password"] {
   font: 400 18px "Nunito Sans";
   color: #121212;
   padding: 11px 16px;
+  margin-top: 8px;
   transition: border 0.2s;
 }
 textarea:hover,
