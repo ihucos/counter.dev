@@ -1022,6 +1022,15 @@ nav a {
 .footer-contacts-social {
   height: 24px;
 }
+.footer-status::after {
+	content: "";
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background-color: #53D769;
+	margin: 0 0 1px 4px;
+}
 
 .github {
   display: inline-block;
