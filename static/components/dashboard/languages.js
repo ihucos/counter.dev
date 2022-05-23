@@ -10,7 +10,7 @@ customElements.define(
             this.innerHTML = `
           <div class="metrics-three-item">
             <div class="metrics-headline">
-              <img src="img/languages.svg" width="24" height="24" alt="Languages">
+              <img src="/img/languages.svg" width="24" height="24" alt="Languages">
               <h3 class="ml16">Languages</h3>
             </div>
             <div class="metrics-three-data bg-white radius-lg shadow-sm">

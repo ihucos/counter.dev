@@ -7,7 +7,7 @@ customElements.define(
             let baseUrl = window.location.href.split(/[\?#]/)[0];
             if (meta.sessionless) {
                 this.innerHTML = `
-                    <img src="img/eye.svg" width="20" height="18" alt="Shareable" />
+                    <img src="/img/eye.svg" width="20" height="18" alt="Shareable" />
                     <span class="gray ml8 mr16">You are viewing ${escapeHtml(
                         user.id
                     )}'s dashboard as guest</span>
@@ -22,7 +22,7 @@ customElements.define(
                     "&token=" +
                     encodeURIComponent(user.token);
                 this.innerHTML = `
-                    <img src="img/eye.svg" width="20" height="18" alt="Shareable" />
+                    <img src="/img/eye.svg" width="20" height="18" alt="Shareable" />
                     <span class="gray ml8 mr16">This account has guest access</span>
                     <a data-clipboard-text="${escapeHtml(
                         shareLink
@@ -39,7 +39,7 @@ customElements.define(
             } else {
                 this.innerHTML = `
                     <img
-                      src="img/eye-slash.svg"
+                      src="/img/eye-slash.svg"
                       width="20"
                       height="18"
                       alt="Not shareable"

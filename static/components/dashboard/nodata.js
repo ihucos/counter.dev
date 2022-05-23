@@ -24,7 +24,7 @@ customElements.define(
                   min-height: 6rem;
                 }
                 </style>
-                <img src="img/nodata.svg"></img><span>No data</span>`;
+                <img src="/img/nodata.svg"></img><span>No data</span>`;
         }
     }
 );

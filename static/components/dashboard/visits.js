@@ -7,7 +7,7 @@ customElements.define(
             this.innerHTML = `
         <div class="metrics-four-item">
           <div class="metrics-headline">
-            <img src="img/visit.svg" width="24" height="24" alt="Visits">
+            <img src="/img/visit.svg" width="24" height="24" alt="Visits">
             <h3 class="ml16">Visits</h3>
           </div>
           <div class="metrics-three-data bg-white radius-lg shadow-sm">

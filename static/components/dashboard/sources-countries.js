@@ -171,7 +171,7 @@ customElements.define(
                   <!-- Sources -->
                   <div class="sources" id="sources">
                     <div class="metrics-headline">
-                      <img src="img/sources.svg" width="24" height="24" alt="Sources" />
+                      <img src="/img/sources.svg" width="24" height="24" alt="Sources" />
                       <h3 class="ml16">Sources</h3>
                     </div>
                     <div class="sources-countries-data caption gray bg-gray mt16 mb24">
@@ -207,7 +207,7 @@ customElements.define(
                             <span class="black strong view-all-text animation">View all</span>
                           </span>
                           <img
-                            src="img/chevron-right.svg"
+                            src="/img/chevron-right.svg"
                             width="24"
                             height="24"
                             alt="Chevron"
@@ -221,7 +221,7 @@ customElements.define(
                   <div class="countries" id="countries">
                     <div class="metrics-headline">
                       <img
-                        src="img/countries.svg"
+                        src="/img/countries.svg"
                         width="24"
                         height="24"
                         alt="Countries"
@@ -261,7 +261,7 @@ customElements.define(
                             <span class="black strong view-all-text animation">View all</span>
                           </span>
                           <img
-                            src="img/chevron-right.svg"
+                            src="/img/chevron-right.svg"
                             width="24"
                             height="24"
                             alt="Chevron"
@@ -286,7 +286,7 @@ customElements.define(
                 <!-- Sources modal -->
                 <div id="modal-sources" style="display: none">
                   <div class="modal-header">
-                    <img src="img/sources.svg" width="24" height="24" alt="Sources" />
+                    <img src="/img/sources.svg" width="24" height="24" alt="Sources" />
                     <h3 class="ml16">Sources</h3>
                     <a href="#" class="btn-close" rel="modal:close"></a>
                   </div>
@@ -307,7 +307,7 @@ customElements.define(
                 <!-- Countries modal -->
                 <div id="modal-countries" style="display: none">
                   <div class="modal-header">
-                    <img src="img/countries.svg" width="24" height="24" alt="Countries" />
+                    <img src="/img/countries.svg" width="24" height="24" alt="Countries" />
                     <h3 class="ml16">Countries</h3>
                     <a href="#" class="btn-close" rel="modal:close"></a>
                   </div>

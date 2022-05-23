@@ -173,8 +173,8 @@ May the world live in peace and unity, we are all the same.<br/>
                        </div>
                      </div>
                      <span class="no-user profile-guest" style="display: none">
-                       <a href="welcome.html?sign-in" class="ml32 mr32">Log in</a>
-                       <a href="welcome.html?sign-up" class="btn-primary">Sign up</a>
+                       <a href="/welcome.html?sign-in" class="ml32 mr32">Log in</a>
+                       <a href="/welcome.html?sign-up" class="btn-primary">Sign up</a>
                      </span>
                      <!-- /// -->
                    </nav>
@@ -184,13 +184,13 @@ May the world live in peace and unity, we are all the same.<br/>
                      <label class="hamburger-btn" for="hamburger-toggle"></label>
                      <div class="hamburger-box">
                        <div class="hamburger-content">
-                         <img src="img/avatar.svg" width="96" height="96" alt="Avatar" />
+                         <img src="/img/avatar.svg" width="96" height="96" alt="Avatar" />
                          <!-- Navigation -->
                          <nav class="nav-header-mob">
                            <!-- Guest -->
                            <span class="no-user mt48 mb48" style="display: none">
-                             <a href="welcome.html?sign-in" class="btn-primary mr16">Log in</a>
-                             <a href="welcome.html?sign-up" class="btn-secondary">Sign up</a>
+                             <a href="/welcome.html?sign-in" class="btn-primary mr16">Log in</a>
+                             <a href="/welcome.html?sign-up" class="btn-secondary">Sign up</a>
                            </span>
                            <!-- User -->
                            <div class="has-user" style="display: none">

@@ -7,7 +7,7 @@ customElements.define(
                 <!-- Edit account modal -->
                 <div id="modal-account" style="display: none">
                   <div class="modal-header">
-                    <img src="img/account.svg" width="24" height="24" alt="Edit account" />
+                    <img src="/img/account.svg" width="24" height="24" alt="Edit account" />
                     <h3 class="ml16">Edit account</h3>
                     <a href="#" class="btn-close" rel="modal:close"></a>
                   </div>
@@ -78,7 +78,7 @@ customElements.define(
                         <!-- Request delete -->
                         <div class="delete-request">
                           <div class="danger-message caption full mr16">
-                            <img src="img/alert.svg" width="24" height="24" alt="Alert" />
+                            <img src="/img/alert.svg" width="24" height="24" alt="Alert" />
                             <span class="ml16"
                               >Deleting your account removes all data you've
                               collected!</span
