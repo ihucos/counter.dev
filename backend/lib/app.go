@@ -105,12 +105,12 @@ func NewApp() *App {
 	logger := log.New(io.MultiWriter(os.Stdout, logFile), "", log.LstdFlags|log.Lshortfile)
 
 	serveMux := http.NewServeMux()
+
 	fs := http.FileServer(http.Dir("./static"))
 	serveMux.Handle("/", fs)
 
 	fs = http.FileServer(http.Dir("./out/pages"))
 	serveMux.Handle("/pages/", http.StripPrefix("/pages/", fs))
-
 
 	fs = http.FileServer(http.Dir("./out/blog"))
 	serveMux.Handle("/blog/", http.StripPrefix("/blog/", fs))
@@ -125,7 +125,36 @@ func NewApp() *App {
 	return app
 }
 
+type Mux struct {
+	staging, main *http.ServeMux
+}
+
+func (mux *Mux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	domainParts := strings.Split(r.Host, ".")
+	//panic(domainParts[0])
+	if domainParts[0] == "staging" {
+		mux.staging.ServeHTTP(w, r)
+		return
+	}
+	mux.main.ServeHTTP(w, r)
+}
+
 func (app App) Serve() {
+
+	mux := &Mux{
+		staging: http.NewServeMux(),
+		main:    app.ServeMux,
+	}
+
+	fs := http.FileServer(http.Dir("./staging/static"))
+	mux.staging.Handle("/", fs)
+
+	fs = http.FileServer(http.Dir("./staging/out/pages"))
+	mux.staging.Handle("/pages/", http.StripPrefix("/pages/", fs))
+
+	fs = http.FileServer(http.Dir("./staging/out/blog"))
+	mux.staging.Handle("/blog/", http.StripPrefix("/blog/", fs))
+
 	srv := &http.Server{
 		Addr:        app.Config.Bind,
 		ReadTimeout: 5 * time.Second,
@@ -134,7 +163,7 @@ func (app App) Serve() {
 		WriteTimeout: 0,
 
 		IdleTimeout: 120 * time.Second,
-		Handler:     app.ServeMux,
+		Handler:     mux,
 	}
 	fmt.Println("Listening at", app.Config.Bind)
 	err := srv.ListenAndServe()

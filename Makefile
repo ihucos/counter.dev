@@ -63,6 +63,10 @@ log:
 integrations:
 	ssh root@172.104.148.60 python3 scripts/integrations.py
 
+.PHONY: promote-deployment
+promote-deployment:
+	ssh root@172.104.148.60 cp -r out static staging
+
 
 out/blog: templates/blog/* $(shell find posts)
 	mkdir -p out/blog
