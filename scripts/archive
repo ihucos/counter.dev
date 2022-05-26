@@ -20,8 +20,6 @@ CREATE TABLE IF NOT EXISTS record (
 )"""
 )
 
-
-
 conn.execute("CREATE INDEX IF NOT EXISTS idx_record_user ON record (user)")
 conn.execute("CREATE INDEX IF NOT EXISTS idx_record_site ON record (site)")
 conn.execute("CREATE INDEX IF NOT EXISTS idx_record_date ON record (date)")
@@ -34,34 +32,34 @@ r = StrictRedis()
 ZET_TYPE = ["lang", "ref", "loc", "origin"]
 
 
-def write(*, user, site, dimension, date, type, count):
-    # print(user, site, dimension, date, type, count)
-    conn.execute(
-        """INSERT OR REPLACE INTO record (user, site, date, dimension, type, count)
-           VALUES(?, ?, ?, ?, ?, ?)""",
-        [user, site, dimension, date, type, count],
-    )
+def unparse_redis_key(redis_key):
+    """
+    Example:
+    In: v:counter.dev,counter,date,2022-05-26
+    Out: ('counter.dev', 'counter, 'date', '2022-05-26')
+    """
+    return list(unquote(i) for i in redis_key[2:].decode().split(","))
 
 
-def process_keys(keys):
+def process_redis_keys(keys):
+
+    # Load values assigned to the keys
     pipe = r.pipeline()
     parts_list = []
     for key in keys:
-        parts = [unquote(i) for i in key[2:].decode().split(",")]
+        parts = unparse_redis_key(key)
         parts_list.append(parts)
         _, _, field, _ = parts
         if field in ZET_TYPE:
             pipe.zrange(key, 0, -1, withscores=True)
         else:
             pipe.hgetall(key)
-
     results = pipe.execute()
-    batch = []
+
+    # Write values to sqlite database
     for parts, result in zip(parts_list, results):
         origin, user_id, field, time_range = parts
         for key, value in dict(result).items():
-            value = int(value)
-
             conn.execute(
                 """INSERT OR REPLACE INTO record (user, site, date, dimension, type, count)
                    VALUES(?, ?, ?, ?, ?, ?)""",
@@ -72,7 +70,7 @@ def process_keys(keys):
 cursor = 0
 while True:
     cursor, results = r.scan(cursor, match="v:*,*,*,*-*-*", count=100)
-    process_keys(results)
+    process_redis_keys(results)
     if not cursor:
         break
 
