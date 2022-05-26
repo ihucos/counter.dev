@@ -22,18 +22,12 @@ CREATE TABLE IF NOT EXISTS record (
 
 
 
-conn.execute("CREATE INDEX IF NOT EXISTS idx_record_user_iste ON record (user, site)")
+conn.execute("CREATE INDEX IF NOT EXISTS idx_record_user ON record (user)")
+conn.execute("CREATE INDEX IF NOT EXISTS idx_record_site ON record (site)")
 conn.execute("CREATE INDEX IF NOT EXISTS idx_record_date ON record (date)")
+conn.execute("CREATE INDEX IF NOT EXISTS idx_record_dimension ON record (dimension)")
+conn.execute("CREATE INDEX IF NOT EXISTS idx_record_type ON record (type)")
 
-
-# This pragmas can corrupt the databse. This needs to be compensated on the
-# operational level by regular backups.
-conn.execute("PRAGMA journal_mode = OFF;")
-conn.execute("PRAGMA synchronous = 0;")
-conn.execute("PRAGMA cache_size = 1000000;")
-conn.execute("PRAGMA locking_mode = EXCLUSIVE;")
-conn.execute("PRAGMA temp_store = MEMORY;")
-#conn.isolation_level = None
 
 r = StrictRedis()
 
@@ -67,13 +61,12 @@ def process_keys(keys):
         origin, user_id, field, time_range = parts
         for key, value in dict(result).items():
             value = int(value)
-            batch.append((user_id, origin, field, time_range, key, value))
-        conn.executemany(
-            """INSERT OR REPLACE INTO record (user, site, date, dimension, type, count)
-               VALUES(?, ?, ?, ?, ?, ?)""",
-            batch,
-        )
-        conn.commit()
+
+            conn.execute(
+                """INSERT OR REPLACE INTO record (user, site, date, dimension, type, count)
+                   VALUES(?, ?, ?, ?, ?, ?)""",
+                (user_id, origin, field, time_range, key, value),
+            )
 
 
 cursor = 0
@@ -82,3 +75,5 @@ while True:
     process_keys(results)
     if not cursor:
         break
+
+conn.commit()
