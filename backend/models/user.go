@@ -14,7 +14,7 @@ import (
 
 type User struct {
 	redis redis.Conn
-	DB *gorm.DB
+	DB    *gorm.DB
 	Id    string
 }
 
@@ -270,25 +270,29 @@ func (user User) HandleSignals(conn redis.Conn, cb func(error)) {
 	}
 }
 
-
 type Record struct {
 	Site      string
 	Dimension string
-	Type_     string `gorm:"column:type" json:"type"`
-	Count     int
+	Type     string
+	Count     int64
 }
 
 type QueryArgs struct {
-	DateFrom      string
-	DateTo 	string
+	DateFrom string
+	DateTo   string
 }
 
-func (user User) Query(queryArgs QueryArgs) (VisitsData, error) {
-	visits := VisitsData{}
+
+type QueryVisitsResult map[string]map[string]map[string]int64
+
+func (user User) QueryVisits(queryArgs QueryArgs) (QueryVisitsResult, error) {
+	visits := QueryVisitsResult{}
 	query := user.DB.Model(&Record{}).Select(
 		"site,dimension,type,sum(count) as count")
 
-	// important line!!
+	// XXXXXXXXXXXXXXXXXX
+	// X important line X
+	// XXXXXXXXXXXXXXXXXX
 	query = query.Where("user = ?", user.Id)
 
 	if queryArgs.DateFrom != "" {
@@ -306,12 +310,10 @@ func (user User) Query(queryArgs QueryArgs) (VisitsData, error) {
 	}
 	defer rows.Close()
 
-	result := []Record{}
+	record := Record{}
 	for rows.Next() {
-		//record := map[string]interface{}{}
-		record := Record{}
 		user.DB.ScanRows(rows, &record)
-		result = append(result, record)
+		visits[record.Site][record.Dimension][record.Type] = record.Count
 	}
 	return visits, nil
 }
