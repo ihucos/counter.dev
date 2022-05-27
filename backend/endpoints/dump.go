@@ -41,6 +41,14 @@ func init() {
 			return
 		}
 
+
+		// Send in the first data: archive data
+		data, err := user.QueryVisits(models.QueryVisitsArgs{})
+		ctx.CatchError(err)
+		jsonString, err := json.Marshal(data)
+		ctx.CatchError(err)
+		fmt.Fprintf(ctx.W, "data: %s\n\n", string(jsonString))
+
 		sendDump := func() {
 			dump, err := LoadDump(user, utcOffset)
 			ctx.CatchError(err)

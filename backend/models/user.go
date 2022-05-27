@@ -277,7 +277,7 @@ type Record struct {
 	Count     int64
 }
 
-type QueryArgs struct {
+type QueryVisitsArgs struct {
 	DateFrom string
 	DateTo   string
 }
@@ -285,8 +285,8 @@ type QueryArgs struct {
 
 type QueryVisitsResult map[string]map[string]map[string]int64
 
-func (user User) QueryVisits(queryArgs QueryArgs) (QueryVisitsResult, error) {
-	visits := QueryVisitsResult{}
+func (user User) QueryVisits(queryArgs QueryVisitsArgs) (QueryVisitsResult, error) {
+	visits := make(QueryVisitsResult)
 	query := user.DB.Model(&Record{}).Select(
 		"site,dimension,type,sum(count) as count")
 
@@ -313,7 +313,15 @@ func (user User) QueryVisits(queryArgs QueryArgs) (QueryVisitsResult, error) {
 	record := Record{}
 	for rows.Next() {
 		user.DB.ScanRows(rows, &record)
+
+
+		_, ok := visits[record.Site]
+		if !ok {
+		    child = make(map[string]map[string]int64)
+		}
+
 		visits[record.Site][record.Dimension][record.Type] = record.Count
+
 	}
 	return visits, nil
 }
