@@ -315,9 +315,14 @@ func (user User) QueryVisits(queryArgs QueryVisitsArgs) (QueryVisitsResult, erro
 		user.DB.ScanRows(rows, &record)
 
 
+		// init boilerplate
 		_, ok := visits[record.Site]
 		if !ok {
-		    child = make(map[string]map[string]int64)
+		    visits[record.Site] = make(map[string]map[string]int64)
+		}
+		_, ok = visits[record.Site][record.Dimension]
+		if !ok {
+		    visits[record.Site][record.Dimension] = make(map[string]int64)
 		}
 
 		visits[record.Site][record.Dimension][record.Type] = record.Count
