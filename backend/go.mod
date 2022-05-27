@@ -8,4 +8,6 @@ require (
 	github.com/gorilla/sessions v1.2.1
 	golang.org/x/text v0.3.6
 	golang.org/x/tools v0.1.4 // indirect
+	gorm.io/driver/sqlite v1.3.2
+	gorm.io/gorm v1.23.5
 )
