@@ -9,10 +9,12 @@ import (
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/utils"
+	"gorm.io/gorm"
 )
 
 type User struct {
 	redis redis.Conn
+	DB *gorm.DB
 	Id    string
 }
 
@@ -44,8 +46,8 @@ func truncate(stri string) string {
 	return stri
 }
 
-func NewUser(conn redis.Conn, userId string) User {
-	return User{redis: conn, Id: truncate(userId)}
+func NewUser(userId string, db *gorm.DB, conn redis.Conn) User {
+	return User{redis: conn, Id: truncate(userId), DB: db}
 }
 
 func (user User) DelAllSites() error {
@@ -266,4 +268,50 @@ func (user User) HandleSignals(conn redis.Conn, cb func(error)) {
 			cb(v)
 		}
 	}
+}
+
+
+type Record struct {
+	Site      string
+	Dimension string
+	Type_     string `gorm:"column:type" json:"type"`
+	Count     int
+}
+
+type QueryArgs struct {
+	DateFrom      string
+	DateTo 	string
+}
+
+func (user User) Query(queryArgs QueryArgs) (VisitsData, error) {
+	visits := VisitsData{}
+	query := user.DB.Model(&Record{}).Select(
+		"site,dimension,type,sum(count) as count")
+
+	// important line!!
+	query = query.Where("user = ?", user.Id)
+
+	if queryArgs.DateFrom != "" {
+		query.Where("date > ?", queryArgs.DateFrom)
+	}
+	if queryArgs.DateTo != "" {
+		query.Where("date > ?", queryArgs.DateTo)
+	}
+
+	query = query.Group("site,dimension,type")
+
+	rows, err := query.Rows()
+	if err != nil {
+		return visits, err
+	}
+	defer rows.Close()
+
+	result := []Record{}
+	for rows.Next() {
+		//record := map[string]interface{}{}
+		record := Record{}
+		user.DB.ScanRows(rows, &record)
+		result = append(result, record)
+	}
+	return visits, nil
 }
