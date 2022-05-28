@@ -7,11 +7,11 @@ import (
 )
 
 type Record struct {
-	User      string
-	Site      string
-	Dimension string
-	Type      string
-	Count     int64
+	User      string  `gorm:"index:idx_unique,unique"`
+	Site      string  `gorm:"index:idx_unique,unique"`
+	Dimension string  `gorm:"index:idx_unique,unique"`
+	Type      string  `gorm:"index:idx_unique,unique"`
+	Count     int64  `gorm:"index:idx_unique,unique"`
 }
 
 func (app *App) AutoMigrate() {
@@ -23,6 +23,7 @@ func (app *App) ArchiveHotVisits() error {
 	iter := 0
 	conn := app.RedisPool.Get()
 	defer conn.Close()
+	tx := app.DB.Begin()
 	for {
 		arr, err := redis.Values(conn.Do("SCAN", iter, "MATCH", "v:*,*,*,*-*-*", "COUNT", "100"))
 		if err != nil {
@@ -68,6 +69,8 @@ func (app *App) ArchiveHotVisits() error {
 					Type:      key,
 					Count:     count,
 				}
+				tx.Create(&record)
+				fmt.Println(record)
 			}
 		}
 
@@ -75,6 +78,7 @@ func (app *App) ArchiveHotVisits() error {
 			break
 		}
 	}
+	tx.Commit()
 
 	return nil
 
