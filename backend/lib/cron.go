@@ -4,14 +4,16 @@ import (
 	"fmt"
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/models"
+	"time"
+	"gorm.io/gorm/clause"
 )
 
 type Record struct {
-	User      string  `gorm:"index:idx_unique,unique"`
-	Site      string  `gorm:"index:idx_unique,unique"`
-	Dimension string  `gorm:"index:idx_unique,unique"`
-	Type      string  `gorm:"index:idx_unique,unique"`
-	Count     int64  `gorm:"index:idx_unique,unique"`
+	User      string `gorm:"index:idx_unique"`
+	Site      string `gorm:"index:idx_unique"`
+	Dimension string `gorm:"index:idx_unique"`
+	Type      string `gorm:"index:idx_unique"`
+	Count     int64  `gorm:"index:idx_unique"`
 }
 
 func (app *App) AutoMigrate() {
@@ -19,24 +21,25 @@ func (app *App) AutoMigrate() {
 
 }
 
-func (app *App) ArchiveHotVisits() error {
+func (app *App) ArchiveHotVisits() {
 	iter := 0
 	conn := app.RedisPool.Get()
 	defer conn.Close()
 	tx := app.DB.Begin()
+	start := time.Now()
 	for {
-		arr, err := redis.Values(conn.Do("SCAN", iter, "MATCH", "v:*,*,*,*-*-*", "COUNT", "100"))
+		arr, err := redis.Values(conn.Do("SCAN", iter, "MATCH", "v:*,*,*,*-*-*", "COUNT", "1000"))
 		if err != nil {
-			return err
+			panic(err)
 		}
 
 		iter, err = redis.Int(arr[0], nil)
 		if err != nil {
-			return err
+			panic(err)
 		}
 		keys, err := redis.Strings(arr[1], nil)
 		if err != nil {
-			return err
+			panic(err)
 		}
 
 		// Process this keys batch
@@ -55,12 +58,12 @@ func (app *App) ArchiveHotVisits() error {
 
 		}
 
+		conn.Flush()
 		for _, vik := range viks {
 			v, err := redis.Int64Map(conn.Receive())
 			if err != nil {
-				return err
+				panic(err)
 			}
-			fmt.Println("hi")
 			for key, count := range v {
 				record := Record{
 					User:      vik.UserId,
@@ -69,8 +72,11 @@ func (app *App) ArchiveHotVisits() error {
 					Type:      key,
 					Count:     count,
 				}
-				fmt.Println(record)
-				tx.Create(&record)
+				tx.Clauses(clause.OnConflict{
+					UpdateAll: true,
+				}).Create(&record)
+				// Not working!
+				// USE WAL. Currently reads are locked by writes
 			}
 		}
 
@@ -80,6 +86,5 @@ func (app *App) ArchiveHotVisits() error {
 	}
 	tx.Commit()
 
-	return nil
-
+	fmt.Printf(" execution time %s\n", time.Since(start))
 }
