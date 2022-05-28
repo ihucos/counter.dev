@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"net/url"
 	"time"
+	"strings"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/utils"
@@ -37,16 +38,39 @@ type VisitItemKey struct {
 	TimeRange string
 	UserId    string
 	Origin    string
-	field     string
+	Field     string
 }
 
 func (vik VisitItemKey) String() string {
 	return fmt.Sprintf("v:%s,%s,%s,%s",
 		url.QueryEscape(vik.Origin),
 		url.QueryEscape(vik.UserId),
-		url.QueryEscape(vik.field),
+		url.QueryEscape(vik.Field),
 		url.QueryEscape(vik.TimeRange))
 
+}
+
+func (vik VisitItemKey) FromString(key string) {
+	parts := strings.Split(strings.TrimSuffix(key, "v:"), ",")
+	vik.Origin = parts[0]
+	vik.UserId = parts[1]
+	vik.Field = parts[2]
+	vik.TimeRange = parts[3]
+
+}
+
+func (vik VisitItemKey) RedisType() string {
+    for _, i := range fieldsHash {
+        if i == vik.Field {
+            return "hash"
+        }
+    }
+    for _, i := range fieldsZet {
+        if i == vik.Field {
+            return "zet"
+        }
+    }
+    return ""
 }
 
 type Site struct {
@@ -87,7 +111,7 @@ func formatWeekRedisKey(time time.Time) string {
 func (site Site) saveVisitPart(timeRange string, data Visit, expireAt time.Time) {
 	var redisKey string
 	for _, field := range fieldsZet {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, Field: field, Origin: site.id, UserId: site.userId}.String()
 		val := data[field]
 		if val != "" {
 			site.redis.Send("ZINCRBY", redisKey, 1, truncate(val))
@@ -101,7 +125,7 @@ func (site Site) saveVisitPart(timeRange string, data Visit, expireAt time.Time)
 	}
 
 	for _, field := range fieldsHash {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, Field: field, Origin: site.id, UserId: site.userId}.String()
 		val := data[field]
 		if val != "" {
 			site.redis.Send("HINCRBY", redisKey, truncate(val), 1)
@@ -172,13 +196,13 @@ func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 	var redisKey string
 	var fields []string
 	for _, field := range fieldsZet {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, Field: field, Origin: site.id, UserId: site.userId}.String()
 		fields = append(fields, field)
 		site.redis.Send("ZRANGE", redisKey, 0, -1, "WITHSCORES")
 	}
 	for _, field := range fieldsHash {
 		fields = append(fields, field)
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, Field: field, Origin: site.id, UserId: site.userId}.String()
 		site.redis.Send("HGETALL", redisKey)
 	}
 	site.redis.Flush()
@@ -198,11 +222,11 @@ func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 func (site Site) delVisitPart(timeRange string) {
 	var redisKey string
 	for _, field := range fieldsZet {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, Field: field, Origin: site.id, UserId: site.userId}.String()
 		site.redis.Send("DEL", redisKey)
 	}
 	for _, field := range fieldsHash {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, Field: field, Origin: site.id, UserId: site.userId}.String()
 		site.redis.Send("DEL", redisKey)
 	}
 }

@@ -21,6 +21,7 @@ func main() {
 
 	app := lib.NewApp()
 	app.AutoMigrate()
+	app.ArchiveHotVisits()
 	app.ConnectEndpoints()
 	app.Logger.Println("Start")
 	app.Serve()
