@@ -50,12 +50,14 @@ func (vik VisitItemKey) String() string {
 
 }
 
-func (vik VisitItemKey) FromString(key string) {
+func NewVisitItemKey(key string) VisitItemKey {
 	parts := strings.Split(strings.TrimSuffix(key, "v:"), ",")
-	vik.Origin = parts[0]
-	vik.UserId = parts[1]
-	vik.Field = parts[2]
-	vik.TimeRange = parts[3]
+	vik := VisitItemKey{}
+	vik.Origin, _ = url.QueryUnescape(parts[0])
+	vik.UserId, _ = url.QueryUnescape(parts[1])
+	vik.Field, _ = url.QueryUnescape(parts[2])
+	vik.TimeRange, _ = url.QueryUnescape(parts[3])
+	return vik
 
 }
 

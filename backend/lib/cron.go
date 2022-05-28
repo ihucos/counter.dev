@@ -42,8 +42,7 @@ func (app *App) ArchiveHotVisits() error {
 		// Process this keys batch
 		viks := []models.VisitItemKey{}
 		for _, key := range keys {
-			vik := models.VisitItemKey{}
-			vik.FromString(key)
+			vik := models.NewVisitItemKey(key)
 			redisType := vik.RedisType()
 			if redisType == "hash" {
 				conn.Send("HGETALL", key)
@@ -61,6 +60,7 @@ func (app *App) ArchiveHotVisits() error {
 			if err != nil {
 				return err
 			}
+			fmt.Println("hi")
 			for key, count := range v {
 				record := Record{
 					User:      vik.UserId,
@@ -69,8 +69,8 @@ func (app *App) ArchiveHotVisits() error {
 					Type:      key,
 					Count:     count,
 				}
-				tx.Create(&record)
 				fmt.Println(record)
+				tx.Create(&record)
 			}
 		}
 
