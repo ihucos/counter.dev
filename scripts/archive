@@ -4,7 +4,7 @@ from redis import StrictRedis
 from urllib.parse import unquote
 import sqlite3
 
-conn = sqlite3.connect("database.sqlite3")
+conn = sqlite3.connect("archive.db")
 # conn = sqlite3.connect(":memory:")
 
 conn.execute(

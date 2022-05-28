@@ -108,7 +108,7 @@ func NewApp() *App {
 	}
 	logger := log.New(io.MultiWriter(os.Stdout, logFile), "", log.LstdFlags|log.Lshortfile)
 
-	db, err := gorm.Open(sqlite.Open("database.sqlite3"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("archive.sqlite3"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect sqlite3 database")
 	}

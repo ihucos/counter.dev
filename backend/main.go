@@ -20,6 +20,7 @@ func main() {
 	}
 
 	app := lib.NewApp()
+	app.AutoMigrate()
 	app.ConnectEndpoints()
 	app.Logger.Println("Start")
 	app.Serve()
