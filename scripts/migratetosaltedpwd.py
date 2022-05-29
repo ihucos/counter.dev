@@ -10,6 +10,7 @@ def hash(stri):
     return m.digest()
 
 users =r.hgetall('users')
+t = r.pipeline(transaction=True)
 for user, pwd in users.items():
-    r.hset("users", user, hash(pwd + salt.encode()))
-
+    t.hset("users", user, hash(pwd + salt.encode()))
+t.execute()
