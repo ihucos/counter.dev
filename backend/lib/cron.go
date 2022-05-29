@@ -9,11 +9,11 @@ import (
 )
 
 type Record struct {
-	User      string `gorm:"index:idx_unique"`
-	Site      string `gorm:"index:idx_unique"`
-	Dimension string `gorm:"index:idx_unique"`
-	Type      string `gorm:"index:idx_unique"`
-	Count     int64  `gorm:"index:idx_unique"`
+	User      string `gorm:"uniqueIndex:idx_unique"`
+	Site      string `gorm:"uniqueIndex:idx_unique"`
+	Dimension string `gorm:"uniqueIndex:idx_unique"`
+	Type      string `gorm:"uniqueIndex:idx_unique"`
+	Count     int64 
 }
 
 func (app *App) AutoMigrate() {
@@ -25,7 +25,6 @@ func (app *App) ArchiveHotVisits() {
 	iter := 0
 	conn := app.RedisPool.Get()
 	defer conn.Close()
-	tx := app.DB.Begin()
 	start := time.Now()
 	for {
 		arr, err := redis.Values(conn.Do("SCAN", iter, "MATCH", "v:*,*,*,*-*-*", "COUNT", "1000"))
@@ -59,6 +58,7 @@ func (app *App) ArchiveHotVisits() {
 		}
 
 		conn.Flush()
+		tx := app.DB.Begin()
 		for _, vik := range viks {
 			v, err := redis.Int64Map(conn.Receive())
 			if err != nil {
@@ -75,16 +75,15 @@ func (app *App) ArchiveHotVisits() {
 				tx.Clauses(clause.OnConflict{
 					UpdateAll: true,
 				}).Create(&record)
-				// Not working!
-				// USE WAL. Currently reads are locked by writes
 			}
 		}
+		tx.Commit()
+		time.Sleep(100 * time.Millisecond)
 
 		if iter == 0 {
 			break
 		}
 	}
-	tx.Commit()
 
 	fmt.Printf(" execution time %s\n", time.Since(start))
 }
