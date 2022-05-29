@@ -14,6 +14,7 @@ import (
 type User struct {
 	redis redis.Conn
 	Id    string
+	passwordSalt string
 }
 
 type ErrUser struct {
@@ -44,8 +45,12 @@ func truncate(stri string) string {
 	return stri
 }
 
-func NewUser(conn redis.Conn, userId string) User {
-	return User{redis: conn, Id: truncate(userId)}
+func NewUser(conn redis.Conn, userId string, passwordSalt []byte) User {
+	return User{redis: conn, Id: truncate(userId), passwordSalt: string(passwordSalt)}
+}
+
+func (user User) hashPassword(password string) string {
+	return hash(hash(password) + user.passwordSalt)
 }
 
 func (user User) DelAllSites() error {
@@ -117,7 +122,7 @@ func (user User) Create(password string) error {
 	}
 
 	user.redis.Send("MULTI")
-	user.redis.Send("HSETNX", "users", user.Id, hash(password))
+	user.redis.Send("HSETNX", "users", user.Id, user.hashPassword(password))
 	user.redis.Send("HSETNX", "tokens", user.Id, "")
 	userVarsStatus, err := redis.Ints(user.redis.Do("EXEC"))
 	if err != nil {
@@ -135,7 +140,7 @@ func (user User) Create(password string) error {
 }
 
 func (user User) ChangePassword(password string) error {
-	_, err := user.redis.Do("HSET", "users", user.Id, hash(password))
+	_, err := user.redis.Do("HSET", "users", user.Id, user.hashPassword(password))
 	if err != nil {
 		return err
 	}
@@ -149,7 +154,7 @@ func (user User) VerifyPassword(password string) (bool, error) {
 	} else if err != nil {
 		return false, err
 	}
-	return hashedPassword != "" && hashedPassword == hash(password), nil
+	return hashedPassword != "" && hashedPassword == user.hashPassword(password), nil
 }
 
 func (user User) VerifyToken(token string) (bool, error) {
