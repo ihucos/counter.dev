@@ -8,6 +8,10 @@ import (
 	"gorm.io/gorm/clause"
 )
 
+
+const ITERATION_TIME = time.Duration(30 * time.Second)
+const CHUNK_SIZE = 30
+
 type Record struct {
 	User      string `gorm:"uniqueIndex:idx_unique"`
 	Site      string `gorm:"uniqueIndex:idx_unique"`
@@ -25,9 +29,18 @@ func (app *App) ArchiveHotVisits() {
 	iter := 0
 	conn := app.RedisPool.Get()
 	defer conn.Close()
+
+
+	dbsize, err := redis.Int64(conn.Do("dbsize"))
+	if err != nil {
+		panic(err)
+	}
+	timePerIteration := time.Duration(float64(ITERATION_TIME) / float64(dbsize / CHUNK_SIZE))
+
 	start := time.Now()
 	for {
-		arr, err := redis.Values(conn.Do("SCAN", iter, "MATCH", "v:*,*,*,*-*-*", "COUNT", "1000"))
+		startItration := time.Now()
+		arr, err := redis.Values(conn.Do("SCAN", iter, "MATCH", "v:*,*,*,*-*-*", "COUNT", CHUNK_SIZE))
 		if err != nil {
 			panic(err)
 		}
@@ -78,7 +91,9 @@ func (app *App) ArchiveHotVisits() {
 			}
 		}
 		tx.Commit()
-		time.Sleep(100 * time.Millisecond)
+
+		time.Sleep(timePerIteration - time.Since(startItration))
+
 
 		if iter == 0 {
 			break
