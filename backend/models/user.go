@@ -14,7 +14,7 @@ import (
 
 type User struct {
 	redis redis.Conn
-	DB    *gorm.DB
+	db    *gorm.DB
 	Id    string
 }
 
@@ -47,7 +47,7 @@ func truncate(stri string) string {
 }
 
 func NewUser(userId string, db *gorm.DB, conn redis.Conn) User {
-	return User{redis: conn, Id: truncate(userId), DB: db}
+	return User{redis: conn, Id: truncate(userId), db: db}
 }
 
 func (user User) DelAllSites() error {
@@ -235,7 +235,7 @@ func (user User) SetPref(key string, value string) error {
 }
 
 func (user User) NewSite(Id string) Site {
-	return Site{redis: user.redis, userId: user.Id, id: Id}
+	return Site{redis: user.redis, userId: user.Id, id: Id, db: user.db}
 }
 
 func (user User) IncrSiteLink(siteId string) {

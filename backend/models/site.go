@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"time"
 	"strings"
+	"gorm.io/gorm"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/utils"
@@ -51,7 +52,7 @@ func (vik VisitItemKey) String() string {
 }
 
 func NewVisitItemKey(key string) VisitItemKey {
-	parts := strings.Split(strings.TrimSuffix(key, "v:"), ",")
+	parts := strings.Split(strings.TrimPrefix(key, "v:"), ",")
 	vik := VisitItemKey{}
 	vik.Origin, _ = url.QueryUnescape(parts[0])
 	vik.UserId, _ = url.QueryUnescape(parts[1])
@@ -79,6 +80,7 @@ type Site struct {
 	redis  redis.Conn
 	id     string
 	userId string
+	db *gorm.DB
 }
 
 // taken from here at August 2020:
@@ -233,7 +235,7 @@ func (site Site) delVisitPart(timeRange string) {
 	}
 }
 
-func (site Site) DelVisits() {
+func (site Site) delHotVisits() {
 
 	// we ignore the fact that at any given time in reality there are three
 	// dates going on at the same time and not as this code naively assumes
@@ -256,6 +258,13 @@ func (site Site) DelVisits() {
 	site.delVisitPart(maxDate.Format("2006-01-02"))
 	site.delVisitPart(minDate.Format("2006-01-02"))
 	site.delVisitPart("all")
+
+	site.delArchiveVisits()
+}
+
+
+func (site Site) delArchiveVisits() {
+	site.db.Where("origin = ?", site.id).Delete("records")
 }
 
 func (site Site) DelLogs() {
@@ -264,7 +273,11 @@ func (site Site) DelLogs() {
 }
 
 func (site Site) Del() {
-	site.DelVisits()
+	site.delHotVisits()
+	// Sleep in case we had visits in RAM loaded from redis while saving to
+	// the SQL database.
+	time.Sleep(500 * time.Millisecond)
+	site.delArchiveVisits()
 	site.DelLogs()
 }
 

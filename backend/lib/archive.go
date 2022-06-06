@@ -8,21 +8,21 @@ import (
 )
 
 // Higher value means less cpu usage (higher sleep time while working)
-const MAX_ARCHIVE_AGE = time.Duration(3 * time.Hour)
+const MAX_ARCHIVE_AGE = time.Duration(3 * time.Second)
 
 const ITERATION_CHUNK_SIZE = 100
 
 type Record struct {
-	Date   string `gorm:"uniqueIndex:idx_unique"`
-	User   string `gorm:"uniqueIndex:idx_unique"`
-	Origin string `gorm:"uniqueIndex:idx_unique,index"`
-	Field  string `gorm:"uniqueIndex:idx_unique,index"`
-	Value  string `gorm:"uniqueIndex:idx_unique,index"`
+	Date   string `gorm:"index:,uniqueIndex:idx_unique"`
+	User   string `gorm:"index:,uniqueIndex:idx_unique"`
+	Origin string `gorm:"index:,uniqueIndex:idx_unique"`
+	Field  string `gorm:"index:,uniqueIndex:idx_unique"`
+	Value  string `gorm:"index:,uniqueIndex:idx_unique"`
 	Count  int64
 }
 
 func (app *App) AutoMigrate() {
-	app.DB.AutoMigrate(&Record{})
+	app.DB.Debug().AutoMigrate(&Record{})
 
 }
 
@@ -132,9 +132,12 @@ func (app *App) archiveHotVisitsPart(cursor int) (int, error) {
 				Value:  key,
 				Count:  count,
 			}
-			tx.Clauses(clause.OnConflict{
+			err := tx.Clauses(clause.OnConflict{
 				UpdateAll: true,
-			}).Create(&record)
+			}).Create(&record).Error
+			if err != nil {
+				panic(err)
+			}
 		}
 	}
 	err = tx.Commit().Error
