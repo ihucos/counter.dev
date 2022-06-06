@@ -56,7 +56,10 @@ func (user User) DelAllSites() error {
 		return err
 	}
 	for siteId, _ := range linkedSites {
-		user.NewSite(siteId).Del()
+		err := user.NewSite(siteId).Del()
+		if err != nil {
+			return err
+		}
 	}
 	user.delAllSiteLinks()
 	return nil

@@ -235,11 +235,12 @@ func (site Site) delVisitPart(timeRange string) {
 	}
 }
 
-func (site Site) delHotVisits() {
+func (site Site) delHotVisits() error {
 
 	// we ignore the fact that at any given time in reality there are three
 	// dates going on at the same time and not as this code naively assumes
 	// two.
+	// TODO: error handling
 	minDate := utils.TimeNow(-12)
 	maxDate := utils.TimeNow(12)
 
@@ -258,13 +259,16 @@ func (site Site) delHotVisits() {
 	site.delVisitPart(maxDate.Format("2006-01-02"))
 	site.delVisitPart(minDate.Format("2006-01-02"))
 	site.delVisitPart("all")
-
-	site.delArchiveVisits()
+	return nil
 }
 
 
-func (site Site) delArchiveVisits() {
-	site.db.Where("origin = ?", site.id).Delete("records")
+func (site Site) delArchiveVisits() error {
+	err := site.db.Table("records").Where("origin = ?", site.id).Delete(nil).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (site Site) DelLogs() {
@@ -272,13 +276,17 @@ func (site Site) DelLogs() {
 	site.redis.Send("DEL", redisKey)
 }
 
-func (site Site) Del() {
-	site.delHotVisits()
-	// Sleep in case we had visits in RAM loaded from redis while saving to
-	// the SQL database.
-	time.Sleep(500 * time.Millisecond)
-	site.delArchiveVisits()
+func (site Site) Del() error {
+	err := site.delHotVisits()
+	if err != nil {
+		return err
+	}
+	err = site.delArchiveVisits()
+	if err != nil {
+		return err
+	}
 	site.DelLogs()
+	return nil
 }
 
 func (site Site) GetVisits(utcOffset int) (TimedVisits, error) {
