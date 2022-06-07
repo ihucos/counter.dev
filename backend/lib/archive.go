@@ -26,6 +26,8 @@ func (app *App) AutoMigrate() {
 	if err != nil {
 		panic(err)
 	}
+
+	// Raw SQL needed because https://github.com/go-gorm/gorm/issues/5401
 	err = app.DB.Exec(`CREATE UNIQUE INDEX IF NOT EXISTS "idx_unique" ON
 		"records" ("date","user","origin","field","value")`).Error
 	if err != nil {
