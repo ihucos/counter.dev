@@ -13,17 +13,24 @@ const MAX_ARCHIVE_AGE = time.Duration(3 * time.Second)
 const ITERATION_CHUNK_SIZE = 100
 
 type Record struct {
-	Date   string `gorm:"index:,uniqueIndex:idx_unique"`
-	User   string `gorm:"index:,uniqueIndex:idx_unique"`
-	Origin string `gorm:"index:,uniqueIndex:idx_unique"`
-	Field  string `gorm:"index:,uniqueIndex:idx_unique"`
-	Value  string `gorm:"index:,uniqueIndex:idx_unique"`
+	Date   string `gorm:"index"`
+	User   string `gorm:"index"`
+	Origin string `gorm:"index"`
+	Field  string `gorm:"index"`
+	Value  string `gorm:"index"`
 	Count  int64
 }
 
 func (app *App) AutoMigrate() {
-	app.DB.Debug().AutoMigrate(&Record{})
-
+	err := app.DB.AutoMigrate(&Record{})
+	if err != nil {
+		panic(err)
+	}
+	err = app.DB.Exec(`CREATE UNIQUE INDEX IF NOT EXISTS "idx_unique" ON
+		"records" ("date","user","origin","field","value")`).Error
+	if err != nil {
+		panic(err)
+	}
 }
 
 func (app *App) ArchiveHotVisitsForever() {
