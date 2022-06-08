@@ -39,7 +39,7 @@ function dispatchPushEvents(url){
     source.onmessage = (event) => {
         let serverData = JSON.parse(event.data);
         document.dispatchEvent(new CustomEvent("push-" + serverData.type,
-            {detail: serverData.Payload}));
+            {detail: serverData.payload}));
     }
     return source
 }

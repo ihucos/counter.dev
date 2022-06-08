@@ -121,7 +121,6 @@ connectData("dashboard-time", k("hour"));
 connectData("dashboard-share-account", (dump) => [dump.user, dump.meta]);
 
 function drawComponents() {
-    var eventSourceObj = dispatchPushEvents(getDumpURL());
     customElements.whenDefined("dashboard-connstatus").then((el) => {
         let connstatus = document.getElementsByTagName(
             "dashboard-connstatus"
@@ -141,6 +140,7 @@ function drawComponents() {
     document.addEventListener("push-nouser", () => {
         window.location.href = "welcome.html";
     })
+    dispatchPushEvents(getDumpURL());
 }
 
 document.addEventListener("redraw", (evt) => {
