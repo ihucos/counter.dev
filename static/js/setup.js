@@ -4,9 +4,8 @@ document.addEventListener("push-nouser", () => {
         window.location.href = "index.html";
 })
 
-document.addEventListener("push-nouser", () => {
-        window.location.href = "index.html";
-
+document.addEventListener("push-dump", (evt) => {
+        let dump = evt.detail
         if (Object.keys(dump.sites).length > 0) {
             window.location.href = "dashboard.html";
         }
