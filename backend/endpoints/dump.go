@@ -7,7 +7,6 @@ import (
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/lib"
 	"github.com/ihucos/counter.dev/models"
-	"github.com/ihucos/counter.dev/utils"
 )
 
 type UserDump struct {
@@ -115,17 +114,17 @@ func init() {
 			return
 		}
 
-		now := utils.TimeNow(utcOffset)
-		archive30, err := ctx.App.QueryArchive(lib.QueryArchiveArgs{
-			User:     user.Id,
-			DateFrom: now.AddDate(0, 0, -30),
-			DateTo:   now.AddDate(0, 0, -2),
-		})
-		ctx.CatchError(err)
+		//now := utils.TimeNow(utcOffset)
+		//archive30, err := ctx.App.QueryArchive(lib.QueryArchiveArgs{
+		//	User:     user.Id,
+		//	DateFrom: now.AddDate(0, 0, -30),
+		//	DateTo:   now.AddDate(0, 0, -2),
+		//})
+		//ctx.CatchError(err)
 
-		ctx.SendEventSourceData(EventSourceData{
-			Type:    "archive",
-			Payload: archive30})
+		//ctx.SendEventSourceData(EventSourceData{
+		//	Type:    "archive",
+		//	Payload: archive30})
 
 		sendDump := func() {
 			dump, err := LoadDump(user, utcOffset)
