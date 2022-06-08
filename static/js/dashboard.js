@@ -134,6 +134,9 @@ function drawComponents() {
         if (Object.keys(dump.sites).length === 0) {
             window.location.href = "setup.html";
         }
+    })
+
+    document.addEventListener("push-dump", (evt) => {
         document.dispatchEvent(new CustomEvent("redraw", { detail: evt.detail }));
     })
 
