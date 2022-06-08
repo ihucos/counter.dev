@@ -62,23 +62,30 @@ func LoadSitesDump(user models.User, utcOffset int) (SitesDump, error) {
 	}
 	return sitesDump, nil
 }
-func LoadDump(user models.User, utcOffset int) (Dump, error) {
+
+func LoadUserDump(user models.User) (UserDump, error) {
 	prefsData, err := user.GetPrefs()
 	if err != nil {
-		return Dump{}, err
+		return UserDump{}, err
 	}
-
 	token, err := user.ReadToken()
 	if err != nil {
-		return Dump{}, err
+		return UserDump{}, err
 	}
+	return UserDump{Id: user.Id, Token: token, Prefs: prefsData}, nil
+}
+
+func LoadDump(user models.User, utcOffset int) (Dump, error) {
 
 	sitesDump, err := LoadSitesDump(user, utcOffset)
 	if err != nil {
 		return Dump{}, err
 	}
 
-	userDump := UserDump{Id: user.Id, Token: token, Prefs: prefsData}
+	userDump, err := LoadUserDump(user)
+	if err != nil {
+		return Dump{}, err
+	}
 	return Dump{User: userDump, Sites: sitesDump, Meta: Meta{}}, nil
 }
 
