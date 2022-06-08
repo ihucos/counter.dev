@@ -195,3 +195,15 @@ func (ctx *Ctx) CheckMethod(methods ...string) {
 		ctx.Return("Method Not Allowed", 405)
 	}
 }
+
+
+func (ctx *Ctx) SendEventSourceData(data interface{}) {
+	jsonBin, err := json.Marshal(data)
+	ctx.CatchError(err)
+	fmt.Fprintf(ctx.W, "data: %s\n\n", string(jsonBin))
+	f, ok := ctx.W.(http.Flusher)
+	if !ok {
+		panic("Flush not supported by library")
+	}
+	f.Flush()
+}

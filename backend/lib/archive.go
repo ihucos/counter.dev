@@ -159,8 +159,8 @@ func (app *App) archiveHotVisitsPart(cursor int) (int, error) {
 
 type QueryArchiveArgs struct {
 	User     string
-	DateFrom string
-	DateTo   string
+	DateFrom time.Time
+	DateTo   time.Time
 }
 
 type QueryArchiveResult map[string]map[string]map[string]int64
@@ -172,14 +172,14 @@ func (app *App) QueryArchive(queryArgs QueryArchiveArgs) (QueryArchiveResult, er
 
 	query = query.Where("user = ?", queryArgs.User)
 
-	if queryArgs.DateFrom != "" {
+	if ! queryArgs.DateFrom.IsZero() {
 		query.Where("date > ?", queryArgs.DateFrom)
 	}
-	if queryArgs.DateTo != "" {
+	if ! queryArgs.DateTo.IsZero() {
 		query.Where("date > ?", queryArgs.DateTo)
 	}
 
-	query = query.Group("site,dimension,type")
+	query = query.Group("origin,field,value")
 
 	rows, err := query.Rows()
 	if err != nil {

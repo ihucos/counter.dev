@@ -1,19 +1,14 @@
 package endpoints
 
 import (
-	"encoding/json"
-	"fmt"
-	"net/http"
 	"strings"
 	"time"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/lib"
 	"github.com/ihucos/counter.dev/models"
+	"github.com/ihucos/counter.dev/utils"
 )
-
-
-
 
 type UserDump struct {
 	Id    string            `json:"id"`
@@ -34,6 +29,11 @@ type Dump struct {
 	Sites SitesDump         `json:"sites"`
 	User  UserDump          `json:"user"`
 	Meta  map[string]string `json:"meta"`
+}
+
+type EventSourceData struct {
+	Type    string      `json:"type"`
+	Payload interface{} `json:"payload"`
 }
 
 func LoadSitesDump(user models.User, utcOffset int) (SitesDump, error) {
@@ -88,11 +88,6 @@ func init() {
 		ctx.W.Header().Set("Cache-Control", "no-cache")
 		ctx.W.Header().Set("Connection", "keep-alive")
 
-		f, ok := ctx.W.(http.Flusher)
-		if !ok {
-			panic("Flush not supported by library")
-		}
-
 		utcOffset := ctx.ParseUTCOffset("utcoffset")
 		sessionlessUserId := ctx.GetSessionlessUserId()
 		userId := ctx.GetUserId()
@@ -107,22 +102,31 @@ func init() {
 		} else if userId != "" {
 			user = ctx.User(userId)
 		} else {
-			fmt.Fprintf(ctx.W, "data: null\n\n")
+			ctx.SendEventSourceData(EventSourceData{
+				Type:    "nouser",
+				Payload: nil})
 			return
 		}
 
-		ctx.App.QueryArchive(lib.QueryArchiveArgs{
-			User: user.Id,
+		now := utils.TimeNow(utcOffset)
+		archive30, err := ctx.App.QueryArchive(lib.QueryArchiveArgs{
+			User:     user.Id,
+			DateFrom: now.AddDate(0, 0, -30),
+			DateTo:   now.AddDate(0, 0, -2),
 		})
+		ctx.CatchError(err)
+
+		ctx.SendEventSourceData(EventSourceData{
+			Type:    "archive",
+			Payload: archive30})
 
 		sendDump := func() {
 			dump, err := LoadDump(user, utcOffset)
 			ctx.CatchError(err)
 			dump.Meta = meta
-			jsonString, err := json.Marshal(dump)
-			ctx.CatchError(err)
-			fmt.Fprintf(ctx.W, "data: %s\n\n", string(jsonString))
-			f.Flush()
+			ctx.SendEventSourceData(EventSourceData{
+				Type:    "dump",
+				Payload: dump})
 		}
 
 		sendDump()

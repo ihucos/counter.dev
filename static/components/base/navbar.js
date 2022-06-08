@@ -32,21 +32,23 @@ customElements.define(
                 this.hasUser(cachedUsername);
             }
 
-            var source = new EventSource("/dump");
-            source.onmessage = (event) => {
-                let dump = JSON.parse(event.data);
-                if (!dump) {
+            var eventSourceObj = dispatchPushEvents("/dump");
+            document.addEventListener("push-nouser", () => {
                     this.noUser();
-                } else {
+                    // don't leave an open connection to server to save resources
+                    eventSourceObj.close();
+            })
+            document.addEventListener("push-nouser", (evt) => {
+                    let dump = evt.detail
                     this.hasUser(dump.user.id);
                     sessionStorage.setItem(usernameCacheKey, dump.user.id);
                     // the fallback is because older user's dont set the
                     // utcoffset by default
                     this.drawEditaccount(dump.user.prefs);
                     document.dispatchEvent(new CustomEvent("userloaded"));
-                }
-                source.close(); // don't leave an open connection to server to save resources
-            };
+                    // don't leave an open connection to server to save resources
+                    eventSourceObj.close();
+            })
         }
 
         noUser() {

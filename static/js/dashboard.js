@@ -120,8 +120,8 @@ connectData("dashboard-week", k("weekday"));
 connectData("dashboard-time", k("hour"));
 connectData("dashboard-share-account", (dump) => [dump.user, dump.meta]);
 
-function drawComponents(url) {
-    var source = new EventSource(url);
+function drawComponents() {
+    var eventSourceObj = dispatchPushEvents(getDumpURL());
     customElements.whenDefined("dashboard-connstatus").then((el) => {
         let connstatus = document.getElementsByTagName(
             "dashboard-connstatus"
@@ -130,22 +130,17 @@ function drawComponents(url) {
         source.onopen = () => connstatus.message("Live");
         source.onerror = (err) => connstatus.message("Disconnected");
     });
-    source.onmessage = (event) => {
-        let dump = JSON.parse(event.data);
 
-        if (!dump) {
-            window.location.href = "welcome.html";
-            return;
-        }
-
+    document.addEventListener("push-dump", (evt) => {
         if (Object.keys(dump.sites).length === 0) {
             window.location.href = "setup.html";
         }
+        document.dispatchEvent(new CustomEvent("redraw", { detail: evt.detail }));
+    })
 
-        document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
-
-        //document.getElementsByTagName("body")[0].style.display = "block";
-    };
+    document.addEventListener("push-nouser", () => {
+        window.location.href = "welcome.html";
+    })
 }
 
 document.addEventListener("redraw", (evt) => {
@@ -171,7 +166,7 @@ function getDumpURL() {
 
 customElements.whenDefined(selector.localName).then(() => {
     customElements.upgrade(selector);
-    drawComponents(getDumpURL());
+    drawComponents();
 });
 
 // not used currently

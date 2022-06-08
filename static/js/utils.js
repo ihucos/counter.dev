@@ -33,3 +33,13 @@ function escapeHtml(unsafe) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
+
+function dispatchPushEvents(url){
+    var source = new EventSource(url);
+    source.onmessage = (event) => {
+        let serverData = JSON.parse(event.data);
+        document.dispatchEvent(new CustomEvent("push-" + serverData.type,
+            {detail: serverData.Payload}));
+    }
+    return source
+}
