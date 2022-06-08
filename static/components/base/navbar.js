@@ -38,7 +38,6 @@ customElements.define(
                     eventSourceObj.close();
             })
             document.addEventListener("push-dump", (evt) => {
-                    alert(evt.detail)
                     let dump = evt.detail
                     this.hasUser(dump.user.id);
                     sessionStorage.setItem(usernameCacheKey, dump.user.id);
