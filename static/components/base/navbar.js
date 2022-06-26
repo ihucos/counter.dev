@@ -32,7 +32,7 @@ customElements.define(
                 this.hasUser(cachedUsername);
             }
 
-            var source = new EventSource("/dump");
+            var source = new EventSource(API_SERVER + "/dump");
             source.onmessage = (event) => {
                 let dump = JSON.parse(event.data);
                 if (!dump) {
@@ -74,7 +74,7 @@ customElements.define(
 
         connectedCallback() {
 
-            fetch("/lang")
+            fetch(API_SERVER + "/lang")
                .then(response => response.text())
                .then((response) => {
                    if (response == "RU"){

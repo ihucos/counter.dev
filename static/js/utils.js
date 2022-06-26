@@ -33,3 +33,13 @@ function escapeHtml(unsafe) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
+
+function loadComponents(){
+    document.write(`<script src="${API_SERVER}/load.js"></script>`)
+}
+
+if (location.host == 'staging.counter.dev') {
+    API_SERVER = 'https://counter.dev'
+} else {
+    API_SERVER = location.origin
+}
