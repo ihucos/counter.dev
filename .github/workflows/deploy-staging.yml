@@ -66,4 +66,4 @@ jobs:
           git status -s
           ls
           git commit -m "deploy" --allow-empty
-          GIT_SSH_COMMAND="ssh -vvv" git push origin HEAD:main
+          GIT_SSH_COMMAND="ssh -vvv -i ~/.ssh/private.key" git push origin HEAD:main
