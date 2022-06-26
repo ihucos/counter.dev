@@ -48,10 +48,9 @@ jobs:
           set -x
           git config --global user.email "hey@counter.dev"
           git config --global user.name "Counter"
-          git remote rm origin
+          rm -rf .git
+          git init
           git remote add origin "git@github.com:ihucos/counter-staging-static.git"
           git add .
-          git status -s
-          ls
-          git commit -m "deploy" --allow-empty
-          GIT_SSH_COMMAND="ssh -vvv -i ~/.ssh/private.key" git push origin -f HEAD:main
+          git commit -m "deploy"
+          GIT_SSH_COMMAND="ssh -i ~/.ssh/private.key" git push origin -f HEAD:main
