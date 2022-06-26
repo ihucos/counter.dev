@@ -34,8 +34,8 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
-if location.host == 'staging.counter.dev' {
-    const API_SERVER = 'counter.dev'
+if (location.host == 'staging.counter.dev') {
+    var API_SERVER = 'counter.dev'
 } else {
-    const API_SERVER = location.host
+    var API_SERVER = location.host
 }
