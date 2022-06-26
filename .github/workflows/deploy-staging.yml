@@ -43,8 +43,10 @@ jobs:
         run: make all
       
       -
-        name: "push do github pages"
+        name: "push to github pages"
         run: |
+          git config --global user.email "hey@counter.dev"
+          git config --global user.name "Counter"
           git remote rm origin
           git remote add origin "git@github.com:ihucos/counter-staging-static.git"
           git add .
