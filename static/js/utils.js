@@ -35,7 +35,7 @@ function escapeHtml(unsafe) {
 }
 
 if (location.host == 'staging.counter.dev') {
-    var API_SERVER = 'counter.dev'
+    API_SERVER = 'counter.dev'
 } else {
-    var API_SERVER = location.host
+    API_SERVER = location.host
 }
