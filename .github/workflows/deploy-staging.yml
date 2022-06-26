@@ -19,16 +19,6 @@ jobs:
         shell: bash
 
       - 
-        env: 
-          SSH_PRIVATE_KEY2: "${{secrets.SSH_PRIVATE_KEY2}}"
-        name: "Create SSH key"
-        run: |
-            mkdir -p ~/.ssh/
-            echo "$SSH_PRIVATE_KEY2" > ~/.ssh/private2.key
-            sudo chmod 600 ~/.ssh/private2.key
-        shell: bash
-
-      - 
         name: "Checkout"
         uses: actions/checkout@v2
 
@@ -64,4 +54,4 @@ jobs:
           git status -s
           ls
           git commit -m "deploy" --allow-empty
-          GIT_SSH_COMMAND="ssh -vvv -i ~/.ssh/private.key" git push origin HEAD:main
+          GIT_SSH_COMMAND="ssh -vvv -i ~/.ssh/private.key" git push origin -f HEAD:main
