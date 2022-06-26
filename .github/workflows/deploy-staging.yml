@@ -51,6 +51,7 @@ jobs:
           rm -rf .git
           git init
           git remote add origin "git@github.com:ihucos/counter-staging-static.git"
-          git add .
+          mv out/* static
+          git add static
           git commit -m "deploy"
           GIT_SSH_COMMAND="ssh -i ~/.ssh/private.key" git push origin -f HEAD:main
