@@ -55,6 +55,7 @@ jobs:
       -
         name: "push to github pages"
         run: |
+          set -x
           git config --global user.email "hey@counter.dev"
           git config --global user.name "Counter"
           git remote rm origin
