@@ -16,6 +16,7 @@ jobs:
             mkdir -p ~/.ssh/
             echo "$SSH_PRIVATE_KEY" > ~/.ssh/private.key
             sudo chmod 600 ~/.ssh/private.key
+            sudo ssh-add ~/.ssh/private.key
         shell: bash
 
       - 
@@ -26,6 +27,7 @@ jobs:
             mkdir -p ~/.ssh/
             echo "$SSH_PRIVATE_KEY2" > ~/.ssh/private2.key
             sudo chmod 600 ~/.ssh/private2.key
+            sudo ssh-add ~/.ssh/private2.key
         shell: bash
 
       - 
