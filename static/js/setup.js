@@ -1,4 +1,4 @@
-var source = new EventSource("/dump");
+var source = new EventSource(API_SERVER + "/dump");
 source.onmessage = (event) => {
     let dump = JSON.parse(event.data);
     console.log(dump);
