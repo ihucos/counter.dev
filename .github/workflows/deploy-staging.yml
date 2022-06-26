@@ -1,0 +1,52 @@
+--- 
+name: Deploy app
+on:
+  push:
+    branches:
+      - staging
+jobs: 
+  deploy: 
+    runs-on: ubuntu-latest
+    steps: 
+      - 
+        env: 
+          SSH_PRIVATE_KEY: "${{secrets.SSH_PRIVATE_KEY}}"
+        name: "Create SSH key"
+        run: |
+            mkdir -p ~/.ssh/
+            echo "$SSH_PRIVATE_KEY" > ~/.ssh/private.key
+            sudo chmod 600 ~/.ssh/private.key
+        shell: bash
+
+      - 
+        name: "Checkout"
+        uses: actions/checkout@v2
+
+      -
+        name: "Use python"
+        uses: actions/setup-python@v2
+
+      -
+        name: "Install pelican"
+        run: pip3 install pelican Markdown
+
+      -
+        name: "Install jinja markdown tag"
+        run: pip3 install jinja_markdown
+
+      -
+        name: "Install yasha"
+        run: pip3 install yasha
+
+      -
+        name: "make all"
+        run: make all
+      
+      -
+        name: "push do github pages"
+        run: |
+          git remote rm origin
+          git remote add origin "git@github.com:ihucos/counter-staging-static.git"
+          git add .
+          git commit -m "deploy"
+          git push origin HEAD:main
