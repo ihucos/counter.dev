@@ -53,8 +53,7 @@ jobs:
           git init
           git remote add origin "git@github.com:ihucos/counter-staging-static.git"
           echo 'staging.counter.dev' > CNAME
-          git add CNAME
           touch .nojekyll
-          git add .nojekyll
+          git add .
           git commit -m "deploy"
           GIT_SSH_COMMAND="ssh -i ~/.ssh/private.key" git push origin -f HEAD:gh-pages
