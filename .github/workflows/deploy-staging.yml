@@ -52,5 +52,5 @@ jobs:
           git add .
           git status -s
           ls
-          git commit -m "deploy" --alow-empty
+          git commit -m "deploy" --allow-empty
           git push origin HEAD:main
