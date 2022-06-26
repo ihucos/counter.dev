@@ -86,7 +86,7 @@ customElements.define(
 
             // request change up in the cloud and then also apply that change down
             // here in the client
-            fetch("/setPrefSite?" + encodeURIComponent(this.site));
+            fetch(API_SERVER + "/setPrefSite?" + encodeURIComponent(this.site));
             this.dump.user.prefs.site = this.site;
 
             document.dispatchEvent(
@@ -99,7 +99,7 @@ customElements.define(
         onRangeSelChanged(evt) {
             // request change up in the cloud and then also apply that change down
             // here in the client
-            fetch("/setPrefRange?" + encodeURIComponent(this.range));
+            fetch(API_SERVER + "/setPrefRange?" + encodeURIComponent(this.range));
             this.dump.user.prefs.range = this.range;
 
             document.dispatchEvent(

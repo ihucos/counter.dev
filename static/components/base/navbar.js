@@ -74,7 +74,7 @@ customElements.define(
 
         connectedCallback() {
 
-            fetch("/lang")
+            fetch(API_SERVER + "/lang")
                .then(response => response.text())
                .then((response) => {
                    if (response == "RU"){

@@ -33,3 +33,9 @@ function escapeHtml(unsafe) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
+
+if location.host == 'staging.counter.dev' {
+    API_SERVER = 'counter.dev'
+} else {
+    API_SERVER = location.host
+}
