@@ -54,7 +54,7 @@ jobs:
           mv out/* static
           mv static docs
           git add docs
-          echo 'staging.counter.dev' > /dev/null
+          echo 'staging.counter.dev' > CNAME
           git add CNAME
           git commit -m "deploy"
           GIT_SSH_COMMAND="ssh -i ~/.ssh/private.key" git push origin -f HEAD:main
