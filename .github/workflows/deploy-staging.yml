@@ -52,7 +52,8 @@ jobs:
           git init
           git remote add origin "git@github.com:ihucos/counter-staging-static.git"
           mv out/* static
-          git add static
+          mv static docs
+          git add docs
           echo 'staging.counter.dev' > /dev/null
           git add CNAME
           git commit -m "deploy"
