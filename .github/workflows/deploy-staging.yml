@@ -50,5 +50,7 @@ jobs:
           git remote rm origin
           git remote add origin "git@github.com:ihucos/counter-staging-static.git"
           git add .
+          git status -s
+          ls
           git commit -m "deploy"
           git push origin HEAD:main
