@@ -19,6 +19,16 @@ jobs:
         shell: bash
 
       - 
+        env: 
+          SSH_PRIVATE_KEY2: "${{secrets.SSH_PRIVATE_KEY2}}"
+        name: "Create SSH key"
+        run: |
+            mkdir -p ~/.ssh/
+            echo "$SSH_PRIVATE_KEY2" > ~/.ssh/private2.key
+            sudo chmod 600 ~/.ssh/private2.key
+        shell: bash
+
+      - 
         name: "Checkout"
         uses: actions/checkout@v2
 
