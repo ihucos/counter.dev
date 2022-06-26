@@ -35,9 +35,7 @@ function escapeHtml(unsafe) {
 }
 
 function loadComponents(){
-    var s = document.createElement('script');
-    s.setAttribute('src', API_SERVER + "/load.js");
-    document.body.appendChild( s );
+    document.write(`<script src="${API_SERVER}/load.js"></script>`)
 }
 
 if (location.host == 'staging.counter.dev') {
