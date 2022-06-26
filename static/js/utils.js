@@ -34,6 +34,12 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
+function loadComponents(){
+    var s = document.createElement('script');
+    s.setAttribute('src', API_SERVER + "/load.js");
+    document.body.appendChild( s );
+}
+
 if (location.host == 'staging.counter.dev') {
     API_SERVER = 'https://counter.dev'
 } else {
