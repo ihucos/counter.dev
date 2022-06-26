@@ -15,7 +15,6 @@ import (
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
-	"github.com/rs/cors"
 )
 
 type appAdapter struct {
@@ -116,7 +115,6 @@ func NewApp() *App {
 	fs = http.FileServer(http.Dir("./out/blog"))
 	serveMux.Handle("/blog/", http.StripPrefix("/blog/", fs))
 
-
 	app := &App{
 		RedisPool:    redisPool,
 		SessionStore: sessionStore,
@@ -128,12 +126,6 @@ func NewApp() *App {
 }
 
 func (app App) Serve() {
-
-	c := cors.New(cors.Options{
-	    AllowedOrigins: []string{"http://staging.counter.dev"},
-	})
-	handler := c.Handler(app.ServeMux)
-
 	srv := &http.Server{
 		Addr:        app.Config.Bind,
 		ReadTimeout: 5 * time.Second,
@@ -142,10 +134,9 @@ func (app App) Serve() {
 		WriteTimeout: 0,
 
 		IdleTimeout: 120 * time.Second,
-		Handler:     handler,
+		Handler:     app.ServeMux,
 	}
 	fmt.Println("Listening at", app.Config.Bind)
-
 	err := srv.ListenAndServe()
 	if err != nil {
 		panic(fmt.Sprintf("ListenAndServe: %s", err))
