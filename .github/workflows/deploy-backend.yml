@@ -20,4 +20,6 @@ jobs:
         run: |
           export PLASH_NO_UNSHARE=1
           sudo PLASH_INIT_UNION_TASTE=overlay plash init
+          sudo plash  --from alpine:edge -- echo hi
+          sudo plash  --from alpine:edge --run touch /tmp/hi -- echo hi
           sudo make build
