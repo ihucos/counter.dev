@@ -134,7 +134,7 @@ function drawComponents(url) {
         let dump = JSON.parse(event.data);
 
         if (!dump) {
-            //window.location.href = "welcome.html";
+            window.location.href = "welcome.html";
             return;
         }
 
