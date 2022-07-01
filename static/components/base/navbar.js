@@ -164,7 +164,12 @@ May the world live in peace and unity, we are all the same.<br/>
                        <div class="dropdown-content">
                          <a href="/dashboard">Dashboard</a>
                          <a href="#modal-account" rel="modal:open">Edit account</a>
-                         <a href="#" onclick="location.href = API_SERVER + '/logout'">Sign out</a>
+                         <form action="/logout" method="GET" id="logout">
+                             <a href="# "onclick="document.getElementById('logout').submit();" >Sign out</a>
+                         </form>
+                         <script>
+                             SimpleForm('#logout', '/')
+                         </script>
                        </div>
                      </div>
                      <span class="no-user profile-guest" style="display: none">
@@ -198,7 +203,12 @@ May the world live in peace and unity, we are all the same.<br/>
                                  onClick="document.getElementById('hamburger-toggle').checked=false"
                                  >Edit account</a
                                >
-                               <a href="#" onclick="location.href = API_SERVER + '/logout'">Sign out</a>
+                                 <form action="/logout" method="GET" id="logout-mobile">
+                                     <a href="# "onclick="document.getElementById('logout-mobile').submit();" >Sign out</a>
+                                 </form>
+                                 <script>
+                                     SimpleForm('#logout-mobile', '/')
+                                 </script>
                              </div>
                            </div>
                            <!-- /// -->
