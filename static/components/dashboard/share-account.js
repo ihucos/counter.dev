@@ -58,7 +58,7 @@ customElements.define(
 
         post(url) {
             this.innerHTML = `<span class="gray ml8 mr16 postponed-visibility">Still loading (error?)...</span>`;
-            fetch(API_SERVER + url, { method: "post" });
+            fetch(API_SERVER + url, { method: "post", withCredentials: true } });
         }
     }
 );
