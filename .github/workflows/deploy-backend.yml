@@ -20,4 +20,4 @@ jobs:
         run: |
           export PLASH_NO_UNSHARE=1
           plash init
-          make build
+          sudo make build
