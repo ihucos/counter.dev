@@ -9,7 +9,7 @@ function simpleForm(formSelector, action) {
                 if (action instanceof Function) {
                     action(response)
                 } else {
-                    window.location.href = action;
+                    //window.location.href = action;
                 }
             },
             error: function (request, status, error) {
