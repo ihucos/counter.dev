@@ -10,6 +10,7 @@ import (
 
 	"github.com/ihucos/counter.dev/models"
 	"github.com/ihucos/counter.dev/utils"
+	"github.com/gorilla/sessions"
 )
 
 type UserDataResp struct {
@@ -123,6 +124,7 @@ func (ctx *Ctx) ParseUTCOffset(key string) int {
 func (ctx *Ctx) SetSessionUser(userId string) {
 	session, _ := ctx.App.SessionStore.Get(ctx.R, "swa")
 	session.Values["user"] = userId
+	session.Options = &sessions.Options{SameSite: http.SameSiteNoneMode, Secure: true}
 	session.Save(ctx.R, ctx.W)
 }
 
