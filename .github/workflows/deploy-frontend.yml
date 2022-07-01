@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - new-prod-deploy
+      - ww2
 jobs: 
   deploy: 
     runs-on: ubuntu-latest
@@ -52,8 +52,19 @@ jobs:
           mv out/* static
           cd static
           git init
-          git remote add origin "git@github.com:ihucos/counter-staging-static.git"
-          echo 'staging.counter.dev' > CNAME
+
+          case ${GITHUB_REF##*/} in
+            master)
+              git remote add origin "git@github.com:ihucos/counter-staging-static.git"
+              echo 'staging.counter.dev' > CNAME
+              ;;
+
+            ww2)
+              git remote add origin "git@github.com:ihucos/counter-production-static.git"
+              echo 'www.counter.dev' > CNAME
+              ;;
+          esac
+
           touch .nojekyll
           git add .
           git commit -m "deploy"
