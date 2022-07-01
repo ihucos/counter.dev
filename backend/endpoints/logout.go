@@ -11,10 +11,11 @@ func init() {
 		ctx.Logout()
 		next := ctx.R.FormValue("next")
 		var redirectURL string
+		var origin = ctx.R.Header.Get("Origin")
 		if next == "login" {
-			redirectURL = "/welcome.html?sign-in"
+			redirectURL = origin + "/welcome.html?sign-in"
 		} else {
-			redirectURL = "/"
+			redirectURL = origin + "/"
 		}
 		http.Redirect(ctx.W, ctx.R, redirectURL, http.StatusTemporaryRedirect)
 	})
