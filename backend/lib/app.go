@@ -80,7 +80,18 @@ func (app *App) CtxHandlerToHandler(fn func(*Ctx)) http.Handler {
 }
 
 func (app *App) Connect(path string, f func(*Ctx)) {
-	app.ServeMux.Handle(path, app.CtxHandlerToHandler(f))
+	app.ServeMux.Handle(path, mainApiMiddleware(app.CtxHandlerToHandler(f)))
+}
+
+
+func mainApiMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("Host") == "staging.counter.dev" {
+			w.Header().Set("Access-Control-Allow-Origin", "staging.counter.dev")
+			w.Header().Set("Access-Control-Allow-Credentials", "true")
+		}
+		next.ServeHTTP(w, r)
+	})
 }
 
 func NewApp() *App {
