@@ -42,7 +42,7 @@ jobs:
         name: "push to github pages"
         env: 
           SSH_PRIVATE_KEY: "${{secrets.SSH_PRIVATE_KEY}}"
-          SSH_PRIVATE_PROD_KEY: "${{secrets.SSH_PROD_PRIVATE_KEY}}"
+          SSH_PRIVATE_PROD_KEY: "${{secrets.SSH_PRIVATE_PROD_KEY}}"
         run: |
           set -x
           git config --global user.email "hey@counter.dev"
