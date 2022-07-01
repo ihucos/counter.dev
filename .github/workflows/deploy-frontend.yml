@@ -63,7 +63,7 @@ jobs:
 
             ww2)
               git remote add origin "git@github.com:ihucos/counter-production-static.git"
-              echo 'www.counter.dev' > CNAME
+              echo 'ww2.counter.dev' > CNAME
 
               mkdir -p ~/.ssh/
               echo "$SSH_PRIVATE_PROD_KEY" > ~/.ssh/private.key
