@@ -15,11 +15,6 @@ customElements.define(
         }
 
         loadUser() {
-            if (!document.cookie.includes("swa=")) {
-                this.noUser();
-                return;
-            }
-
             // invalidates cache key when cookie changes
             var usernameCacheKey =
                 "navbar-username-cache-" + this.hash(document.cookie);
