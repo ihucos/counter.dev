@@ -165,7 +165,7 @@ May the world live in peace and unity, we are all the same.<br/>
                          <a href="/dashboard">Dashboard</a>
                          <a href="#modal-account" rel="modal:open">Edit account</a>
                          <form action="/logout" method="GET" id="logout">
-                             <a href="# "onclick="document.getElementById('logout').submit();" >Sign out</a>
+                             <a href="# "onclick="document.getElementById('logout').submit(); return false" >Sign out</a>
                          </form>
                          <script>
                              SimpleForm('#logout', '/')
@@ -204,7 +204,7 @@ May the world live in peace and unity, we are all the same.<br/>
                                  >Edit account</a
                                >
                                  <form action="/logout" method="GET" id="logout-mobile">
-                                     <a href="# "onclick="document.getElementById('logout-mobile').submit();" >Sign out</a>
+                                     <a href="# "onclick="document.getElementById('logout-mobile').submit(); return false" >Sign out</a>
                                  </form>
                                  <script>
                                      SimpleForm('#logout-mobile', '/')
