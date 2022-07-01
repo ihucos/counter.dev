@@ -18,6 +18,7 @@ jobs:
 
       - name: Compile app
         run: |
+          set -x
           export PLASH_NO_UNSHARE=1
           sudo PLASH_INIT_UNION_TASTE=overlay plash init
           sudo plash  --from alpine:edge -- echo hi
