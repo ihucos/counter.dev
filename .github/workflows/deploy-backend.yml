@@ -19,10 +19,10 @@ jobs:
       - name: Compile app
         run: |
           set -x
-          export PLASH_NO_UNSHARE=1
           sudo PLASH_INIT_UNION_TASTE=overlay plash init
           sudo plash  build --from alpine:edge
 
+          tmp=$(sudo plash mkdtemp)
           plash runopts -c 1 -e TERM -e DISPLAY -e HOME -e PLASH_DATA -E PLASH_EXPORT -m /tmp -m /home -m /root -m /etc/resolv.conf -m /sys -m /dev -m /proc -- ls
           plash runopts -c 1 -e TERM -e DISPLAY -e HOME -e PLASH_DATA -E PLASH_EXPORT -m /tmp -m /home -m /root -m /etc/resolv.conf -m /sys -m /dev -m /proc -- /bin/sh -lc exec env ls
 
