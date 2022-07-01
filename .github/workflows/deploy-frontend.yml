@@ -10,13 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - 
-        env: 
-          SSH_PRIVATE_KEY: "${{secrets.SSH_PRIVATE_KEY}}"
         name: "Create SSH key"
         run: |
-            mkdir -p ~/.ssh/
-            echo "$SSH_PRIVATE_KEY" > ~/.ssh/private.key
-            sudo chmod 600 ~/.ssh/private.key
         shell: bash
 
       - 
@@ -45,6 +40,9 @@ jobs:
       
       -
         name: "push to github pages"
+        env: 
+          SSH_PRIVATE_KEY: "${{secrets.SSH_PRIVATE_KEY}}"
+          SSH_PRIVATE_PROD_KEY: "${{secrets.SSH_PROD_PRIVATE_KEY}}"
         run: |
           set -x
           git config --global user.email "hey@counter.dev"
@@ -57,11 +55,19 @@ jobs:
             master)
               git remote add origin "git@github.com:ihucos/counter-staging-static.git"
               echo 'staging.counter.dev' > CNAME
+
+              mkdir -p ~/.ssh/
+              echo "$SSH_PRIVATE_KEY" > ~/.ssh/private.key
+              sudo chmod 600 ~/.ssh/private.key
               ;;
 
             ww2)
               git remote add origin "git@github.com:ihucos/counter-production-static.git"
               echo 'www.counter.dev' > CNAME
+
+              mkdir -p ~/.ssh/
+              echo "$SSH_PRIVATE_PROD_KEY" > ~/.ssh/private.key
+              sudo chmod 600 ~/.ssh/private.key
               ;;
           esac
 
