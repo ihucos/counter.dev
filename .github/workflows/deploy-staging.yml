@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - new-prod-deploy
 jobs: 
   deploy: 
     runs-on: ubuntu-latest
