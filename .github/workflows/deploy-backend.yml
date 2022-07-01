@@ -19,5 +19,5 @@ jobs:
       - name: Compile app
         run: |
           export PLASH_NO_UNSHARE=1
-          plash init
+          sudo plash init
           sudo make build
