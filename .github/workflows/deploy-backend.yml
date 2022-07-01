@@ -19,5 +19,5 @@ jobs:
       - name: Compile app
         run: |
           file /usr/local/bin/plash
-          plash
+          plash init
           make build
