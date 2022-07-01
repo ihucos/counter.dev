@@ -49,8 +49,8 @@ The blog is based on [pelican](https://blog.getpelican.com/). The templates are 
 | role                | branch   | domain                  | How              | Note                           |
 |---------------------|----------|-------------------------|------------------|--------------------------------|
 | Single API Server   | `master` | `counter.dev`         | Hand managed VPS | Serves staging and production  |
-| Frontend staging    | `master` | `staging.counter.dev` | GitHub Pages     | Uses counter.dev as API Server |
-| Frontend production | `www`    | `www.counter.dev`     | GitHub Pages     | Uses counter.dev as API Server |
+| Frontend staging    | `master` | `staging.counter.dev` | GitHub Pages     | Uses `counter.dev` as API Server |
+| Frontend production | `www`    | `www.counter.dev`     | GitHub Pages     | Uses `counter.dev` as API Server |
 
 ### Deployment FAQ
 #### Why not `api.counter.dev` as API server?
@@ -62,9 +62,8 @@ environments is mental overhead. It would also add operational complexity. The
 theoretic stability gains by such a setup are not needed yet. Dealing with
 staging and production not being aligned on a data schema level is tiresome.
 
-What we are doing instead on the backend is ad-hoc solutions and granular
-deployments shipping API features step by step. If I get afraid of backend
-deployments I should try to fix that.
+What we are doing instead on the backend is ad-hoc solutions to overcome the
+need of staging and production.
 
 
 ## FAQ
