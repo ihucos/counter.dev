@@ -19,5 +19,5 @@ jobs:
       - name: Compile app
         run: |
           export PLASH_NO_UNSHARE=1
-          sudo env PLASH_INIT_UNION_TASTE=overlay plash init
+          sudo PLASH_INIT_UNION_TASTE=overlay plash init
           sudo make build
