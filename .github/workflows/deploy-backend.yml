@@ -18,6 +18,6 @@ jobs:
 
       - name: Compile app
         run: |
-          file /usr/local/bin/plash
+          export PLASH_NO_UNSHARE=1
           plash init
           make build
