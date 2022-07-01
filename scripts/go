@@ -1,4 +1,5 @@
 #!/bin/sh
+set -x
 export PLASH_EXPORT=$(printenv | cut -d= -f1 | grep 'WEBSTATS_' | xargs | tr ' ' ':')
 exec plash --from alpine:edge --apk go -- go "$@"
 
