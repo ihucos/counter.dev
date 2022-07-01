@@ -9,10 +9,6 @@ jobs:
   deploy: 
     runs-on: ubuntu-latest
     steps: 
-      - 
-        name: "Create SSH key"
-        run: |
-        shell: bash
 
       - 
         name: "Checkout"
