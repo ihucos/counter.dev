@@ -3,11 +3,10 @@ function simpleForm(formSelector, action) {
         var el = evt.target;
         $.ajax({
             type: el.getAttribute("method") || "POST",
-            url: el.getAttribute("action"),
+            url: API_SERVER + el.getAttribute("action"),
             data: $(el).serialize(),
             success: function (response) {
                 if (action instanceof Function) {
-                    window.R = response
                     action(response)
                 } else {
                     window.location.href = action;
