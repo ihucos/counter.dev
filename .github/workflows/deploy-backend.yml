@@ -17,4 +17,7 @@ jobs:
         run: sudo sh -c "curl -Lf https://raw.githubusercontent.com/ihucos/plash/master/setup.sh | sh"
 
       - name: Compile app
-        run: make build
+        run: |
+          echo $PATH
+          export PATH=${PATH:/usr/local/bin}
+          make build
