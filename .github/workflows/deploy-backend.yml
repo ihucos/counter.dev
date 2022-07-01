@@ -16,10 +16,8 @@ jobs:
       - name: Install plash
         run: sudo sh -c "curl -Lf https://raw.githubusercontent.com/ihucos/plash/master/setup.sh | sh"
 
-      -
-        name: "Use python"
-        uses: actions/setup-python@v2
-
       - name: Compile app
         run: |
+          file /usr/local/bin/plash
+          plash
           make build
