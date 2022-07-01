@@ -87,7 +87,7 @@ func (app *App) Connect(path string, f func(*Ctx)) {
 func mainApiMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Header.Get("Origin") == "https://staging.counter.dev" {
-			w.Header().Set("Access-Control-Allow-Origin", "staging.counter.dev")
+			w.Header().Set("Access-Control-Allow-Origin", "https://staging.counter.dev")
 			w.Header().Set("Access-Control-Allow-Credentials", "true")
 		}
 		next.ServeHTTP(w, r)
