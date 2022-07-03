@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - new-staging
 jobs: 
   deploy: 
     runs-on: ubuntu-latest
@@ -50,6 +51,16 @@ jobs:
           cd ${{github.workspace}}
           rsync * root@$IP: -av -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/private.key" --chown=root:root
         shell: bash
+
+      - 
+        env: 
+          IP: "${{secrets.IP}}"
+        name: "Copy static files"
+        run: |
+          cd ${{github.workspace}}
+          rsync static/* out/* root@$IP:/state/static/${GITHUB_REF#refs/heads/} -av -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/private.key" --chown=root:root
+        shell: bash
+
       - 
         name: "Cloudflare cache reset"
         env: 
