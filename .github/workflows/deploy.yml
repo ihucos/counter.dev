@@ -1,7 +1,10 @@
 --- 
-name: Deploy app
+name: Deploy frontend
 on:
   push:
+    branches:
+      - master
+      - staging
 
 jobs: 
   deploy: 
@@ -51,8 +54,7 @@ jobs:
         shell: bash
 
       - 
-        name: "Cloudflare cache reset for master branch"
-        if: github.ref == 'refs/heads/master'
+        name: "Cloudflare cache reset"
         env:
           CLOUDFLARE_ZONE1: "${{secrets.CLOUDFLARE_ZONE1}}"
           CLOUDFLARE_ZONE2: "${{secrets.CLOUDFLARE_ZONE2}}"
