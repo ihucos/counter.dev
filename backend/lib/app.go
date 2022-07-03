@@ -127,11 +127,12 @@ func NewApp() *App {
 			}
 			prefix = "/state/static/" + branch
 		// } else if r.Host == "counter.dev" {
-		// 	prefix = "/state/static/"
+		// 	prefix = "/state/static/master"
 		} else {
 			w.WriteHeader(http.StatusBadRequest)
+			fmt.Fprintf(w, "Bad origin")
+			return
 		}
-		fmt.Println(prefix + r.URL.Path)
 		http.ServeFile(w, r, prefix+r.URL.Path)
 	})
 	app := &App{
