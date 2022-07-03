@@ -43,6 +43,8 @@ function loadComponents(){
 
 if (location.host == 'staging.counter.dev') {
     API_SERVER = 'https://counter.dev'
+} else if (location.host == 'ww2.counter.dev') {
+    API_SERVER = 'https://counter.dev'
 } else {
     API_SERVER = location.origin
 }
