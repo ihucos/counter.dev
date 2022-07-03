@@ -43,17 +43,8 @@ jobs:
         name: "make all"
         run: make all
 
-      - 
-        env: 
-          IP: "${{secrets.IP}}"
-        name: "Copy files to server"
-        run: |
-          cd ${{github.workspace}}
-          rsync * root@$IP: -av -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/private.key" --chown=root:root
-        shell: bash
-
-      - 
-        env: 
+      -
+        env:
           IP: "${{secrets.IP}}"
         name: "Copy static files"
         run: |
@@ -63,7 +54,8 @@ jobs:
 
       - 
         name: "Cloudflare cache reset"
-        env: 
+        if: github.ref == 'refs/heads/master'
+        env:
           CLOUDFLARE_ZONE1: "${{secrets.CLOUDFLARE_ZONE1}}"
           CLOUDFLARE_ZONE2: "${{secrets.CLOUDFLARE_ZONE2}}"
           CLOUDFLARE_TOKEN: "${{secrets.CLOUDFLARE_TOKEN}}"
