@@ -121,7 +121,7 @@ connectData("dashboard-time", k("hour"));
 connectData("dashboard-share-account", (dump) => [dump.user, dump.meta]);
 
 function drawComponents(url) {
-    var source = new EventSource(API_SERVER + url, {withCredentials: true});
+    var source = new EventSource(url);
     customElements.whenDefined("dashboard-connstatus").then((el) => {
         let connstatus = document.getElementsByTagName(
             "dashboard-connstatus"

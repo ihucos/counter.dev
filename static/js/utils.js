@@ -3,10 +3,11 @@ function simpleForm(formSelector, action) {
         var el = evt.target;
         $.ajax({
             type: el.getAttribute("method") || "POST",
-            url: API_SERVER + el.getAttribute("action"),
+            url: el.getAttribute("action"),
             data: $(el).serialize(),
             success: function (response) {
                 if (action instanceof Function) {
+                    window.R = response
                     action(response)
                 } else {
                     window.location.href = action;
@@ -15,10 +16,6 @@ function simpleForm(formSelector, action) {
             error: function (request, status, error) {
                 alert(request.responseText);
             },
-            xhrFields: {
-               withCredentials: true
-            },
-            crossDomain: true
         });
         return false;
     };
@@ -35,16 +32,4 @@ function escapeHtml(unsafe) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
-}
-
-function loadComponents(){
-    document.write(`<script src="${API_SERVER}/load.js"></script>`)
-}
-
-if (location.host == 'staging.counter.dev') {
-    API_SERVER = 'https://counter.dev'
-} else if (location.host == 'ww2.counter.dev') {
-    API_SERVER = 'https://counter.dev'
-} else {
-    API_SERVER = location.origin
 }

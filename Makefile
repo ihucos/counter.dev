@@ -1,5 +1,5 @@
 
-alpineversion = edge
+alpineversion = 3.11
 go = $(abspath ./scripts/go)
 
 .DEFAULT_GOAL := all
@@ -19,7 +19,7 @@ tests:
 
 .PHONY: format
 format:
-	plash --from alpine:$(alpineversion) --apk npm --run 'npm i prettier --global' -- prettier --write .
+	plash --from alpine:3.11 --apk npm --run 'npm i prettier --global' -- prettier --write .
 	find -type f -name \*.go | xargs -L1 go fmt
 
 .PHONY: logs

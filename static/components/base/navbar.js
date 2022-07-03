@@ -15,6 +15,11 @@ customElements.define(
         }
 
         loadUser() {
+            if (!document.cookie.includes("swa=")) {
+                this.noUser();
+                return;
+            }
+
             // invalidates cache key when cookie changes
             var usernameCacheKey =
                 "navbar-username-cache-" + this.hash(document.cookie);
@@ -27,7 +32,7 @@ customElements.define(
                 this.hasUser(cachedUsername);
             }
 
-            var source = new EventSource(API_SERVER + "/dump", {withCredentials: true});
+            var source = new EventSource("/dump");
             source.onmessage = (event) => {
                 let dump = JSON.parse(event.data);
                 if (!dump) {
@@ -69,7 +74,7 @@ customElements.define(
 
         connectedCallback() {
 
-            fetch(API_SERVER + "/lang")
+            fetch("/lang")
                .then(response => response.text())
                .then((response) => {
                    if (response == "RU"){
@@ -164,12 +169,7 @@ May the world live in peace and unity, we are all the same.<br/>
                        <div class="dropdown-content">
                          <a href="/dashboard">Dashboard</a>
                          <a href="#modal-account" rel="modal:open">Edit account</a>
-                         <form action="/logout" method="GET" id="logout">
-                             <a href="# "onclick="document.getElementById('logout').submit(); return false" >Sign out</a>
-                         </form>
-                         <script>
-                             SimpleForm('#logout', '/')
-                         </script>
+                         <a href="/logout">Sign out</a>
                        </div>
                      </div>
                      <span class="no-user profile-guest" style="display: none">
@@ -203,12 +203,7 @@ May the world live in peace and unity, we are all the same.<br/>
                                  onClick="document.getElementById('hamburger-toggle').checked=false"
                                  >Edit account</a
                                >
-                                 <form action="/logout" method="GET" id="logout-mobile">
-                                     <a href="# "onclick="document.getElementById('logout-mobile').submit(); return false" >Sign out</a>
-                                 </form>
-                                 <script>
-                                     SimpleForm('#logout-mobile', '/')
-                                 </script>
+                               <a href="/logout" class="btn-secondary">Sign out</a>
                              </div>
                            </div>
                            <!-- /// -->
