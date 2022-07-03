@@ -111,7 +111,7 @@ func NewApp() *App {
 	//fs := http.FileServer(http.Dir("./static"))
 	serveMux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		var prefix string
-		if r.Host == "localhost:8080" || r.Host == "counter.dev"{
+		if r.Host == "localhost:8080" {
 			if strings.HasPrefix(r.URL.Path, "/blog/") ||
 				r.URL.Path == "/blog" ||
 				strings.HasPrefix(r.URL.Path, "/pages/") ||
@@ -120,14 +120,16 @@ func NewApp() *App {
 			} else {
 				prefix = "./static"
 			}
+		} else if r.Host == "counter.dev" {
+			prefix = "/state/static/master"
+		} else if r.Host == "www.counter.dev" {
+			prefix = "/state/static/master"
 		} else if strings.HasSuffix(r.Host, ".counter.dev") {
 			branch := strings.TrimSuffix(r.Host, ".counter.dev")
 			if !FileComponentLookOk(branch) {
 				w.WriteHeader(http.StatusForbidden)
 			}
 			prefix = "/state/static/" + branch
-		// } else if r.Host == "counter.dev" {
-		// 	prefix = "/state/static/master"
 		} else {
 			w.WriteHeader(http.StatusBadRequest)
 			fmt.Fprintf(w, "Bad Host")
