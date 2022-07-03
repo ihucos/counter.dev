@@ -2,8 +2,7 @@
 name: Deploy app
 on:
   push:
-    branches:
-      - master
+
 jobs: 
   deploy: 
     runs-on: ubuntu-latest
@@ -42,17 +41,19 @@ jobs:
         name: "make all"
         run: make all
 
-      - 
-        env: 
+      -
+        env:
           IP: "${{secrets.IP}}"
-        name: "Copy files to server"
+        name: "Copy static files"
         run: |
           cd ${{github.workspace}}
-          rsync * root@$IP: -av -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/private.key" --chown=root:root
+          rsync static/* out/* root@$IP:/state/static/${GITHUB_REF#refs/heads/} -av -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/private.key" --chown=root:root
         shell: bash
+
       - 
-        name: "Cloudflare cache reset"
-        env: 
+        name: "Cloudflare cache reset for master branch"
+        if: github.ref == 'refs/heads/master'
+        env:
           CLOUDFLARE_ZONE1: "${{secrets.CLOUDFLARE_ZONE1}}"
           CLOUDFLARE_ZONE2: "${{secrets.CLOUDFLARE_ZONE2}}"
           CLOUDFLARE_TOKEN: "${{secrets.CLOUDFLARE_TOKEN}}"
@@ -60,3 +61,4 @@ jobs:
           curl -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE1/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $CLOUDFLARE_TOKEN" --data '{"purge_everything":true}' --fail
           curl -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE2/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $CLOUDFLARE_TOKEN" --data '{"purge_everything":true}' --fail
         shell: bash
+

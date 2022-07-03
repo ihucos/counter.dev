@@ -41,14 +41,10 @@ build:
 .PHONY: deploy
 deploy:
 	make build
-	make deploy-static
-	ssh root@172.104.148.60 "pkill -x dtach; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
-
-.PHONY: deploy-static
-deploy-static:
-	rsync static .config webstats scripts root@172.104.148.60: -av
+	rsync .config webstats scripts root@172.104.148.60: -av
 	curl -X POST "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE1)/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $(CLOUDFLARE_TOKEN)" --data '{"purge_everything":true}' --fail
 	curl -X POST "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE2)/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $(CLOUDFLARE_TOKEN)" --data '{"purge_everything":true}' --fail
+	ssh root@172.104.148.60 "pkill -x dtach; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
 
 .PHONY: redis-server
 redis-server:
