@@ -10,6 +10,7 @@ import (
 	"runtime"
 	"strings"
 	"time"
+	"regexp"
 
 	"log"
 
@@ -122,7 +123,7 @@ func NewApp() *App {
 		} else if strings.HasSuffix(r.Host, ".counter.dev") {
 			branch := strings.TrimSuffix(r.Host, ".counter.dev")
 			if !FileComponentLookOk(branch) {
-				w.WriteHeader(http.StatusAccessDenied)
+				w.WriteHeader(http.StatusForbidden)
 			}
 			prefix = "/state/static/" + branch
 		// } else if r.Host == "counter.dev" {
