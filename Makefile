@@ -38,8 +38,8 @@ chgprodpwd:
 build:
 	cd backend && $(go) build -o ../webstats
 
-.PHONY: deploy
-deploy:
+.PHONY: deploy-backend
+deploy-backend:
 	make build
 	rsync .config webstats scripts root@172.104.148.60: -av
 	curl -X POST "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE1)/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $(CLOUDFLARE_TOKEN)" --data '{"purge_everything":true}' --fail
