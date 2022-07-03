@@ -130,7 +130,7 @@ func NewApp() *App {
 		// 	prefix = "/state/static/master"
 		} else {
 			w.WriteHeader(http.StatusBadRequest)
-			fmt.Fprintf(w, "Bad origin")
+			fmt.Fprintf(w, "Bad Host")
 			return
 		}
 		http.ServeFile(w, r, prefix+r.URL.Path)
