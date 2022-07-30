@@ -53,7 +53,6 @@ The blog is based on [pelican](https://blog.getpelican.com/). The templates are 
 
 ## Contributors
 
-- Bogdan Slomchinskiy ([slomchinskiy](https://dribbble.com/slomchinskiy)) - Product Designer
 - Ana Maria Sandoval Jimenez - Data Scientist
 - Irae Hueck Costa ([ihucos](https://github.com/ihucos/)) - Backend Developer
 
