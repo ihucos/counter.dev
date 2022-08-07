@@ -27,7 +27,6 @@ customElements.define(
                               <ul>
                                 <li><a href="/pages/privacy.html" rel="nofollow">Privacy</a></li>
                                 <li><a href="/pages/imprint.html" rel="nofollow">Imprint</a></li>
-                                <li><a href="https://status.counter.dev" target="_blank" rel="nofollow" class="footer-status">Status</a></li>
                               </ul>
                             </div>
                           </nav>
