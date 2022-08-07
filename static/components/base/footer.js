@@ -41,10 +41,6 @@ customElements.define(
                               ></a>
                               <a href="https://twitter.com/NaiveTeamHQ" class="twitter" target="_blank" rel="nofollow"></a>
                             </div>
-                            <div class="caption gray mb8">
-                              Developed by
-                              <a href="//naive.team" class="gray underline" target="_blank" rel="nofollow">Naive&nbsp;Team</a>
-                            </div>
                             <div class="caption gray">
                               Have a question? –
                               <a href="mailto:hey@counter.dev" class="caption gray underline" target="_blank" rel="nofollow"
