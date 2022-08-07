@@ -11,7 +11,7 @@ customElements.define(
                 icon: "google.com"
             },
             "Google ads": {
-                match: ["doubleclick.net", ".doubleclick.net", ".googlesyndication.com"],
+                match: ["doubleclick.net", ".doubleclick.net", ".googlesyndication.com", "cse.google.com"],
                 link: "marketingplatform.google.com",
                 icon: "google.com",
             },
