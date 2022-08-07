@@ -4,10 +4,7 @@ customElements.define(
         KEY = "close-invest";
         connectedCallback() {
             if (
-                !window.location.href
-                    .split("#")[0]
-                    .endsWith("/dashboard.html?demo=1") &&
-                !localStorage.getItem(this.KEY)
+                false
             ) {
                 this.innerHTML += `
                    <!-- Notification -->
