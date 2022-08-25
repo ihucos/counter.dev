@@ -26,6 +26,11 @@ customElements.define(
                 link: "facebook.com",
                 icon: "facebook.com"
             },
+            "Yahoo search": {
+                match: [".search.yahoo.com"],
+                link: "yahoo.com",
+                icon: "yahoo.com"
+            },
             "Wikipedia": {
                 match: ["wikipedia.org", ".wikipedia.org"],
                 link: "wikipedia.org",
