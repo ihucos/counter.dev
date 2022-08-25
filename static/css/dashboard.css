@@ -198,6 +198,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  direction: rtl;
+  text-align: left;
 }
 .item-percent {
   height: 24px;
