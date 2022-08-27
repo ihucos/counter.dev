@@ -68,7 +68,9 @@ customElements.define(
                             screen: screen.width + "x" + screen.height,
                             user: "counter",
                             utcoffset: "1",
-                          })
+                          },
+                          {referrerPolicy: 'no-referrer-when-downgrade'}
+                          )
                       );
                     }
                     sessionStorage.setItem("_swa", "1");
