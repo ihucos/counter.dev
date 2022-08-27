@@ -10,6 +10,10 @@ import (
 
 func init() {
 	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {
+		// BUG: This related to the static files in the project
+		// directory. In the deployment static files are taking from
+		// /state/static. This means NEW components files need to be
+		// manually touched after a deploy. As a workaround
 		files1, err := filepath.Glob("./static/components/*.js")
 		ctx.CatchError(err)
 		files2, err := filepath.Glob("./static/components/*/*.js")
