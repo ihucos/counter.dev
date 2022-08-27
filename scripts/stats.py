@@ -74,5 +74,5 @@ pd.merge(visits, regs, how="inner", left_index=True, right_index=True).resample(
 
 
 
-#plt.savefig('/tmp/da.png', dpi=300)
+plt.savefig('/home/ihucos/counter.dev/stats.png', dpi=300)
 plt.show()

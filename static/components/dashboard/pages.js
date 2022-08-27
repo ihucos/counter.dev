@@ -20,7 +20,7 @@ customElements.define(
                       (item) => `
               <div class="hour-item">
                 <span class="page">${escapeHtml(item[0])}</span>
-                <span class="caption-strong">${item[1]}</span>
+                <dashboard-number class="caption-strong">${item[1]}</dashboard-number>
               </div>`
                   )
                   .join("")}

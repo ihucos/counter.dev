@@ -39,7 +39,7 @@ customElements.define(
                 <div class="metrics-three-data-content-item">
                   ${escapeHtml(lang)}
                   <span>
-                    <span class="strong mr16">${count}</span>
+                    <dashboard-number class="strong mr16">${count}</dashboard-number>
                     <span class="item-percent bg-blue blue caption">${percentRepr(
                         count,
                         this.totalCount

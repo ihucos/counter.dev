@@ -56,7 +56,7 @@ class Counter extends HTMLElement {
 
         this.classList.add("category");
         this.innerHTML = `
-          <div class="h2 blue">${count}</div>
+          <dashboard-number class="h2 blue">${count}</dashboard-number>
           <div class="category-label">
             ${escapeHtml(this.getAttribute("text"))}
             <div

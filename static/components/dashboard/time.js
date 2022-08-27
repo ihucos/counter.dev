@@ -24,22 +24,22 @@ customElements.define(
                     <span class="graph-dot mb8">
                       <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
                       Morning
-                      <span class="caption-strong">${dayparts[0]}</span>
+                      <dashboard-number class="caption-strong">${dayparts[0]}</dashboard-number>
                     </span>
                     <span class="graph-dot mb8">
                       <span class="graph-dot-ellipse bg-red mr8"></span>
                       Afternoon
-                      <span class="caption-strong">${dayparts[1]}</span>
+                      <dashboard-number class="caption-strong">${dayparts[1]}</dashboard-number>
                     </span>
                     <span class="graph-dot mb8">
                       <span class="graph-dot-ellipse bg-green mr8"></span>
                       Evening
-                      <span class="caption-strong">${dayparts[2]}</span>
+                      <dashboard-number class="caption-strong">${dayparts[2]}</dashboard-number>
                     </span>
                     <span class="graph-dot">
                       <span class="graph-dot-ellipse bg-yellow mr8"></span>
                       Night
-                      <span class="caption-strong">${dayparts[3]}</span>
+                      <dashboard-number class="caption-strong">${dayparts[3]}</dashboard-number>
                     </span>
                   </div>
                 </div>`;

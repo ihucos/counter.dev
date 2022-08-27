@@ -108,7 +108,7 @@ customElements.define(
                 </a>
               </span>
               <span>
-                <span class="strong mr16">${escapeHtml(count)}</span>
+                <dashboard-number class="strong mr16">${escapeHtml(count)}</dashboard-number>
                 <span class="item-percent bg-blue blue caption">${percentRepr(
                     count,
                     totalCount
@@ -133,7 +133,7 @@ customElements.define(
                 ${escapeHtml(this.getCountryName(countryCode.toUpperCase()))}
               </span>
               <span>
-                <span class="strong mr16">${escapeHtml(count)}</span>
+                <dashboard-number class="strong mr16">${escapeHtml(count)}</dashboard-number>
                 <span class="item-percent bg-blue blue caption">${escapeHtml(
                     percentRepr(count, totalCount)
                 )}</span>
