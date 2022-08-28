@@ -10,7 +10,7 @@ export
 
 .PHONY: devserver
 devserver:
-	make build
+	make buildlocal
 	plash --from alpine:$(alpineversion) -- sh -c ". .config/dev.sh && exec ./webstats"
 
 .PHONY: tests
@@ -37,6 +37,11 @@ chgprodpwd:
 .PHONY: build
 build:
 	cd backend && GOOS=linux GOARCH=amd64 $(go) build -o ../webstats
+
+
+.PHONY: buildlocal
+buildlocal:
+	cd backend && $(go) build -o ../webstats
 
 .PHONY: deploy
 deploy:
