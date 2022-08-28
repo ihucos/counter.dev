@@ -66,7 +66,7 @@ customElements.define(
                           new URLSearchParams({
                             referrer: document.referrer,
                             screen: screen.width + "x" + screen.height,
-                            user: "counter",
+                            alias: "IfYv80xROLYFw95AKJoj3Syk5-GHVzA",
                             utcoffset: "1",
                           })
                       );
