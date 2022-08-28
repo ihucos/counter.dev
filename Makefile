@@ -36,14 +36,12 @@ chgprodpwd:
 
 .PHONY: build
 build:
-	cd backend && $(go) build -o ../webstats
+	cd backend && GOOS=linux GOARCH=amd64 $(go) build -o ../webstats
 
 .PHONY: deploy
 deploy:
 	make build
 	rsync .config webstats scripts root@172.104.148.60: -av
-	curl -X POST "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE1)/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $(CLOUDFLARE_TOKEN)" --data '{"purge_everything":true}' --fail
-	curl -X POST "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE2)/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $(CLOUDFLARE_TOKEN)" --data '{"purge_everything":true}' --fail
 	ssh root@172.104.148.60 "pkill -x dtach; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
 
 .PHONY: redis-server
