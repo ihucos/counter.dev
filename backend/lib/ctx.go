@@ -2,16 +2,11 @@ package lib
 
 import (
 	"encoding/json"
-	"encoding/base64"
-	"crypto/rand"
 	"fmt"
 	"io"
 	"net/http"
 	"runtime"
-	"strings"
 	"strconv"
-	"crypto/aes"
-	"crypto/cipher"
 
 	"github.com/ihucos/counter.dev/models"
 	"github.com/ihucos/counter.dev/utils"
@@ -199,42 +194,4 @@ func (ctx *Ctx) CheckMethod(methods ...string) {
 	if !found {
 		ctx.Return("Method Not Allowed", 405)
 	}
-}
-
-
-func (ctx *Ctx) Encrypt(stri string) string {
-	byteMsg := []byte(stri)
-	block, err := aes.NewCipher(ctx.App.Config.CryptSecret)
-	ctx.CatchError(err)
-	cipherText := make([]byte, aes.BlockSize+len(byteMsg))
-	iv := cipherText[:aes.BlockSize]
-	if _, err = io.ReadFull(rand.Reader, iv); err != nil {
-		ctx.CatchError(err)
-	}
-	stream := cipher.NewCFBEncrypter(block, iv)
-	stream.XORKeyStream(cipherText[aes.BlockSize:], byteMsg)
-	encoded := base64.URLEncoding.EncodeToString(cipherText)
-	return strings.TrimRight(encoded, "=")
-}
-
-
-func (ctx *Ctx) Decrypt(stri string) string {
-
-	// add base64 padding
-	if i := len(stri) % 4; i != 0 {
-		stri += strings.Repeat("=", 4-i)
-	}
-
-	cipherText, err := base64.URLEncoding.DecodeString(stri)
-	ctx.CatchError(err)
-	block, err := aes.NewCipher(ctx.App.Config.CryptSecret)
-	ctx.CatchError(err)
-	if len(cipherText) < aes.BlockSize {
-		ctx.CatchError(fmt.Errorf("invalid ciphertext block size"))
-	}
-	iv := cipherText[:aes.BlockSize]
-	cipherText = cipherText[aes.BlockSize:]
-	stream := cipher.NewCFBDecrypter(block, iv)
-	stream.XORKeyStream(cipherText, cipherText)
-	return string(cipherText)
 }

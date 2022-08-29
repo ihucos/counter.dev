@@ -41,8 +41,6 @@ func init() {
 			return
 		}
 
-		meta["alias"] = ctx.Encrypt(userId)
-
 		sendDump := func() {
 			dump, err := LoadDump(user, utcOffset)
 			ctx.CatchError(err)

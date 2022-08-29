@@ -31,19 +31,13 @@ func init() {
 		//
 		// Input validation
 		//
-		alias := ctx.R.FormValue("alias")
-		var userId string
-		if alias != "" {
-			userId = ctx.Decrypt(alias)
-		} else {
-			userId = ctx.R.FormValue("user")
+		userId := ctx.R.FormValue("user")
+		if userId == "" {
+			// this has to be supported until the end of time, or
+			// alternatively all current users are not using that option.
+			userId = ctx.R.FormValue("site")
 			if userId == "" {
-				// this has to be supported until the end of time, or
-				// alternatively all current users are not using that option.
-				userId = ctx.R.FormValue("site")
-				if userId == "" {
-					ctx.ReturnBadRequest("missing site param")
-				}
+				ctx.ReturnBadRequest("missing site param")
 			}
 		}
 
