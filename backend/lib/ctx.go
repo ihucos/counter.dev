@@ -171,6 +171,14 @@ func (ctx *Ctx) User(userId string) models.User {
 	return user
 }
 
+func (ctx *Ctx) UserByCachedUUID(uuid string) models.User {
+	conn := ctx.App.RedisPool.Get()
+	user, err := models.NewUserByCachedUUID(conn, uuid, ctx.App.Config.PasswordSalt)
+	ctx.CatchError(err)
+	ctx.OpenConns = append(ctx.OpenConns, conn)
+	return user
+}
+
 func (ctx *Ctx) LogEvent(eventType string) {
 	conn := ctx.App.RedisPool.Get()
 	now := utils.TimeNow(1) // one is the coolest time zone.

@@ -31,14 +31,21 @@ func init() {
 		//
 		// Input validation
 		//
-		userId := ctx.R.FormValue("user")
-		if userId == "" {
-			// this has to be supported until the end of time, or
-			// alternatively all current users are not using that option.
-			userId = ctx.R.FormValue("site")
+		var user models.User
+		uuid := ctx.R.FormValue("uuid")
+		if uuid == "" {
+			userId := ctx.R.FormValue("user")
 			if userId == "" {
-				ctx.ReturnBadRequest("missing site param")
+				// this has to be supported until the end of time, or
+				// alternatively all current users are not using that option.
+				userId = ctx.R.FormValue("site")
+				if userId == "" {
+					ctx.ReturnBadRequest("missing site param")
+				}
 			}
+			user = ctx.User(userId)
+		} else {
+			user = ctx.UserByCachedUUID(uuid)
 		}
 
 		//
@@ -137,7 +144,6 @@ func init() {
 		logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, device)
 
 		siteId := Origin2SiteId(origin)
-		user := ctx.User(userId)
 		visits := user.NewSite(siteId)
 		visits.SaveVisit(visit, now)
 		visits.Log(logLine)
