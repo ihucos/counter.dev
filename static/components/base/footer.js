@@ -64,10 +64,10 @@ customElements.define(
                       fetch(
                         "https://simple-web-analytics.com/track?" +
                           new URLSearchParams({
+                            id: "33671ad4-a966-4a52-b48f-56c92d10a678",
+                            utcoffset: "1",
                             referrer: document.referrer,
                             screen: screen.width + "x" + screen.height,
-                            user: "counter",
-                            utcoffset: "1",
                           })
                       );
                     }
