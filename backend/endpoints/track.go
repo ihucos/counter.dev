@@ -32,7 +32,7 @@ func init() {
 		// Input validation
 		//
 		var user models.User
-		uuid := ctx.R.FormValue("uuid")
+		uuid := ctx.R.FormValue("id")
 		if uuid == "" {
 			userId := ctx.R.FormValue("user")
 			if userId == "" {
