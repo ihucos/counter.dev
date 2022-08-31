@@ -67,7 +67,7 @@ connectData("dashboard-download", (dump) => [
 ]);
 
 connectData("counter-trackingcode", (dump) => [
-    dump.user.id,
+    dump.user.uuid,
     dump.user.prefs.utcoffset || getUTCOffset(),
 ]);
 
@@ -86,7 +86,7 @@ connectData("dashboard-graph", (dump) => [
 connectData("dashboard-settings", (dump) => [
     {
         cursite: selector.site,
-        userId: dump.user.id,
+        uuid: dump.user.uuid,
         meta: dump.meta,
         utcoffset: dump.user.prefs.utcoffset || getUTCOffset(),
     },
