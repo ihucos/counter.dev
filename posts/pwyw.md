@@ -19,7 +19,7 @@ That sounds great, but does such an approach work at all? Let's look at the numb
 # The numbers
 In the year 2022 so far we received **350 Euros** from 26 distinct payments. 
 
-On this year we had about 430 users which integrated at least one domain into
+In this year we had about 430 users which integrated at least one domain into
 *counter.dev* so far. Of course only a portion of this number become active
 users. Measuring - or better said defining - active users is hard, but for us
 to get a taste of it, let's follow a thought.
@@ -38,17 +38,17 @@ month.**
 I like to think how easy one could just go without paying the bill after eating
 at a restaurant. Nevertheless not many people actually do that. If that
 happened the experience of eating at a restaurant would have to be much worse
-in order to ensure guests actually pay. The operational cost of restaurants for
+in order to ensure guests actually pay. The additional cost for restaurants to
 hiring more staff to - for example - check for receipts at the exit would
 ultimately be passed to the guests.
 
-By prioritizing user value beyond almost everything we will stick with the PWYW
-for a while. In fact counter's technical architecture is build to at least
-cover operational costs which such low service fees. But should you use PWYW
-for your next project? The answer might not surprise you: probably not
+By prioritizing user value beyond almost everything we will stick with the
+PWYW-Model for a while. In fact counter's technical architecture is build to at
+least cover operational costs which such low service fees. But should you use
+PWYW for your next project? The answer might not surprise you: probably not
 - expect you think you know what you are doing.
 
 In the end I want to thank all paying users and say that I truly appreciate all
 donations. There are users which are onboard from the very beginning which
 makes me very happy. I hope many users start with a free service but in the end
-can become paying users.
+become paying users.
