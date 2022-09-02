@@ -25,8 +25,8 @@ users. Measuring - or better said defining - active users is hard, but for us
 to get a taste of it, let's follow a thought.
 
 In the last 30 days we had 200 users which logged in into their account. Let's
-subtract new integrations from this time period - considering these user are in
-"trial" mode - and we land at the number of **160 active users**.
+subtract new integrations from this time period - considering these users are in
+"trial" mode - and we land at **160 active users**.
 
 
 If we split this years donations into passed months and divide these by
@@ -46,7 +46,7 @@ By prioritizing user value beyond almost everything we will stick with the
 PWYW-Model for a while. In fact counter's technical architecture is build to at
 least cover operational costs which such low service fees. But should you use
 PWYW for your next project? The answer might not surprise you: probably not
-- expect you think you know what you are doing.
+- except you think you know what you are doing.
 
 In the end I want to thank all paying users and say that I truly appreciate all
 donations. There are users which are onboard from the very beginning which
