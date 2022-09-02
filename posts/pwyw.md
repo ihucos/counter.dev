@@ -50,4 +50,5 @@ for your next project? The answer might not surprise you: probably not
 
 In the end I want to thank all paying users and say that I truly appreciate all
 donations. There are users which are onboard from the very beginning which
-makes me very happy.
+makes me very happy. I hope many users start with a free service but in the end
+can become paying users.
