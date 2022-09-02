@@ -39,8 +39,8 @@ I like to think how easy one could just go without paying the bill after eating
 at a restaurant. Nevertheless not many people actually do that. If that
 happened the experience of eating at a restaurant would have to be much worse
 in order to ensure guests actually pay. The additional cost for restaurants to
-hire more staff to - for example - check for receipts at the exit would
-ultimately be passed to the guests.
+hire more staff to check for receipts at the exit would ultimately be passed to
+the guests.
 
 By prioritizing user value beyond almost everything we will stick with the
 PWYW-Model for a while. In fact counter's technical architecture is build to at
