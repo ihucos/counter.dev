@@ -39,16 +39,16 @@ I like to think how easy one could just go without paying the bill after eating
 at a restaurant. Nevertheless not many people actually do that. If that
 happened the experience of eating at a restaurant would have to be much worse
 in order to ensure guests actually pay. The additional cost for restaurants to
-hiring more staff to - for example - check for receipts at the exit would
+hire more staff to - for example - check for receipts at the exit would
 ultimately be passed to the guests.
 
 By prioritizing user value beyond almost everything we will stick with the
 PWYW-Model for a while. In fact counter's technical architecture is build to at
-least cover operational costs which such low service fees. But should you use
+least cover operational costs with such low service fees. But should you use
 PWYW for your next project? The answer might not surprise you: probably not
 - except you think you know what you are doing.
 
 In the end I want to thank all paying users and say that I truly appreciate all
 donations. There are users which are onboard from the very beginning which
 makes me very happy. I hope many users start with a free service but in the end
-become paying users.
+become paying customers.
