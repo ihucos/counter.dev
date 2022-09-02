@@ -1,6 +1,6 @@
 Title: Pay what you want - can it work?
 Date: 2022-09-02 21:00
-Caption: We have a blog now.
+Caption: Is running a free service worth it?
 Author: Irae Hueck Costa
 
 
