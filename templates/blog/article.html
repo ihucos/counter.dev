@@ -24,9 +24,11 @@
 {% block content %}
   <!-- Full article -->
   <div class="full-article">
+    {% if article.image %}
     <div class="blog-preview">
       <img src="{{ SITEURL }}/images/{{ article.image }}" width="258" height="200" alt="{{ article.title }}">
     </div>
+    {% endif %}
     <div class="blog-full-article-content bg-white shadow-lg">
       <div class="blog-full-article-content-info flex caption gray mb16">
         <div class="flex">
