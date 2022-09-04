@@ -32,7 +32,12 @@ get-newsletter-subscriptions:
 
 .PHONY: chgprodpwd
 chgprodpwd:
-	ssh root@172.104.148.60 '. .config/production.sh && python3 scripts/chgpwd.py $(user) $(password)'
+	ssh root@172.104.148.60 ''. .config/production.sh && python3 scripts/chgpwd.py $(user) $(password)
+
+
+.PHONY: chglocalpwd
+chglocalpwd:
+	. .config/.sh && python3 scripts/chgpwd.py $(user) $(password)
 
 .PHONY: build
 build:
