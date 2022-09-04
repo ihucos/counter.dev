@@ -2,7 +2,6 @@ package lib
 
 import (
 	"fmt"
-	"net/smtp"
 	"os"
 )
 
@@ -11,6 +10,9 @@ type Config struct {
 	Bind         string
 	CookieSecret []byte
 	PasswordSalt []byte
+	SmtpFrom     string
+	SmtpPassword string
+	SmtpHost     string
 }
 
 func env(env string) string {

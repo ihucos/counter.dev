@@ -340,5 +340,7 @@ func (user User) PasswordRecovery() error {
 		return err
 	}
 	// send email with token here
+	fmt.Println(token)
+	fmt.Println(mail)
 	return nil
 }
