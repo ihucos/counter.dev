@@ -35,9 +35,9 @@ func NewConfigFromEnv() Config {
 		RedisUrl:     envDefault("WEBSTATS_REDIS_URL", "redis://localhost:6379"),
 		Bind:         envDefault("WEBSTATS_BIND", ":8000"),
 		CookieSecret: []byte(env("WEBSTATS_COOKIE_SECRET")),
-		SmtpFrom:     env("SMTP_FROM"),
-		SmtpPassword: env("SMTP_PASSWORD"),
-		SmtpHost:     env("SMTP_HOST"),
+		SmtpFrom:     env("WEBSTATS_SMTP_FROM"),
+		SmtpPassword: env("WEBSTATS_SMTP_PASSWORD"),
+		SmtpHost:     env("WEBSTATS_SMTP_HOST"),
 		PasswordSalt: []byte(env("WEBSTATS_PASSWORD_SALT")),
 	}
 
