@@ -4,7 +4,7 @@ function simpleForm(formSelector, arg) {
         success = arg
     } else {
         success = function (response) {
-            window.location.href = redirectUrl;
+            window.location.href = arg;
         }
     }
     document.querySelector(formSelector).onsubmit = (evt) => {
