@@ -55,7 +55,7 @@ customElements.define(
             }
             if (trend === this.POSITIVE) {
                 this.innerHTML = `
-                 <img src="img/rocket.png" srcset="img/rocket@2x.png 2x" width="60" height="60" alt="Rocket">
+                 <img src="/img/rocket.png" srcset="img/rocket@2x.png 2x" width="60" height="60" alt="Rocket">
                  <div class="graph-dynamics-content gradient-green radius-lg">
                    <div class="dynamics positive caption" title="${escapeHtml(
                        text
@@ -71,7 +71,7 @@ customElements.define(
                  </div>`;
             } else if (trend === this.NEGATIVE) {
                 this.innerHTML = `
-                 <img src="img/volcano.png" srcset="img/volcano@2x.png 2x" width="60" height="60" alt="Volcano">
+                 <img src="/img/volcano.png" srcset="img/volcano@2x.png 2x" width="60" height="60" alt="Volcano">
                  <div class="graph-dynamics-content gradient-red radius-lg">
                    <div class="dynamics negative caption" title="${escapeHtml(
                        text
@@ -87,7 +87,7 @@ customElements.define(
                  </div>`;
             } else if (trend === this.STABILITY) {
                 this.innerHTML = `
-                 <img src="img/grow.png" srcset="img/grow@2x.png 2x" width="60" height="60" alt="Grow">
+                 <img src="/img/grow.png" srcset="img/grow@2x.png 2x" width="60" height="60" alt="Grow">
                  <div class="graph-dynamics-content bg-gray radius-lg">
                    <div class="dynamics stability caption" title="${escapeHtml(
                        text

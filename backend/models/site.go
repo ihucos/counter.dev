@@ -84,7 +84,7 @@ func formatWeekRedisKey(time time.Time) string {
 	return fmt.Sprintf("%d-cw%d", year, week)
 }
 
-func (site Site) saveVisitPart(timeRange string, data Visit, expireEntry int) {
+func (site Site) saveVisitPart(timeRange string, data Visit, expireAt time.Time) {
 	var redisKey string
 	for _, field := range fieldsZet {
 		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
@@ -94,8 +94,8 @@ func (site Site) saveVisitPart(timeRange string, data Visit, expireEntry int) {
 			if rand.Intn(zetTrimEveryCalls) == 0 {
 				site.redis.Send("ZREMRANGEBYRANK", redisKey, 0, -zetMaxSize)
 			}
-			if expireEntry != -1 {
-				site.redis.Send("EXPIRE", redisKey, expireEntry)
+			if !expireAt.IsZero() {
+				site.redis.Send("EXPIREAT", redisKey, expireAt.Unix())
 			}
 		}
 	}
@@ -105,22 +105,66 @@ func (site Site) saveVisitPart(timeRange string, data Visit, expireEntry int) {
 		val := data[field]
 		if val != "" {
 			site.redis.Send("HINCRBY", redisKey, truncate(val), 1)
-			if expireEntry != -1 {
-				site.redis.Send("EXPIRE", redisKey, expireEntry)
+			if !expireAt.IsZero() {
+				site.redis.Send("EXPIREAT", redisKey, expireAt.Unix())
 			}
 		}
 	}
 }
 
 func (site Site) SaveVisit(visit Visit, at time.Time) {
-	site.saveVisitPart(at.Format("2006"), visit, 60*60*24*366)
-	site.saveVisitPart(at.Format("2006-01"), visit, 60*60*24*31)
-	site.saveVisitPart(formatWeekRedisKey(at), visit, 60*60*24*7)
 
-	// we expire after two days for the yesterday entry
-	site.saveVisitPart(at.Format("2006-01-02"), visit, 60*60*24*2)
+	// Tolerance for handling time zones and all that nasty stuff
+	expireTolerance := time.Hour * 14
 
-	site.saveVisitPart("all", visit, -1)
+	nextYear := time.Date(at.Year(), time.January, 1,
+		0, 0, 0, 0,
+		at.Location()).AddDate(1, 0, 0)
+
+	nextMonth := time.Date(at.Year(), at.Month(), 1,
+		0, 0, 0, 0,
+		at.Location()).AddDate(0, 1, 0)
+
+	inTwoDays := time.Date(at.Year(), at.Month(), at.Day(),
+		0, 0, 0, 0,
+		at.Location()).AddDate(0, 0, 2)
+
+	inSevenDays := time.Date(at.Year(), at.Month(), at.Day(),
+		0, 0, 0, 0,
+		at.Location()).AddDate(0, 0, 7)
+
+	// This Year
+	site.saveVisitPart(
+		at.Format("2006"),
+		visit,
+		nextYear.Add(expireTolerance))
+
+	// This Month
+	site.saveVisitPart(
+		at.Format("2006-01"),
+		visit,
+		nextMonth.Add(expireTolerance))
+
+	// This Week
+	site.saveVisitPart(
+		formatWeekRedisKey(at),
+		visit,
+		// this can be further optimized by actually calculating the
+		// exact date of the beginning of the next week.
+		inSevenDays.Add(expireTolerance))
+
+	// Today / Yesterday
+	site.saveVisitPart(
+		at.Format("2006-01-02"),
+		visit,
+		// we expire in two days for the yesterday entry
+		inTwoDays.Add(expireTolerance))
+
+	// all
+	site.saveVisitPart(
+		"all",
+		visit,
+		time.Time{})
 }
 
 func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {

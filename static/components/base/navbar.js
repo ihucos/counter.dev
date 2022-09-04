@@ -73,6 +73,60 @@ customElements.define(
         }
 
         connectedCallback() {
+
+            fetch("/lang")
+               .then(response => response.text())
+               .then((response) => {
+                   if (response == "RU"){
+                        var text = `
+<div style="width: 80%; padding: 0.75em;">
+ ❤️
+🇷🇺
+ ❤️
+🇺🇦
+ ❤️
+
+
+                           <br/>
+<br/>
+                       Dear user,<br/>
+<br/>
+You are accessing this site from a Russian internet connection.<br/>
+<br/>
+If you are against the war, apologies for the inconvenience. If you support the war, Слава Україні.
+<br/>
+<br/>
+Let's hope this madness stops eventually and things become more normal.
+<br>
+<br/>
+<br/>
+🕊
+🕊
+🕊
+
+
+                           </div>`
+
+                        $("<table id='overlay'><tbody><tr><td>" + text + "</td></tr></tbody></table>").css({
+                            "position": "fixed",
+                            "top": 0,
+                            "left": 0,
+                            "width": "100%",
+                            "height": "100%",
+                            "background-color": "rgba(0,0,0,.9)",
+                            "z-index": 10000,
+                            "vertical-align": "middle",
+                            "text-align": "left",
+                            "color": "#fff",
+                            "font-size": "30px",
+                            "font-weight": "bold",
+                            "cursor": "wait"
+                        }).appendTo("body");
+                    }
+               })
+               .catch(err => console.log(err))
+
+
             // HACK: this should obviously not be in the navbar
             if (location.href.startsWith("https://simple-web-analytics.com")) {
                 location.href = "https://counter.dev/";
@@ -82,10 +136,10 @@ customElements.define(
                <!-- Navbar -->
                <section class="navbar">
                  <div class="content">
-                   <a href="index.html" class="logotype"></a>
+                   <a href="/index.html" class="logotype"></a>
                    <!-- Navigation -->
                    <nav class="nav-header">
-                     <!-- <a href="#" class="mr32" target="_blank" rel="nofollow">Blog</a> -->
+                     <a href="/blog" class="mr32">Blog</a>
                      <a href="mailto:hey@counter.dev" class="mr32" target="_blank" rel="nofollow">Feedback</a>
                      <a href="https://www.paypal.com/donate/?hosted_button_id=3AV353CXCEN9E" class="mr32" target="_blank" rel="nofollow">Donate</a>
                      <a
@@ -109,8 +163,8 @@ customElements.define(
                        </div>
                      </div>
                      <span class="no-user profile-guest" style="display: none">
-                       <a href="welcome.html?sign-in" class="ml32 mr32">Log in</a>
-                       <a href="welcome.html?sign-up" class="btn-primary">Sign up</a>
+                       <a href="/welcome.html?sign-in" class="ml32 mr32">Log in</a>
+                       <a href="/welcome.html?sign-up" class="btn-primary">Sign up</a>
                      </span>
                      <!-- /// -->
                    </nav>
@@ -120,13 +174,13 @@ customElements.define(
                      <label class="hamburger-btn" for="hamburger-toggle"></label>
                      <div class="hamburger-box">
                        <div class="hamburger-content">
-                         <img src="img/avatar.svg" width="96" height="96" alt="Avatar" />
+                         <img src="/img/avatar.svg" width="96" height="96" alt="Avatar" />
                          <!-- Navigation -->
                          <nav class="nav-header-mob">
                            <!-- Guest -->
                            <span class="no-user mt48 mb48" style="display: none">
-                             <a href="welcome.html?sign-in" class="btn-primary mr16">Log in</a>
-                             <a href="welcome.html?sign-up" class="btn-secondary">Sign up</a>
+                             <a href="/welcome.html?sign-in" class="btn-primary mr16">Log in</a>
+                             <a href="/welcome.html?sign-up" class="btn-secondary">Sign up</a>
                            </span>
                            <!-- User -->
                            <div class="has-user" style="display: none">
@@ -143,9 +197,7 @@ customElements.define(
                              </div>
                            </div>
                            <!-- /// -->
-                           <!-- <a href="#" class="mb24" target="_blank" rel="nofollow"
-                               >Blog</a
-                           > -->
+                           <a href="/blog" class="mb24">Blog</a>
                            <a href="/dashboard" class="has-user mb24" target="_blank" rel="nofollow" style="display: none">
                              Dashboard
                            </a>

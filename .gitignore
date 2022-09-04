@@ -1,10 +1,12 @@
 tags
 log
+out
 counter.dev
 webstats
 *.swp
 .config/production.sh
 .config/makefile.env
+static/blog/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

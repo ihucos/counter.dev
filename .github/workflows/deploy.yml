@@ -1,0 +1,66 @@
+--- 
+name: Deploy frontend
+on:
+  push:
+    branches:
+      - master
+      - staging
+
+jobs: 
+  deploy: 
+    runs-on: ubuntu-latest
+    steps: 
+      - 
+        env: 
+          SSH_PRIVATE_KEY: "${{secrets.SSH_PRIVATE_KEY}}"
+        name: "Create SSH key"
+        run: |
+            mkdir -p ~/.ssh/
+            echo "$SSH_PRIVATE_KEY" > ~/.ssh/private.key
+            sudo chmod 600 ~/.ssh/private.key
+        shell: bash
+
+      - 
+        name: "Checkout"
+        uses: actions/checkout@v2
+
+      -
+        name: "Use python"
+        uses: actions/setup-python@v2
+
+      -
+        name: "Install pelican"
+        run: pip3 install pelican Markdown
+
+      -
+        name: "Install jinja markdown tag"
+        run: pip3 install jinja_markdown
+
+      -
+        name: "Install yasha"
+        run: pip3 install yasha
+
+      -
+        name: "make all"
+        run: make all
+
+      -
+        env:
+          IP: "${{secrets.IP}}"
+        name: "Copy static files"
+        run: |
+          cd ${{github.workspace}}
+          rsync static/* out/* root@$IP:/state/static/${GITHUB_REF#refs/heads/} -av -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/private.key" --chown=root:root
+        shell: bash
+
+      - 
+        name: "Cloudflare cache reset"
+        env:
+          CLOUDFLARE_ZONE1: "${{secrets.CLOUDFLARE_ZONE1}}"
+          CLOUDFLARE_ZONE2: "${{secrets.CLOUDFLARE_ZONE2}}"
+          CLOUDFLARE_TOKEN: "${{secrets.CLOUDFLARE_TOKEN}}"
+        run: |
+          curl -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE1/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $CLOUDFLARE_TOKEN" --data '{"purge_everything":true}' --fail
+          curl -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE2/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $CLOUDFLARE_TOKEN" --data '{"purge_everything":true}' --fail
+        shell: bash
+

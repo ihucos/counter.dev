@@ -8,25 +8,25 @@ customElements.define(
                         <div class="content">
                           <div class="footer-logo">
                             <img
-                              src="img/logotype--gray.svg"
+                              src="/img/logotype--gray.svg"
                               width="140"
                               height="32"
                               alt="Logotype"
                             />
-                            <div class="caption gray">© 2021 Counter. All rights reserved.</div>
+                            <div class="caption gray">© 2022 Counter. All rights reserved.</div>
                           </div>
                           <nav class="nav-footer">
                             <div class="nav-footer-one">
                               <ul>
-                                <!-- <li><a href="#" target="_blank" rel="nofollow">Blog</a></li> -->
+                                <li><a href="/blog">Blog</a></li>
                                 <li><a href="mailto:hey@counter.dev" target="_blank" rel="nofollow">Feedback</a></li>
                                 <li><a href="https://www.paypal.com/donate/?hosted_button_id=3AV353CXCEN9E" target="_blank" rel="nofollow">Donate</a></li>
                               </ul>
                             </div>
                             <div class="nav-footer-two">
                               <ul>
-                                <li><a href="privacy.html" rel="nofollow">Privacy</a></li>
-                                <li><a href="cofounder.html" rel="nofollow">Join us</a></li>
+                                <li><a href="/pages/privacy.html" rel="nofollow">Privacy</a></li>
+                                <li><a href="/pages/imprint.html" rel="nofollow">Imprint</a></li>
                               </ul>
                             </div>
                           </nav>
@@ -38,11 +38,7 @@ customElements.define(
                                 target="_blank"
                                 rel="nofollow"
                               ></a>
-                              <a href="https://twitter.com/NaiveTeamHQ" class="twitter" target="_blank" rel="nofollow"></a>
-                            </div>
-                            <div class="caption gray mb8">
-                              Developed by
-                              <a href="//naive.team" class="gray underline" target="_blank" rel="nofollow">Naive&nbsp;Team</a>
+                              <a href="https://twitter.com/DevCounter" class="twitter" target="_blank" rel="nofollow"></a>
                             </div>
                             <div class="caption gray">
                               Have a question? –
@@ -68,13 +64,11 @@ customElements.define(
                       fetch(
                         "https://simple-web-analytics.com/track?" +
                           new URLSearchParams({
+                            id: "33671ad4-a966-4a52-b48f-56c92d10a678",
+                            utcoffset: "1",
                             referrer: document.referrer,
                             screen: screen.width + "x" + screen.height,
-                            user: "counter",
-                            utcoffset: "1",
-                          }), {
-                              headers: {"X-Referer": window.location.href}
-                          }
+                          })
                       );
                     }
                     sessionStorage.setItem("_swa", "1");

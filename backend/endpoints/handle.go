@@ -7,6 +7,7 @@ import (
 type UserDump struct {
 	Id    string            `json:"id"`
 	Token string            `json:"token"`
+	UUID string            `json:"uuid"`
 	Prefs map[string]string `json:"prefs"`
 }
 
@@ -63,11 +64,16 @@ func LoadDump(user models.User, utcOffset int) (Dump, error) {
 		return Dump{}, err
 	}
 
+	uuid, err := user.ReadUUID()
+	if err != nil {
+		return Dump{}, err
+	}
+
 	sitesDump, err := LoadSitesDump(user, utcOffset)
 	if err != nil {
 		return Dump{}, err
 	}
 
-	userDump := UserDump{Id: user.Id, Token: token, Prefs: prefsData}
+	userDump := UserDump{Id: user.Id, Token: token, UUID: uuid, Prefs: prefsData}
 	return Dump{User: userDump, Sites: sitesDump, Meta: Meta{}}, nil
 }

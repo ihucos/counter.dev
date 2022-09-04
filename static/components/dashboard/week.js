@@ -11,39 +11,53 @@ customElements.define(
                   <span class="graph-dot mb8">
                     <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
                     Mo.
-                    <span class="caption-strong">${weekday[0] || 0}</span>
+                    <dashboard-number class="caption-strong">
+                        ${weekday[1] || 0}
+                    </dashboard-number>
                   </span>
                   <span class="graph-dot mb8">
                     <span class="graph-dot-ellipse bg-red mr8"></span>
                     Tu.
-                    <span class="caption-strong">${weekday[1] || 0}</span>
+                    <dashboard-number class="caption-strong">
+                        ${weekday[2] || 0}
+                    </dashboard-number>
                   </span>
                   <span class="graph-dot mb8">
                     <span class="graph-dot-ellipse bg-green mr8"></span>
                     We.
-                    <span class="caption-strong">${weekday[2] || 0}</span>
+                    <dashboard-number class="caption-strong">
+                        ${weekday[3] || 0}
+                    </dashboard-number>
                   </span>
                   <span class="graph-dot">
                     <span class="graph-dot-ellipse bg-yellow mr8"></span>
                     Th.
-                    <span class="caption-strong">${weekday[3] || 0}</span>
+                    <dashboard-number class="caption-strong">
+                        ${weekday[4] || 0}
+                    </dashboard-number>
                   </span>
                 </div>
                 <div class="week-column">
                   <span class="graph-dot mb8">
                     <span class="graph-dot-ellipse bg-orange mr8"></span>
                     Fr.
-                    <span class="caption-strong">${weekday[4] || 0}</span>
+                    <dashboard-number class="caption-strong">
+                        ${weekday[5] || 0}
+                    </dashboard-number>
                   </span>
                   <span class="graph-dot mb8">
                     <span class="graph-dot-ellipse bg-light-blue mr8"></span>
                     Sa.
-                    <span class="caption-strong">${weekday[5] || 0}</span>
+                    <dashboard-number class="caption-strong">
+                        ${weekday[6] || 0}
+                    </dashboard-number>
                   </span>
                   <span class="graph-dot">
                     <span class="graph-dot-ellipse bg-dark-gray mr8"></span>
                     Su.
-                    <span class="caption-strong">${weekday[6] || 0}</span>
+                    <dashboard-number class="caption-strong">
+                        ${weekday[0] || 0}
+                    </dashboard-number>
                   </span>
                 </div>
               </div>

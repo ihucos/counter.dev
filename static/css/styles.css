@@ -1,4 +1,4 @@
-/* =========== © 2020 counter.dev =========== */
+/* =========== © 2022 counter.dev =========== */
 
 /* Reset */
 * {
@@ -492,10 +492,12 @@ a:active {
 label {
   display: inline-block;
   font: 400 14px "Nunito Sans";
-  line-height: 32px;
 }
 label:focus-within {
   color: #147efb;
+}
+label input, label textarea, label select {
+  margin-top: 8px;
 }
 
 textarea,

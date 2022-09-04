@@ -16,13 +16,13 @@ customElements.define(
                     datasets: [
                         {
                             data: this.emptyIfSumZero([
-                                entries[0] || 0,
                                 entries[1] || 0,
                                 entries[2] || 0,
                                 entries[3] || 0,
                                 entries[4] || 0,
                                 entries[5] || 0,
                                 entries[6] || 0,
+                                entries[0] || 0,
                             ]),
                             label: "Visits",
                             borderWidth: 0,

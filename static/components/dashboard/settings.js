@@ -12,13 +12,13 @@ customElements.define(
                 href="#modal-settings"
                 class="btn-secondary btn-icon"
                 rel="modal:open"
-                ><img src="img/settings.svg" width="24" height="24" alt="Settings"
+                ><img src="/img/settings.svg" width="24" height="24" alt="Settings"
               /></a>
 
               <!-- Settings modal -->
               <div id="modal-settings" style="display: none">
                 <div class="modal-header">
-                  <img src="img/settings.svg" width="24" height="24" alt="Settings" />
+                  <img src="/img/settings.svg" width="24" height="24" alt="Settings" />
                   <h3 class="ml16">Settings</h3>
                   <a href="#" class="btn-close" rel="modal:close"></a>
                 </div>
@@ -34,7 +34,7 @@ customElements.define(
                     <!-- Request delete -->
                     <div class="delete-request">
                       <div class="danger-message caption full mr16">
-                        <img src="img/alert.svg" width="24" height="24" alt="Alert" />
+                        <img src="/img/alert.svg" width="24" height="24" alt="Alert" />
                         <span class="ml16"
                           >This website's data will be deleted permanently!</span
                         >
@@ -84,7 +84,7 @@ customElements.define(
 
             let tc = this.querySelector("counter-trackingcode");
             customElements.upgrade(tc);
-            tc.draw(opts.userId, opts.utcoffset);
+            tc.draw(opts.uuid, opts.utcoffset);
         }
     }
 );

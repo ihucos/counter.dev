@@ -2,6 +2,7 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(lang) {
+            var lang = this.group(lang)
             var langEntries = Object.entries(lang).sort((a, b) => b[1] - a[1]);
             this.totalCount = Object.values(lang).reduce(
                 (acc, next) => acc + next,
@@ -10,7 +11,7 @@ customElements.define(
             this.innerHTML = `
           <div class="metrics-three-item">
             <div class="metrics-headline">
-              <img src="img/languages.svg" width="24" height="24" alt="Languages">
+              <img src="/img/languages.svg" width="24" height="24" alt="Languages">
               <h3 class="ml16">Languages</h3>
             </div>
             <div class="metrics-three-data bg-white radius-lg shadow-sm">
@@ -34,12 +35,23 @@ customElements.define(
             `;
         }
 
+        group(lang){
+            var newLang = {}
+            for (const [langName, count] of Object.entries(lang)) {
+                // Canadian English -> English
+                // Taking the last word works
+                let simpleLangName = langName.split(' ').pop()
+                newLang[simpleLangName] = (newLang[simpleLangName] || 0) + count
+            }
+            return newLang
+        }
+
         drawItem(lang, count) {
             return `
                 <div class="metrics-three-data-content-item">
                   ${escapeHtml(lang)}
                   <span>
-                    <span class="strong mr16">${count}</span>
+                    <dashboard-number class="strong mr16">${count}</dashboard-number>
                     <span class="item-percent bg-blue blue caption">${percentRepr(
                         count,
                         this.totalCount

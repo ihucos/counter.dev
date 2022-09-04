@@ -3,7 +3,89 @@ customElements.define(
     class extends HTMLElement {
         MAX_ENTRIES = 10;
 
-        drawItemSources(domain, count, totalCount) {
+        // Taken from https://www.google.com/supported_domains August 2022
+        GROUP_SOURCES = {
+            "Google search": {
+                match: ["google.com", "google.ad", "google.ae", "google.com.af", "google.com.ag", "google.com.ai", "google.al", "google.am", "google.co.ao", "google.com.ar", "google.as", "google.at", "google.com.au", "google.az", "google.ba", "google.com.bd", "google.be", "google.bf", "google.bg", "google.com.bh", "google.bi", "google.bj", "google.com.bn", "google.com.bo", "google.com.br", "google.bs", "google.bt", "google.co.bw", "google.by", "google.com.bz", "google.ca", "google.cd", "google.cf", "google.cg", "google.ch", "google.ci", "google.co.ck", "google.cl", "google.cm", "google.cn", "google.com.co", "google.co.cr", "google.com.cu", "google.cv", "google.com.cy", "google.cz", "google.de", "google.dj", "google.dk", "google.dm", "google.com.do", "google.dz", "google.com.ec", "google.ee", "google.com.eg", "google.es", "google.com.et", "google.fi", "google.com.fj", "google.fm", "google.fr", "google.ga", "google.ge", "google.gg", "google.com.gh", "google.com.gi", "google.gl", "google.gm", "google.gr", "google.com.gt", "google.gy", "google.com.hk", "google.hn", "google.hr", "google.ht", "google.hu", "google.co.id", "google.ie", "google.co.il", "google.im", "google.co.in", "google.iq", "google.is", "google.it", "google.je", "google.com.jm", "google.jo", "google.co.jp", "google.co.ke", "google.com.kh", "google.ki", "google.kg", "google.co.kr", "google.com.kw", "google.kz", "google.la", "google.com.lb", "google.li", "google.lk", "google.co.ls", "google.lt", "google.lu", "google.lv", "google.com.ly", "google.co.ma", "google.md", "google.me", "google.mg", "google.mk", "google.ml", "google.com.mm", "google.mn", "google.ms", "google.com.mt", "google.mu", "google.mv", "google.mw", "google.com.mx", "google.com.my", "google.co.mz", "google.com.na", "google.com.ng", "google.com.ni", "google.ne", "google.nl", "google.no", "google.com.np", "google.nr", "google.nu", "google.co.nz", "google.com.om", "google.com.pa", "google.com.pe", "google.com.pg", "google.com.ph", "google.com.pk", "google.pl", "google.pn", "google.com.pr", "google.ps", "google.pt", "google.com.py", "google.com.qa", "google.ro", "google.ru", "google.rw", "google.com.sa", "google.com.sb", "google.sc", "google.se", "google.com.sg", "google.sh", "google.si", "google.sk", "google.com.sl", "google.sn", "google.so", "google.sm", "google.sr", "google.st", "google.com.sv", "google.td", "google.tg", "google.co.th", "google.com.tj", "google.tl", "google.tm", "google.tn", "google.to", "google.com.tr", "google.tt", "google.com.tw", "google.co.tz", "google.com.ua", "google.co.ug", "google.co.uk", "google.com.uy", "google.co.uz", "google.com.vc", "google.co.ve", "google.vg", "google.co.vi", "google.com.vn", "google.vu", "google.ws", "google.rs", "google.co.za", "google.co.zm", "google.co.zw", "google.cat",
+                    "com.google.android.googlequicksearchbox"],
+                link: "google.com",
+                icon: "google.com"
+            },
+            "Google ads": {
+                match: ["doubleclick.net", ".doubleclick.net", ".googlesyndication.com", "cse.google.com"],
+                link: "marketingplatform.google.com",
+                icon: "google.com",
+            },
+            "Twitter": {
+                match: ["t.co", "com.twitter.android", ".twitter.com", "twitter.com"],
+                link: "twitter.com",
+                icon: "twitter.com"
+            },
+            "Facebook": {
+                match: ["facebook.com", ".facebook.com"],
+                link: "facebook.com",
+                icon: "facebook.com"
+            },
+            "Yahoo search": {
+                match: [".search.yahoo.com"],
+                link: "yahoo.com",
+                icon: "yahoo.com"
+            },
+            "Wikipedia": {
+                match: ["wikipedia.org", ".wikipedia.org"],
+                link: "wikipedia.org",
+                icon: "wikipedia.org"
+            },
+            "Bing": {
+                match: ["bing.com", ".bing.com"],
+                link: "bing.com",
+                icon: "bing.com"
+            },
+            "Reddit": {
+                match: ["reddit.com", ".reddit.com"],
+                link: "reddit.com",
+                icon: "reddit.com"
+            },
+            "Pinterest": {
+                match: ["com.pinterest", "pinterest.com", ".pinterest.com",
+                    "www.pinterest.at",
+                    "www.pinterest.ca",
+                    "www.pinterest.ch",
+                    "www.pinterest.cl",
+                    "www.pinterest.co.kr",
+                    "www.pinterest.co.uk",
+                    "www.pinterest.com",
+                    "www.pinterest.com.au",
+                    "www.pinterest.com.mx",
+                    "www.pinterest.de",
+                    "www.pinterest.dk",
+                    "www.pinterest.es",
+                    "www.pinterest.fr",
+                    "www.pinterest.ie",
+                    "www.pinterest.it",
+                    "www.pinterest.jp",
+                    "www.pinterest.net",
+                    "www.pinterest.nz",
+                    "www.pinterest.ph",
+                    "www.pinterest.pt",
+                    "www.pinterest.ru",
+                    "www.pinterest.se"],
+
+                link: "pinterest.com",
+                icon: "pinterest.com"
+            }
+
+        }
+
+
+        drawItemSources(ref, count, totalCount) {
+            let item = this.groupItems[ref]
+
+            // hack
+            if (item === undefined){
+                return ''
+            }
+
             return `
           <div class="sources-countries-item shadow-sm mb8">
             <div class="percent-line" style="width: ${percentRepr(
@@ -14,19 +96,19 @@ customElements.define(
               <span>
                 <img
                   src="https://icons.duckduckgo.com/ip3/${escapeHtml(
-                      domain
+                      item.icon
                   )}.ico"
                   width="16"
                   height="16"
-                  alt="${escapeHtml(domain)}">
+                  alt="${escapeHtml(item.group)}">
                 <a href="//${escapeHtml(
-                    domain
+                    item.link
                 )}" class="black" target="_blank" rel="nofollow">
-                ${escapeHtml(domain)}
+                ${escapeHtml(item.group)}
                 </a>
               </span>
               <span>
-                <span class="strong mr16">${escapeHtml(count)}</span>
+                <dashboard-number class="strong mr16">${escapeHtml(count)}</dashboard-number>
                 <span class="item-percent bg-blue blue caption">${percentRepr(
                     count,
                     totalCount
@@ -51,7 +133,7 @@ customElements.define(
                 ${escapeHtml(this.getCountryName(countryCode.toUpperCase()))}
               </span>
               <span>
-                <span class="strong mr16">${escapeHtml(count)}</span>
+                <dashboard-number class="strong mr16">${escapeHtml(count)}</dashboard-number>
                 <span class="item-percent bg-blue blue caption">${escapeHtml(
                     percentRepr(count, totalCount)
                 )}</span>
@@ -60,11 +142,42 @@ customElements.define(
           </div>`;
         }
 
-        refGroup(ref) {
+        isGroupMatch(groupMeta, ref){
+            let matched
+            for (const m of groupMeta.match) {
+                if (m.startsWith('.')){
+                    matched = ref.endsWith(m)
+                } else {
+                    matched = ref == m
+                }
+                if (matched){
+                    return true
+                }
+            }
+            return false
+        }
+
+        groupItem(ref) {
             if (ref.startsWith("www.")) {
                 ref = ref.slice(4);
             }
-            return ref;
+            let item = {
+                group: ref,
+                link: ref,
+                icon: ref
+             }
+
+            for (const groupName in this.GROUP_SOURCES) {
+                let groupMeta = this.GROUP_SOURCES[groupName]
+                if (this.isGroupMatch(groupMeta, ref)) {
+                    item = {
+                        group: groupName,
+                        link: groupMeta.link,
+                        icon: groupMeta.icon
+                    }
+                }
+            }
+            return item;
         }
 
         draw(sources, countries) {
@@ -73,13 +186,17 @@ customElements.define(
             // Group similar looking sources (e.G. www.example.com and
             // example.com)
             let parentThis = this;
-            let groupedSources = {};
+            let groupedSources = {link: null, icon: null};
+            let groupItems = {}
             Object.keys(sources).forEach(function (ref) {
                 let refVisits = sources[ref];
-                let refGroup = parentThis.refGroup(ref);
-                groupedSources[refGroup] = groupedSources[refGroup] || 0;
-                groupedSources[refGroup] += refVisits;
+                let groupItem = parentThis.groupItem(ref);
+                groupItems[groupItem.group] = groupItem
+                groupedSources[groupItem.group] = groupedSources[groupItem.group] || 0;
+                groupedSources[groupItem.group] += refVisits;
             });
+
+            this.groupItems = groupItems
 
             this.allSourcesEntries = Object.entries(groupedSources).sort(
                 (a, b) => b[1] - a[1]
@@ -171,7 +288,7 @@ customElements.define(
                   <!-- Sources -->
                   <div class="sources" id="sources">
                     <div class="metrics-headline">
-                      <img src="img/sources.svg" width="24" height="24" alt="Sources" />
+                      <img src="/img/sources.svg" width="24" height="24" alt="Sources" />
                       <h3 class="ml16">Sources</h3>
                     </div>
                     <div class="sources-countries-data caption gray bg-gray mt16 mb24">
@@ -207,7 +324,7 @@ customElements.define(
                             <span class="black strong view-all-text animation">View all</span>
                           </span>
                           <img
-                            src="img/chevron-right.svg"
+                            src="/img/chevron-right.svg"
                             width="24"
                             height="24"
                             alt="Chevron"
@@ -221,7 +338,7 @@ customElements.define(
                   <div class="countries" id="countries">
                     <div class="metrics-headline">
                       <img
-                        src="img/countries.svg"
+                        src="/img/countries.svg"
                         width="24"
                         height="24"
                         alt="Countries"
@@ -261,7 +378,7 @@ customElements.define(
                             <span class="black strong view-all-text animation">View all</span>
                           </span>
                           <img
-                            src="img/chevron-right.svg"
+                            src="/img/chevron-right.svg"
                             width="24"
                             height="24"
                             alt="Chevron"
@@ -286,7 +403,7 @@ customElements.define(
                 <!-- Sources modal -->
                 <div id="modal-sources" style="display: none">
                   <div class="modal-header">
-                    <img src="img/sources.svg" width="24" height="24" alt="Sources" />
+                    <img src="/img/sources.svg" width="24" height="24" alt="Sources" />
                     <h3 class="ml16">Sources</h3>
                     <a href="#" class="btn-close" rel="modal:close"></a>
                   </div>
@@ -307,7 +424,7 @@ customElements.define(
                 <!-- Countries modal -->
                 <div id="modal-countries" style="display: none">
                   <div class="modal-header">
-                    <img src="img/countries.svg" width="24" height="24" alt="Countries" />
+                    <img src="/img/countries.svg" width="24" height="24" alt="Countries" />
                     <h3 class="ml16">Countries</h3>
                     <a href="#" class="btn-close" rel="modal:close"></a>
                   </div>

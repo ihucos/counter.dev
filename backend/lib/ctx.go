@@ -166,7 +166,15 @@ func (ctx *Ctx) Logout() {
 
 func (ctx *Ctx) User(userId string) models.User {
 	conn := ctx.App.RedisPool.Get()
-	user := models.NewUser(conn, userId)
+	user := models.NewUser(conn, userId, ctx.App.Config.PasswordSalt)
+	ctx.OpenConns = append(ctx.OpenConns, conn)
+	return user
+}
+
+func (ctx *Ctx) UserByCachedUUID(uuid string) models.User {
+	conn := ctx.App.RedisPool.Get()
+	user, err := models.NewUserByCachedUUID(conn, uuid, ctx.App.Config.PasswordSalt)
+	ctx.CatchError(err)
 	ctx.OpenConns = append(ctx.OpenConns, conn)
 	return user
 }

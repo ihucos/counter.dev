@@ -7,7 +7,7 @@ customElements.define(
             }
             this.innerHTML = `
                 <a class="btn-secondary btn-icon" href="#">
-                <img src="img/download.svg" width="24" height="24" alt="Download"/>
+                <img src="/img/download.svg" width="24" height="24" alt="Download"/>
                 </a>`;
 
             this.querySelector("a").onclick = () =>

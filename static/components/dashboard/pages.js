@@ -6,7 +6,7 @@ customElements.define(
             this.innerHTML = `
         <div class="metrics-four-item">
           <div class="metrics-headline">
-            <img src="img/pages.svg" width="24" height="24" alt="Pages">
+            <img src="/img/pages.svg" width="24" height="24" alt="Pages">
             <h3 class="ml16">Entry Pages</h3>
           </div>
           <div class="metrics-three-data bg-white radius-lg shadow-sm">
@@ -20,7 +20,7 @@ customElements.define(
                       (item) => `
               <div class="hour-item">
                 <span class="page">${escapeHtml(item[0])}</span>
-                <span class="caption-strong">${item[1]}</span>
+                <dashboard-number class="caption-strong">${item[1]}</dashboard-number>
               </div>`
                   )
                   .join("")}

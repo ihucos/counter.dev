@@ -10,6 +10,7 @@ type Config struct {
 	RedisUrl     string
 	Bind         string
 	CookieSecret []byte
+	PasswordSalt []byte
 }
 
 func env(env string) string {
@@ -35,6 +36,7 @@ func NewConfigFromEnv() Config {
 		SmtpFrom:     env("SMTP_FROM"),
 		SmtpPassword: env("SMTP_PASSWORD"),
 		SmtpHost:     env("SMTP_HOST"),
+		PasswordSalt: []byte(env("WEBSTATS_PASSWORD_SALT")),
 	}
 
 }

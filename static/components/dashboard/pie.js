@@ -40,28 +40,36 @@ customElements.define(
               }">
                 <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
                 ${escapeHtml(aggrKeys[0])}
-                <span class="caption-strong">${escapeHtml(aggrVals[0])}</span>
+                <dashboard-number class="caption-strong">
+                    ${escapeHtml(aggrVals[0])}
+                </dashboard-number>
               </span>
               <span class="graph-dot mb8" style="visibility: ${
                   aggrKeys.length < 2 ? "hidden" : "visible"
               }">
                 <span class="graph-dot-ellipse bg-red mr8"></span>
                 ${escapeHtml(aggrKeys[1])}
-                <span class="caption-strong">${escapeHtml(aggrVals[1])}</span>
+                <dashboard-number class="caption-strong">
+                    ${escapeHtml(aggrVals[1])}
+                </dashboard-number>
               </span>
               <span class="graph-dot mb8" style="visibility: ${
                   aggrKeys.length < 3 ? "hidden" : "visible"
               }">
                 <span class="graph-dot-ellipse bg-green mr8"></span>
                 ${escapeHtml(aggrKeys[2])}
-                <span class="caption-strong">${escapeHtml(aggrVals[2])}</span>
+                <dashboard-number class="caption-strong">
+                    ${escapeHtml(aggrVals[2])}
+                </dashboard-number>
               </span>
               <span class="graph-dot"     style="visibility: ${
                   aggrKeys.length < 4 ? "hidden" : "visible"
               }">
                 <span class="graph-dot-ellipse bg-yellow mr8"></span>
                 ${escapeHtml(aggrKeys[3])}
-                <span class="caption-strong">${escapeHtml(aggrVals[3])}</span>
+                <dashboard-number class="caption-strong">
+                    ${escapeHtml(aggrVals[3])}
+                </dashboard-number>
               </span>
             </div>`;
         }
@@ -92,8 +100,8 @@ customElements.define(
                     legend: {
                         display: false,
                     },
-                },
-            };
+                }
+            }
         }
     }
 );

@@ -5,7 +5,7 @@
     <title>Counter: Simple Web Analytics</title>
     <meta
       name="description"
-      content="Web Analytics made simple and therefore privacy friendly. It’s Free."
+      content="Web Analytics made simple and therefore privacy-friendly."
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="css/landing.css" />
@@ -36,7 +36,16 @@
   </head>
   <body>
     <header>
-      <counter-flash></counter-flash>
+
+       <section class="notification">
+         <div class="content">
+           <span>Stop the war. Show your solidarity with a banner
+🇺🇦
+
+           </span>
+         </div>
+       </section>
+
       <base-navbar></base-navbar>
     </header>
     <!-- Landing page -->
@@ -50,7 +59,7 @@
           <div class="description">
             <h1>Simple Web Analytics</h1>
             <div class="title gray mt24 mb48">
-              Web Analytics made simple and therefore privacy friendly.
+              Web Analytics made simple and therefore privacy-friendly.
             </div>
             <a href="welcome.html?sign-up" class="btn-primary mr16"
               >Get started</a
@@ -71,10 +80,10 @@
                 <div class="benefits-item-icon-free"></div>
               </div>
               <div class="benefits-item-description">
-                <h3>Free</h3>
+                <h3>Pay what you want</h3>
                 <div class="mt8 gray">
-                  We don't collect personal data, which allows serving many
-                  users with little hosting costs.
+                  It's up to you when and how much you want to pay for this
+                  service.
                 </div>
               </div>
             </div>
@@ -86,7 +95,7 @@
               <div class="benefits-item-description">
                 <h3>Open Source</h3>
                 <div class="mt8 gray">
-                  The source code is published under the AGPL‑v3 licence.
+                  The source code is published under the AGPL-v3 license.
                   Collaboration is welcome.
                 </div>
               </div>
@@ -97,7 +106,7 @@
                 <div class="benefits-item-icon-privacy"></div>
               </div>
               <div class="benefits-item-description">
-                <h3>Privacy Friendly</h3>
+                <h3>Privacy-friendly</h3>
                 <div class="mt8 gray">
                   No Cookies. No logging. No IP address fingerprinting.
                 </div>
@@ -116,7 +125,7 @@
           <div class="features-item radius-sm">
             <div class="features-item-pic">
               <img
-                src="img/visits.svg"
+                src="/img/visits.svg"
                 width="255"
                 height="150"
                 alt="Counts daily unique visitors"
@@ -134,7 +143,7 @@
           <div class="features-item radius-sm">
             <div class="features-item-pic">
               <img
-                src="img/traffic.svg"
+                src="/img/traffic.svg"
                 width="255"
                 height="150"
                 alt="Know your referrers"
@@ -143,7 +152,7 @@
             <div class="features-item-description">
               <h3 class="mb16">Know your referrers</h3>
               <span class="gray">
-                See which other websites, social media or blogs link to your
+                See which other websites, social media, or blogs link to your
                 website and learn how many users come from those external links.
               </span>
             </div>
@@ -152,7 +161,7 @@
           <div class="features-item radius-sm">
             <div class="features-item-pic">
               <img
-                src="img/location.svg"
+                src="/img/location.svg"
                 width="255"
                 height="150"
                 alt="Geographical locations"
@@ -170,7 +179,7 @@
           <div class="features-item radius-sm">
             <div class="features-item-pic">
               <img
-                src="img/friendly.svg"
+                src="/img/friendly.svg"
                 width="255"
                 height="150"
                 alt="The friendly alternative"
@@ -217,9 +226,10 @@
           <div class="donate-description">
             <div class="h3 mb8">Pay what you want</div>
             <div class="gray">
-              We do encourage users with commercial projects to pay for this
-              product.<br />
-              The amount could be comparable with what similiar services charge.
+              Our main goal is to provide the smoothest Web Analytics
+              experience possible.<br/>
+              Therefore we do not enforce payments but politely
+              ask for an affordable service fee.
             </div>
           </div>
           <a
@@ -227,7 +237,7 @@
             class="btn-primary"
             target="_blank"
             rel="nofollow"
-            >Donate now</a
+            >Pay now</a
           >
         </div>
       </div>
@@ -235,6 +245,7 @@
     <base-footer></base-footer>
     <script type="text/javascript">
       $(document).ready(function () {
+        // depltest
         // Features slider
         $(".owl-carousel").owlCarousel({
           items: 1,
