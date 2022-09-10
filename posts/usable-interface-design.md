@@ -30,7 +30,7 @@ headphones. As life dictates I am left only with my wife's Apple headphones
 (More specifically *AirPods*).
 
 
-## The journey
+## How hard can it be
 
 What starts to be the headphones is inside an aftermarket case. Intuitively I open the leathery
 looking case and am greeted by a nice and accented “click”. I see the white box
@@ -51,7 +51,7 @@ certain it knows if the actual headphones are inside the case or not.
 At this point I accept that help is needed. After pressing *Command-Space* on my
 *Macbook* I start to type “Headphones”. No luck, it did suggest to me Wikipedia
 and a Google search. What I was hoping for is a step by step wizard. But after
-some Googling a very comprehensive YouTube video is found. It turns out there
+some googling a very comprehensive YouTube video is found. It turns out there
 is actually a button on the thing. It’s just that the leather case was hiding
 it. I take the white boxy thing out of the case and press the button. A very
 small orange light goes on and after some seconds off. The first small
