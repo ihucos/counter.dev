@@ -49,7 +49,7 @@ customElements.define(
             "Reddit": {
                 match: ["reddit.com", ".reddit.com",
                     "com.laurencedawson.reddit_sync", "com.laurencedawson.reddit_sync.pro",
-                    "com.andrewshu.android.reddit".
+                    "com.andrewshu.android.reddit",
                     "amp-reddit-com.cdn.ampproject.org"],
                 link: "reddit.com",
                 icon: "reddit.com"
