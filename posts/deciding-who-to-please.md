@@ -3,6 +3,9 @@ Date: 2022-09-14
 Caption: Setting the project's priorities.
 Author: Irae Hueck Costa
 
+# Clashing goals
+
+
 Counter tries to reach many goals. Some are aligned, some seem mutually
 exclusive at times. Part of maturing such a project is deciding priorities. As
 an example: while it is sensible to respect end-user's choice of using
