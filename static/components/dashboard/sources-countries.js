@@ -77,7 +77,7 @@ customElements.define(
                     "pinterest.ph",
                     "pinterest.pt",
                     "pinterest.ru",
-                    "pinterest.se"
+                    "pinterest.se",
                     "www.pinterest.at",
                     "www.pinterest.ca",
                     "www.pinterest.ch",
