@@ -1,9 +1,7 @@
-Title: Deciding who to please
+Title: Clashing goals
 Date: 2022-09-14
 Caption: Setting the project's priorities.
 Author: Irae Hueck Costa
-
-# Deciding who to please
 
 Counter tries to reach many goals. Some are aligned, some seem mutually
 exclusive at times. Part of maturing such a project is deciding priorities. As
