@@ -26,6 +26,11 @@ customElements.define(
                 link: "facebook.com",
                 icon: "facebook.com"
             },
+            "Instagram": {
+                match: ["instagram.com", ".instagram.com"],
+                link: "instagram.com",
+                icon: "instagram.com"
+            },
             "Yahoo search": {
                 match: [".search.yahoo.com"],
                 link: "yahoo.com",
@@ -42,12 +47,37 @@ customElements.define(
                 icon: "bing.com"
             },
             "Reddit": {
-                match: ["reddit.com", ".reddit.com"],
+                match: ["reddit.com", ".reddit.com",
+                    "com.laurencedawson.reddit_sync", "com.laurencedawson.reddit_sync.pro",
+                    "com.andrewshu.android.reddit",
+                    "amp-reddit-com.cdn.ampproject.org"],
                 link: "reddit.com",
                 icon: "reddit.com"
             },
             "Pinterest": {
                 match: ["com.pinterest", "pinterest.com", ".pinterest.com",
+                    "pinterest.at",
+                    "pinterest.ca",
+                    "pinterest.ch",
+                    "pinterest.cl",
+                    "pinterest.co.kr",
+                    "pinterest.co.uk",
+                    "pinterest.com",
+                    "pinterest.com.au",
+                    "pinterest.com.mx",
+                    "pinterest.de",
+                    "pinterest.dk",
+                    "pinterest.es",
+                    "pinterest.fr",
+                    "pinterest.ie",
+                    "pinterest.it",
+                    "pinterest.jp",
+                    "pinterest.net",
+                    "pinterest.nz",
+                    "pinterest.ph",
+                    "pinterest.pt",
+                    "pinterest.ru",
+                    "pinterest.se",
                     "www.pinterest.at",
                     "www.pinterest.ca",
                     "www.pinterest.ch",
