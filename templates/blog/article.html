@@ -24,9 +24,11 @@
 {% block content %}
   <!-- Full article -->
   <div class="full-article">
+    {% if article.image %}
     <div class="blog-preview">
       <img src="{{ SITEURL }}/images/{{ article.image }}" width="258" height="200" alt="{{ article.title }}">
     </div>
+    {% endif %}
     <div class="blog-full-article-content bg-white shadow-lg">
       <div class="blog-full-article-content-info flex caption gray mb16">
         <div class="flex">
@@ -47,7 +49,7 @@
       <div class="our-product mt32">
         <img src="/img/product.svg" alt="Our product">
         <div class="our-product-content gradient-red">
-          <h3>Web analytics counter</h3>
+          <h3>Web Analytics</h3>
           <div class="gray mt8 mb24">
             Free. Privacy Friendly. Open Source.
           </div>

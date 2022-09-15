@@ -198,6 +198,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  direction: rtl;
+  text-align: left;
 }
 .item-percent {
   height: 24px;
@@ -256,26 +258,13 @@
 .graph-dot .caption-strong {
   display: none;
 }
-.da {
+.da, .da img {
   width: 350px;
   height: 284px;
-  padding: 16px;
 }
 .da img {
-  display: block;
-}
-.da-content {
-  display: flex;
-  align-items: center;
-}
-.da-content a {
-  margin-left: auto;
-}
-.da-label {
-  height: 24px;
-  padding: 2px 8px;
-  border: 1px solid #fc3158;
-  border-radius: 12px;
+  object-fit: cover;
+  object-position: 0 100%;
 }
 
 /* Languages, screens and time */

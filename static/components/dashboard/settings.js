@@ -84,7 +84,7 @@ customElements.define(
 
             let tc = this.querySelector("counter-trackingcode");
             customElements.upgrade(tc);
-            tc.draw(opts.userId, opts.utcoffset);
+            tc.draw(opts.uuid, opts.utcoffset);
         }
     }
 );

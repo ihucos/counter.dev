@@ -9,6 +9,7 @@ type Config struct {
 	RedisUrl     string
 	Bind         string
 	CookieSecret []byte
+	PasswordSalt []byte
 }
 
 func env(env string) string {
@@ -31,6 +32,7 @@ func NewConfigFromEnv() Config {
 		RedisUrl:     envDefault("WEBSTATS_REDIS_URL", "redis://localhost:6379"),
 		Bind:         envDefault("WEBSTATS_BIND", ":8000"),
 		CookieSecret: []byte(env("WEBSTATS_COOKIE_SECRET")),
+		PasswordSalt: []byte(env("WEBSTATS_PASSWORD_SALT")),
 	}
 
 }

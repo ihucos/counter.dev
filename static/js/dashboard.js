@@ -20,6 +20,11 @@ Chart.defaults.global.tooltips = {
         displayColors: false,
     },
 };
+Chart.defaults.global.tooltips.callbacks.label = function(tooltipItem, data) {
+    var value = data.datasets[0].data[tooltipItem.index];
+    return kFormat(value)
+}
+
 Chart.defaults.global.animation.duration = 0;
 
 function getSelectorEl() {
@@ -62,7 +67,7 @@ connectData("dashboard-download", (dump) => [
 ]);
 
 connectData("counter-trackingcode", (dump) => [
-    dump.user.id,
+    dump.user.uuid,
     dump.user.prefs.utcoffset || getUTCOffset(),
 ]);
 
@@ -81,7 +86,7 @@ connectData("dashboard-graph", (dump) => [
 connectData("dashboard-settings", (dump) => [
     {
         cursite: selector.site,
-        userId: dump.user.id,
+        uuid: dump.user.uuid,
         meta: dump.meta,
         utcoffset: dump.user.prefs.utcoffset || getUTCOffset(),
     },
@@ -178,10 +183,32 @@ function flash(msg) {
 }
 
 function kFormat(num) {
-    num = Math.floor(num);
-    return Math.abs(num) > 999
-        ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + "K"
-        : Math.sign(num) * Math.abs(num) + "";
+    switch (num.toString().length){
+        case 1:
+            return num
+        case 2:
+            return num
+        case 3:
+            return num
+        case 4:
+            return ''+numberFormat(Math.round(num/100) * 100)
+        case 5:
+            return numberFormat(Math.round(num/1000) * 1000)
+        case 6:
+            return numberFormat(Math.round(num/10000) * 10000)
+        case 7:
+            return numberFormat(Math.round(num/100000) * 100000)
+        case 8:
+            return numberFormat(Math.round(num/1000000) * 1000000)
+        case 9:
+            return numberFormat(Math.round(num/10000000) * 10000000)
+        default:
+            return numberFormat(num)
+    }
+}
+
+function numberFormat(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function percentRepr(value, total) {

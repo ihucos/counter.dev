@@ -82,36 +82,26 @@ customElements.define(
                    if (response == "RU"){
                         var text = `
 <div style="width: 80%; padding: 0.75em;">
-🇷🇺
  ❤️
-🇧🇾
+🇷🇺
  ❤️
 🇺🇦
  ❤️
-🌎
 
 
                            <br/>
 <br/>
                        Dear user,<br/>
 <br/>
-You are accessing the site from a Russian internet connection.<br/>
+You are accessing this site from a Russian internet connection.<br/>
 <br/>
-The Russian government attacked the whole country of Ukraine with tanks, bombs, planes and foot soldiers. Many people already died, about 500.000 people fled to neighbourhood countries. There is no legitimate reason for this hostile action.<br/>
+If you are against the war, apologies for the inconvenience. If you support the war, Слава Україні.
 <br/>
-The person who designs this product lives in Kyiv, hearing explosions and with the fear of not waking up the next morning.<br/>
 <br/>
-The Backend-Developer of this product is German and heavily disturbed by another war in Europe. I know the stories and reportings I am hearing, from history and my relatives.<br/>
-<br/>
-If you are Russian and can, please do your part. We need this useless war to stop. Put peaceful pressure on your government. Do what you can, make this stop, make it happen. Given the current situation we are giving you responsibility.<br/>
-<br/>
-May the world live in peace and unity, we are all the same.<br/>
-<br /><br />
-<i>Our mission at counter is to create simply a good product. But this topic is more important, for all of us. </i>
+Let's hope this madness stops eventually and things become more normal.
 <br>
- <i>1 March 2022</i>
-<br>
-<br>
+<br/>
+<br/>
 🕊
 🕊
 🕊

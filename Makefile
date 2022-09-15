@@ -1,5 +1,5 @@
 
-alpineversion = 3.11
+alpineversion = edge
 go = $(abspath ./scripts/go)
 
 .DEFAULT_GOAL := all
@@ -10,8 +10,8 @@ export
 
 .PHONY: devserver
 devserver:
-	make build
-	. .config/dev.sh && ./webstats
+	make buildlocal
+	plash --from alpine:$(alpineversion) -- sh -c ". .config/dev.sh && exec ./webstats"
 
 .PHONY: tests
 tests:
@@ -19,7 +19,7 @@ tests:
 
 .PHONY: format
 format:
-	plash --from alpine:3.11 --apk npm --run 'npm i prettier --global' -- prettier --write .
+	plash --from alpine:$(alpineversion) --apk npm --run 'npm i prettier --global' -- prettier --write .
 	find -type f -name \*.go | xargs -L1 go fmt
 
 .PHONY: logs
@@ -32,23 +32,27 @@ get-newsletter-subscriptions:
 
 .PHONY: chgprodpwd
 chgprodpwd:
-	ssh root@172.104.148.60 python3 scripts/chgpwd.py $(user) $(password)
+	ssh root@172.104.148.60 ''. .config/production.sh && python3 scripts/chgpwd.py $(user) $(password)
+
+
+.PHONY: chglocalpwd
+chglocalpwd:
+	. .config/.sh && python3 scripts/chgpwd.py $(user) $(password)
 
 .PHONY: build
 build:
+	cd backend && GOOS=linux GOARCH=amd64 $(go) build -o ../webstats
+
+
+.PHONY: buildlocal
+buildlocal:
 	cd backend && $(go) build -o ../webstats
 
 .PHONY: deploy
 deploy:
 	make build
-	make deploy-static
+	rsync .config webstats scripts root@172.104.148.60: -av
 	ssh root@172.104.148.60 "pkill -x dtach; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
-
-.PHONY: deploy-static
-deploy-static:
-	rsync static .config webstats scripts root@172.104.148.60: -av
-	curl -X POST "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE1)/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $(CLOUDFLARE_TOKEN)" --data '{"purge_everything":true}' --fail
-	curl -X POST "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE2)/purge_cache" -H "Content-Type:application/json" -H "Authorization: Bearer $(CLOUDFLARE_TOKEN)" --data '{"purge_everything":true}' --fail
 
 .PHONY: redis-server
 redis-server:

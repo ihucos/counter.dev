@@ -10,12 +10,16 @@ import (
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/utils"
 	"gorm.io/gorm"
+	uuidLib "github.com/google/uuid"
 )
+
+var uuid2id = map[string]string{}
 
 type User struct {
 	redis redis.Conn
 	db    *gorm.DB
 	Id    string
+	passwordSalt string
 }
 
 type ErrUser struct {
@@ -46,8 +50,33 @@ func truncate(stri string) string {
 	return stri
 }
 
-func NewUser(userId string, db *gorm.DB, conn redis.Conn) User {
-	return User{redis: conn, Id: truncate(userId), db: db}
+func NewUser(conn redis.Conn, userId string, db *gorm.DB, passwordSalt []byte) User {
+	return User{redis: conn, Id: truncate(userId), passwordSalt: string(passwordSalt), db: db}
+}
+
+func NewUserByCachedUUID(conn redis.Conn, uuid string, db *gorm.DB, passwordSalt []byte) (User, error){
+	var err error
+	// Basically we must 'id' here so it can be set inside the if clause
+	var id string
+	var ok bool
+	id, ok = uuid2id[uuid]
+	if ! ok {
+		// hit the redis db
+		id, err = redis.String(conn.Do("HGET", "uuid2id", uuid))
+		if err == redis.ErrNil {
+			return User{}, fmt.Errorf("No such user with uuid: %s", uuid)
+		} else if err != nil {
+			return User{}, err
+		}
+
+		// cache the value in memory
+		uuid2id[uuid] = id
+	}
+	return NewUser(conn, id, db, passwordSalt), nil
+}
+
+func (user User) hashPassword(password string) string {
+	return hash(hash(password) + user.passwordSalt)
 }
 
 func (user User) DelAllSites() error {
@@ -82,7 +111,12 @@ func (user User) ReadToken() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return base64.StdEncoding.EncodeToString([]byte(token)), nil
+	return  base64.URLEncoding.EncodeToString([]byte(token)), nil
+}
+
+
+func (user User) ReadUUID() (string, error) {
+	return redis.String(user.redis.Do("HGET", "id2uuid", user.Id))
 }
 
 func (user User) DeleteToken() error {
@@ -101,7 +135,12 @@ func (user User) GetMetaData() (MetaData, error) {
 	if err != nil {
 		return meta, err
 	}
+	uuid, err := user.ReadUUID()
+	if err != nil {
+		return meta, err
+	}
 	meta["token"] = token
+	meta["uuid"] = uuid
 	meta["user"] = user.Id
 
 	return meta, nil
@@ -121,9 +160,12 @@ func (user User) Create(password string) error {
 		return &ErrUser{"Password must have at least 8 characters"}
 	}
 
+	uuid := uuidLib.New().String()
 	user.redis.Send("MULTI")
-	user.redis.Send("HSETNX", "users", user.Id, hash(password))
+	user.redis.Send("HSETNX", "users", user.Id, user.hashPassword(password))
 	user.redis.Send("HSETNX", "tokens", user.Id, "")
+	user.redis.Send("HSETNX", "id2uuid", user.Id, uuid)
+	user.redis.Send("HSETNX", "uuid2id", uuid, user.Id)
 	userVarsStatus, err := redis.Ints(user.redis.Do("EXEC"))
 	if err != nil {
 		return err
@@ -140,7 +182,7 @@ func (user User) Create(password string) error {
 }
 
 func (user User) ChangePassword(password string) error {
-	_, err := user.redis.Do("HSET", "users", user.Id, hash(password))
+	_, err := user.redis.Do("HSET", "users", user.Id, user.hashPassword(password))
 	if err != nil {
 		return err
 	}
@@ -154,7 +196,7 @@ func (user User) VerifyPassword(password string) (bool, error) {
 	} else if err != nil {
 		return false, err
 	}
-	return hashedPassword != "" && hashedPassword == hash(password), nil
+	return hashedPassword != "" && hashedPassword == user.hashPassword(password), nil
 }
 
 func (user User) VerifyToken(token string) (bool, error) {
