@@ -7,17 +7,15 @@ import (
 	"time"
 )
 
-// Higher value means less cpu usage (higher sleep time while working)
-const MAX_ARCHIVE_AGE = time.Duration(3 * time.Second)
 
 const ITERATION_CHUNK_SIZE = 100
 
 type Record struct {
-	Date   string `gorm:"index"`
-	User   string `gorm:"index"`
-	Origin string `gorm:"index"`
-	Field  string `gorm:"index"`
-	Value  string `gorm:"index"`
+	Date   string
+	User   string
+	Origin string
+	Field  string
+	Value  string
 	Count  int64
 }
 
@@ -39,12 +37,14 @@ func (app *App) AutoMigrate() {
 }
 
 func (app *App) ArchiveHotVisitsForever() {
+	nullDuration, _ := time.ParseDuration("0s")
+	app.archiveHotVisits(nullDuration)
 	for {
-		app.archiveHotVisits()
+		app.archiveHotVisits(app.Config.ArchiveMaxAge)
 	}
 }
 
-func (app *App) archiveHotVisits() {
+func (app *App) archiveHotVisits(duration time.Duration) {
 	cursor := 0
 
 	conn := app.RedisPool.Get()
@@ -55,8 +55,9 @@ func (app *App) archiveHotVisits() {
 	conn.Close()
 
 	// How much time in total each iteration has to take in order to
-	// achieve the MAX_ARCHIVE_AGE but still go easy on the CPU
-	timePerTickGoal := time.Duration(float64(MAX_ARCHIVE_AGE) / float64(dbsize/ITERATION_CHUNK_SIZE))
+	// achieve the archive max age but still go easy on the CPU.
+	// Higher value means less cpu usage (higher sleep time while working)
+	timePerTickGoal := time.Duration(float64(duration) / float64(dbsize/ITERATION_CHUNK_SIZE))
 
 	start := time.Now()
 	for {
@@ -72,7 +73,7 @@ func (app *App) archiveHotVisits() {
 			break
 		}
 	}
-	app.Logger.Printf("Archived all data in %s", time.Since(start).String())
+	app.Logger.Printf("Archived visits in %s", time.Since(start).String())
 }
 
 func (app *App) archiveHotVisitsPartForce(cursor int) int {
