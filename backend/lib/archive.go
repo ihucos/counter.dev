@@ -18,7 +18,7 @@ type Record struct {
 	Count  int64
 }
 
-func (app *App) AutoMigrate() {
+func (app *App) CreateTable() {
 	sql := func(stmt string) {
 		err := app.DB.Exec(stmt).Error
 		if err != nil {

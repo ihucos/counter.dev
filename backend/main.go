@@ -20,7 +20,7 @@ func main() {
 	}
 
 	app := lib.NewApp()
-	app.AutoMigrate()
+	app.CreateTable()
 	go app.ArchiveHotVisitsForever()
 	app.ConnectEndpoints()
 	app.Logger.Println("Start")
