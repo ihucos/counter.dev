@@ -115,8 +115,6 @@ func NewApp() *App {
 	if err != nil {
 		panic("failed to connect sqlite3 database")
 	}
-	//gt
-	//db.Exec("PRAGMA journal_mode=WAL")
 
 	serveMux := http.NewServeMux()
 	//fs := http.FileServer(http.Dir("./static"))
