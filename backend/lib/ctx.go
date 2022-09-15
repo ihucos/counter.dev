@@ -173,7 +173,7 @@ func (ctx *Ctx) User(userId string) models.User {
 
 func (ctx *Ctx) UserByCachedUUID(uuid string) models.User {
 	conn := ctx.App.RedisPool.Get()
-	user, err := models.NewUserByCachedUUID(conn, uuid, ctx.App.Config.PasswordSalt)
+	user, err := models.NewUserByCachedUUID(conn, uuid, ctx.App.DB, ctx.App.Config.PasswordSalt)
 	ctx.CatchError(err)
 	ctx.OpenConns = append(ctx.OpenConns, conn)
 	return user

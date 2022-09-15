@@ -74,7 +74,7 @@ func LoadUserDump(user models.User) (UserDump, error) {
 	}
 	uuid, err := user.ReadUUID()
 	if err != nil {
-		return Dump{}, err
+		return UserDump{}, err
 	}
 	return UserDump{Id: user.Id, Token: token, UUID: uuid, Prefs: prefsData}, nil
 }
