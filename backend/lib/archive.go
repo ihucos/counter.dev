@@ -7,7 +7,10 @@ import (
 	"time"
 )
 
-const ITERATION_CHUNK_SIZE = 100
+// Redis blocks too long if the chunk size is too big but sqlite seems to like
+// to write much at once per transaction (Because sqlite does not like
+// too many transactions per sec)
+const ITERATION_CHUNK_SIZE = 5000
 
 type Record struct {
 	Date   string
