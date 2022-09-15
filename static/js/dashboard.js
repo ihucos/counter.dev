@@ -126,17 +126,9 @@ connectData("dashboard-time", k("hour"));
 connectData("dashboard-share-account", (dump) => [dump.user, dump.meta]);
 
 function drawComponents() {
-    customElements.whenDefined("dashboard-connstatus").then((el) => {
-        let connstatus = document.getElementsByTagName(
-            "dashboard-connstatus"
-        )[0];
-        connstatus.message("Connecting...");
-        source.onopen = () => connstatus.message("Live");
-        source.onerror = (err) => connstatus.message("Disconnected");
-    });
 
     document.addEventListener("push-dump", (evt) => {
-        if (Object.keys(dump.sites).length === 0) {
+        if (Object.keys(evt.detail.sites).length === 0) {
             window.location.href = "setup.html";
         }
     })
@@ -148,7 +140,17 @@ function drawComponents() {
     document.addEventListener("push-nouser", () => {
         window.location.href = "welcome.html";
     })
-    dispatchPushEvents(getDumpURL());
+
+    var source = dispatchPushEvents(getDumpURL());
+
+    customElements.whenDefined("dashboard-connstatus").then((el) => {
+        let connstatus = document.getElementsByTagName(
+            "dashboard-connstatus"
+        )[0];
+        connstatus.message("Connecting...");
+        source.onopen = () => connstatus.message("Live");
+        source.onerror = (err) => connstatus.message("Disconnected");
+    });
 }
 
 document.addEventListener("redraw", (evt) => {
