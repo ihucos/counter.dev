@@ -7,7 +7,6 @@ import (
 	"time"
 )
 
-
 const ITERATION_CHUNK_SIZE = 100
 
 type Record struct {
@@ -20,7 +19,7 @@ type Record struct {
 }
 
 func (app *App) AutoMigrate() {
-	sql := func(stmt string){
+	sql := func(stmt string) {
 		err := app.DB.Exec(stmt).Error
 		if err != nil {
 			panic(err)
@@ -73,7 +72,7 @@ func (app *App) archiveHotVisits(duration time.Duration) {
 			break
 		}
 	}
-	app.Logger.Printf("Archived visits in %s", time.Since(start).String())
+	app.Logger.Printf("Archived all visits in %s. Target was %s", time.Since(start), duration)
 }
 
 func (app *App) archiveHotVisitsPartForce(cursor int) int {
@@ -82,12 +81,12 @@ func (app *App) archiveHotVisitsPartForce(cursor int) int {
 		return cursor
 	}
 	app.Logger.Printf(
-		"archiveHotVisitsPart with cursor %d failed first time: %s\n",
-		cursor,
-		err)
-
+		"archiving visits failed, will retry later: %s\n", err)
+	time.Sleep(30 * time.Second)
+	app.Logger.Printf( "archiving visits will retry now")
 	cursor, err = app.archiveHotVisitsPart(cursor)
 	if err == nil {
+		app.Logger.Printf( "archiving visits recovered")
 		return cursor
 	}
 	panic(err)
@@ -176,10 +175,10 @@ func (app *App) QueryArchive(queryArgs QueryArchiveArgs) (QueryArchiveResult, er
 
 	query = query.Where("user = ?", queryArgs.User)
 
-	if ! queryArgs.DateFrom.IsZero() {
+	if !queryArgs.DateFrom.IsZero() {
 		query.Where("date > ?", queryArgs.DateFrom)
 	}
-	if ! queryArgs.DateTo.IsZero() {
+	if !queryArgs.DateTo.IsZero() {
 		query.Where("date > ?", queryArgs.DateTo)
 	}
 
