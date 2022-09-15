@@ -194,7 +194,7 @@ func (app *App) QueryArchive(queryArgs QueryArchiveArgs) (QueryArchiveResult, er
 	for rows.Next() {
 		app.DB.ScanRows(rows, &record)
 
-		// init boilerplate
+		// Setting the default values for the map
 		_, ok := visits[record.Origin]
 		if !ok {
 			visits[record.Origin] = make(map[string]map[string]int64)
