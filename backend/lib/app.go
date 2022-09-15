@@ -115,6 +115,7 @@ func NewApp() *App {
 	if err != nil {
 		panic("failed to connect sqlite3 database")
 	}
+	//gt
 	//db.Exec("PRAGMA journal_mode=WAL")
 
 	serveMux := http.NewServeMux()
@@ -175,6 +176,3 @@ func (app App) Serve() {
 		panic(fmt.Sprintf("ListenAndServe: %s", err))
 	}
 }
-
-
-//func (app App) SaveAll() {
