@@ -22,17 +22,20 @@ type Record struct {
 }
 
 func (app *App) AutoMigrate() {
-	err := app.DB.AutoMigrate(&Record{})
-	if err != nil {
-		panic(err)
+	sql := func(stmt string){
+		err := app.DB.Exec(stmt).Error
+		if err != nil {
+			panic(err)
+		}
 	}
+	sql("CREATE TABLE IF NOT EXISTS `records` (`date` text,`user` text,`origin` text,`field` text,`value` text,`count` integer);")
+	sql("CREATE INDEX IF NOT EXISTS `idx_records_date` ON `records`(`date`);")
+	sql("CREATE INDEX IF NOT EXISTS `idx_records_value` ON `records`(`value`);")
+	sql("CREATE INDEX IF NOT EXISTS `idx_records_field` ON `records`(`field`);")
+	sql("CREATE INDEX IF NOT EXISTS `idx_records_origin` ON `records`(`origin`);")
+	sql("CREATE INDEX IF NOT EXISTS `idx_records_user` ON `records`(`user`);")
+	sql(`CREATE UNIQUE INDEX IF NOT EXISTS "idx_unique" ON "records" ("date","user","origin","field","value");`)
 
-	// Raw SQL needed because https://github.com/go-gorm/gorm/issues/5401
-	err = app.DB.Exec(`CREATE UNIQUE INDEX IF NOT EXISTS "idx_unique" ON
-		"records" ("date","user","origin","field","value")`).Error
-	if err != nil {
-		panic(err)
-	}
 }
 
 func (app *App) ArchiveHotVisitsForever() {
