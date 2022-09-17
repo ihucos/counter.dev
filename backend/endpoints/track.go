@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/avct/uasurfer"
+	"github.com/xavivars/uasurfer"
 	"github.com/ihucos/counter.dev/lib"
 	"github.com/ihucos/counter.dev/models"
 	"github.com/ihucos/counter.dev/utils"
