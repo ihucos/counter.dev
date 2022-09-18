@@ -1,4 +1,3 @@
-// UNDER DEVELOPMENT DO NOT USE
 (function() {
 
     var id = document.currentScript.getAttribute("data-id")
@@ -15,7 +14,7 @@
     };
     sessionStorage.setItem("_swa", "1");
     navigator.sendBeacon(server + "/trackpage", new URLSearchParams({
-        id: document.currentScript.getAttribute("data-id"),
+        id: id,
         page: window.location.pathname
     }))
 })()
