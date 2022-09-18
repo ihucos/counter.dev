@@ -7,12 +7,16 @@ customElements.define(
         <div class="metrics-four-item">
           <div class="metrics-headline">
             <img src="/img/pages.svg" width="24" height="24" alt="Pages">
-            <h3 class="ml16">Entry Pages</h3>
+            <h3 class="ml16"
+                tooltip="Contains only counts since the integration of the new tracking script"
+                flow="right">
+                Pageviews<span class="blue">*&nbsp;</span>
+            </h3>
           </div>
           <div class="metrics-three-data bg-white radius-lg shadow-sm">
             <div class="metrics-three-data-headline shadow-sm caption gray">
               <span>Page</span>
-              <span>Visits</span>
+              <span>Views</span>
             </div>
             <div class="metrics-three-data-content caption" data-simplebar data-simplebar-auto-hide="false">
               ${entries

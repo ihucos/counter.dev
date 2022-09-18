@@ -118,7 +118,7 @@ connectData("#browsers dashboard-pie", k("browser"));
 connectData("dashboard-sources-countries", k("ref", "country"));
 connectData("dashboard-languages", k("lang"));
 connectData("dashboard-screens", k("screen"));
-connectData("dashboard-pages", k("loc"));
+connectData("dashboard-pages", k("page"));
 connectData("dashboard-visits", (dump) => [dump.sites[selector.site].logs]);
 connectData("dashboard-hour", k("hour"));
 connectData("dashboard-week", k("weekday"));
