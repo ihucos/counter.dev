@@ -15,7 +15,8 @@ func init() {
 			ctx.ReturnBadRequest("Confirmation failed")
 		}
 		ctx.Logout()
-		user.DelAllSites()
+		err := user.DelAllSites()
+		ctx.CatchError(err)
 		user.Disable()
 		http.Redirect(ctx.W, ctx.R, "/", http.StatusTemporaryRedirect)
 	})
