@@ -1,4 +1,4 @@
 #!/bin/sh
 export PLASH_EXPORT=$(printenv | cut -d= -f1 | grep 'WEBSTATS_' | xargs | tr ' ' ':'):GOARCH:GOOS
-exec plash --from alpine:edge --apk go gcc libc-dev -- go "$@"
+exec plash --from alpine:edge --apk go -- go "$@"
 

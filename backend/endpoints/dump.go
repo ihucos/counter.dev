@@ -1,6 +1,9 @@
 package endpoints
 
 import (
+	"encoding/json"
+	"fmt"
+	"net/http"
 	"strings"
 	"time"
 
@@ -9,95 +12,16 @@ import (
 	"github.com/ihucos/counter.dev/models"
 )
 
-type UserDump struct {
-	Id    string            `json:"id"`
-	Token string            `json:"token"`
-	UUID string            `json:"uuid"`
-	Prefs map[string]string `json:"prefs"`
-}
-
-type SitesDumpVal struct {
-	Count  int                `json:"count"`
-	Logs   models.LogData     `json:"logs"`
-	Visits models.TimedVisits `json:"visits"`
-}
-
-type SitesDump map[string]SitesDumpVal
-type Meta map[string]string
-
-type Dump struct {
-	Sites SitesDump         `json:"sites"`
-	User  UserDump          `json:"user"`
-	Meta  map[string]string `json:"meta"`
-}
-
-type EventSourceData struct {
-	Type    string      `json:"type"`
-	Payload interface{} `json:"payload"`
-}
-
-func LoadSitesDump(user models.User, utcOffset int) (SitesDump, error) {
-	sitesDump := make(SitesDump)
-
-	sitesLink, err := user.GetPreferredSiteLinks()
-	if err != nil {
-		return SitesDump{}, err
-	}
-
-	for siteId, count := range sitesLink {
-		site := user.NewSite(siteId)
-		logs, err := site.GetLogs()
-		if err != nil {
-			return SitesDump{}, err
-		}
-		visits, err := site.GetVisits(utcOffset)
-		if err != nil {
-			return SitesDump{}, err
-		}
-		sitesDump[siteId] = SitesDumpVal{
-			Logs:   logs,
-			Visits: visits,
-			Count:  count,
-		}
-	}
-	return sitesDump, nil
-}
-
-func LoadUserDump(user models.User) (UserDump, error) {
-	prefsData, err := user.GetPrefs()
-	if err != nil {
-		return UserDump{}, err
-	}
-	token, err := user.ReadToken()
-	if err != nil {
-		return UserDump{}, err
-	}
-	uuid, err := user.ReadUUID()
-	if err != nil {
-		return UserDump{}, err
-	}
-	return UserDump{Id: user.Id, Token: token, UUID: uuid, Prefs: prefsData}, nil
-}
-
-func LoadDump(user models.User, utcOffset int) (Dump, error) {
-
-	sitesDump, err := LoadSitesDump(user, utcOffset)
-	if err != nil {
-		return Dump{}, err
-	}
-
-	userDump, err := LoadUserDump(user)
-	if err != nil {
-		return Dump{}, err
-	}
-	return Dump{User: userDump, Sites: sitesDump, Meta: Meta{}}, nil
-}
-
 func init() {
 	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {
 		ctx.W.Header().Set("Content-Type", "text/event-stream")
 		ctx.W.Header().Set("Cache-Control", "no-cache")
 		ctx.W.Header().Set("Connection", "keep-alive")
+
+		f, ok := ctx.W.(http.Flusher)
+		if !ok {
+			panic("Flush not supported by library")
+		}
 
 		utcOffset := ctx.ParseUTCOffset("utcoffset")
 		sessionlessUserId := ctx.GetSessionlessUserId()
@@ -113,31 +37,18 @@ func init() {
 		} else if userId != "" {
 			user = ctx.User(userId)
 		} else {
-			ctx.SendEventSourceData(EventSourceData{
-				Type:    "nouser",
-				Payload: nil})
+			fmt.Fprintf(ctx.W, "data: null\n\n")
 			return
 		}
-
-		//now := utils.TimeNow(utcOffset)
-		//archive30, err := ctx.App.QueryArchive(lib.QueryArchiveArgs{
-		//	User:     user.Id,
-		//	DateFrom: now.AddDate(0, 0, -30),
-		//	DateTo:   now.AddDate(0, 0, -2),
-		//})
-		//ctx.CatchError(err)
-
-		//ctx.SendEventSourceData(EventSourceData{
-		//	Type:    "archive",
-		//	Payload: archive30})
 
 		sendDump := func() {
 			dump, err := LoadDump(user, utcOffset)
 			ctx.CatchError(err)
 			dump.Meta = meta
-			ctx.SendEventSourceData(EventSourceData{
-				Type:    "dump",
-				Payload: dump})
+			jsonString, err := json.Marshal(dump)
+			ctx.CatchError(err)
+			fmt.Fprintf(ctx.W, "data: %s\n\n", string(jsonString))
+			f.Flush()
 		}
 
 		sendDump()
