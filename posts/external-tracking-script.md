@@ -24,7 +24,7 @@ We do now offer a vanilla tracking script, example:
 
 Go to your dashboard, then click the settings icon. There you have the new
 tracking script. You don't want to do that? That is completely fine too and no
-mayor obstruction is expected. You might be missing out on new features though.
+major obstruction is expected. You might be missing out on new features though.
 
 Don't forget to delete your old tracking snippet.
 
