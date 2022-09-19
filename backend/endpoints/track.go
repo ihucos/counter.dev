@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/avct/uasurfer"
+	"github.com/xavivars/uasurfer"
 	"github.com/ihucos/counter.dev/lib"
 	"github.com/ihucos/counter.dev/models"
 	"github.com/ihucos/counter.dev/utils"
@@ -136,7 +136,15 @@ func init() {
 
 		visit["device"] = device
 
-		visit["platform"] = ua.OS.Platform.StringTrimPrefix()
+		var platform string
+		// Show "Android" on android devices instead of "Linux".
+		if ua.OS.Name == uasurfer.OSAndroid {
+			platform = "Android"
+		} else {
+			platform = ua.OS.Platform.StringTrimPrefix()
+
+		}
+		visit["platform"] = platform
 
 		//
 		// save visit map

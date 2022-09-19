@@ -43,3 +43,10 @@ function dispatchPushEvents(url){
     }
     return source
 }
+
+document.write(`
+<script src="https://cdn.counter.dev/script.js"
+  data-id="33671ad4-a966-4a52-b48f-56c92d10a678"
+  data-utcoffset="1"
+  data-server="https://simple-web-analytics.com">
+</script>`)

@@ -4,6 +4,7 @@ customElements.define(
         draw(logs) {
             var entries = Object.entries(logs).sort((a, b) => b[1] - a[1]);
             var parsedLogs = entries.map((e) => this.parseLogEntry(e[0]));
+            parsedLogs = parsedLogs.filter(n => n) // filter out null values (parse errors)
             this.innerHTML = `
         <div class="metrics-four-item">
           <div class="metrics-headline">
@@ -39,7 +40,7 @@ customElements.define(
         parseLogEntry(visit) {
             var match = /\[(.*?) (.*?):..\] (.*?) (.*?) (.*)/g.exec(visit);
             if (match === null) {
-                return [];
+                return null;
             }
             var logDate = match[1];
             var logTime = match[2];
