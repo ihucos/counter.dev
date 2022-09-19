@@ -18,7 +18,7 @@ const truncateAt = 256
 const loglinesKeep = 30
 
 var fieldsZet = []string{"lang", "ref", "loc", "page"}
-var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device", "country", "screen"}
+var fieldsHash = []string{"date", "weekday", "platform", "hour", "browser", "device", "country", "screen", "mark"}
 
 type VisitsData map[string]map[string]int64
 type LogData map[string]int64

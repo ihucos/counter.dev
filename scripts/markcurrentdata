@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+
+import redis
+import sys
+
+
+try:
+	markname = sys.argv[1]
+except IndexError:
+	print("usage: markcurrentdata <markname>")
+	sys.exit(1)
+if input("Change the data? [yN]>").upper() not in ("Y", 'YES'):
+	print("Nothing done")
+	sys.exit(1)
+
+r = redis.StrictRedis()
+for key in r.scan_iter("v:*,date,*"):
+    mark_key = key.decode().replace(",date,", f",mark,")
+    r.hset(mark_key, markname, 1)
+print("OK")
