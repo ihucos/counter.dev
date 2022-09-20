@@ -2,7 +2,7 @@
 
     var id = document.currentScript.getAttribute("data-id")
     var utcoffset = document.currentScript.getAttribute("data-utcoffset")
-    var server = document.currentScript.getAttribute("data-server") || "https://counter.dev/"
+    var server = document.currentScript.getAttribute("data-server") || "https://counter.dev"
 
     if (!sessionStorage.getItem("_swa") && !document.referrer.startsWith(location.protocol + "//" + location.host)) {
         fetch(server + "/track?" + new URLSearchParams({

@@ -41,7 +41,7 @@ chglocalpwd:
 
 .PHONY: build
 build:
-	cd backend && GOOS=linux GOARCH=amd64 $(go) build -o ../webstats
+	./scripts/build
 
 
 .PHONY: buildlocal
