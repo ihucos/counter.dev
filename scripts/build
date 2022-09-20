@@ -1,0 +1,14 @@
+#!/usr//bin/env plash-exec
+
+--from ubuntu:jammy
+--apt golang gcc libc-dev gcc-x86-64-linux-gnu git
+
+
+--layer
+
+
+--entrypoint-script
+cd backend
+export PATH
+exec env GOOS=linux GOARCH=amd64  CC=x86_64-linux-gnu-gcc CGO_ENABLED=1 \
+go build -a -ldflags '-linkmode external -extldflags "-static"'  -o ../webstats
