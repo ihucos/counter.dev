@@ -12,7 +12,7 @@ import (
 
 // set needs to overgrow sometimes so it does allow for "trending" new entries
 // to catch up with older ones and replace them at some point.
-const zetMaxSize = 30
+const zetMaxSize = 100
 const zetTrimEveryCalls = 100
 const truncateAt = 256
 const loglinesKeep = 30
