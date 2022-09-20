@@ -16,6 +16,9 @@ import (
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
+
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 type appAdapter struct {
@@ -62,6 +65,7 @@ func EndpointName() string {
 
 type App struct {
 	RedisPool    *redis.Pool
+	DB           *gorm.DB
 	SessionStore *sessions.CookieStore
 	Logger       *log.Logger
 	ServeMux     *http.ServeMux
@@ -107,6 +111,11 @@ func NewApp() *App {
 	}
 	logger := log.New(io.MultiWriter(os.Stdout, logFile), "", log.LstdFlags|log.Lshortfile)
 
+	db, err := gorm.Open(sqlite.Open(config.ArchiveDatabase), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect sqlite3 database")
+	}
+
 	serveMux := http.NewServeMux()
 	//fs := http.FileServer(http.Dir("./static"))
 	serveMux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -143,6 +152,7 @@ func NewApp() *App {
 		Logger:       logger,
 		ServeMux:     serveMux,
 		Config:       config,
+		DB:           db,
 	}
 	return app
 }

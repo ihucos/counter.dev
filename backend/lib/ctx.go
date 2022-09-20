@@ -166,14 +166,14 @@ func (ctx *Ctx) Logout() {
 
 func (ctx *Ctx) User(userId string) models.User {
 	conn := ctx.App.RedisPool.Get()
-	user := models.NewUser(conn, userId, ctx.App.Config.PasswordSalt)
+	user := models.NewUser(conn, userId, ctx.App.DB, ctx.App.Config.PasswordSalt)
 	ctx.OpenConns = append(ctx.OpenConns, conn)
 	return user
 }
 
 func (ctx *Ctx) UserByCachedUUID(uuid string) models.User {
 	conn := ctx.App.RedisPool.Get()
-	user, err := models.NewUserByCachedUUID(conn, uuid, ctx.App.Config.PasswordSalt)
+	user, err := models.NewUserByCachedUUID(conn, uuid, ctx.App.DB, ctx.App.Config.PasswordSalt)
 	if err != nil {
 		ctx.App.Logger.Printf("debug: %s", ctx.R.Header.Get("Referer"))
 	}
@@ -205,4 +205,16 @@ func (ctx *Ctx) CheckMethod(methods ...string) {
 	if !found {
 		ctx.Return("Method Not Allowed", 405)
 	}
+}
+
+
+func (ctx *Ctx) SendEventSourceData(data interface{}) {
+	jsonBin, err := json.Marshal(data)
+	ctx.CatchError(err)
+	fmt.Fprintf(ctx.W, "data: %s\n\n", string(jsonBin))
+	f, ok := ctx.W.(http.Flusher)
+	if !ok {
+		panic("Flush not supported by library")
+	}
+	f.Flush()
 }
