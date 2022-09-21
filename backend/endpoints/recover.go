@@ -14,7 +14,7 @@ func init() {
 		}
 
 		user := ctx.User(userId)
-		prefMail, err := ctx.ForceUser().GetPref("mail")
+		prefMail, err := user.GetPref("mail")
 		if err != nil {
 			ctx.CatchError(err)
 		}
