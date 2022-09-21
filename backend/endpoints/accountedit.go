@@ -52,10 +52,10 @@ func init() {
 				ctx.ReturnBadRequest("Repeated new password does not match with new password")
 			}
 
-			correctPassword, err := user.VerifyPassword(currentPassword)
+			passwordOk, err := user.VerifyPasswordOrTmpPassword(currentPassword)
 			ctx.CatchError(err)
 
-			if !correctPassword {
+			if !passwordOk {
 				ctx.ReturnBadRequest("Current password is wrong")
 			}
 

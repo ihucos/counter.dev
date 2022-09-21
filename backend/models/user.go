@@ -199,23 +199,46 @@ func (user User) VerifyPassword(password string) (bool, error) {
 	return hashedPassword != "" && hashedPassword == user.hashPassword(password), nil
 }
 
-func (user User) VerifyRecoveryToken(token string) (bool, error) {
-	hashedRecoveryToken, err := redis.String(user.redis.Do("GET",
-		fmt.Sprintf("recover-token:%s", user.Id)))
+func (user User) VerifyTmpPassword(tmpPassword string) (bool, error) {
+	hashedTmpPassword, err := redis.String(user.redis.Do("GET",
+		fmt.Sprintf("tmppwd:%s", user.Id)))
 	if err == redis.ErrNil {
 		return false, nil
 	} else if err != nil {
 		return false, err
 	}
-	return hashedRecoveryToken != "" && hashedRecoveryToken == hash(token), nil
+	return hashedTmpPassword != "" && hashedTmpPassword == user.hashPassword(tmpPassword), nil
 }
 
-func (user User) NewRecoveryToken() (string, error) {
+
+func (user User) VerifyPasswordOrTmpPassword(password string) (bool, error) {
+
+	// validate as password
+	passwordOk, err := user.VerifyPassword(password)
+	if err != nil {
+		return false, err
+	}
+	if passwordOk {
+		return passwordOk, nil
+	}
+
+	// or validate as temporary password
+	tmpPasswordOk, err := user.VerifyTmpPassword(password)
+	if err != nil {
+		return false, err
+	}
+	if tmpPasswordOk {
+		return tmpPasswordOk, nil
+	}
+	return false, nil
+}
+
+func (user User) NewTmplPassword() (string, error) {
 	expire := 60 * 15  // 15 minutes
-	token := randToken()[:12]
+	tmpPassword := base64.URLEncoding.EncodeToString([]byte(randToken()[:12]))
 	_, err := user.redis.Do("SETEX",
-		fmt.Sprintf("recover-token:%s", user.Id), expire, hash(token))
-	return token, err
+		fmt.Sprintf("tmppwd:%s", user.Id), expire, user.hashPassword(tmpPassword))
+	return tmpPassword, err
 }
 
 func (user User) VerifyToken(token string) (bool, error) {
@@ -336,16 +359,17 @@ func (user User) HandleSignals(conn redis.Conn, cb func(error)) {
 
 
 func (user User) PasswordRecovery() error {
-	token, err := user.NewRecoveryToken()
-	if err != nil {
-		return err
-	}
 	mail, err := user.GetPref("mail")
 	if err != nil {
 		return err
 	}
+	tmppwd, err := user.NewTmplPassword()
+	if err != nil {
+		return err
+	}
 	// send email with token here
-	fmt.Println(token)
+	fmt.Println(tmppwd)
+	fmt.Println(user.Id)
 	fmt.Println(mail)
 	return nil
 }

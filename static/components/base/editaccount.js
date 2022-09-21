@@ -26,11 +26,11 @@ customElements.define(
                         <!-- Change password -->
                         <div class="title mb8 mt24">Change Password</div>
                         <label class="old-pass width-full"
-                          >Old password<input
+                          >Current or temporary password<input
                             name="current_password"
                             class="width-full"
                             type="password"
-                            placeholder="Old password"
+                            placeholder="Valid password"
                         /></label>
                         <div class="new-pass flex mb8 mt16">
                           <label class="width-half mr16"
@@ -49,12 +49,12 @@ customElements.define(
                           /></label>
                         </div>
                         <!-- Mail -->
-                        <div class="title mb8 mt24">Password recovery</div>
+                        <div class="title mb8 mt24">Recover passwords</div>
                         <input
                             name="mail"
                             class="width-full"
                             type="email"
-                            placeholder="E-Mail"
+                            placeholder="Trusted E-Mail"
                         /></label>
                         <!-- Whitelist domains -->
                         <div class="title mb16 mt24">Listed Domains</div>
