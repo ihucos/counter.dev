@@ -233,7 +233,7 @@ func (user User) VerifyPasswordOrTmpPassword(password string) (bool, error) {
 	return false, nil
 }
 
-func (user User) NewTmplPassword() (string, error) {
+func (user User) NewTmpPassword() (string, error) {
 	expire := 60 * 15  // 15 minutes
 	tmpPassword := base64.URLEncoding.EncodeToString([]byte(randToken()[:12]))
 	_, err := user.redis.Do("SETEX",
@@ -363,7 +363,7 @@ func (user User) PasswordRecovery() error {
 	if err != nil {
 		return err
 	}
-	tmppwd, err := user.NewTmplPassword()
+	tmppwd, err := user.NewTmpPassword()
 	if err != nil {
 		return err
 	}
