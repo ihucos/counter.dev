@@ -6,7 +6,8 @@ $(document).ready(function () {
 });
 
 simpleForm("#sign-in form[action='/login']", "/dashboard.html");
-simpleForm("#sign-in form[action='/recover']", () => {
+simpleForm("#modal-recover form[action='/recover']", () => {
+    $.modal.close();
     alert("hi")
 });
 simpleForm("#sign-up form", "/setup.html");
