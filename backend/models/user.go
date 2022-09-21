@@ -9,6 +9,7 @@ import (
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/utils"
+	"gorm.io/gorm"
 	uuidLib "github.com/google/uuid"
 )
 
@@ -16,6 +17,7 @@ var uuid2id = map[string]string{}
 
 type User struct {
 	redis redis.Conn
+	db    *gorm.DB
 	Id    string
 	passwordSalt string
 }
@@ -48,11 +50,11 @@ func truncate(stri string) string {
 	return stri
 }
 
-func NewUser(conn redis.Conn, userId string, passwordSalt []byte) User {
-	return User{redis: conn, Id: truncate(userId), passwordSalt: string(passwordSalt)}
+func NewUser(conn redis.Conn, userId string, db *gorm.DB, passwordSalt []byte) User {
+	return User{redis: conn, Id: truncate(userId), passwordSalt: string(passwordSalt), db: db}
 }
 
-func NewUserByCachedUUID(conn redis.Conn, uuid string, passwordSalt []byte) (User, error){
+func NewUserByCachedUUID(conn redis.Conn, uuid string, db *gorm.DB, passwordSalt []byte) (User, error){
 	var err error
 	// Basically we must 'id' here so it can be set inside the if clause
 	var id string
@@ -70,7 +72,7 @@ func NewUserByCachedUUID(conn redis.Conn, uuid string, passwordSalt []byte) (Use
 		// cache the value in memory
 		uuid2id[uuid] = id
 	}
-	return NewUser(conn, id, passwordSalt), nil
+	return NewUser(conn, id, db, passwordSalt), nil
 }
 
 func (user User) hashPassword(password string) string {
@@ -83,7 +85,10 @@ func (user User) DelAllSites() error {
 		return err
 	}
 	for siteId, _ := range linkedSites {
-		user.NewSite(siteId).Del()
+		err := user.NewSite(siteId).Del()
+		if err != nil {
+			return err
+		}
 	}
 	user.delAllSiteLinks()
 	return nil
@@ -294,7 +299,7 @@ func (user User) SetPref(key string, value string) error {
 }
 
 func (user User) NewSite(Id string) Site {
-	return Site{redis: user.redis, userId: user.Id, id: Id}
+	return Site{redis: user.redis, userId: user.Id, id: Id, db: user.db}
 }
 
 func (user User) IncrSiteLink(siteId string) {

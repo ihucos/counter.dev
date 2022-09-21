@@ -3,6 +3,7 @@ package lib
 import (
 	"fmt"
 	"os"
+	"time"
 )
 
 type Config struct {
@@ -13,6 +14,8 @@ type Config struct {
 	SmtpFrom     string
 	SmtpPassword string
 	SmtpHost     string
+	ArchiveDatabase string
+	ArchiveMaxAge time.Duration
 }
 
 func env(env string) string {
@@ -30,6 +33,16 @@ func envDefault(env string, fallback string) string {
 	return v
 }
 
+
+func envDuration(envName string) time.Duration {
+	strVal := env(envName)
+	duration, err := time.ParseDuration(strVal)
+	if err != nil {
+		panic(fmt.Sprintf("Not duration given for: %s; %s", envName, err))
+	}
+	return duration
+}
+
 func NewConfigFromEnv() Config {
 	return Config{
 		RedisUrl:     envDefault("WEBSTATS_REDIS_URL", "redis://localhost:6379"),
@@ -39,6 +52,8 @@ func NewConfigFromEnv() Config {
 		SmtpPassword: env("WEBSTATS_SMTP_PASSWORD"),
 		SmtpHost:     env("WEBSTATS_SMTP_HOST"),
 		PasswordSalt: []byte(env("WEBSTATS_PASSWORD_SALT")),
+		ArchiveDatabase: env("WEBSTATS_ARCHIVE_DATABASE"),
+		ArchiveMaxAge: envDuration("WEBSTATS_ARCHIVE_MAX_AGE"),
 	}
 
 }

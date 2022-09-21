@@ -10,7 +10,8 @@ func init() {
 		if site != confirmSite {
 			ctx.ReturnBadRequest("Confirmation failed")
 		}
-		user.NewSite(site).Del()
+		err := user.NewSite(site).Del()
+		ctx.CatchError(err)
 		deleted, err := user.DelSiteLink(site)
 		ctx.CatchError(err)
 		if !deleted {

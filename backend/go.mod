@@ -7,6 +7,9 @@ require (
 	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/sessions v1.2.1
+	github.com/xavivars/uasurfer v0.0.0-20210227184249-298e5855ffd5 // indirect
 	golang.org/x/text v0.3.6
 	golang.org/x/tools v0.1.4 // indirect
+	gorm.io/driver/sqlite v1.3.2
+	gorm.io/gorm v1.23.5
 )

@@ -30,7 +30,7 @@ This project aim is to serve many users for free in a sustainable way.
 
 - Web applications nowadays typically make use of platform as a service providers for hosting. Substantial more performance for the same amount of money can be gained by renting dedicated or virtual servers. This is what Counter does at the price of having to manage everything "by hand" and developing strategies to reduce needed maintenance efforts.
 
-- While most other analytics solutions provide the tracking script as an externally hosted file, we use a small inline tracking script. Doing so mitigates the need to host and serve such a script and avoids any otherwise necessary efforts to secure such an externally hosted script, which would have to be trusted by all our users.
+- ~~While most other analytics solutions provide the tracking script as an externally hosted file, we use a small inline tracking script. Doing so mitigates the need to host and serve such a script and avoids any otherwise necessary efforts to secure such an externally hosted script, which would have to be trusted by all our users.~~
 
 - Summing up, collecting less the right way considerably decreases hosting expenses in comparison to typical other solutions and is more privacy-friendly.
 

@@ -4,12 +4,12 @@ from redis import StrictRedis
 from urllib.parse import unquote
 import sqlite3
 
-conn = sqlite3.connect("database.sqlite3")
+conn = sqlite3.connect("archive.db")
 # conn = sqlite3.connect(":memory:")
 
 conn.execute(
     """
-CREATE TABLE IF NOT EXISTS record (
+CREATE TABLE IF NOT EXISTS records (
     user TEXT,
     site TEXT,
     date TEXT,
@@ -20,11 +20,11 @@ CREATE TABLE IF NOT EXISTS record (
 )"""
 )
 
-conn.execute("CREATE INDEX IF NOT EXISTS idx_record_user ON record (user)")
-conn.execute("CREATE INDEX IF NOT EXISTS idx_record_site ON record (site)")
-conn.execute("CREATE INDEX IF NOT EXISTS idx_record_date ON record (date)")
-conn.execute("CREATE INDEX IF NOT EXISTS idx_record_dimension ON record (dimension)")
-conn.execute("CREATE INDEX IF NOT EXISTS idx_record_type ON record (type)")
+conn.execute("CREATE INDEX IF NOT EXISTS idx_record_user ON records (user)")
+conn.execute("CREATE INDEX IF NOT EXISTS idx_record_site ON records (site)")
+conn.execute("CREATE INDEX IF NOT EXISTS idx_record_date ON records (date)")
+conn.execute("CREATE INDEX IF NOT EXISTS idx_record_dimension ON records (dimension)")
+conn.execute("CREATE INDEX IF NOT EXISTS idx_record_type ON records (type)")
 
 
 r = StrictRedis()
@@ -61,7 +61,7 @@ def process_redis_keys(keys):
         origin, user_id, field, time_range = parts
         for key, value in dict(result).items():
             conn.execute(
-                """INSERT OR REPLACE INTO record (user, site, date, dimension, type, count)
+                """INSERT OR REPLACE INTO records (user, site, dimension, date, type, count)
                    VALUES(?, ?, ?, ?, ?, ?)""",
                 (user_id, origin, field, time_range, key, value),
             )

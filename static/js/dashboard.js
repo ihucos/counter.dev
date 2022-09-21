@@ -125,8 +125,24 @@ connectData("dashboard-week", k("weekday"));
 connectData("dashboard-time", k("hour"));
 connectData("dashboard-share-account", (dump) => [dump.user, dump.meta]);
 
-function drawComponents(url) {
-    var source = new EventSource(url);
+function drawComponents() {
+
+    document.addEventListener("push-dump", (evt) => {
+        if (Object.keys(evt.detail.sites).length === 0) {
+            window.location.href = "setup.html";
+        }
+    })
+
+    document.addEventListener("push-dump", (evt) => {
+        document.dispatchEvent(new CustomEvent("redraw", { detail: evt.detail }));
+    })
+
+    document.addEventListener("push-nouser", () => {
+        window.location.href = "welcome.html";
+    })
+
+    var source = dispatchPushEvents(getDumpURL());
+
     customElements.whenDefined("dashboard-connstatus").then((el) => {
         let connstatus = document.getElementsByTagName(
             "dashboard-connstatus"
@@ -135,22 +151,6 @@ function drawComponents(url) {
         source.onopen = () => connstatus.message("Live");
         source.onerror = (err) => connstatus.message("Disconnected");
     });
-    source.onmessage = (event) => {
-        let dump = JSON.parse(event.data);
-
-        if (!dump) {
-            window.location.href = "welcome.html";
-            return;
-        }
-
-        if (Object.keys(dump.sites).length === 0) {
-            window.location.href = "setup.html";
-        }
-
-        document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
-
-        //document.getElementsByTagName("body")[0].style.display = "block";
-    };
 }
 
 document.addEventListener("redraw", (evt) => {
@@ -176,7 +176,7 @@ function getDumpURL() {
 
 customElements.whenDefined(selector.localName).then(() => {
     customElements.upgrade(selector);
-    drawComponents(getDumpURL());
+    drawComponents();
 });
 
 // not used currently
