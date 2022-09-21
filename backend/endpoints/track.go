@@ -152,6 +152,12 @@ func init() {
 		logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, device)
 
 		siteId := Origin2SiteId(origin)
+
+		// temporary debug code
+		if siteId == "counter.dev" {
+			ctx.App.Logger.Printf("track for counter.dev ua: %s\n", userAgent)
+		}
+
 		visits := user.NewSite(siteId)
 		visits.SaveVisit(visit, now)
 		visits.Log(logLine)
