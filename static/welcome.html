@@ -91,28 +91,8 @@
                   placeholder="Enter your password"
               /></label>
               <button class="btn-secondary mt24" type="submit">Log in</button>
-              <button class="btn-white mt24" id="password-recover" style="font-weight: 400;" type="submit">
-                Forgot password</button>
-            </form>
-            <form action="/recover" method="POST" style="display: none">
-              <div class="title mb16">Recover lost password</div>
-              <label class="width-full mb8"
-                >Username<input
-                  class="width-full"
-                  type="text"
-                  name="user"
-                  placeholder="Enter your username"
-              /></label>
-              <label class="width-full"
-                >Email<input
-                  class="width-full"
-                  name="mail"
-                  type="email"
-                  placeholder="Enter your Email"
-              /></label>
-              <button class="btn-secondary mt24" type="submit">Recover</button>
-              <button class="btn-white mt24" id="go-to-login" style="font-weight: 400;" type="submit">
-                Back to login</button>
+              <a class="btn-white mt24" href="#modal-recover" style="font-weight: 400;"  rel="modal:open">
+                Forgot password</a>
             </form>
           </div>
           <!-- Sign up -->
@@ -143,6 +123,30 @@
         </div>
       </div>
     </section>
+
+    <div id="modal-recover" style="display: none">
+      <div class="modal-header">
+        <img src="/img/account.svg" width="24" height="24" alt="Edit account" />
+        <h3 class="ml16">Rescue account</h3>
+        <a href="#" class="btn-close" rel="modal:close"></a>
+      </div>
+      <div class="modal-content">
+        <input
+        name="mail"
+        class="width-full"
+        type="email"
+        placeholder="Account E-Mail"
+
+        />
+        <div class="account-btn-group flex mt24 mb32">
+          <a href="#" class="btn-secondary full mr16" rel="modal:close"
+            >Cancel</a
+          >
+          <button type="submit" class="btn-primary full">Recover</button>
+        </div>
+      </div>
+    </div>
+
     <base-footer></base-footer>
     <script src="js/welcome.js"></script>
   </body>
