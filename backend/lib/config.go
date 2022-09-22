@@ -11,11 +11,9 @@ type Config struct {
 	Bind         string
 	CookieSecret []byte
 	PasswordSalt []byte
-	SmtpFrom     string
-	SmtpPassword string
-	SmtpHost     string
 	ArchiveDatabase string
 	ArchiveMaxAge time.Duration
+	MailgunSecretApiKey string
 }
 
 func env(env string) string {
@@ -48,12 +46,10 @@ func NewConfigFromEnv() Config {
 		RedisUrl:     envDefault("WEBSTATS_REDIS_URL", "redis://localhost:6379"),
 		Bind:         envDefault("WEBSTATS_BIND", ":8000"),
 		CookieSecret: []byte(env("WEBSTATS_COOKIE_SECRET")),
-		SmtpFrom:     env("WEBSTATS_SMTP_FROM"),
-		SmtpPassword: env("WEBSTATS_SMTP_PASSWORD"),
-		SmtpHost:     env("WEBSTATS_SMTP_HOST"),
 		PasswordSalt: []byte(env("WEBSTATS_PASSWORD_SALT")),
 		ArchiveDatabase: env("WEBSTATS_ARCHIVE_DATABASE"),
 		ArchiveMaxAge: envDuration("WEBSTATS_ARCHIVE_MAX_AGE"),
+		MailgunSecretApiKey:     envDefault("WEBSTATS_MAILGUN_SECRET_API_KEY", "dummy"),
 	}
 
 }

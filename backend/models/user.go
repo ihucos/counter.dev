@@ -6,12 +6,33 @@ import (
 	"encoding/base64"
 	"fmt"
 	"strings"
+	"time"
+	"context"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/utils"
 	"gorm.io/gorm"
 	uuidLib "github.com/google/uuid"
+	"github.com/mailgun/mailgun-go/v4"
 )
+
+
+var recover_email_content string = `Hello %s,
+
+You - or possibly someone else - requested to recover your account. Therefore we created an alternative temporary password.
+
+user: %s
+password: %s (Will expire in 15 minutes)
+
+Login at http://counter.dev/ and if desired change your password in the account
+settings. As always make sure the domain stated in this email is correct.
+
+Reply if you have any questions.
+
+
+Cheers,
+
+The counter.dev team`
 
 var uuid2id = map[string]string{}
 
@@ -358,7 +379,7 @@ func (user User) HandleSignals(conn redis.Conn, cb func(error)) {
 }
 
 
-func (user User) PasswordRecovery() error {
+func (user User) PasswordRecovery(mailgunSecretApiKey string) error {
 	mail, err := user.GetPref("mail")
 	if err != nil {
 		return err
@@ -368,6 +389,27 @@ func (user User) PasswordRecovery() error {
 		return err
 	}
 	// send email with token here
+
+	mg := mailgun.NewMailgun("counter.dev", mailgunSecretApiKey)
+
+	sender := "hey@counter.dev"
+	subject := "Forgot your password?"
+
+	body := fmt.Sprintf(recover_email_content, user.Id, user.Id, tmppwd)
+	message := mg.NewMessage(sender, subject, body, mail)
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	defer cancel()
+
+	// Send the message with a 30 second timeout
+	_, _, err = mg.Send(ctx, message)
+
+	if err != nil {
+		return err
+	}
+
+
+	
 	fmt.Println(tmppwd)
 	fmt.Println(user.Id)
 	fmt.Println(mail)

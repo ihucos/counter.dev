@@ -20,7 +20,7 @@ func init() {
 		}
 		if mail == prefMail {
 			ctx.LogEvent("recovery")
-			user.PasswordRecovery()
+			user.PasswordRecovery(ctx.App.Config.MailgunSecretApiKey)
 		}
 
 	})
