@@ -23,7 +23,7 @@ func init() {
 
 			ctx.NoAutoCleanup()
 			go func(){
-				defer ctx.RunCleanup()
+				defer ctx.Cleanup()
 				err = user.PasswordRecovery(ctx.App.Config.MailgunSecretApiKey)
 				if err != nil {
 					ctx.App.Logger.Printf("password recovery: %s\n", err)

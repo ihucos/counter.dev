@@ -45,7 +45,7 @@ func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	go func() {
 		<-r.Context().Done()
 		if ! ctx.noAutoCleanup {
-			ctx.RunCleanup()
+			ctx.Cleanup()
 		}
 	}()
 	ah.fn(ctx)
