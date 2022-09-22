@@ -16,6 +16,7 @@ customElements.define(
               <span class="visits-date">Date</span>
               <span class="visits-time">Time</span>
               <span class="visits-ip">IP</span>
+              <span class="visits-device">Device</span>
               <span class="visits-referrer">Referrer</span>
             </div>
             <div class="metrics-three-data-content caption" data-simplebar data-simplebar-auto-hide="false">
@@ -25,7 +26,8 @@ customElements.define(
                 <div class="hour-item">
                   <span class="visits-date">${logEntry.date}</span>
                   <span class="visits-time caption-strong">${logEntry.time}</span>
-                  <img src="/famfamfam_flags/gif/${logEntry.country}.gif" width="16" height="11" alt="${logEntry.country}">
+                  <img class="visits-ip" title="${logEntry.country}" src="/famfamfam_flags/gif/${logEntry.country}.gif" width="16" height="11" alt="${logEntry.country}">
+                  <img class="visits-device" title="${logEntry.device}" src="/img/devices/${logEntry.device.toLowerCase()}.svg"></img>
                   <span class="visits-referrer">${logEntry.referrerHtml}</span>
                 </div>`
                   )
@@ -46,7 +48,7 @@ customElements.define(
             var logTime = match[2];
             var logCountry = match[3].toLowerCase();
             var logReferrer = match[4];
-            var logUserAgent = match[5];
+            var logDevice = match[5];
 
             if (logCountry === "") {
                 logCountry = "xx";
@@ -73,7 +75,7 @@ customElements.define(
                 time: logTime,
                 country: logCountry,
                 referrerHtml: logReferrer,
-                userAgent: logUserAgent,
+                device: logDevice,
             };
         }
     }
