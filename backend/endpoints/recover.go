@@ -20,7 +20,15 @@ func init() {
 		}
 		if mail == prefMail {
 			ctx.LogEvent("recovery")
-			user.PasswordRecovery(ctx.App.Config.MailgunSecretApiKey)
+
+			ctx.NoAutoCleanup()
+			go func(){
+				defer ctx.RunCleanup()
+				err = user.PasswordRecovery(ctx.App.Config.MailgunSecretApiKey)
+				if err != nil {
+					ctx.App.Logger.Printf("password recovery: %s\n", err)
+				}
+			}()
 		}
 
 	})

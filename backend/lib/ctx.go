@@ -23,6 +23,7 @@ type Ctx struct {
 	R         *http.Request
 	OpenConns []io.Closer
 	App       *App
+	noAutoCleanup bool
 }
 
 func (ctx *Ctx) Abort() {
@@ -217,4 +218,9 @@ func (ctx *Ctx) SendEventSourceData(data interface{}) {
 		panic("Flush not supported by library")
 	}
 	f.Flush()
+}
+
+
+func (ctx *Ctx) NoAutoCleanup() {
+	ctx.noAutoCleanup = true
 }
