@@ -101,13 +101,25 @@
           <div id="sign-up">
             <form action="/register" method="POST">
               <div class="title mb16">Sign up to Counter</div>
-              <label class="width-full mb8"
-                >Username<input
-                  class="width-full"
-                  name="user"
-                  type="text"
-                  placeholder="Enter your username"
-              /></label>
+
+              <div class="flex mb8">
+                <label class="width-half mr16"
+                  >Username<input
+                    class="width-full"
+                    name="user"
+                    type="text"
+                    placeholder="Username"
+                /></label>
+
+                <label class="width-half"
+                  >For password resets<input
+                    class="width-full"
+                    name="mail"
+                    type="email"
+                    placeholder="E-Mail (optional)"
+                /></label>
+              </div>
+
               <script>
                 document.write(`<input type="hidden" name="utcoffset" value="${getUTCOffset()}">
                   </input>`);
@@ -117,7 +129,7 @@
                   class="password-input width-full"
                   name="password"
                   type="password"
-                  placeholder="Enter your password"
+                  placeholder="Password"
               /></label>
               <button class="btn-secondary mt24" type="submit">Sign up</button>
             </form>
