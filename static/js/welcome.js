@@ -8,7 +8,7 @@ $(document).ready(function () {
 simpleForm("#sign-in form[action='/login']", "/dashboard.html");
 simpleForm("#modal-recover form[action='/recover']", () => {
     $.modal.close();
-    alert("hi")
+    alert("If the given mail and username matches, we will send you an mail with instructions.")
 });
 simpleForm("#sign-up form", "/setup.html");
 
