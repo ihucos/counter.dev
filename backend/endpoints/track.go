@@ -78,7 +78,7 @@ func init() {
 		// drop if bot or origin is from localhost
 		// see issue: https://github.com/avct/uasurfer/issues/65
 		//
-		if ua.IsBot() || strings.Contains(userAgent, " HeadlessChrome/") {
+		if ua.IsBot() || strings.Contains(userAgent, " HeadlessChrome/") || strings.Contains(userAgent, "PetalBot;") {
 			return
 		}
 		originUrl, err := url.Parse(origin)
