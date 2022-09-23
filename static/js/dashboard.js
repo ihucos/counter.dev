@@ -290,7 +290,18 @@ function getUTCNow(utcoffset) {
     return moment().add(parseInt(utcoffset), "hours").toDate();
 }
 
-function dPadDates(dates, utcoffset) {
+function dPadDates(myDates, utcoffset) {
+
+    // Hack, sort the keys in the object
+    dates = Object.keys(myDates)
+        .sort()
+        .reduce(function (acc, key) {
+            acc[key] = myDates[key];
+            return acc;
+        }, {});
+
+
+
     var daysRange = (s, e) => {
         var s = new Date(s);
         var e = new Date(e);
@@ -312,6 +323,7 @@ function dPadDates(dates, utcoffset) {
 }
 
 function dNormalizedDates(dates, utcoffset) {
+
     let groupedByDay = dPadDates(dates, utcoffset);
 
     let allMonths = Object.entries(groupedByDay).reduce((acc, val) => {
