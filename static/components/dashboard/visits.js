@@ -43,7 +43,6 @@ customElements.define(
 
         parseLogEntry(visit) {
             var match = visit.split(" ")
-            console.log(match)
             var logDate = match[0].slice(1);
             var logTime = match[1].slice(0, -4);
             var logCountry = match[2].toLowerCase();
@@ -71,13 +70,6 @@ customElements.define(
                     )}">${url.host}</a>`;
                 }
             }
-            console.log( {
-                date: logDate,
-                time: logTime,
-                country: logCountry,
-                referrerHtml: logReferrer,
-                device: logDevice,
-            });
             return {
                 date: logDate,
                 time: logTime,
