@@ -149,7 +149,7 @@ func init() {
 		//
 		// save visit map
 		//
-		logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, device)
+		logLine := fmt.Sprintf("[%s] %s %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, device, platform)
 
 		siteId := Origin2SiteId(origin)
 
