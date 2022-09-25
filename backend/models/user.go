@@ -34,6 +34,11 @@ Cheers,
 
 The counter.dev team`
 
+
+var passwordRecoverySender string = "hey@counter.dev"
+var passwordRecoverSubject string = "Forgot your password?"
+
+
 var uuid2id = map[string]string{}
 
 type User struct {
@@ -146,7 +151,7 @@ func (user User) DeleteToken() error {
 }
 
 func (user User) ResetToken() error {
-	_, err := user.redis.Do("HSET", "tokens", user.Id, randToken()[:12])
+	_, err := user.redis.Do("HSET", "tokens", user.Id, randToken()[:8])
 	return err
 }
 
@@ -388,20 +393,14 @@ func (user User) PasswordRecovery(mailgunSecretApiKey string) error {
 	if err != nil {
 		return err
 	}
-	// send email with token here
-
 	mg := mailgun.NewMailgun("counter.dev", mailgunSecretApiKey)
 
-	sender := "hey@counter.dev"
-	subject := "Forgot your password?"
-
 	body := fmt.Sprintf(passwordRecoveryContent, user.Id, user.Id, tmppwd)
-	message := mg.NewMessage(sender, subject, body, mail)
+	message := mg.NewMessage(passwordRecoverySender, passwordRecoverSubject, body, mail)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
 	defer cancel()
 
-	// Send the message with a 30 second timeout
 	_, _, err = mg.Send(ctx, message)
 
 	if err != nil {
