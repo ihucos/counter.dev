@@ -12,31 +12,6 @@ simpleForm("#modal-recover form[action='/recover']", () => {
 });
 simpleForm("#sign-up form", "/setup.html");
 
-$("#password-recover").click( () => {
-    $(".tabs").tabslet({
-        active: 4,
-    });
-    return false
-});
-
 document.addEventListener("userloaded", () => {
     window.location.href = "dashboard.html";
 });
-
-$("#password-recover").click((el) => {
-    $("form[action='/login']").hide()
-    $("form[action='/recover']").show()
-})
-
-$("#password-recover").click((el) => {
-    $("form[action='/login']").hide()
-    $("form[action='/recover']").show()
-    return false
-})
-
-
-$("#go-to-login").click((el) => {
-    $("form[action='/recover']").hide()
-    $("form[action='/login']").show()
-    return false
-})
