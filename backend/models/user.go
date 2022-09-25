@@ -406,11 +406,5 @@ func (user User) PasswordRecovery(mailgunSecretApiKey string) error {
 	if err != nil {
 		return err
 	}
-
-
-	
-	fmt.Println(tmppwd)
-	fmt.Println(user.Id)
-	fmt.Println(mail)
 	return nil
 }
