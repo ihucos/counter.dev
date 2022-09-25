@@ -13,8 +13,8 @@ func init() {
 			ctx.ReturnBadRequest("Missing Input: Email")
 		}
 
-		user := ctx.User(userId)
-		prefMail, err := user.GetPref("mail")
+		claimedUser := ctx.User(userId)
+		prefMail, err := claimedUser.GetPref("mail")
 		if err != nil {
 			ctx.CatchError(err)
 		}
@@ -24,7 +24,7 @@ func init() {
 			ctx.NoAutoCleanup()
 			go func(){
 				defer ctx.Cleanup()
-				err = user.PasswordRecovery(ctx.App.Config.MailgunSecretApiKey)
+				err = claimedUser.PasswordRecovery(ctx.App.Config.MailgunSecretApiKey)
 				if err != nil {
 					ctx.App.Logger.Printf("password recovery: %s\n", err)
 				}
