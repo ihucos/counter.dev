@@ -35,18 +35,19 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
-function dispatchPushEvents(url){
+function dispatchPushEvents(url, event_prefix){
+    var prefix = event_prefix || "push-"
     var source = new EventSource(url);
     source.onmessage = (event) => {
         let serverData = JSON.parse(event.data);
-        document.dispatchEvent(new CustomEvent("push-" + serverData.type,
+        document.dispatchEvent(new CustomEvent(prefix + serverData.type,
             {detail: serverData.payload}));
     }
     return source
 }
 
 document.write(`
-<script src="https://cdn.counter.dev/script.js"
+<script src="https://cdn.counter.dev/script-testing.js"
   data-id="33671ad4-a966-4a52-b48f-56c92d10a678"
   data-utcoffset="1"
   data-server="https://simple-web-analytics.com">

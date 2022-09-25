@@ -361,6 +361,14 @@
   width: 16px;
   text-align: center;
 }
+.visits-device {
+  width: 16px;
+  text-align: center;
+}
+.visits-platform {
+  width: 16px;
+  text-align: center;
+}
 .visits-referrer {
   width: 177px;
   text-align: right;

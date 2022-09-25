@@ -9,6 +9,8 @@ webstats
 .config/production.sh
 .config/makefile.env
 static/blog/*
+.DS-Store
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

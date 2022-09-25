@@ -32,12 +32,12 @@ customElements.define(
                 this.hasUser(cachedUsername);
             }
 
-            document.addEventListener("push-nouser", () => {
+            document.addEventListener("push-navbar-nouser", () => {
                     this.noUser();
                     // don't leave an open connection to server to save resources
                     eventSourceObj.close();
             })
-            document.addEventListener("push-dump", (evt) => {
+            document.addEventListener("push-navbar-dump", (evt) => {
                     let dump = evt.detail
                     this.hasUser(dump.user.id);
                     sessionStorage.setItem(usernameCacheKey, dump.user.id);
@@ -48,7 +48,7 @@ customElements.define(
                     // don't leave an open connection to server to save resources
                     eventSourceObj.close();
             })
-            var eventSourceObj = dispatchPushEvents("/dump");
+            var eventSourceObj = dispatchPushEvents("/dump", "push-navbar-");
         }
 
         noUser() {

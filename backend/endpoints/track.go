@@ -78,7 +78,7 @@ func init() {
 		// drop if bot or origin is from localhost
 		// see issue: https://github.com/avct/uasurfer/issues/65
 		//
-		if ua.IsBot() || strings.Contains(userAgent, " HeadlessChrome/") {
+		if ua.IsBot() || strings.Contains(userAgent, " HeadlessChrome/") || strings.Contains(userAgent, "PetalBot;") {
 			return
 		}
 		originUrl, err := url.Parse(origin)
@@ -149,9 +149,15 @@ func init() {
 		//
 		// save visit map
 		//
-		logLine := fmt.Sprintf("[%s] %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, device)
+		logLine := fmt.Sprintf("[%s] %s %s %s %s", now.Format("2006-01-02 15:04:05"), country, refParam, device, platform)
 
 		siteId := Origin2SiteId(origin)
+
+		// temporary debug code
+		if siteId == "counter.dev" {
+			ctx.App.Logger.Printf("track for counter.dev ua: %s\n", userAgent)
+		}
+
 		visits := user.NewSite(siteId)
 		visits.SaveVisit(visit, now)
 		visits.Log(logLine)
