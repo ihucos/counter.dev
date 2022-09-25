@@ -17,7 +17,7 @@ import (
 )
 
 
-var recover_email_content string = `Hello %s,
+var passwordRecoveryContent string = `Hello %s,
 
 You - or possibly someone else - requested to recover your account. Therefore we created an alternative temporary password.
 
@@ -395,7 +395,7 @@ func (user User) PasswordRecovery(mailgunSecretApiKey string) error {
 	sender := "hey@counter.dev"
 	subject := "Forgot your password?"
 
-	body := fmt.Sprintf(recover_email_content, user.Id, user.Id, tmppwd)
+	body := fmt.Sprintf(passwordRecoveryContent, user.Id, user.Id, tmppwd)
 	message := mg.NewMessage(sender, subject, body, mail)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
