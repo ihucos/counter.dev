@@ -26,8 +26,7 @@
   height: 64px;
 }
 #sign-in,
-#sign-up,
-#recover {
+#sign-up {
   padding: 32px 32px 40px 32px;
 }
 
@@ -49,13 +48,11 @@
     justify-content: unset;
   }
   #sign-in,
-  #sign-up,
-  #recover {
+  #sign-up {
     padding: 24px;
   }
   #sign-in .title,
-  #sign-up .title,
-  #recover .title {
+  #sign-up .title {
     margin-bottom: 8px;
   }
 }
