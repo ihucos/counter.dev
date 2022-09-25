@@ -25,7 +25,7 @@ user: %s
 password: %s (Will expire in 15 minutes)
 
 Login at http://counter.dev/ and if desired change your password in the account
-settings. As always make sure the domain stated in this email is correct.
+settings. As a precaution measure please ensure the given domain is correct and that this email looks plausible.
 
 Reply if you have any questions.
 
