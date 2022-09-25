@@ -12,7 +12,7 @@
                 id: id,
                 utcoffset: utcoffset,
             }))
-        }, 5000)
+        }, 4500)
     };
     sessionStorage.setItem("_swa", "1");
     navigator.sendBeacon(server + "/trackpage", new URLSearchParams({
