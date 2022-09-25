@@ -149,9 +149,9 @@
         <form action="/recover" method="POST">
 
           <!-- mail -->
-          <label class="width-full">Email
+          <label class="width-full mb8">Email
           <input
-            class="width-full mb8"
+            class="width-full"
             name="mail"
             type="email"
             placeholder="Account E-Mail"
@@ -159,7 +159,7 @@
           </label>
 
           <!-- username -->
-          <label class="width-full">Username
+          <label class="width-full mb24">Username
           <input
             class="width-full"
             type="text"
@@ -167,6 +167,11 @@
             placeholder="Enter your username"
             />
           </label>
+
+          <span class="caption gray">
+            This only works if you actually provided us with your email. Write
+            to <a href="mailto:hey@counter.dev">hey@counter.dev</a> for a manual verification process if desired.
+          </span>
 
           <div class="account-btn-group flex mt24 mb32">
             <a href="#" class="btn-secondary full mr16" rel="modal:close"
