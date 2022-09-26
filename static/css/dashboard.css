@@ -361,6 +361,14 @@
   width: 16px;
   text-align: center;
 }
+.visits-device {
+  width: 16px;
+  text-align: center;
+}
+.visits-platform {
+  width: 16px;
+  text-align: center;
+}
 .visits-referrer {
   width: 177px;
   text-align: right;
@@ -593,7 +601,6 @@ dashboard-dynamics dashboard-nodata {
   }
 }
 
-
 /* START TOOLTIP STYLES */
 [tooltip] {
   position: relative;
@@ -736,4 +743,11 @@ dashboard-dynamics dashboard-nodata {
   animation: tooltips-horz 300ms ease-out forwards;
 }
 
-
+.da, .da img {
+  width: 350px;
+  height: 284px;
+}
+.da img {
+  object-fit: cover;
+  object-position: 0 100%;
+}

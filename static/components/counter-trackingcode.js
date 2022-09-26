@@ -2,11 +2,11 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         getTrackingCode(uuid, utcoffset) {
-            return `<script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,id:${JSON.stringify(
-                uuid
-            )},utcoffset:${JSON.stringify(
-                utcoffset
-            )}}))};sessionStorage.setItem("_swa","1");</script>`;
+            if (String(uuid).includes('"') || String(utcoffset).includes('"')){
+                console.log("Sanity input validation test failed")
+                return "error, contact support"
+            }
+            return `<script src="https://cdn.counter.dev/script.js" data-id="${uuid}" data-utcoffset="${utcoffset}"></script>`;
         }
 
         draw(uuid, utcoffset) {

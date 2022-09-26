@@ -157,7 +157,7 @@ customElements.define(
             )};"></div>
             <div class="sources-countries-item-wrap">
               <span>
-                <img src="/famfamfam_flags/gif/${escapeHtml(
+                <img src="/img/famfamfam_flags/gif/${escapeHtml(
                     countryCode
                 )}.gif" width="16" height="11" alt="${escapeHtml(countryCode)}">
                 ${escapeHtml(this.getCountryName(countryCode.toUpperCase()))}

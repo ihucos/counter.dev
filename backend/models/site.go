@@ -5,6 +5,8 @@ import (
 	"math/rand"
 	"net/url"
 	"time"
+	"strings"
+	"gorm.io/gorm"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/utils"
@@ -12,7 +14,7 @@ import (
 
 // set needs to overgrow sometimes so it does allow for "trending" new entries
 // to catch up with older ones and replace them at some point.
-const zetMaxSize = 30
+const zetMaxSize = 100
 const zetTrimEveryCalls = 100
 const truncateAt = 256
 const loglinesKeep = 30
@@ -37,22 +39,48 @@ type VisitItemKey struct {
 	TimeRange string
 	UserId    string
 	Origin    string
-	field     string
+	Field     string
 }
 
 func (vik VisitItemKey) String() string {
 	return fmt.Sprintf("v:%s,%s,%s,%s",
 		url.QueryEscape(vik.Origin),
 		url.QueryEscape(vik.UserId),
-		url.QueryEscape(vik.field),
+		url.QueryEscape(vik.Field),
 		url.QueryEscape(vik.TimeRange))
 
+}
+
+func NewVisitItemKey(key string) VisitItemKey {
+	parts := strings.Split(strings.TrimPrefix(key, "v:"), ",")
+	vik := VisitItemKey{}
+	vik.Origin, _ = url.QueryUnescape(parts[0])
+	vik.UserId, _ = url.QueryUnescape(parts[1])
+	vik.Field, _ = url.QueryUnescape(parts[2])
+	vik.TimeRange, _ = url.QueryUnescape(parts[3])
+	return vik
+
+}
+
+func (vik VisitItemKey) RedisType() string {
+    for _, i := range fieldsHash {
+        if i == vik.Field {
+            return "hash"
+        }
+    }
+    for _, i := range fieldsZet {
+        if i == vik.Field {
+            return "zet"
+        }
+    }
+    return ""
 }
 
 type Site struct {
 	redis  redis.Conn
 	id     string
 	userId string
+	db *gorm.DB
 }
 
 // taken from here at August 2020:
@@ -87,7 +115,7 @@ func formatWeekRedisKey(time time.Time) string {
 func (site Site) saveVisitPart(timeRange string, data Visit, expireAt time.Time) {
 	var redisKey string
 	for _, field := range fieldsZet {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, Field: field, Origin: site.id, UserId: site.userId}.String()
 		val := data[field]
 		if val != "" {
 			site.redis.Send("ZINCRBY", redisKey, 1, truncate(val))
@@ -101,7 +129,7 @@ func (site Site) saveVisitPart(timeRange string, data Visit, expireAt time.Time)
 	}
 
 	for _, field := range fieldsHash {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, Field: field, Origin: site.id, UserId: site.userId}.String()
 		val := data[field]
 		if val != "" {
 			site.redis.Send("HINCRBY", redisKey, truncate(val), 1)
@@ -172,13 +200,13 @@ func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 	var redisKey string
 	var fields []string
 	for _, field := range fieldsZet {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, Field: field, Origin: site.id, UserId: site.userId}.String()
 		fields = append(fields, field)
 		site.redis.Send("ZRANGE", redisKey, 0, -1, "WITHSCORES")
 	}
 	for _, field := range fieldsHash {
 		fields = append(fields, field)
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, Field: field, Origin: site.id, UserId: site.userId}.String()
 		site.redis.Send("HGETALL", redisKey)
 	}
 	site.redis.Flush()
@@ -198,20 +226,21 @@ func (site Site) getVisitsPart(timeRange string) (VisitsData, error) {
 func (site Site) delVisitPart(timeRange string) {
 	var redisKey string
 	for _, field := range fieldsZet {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, Field: field, Origin: site.id, UserId: site.userId}.String()
 		site.redis.Send("DEL", redisKey)
 	}
 	for _, field := range fieldsHash {
-		redisKey = VisitItemKey{TimeRange: timeRange, field: field, Origin: site.id, UserId: site.userId}.String()
+		redisKey = VisitItemKey{TimeRange: timeRange, Field: field, Origin: site.id, UserId: site.userId}.String()
 		site.redis.Send("DEL", redisKey)
 	}
 }
 
-func (site Site) DelVisits() {
+func (site Site) delHotVisits() error {
 
 	// we ignore the fact that at any given time in reality there are three
 	// dates going on at the same time and not as this code naively assumes
 	// two.
+	// TODO: error handling
 	minDate := utils.TimeNow(-12)
 	maxDate := utils.TimeNow(12)
 
@@ -230,6 +259,16 @@ func (site Site) DelVisits() {
 	site.delVisitPart(maxDate.Format("2006-01-02"))
 	site.delVisitPart(minDate.Format("2006-01-02"))
 	site.delVisitPart("all")
+	return nil
+}
+
+
+func (site Site) delArchiveVisits() error {
+	err := site.db.Table("records").Where("origin = ?", site.id).Delete(nil).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (site Site) DelLogs() {
@@ -237,9 +276,17 @@ func (site Site) DelLogs() {
 	site.redis.Send("DEL", redisKey)
 }
 
-func (site Site) Del() {
-	site.DelVisits()
+func (site Site) Del() error {
+	err := site.delHotVisits()
+	if err != nil {
+		return err
+	}
+	err = site.delArchiveVisits()
+	if err != nil {
+		return err
+	}
 	site.DelLogs()
+	return nil
 }
 
 func (site Site) GetVisits(utcOffset int) (TimedVisits, error) {

@@ -125,8 +125,69 @@ connectData("dashboard-week", k("weekday"));
 connectData("dashboard-time", k("hour"));
 connectData("dashboard-share-account", (dump) => [dump.user, dump.meta]);
 
-function drawComponents(url) {
-    var source = new EventSource(url);
+document.addEventListener("push-dump", (evt) => {
+    if (Object.keys(evt.detail.sites).length === 0) {
+        window.location.href = "setup.html";
+    }
+})
+
+document.addEventListener("push-dump", (evt) => {
+    var dump = evt.detail
+    addArchivesToDump(window.archives, dump)
+    document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
+})
+
+
+document.addEventListener("push-archive", (evt) => {
+    window.archives = evt.detail
+})
+
+document.addEventListener("push-nouser", () => {
+    window.location.href = "welcome.html";
+})
+
+function addArchivesToDump(archives, dump){
+    for (const [site, visits] of Object.entries(archives["-8:-2"])) {
+
+        // some junk that the user configured not to see
+        // would be nice to have it removed from the db sometimes
+        if (!(site in dump.sites)){
+            continue
+        }
+
+        let completeVisits = mergeVisits([
+            dump.sites[site].visits.day,
+            dump.sites[site].visits.yesterday,
+            visits])
+        dump.sites[site].visits.last7 = completeVisits
+
+    }
+    return dump
+}
+
+
+function mergeVisits(visits) {
+    let merged = {}
+    for (const visit of visits) {
+        for (const [dimension, typesWithCount] of Object.entries(visit)) {
+            for (const [type, count] of Object.entries(typesWithCount)) {
+                if (!(dimension in merged)){
+                    merged[dimension] ={}
+                }
+                if (!(type in merged[dimension])){
+                    merged[dimension][type] = 0
+                }
+                merged[dimension][type] += count
+            }
+        }
+    }
+    return merged
+}
+
+function drawComponents() {
+
+    var source = dispatchPushEvents(getDumpURL());
+
     customElements.whenDefined("dashboard-connstatus").then((el) => {
         let connstatus = document.getElementsByTagName(
             "dashboard-connstatus"
@@ -135,22 +196,6 @@ function drawComponents(url) {
         source.onopen = () => connstatus.message("Live");
         source.onerror = (err) => connstatus.message("Disconnected");
     });
-    source.onmessage = (event) => {
-        let dump = JSON.parse(event.data);
-
-        if (!dump) {
-            window.location.href = "welcome.html";
-            return;
-        }
-
-        if (Object.keys(dump.sites).length === 0) {
-            window.location.href = "setup.html";
-        }
-
-        document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
-
-        //document.getElementsByTagName("body")[0].style.display = "block";
-    };
 }
 
 document.addEventListener("redraw", (evt) => {
@@ -176,7 +221,7 @@ function getDumpURL() {
 
 customElements.whenDefined(selector.localName).then(() => {
     customElements.upgrade(selector);
-    drawComponents(getDumpURL());
+    drawComponents();
 });
 
 // not used currently
@@ -245,7 +290,18 @@ function getUTCNow(utcoffset) {
     return moment().add(parseInt(utcoffset), "hours").toDate();
 }
 
-function dPadDates(dates, utcoffset) {
+function dPadDates(myDates, utcoffset) {
+
+    // Hack, sort the keys in the object
+    dates = Object.keys(myDates)
+        .sort()
+        .reduce(function (acc, key) {
+            acc[key] = myDates[key];
+            return acc;
+        }, {});
+
+
+
     var daysRange = (s, e) => {
         var s = new Date(s);
         var e = new Date(e);
@@ -267,6 +323,7 @@ function dPadDates(dates, utcoffset) {
 }
 
 function dNormalizedDates(dates, utcoffset) {
+
     let groupedByDay = dPadDates(dates, utcoffset);
 
     let allMonths = Object.entries(groupedByDay).reduce((acc, val) => {
