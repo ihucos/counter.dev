@@ -5,6 +5,7 @@ class Counter extends HTMLElement {
         day: "yesterday",
         yesterday: "week",
         week: "month",
+        last7: "month",
         month: "year",
         year: "all",
         all: "all",

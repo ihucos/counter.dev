@@ -182,7 +182,7 @@ func (app *App) QueryArchive(queryArgs QueryArchiveArgs) (QueryArchiveResult, er
 		query.Where("date > ?", queryArgs.DateFrom)
 	}
 	if !queryArgs.DateTo.IsZero() {
-		query.Where("date > ?", queryArgs.DateTo)
+		query.Where("date < ?", queryArgs.DateTo)
 	}
 
 	query = query.Group("origin,field,value")
