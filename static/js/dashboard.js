@@ -147,7 +147,7 @@ document.addEventListener("push-nouser", () => {
 })
 
 function addArchivesToDump(archives, dump){
-    for (const [site, visits] of Object.entries(archives["-7:-2"])) {
+    for (const [site, visits] of Object.entries(archives["-8:-2"])) {
 
         // some junk that the user configured not to see
         // would be nice to have it removed from the db sometimes
