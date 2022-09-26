@@ -600,3 +600,12 @@ dashboard-dynamics dashboard-nodata {
     visibility: visible;
   }
 }
+
+.da, .da img {
+  width: 350px;
+  height: 284px;
+}
+.da img {
+  object-fit: cover;
+  object-position: 0 100%;
+}
