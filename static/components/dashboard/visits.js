@@ -15,8 +15,9 @@ customElements.define(
             <div class="metrics-three-data-headline shadow-sm caption gray">
               <span class="visits-date">Date</span>
               <span class="visits-time">Time</span>
-              <span class="visits-ip">IP</span>
-              <span class="visits-device">Device</span>
+              <span class="visits-ip"></span>
+              <span class="visits-device"></span>
+              <span class="visits-platform"></span>
               <span class="visits-referrer">Referrer</span>
             </div>
             <div class="metrics-three-data-content caption" data-simplebar data-simplebar-auto-hide="false">
@@ -26,8 +27,9 @@ customElements.define(
                 <div class="hour-item">
                   <span class="visits-date">${logEntry.date}</span>
                   <span class="visits-time caption-strong">${logEntry.time}</span>
-                  <img class="visits-ip" title="${logEntry.country}" src="/famfamfam_flags/gif/${logEntry.country}.gif" width="16" height="11" alt="${logEntry.country}">
-                  <img class="visits-device" title="${logEntry.device}" src="/img/devices/${logEntry.device.toLowerCase()}.svg"></img>
+                  <img class="visits-ip" title="${logEntry.country}" src="/img/famfamfam_flags/gif/${logEntry.country}.gif" width="16" height="11" alt="${logEntry.country}">
+                  <img class="visits-device" title="${logEntry.device}" src="/img/visits/devices/${logEntry.device.toLowerCase()}.svg"></img>
+                  <img class="visits-platform" title="${logEntry.platform}" src="/img/visits/platforms/${logEntry.platform.toLowerCase()}.svg"></img>
                   <span class="visits-referrer">${logEntry.referrerHtml}</span>
                 </div>`
                   )
@@ -40,15 +42,13 @@ customElements.define(
         }
 
         parseLogEntry(visit) {
-            var match = /\[(.*?) (.*?):..\] (.*?) (.*?) (.*)/g.exec(visit);
-            if (match === null) {
-                return null;
-            }
-            var logDate = match[1];
-            var logTime = match[2];
-            var logCountry = match[3].toLowerCase();
-            var logReferrer = match[4];
-            var logDevice = match[5];
+            var match = visit.split(" ")
+            var logDate = match[0].slice(1);
+            var logTime = match[1].slice(0, -4);
+            var logCountry = match[2].toLowerCase();
+            var logReferrer = match[3];
+            var logDevice = match[4];
+            var platform = match[5];
 
             if (logCountry === "") {
                 logCountry = "xx";
@@ -76,6 +76,7 @@ customElements.define(
                 country: logCountry,
                 referrerHtml: logReferrer,
                 device: logDevice,
+                platform: platform || "Unknown",
             };
         }
     }
