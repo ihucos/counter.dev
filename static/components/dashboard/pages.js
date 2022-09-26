@@ -1,18 +1,22 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        draw(loc) {
-            var entries = Object.entries(loc).sort((a, b) => b[1] - a[1]);
+        draw(page) {
+            var entries = Object.entries(page || {}).sort((a, b) => b[1] - a[1]);
             this.innerHTML = `
         <div class="metrics-four-item">
           <div class="metrics-headline">
             <img src="/img/pages.svg" width="24" height="24" alt="Pages">
-            <h3 class="ml16">Entry Pages</h3>
+            <h3 class="ml16"
+                tooltip="This data is gathered by the new default external tracking script."
+                flow="right">
+                Pageviews<span class="blue">*&nbsp;</span>
+            </h3>
           </div>
           <div class="metrics-three-data bg-white radius-lg shadow-sm">
             <div class="metrics-three-data-headline shadow-sm caption gray">
               <span>Page</span>
-              <span>Visits</span>
+              <span>Views</span>
             </div>
             <div class="metrics-three-data-content caption" data-simplebar data-simplebar-auto-hide="false">
               ${entries
