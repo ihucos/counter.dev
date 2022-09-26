@@ -1,14 +1,14 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        draw(loc) {
-            var entries = Object.entries(loc).sort((a, b) => b[1] - a[1]);
+        draw(page) {
+            var entries = Object.entries(page || {}).sort((a, b) => b[1] - a[1]);
             this.innerHTML = `
         <div class="metrics-four-item">
           <div class="metrics-headline">
             <img src="/img/pages.svg" width="24" height="24" alt="Pages">
             <h3 class="ml16"
-                tooltip="Contains only counts since the integration of the new tracking script"
+                tooltip="This data is gathered by the new default external tracking script."
                 flow="right">
                 Pageviews<span class="blue">*&nbsp;</span>
             </h3>
