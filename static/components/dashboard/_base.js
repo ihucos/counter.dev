@@ -10,6 +10,7 @@ class Counter extends HTMLElement {
         month: "year",
         year: "all",
         all: "all",
+        archive: "all",
     };
 
     draw(allVisits, curTime, utcoffset) {

@@ -4,6 +4,9 @@ customElements.define(
         constructor() {
             super();
             this.last_sites = null;
+            document.addEventListener("selector-archive-fetched", (evt) => {
+                this.handleArchiveFetched(evt.detail)
+            });
         }
 
         draw(dump) {
@@ -70,8 +73,8 @@ customElements.define(
               rangePref === "all" ? "selected=selected" : ""
           } value="all">All</option>
         <option ${
-            rangePref === "range" ? "selected=selected" : ""
-        } value="range">Archive...</option>
+            rangePref === "archive" ? "selected=selected" : ""
+        } value="archive">Archive...</option>
         </select>`;
 
             this.updateFavicon();
@@ -108,8 +111,8 @@ customElements.define(
             fetch("/setPrefRange?" + encodeURIComponent(this.range));
             this.dump.user.prefs.range = this.range;
 
-            if (this.range == "range") {
-                document.dispatchEvent(new Event("selector-daterange"));
+            if (this.range == "archive") {
+                document.dispatchEvent(new Event("selector-archive-clicked"));
             }
 
             document.dispatchEvent(
@@ -130,6 +133,20 @@ customElements.define(
             return (
                 this.innerHTML !== "" &&
                 document.getElementById("range-select").value
+            );
+        }
+
+        handleArchiveFetched(archive){
+            for (let [site, visits] of Object.entries(archive)) {
+                if (site in this.dump.sites){
+                    this.dump.sites[site].visits.archive = visits
+                }
+            }
+
+            document.dispatchEvent(
+                new CustomEvent("redraw", {
+                    detail: this.dump,
+                })
             );
         }
     }

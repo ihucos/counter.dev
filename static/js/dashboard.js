@@ -145,10 +145,6 @@ document.addEventListener("push-nouser", () => {
     window.location.href = "welcome.html";
 });
 
-document.addEventListener("selector-daterange", (evt) => {
-    $("#modal-range").modal();
-});
-
 function addArchivesToDump(archives, dump) {
     for (const [site, visits] of Object.entries(archives["-8:-2"])) {
         // some junk that the user configured not to see
@@ -406,3 +402,15 @@ window.onload = () => {
         .attr("max", today)
         .attr("value", moment().format("YYYY-MM-DD"));
 };
+
+simpleForm("#modal-range form", (resp) => {
+    let data = JSON.parse(resp)
+    document.dispatchEvent(new CustomEvent("selector-archive-fetched", { detail: data }));
+    $.modal.close();
+})
+
+
+document.addEventListener("selector-archive-clicked", (evt) => {
+    $("#modal-range").modal();
+});
+
