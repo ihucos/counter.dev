@@ -17,6 +17,7 @@ func init() {
 		// else. It must not be necessarily a visit, it's just a
 		// counter
 		visit["page"] = ctx.R.FormValue("page")
+		visit["count"] = "pageview"
 
 		origin := ctx.R.Header.Get("Origin")
 		if origin == "" || origin == "null" {
