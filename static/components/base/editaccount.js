@@ -49,7 +49,7 @@ customElements.define(
                           /></label>
                         </div>
                         <!-- Mail -->
-                        <div class="title mb8 mt24">Recover passwords</div>
+                        <div class="title mb8 mt24">Recover account</div>
                         <input
                             name="mail"
                             class="width-full"
