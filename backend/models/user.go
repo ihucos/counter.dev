@@ -24,8 +24,7 @@ You - or possibly someone else - requested to recover your account. Therefore we
 user: %s
 password: %s (Will expire in 15 minutes)
 
-Login at http://counter.dev/ and if desired change your password in the account
-settings. As a precaution measure please ensure the given domain is correct and that this email looks plausible.
+Login at http://counter.dev/ and if desired change your password in the account settings. As a precaution measure please ensure the given domain is correct and that this email looks plausible.
 
 Reply if you have any questions.
 
@@ -261,7 +260,7 @@ func (user User) VerifyPasswordOrTmpPassword(password string) (bool, error) {
 
 func (user User) NewTmpPassword() (string, error) {
 	expire := 60 * 15  // 15 minutes
-	tmpPassword := base64.URLEncoding.EncodeToString([]byte(randToken()[:12]))
+	tmpPassword := base64.URLEncoding.EncodeToString([]byte(randToken()[:8]))
 	_, err := user.redis.Do("SETEX",
 		fmt.Sprintf("tmppwd:%s", user.Id), expire, user.hashPassword(tmpPassword))
 	return tmpPassword, err
