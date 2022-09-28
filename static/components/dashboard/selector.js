@@ -109,8 +109,7 @@ customElements.define(
             this.dump.user.prefs.range = this.range;
 
             if (this.range == "range"){
-                $('#modal-range').modal();
-
+                document.dispatchEvent(new Event("selector-daterange"));
             }
 
             document.dispatchEvent(

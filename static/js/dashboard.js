@@ -145,6 +145,11 @@ document.addEventListener("push-nouser", () => {
     window.location.href = "welcome.html";
 });
 
+
+document.addEventListener("selector-daterange", (evt) => {
+    $('#modal-range').modal();
+})
+
 function addArchivesToDump(archives, dump) {
     for (const [site, visits] of Object.entries(archives["-8:-2"])) {
         // some junk that the user configured not to see
