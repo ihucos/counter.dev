@@ -70,8 +70,8 @@ customElements.define(
               rangePref === "all" ? "selected=selected" : ""
           } value="all">All</option>
         <option ${
-              rangePref === "range" ? "selected=selected" : ""
-          } value="range">Archive...</option>
+            rangePref === "range" ? "selected=selected" : ""
+        } value="range">Archive...</option>
         </select>`;
 
             this.updateFavicon();
@@ -108,7 +108,7 @@ customElements.define(
             fetch("/setPrefRange?" + encodeURIComponent(this.range));
             this.dump.user.prefs.range = this.range;
 
-            if (this.range == "range"){
+            if (this.range == "range") {
                 document.dispatchEvent(new Event("selector-daterange"));
             }
 

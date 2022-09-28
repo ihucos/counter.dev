@@ -145,10 +145,9 @@ document.addEventListener("push-nouser", () => {
     window.location.href = "welcome.html";
 });
 
-
 document.addEventListener("selector-daterange", (evt) => {
-    $('#modal-range').modal();
-})
+    $("#modal-range").modal();
+});
 
 function addArchivesToDump(archives, dump) {
     for (const [site, visits] of Object.entries(archives["-8:-2"])) {
@@ -398,11 +397,12 @@ function dGetNormalizedHours(hours) {
     };
 }
 
-
 window.onload = () => {
-    let today = moment().format('YYYY-MM-DD')
-    $('#modal-range input[name="from"]').attr("max", today).attr('min', '2022-09-20')
-    $('#modal-range input[name="to"]').attr("max", today).attr("value", moment().format('YYYY-MM-DD'))
-
-}
-
+    let today = moment().format("YYYY-MM-DD");
+    $('#modal-range input[name="from"]')
+        .attr("max", today)
+        .attr("min", "2022-09-20");
+    $('#modal-range input[name="to"]')
+        .attr("max", today)
+        .attr("value", moment().format("YYYY-MM-DD"));
+};
