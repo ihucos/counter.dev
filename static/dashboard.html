@@ -710,6 +710,43 @@
         <counter-trackingcode class="mt16"></counter-trackingcode>
       </div>
     </div>
+    <!-- Date range modal -->
+    <div id="modal-range" style="display: none">
+      <div class="modal-header">
+        <img src="/img/account.svg" width="24" height="24" alt="Edit account" />
+        <h3 class="ml16">Select range</h3>
+        <a href="#" class="btn-close" rel="modal:close"></a>
+      </div>
+      <div class="modal-content">
+        <form action="/recover" method="POST">
+
+            <label class="width-full mb16">From
+              <input
+              type="date"
+              name="from"
+              class="width-full"
+              />
+            </label>
+
+            <label class="width-full">To
+              <input
+              type="date"
+              name="to"
+              class="width-full"
+              />
+            </label>
+
+          <div class="account-btn-group flex mt24 mb32">
+            <a href="#" class="btn-secondary full mr16" rel="modal:close"
+              >Cancel</a
+            >
+            <button type="submit" class="btn-primary full">Select</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
     <script type="text/javascript">
       $(document).ready(function () {
         // Responsive tabs

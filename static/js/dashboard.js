@@ -392,3 +392,12 @@ function dGetNormalizedHours(hours) {
         ...formatedHours,
     };
 }
+
+
+window.onload = () => {
+    let today = moment().format('YYYY-MM-DD')
+    $('#modal-range input[name="from"]').attr("max", today).attr('min', '2022-09-20')
+    $('#modal-range input[name="to"]').attr("max", today).attr("value", moment().format('YYYY-MM-DD'))
+
+}
+

@@ -69,6 +69,9 @@ customElements.define(
           <option ${
               rangePref === "all" ? "selected=selected" : ""
           } value="all">All</option>
+        <option ${
+              rangePref === "range" ? "selected=selected" : ""
+          } value="range">Archive...</option>
         </select>`;
 
             this.updateFavicon();
@@ -104,6 +107,11 @@ customElements.define(
             // here in the client
             fetch("/setPrefRange?" + encodeURIComponent(this.range));
             this.dump.user.prefs.range = this.range;
+
+            if (this.range == "range"){
+                $('#modal-range').modal();
+
+            }
 
             document.dispatchEvent(
                 new CustomEvent("redraw", {
