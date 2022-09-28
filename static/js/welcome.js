@@ -5,7 +5,11 @@ $(document).ready(function () {
     });
 });
 
-simpleForm("#sign-in form", "/dashboard.html");
+simpleForm("#sign-in form[action='/login']", "/dashboard.html");
+simpleForm("#modal-recover form[action='/recover']", () => {
+    $.modal.close();
+    alert("If the given mail and username matches, we will send you an mail with further instructions.")
+});
 simpleForm("#sign-up form", "/setup.html");
 
 document.addEventListener("userloaded", () => {

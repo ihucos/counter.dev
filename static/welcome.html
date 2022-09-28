@@ -85,25 +85,41 @@
               /></label>
               <label class="width-full"
                 >Password<input
-                  class="width-full"
-                  name="password"
-                  type="password"
-                  placeholder="Enter your password"
-              /></label>
-              <button class="btn-secondary mt24" type="submit">Log in</button>
+                class="width-full"
+                name="password"
+                type="password"
+                placeholder="Enter your password"
+                /></label>
+              <div class="flex" style="justify-content: space-between;">
+                <button class="btn-secondary mt24" type="submit">Log in</button>
+                <a class="btn-white mt24" href="#modal-recover" style="font-weight: 400;"  rel="modal:open">
+                  Forgot password</a>
+              </div>
             </form>
           </div>
           <!-- Sign up -->
           <div id="sign-up">
             <form action="/register" method="POST">
               <div class="title mb16">Sign up to Counter</div>
-              <label class="width-full mb8"
-                >Username<input
-                  class="width-full"
-                  name="user"
-                  type="text"
-                  placeholder="Choose a username"
-              /></label>
+
+              <div class="flex mb8">
+                <label class="width-half mr16"
+                  >Username<input
+                    class="width-full"
+                    name="user"
+                    type="text"
+                    placeholder="Username"
+                /></label>
+
+                <label class="width-half"
+                  >E-Mail<input
+                    class="width-full"
+                    name="mail"
+                    type="email"
+                    placeholder="E-Mail (optional)"
+                /></label>
+              </div>
+
               <script>
                 document.write(`<input type="hidden" name="utcoffset" value="${getUTCOffset()}">
                   </input>`);
@@ -121,6 +137,52 @@
         </div>
       </div>
     </section>
+
+    <!-- Forgot Password -->
+    <div id="modal-recover" style="display: none">
+      <div class="modal-header">
+        <img src="/img/account.svg" width="24" height="24" alt="Edit account" />
+        <h3 class="ml16">Recover account</h3>
+        <a href="#" class="btn-close" rel="modal:close"></a>
+      </div>
+      <div class="modal-content">
+        <form action="/recover" method="POST">
+
+          <!-- mail -->
+          <label class="width-full mb8">Email
+          <input
+            class="width-full"
+            name="mail"
+            type="email"
+            placeholder="Account E-Mail"
+            />
+          </label>
+
+          <!-- username -->
+          <label class="width-full mb24">Username
+          <input
+            class="width-full"
+            type="text"
+            name="user"
+            placeholder="Enter your username"
+            />
+          </label>
+
+          <span class="caption gray">
+            This works if you actually provided us with your email. Write
+            to <a href="mailto:hey@counter.dev">hey@counter.dev</a> for a manual verification process if desired.
+          </span>
+
+          <div class="account-btn-group flex mt24 mb32">
+            <a href="#" class="btn-secondary full mr16" rel="modal:close"
+              >Cancel</a
+            >
+            <button type="submit" class="btn-primary full">Recover</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <base-footer></base-footer>
     <script src="js/welcome.js"></script>
   </body>

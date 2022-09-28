@@ -11,7 +11,7 @@ export
 .PHONY: devserver
 devserver:
 	make buildlocal
-	plash --from alpine:$(alpineversion) -- sh -c ". .config/dev.sh && exec ./webstats"
+	PLASH_EXPORT=WEBSTATS_MAILGUN_SECRET_API_KEY plash --from alpine:$(alpineversion) -- sh -c ". .config/dev.sh && exec ./webstats"
 
 .PHONY: tests
 tests:

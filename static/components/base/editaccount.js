@@ -26,11 +26,11 @@ customElements.define(
                         <!-- Change password -->
                         <div class="title mb8 mt24">Change Password</div>
                         <label class="old-pass width-full"
-                          >Old password<input
+                          >Current or temporary password<input
                             name="current_password"
                             class="width-full"
                             type="password"
-                            placeholder="Old password"
+                            placeholder="Valid password"
                         /></label>
                         <div class="new-pass flex mb8 mt16">
                           <label class="width-half mr16"
@@ -48,7 +48,14 @@ customElements.define(
                               placeholder="Repeat new password"
                           /></label>
                         </div>
-                        <span class="caption gray"><i>We do not recover passwords!</i></span>
+                        <!-- Mail -->
+                        <div class="title mb8 mt24">Recover passwords</div>
+                        <input
+                            name="mail"
+                            class="width-full"
+                            type="email"
+                            placeholder="Trusted E-Mail"
+                        /></label>
                         <!-- Whitelist domains -->
                         <div class="title mb16 mt24">Listed Domains</div>
 
@@ -113,12 +120,15 @@ customElements.define(
             }
 
             var sites = prefs.sites || "";
+            var mail = prefs.mail || "";
             var useSites = prefs.usesites || "";
             var sitesEl = this.querySelector('textarea[name="sites"]');
             var useSitesEl = this.querySelector('select[name="usesites"]');
+            var mailEl = this.querySelector('input[name="mail"]');
 
             useSitesEl.value = useSites;
             sitesEl.value = sites;
+            mailEl.value = mail;
 
             let showHidePrefferedSites = function () {
                 if (useSitesEl.value === "") {

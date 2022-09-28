@@ -15,6 +15,7 @@ func init() {
 		repeatNewPassword := ctx.R.FormValue("repeat_new_password")
 		sites := ctx.R.FormValue("sites")
 		useSites := ctx.R.FormValue("usesites")
+		mail := ctx.R.FormValue("mail")
 
 		user := ctx.ForceUser()
 
@@ -23,6 +24,7 @@ func init() {
 		}
 		ctx.SetPref("sites", sites)
 		ctx.SetPref("usesites", useSites)
+		ctx.SetPref("mail", mail)
 
 		if ctx.R.FormValue("utcoffset") != "" {
 			utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
@@ -50,10 +52,10 @@ func init() {
 				ctx.ReturnBadRequest("Repeated new password does not match with new password")
 			}
 
-			correctPassword, err := user.VerifyPassword(currentPassword)
+			passwordOk, err := user.VerifyPasswordOrTmpPassword(currentPassword)
 			ctx.CatchError(err)
 
-			if !correctPassword {
+			if !passwordOk {
 				ctx.ReturnBadRequest("Current password is wrong")
 			}
 

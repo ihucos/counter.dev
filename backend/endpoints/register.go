@@ -10,6 +10,7 @@ import (
 func init() {
 	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {
 		userId := ctx.R.FormValue("user")
+		mail := ctx.R.FormValue("mail")
 		password := ctx.R.FormValue("password")
 		if userId == "" {
 			ctx.ReturnBadRequest("Missing Input: user")
@@ -29,7 +30,10 @@ func init() {
 			utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
 			err := user.SetPref("utcoffset", utcoffset)
 			ctx.CatchError(err)
-
+			if mail != "" {
+				err := user.SetPref("mail", mail)
+				ctx.CatchError(err)
+			}
 			ctx.SetSessionUser(userId)
 			ctx.ReturnUser()
 

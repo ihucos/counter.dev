@@ -13,6 +13,7 @@ type Config struct {
 	PasswordSalt []byte
 	ArchiveDatabase string
 	ArchiveMaxAge time.Duration
+	MailgunSecretApiKey string
 }
 
 func env(env string) string {
@@ -48,6 +49,7 @@ func NewConfigFromEnv() Config {
 		PasswordSalt: []byte(env("WEBSTATS_PASSWORD_SALT")),
 		ArchiveDatabase: env("WEBSTATS_ARCHIVE_DATABASE"),
 		ArchiveMaxAge: envDuration("WEBSTATS_ARCHIVE_MAX_AGE"),
+		MailgunSecretApiKey:     envDefault("WEBSTATS_MAILGUN_SECRET_API_KEY", "dummy"),
 	}
 
 }
