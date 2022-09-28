@@ -20,10 +20,10 @@ Chart.defaults.global.tooltips = {
         displayColors: false,
     },
 };
-Chart.defaults.global.tooltips.callbacks.label = function(tooltipItem, data) {
+Chart.defaults.global.tooltips.callbacks.label = function (tooltipItem, data) {
     var value = data.datasets[0].data[tooltipItem.index];
-    return kFormat(value)
-}
+    return kFormat(value);
+};
 
 Chart.defaults.global.animation.duration = 0;
 
@@ -129,63 +129,59 @@ document.addEventListener("push-dump", (evt) => {
     if (Object.keys(evt.detail.sites).length === 0) {
         window.location.href = "setup.html";
     }
-})
+});
 
 document.addEventListener("push-dump", (evt) => {
-    var dump = evt.detail
-    addArchivesToDump(window.archives, dump)
+    var dump = evt.detail;
+    addArchivesToDump(window.archives, dump);
     document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
-})
-
+});
 
 document.addEventListener("push-archive", (evt) => {
-    window.archives = evt.detail
-})
+    window.archives = evt.detail;
+});
 
 document.addEventListener("push-nouser", () => {
     window.location.href = "welcome.html";
-})
+});
 
-function addArchivesToDump(archives, dump){
+function addArchivesToDump(archives, dump) {
     for (const [site, visits] of Object.entries(archives["-8:-2"])) {
-
         // some junk that the user configured not to see
         // would be nice to have it removed from the db sometimes
-        if (!(site in dump.sites)){
-            continue
+        if (!(site in dump.sites)) {
+            continue;
         }
 
         let completeVisits = mergeVisits([
             dump.sites[site].visits.day,
             dump.sites[site].visits.yesterday,
-            visits])
-        dump.sites[site].visits.last7 = completeVisits
-
+            visits,
+        ]);
+        dump.sites[site].visits.last7 = completeVisits;
     }
-    return dump
+    return dump;
 }
 
-
 function mergeVisits(visits) {
-    let merged = {}
+    let merged = {};
     for (const visit of visits) {
         for (const [dimension, typesWithCount] of Object.entries(visit)) {
             for (const [type, count] of Object.entries(typesWithCount)) {
-                if (!(dimension in merged)){
-                    merged[dimension] ={}
+                if (!(dimension in merged)) {
+                    merged[dimension] = {};
                 }
-                if (!(type in merged[dimension])){
-                    merged[dimension][type] = 0
+                if (!(type in merged[dimension])) {
+                    merged[dimension][type] = 0;
                 }
-                merged[dimension][type] += count
+                merged[dimension][type] += count;
             }
         }
     }
-    return merged
+    return merged;
 }
 
 function drawComponents() {
-
     var source = dispatchPushEvents(getDumpURL());
 
     customElements.whenDefined("dashboard-connstatus").then((el) => {
@@ -230,27 +226,27 @@ function flash(msg) {
 }
 
 function kFormat(num) {
-    switch (num.toString().length){
+    switch (num.toString().length) {
         case 1:
-            return num
+            return num;
         case 2:
-            return num
+            return num;
         case 3:
-            return num
+            return num;
         case 4:
-            return ''+numberFormat(Math.round(num/100) * 100)
+            return "" + numberFormat(Math.round(num / 100) * 100);
         case 5:
-            return numberFormat(Math.round(num/1000) * 1000)
+            return numberFormat(Math.round(num / 1000) * 1000);
         case 6:
-            return numberFormat(Math.round(num/10000) * 10000)
+            return numberFormat(Math.round(num / 10000) * 10000);
         case 7:
-            return numberFormat(Math.round(num/100000) * 100000)
+            return numberFormat(Math.round(num / 100000) * 100000);
         case 8:
-            return numberFormat(Math.round(num/1000000) * 1000000)
+            return numberFormat(Math.round(num / 1000000) * 1000000);
         case 9:
-            return numberFormat(Math.round(num/10000000) * 10000000)
+            return numberFormat(Math.round(num / 10000000) * 10000000);
         default:
-            return numberFormat(num)
+            return numberFormat(num);
     }
 }
 
@@ -291,7 +287,6 @@ function getUTCNow(utcoffset) {
 }
 
 function dPadDates(myDates, utcoffset) {
-
     // Hack, sort the keys in the object
     dates = Object.keys(myDates)
         .sort()
@@ -299,8 +294,6 @@ function dPadDates(myDates, utcoffset) {
             acc[key] = myDates[key];
             return acc;
         }, {});
-
-
 
     var daysRange = (s, e) => {
         var s = new Date(s);
@@ -323,18 +316,17 @@ function dPadDates(myDates, utcoffset) {
 }
 
 function dNormalizedDates(dates, utcoffset) {
-
     let groupedByDay = dPadDates(dates, utcoffset);
 
     let allMonths = Object.entries(groupedByDay).reduce((acc, val) => {
         let group = moment(val[0]).format("MMMM YYYY");
-        acc.add(group)
+        acc.add(group);
         return acc;
     }, new Set());
 
     let groupedByMonth = Object.entries(groupedByDay).reduce((acc, val) => {
-        let group
-        if ((allMonths.size) <= 12) {
+        let group;
+        if (allMonths.size <= 12) {
             group = moment(val[0]).format("MMMM");
         } else {
             group = moment(val[0]).format("MMM YYYY");

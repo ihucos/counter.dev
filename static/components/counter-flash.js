@@ -3,9 +3,7 @@ customElements.define(
     class extends HTMLElement {
         KEY = "close-invest";
         connectedCallback() {
-            if (
-                false
-            ) {
+            if (false) {
                 this.innerHTML += `
                    <!-- Notification -->
                    <section class="notification">

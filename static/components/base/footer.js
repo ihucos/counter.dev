@@ -52,26 +52,27 @@ customElements.define(
 
                     </footer>`;
 
-                    // SNEAK IN TRACKING CODE HERE
-                    // smuggle in the tracking script here - different domain
-                    // because we can't track counter.dev with counter.dev as an super
-                    // edge case
-                    if (
-                      !sessionStorage.getItem("_swa") &&
-                      document.referrer.indexOf(location.protocol + "//" + location.host) !==
-                        0
-                    ) {
-                      fetch(
-                        "https://simple-web-analytics.com/track?" +
-                          new URLSearchParams({
+            // SNEAK IN TRACKING CODE HERE
+            // smuggle in the tracking script here - different domain
+            // because we can't track counter.dev with counter.dev as an super
+            // edge case
+            if (
+                !sessionStorage.getItem("_swa") &&
+                document.referrer.indexOf(
+                    location.protocol + "//" + location.host
+                ) !== 0
+            ) {
+                fetch(
+                    "https://simple-web-analytics.com/track?" +
+                        new URLSearchParams({
                             id: "33671ad4-a966-4a52-b48f-56c92d10a678",
                             utcoffset: "1",
                             referrer: document.referrer,
                             screen: screen.width + "x" + screen.height,
-                          })
-                      );
-                    }
-                    sessionStorage.setItem("_swa", "1");
-    }
+                        })
+                );
+            }
+            sessionStorage.setItem("_swa", "1");
+        }
     }
 );

@@ -34,17 +34,17 @@
     <section class="page">
       <div class="content">
         <div class="page-wrap bg-white shadow-lg radius-lg markdown-body">
-		{% block content %}{% endblock %}
-	</div>
-	{% if self.image() %}
+          {% block content %}{% endblock %}
+        </div>
+        {% if self.image() %}
         <img
           class="page-pic"
-	  src="{% block image %}{% endblock %}"
+          src="{% block image %}{% endblock %}"
           width="350"
           height="441"
           alt="Key"
         />
-	{% endif %}
+        {% endif %}
       </div>
     </section>
     <base-footer></base-footer>

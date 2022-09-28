@@ -1,15 +1,14 @@
-
 customElements.define(
     tagName(),
     class extends HTMLElement {
         connectedCallback() {
-            if (this.getAttribute('data-connected') == '1') {
-                return
+            if (this.getAttribute("data-connected") == "1") {
+                return;
             }
-            this.setAttribute('data-connected', '1')
-            let num = Number(this.innerHTML)
-            this.setAttribute('title', numberFormat(num))
-            this.innerHTML = kFormat(num)
+            this.setAttribute("data-connected", "1");
+            let num = Number(this.innerHTML);
+            this.setAttribute("title", numberFormat(num));
+            this.innerHTML = kFormat(num);
         }
     }
 );

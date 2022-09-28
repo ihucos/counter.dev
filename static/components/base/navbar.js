@@ -33,21 +33,21 @@ customElements.define(
             }
 
             document.addEventListener("push-navbar-nouser", () => {
-                    this.noUser();
-                    // don't leave an open connection to server to save resources
-                    eventSourceObj.close();
-            })
+                this.noUser();
+                // don't leave an open connection to server to save resources
+                eventSourceObj.close();
+            });
             document.addEventListener("push-navbar-dump", (evt) => {
-                    let dump = evt.detail
-                    this.hasUser(dump.user.id);
-                    sessionStorage.setItem(usernameCacheKey, dump.user.id);
-                    // the fallback is because older user's dont set the
-                    // utcoffset by default
-                    this.drawEditaccount(dump.user.prefs);
-                    document.dispatchEvent(new CustomEvent("userloaded"));
-                    // don't leave an open connection to server to save resources
-                    eventSourceObj.close();
-            })
+                let dump = evt.detail;
+                this.hasUser(dump.user.id);
+                sessionStorage.setItem(usernameCacheKey, dump.user.id);
+                // the fallback is because older user's dont set the
+                // utcoffset by default
+                this.drawEditaccount(dump.user.prefs);
+                document.dispatchEvent(new CustomEvent("userloaded"));
+                // don't leave an open connection to server to save resources
+                eventSourceObj.close();
+            });
             var eventSourceObj = dispatchPushEvents("/dump", "push-navbar-");
         }
 
@@ -75,11 +75,10 @@ customElements.define(
         }
 
         connectedCallback() {
-
             fetch("/lang")
-               .then(response => response.text())
-               .then((response) => {
-                   if (response == "RU"){
+                .then((response) => response.text())
+                .then((response) => {
+                    if (response == "RU") {
                         var text = `
 <div style="width: 80%; padding: 0.75em;">
  ❤️
@@ -107,27 +106,32 @@ Let's hope this madness stops eventually and things become more normal.
 🕊
 
 
-                           </div>`
+                           </div>`;
 
-                        $("<table id='overlay'><tbody><tr><td>" + text + "</td></tr></tbody></table>").css({
-                            "position": "fixed",
-                            "top": 0,
-                            "left": 0,
-                            "width": "100%",
-                            "height": "100%",
-                            "background-color": "rgba(0,0,0,.9)",
-                            "z-index": 10000,
-                            "vertical-align": "middle",
-                            "text-align": "left",
-                            "color": "#fff",
-                            "font-size": "30px",
-                            "font-weight": "bold",
-                            "cursor": "wait"
-                        }).appendTo("body");
+                        $(
+                            "<table id='overlay'><tbody><tr><td>" +
+                                text +
+                                "</td></tr></tbody></table>"
+                        )
+                            .css({
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%",
+                                "background-color": "rgba(0,0,0,.9)",
+                                "z-index": 10000,
+                                "vertical-align": "middle",
+                                "text-align": "left",
+                                color: "#fff",
+                                "font-size": "30px",
+                                "font-weight": "bold",
+                                cursor: "wait",
+                            })
+                            .appendTo("body");
                     }
-               })
-               .catch(err => console.log(err))
-
+                })
+                .catch((err) => console.log(err));
 
             // HACK: this should obviously not be in the navbar
             if (location.href.startsWith("https://simple-web-analytics.com")) {

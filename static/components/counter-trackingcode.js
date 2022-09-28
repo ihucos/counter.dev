@@ -2,9 +2,9 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         getTrackingCode(uuid, utcoffset) {
-            if (String(uuid).includes('"') || String(utcoffset).includes('"')){
-                console.log("Sanity input validation test failed")
-                return "error, contact support"
+            if (String(uuid).includes('"') || String(utcoffset).includes('"')) {
+                console.log("Sanity input validation test failed");
+                return "error, contact support";
             }
             return `<script src="https://cdn.counter.dev/script.js" data-id="${uuid}" data-utcoffset="${utcoffset}"></script>`;
         }

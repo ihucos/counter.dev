@@ -258,7 +258,8 @@
 .graph-dot .caption-strong {
   display: none;
 }
-.da, .da img {
+.da,
+.da img {
   width: 350px;
   height: 284px;
 }
@@ -618,20 +619,20 @@ dashboard-dynamics dashboard-nodata {
   opacity: 0;
 }
 [tooltip]::before {
-  content: '';
+  content: "";
   border: 5px solid transparent;
   z-index: 1001;
 }
 [tooltip]::after {
   content: attr(tooltip);
   line-height: 25px;
-  
+
   font: 400 14px "Nunito Sans";
   color: #616161;
 
   min-width: 12em;
   padding: 1ch 1.5ch;
-  border-radius: .3ch;
+  border-radius: 0.3ch;
   box-shadow: 0 0.5em 2em -0.1em rgb(0 0 0 / 40%);
 
   background: white;
@@ -644,8 +645,8 @@ dashboard-dynamics dashboard-nodata {
 }
 
 /* don't show empty tooltips */
-[tooltip='']::before,
-[tooltip='']::after {
+[tooltip=""]::before,
+[tooltip=""]::after {
   display: none !important;
 }
 
@@ -665,7 +666,7 @@ dashboard-dynamics dashboard-nodata {
 [tooltip][flow^="up"]::before,
 [tooltip][flow^="up"]::after {
   left: 50%;
-  transform: translate(-50%, -.5em);
+  transform: translate(-50%, -0.5em);
 }
 
 /* FLOW: DOWN */
@@ -680,7 +681,7 @@ dashboard-dynamics dashboard-nodata {
 [tooltip][flow^="down"]::before,
 [tooltip][flow^="down"]::after {
   left: 50%;
-  transform: translate(-50%, .5em);
+  transform: translate(-50%, 0.5em);
 }
 
 /* FLOW: LEFT */
@@ -689,12 +690,12 @@ dashboard-dynamics dashboard-nodata {
   border-right-width: 0;
   border-left-color: #333;
   left: calc(0em - 5px);
-  transform: translate(-.5em, -50%);
+  transform: translate(-0.5em, -50%);
 }
 [tooltip][flow^="left"]::after {
   top: 50%;
   right: calc(100% + 5px);
-  transform: translate(-.5em, -50%);
+  transform: translate(-0.5em, -50%);
 }
 
 /* FLOW: RIGHT */
@@ -703,30 +704,30 @@ dashboard-dynamics dashboard-nodata {
   border-left-width: 0;
   border-right-color: white;
   right: calc(0em - 5px);
-  transform: translate(.5em, -50%);
+  transform: translate(0.5em, -50%);
 }
 [tooltip][flow^="right"]::after {
   top: 50%;
   left: calc(100% + 5px);
-  transform: translate(.5em, -50%);
+  transform: translate(0.5em, -50%);
 }
 
 /* KEYFRAMES */
 @keyframes tooltips-vert {
   to {
-    opacity: .9;
+    opacity: 0.9;
     transform: translate(-50%, 0);
   }
 }
 
 @keyframes tooltips-horz {
   to {
-    opacity: .9;
+    opacity: 0.9;
     transform: translate(0, -50%);
   }
 }
 
-/* FX All The Things */ 
+/* FX All The Things */
 [tooltip]:not([flow]):hover::before,
 [tooltip]:not([flow]):hover::after,
 [tooltip][flow^="up"]:hover::before,
@@ -743,7 +744,8 @@ dashboard-dynamics dashboard-nodata {
   animation: tooltips-horz 300ms ease-out forwards;
 }
 
-.da, .da img {
+.da,
+.da img {
   width: 350px;
   height: 284px;
 }

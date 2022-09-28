@@ -100,8 +100,8 @@ customElements.define(
                     legend: {
                         display: false,
                     },
-                }
-            }
+                },
+            };
         }
     }
 );

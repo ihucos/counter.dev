@@ -4,7 +4,7 @@ customElements.define(
         draw(logs) {
             var entries = Object.entries(logs).sort((a, b) => b[1] - a[1]);
             var parsedLogs = entries.map((e) => this.parseLogEntry(e[0]));
-            parsedLogs = parsedLogs.filter(n => n) // filter out null values (parse errors)
+            parsedLogs = parsedLogs.filter((n) => n); // filter out null values (parse errors)
             this.innerHTML = `
         <div class="metrics-four-item">
           <div class="metrics-headline">
@@ -26,10 +26,20 @@ customElements.define(
                       (logEntry) => `
                 <div class="hour-item">
                   <span class="visits-date">${logEntry.date}</span>
-                  <span class="visits-time caption-strong">${logEntry.time}</span>
-                  <img class="visits-ip" title="${logEntry.country}" src="/img/famfamfam_flags/gif/${logEntry.country}.gif" width="16" height="11" alt="${logEntry.country}">
-                  <img class="visits-device" title="${logEntry.device}" src="/img/visits/devices/${logEntry.device.toLowerCase()}.svg"></img>
-                  <img class="visits-platform" title="${logEntry.platform}" src="/img/visits/platforms/${logEntry.platform.toLowerCase()}.svg"></img>
+                  <span class="visits-time caption-strong">${
+                      logEntry.time
+                  }</span>
+                  <img class="visits-ip" title="${
+                      logEntry.country
+                  }" src="/img/famfamfam_flags/gif/${
+                          logEntry.country
+                      }.gif" width="16" height="11" alt="${logEntry.country}">
+                  <img class="visits-device" title="${
+                      logEntry.device
+                  }" src="/img/visits/devices/${logEntry.device.toLowerCase()}.svg"></img>
+                  <img class="visits-platform" title="${
+                      logEntry.platform
+                  }" src="/img/visits/platforms/${logEntry.platform.toLowerCase()}.svg"></img>
                   <span class="visits-referrer">${logEntry.referrerHtml}</span>
                 </div>`
                   )
@@ -42,7 +52,7 @@ customElements.define(
         }
 
         parseLogEntry(visit) {
-            var match = visit.split(" ")
+            var match = visit.split(" ");
             var logDate = match[0].slice(1);
             var logTime = match[1].slice(0, -4);
             var logCountry = match[2].toLowerCase();

@@ -5,7 +5,6 @@ Author: Irae Hueck Costa
 
 # Clashing goals
 
-
 Counter tries to reach many goals. Some are aligned, some seem mutually
 exclusive at times. Part of maturing such a project is deciding priorities. As
 an example: while it is sensible to respect end-user's choice of using
@@ -20,7 +19,6 @@ I don't think there is much that can be written about data privacy that was not
 already publicly discussed. Everybody agrees it is an important topic.
 Pity that usually choosing privacy friendly solutions means using inferior
 products. We claim to be the exception.
-
 
 ### Free
 
@@ -40,12 +38,11 @@ startups who failed to deliver on promises. I hope that counters way of
 achieving hosting many users for relatively little money is transparently
 enough disclosed.
 
-
 ### Open Source
 
 Technically an Open Source project is nothing more than a project where the
 Source Code is under a license generally accepted as Open Source (Counter is
-*AGPL*-Licensed). But the general expectation goes beyond that: Good
+_AGPL_-Licensed). But the general expectation goes beyond that: Good
 documentation, configurability, deployment-independent code and
 data-independent code are traits which require work. Work that could be easily
 invested in adding in features instead.
@@ -71,12 +68,9 @@ project and respecting the end-users data privacy is nice. But ultimately it is
 about presenting insightful and comprehensive metrics to users in an appealing
 way.
 
-
-
 ## What to pick?
 
 So many good choices, which one to pick, which on to toss
 overboard. In this blog post I want to proclaim caring about mostly one thing:
 Users. Of course in a sustainable way. The only reason such a product can exist
 is to serve and be usable to its users.
-

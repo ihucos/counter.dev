@@ -1,11 +1,11 @@
 function simpleForm(formSelector, arg) {
-    var success
+    var success;
     if (typeof arg === "function") {
-        success = arg
+        success = arg;
     } else {
         success = function (response) {
             window.location.href = arg;
-        }
+        };
     }
     document.querySelector(formSelector).onsubmit = (evt) => {
         var el = evt.target;
@@ -35,15 +35,18 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
-function dispatchPushEvents(url, event_prefix){
-    var prefix = event_prefix || "push-"
+function dispatchPushEvents(url, event_prefix) {
+    var prefix = event_prefix || "push-";
     var source = new EventSource(url);
     source.onmessage = (event) => {
         let serverData = JSON.parse(event.data);
-        document.dispatchEvent(new CustomEvent(prefix + serverData.type,
-            {detail: serverData.payload}));
-    }
-    return source
+        document.dispatchEvent(
+            new CustomEvent(prefix + serverData.type, {
+                detail: serverData.payload,
+            })
+        );
+    };
+    return source;
 }
 
 document.write(`
@@ -51,4 +54,4 @@ document.write(`
   data-id="33671ad4-a966-4a52-b48f-56c92d10a678"
   data-utcoffset="1"
   data-server="https://simple-web-analytics.com">
-</script>`)
+</script>`);

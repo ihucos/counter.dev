@@ -496,7 +496,9 @@ label {
 label:focus-within {
   color: #147efb;
 }
-label input, label textarea, label select {
+label input,
+label textarea,
+label select {
   margin-top: 8px;
 }
 

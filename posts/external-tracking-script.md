@@ -5,6 +5,7 @@ Author: Irae Hueck Costa
 Featured: true
 
 # External tracking script
+
 We do now have an externally hosted tracking script, exactly as other Web
 Analytics providers.
 
@@ -19,7 +20,6 @@ We do now offer a vanilla tracking script, example:
 </script>
 ```
 
-
 ## How to migrate
 
 Go to your dashboard, then click the settings icon. There you have the new
@@ -28,8 +28,7 @@ major obstruction is expected. You might be missing out on new features though.
 
 Don't forget to delete your old tracking snippet.
 
-
 ## Security
 
-The script is distributed over *GitHub pages*, there is *CloudFlare* on front of
+The script is distributed over _GitHub pages_, there is _CloudFlare_ on front of
 that. This means there are no hand managed servers holding that script.

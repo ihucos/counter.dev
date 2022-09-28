@@ -3,7 +3,9 @@
 /* Import */
 @import url("styles.css");
 
-td {padding-bottom: 0.5em;}
+td {
+  padding-bottom: 0.5em;
+}
 
 td:first-child {
   font-weight: bold;

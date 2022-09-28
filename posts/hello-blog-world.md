@@ -6,6 +6,7 @@ Author: Irae Hueck Costa
 Featured: true
 
 # We have a blog
+
 Counter has now a blog. May the content come.
 
 ## Did you know?

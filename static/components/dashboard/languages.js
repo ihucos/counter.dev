@@ -2,7 +2,7 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(lang) {
-            var lang = this.group(lang)
+            var lang = this.group(lang);
             var langEntries = Object.entries(lang).sort((a, b) => b[1] - a[1]);
             this.totalCount = Object.values(lang).reduce(
                 (acc, next) => acc + next,
@@ -35,15 +35,16 @@ customElements.define(
             `;
         }
 
-        group(lang){
-            var newLang = {}
+        group(lang) {
+            var newLang = {};
             for (const [langName, count] of Object.entries(lang)) {
                 // Canadian English -> English
                 // Taking the last word works
-                let simpleLangName = langName.split(' ').pop()
-                newLang[simpleLangName] = (newLang[simpleLangName] || 0) + count
+                let simpleLangName = langName.split(" ").pop();
+                newLang[simpleLangName] =
+                    (newLang[simpleLangName] || 0) + count;
             }
-            return newLang
+            return newLang;
         }
 
         drawItem(lang, count) {
