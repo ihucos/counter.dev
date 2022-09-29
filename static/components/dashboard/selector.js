@@ -71,10 +71,10 @@ customElements.define(
           } value="year">This year</option>
           <option ${
               rangePref === "all" ? "selected=selected" : ""
-          } value="all">All</option>
+          } value="all">All time</option>
         <option ${
             rangePref === "archive" ? "selected=selected" : ""
-        } value="archive">Archive...</option>
+        } value="archive">Custom date range...</option>
         </select>`;
 
             this.updateFavicon();
