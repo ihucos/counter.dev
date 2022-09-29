@@ -6,10 +6,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/xavivars/uasurfer"
 	"github.com/ihucos/counter.dev/lib"
 	"github.com/ihucos/counter.dev/models"
 	"github.com/ihucos/counter.dev/utils"
+	"github.com/xavivars/uasurfer"
 	"golang.org/x/text/language"
 	"golang.org/x/text/language/display"
 )
@@ -78,7 +78,7 @@ func init() {
 		// drop if bot or origin is from localhost
 		// see issue: https://github.com/avct/uasurfer/issues/65
 		//
-		if ua.IsBot() || strings.Contains(userAgent, " HeadlessChrome/") || strings.Contains(userAgent, "PetalBot;") {
+		if ua.IsBot() || strings.Contains(userAgent, " HeadlessChrome/") || strings.Contains(userAgent, "PetalBot;") || strings.Contains(userAgent, "AdsBot") {
 			return
 		}
 		originUrl, err := url.Parse(origin)
