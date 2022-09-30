@@ -2,8 +2,8 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         connectedCallback(){
+            this.style.display = 'none'
             this.innerHTML = `
-                <div id="modal-range" style="display: none">
                   <div class="modal-header">
                     <img
                       src="/img/calendar.svg"
@@ -33,17 +33,26 @@ customElements.define(
                         <button type="submit" class="btn-primary full">Select</button>
                       </div>
                     </form>
-                  </div>
-                </div>`
+                  </div>`
+
+
+            this.fromInputEl = this.querySelector('input[name="from"]')
+            this.toInputEl = this.querySelector('input[name="to"]')
+
+            let today = moment().format("YYYY-MM-DD");
+            this.fromInputEl.setAttribute('max', today)
+            this.fromInputEl.setAttribute('min', "2022-09-20")
+            this.fromInputEl.setAttribute('value', today) // debug
+            this.toInputEl.setAttribute('max', today)
+            this.toInputEl.setAttribute('min', "2022-09-20")
+            this.toInputEl.setAttribute('value', today)
 
 
             simpleForm(this.querySelector('form'), (resp) => {
                 let data = JSON.parse(resp)
                 document.dispatchEvent(new CustomEvent("selector-archive-fetched", { detail: data }));
-                let fromInp = $('#modal-range form input[name="from"]').val()
-                let toInp = $('#modal-range form input[name="to"]').val()
-                let from = moment(fromInp)
-                let to = moment(toInp)
+                let from = moment(fromInputEl.value)
+                let to = moment(toInputEl.value)
                 if (from.isAfter(to)) {
                     [from, to] = [to, from]
                 }
@@ -61,7 +70,8 @@ customElements.define(
 
 
             document.addEventListener("selector-archive-clicked", (evt) => {
-                $("#modal-range").modal();
+                $(this).modal();
+                this.popup()
             });
 
             $(()=>{
@@ -75,20 +85,23 @@ customElements.define(
             })
 
 
-            window.onload = () => {
-                let today = moment().format("YYYY-MM-DD");
-                $('#modal-range input[name="from"]')
-                    .attr("max", today)
-                    .attr("min", "2022-09-20")
-                    .attr("value", moment().format("YYYY-MM-DD")); // debug
-                $('#modal-range input[name="to"]')
-                    .attr("max", today)
-                    .attr("min", "2022-09-20")
-                    .attr("value", moment().format("YYYY-MM-DD"));
-            };
-
-
-
-
         }
+
+        popup(){
+            $("#modal-range").modal();
+        }
+
+        //get from(){
+        //    return this.fromInputEl.value
+        //}
+        //set from(val){
+        //    return this.fromInputEl.value = val
+        //}
+
+        //get to(){
+        //    return this.toInputEl.value
+        //}
+        //set to(val){
+        //    return this.toInputEl.value = val
+        //}
 })
