@@ -1,3 +1,4 @@
+
 window.state = {}
 Chart.defaults.global.tooltips = {
     ...Chart.defaults.global.tooltips,
@@ -394,51 +395,3 @@ function dGetNormalizedHours(hours) {
     };
 }
 
-window.onload = () => {
-    let today = moment().format("YYYY-MM-DD");
-    $('#modal-range input[name="from"]')
-        .attr("max", today)
-        .attr("min", "2022-09-20")
-        .attr("value", moment().format("YYYY-MM-DD")); // debug
-    $('#modal-range input[name="to"]')
-        .attr("max", today)
-        .attr("min", "2022-09-20")
-        .attr("value", moment().format("YYYY-MM-DD"));
-};
-
-simpleForm("#modal-range form", (resp) => {
-    let data = JSON.parse(resp)
-    document.dispatchEvent(new CustomEvent("selector-archive-fetched", { detail: data }));
-    let fromInp = $('#modal-range form input[name="from"]').val()
-    let toInp = $('#modal-range form input[name="to"]').val()
-    let from = moment(fromInp)
-    let to = moment(toInp)
-    if (from.isAfter(to)) {
-        [from, to] = [to, from]
-    }
-
-
-    let tofrom = from.format('DD MMM') + ' - ' + to.format('DD MMM')
-    let origArchiveTxt = $('#range-select option[value="archive"]').text()
-    $('#range-select option[value="archiveSel"]').remove()
-    $('#range-select option[value="archive"]').val("archiveSel").text(tofrom).before(
-        $('<option/>').attr('value', "archive").text(origArchiveTxt)
-    )
-    delete window.state.myrange
-    $.modal.close();
-})
-
-
-document.addEventListener("selector-archive-clicked", (evt) => {
-    $("#modal-range").modal();
-});
-
-$(()=>{
-    $('#modal-range').on($.modal.AFTER_CLOSE, (event, modal) => {
-        if (window.state.myrange){
-            $('#range-select').val(window.state.myrange)
-            delete window.state.myrange
-
-        }
-    });
-})

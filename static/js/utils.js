@@ -1,5 +1,5 @@
 function simpleForm(formSelector, arg) {
-    var success;
+    var success, formEl;
     if (typeof arg === "function") {
         success = arg;
     } else {
@@ -7,7 +7,13 @@ function simpleForm(formSelector, arg) {
             window.location.href = arg;
         };
     }
-    document.querySelector(formSelector).onsubmit = (evt) => {
+    if (typeof formSelector === 'string'){
+        formEl = document.querySelector(formSelector)
+    } else {
+        formEl = formSelector
+    }
+
+    formSelector.onsubmit = (evt) => {
         var el = evt.target;
         $.ajax({
             type: el.getAttribute("method") || "POST",
