@@ -1,3 +1,4 @@
+window.state = {}
 Chart.defaults.global.tooltips = {
     ...Chart.defaults.global.tooltips,
     ...{
@@ -133,12 +134,12 @@ document.addEventListener("push-dump", (evt) => {
 
 document.addEventListener("push-dump", (evt) => {
     var dump = evt.detail;
-    addArchivesToDump(window.archives, dump);
+    addArchivesToDump(window.state.archives, dump);
     document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
 });
 
 document.addEventListener("push-archive", (evt) => {
-    window.archives = evt.detail;
+    window.state.archives = evt.detail;
 });
 
 document.addEventListener("push-nouser", () => {
@@ -423,6 +424,7 @@ simpleForm("#modal-range form", (resp) => {
     $('#range-select option[value="archive"]').val("archiveSel").text(tofrom).before(
         $('<option/>').attr('value', "archive").text(origArchiveTxt)
     )
+    delete window.state.myrange
     $.modal.close();
 })
 
@@ -431,3 +433,12 @@ document.addEventListener("selector-archive-clicked", (evt) => {
     $("#modal-range").modal();
 });
 
+$(()=>{
+    $('#modal-range').on($.modal.AFTER_CLOSE, (event, modal) => {
+        if (window.state.myrange){
+            $('#range-select').val(window.state.myrange)
+            delete window.state.myrange
+
+        }
+    });
+})

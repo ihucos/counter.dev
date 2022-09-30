@@ -113,6 +113,8 @@ customElements.define(
 
             if (this.range == "archive") {
                 document.dispatchEvent(new Event("selector-archive-clicked"));
+            } else {
+                window.state.myrange = this.range
             }
 
             document.dispatchEvent(
