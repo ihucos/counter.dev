@@ -337,7 +337,7 @@ customElements.define(
                   )}.ico"
                   width="16"
                   height="16"
-                  alt="${escapeHtml(item.group)}">
+                  alt="">
                 <a href="//${escapeHtml(
                     item.link
                 )}" class="black" target="_blank" rel="nofollow">
