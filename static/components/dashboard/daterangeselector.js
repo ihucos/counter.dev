@@ -55,21 +55,13 @@ customElements.define(
 
             simpleForm(this.querySelector('form'), (resp) => {
                 let data = JSON.parse(resp)
-                document.dispatchEvent(new CustomEvent("selector-daterange-fetched", { detail: data }));
                 let from = moment(this.fromInputEl.value)
                 let to = moment(this.toInputEl.value)
+                let detail = {resp: resp, to: to, from: from}
+                document.dispatchEvent(new CustomEvent("selector-daterange-fetched", { detail: detail }));
                 if (from.isAfter(to)) {
                     [from, to] = [to, from]
                 }
-
-
-                let tofrom = from.format('DD MMM') + ' - ' + to.format('DD MMM')
-                let origArchiveTxt = $('#range-select option[value="daterange"]').text()
-                $('#range-select option[value="daterangeSel"]').remove()
-                $('#range-select option[value="daterange"]').val("daterangeSel").text(tofrom).before(
-                    $('<option/>').attr('value', "daterange").text(origArchiveTxt)
-                )
-                delete window.state.myrange
                 $.modal.close();
             })
 

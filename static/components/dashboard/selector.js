@@ -5,7 +5,7 @@ customElements.define(
             super();
             this.last_sites = null;
             document.addEventListener("selector-daterange-fetched", (evt) => {
-                this.handleArchiveFetched(evt.detail)
+                this.handleDateRangeFetched(evt.detail)
             });
         }
 
@@ -138,11 +138,21 @@ customElements.define(
             );
         }
 
-        handleArchiveFetched(daterangedata){
+        handleDateRangeFetched(obj){
+            let resp = obj.resp
+            let from = obj.from
+            let to = obj.to
+            let tofrom = from.format('DD MMM') + ' - ' + to.format('DD MMM')
+            let origArchiveTxt = $('#range-select option[value="daterange"]').text()
+            $('#range-select option[value="daterangeSel"]').remove()
+            $('#range-select option[value="daterange"]').val("daterangeSel").text(tofrom).before(
+                $('<option/>').attr('value', "daterange").text(origArchiveTxt)
+            )
+            delete window.state.myrange
 
-            //let nildata = this.
+
             for (const site of Object.keys(this.dump.sites)){
-                let siteData = daterangedata[site]
+                let siteData = resp[site]
                 if (siteData){
                     this.dump.sites[site].visits.daterange = siteData
                 } else {
@@ -150,13 +160,6 @@ customElements.define(
                     this.dump.sites[site].visits.daterange = nildata
                 }
             }
-
-
-            //for (let [site, visits] of Object.entries(daterangedata)) {
-            //    if (site in this.dump.sites){
-            //        this.dump.sites[site].visits.daterange = visits
-            //    }
-            //}
 
             document.dispatchEvent(
                 new CustomEvent("redraw", {
