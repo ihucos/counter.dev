@@ -2,6 +2,11 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         connectedCallback(){
+            if (!this.alreadyConnected){
+                this.alreadyConnected = true
+            } else {
+                return
+            }
             this.style.display = 'none'
             this.innerHTML = `
                   <div class="modal-header">
@@ -50,26 +55,26 @@ customElements.define(
 
             simpleForm(this.querySelector('form'), (resp) => {
                 let data = JSON.parse(resp)
-                document.dispatchEvent(new CustomEvent("selector-archive-fetched", { detail: data }));
-                let from = moment(fromInputEl.value)
-                let to = moment(toInputEl.value)
+                document.dispatchEvent(new CustomEvent("selector-daterange-fetched", { detail: data }));
+                let from = moment(this.fromInputEl.value)
+                let to = moment(this.toInputEl.value)
                 if (from.isAfter(to)) {
                     [from, to] = [to, from]
                 }
 
 
                 let tofrom = from.format('DD MMM') + ' - ' + to.format('DD MMM')
-                let origArchiveTxt = $('#range-select option[value="archive"]').text()
-                $('#range-select option[value="archiveSel"]').remove()
-                $('#range-select option[value="archive"]').val("archiveSel").text(tofrom).before(
-                    $('<option/>').attr('value', "archive").text(origArchiveTxt)
+                let origArchiveTxt = $('#range-select option[value="daterange"]').text()
+                $('#range-select option[value="daterangeSel"]').remove()
+                $('#range-select option[value="daterange"]').val("daterangeSel").text(tofrom).before(
+                    $('<option/>').attr('value', "daterange").text(origArchiveTxt)
                 )
                 delete window.state.myrange
                 $.modal.close();
             })
 
 
-            document.addEventListener("selector-archive-clicked", (evt) => {
+            document.addEventListener("selector-daterange-clicked", (evt) => {
                 $(this).modal();
                 this.popup()
             });

@@ -4,7 +4,7 @@ customElements.define(
         constructor() {
             super();
             this.last_sites = null;
-            document.addEventListener("selector-archive-fetched", (evt) => {
+            document.addEventListener("selector-daterange-fetched", (evt) => {
                 this.handleArchiveFetched(evt.detail)
             });
         }
@@ -73,8 +73,8 @@ customElements.define(
               rangePref === "all" ? "selected=selected" : ""
           } value="all">All time</option>
         <option ${
-            rangePref === "archive" ? "selected=selected" : ""
-        } value="archive">Custom date range...</option>
+            rangePref === "daterange" ? "selected=selected" : ""
+        } value="daterange">Custom date range...</option>
         </select>`;
 
             this.updateFavicon();
@@ -111,8 +111,8 @@ customElements.define(
             fetch("/setPrefRange?" + encodeURIComponent(this.range));
             this.dump.user.prefs.range = this.range;
 
-            if (this.range == "archive") {
-                document.dispatchEvent(new Event("selector-archive-clicked"));
+            if (this.range == "daterange") {
+                document.dispatchEvent(new Event("selector-daterange-clicked"));
             } else {
                 window.state.myrange = this.range
             }
@@ -138,12 +138,25 @@ customElements.define(
             );
         }
 
-        handleArchiveFetched(archive){
-            for (let [site, visits] of Object.entries(archive)) {
-                if (site in this.dump.sites){
-                    this.dump.sites[site].visits.archive = visits
+        handleArchiveFetched(daterangedata){
+
+            //let nildata = this.
+            for (const site of Object.keys(this.dump.sites)){
+                let siteData = daterangedata[site]
+                if (siteData){
+                    this.dump.sites[site].visits.daterange = siteData
+                } else {
+                    let nildata = Object.fromEntries(Object.keys(this.dump.sites[site].visits.all).map((k)=>[k, {}]))
+                    this.dump.sites[site].visits.daterange = nildata
                 }
             }
+
+
+            //for (let [site, visits] of Object.entries(daterangedata)) {
+            //    if (site in this.dump.sites){
+            //        this.dump.sites[site].visits.daterange = visits
+            //    }
+            //}
 
             document.dispatchEvent(
                 new CustomEvent("redraw", {
