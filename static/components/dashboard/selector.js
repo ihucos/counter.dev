@@ -132,10 +132,12 @@ customElements.define(
         }
 
         get range() {
-            return (
+            let r = (
                 this.innerHTML !== "" &&
                 document.getElementById("range-select").value
             );
+            console.log(r)
+            return r
         }
 
         handleDateRangeFetched(obj){
@@ -145,7 +147,7 @@ customElements.define(
             let tofrom = from.format('DD MMM') + ' - ' + to.format('DD MMM')
             let origArchiveTxt = $('#range-select option[value="daterangeset"]').text()
             $('#range-select option[value="daterange"]').remove()
-            $('#range-select option[value="daterangeset"]').val("daterange").text(tofrom).before(
+            $('#range-select option[value="daterangeset"]').val("daterange").text(tofrom).after(
                 $('<option/>').attr('value', "daterangeset").text(origArchiveTxt)
             )
             delete window.state.myrange

@@ -60,7 +60,7 @@ customElements.define(
                 if (from.isAfter(to)) {
                     [from, to] = [to, from]
                 }
-                let detail = {resp: resp, to: to, from: from}
+                let detail = {resp: data, to: to, from: from}
                 document.dispatchEvent(new CustomEvent("selector-daterange-fetched", { detail: detail }));
                 $.modal.close();
             })
