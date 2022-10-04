@@ -57,22 +57,21 @@ customElements.define(
                 let data = JSON.parse(resp)
                 let from = moment(this.fromInputEl.value)
                 let to = moment(this.toInputEl.value)
-                let detail = {resp: resp, to: to, from: from}
                 if (from.isAfter(to)) {
                     [from, to] = [to, from]
                 }
+                let detail = {resp: resp, to: to, from: from}
                 document.dispatchEvent(new CustomEvent("selector-daterange-fetched", { detail: detail }));
                 $.modal.close();
             })
 
 
             document.addEventListener("selector-daterange-fetch", (evt) => {
-                $(this).modal();
                 this.popup()
             });
 
             $(()=>{
-                $('#modal-range').on($.modal.AFTER_CLOSE, (event, modal) => {
+                $(this).on($.modal.AFTER_CLOSE, (event, modal) => {
                     if (window.state.myrange){
                         $('#range-select').val(window.state.myrange)
                         delete window.state.myrange
@@ -85,7 +84,7 @@ customElements.define(
         }
 
         popup(){
-            $("#modal-range").modal();
+            $(this).modal();
         }
 
         //get from(){

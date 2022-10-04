@@ -83,6 +83,7 @@ customElements.define(
                 this.onSiteSelChanged(evt);
             document.getElementById("range-select").onchange = (evt) =>
                 this.onRangeSelChanged(evt);
+
         }
 
         updateFavicon() {
@@ -106,17 +107,16 @@ customElements.define(
         }
 
         onRangeSelChanged(evt) {
+            if (this.range == "daterangeset") {
+                document.dispatchEvent(new Event("selector-daterange-fetch"));
+                return
+            }
+
             // request change up in the cloud and then also apply that change down
             // here in the client
             fetch("/setPrefRange?" + encodeURIComponent(this.range));
             this.dump.user.prefs.range = this.range;
-
-            if (this.range == "daterangeset") {
-                document.dispatchEvent(new Event("selector-daterange-fetch"));
-            } else {
-                window.state.myrange = this.range
-            }
-
+            window.state.myrange = this.range
             document.dispatchEvent(
                 new CustomEvent("redraw", {
                     detail: this.dump,
