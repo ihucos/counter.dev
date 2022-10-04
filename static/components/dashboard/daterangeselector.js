@@ -58,15 +58,15 @@ customElements.define(
                 let from = moment(this.fromInputEl.value)
                 let to = moment(this.toInputEl.value)
                 let detail = {resp: resp, to: to, from: from}
-                document.dispatchEvent(new CustomEvent("selector-daterange-fetched", { detail: detail }));
                 if (from.isAfter(to)) {
                     [from, to] = [to, from]
                 }
+                document.dispatchEvent(new CustomEvent("selector-daterange-fetched", { detail: detail }));
                 $.modal.close();
             })
 
 
-            document.addEventListener("selector-daterange-clicked", (evt) => {
+            document.addEventListener("selector-daterange-fetch", (evt) => {
                 $(this).modal();
                 this.popup()
             });

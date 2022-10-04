@@ -73,8 +73,8 @@ customElements.define(
               rangePref === "all" ? "selected=selected" : ""
           } value="all">All time</option>
         <option ${
-            rangePref === "daterange" ? "selected=selected" : ""
-        } value="daterange">Custom date range...</option>
+            rangePref === "daterangeset" ? "selected=selected" : ""
+        } value="daterangeset">Custom date range...</option>
         </select>`;
 
             this.updateFavicon();
@@ -111,8 +111,8 @@ customElements.define(
             fetch("/setPrefRange?" + encodeURIComponent(this.range));
             this.dump.user.prefs.range = this.range;
 
-            if (this.range == "daterange") {
-                document.dispatchEvent(new Event("selector-daterange-clicked"));
+            if (this.range == "daterangeset") {
+                document.dispatchEvent(new Event("selector-daterange-fetch"));
             } else {
                 window.state.myrange = this.range
             }
@@ -143,10 +143,10 @@ customElements.define(
             let from = obj.from
             let to = obj.to
             let tofrom = from.format('DD MMM') + ' - ' + to.format('DD MMM')
-            let origArchiveTxt = $('#range-select option[value="daterange"]').text()
-            $('#range-select option[value="daterangeSel"]').remove()
-            $('#range-select option[value="daterange"]').val("daterangeSel").text(tofrom).before(
-                $('<option/>').attr('value', "daterange").text(origArchiveTxt)
+            let origArchiveTxt = $('#range-select option[value="daterangeset"]').text()
+            $('#range-select option[value="daterange"]').remove()
+            $('#range-select option[value="daterangeset"]').val("daterange").text(tofrom).before(
+                $('<option/>').attr('value', "daterangeset").text(origArchiveTxt)
             )
             delete window.state.myrange
 
