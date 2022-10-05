@@ -19,26 +19,14 @@ customElements.define(
                     <h3 class="ml16">Select range</h3>
                     <a href="#" class="btn-close" rel="modal:close"></a>
                   </div>
-                  <div class="modal-content">
+                  <div class="modal-content" style="text-align: center; height: 400px;">
                     <form action="/query" method="GET">
-                      <label class="width-full mb16">
-                        From
-                        <input type="date" name="from" class="width-full" />
-                      </label>
+                      <input type="text" name="from" class="width-full" style="display: none"/>
+                      <input type="text" name="to" class="width-full" style="display: none" />
 
-                      <label class="width-full">
-                        To
-                        <input type="date" name="to" class="width-full" />
-                      </label>
-
-                      <div class="account-btn-group flex mt24 mb32">
-                        <a href="#" class="btn-secondary full mr16" rel="modal:close">
-                          Cancel
-                        </a>
-                        <button type="submit" class="btn-primary full">Select</button>
-                      </div>
                     </form>
                   </div>`
+
 
 
             this.fromInputEl = this.querySelector('input[name="from"]')
@@ -51,6 +39,34 @@ customElements.define(
             this.toInputEl.setAttribute('max', today)
             this.toInputEl.setAttribute('min', "2022-09-20")
             this.toInputEl.setAttribute('value', today)
+
+
+            const picker = new easepick.create({
+                element: this.querySelector('input[name="from"]'),
+                css: [
+                    'https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.0/dist/index.css',
+                    'https://cdn.jsdelivr.net/npm/@easepick/lock_plugin@1.2.0/dist/index.css',
+                    '/css/daterangepicker.css',
+                ],
+                plugins: ["RangePlugin", "AmpPlugin", "LockPlugin"],
+				RangePlugin: {
+                    elementEnd: this.querySelector('input[name="to"]')
+                },
+                AmpPlugin: {
+                    dropdown: {
+                        months: true,
+                        years: true,
+                        minYear: 2022
+                    }
+                },
+                LockPlugin: {
+                    minDate: "2022-09-20",
+                    maxDate: new Date()
+                },
+
+                inline: true,
+
+            });
 
 
             simpleForm(this.querySelector('form'), (resp) => {

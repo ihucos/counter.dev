@@ -132,12 +132,10 @@ customElements.define(
         }
 
         get range() {
-            let r = (
+            return (
                 this.innerHTML !== "" &&
                 document.getElementById("range-select").value
             );
-            console.log(r)
-            return r
         }
 
         handleDateRangeFetched(obj){

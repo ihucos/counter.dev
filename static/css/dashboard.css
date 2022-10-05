@@ -753,7 +753,3 @@ dashboard-dynamics dashboard-nodata {
   object-fit: cover;
   object-position: 0 100%;
 }
-
-#modal-range {
-  max-width: 340px;
-}
