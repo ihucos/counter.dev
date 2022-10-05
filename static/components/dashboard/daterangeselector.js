@@ -19,10 +19,18 @@ customElements.define(
                     <h3 class="ml16">Select range</h3>
                     <a href="#" class="btn-close" rel="modal:close"></a>
                   </div>
-                  <div class="modal-content" style="text-align: center; height: 400px;">
+                  <div class="modal-content" style="text-align: center;">
                     <form action="/query" method="GET">
                       <input type="text" name="from" class="width-full" style="display: none"/>
                       <input type="text" name="to" class="width-full" style="display: none" />
+
+
+                      <div class="account-btn-group flex mt24 mb32">
+                        <a href="#" class="btn-secondary full mr16" rel="modal:close">
+                          Cancel
+                        </a>
+                        <button type="submit" class="btn-primary full">Select</button>
+                      </div>
 
                     </form>
                   </div>`
