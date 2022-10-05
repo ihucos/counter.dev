@@ -311,10 +311,11 @@ function dPadDates(myDates, utcoffset) {
         return a > b;
     });
 
-    return {
-        ...daysRange(sortedAvailableDates[0], getUTCNow(utcoffset)),
-        ...dates,
-    };
+    return dates
+    //return {
+    //    ...daysRange(sortedAvailableDates[0], getUTCNow(utcoffset)),
+    //    ...dates,
+    //};
 }
 
 function dNormalizedDates(dates, utcoffset) {

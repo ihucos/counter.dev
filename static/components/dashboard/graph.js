@@ -97,7 +97,9 @@ customElements.define(
                                                 return moment(label).format(
                                                     "dddd"
                                                 );
-                                            }
+                                            } else if (range == "daterange"){
+												return moment(label).format('DD MMM')
+											}
                                             return moment(label).format("Do");
                                         }
                                         return label;
