@@ -9,8 +9,13 @@ customElements.define(
             return gradientStroke;
         }
 
-        getChart(dates, hour, utcoffset, range) {
-            let vals = dNormalizedDates(dates, utcoffset);
+        getChart(rawdates, hour, utcoffset, range) {
+			if (range = 'daterange'){
+				var dates = rawdates
+			} else {
+				var dates = dFillDatesToNow(rawdates, utcoffset);
+			}
+            let vals = dGroupDates(dates);
             let labels = vals[0];
             let data = vals[1];
 
@@ -98,7 +103,13 @@ customElements.define(
                                                     "dddd"
                                                 );
                                             } else if (range == "daterange"){
-												return moment(label).format('DD MMM')
+												let mom = moment(label, 'YYYY-MM-DD', true)
+												if (mom.isValid()){
+													return mom.format('DD MMM')
+												} else {
+													return label
+												}
+
 											}
                                             return moment(label).format("Do");
                                         }

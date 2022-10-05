@@ -288,7 +288,7 @@ function getUTCNow(utcoffset) {
     return moment().add(parseInt(utcoffset), "hours").toDate();
 }
 
-function dPadDates(myDates, utcoffset) {
+function dFillDatesToNow(myDates, utcoffset) {
     // Hack, sort the keys in the object
     dates = Object.keys(myDates)
         .sort()
@@ -311,23 +311,20 @@ function dPadDates(myDates, utcoffset) {
         return a > b;
     });
 
-    return dates
-    //return {
-    //    ...daysRange(sortedAvailableDates[0], getUTCNow(utcoffset)),
-    //    ...dates,
-    //};
+    return {
+        ...daysRange(sortedAvailableDates[0], getUTCNow(utcoffset)),
+        ...dates,
+    };
 }
 
-function dNormalizedDates(dates, utcoffset) {
-    let groupedByDay = dPadDates(dates, utcoffset);
-
-    let allMonths = Object.entries(groupedByDay).reduce((acc, val) => {
+function dGroupDates(dates) {
+    let allMonths = Object.entries(dates).reduce((acc, val) => {
         let group = moment(val[0]).format("MMMM YYYY");
         acc.add(group);
         return acc;
     }, new Set());
 
-    let groupedByMonth = Object.entries(groupedByDay).reduce((acc, val) => {
+    let groupedByMonth = Object.entries(dates).reduce((acc, val) => {
         let group;
         if (allMonths.size <= 12) {
             group = moment(val[0]).format("MMMM");
@@ -338,13 +335,13 @@ function dNormalizedDates(dates, utcoffset) {
         return acc;
     }, {});
 
-    let groupedByWeek = Object.entries(groupedByDay).reduce((acc, val) => {
+    let groupedByWeek = Object.entries(dates).reduce((acc, val) => {
         let group = moment(val[0]).format("[CW]w");
         acc[group] = (acc[group] || 0) + val[1];
         return acc;
     }, {});
 
-    var groupedDates = groupedByDay;
+    var groupedDates = dates;
     if (Object.keys(groupedDates).length > 31) {
         groupedDates = groupedByWeek;
         // if it's still to big, use months. 16 is a magic number to swap to the per month view

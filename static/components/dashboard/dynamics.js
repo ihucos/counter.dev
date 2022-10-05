@@ -7,7 +7,7 @@ customElements.define(
 
         draw(dates, utcoffset) {
             let text;
-            let groupdedDates = dNormalizedDates(dates, utcoffset);
+            let groupdedDates = dGroupDates(dates);
             let keys = groupdedDates[0];
             let vals = groupdedDates[1];
             this.classList.add("graph-dynamics");
