@@ -179,10 +179,10 @@ func (app *App) QueryArchive(queryArgs QueryArchiveArgs) (QueryArchiveResult, er
 	query = query.Where("user = ?", queryArgs.User)
 
 	if !queryArgs.DateFrom.IsZero() {
-		query.Where("date > ?", queryArgs.DateFrom)
+		query.Where("date >= ?", queryArgs.DateFrom.Format("2006-01-02"))
 	}
 	if !queryArgs.DateTo.IsZero() {
-		query.Where("date < ?", queryArgs.DateTo)
+		query.Where("date <= ?", queryArgs.DateTo.Format("2006-01-02"))
 	}
 
 	query = query.Group("origin,field,value")
