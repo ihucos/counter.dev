@@ -103,12 +103,7 @@ customElements.define(
                                                     "dddd"
                                                 );
                                             } else if (range == "daterange"){
-												let mom = moment(label, 'YYYY-MM-DD', true)
-												if (mom.isValid()){
-													return mom.format('DD MMM')
-												} else {
-													return label
-												}
+                                                return moment(label).format("DD MMM");
 
 											}
                                             return moment(label).format("Do");
