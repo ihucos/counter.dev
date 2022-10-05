@@ -135,7 +135,7 @@ document.addEventListener("push-dump", (evt) => {
 
 document.addEventListener("push-dump", (evt) => {
     var dump = evt.detail;
-    addArchivesToDump(window.state.archives, dump);
+    patchDump(dump)
     document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
 });
 
@@ -146,6 +146,13 @@ document.addEventListener("push-archive", (evt) => {
 document.addEventListener("push-nouser", () => {
     window.location.href = "welcome.html";
 });
+
+
+function patchDump(dump){
+    addArchivesToDump(window.state.archives, dump);
+    addDaterangeToDump(window.state.daterange || {}, dump)
+
+}
 
 function addArchivesToDump(archives, dump) {
     for (const [site, visits] of Object.entries(archives["-7:-2"])) {
@@ -163,6 +170,19 @@ function addArchivesToDump(archives, dump) {
         dump.sites[site].visits.last7 = completeVisits;
     }
     return dump;
+}
+
+
+function addDaterangeToDump(daterange, dump) {
+    for (const site of Object.keys(dump.sites)){
+        let siteData = daterange[site]
+        if (siteData){
+            dump.sites[site].visits.daterange = siteData
+        } else {
+            let nildata = Object.fromEntries(Object.keys(dump.sites[site].visits.all).map((k)=>[k, {}]))
+            dump.sites[site].visits.daterange = nildata
+        }
+    }
 }
 
 function mergeVisits(visits) {

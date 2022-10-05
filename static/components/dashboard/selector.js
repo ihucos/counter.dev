@@ -152,16 +152,9 @@ customElements.define(
             )
             delete window.state.myrange
 
+            window.state.daterange = resp
+            patchDump(this.dump)
 
-            for (const site of Object.keys(this.dump.sites)){
-                let siteData = resp[site]
-                if (siteData){
-                    this.dump.sites[site].visits.daterange = siteData
-                } else {
-                    let nildata = Object.fromEntries(Object.keys(this.dump.sites[site].visits.all).map((k)=>[k, {}]))
-                    this.dump.sites[site].visits.daterange = nildata
-                }
-            }
 
             document.dispatchEvent(
                 new CustomEvent("redraw", {
