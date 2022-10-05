@@ -10,7 +10,7 @@ customElements.define(
         }
 
         getChart(rawdates, hour, utcoffset, range) {
-			if (range = 'daterange'){
+			if (range == 'daterange'){
 				var dates = rawdates
 			} else {
 				var dates = dFillDatesToNow(rawdates, utcoffset);
@@ -94,22 +94,18 @@ customElements.define(
                                     fontColor: "#616161",
                                     fontSize: 14,
                                     userCallback: function (label) {
-                                        if (label.split("-").length - 1 === 2) {
-                                            if (
-                                                range == "week" ||
-                                                range == "last7"
-                                            ) {
-                                                return moment(label).format(
-                                                    "dddd"
-                                                );
-                                            } else if (range == "daterange"){
-                                                return moment(label).format("DD MMM");
+										if (label.split("-").length - 1 === 2) {
+											if (range == "week" || range == "last7") {
+												return moment(label).format("dddd")
+											} else if (range == "daterange"){
+												return moment(label).format("DD MMM");
 
+											} else {
+												return moment(label).format("Do");
 											}
-                                            return moment(label).format("Do");
-                                        }
-                                        return label;
-                                    },
+										}
+										return label;
+									},
                                 },
                             },
                         ],
