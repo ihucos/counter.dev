@@ -130,6 +130,14 @@ func init() {
 		})
 		ctx.CatchError(err)
 
+		oldestArchiveDate, err := ctx.App.QueryArchiveOldestDate(user.Id)
+		ctx.CatchError(err)
+
+
+		ctx.SendEventSourceData(EventSourceData{
+			Type:    "oldest-archive-date",
+			Payload: oldestArchiveDate})
+
 		ctx.SendEventSourceData(EventSourceData{
 			Type:    "archive",
 			Payload: archive})

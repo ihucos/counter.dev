@@ -1,12 +1,7 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        connectedCallback(){
-            if (!this.alreadyConnected){
-                this.alreadyConnected = true
-            } else {
-                return
-            }
+        draw(oldestArchiveDate){
             this.style.display = 'none'
             this.innerHTML = `
                   <div class="modal-header">
@@ -50,7 +45,7 @@ customElements.define(
             //this.toInputEl.setAttribute('value', today)
 
 
-            const picker = new easepick.create({
+            this.picker = new easepick.create({
                 element: this.querySelector('input[name="from"]'),
                 css: [
                     'https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.0/dist/index.css',
@@ -65,7 +60,7 @@ customElements.define(
                 AmpPlugin: {
                 },
                 LockPlugin: {
-                    minDate: "2022-04-20",
+                    minDate: oldestArchiveDate,
                     maxDate: new Date()
                 },
                 inline: true,
@@ -87,6 +82,8 @@ customElements.define(
 
 
             document.addEventListener("selector-daterange-fetch", (evt) => {
+                this.picker.clear()
+                this.picker.gotoDate(new Date())
                 this.popup()
             });
 

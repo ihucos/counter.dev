@@ -212,3 +212,8 @@ func (app *App) QueryArchive(queryArgs QueryArchiveArgs) (QueryArchiveResult, er
 	}
 	return visits, nil
 }
+
+
+func (app *App) QueryArchiveOldestDate(userId string) (string, error) {
+	return "2022-09-01", nil
+}

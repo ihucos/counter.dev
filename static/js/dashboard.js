@@ -148,6 +148,16 @@ document.addEventListener("push-nouser", () => {
 });
 
 
+document.addEventListener("push-oldest-archive-date", (evt) => {
+    customElements.whenDefined("dashboard-daterangeselector").then((el) => {
+        let drs = document.getElementsByTagName(
+            "dashboard-daterangeselector"
+        )[0];
+        drs.draw(evt.detail)
+    })
+})
+
+
 function patchDump(dump){
     addArchivesToDump(window.state.archives, dump);
     addDaterangeToDump(window.state.daterange || {}, dump)
