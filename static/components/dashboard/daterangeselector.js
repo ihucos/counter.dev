@@ -16,14 +16,13 @@ customElements.define(
                       height="24"
                       alt="Edit account"
                     />
-                    <h3 class="ml16">Select range</h3>
+                    <h3 class="ml16">Custom date range...</h3>
                     <a href="#" class="btn-close" rel="modal:close"></a>
                   </div>
                   <div class="modal-content" style="text-align: center;">
                     <form action="/query" method="GET">
                       <input type="text" name="from" class="width-full" style="display: none"/>
                       <input type="text" name="to" class="width-full" style="display: none" />
-
 
                       <div class="account-btn-group flex mt24 mb32">
                         <a href="#" class="btn-secondary full mr16" rel="modal:close">
@@ -43,10 +42,10 @@ customElements.define(
             let today = moment().format("YYYY-MM-DD");
             this.fromInputEl.setAttribute('max', today)
             this.fromInputEl.setAttribute('min', "2022-09-20")
-            this.fromInputEl.setAttribute('value', today) // debug
+            //this.fromInputEl.setAttribute('value', today) // debug
             this.toInputEl.setAttribute('max', today)
             this.toInputEl.setAttribute('min', "2022-09-20")
-            this.toInputEl.setAttribute('value', today)
+            //this.toInputEl.setAttribute('value', today)
 
 
             const picker = new easepick.create({
@@ -58,21 +57,18 @@ customElements.define(
                 ],
                 plugins: ["RangePlugin", "AmpPlugin", "LockPlugin"],
 				RangePlugin: {
-                    elementEnd: this.querySelector('input[name="to"]')
+                    elementEnd: this.querySelector('input[name="to"]'),
+                    tooltip: false
                 },
                 AmpPlugin: {
-                    dropdown: {
-                        months: true,
-                        years: true,
-                        minYear: 2022
-                    }
                 },
                 LockPlugin: {
-                    minDate: "2022-09-20",
+                    minDate: "2022-04-20",
                     maxDate: new Date()
                 },
-
                 inline: true,
+                calendars: 2,
+                grid: 2,
 
             });
 

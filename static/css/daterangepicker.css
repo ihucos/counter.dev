@@ -1,20 +1,24 @@
 :host {
 
 
-	--primary-color: #147efb;
-	--color-fg-primary: #1473fb;
+	--primary-color: #137EFB;
 	--color-btn-primary-fg: #1473fb;
 	--color-btn-primary-border: #1473fb;
-	--color-btn-primary-hover-bg: #1473fb;
+	--color-btn-primary-hover-bg: transparent;
 	--color-btn-primary-hover-border: #1473fb;
 
 	/*muffled*/
 	--color-btn-primary-disabled-bg:  #e6f0fe;
 	--color-btn-primary-disabled-border: #e6f0fe;
-	--color-bg-inrange: #e6f0fe;
 
 	--color-bg-unavailable: transparent;
 	--color-fg-accent: inherit;	
+	--color-fg-locked: transparent;
+
+
+
+	--color-fg-primary: #137EFB;
+	--color-bg-inrange: #E7F5FF;
 }
 
 :host .container  {
@@ -28,11 +32,28 @@
 }
 
 :host .today {
-	font-weight: bold;
+	/*font-weight: bold;*/
 }
 
 
 :host .not-available {
 	text-decoration: line-through;
+	color: transparent;
+	content: 'x'
 }
 
+
+:host .day {
+	outline: 1px solid hsl(0, 0%, 85%) !important;
+	border: 1px solid #E7F5FF !important;
+	box-sizing: border-box;
+}
+
+:host .calendar > .days-grid {
+	row-gap: 1px;
+	column-gap: 1px;
+}
+
+:host .in-range {
+	color: white;
+}

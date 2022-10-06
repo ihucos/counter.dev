@@ -753,3 +753,7 @@ dashboard-dynamics dashboard-nodata {
   object-fit: cover;
   object-position: 0 100%;
 }
+
+dashboard-daterangeselector.modal {
+	max-width: calc(628px + 24px + 24px);
+}
