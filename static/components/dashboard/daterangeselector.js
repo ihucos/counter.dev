@@ -1,7 +1,7 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        draw(oldestArchiveDate){
+        draw(oldestArchiveDate, isDemo){
             this.style.display = 'none'
             this.innerHTML = `
                   <div class="modal-header">
@@ -15,10 +15,10 @@ customElements.define(
                     <a href="#" class="btn-close" rel="modal:close"></a>
                   </div>
                   <div class="modal-content" style="text-align: center;">
-                    <form action="/query" method="GET">
+                    <form action="" method="GET">
                       <div>
-                          <input type="text" name="from" class="width-full" style="display: none"/>
-                          <input type="text" name="to" class="width-full" style="display: none" />
+                          <input type="text" name="from" style="display: none"/>
+                          <input type="text" name="to" style="display: none" />
                       </div>
 
                       <div class="account-btn-group flex mb32">
@@ -33,16 +33,9 @@ customElements.define(
 
 
 
+            this.querySelector('form').setAttribute("action", this.getQueryUrl())
             this.fromInputEl = this.querySelector('input[name="from"]')
             this.toInputEl = this.querySelector('input[name="to"]')
-
-            let today = moment().format("YYYY-MM-DD");
-            this.fromInputEl.setAttribute('max', today)
-            this.fromInputEl.setAttribute('min', "2022-09-20")
-            //this.fromInputEl.setAttribute('value', today) // debug
-            this.toInputEl.setAttribute('max', today)
-            this.toInputEl.setAttribute('min', "2022-09-20")
-            //this.toInputEl.setAttribute('value', today)
 
 
             this.picker = new easepick.create({
@@ -86,8 +79,6 @@ customElements.define(
 
 
             document.addEventListener("selector-daterange-fetch", (evt) => {
-                this.querySelector('form button[type="submit"]').setAttribute('disabled', 'disabled')
-                this.picker.clear()
                 this.popup()
             });
 
@@ -103,20 +94,17 @@ customElements.define(
         }
 
         popup(){
+            // reset states
+            this.querySelector('form button[type="submit"]').setAttribute('disabled', 'disabled')
+            this.picker.clear()
+
             $(this).modal();
         }
 
-        //get from(){
-        //    return this.fromInputEl.value
-        //}
-        //set from(val){
-        //    return this.fromInputEl.value = val
-        //}
-
-        //get to(){
-        //    return this.toInputEl.value
-        //}
-        //set to(val){
-        //    return this.toInputEl.value = val
-        //}
+        getQueryUrl(){
+            let url = new URL(window.location.href);
+            let params = new URLSearchParams(url.search);
+            //params.set("utcoffset", getUTCOffset());
+            return "/query?" + params.toString();
+        }
 })
