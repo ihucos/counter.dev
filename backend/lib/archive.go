@@ -216,7 +216,7 @@ func (app *App) QueryArchive(queryArgs QueryArchiveArgs) (QueryArchiveResult, er
 
 func (app *App) QueryArchiveOldestDate(userId string) (string, error) {
 	var date string
-	query := app.DB.Debug().Model(&Record{}).Select(
+	query := app.DB.Model(&Record{}).Select(
 		"min(date)").Where("user = ?", userId)
 	query.Scan(&date)
 	return date, nil
