@@ -15,9 +15,13 @@
 	--color-fg-accent: inherit;	
 	--color-fg-locked: transparent;
 
+	--color-btn-secondary-fg: #137EFB;
+
+	--color-bg-secondary: #E7F5FF;
 
 
 	--color-fg-primary: #137EFB;
+	--color-fg-default: #121212;
 	--color-bg-inrange: #E7F5FF;
 }
 
@@ -44,9 +48,7 @@
 
 
 :host .day {
-	outline: 1px solid hsl(0, 0%, 85%) !important;
-	border: 1px solid #E7F5FF !important;
-	box-sizing: border-box;
+	outline: 1px solid #E0E0E0 !important;
 }
 
 :host .calendar > .days-grid {
