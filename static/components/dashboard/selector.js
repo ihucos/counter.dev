@@ -32,6 +32,7 @@ customElements.define(
             var sitePref = dump.user.prefs.site;
             var rangePref = dump.user.prefs.range;
 
+
             this.style.display = "flex";
 
             this.innerHTML = `
@@ -116,7 +117,6 @@ customElements.define(
             // here in the client
             fetch("/setPrefRange?" + encodeURIComponent(this.range));
             this.dump.user.prefs.range = this.range;
-            window.state.myrange = this.range
             document.dispatchEvent(
                 new CustomEvent("redraw", {
                     detail: this.dump,
@@ -148,8 +148,8 @@ customElements.define(
             $('#range-select option[value="daterangeset"]').val("daterange").text(tofrom).after(
                 $('<option/>').attr('value', "daterangeset").text(origArchiveTxt)
             )
-            delete window.state.myrange
 
+            window.state.daterange
             window.state.daterange = resp
             patchDump(this.dump)
 

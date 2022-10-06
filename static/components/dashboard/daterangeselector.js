@@ -78,11 +78,9 @@ customElements.define(
                 let data = JSON.parse(resp)
                 let from = moment(this.fromInputEl.value)
                 let to = moment(this.toInputEl.value)
-                if (from.isAfter(to)) {
-                    [from, to] = [to, from]
-                }
                 let detail = {resp: data, to: to, from: from}
                 document.dispatchEvent(new CustomEvent("selector-daterange-fetched", { detail: detail }));
+                this.closeSuccess = true
                 $.modal.close();
             })
 
@@ -93,15 +91,13 @@ customElements.define(
                 this.popup()
             });
 
-            $(()=>{
-                $(this).on($.modal.AFTER_CLOSE, (event, modal) => {
-                    if (window.state.myrange){
-                        $('#range-select').val(window.state.myrange)
-                        delete window.state.myrange
-
-                    }
-                });
-            })
+			$(this).on($.modal.AFTER_CLOSE, (event, modal) => {
+                if (!this.closeSuccess){
+                    // select anything that is not the invalid "daterangesel" val
+                   $('#range-select').val('all')
+                }
+                this.closeSuccess = false
+			});
 
 
         }
