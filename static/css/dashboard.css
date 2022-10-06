@@ -754,6 +754,9 @@ dashboard-dynamics dashboard-nodata {
   object-position: 0 100%;
 }
 
-dashboard-daterangeselector.modal {
-	max-width: calc(628px + 24px + 24px);
+dashboard-daterangeselector form {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	min-height: 440px; /*measured by eyesight*/
 }

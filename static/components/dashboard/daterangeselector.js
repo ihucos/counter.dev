@@ -21,10 +21,12 @@ customElements.define(
                   </div>
                   <div class="modal-content" style="text-align: center;">
                     <form action="/query" method="GET">
-                      <input type="text" name="from" class="width-full" style="display: none"/>
-                      <input type="text" name="to" class="width-full" style="display: none" />
+                      <div>
+                          <input type="text" name="from" class="width-full" style="display: none"/>
+                          <input type="text" name="to" class="width-full" style="display: none" />
+                      </div>
 
-                      <div class="account-btn-group flex mt24 mb32">
+                      <div class="account-btn-group flex mb32">
                         <a href="#" class="btn-secondary full mr16" rel="modal:close">
                           Cancel
                         </a>
@@ -67,8 +69,6 @@ customElements.define(
                     maxDate: new Date()
                 },
                 inline: true,
-                calendars: 2,
-                grid: 2,
 
             });
 
