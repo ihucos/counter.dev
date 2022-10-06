@@ -1,0 +1,49 @@
+:host {
+     --color-btn-primary-fg: #1473fb;
+     --color-btn-primary-border: #1473fb;
+     --color-btn-primary-hover-bg: transparent;
+     --color-btn-primary-hover-border: #1473fb;
+     --color-btn-primary-disabled-bg: #e6f0fe;
+     --color-btn-primary-disabled-border: #e6f0fe;
+     --color-bg-unavailable: transparent;
+     --color-fg-accent: inherit;
+     --color-fg-locked: transparent;
+     --color-btn-secondary-fg: #137EFB;
+     --color-bg-secondary: #E7F5FF;
+     --color-fg-primary: #137EFB;
+     --color-fg-default: #121212;
+     --color-bg-inrange: #137EFB;
+}
+ :host .container {
+     font-weight: 400;
+     font-family: "Nunito Sans";
+}
+ :host .container.inline {
+     box-shadow: none;
+}
+ :host .today {
+     font-weight: bold;
+}
+ :host .not-available {
+     text-decoration: line-through;
+}
+ :host .day {
+     outline: 1px solid #E0E0E0 !important;
+}
+ :host .calendar > .days-grid {
+     row-gap: 1px;
+     column-gap: 1px;
+}
+ :host .day {
+     font-size: 1em !important;
+}
+ :host .in-range {
+     color: white;
+}
+ :host .in-range:hover {
+     color: white !important;
+}
+ :host .day:not(.in-range):not(.start):not(.end):hover {
+     color: #121212 !important;
+}
+ 

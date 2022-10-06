@@ -123,12 +123,20 @@ func init() {
 		archive := make(map[string]lib.QueryArchiveResult) 
 		now := utils.TimeNow(utcOffset)
 		var err error
-		archive["-8:-2"], err = ctx.App.QueryArchive(lib.QueryArchiveArgs{
+		archive["-7:-2"], err = ctx.App.QueryArchive(lib.QueryArchiveArgs{
 			User:     user.Id,
-			DateFrom: now.AddDate(0, 0, -8),
+			DateFrom: now.AddDate(0, 0, -7),
 			DateTo:   now.AddDate(0, 0, -2),
 		})
 		ctx.CatchError(err)
+
+		oldestArchiveDate, err := ctx.App.QueryArchiveOldestDate(user.Id)
+		ctx.CatchError(err)
+
+
+		ctx.SendEventSourceData(EventSourceData{
+			Type:    "oldest-archive-date",
+			Payload: oldestArchiveDate})
 
 		ctx.SendEventSourceData(EventSourceData{
 			Type:    "archive",

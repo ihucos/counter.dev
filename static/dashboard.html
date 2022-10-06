@@ -31,6 +31,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.0/dist/index.umd.min.js"></script>
+
+
 
     <script src="/load.js"></script>
     <script src="js/utils.js"></script>
@@ -58,6 +61,7 @@
     <section class="settings">
       <div class="content">
         <dashboard-selector class="settings-left"></dashboard-selector>
+        <dashboard-daterangeselector></dashboard-daterangeselector>
         <div class="settings-right">
           <dashboard-download class="mr16"></dashboard-download>
           <dashboard-settings class="mr16"></dashboard-settings>
@@ -710,6 +714,7 @@
         <counter-trackingcode class="mt16"></counter-trackingcode>
       </div>
     </div>
+
     <script type="text/javascript">
       $(document).ready(function () {
         // Responsive tabs

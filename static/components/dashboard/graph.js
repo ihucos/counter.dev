@@ -9,8 +9,13 @@ customElements.define(
             return gradientStroke;
         }
 
-        getChart(dates, hour, utcoffset, range) {
-            let vals = dNormalizedDates(dates, utcoffset);
+        getChart(rawdates, hour, utcoffset, range) {
+			if (range == 'daterange'){
+				var dates = rawdates
+			} else {
+				var dates = dFillDatesToNow(rawdates, utcoffset);
+			}
+            let vals = dGroupDates(dates);
             let labels = vals[0];
             let data = vals[1];
 
@@ -89,19 +94,18 @@ customElements.define(
                                     fontColor: "#616161",
                                     fontSize: 14,
                                     userCallback: function (label) {
-                                        if (label.split("-").length - 1 === 2) {
-                                            if (
-                                                range == "week" ||
-                                                range == "last7"
-                                            ) {
-                                                return moment(label).format(
-                                                    "dddd"
-                                                );
-                                            }
-                                            return moment(label).format("Do");
-                                        }
-                                        return label;
-                                    },
+										if (label.split("-").length - 1 === 2) {
+											if (range == "week" || range == "last7") {
+												return moment(label).format("dddd")
+											} else if (range == "daterange"){
+												return moment(label).format("DD MMM");
+
+											} else {
+												return moment(label).format("Do");
+											}
+										}
+										return label;
+									},
                                 },
                             },
                         ],

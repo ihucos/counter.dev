@@ -179,10 +179,10 @@ func (app *App) QueryArchive(queryArgs QueryArchiveArgs) (QueryArchiveResult, er
 	query = query.Where("user = ?", queryArgs.User)
 
 	if !queryArgs.DateFrom.IsZero() {
-		query.Where("date > ?", queryArgs.DateFrom)
+		query.Where("date >= ?", queryArgs.DateFrom.Format("2006-01-02"))
 	}
 	if !queryArgs.DateTo.IsZero() {
-		query.Where("date < ?", queryArgs.DateTo)
+		query.Where("date <= ?", queryArgs.DateTo.Format("2006-01-02"))
 	}
 
 	query = query.Group("origin,field,value")
@@ -211,4 +211,13 @@ func (app *App) QueryArchive(queryArgs QueryArchiveArgs) (QueryArchiveResult, er
 
 	}
 	return visits, nil
+}
+
+
+func (app *App) QueryArchiveOldestDate(userId string) (string, error) {
+	var date string
+	query := app.DB.Model(&Record{}).Select(
+		"min(date)").Where("user = ?", userId)
+	query.Scan(&date)
+	return date, nil
 }

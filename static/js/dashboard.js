@@ -1,3 +1,5 @@
+
+window.state = {}
 Chart.defaults.global.tooltips = {
     ...Chart.defaults.global.tooltips,
     ...{
@@ -133,20 +135,37 @@ document.addEventListener("push-dump", (evt) => {
 
 document.addEventListener("push-dump", (evt) => {
     var dump = evt.detail;
-    addArchivesToDump(window.archives, dump);
+    patchDump(dump)
     document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
 });
 
 document.addEventListener("push-archive", (evt) => {
-    window.archives = evt.detail;
+    window.state.archives = evt.detail;
 });
 
 document.addEventListener("push-nouser", () => {
     window.location.href = "welcome.html";
 });
 
+
+document.addEventListener("push-oldest-archive-date", (evt) => {
+    customElements.whenDefined("dashboard-daterangeselector").then((el) => {
+        let drs = document.getElementsByTagName(
+            "dashboard-daterangeselector"
+        )[0];
+        drs.draw(evt.detail || moment().format('YYYY-MM-DD'))
+    })
+})
+
+
+function patchDump(dump){
+    addArchivesToDump(window.state.archives, dump);
+    addDaterangeToDump(window.state.daterange || {}, dump)
+
+}
+
 function addArchivesToDump(archives, dump) {
-    for (const [site, visits] of Object.entries(archives["-8:-2"])) {
+    for (const [site, visits] of Object.entries(archives["-7:-2"])) {
         // some junk that the user configured not to see
         // would be nice to have it removed from the db sometimes
         if (!(site in dump.sites)) {
@@ -161,6 +180,19 @@ function addArchivesToDump(archives, dump) {
         dump.sites[site].visits.last7 = completeVisits;
     }
     return dump;
+}
+
+
+function addDaterangeToDump(daterange, dump) {
+    for (const site of Object.keys(dump.sites)){
+        let siteData = daterange[site]
+        let nildata = Object.fromEntries(Object.keys(dump.sites[site].visits.all).map((k)=>[k, {}]))
+        if (siteData){
+            dump.sites[site].visits.daterange = {...nildata, ...siteData}
+        } else {
+            dump.sites[site].visits.daterange = nildata
+        }
+    }
 }
 
 function mergeVisits(visits) {
@@ -286,7 +318,7 @@ function getUTCNow(utcoffset) {
     return moment().add(parseInt(utcoffset), "hours").toDate();
 }
 
-function dPadDates(myDates, utcoffset) {
+function dFillDatesToNow(myDates, utcoffset) {
     // Hack, sort the keys in the object
     dates = Object.keys(myDates)
         .sort()
@@ -315,16 +347,14 @@ function dPadDates(myDates, utcoffset) {
     };
 }
 
-function dNormalizedDates(dates, utcoffset) {
-    let groupedByDay = dPadDates(dates, utcoffset);
-
-    let allMonths = Object.entries(groupedByDay).reduce((acc, val) => {
+function dGroupDates(dates) {
+    let allMonths = Object.entries(dates).reduce((acc, val) => {
         let group = moment(val[0]).format("MMMM YYYY");
         acc.add(group);
         return acc;
     }, new Set());
 
-    let groupedByMonth = Object.entries(groupedByDay).reduce((acc, val) => {
+    let groupedByMonth = Object.entries(dates).reduce((acc, val) => {
         let group;
         if (allMonths.size <= 12) {
             group = moment(val[0]).format("MMMM");
@@ -335,13 +365,13 @@ function dNormalizedDates(dates, utcoffset) {
         return acc;
     }, {});
 
-    let groupedByWeek = Object.entries(groupedByDay).reduce((acc, val) => {
+    let groupedByWeek = Object.entries(dates).reduce((acc, val) => {
         let group = moment(val[0]).format("[CW]w");
         acc[group] = (acc[group] || 0) + val[1];
         return acc;
     }, {});
 
-    var groupedDates = groupedByDay;
+    var groupedDates = dates;
     if (Object.keys(groupedDates).length > 31) {
         groupedDates = groupedByWeek;
         // if it's still to big, use months. 16 is a magic number to swap to the per month view
@@ -392,3 +422,4 @@ function dGetNormalizedHours(hours) {
         ...formatedHours,
     };
 }
+

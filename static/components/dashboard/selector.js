@@ -4,6 +4,9 @@ customElements.define(
         constructor() {
             super();
             this.last_sites = null;
+            document.addEventListener("selector-daterange-fetched", (evt) => {
+                this.handleDateRangeFetched(evt.detail)
+            });
         }
 
         draw(dump) {
@@ -28,6 +31,7 @@ customElements.define(
 
             var sitePref = dump.user.prefs.site;
             var rangePref = dump.user.prefs.range;
+
 
             this.style.display = "flex";
 
@@ -68,7 +72,10 @@ customElements.define(
           } value="year">This year</option>
           <option ${
               rangePref === "all" ? "selected=selected" : ""
-          } value="all">All</option>
+          } value="all">All time</option>
+        <option ${
+            rangePref === "daterangeset" ? "selected=selected" : ""
+        } value="daterangeset">Custom date range...</option>
         </select>`;
 
             this.updateFavicon();
@@ -77,6 +84,7 @@ customElements.define(
                 this.onSiteSelChanged(evt);
             document.getElementById("range-select").onchange = (evt) =>
                 this.onRangeSelChanged(evt);
+
         }
 
         updateFavicon() {
@@ -100,11 +108,17 @@ customElements.define(
         }
 
         onRangeSelChanged(evt) {
+            if (this.range == "daterangeset") {
+                document.dispatchEvent(new Event("selector-daterange-fetch"));
+                return
+            }
+
             // request change up in the cloud and then also apply that change down
             // here in the client
-            fetch("/setPrefRange?" + encodeURIComponent(this.range));
+            if (this.range != "daterange") {
+                fetch("/setPrefRange?" + encodeURIComponent(this.range));
+            }
             this.dump.user.prefs.range = this.range;
-
             document.dispatchEvent(
                 new CustomEvent("redraw", {
                     detail: this.dump,
@@ -123,6 +137,33 @@ customElements.define(
             return (
                 this.innerHTML !== "" &&
                 document.getElementById("range-select").value
+            );
+        }
+
+        handleDateRangeFetched(obj){
+            let resp = obj.resp
+            let from = obj.from
+            let to = obj.to
+            if (from.isSame(to, 'day')){
+                var tofrom = from.format('DD MMM')
+            } else {
+                var tofrom = from.format('DD MMM') + ' - ' + to.format('DD MMM')
+            }
+            let origArchiveTxt = $('#range-select option[value="daterangeset"]').text()
+            $('#range-select option[value="daterange"]').remove()
+            $('#range-select option[value="daterangeset"]').val("daterange").text(tofrom).after(
+                $('<option/>').attr('value', "daterangeset").text(origArchiveTxt)
+            )
+
+            window.state.daterange
+            window.state.daterange = resp
+            patchDump(this.dump)
+
+
+            document.dispatchEvent(
+                new CustomEvent("redraw", {
+                    detail: this.dump,
+                })
             );
         }
     }

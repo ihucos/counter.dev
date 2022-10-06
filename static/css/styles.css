@@ -505,6 +505,7 @@ label select {
 textarea,
 input[type="text"],
 input[type="email"],
+input[type="date"],
 input[type="password"] {
   display: block;
   background: #ffffff;

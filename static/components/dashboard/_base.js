@@ -10,6 +10,7 @@ class Counter extends HTMLElement {
         month: "year",
         year: "all",
         all: "all",
+        daterange: "all",
     };
 
     draw(allVisits, curTime, utcoffset) {
@@ -18,11 +19,11 @@ class Counter extends HTMLElement {
         let nextCount = this.count(allVisits[nextCurTime]);
 
         let datesPassedCurTime = Object.keys(
-            dPadDates(allVisits[curTime].date, utcoffset),
+            dFillDatesToNow(allVisits[curTime].date, utcoffset),
             utcoffset
         ).length;
         let datesPassedNextTime = Object.keys(
-            dPadDates(allVisits[nextCurTime].date, utcoffset)
+            dFillDatesToNow(allVisits[nextCurTime].date, utcoffset)
         ).length;
 
         // hotfix: yesteday is special because it is a point in time and not time range
