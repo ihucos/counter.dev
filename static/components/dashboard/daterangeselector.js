@@ -69,7 +69,9 @@ customElements.define(
 
             });
 
-            this.picker.on('select', ()=>{alert('heeh')})
+            this.picker.on('select', ()=>{
+                this.querySelector('form button[type="submit"]').removeAttribute('disabled')
+            })
 
 
             simpleForm(this.querySelector('form'), (resp) => {
@@ -86,6 +88,7 @@ customElements.define(
 
 
             document.addEventListener("selector-daterange-fetch", (evt) => {
+                this.querySelector('form button[type="submit"]').setAttribute('disabled', 'disabled')
                 this.picker.clear()
                 this.popup()
             });
