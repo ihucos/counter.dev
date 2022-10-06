@@ -23,7 +23,7 @@ customElements.define(
 
                       <div>
                         <div class="caption gray" style="text-align: left">
-                            <b>Note</b>: currently it is not possible to select today or yesterday. This will change in the future.
+                            <b>Note</b>: currently it is not possible to select today or yesterdays date. This will change in the future.
                         </div>
 
                         <div class="account-btn-group flex mt24 mb32">
