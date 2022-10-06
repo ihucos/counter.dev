@@ -69,6 +69,8 @@ customElements.define(
 
             });
 
+            this.picker.on('select', ()=>{alert('heeh')})
+
 
             simpleForm(this.querySelector('form'), (resp) => {
                 let data = JSON.parse(resp)
@@ -85,7 +87,6 @@ customElements.define(
 
             document.addEventListener("selector-daterange-fetch", (evt) => {
                 this.picker.clear()
-                //this.picker.gotoDate(new Date())
                 this.popup()
             });
 

@@ -153,7 +153,7 @@ document.addEventListener("push-oldest-archive-date", (evt) => {
         let drs = document.getElementsByTagName(
             "dashboard-daterangeselector"
         )[0];
-        drs.draw(evt.detail)
+        drs.draw(evt.detail || moment().format('YYYY-MM-DD'))
     })
 })
 

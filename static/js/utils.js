@@ -13,7 +13,7 @@ function simpleForm(formSelector, arg) {
         formEl = formSelector
     }
 
-    formSelector.onsubmit = (evt) => {
+    formEl.onsubmit = (evt) => {
         var el = evt.target;
         $.ajax({
             type: el.getAttribute("method") || "POST",
