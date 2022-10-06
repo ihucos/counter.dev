@@ -88,7 +88,7 @@ customElements.define(
 			$(this).on($.modal.AFTER_CLOSE, (event, modal) => {
                 if (!this.closeSuccess){
                     // select anything that is not the invalid "daterangesel" val
-                   $('#range-select').val('all')
+                   $('#range-select').val('all').change()
                 }
                 this.closeSuccess = false
 			});
