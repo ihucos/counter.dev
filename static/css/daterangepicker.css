@@ -55,6 +55,12 @@
 	column-gap: 1px;
 }
 
+
+
+:host .day {
+	font-size: 1em !important;
+}
+
 :host .in-range {
 	color: white;
 }

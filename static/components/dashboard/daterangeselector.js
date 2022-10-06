@@ -64,6 +64,8 @@ customElements.define(
                     maxDate: new Date()
                 },
                 inline: true,
+                //calendars: 2,
+                //grid: 2
 
             });
 
@@ -83,7 +85,7 @@ customElements.define(
 
             document.addEventListener("selector-daterange-fetch", (evt) => {
                 this.picker.clear()
-                this.picker.gotoDate(new Date())
+                //this.picker.gotoDate(new Date())
                 this.popup()
             });
 
