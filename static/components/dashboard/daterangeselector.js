@@ -58,7 +58,7 @@ customElements.define(
                 plugins: ["RangePlugin", "AmpPlugin", "LockPlugin"],
 				RangePlugin: {
                     elementEnd: this.querySelector('input[name="to"]'),
-                    tooltip: false
+                    tooltip: true
                 },
                 AmpPlugin: {
                 },

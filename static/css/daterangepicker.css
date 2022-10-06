@@ -1,7 +1,6 @@
 :host {
 
 
-	--primary-color: #137EFB;
 	--color-btn-primary-fg: #1473fb;
 	--color-btn-primary-border: #1473fb;
 	--color-btn-primary-hover-bg: transparent;
@@ -22,7 +21,7 @@
 
 	--color-fg-primary: #137EFB;
 	--color-fg-default: #121212;
-	--color-bg-inrange: #E7F5FF;
+	--color-bg-inrange: #137EFB;
 }
 
 :host .container  {
@@ -36,7 +35,7 @@
 }
 
 :host .today {
-	/*font-weight: bold;*/
+	font-weight: bold;
 }
 
 
@@ -56,3 +55,14 @@
 	column-gap: 1px;
 }
 
+:host .in-range {
+	color: white;
+}
+:host .in-range:hover {
+	color: white !important;
+}
+
+
+:host .day:not(.in-range):not(.start):not(.end):hover {
+	color: #121212 !important;
+}
