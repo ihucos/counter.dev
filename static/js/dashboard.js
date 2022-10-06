@@ -186,10 +186,10 @@ function addArchivesToDump(archives, dump) {
 function addDaterangeToDump(daterange, dump) {
     for (const site of Object.keys(dump.sites)){
         let siteData = daterange[site]
+        let nildata = Object.fromEntries(Object.keys(dump.sites[site].visits.all).map((k)=>[k, {}]))
         if (siteData){
-            dump.sites[site].visits.daterange = siteData
+            dump.sites[site].visits.daterange = {...nildata, ...siteData}
         } else {
-            let nildata = Object.fromEntries(Object.keys(dump.sites[site].visits.all).map((k)=>[k, {}]))
             dump.sites[site].visits.daterange = nildata
         }
     }

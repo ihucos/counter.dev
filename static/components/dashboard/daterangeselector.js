@@ -22,16 +22,16 @@ customElements.define(
                       </div>
 
                       <div>
-                      <div class="caption gray" style="text-align: left">
-                        The data for today may be up to 6 hours late when viewing date ranges.
-                      </div>
+                        <div class="caption gray" style="text-align: left">
+                          The data for today may be up to 6 hours late when viewing date ranges.
+                        </div>
 
-                      <div class="account-btn-group flex mt24 mb32">
-                        <a href="#" class="btn-secondary full mr16" rel="modal:close">
-                          Cancel
-                        </a>
-                        <button type="submit" class="btn-primary full">Ok</button>
-                      </div>
+                        <div class="account-btn-group flex mt24 mb32">
+                          <a href="#" class="btn-secondary full mr16" rel="modal:close">
+                            Cancel
+                          </a>
+                          <button type="submit" class="btn-primary full">Ok</button>
+                        </div>
                       </div>
 
                     </form>
