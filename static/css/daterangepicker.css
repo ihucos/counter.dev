@@ -26,8 +26,6 @@
 }
  :host .not-available {
      text-decoration: line-through;
-     color: transparent;
-     content: 'x' 
 }
  :host .day {
      outline: 1px solid #E0E0E0 !important;

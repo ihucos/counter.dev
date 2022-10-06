@@ -144,7 +144,11 @@ customElements.define(
             let resp = obj.resp
             let from = obj.from
             let to = obj.to
-            let tofrom = from.format('DD MMM') + ' - ' + to.format('DD MMM')
+            if (from.isSame(to, 'day')){
+                var tofrom = from.format('DD MMM')
+            } else {
+                var tofrom = from.format('DD MMM') + ' - ' + to.format('DD MMM')
+            }
             let origArchiveTxt = $('#range-select option[value="daterangeset"]').text()
             $('#range-select option[value="daterange"]').remove()
             $('#range-select option[value="daterangeset"]').val("daterange").text(tofrom).after(
