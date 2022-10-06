@@ -21,22 +21,25 @@ customElements.define(
                           <input type="text" name="to" style="display: none" />
                       </div>
 
-                      <div class="account-btn-group flex mb32">
+                      <div>
+                      <div class="caption gray" style="text-align: left">
+                        The data for today may be up to 6 hours late when viewing date ranges.
+                      </div>
+
+                      <div class="account-btn-group flex mt24 mb32">
                         <a href="#" class="btn-secondary full mr16" rel="modal:close">
                           Cancel
                         </a>
-                        <button type="submit" class="btn-primary full">Select</button>
+                        <button type="submit" class="btn-primary full">Ok</button>
+                      </div>
                       </div>
 
                     </form>
                   </div>`
 
-
-
             this.querySelector('form').setAttribute("action", this.getQueryUrl())
             this.fromInputEl = this.querySelector('input[name="from"]')
             this.toInputEl = this.querySelector('input[name="to"]')
-
 
             this.picker = new easepick.create({
                 element: this.querySelector('input[name="from"]'),

@@ -115,7 +115,9 @@ customElements.define(
 
             // request change up in the cloud and then also apply that change down
             // here in the client
-            fetch("/setPrefRange?" + encodeURIComponent(this.range));
+            if (this.range != "daterange") {
+                fetch("/setPrefRange?" + encodeURIComponent(this.range));
+            }
             this.dump.user.prefs.range = this.range;
             document.dispatchEvent(
                 new CustomEvent("redraw", {

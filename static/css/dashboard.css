@@ -758,5 +758,5 @@ dashboard-daterangeselector form {
 	display: flex;
 	justify-content: space-between;
 	flex-direction: column;
-	min-height: 440px; /*measured by eyesight*/
+	min-height: 480px; /*measured by eyesight*/
 }
