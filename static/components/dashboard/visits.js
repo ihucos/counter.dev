@@ -5,6 +5,7 @@ customElements.define(
             var entries = Object.entries(logs).sort((a, b) => b[1] - a[1]);
             var parsedLogs = entries.map((e) => this.parseLogEntry(e[0]));
             parsedLogs = parsedLogs.filter((n) => n); // filter out null values (parse errors)
+            console.log(parsedLogs)
             this.innerHTML = `
         <div class="metrics-four-item">
           <div class="metrics-headline">
@@ -36,7 +37,7 @@ customElements.define(
                       }.gif" width="16" height="11" alt="${logEntry.country}">
                   <img class="visits-device" title="${
                       logEntry.device
-                  }" src="/img/visits/devices/${logEntry.device.toLowerCase()}.svg"></img>
+                  }" src="/img/visits/devices/${(logEntry.device || '').toLowerCase()}.svg"></img>
                   <img class="visits-platform" title="${
                       logEntry.platform
                   }" src="/img/visits/platforms/${logEntry.platform.toLowerCase()}.svg"></img>
