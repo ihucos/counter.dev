@@ -3,14 +3,6 @@ import base64
 
 
 BLOCKLIST = [
-    "counter",
-    "demo",
-    "zpkg",
-    "test",
-    "demo\\",
-    "XXXXXX",
-    "datest",
-    "asdf",
 ]
 
 
@@ -29,8 +21,10 @@ for key in r.scan_iter("v:*date,all"):
     user_integrations[user].append(fst_date)
 
 user_integrated_at = {}
+user_days_tracked = {}
 for user, v in user_integrations.items():
     user_integrated_at[user] = min(v)
+    user_days_tracked[user] = len(v)
 
 data = []
 for key in sorted(r.scan_iter("sites:*")):
@@ -42,10 +36,11 @@ for key in sorted(r.scan_iter("sites:*")):
 
 
     integr = user_integrated_at.get(user)
+    days_tracked = user_days_tracked.get(user)
     if integr:
-        data.append(dict(hits=hits, user=user, integr=integr, sites=user_sites[user]))
+        data.append(dict(hits=hits, user=user, integr=integr, sites=user_sites[user], days_tracked=days_tracked))
 
 
 data.sort(key=lambda i: i["integr"])
 for entry in data:
-    print("{user:<12} {integr} {hits:<6} {sites}".format(**entry))
+    print("{user:<12} {integr} {hits:<6} {sites} {days_tracked}d".format(**entry))
