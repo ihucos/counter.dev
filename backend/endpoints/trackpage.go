@@ -28,6 +28,11 @@ func init() {
 		visits.SaveVisit(visit, now)
 		// user.Signal() - uncommented to save some resources I guess.
 
+		//
+		// Not strictly necessary but avoids the browser issuing an error.
+		//
+		ctx.W.Header().Set("Access-Control-Allow-Origin", "*")
+
 		ctx.Return("", 204)
 
 	})
