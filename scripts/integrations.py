@@ -36,6 +36,7 @@ for key in sorted(r.scan_iter("sites:*")):
 
 
     integr = user_integrated_at.get(user)
+
     days_tracked = user_days_tracked.get(user)
     if integr:
         data.append(dict(hits=hits, user=user, integr=integr, sites=user_sites[user], days_tracked=days_tracked))
@@ -43,4 +44,5 @@ for key in sorted(r.scan_iter("sites:*")):
 
 data.sort(key=lambda i: i["integr"])
 for entry in data:
-    print("{user:<12} {integr} {hits:<6} {sites} {days_tracked}d".format(**entry))
+    pretty_sites = ','.join((site.decode()+':'+count.decode()) for (site, count) in entry['sites'].items())
+    print("{user:<12} {integr} {hits:<6}  {days_tracked}d {pretty_sites}".format(pretty_sites=pretty_sites, **entry))
