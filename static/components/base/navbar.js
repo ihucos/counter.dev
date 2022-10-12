@@ -141,12 +141,36 @@ Let's hope this madness stops eventually and things become more normal.
             this.innerHTML = `
                <!-- Navbar -->
                <section class="navbar">
+
+                 <!-- Feedback modal -->
+                 <div id="modal-feedback" style="display: none">
+                   <div class="modal-header">
+                     <img src="/img/feedback.svg" width="24" height="24" alt="Feedback" />
+                     <h3 class="ml16">Feedback</h3>
+                     <a href="#" class="btn-close" rel="modal:close"></a>
+                   </div>
+                   <div class="modal-content">
+                     <form action="/feedback" method="POST">
+                       <label class="width-full">How can we make the service better for you?
+                         <textarea class="width-full" name="feedback" style="min-height: 200px;"></textarea>
+                       </label>
+                       <div class="account-btn-group flex mt24 mb32">
+                         <a href="#" class="btn-secondary full mr16" rel="modal:close">
+                           Cancel
+                         </a>
+                         <button type="submit" class="btn-primary full">Send</button>
+                       </div>
+
+                     </form>
+                   </div>
+                 </div>
+
                  <div class="content">
                    <a href="/index.html" class="logotype"></a>
                    <!-- Navigation -->
                    <nav class="nav-header">
                      <a href="/blog" class="mr32">Blog</a>
-                     <a href="mailto:hey@counter.dev" class="mr32" target="_blank" rel="nofollow">Feedback</a>
+                     <a href="#modal-feedback" class="mr32" target="_blank" rel="modal:open">Feedback</a>
                      <a href="https://www.paypal.com/donate/?hosted_button_id=3AV353CXCEN9E" class="mr32" target="_blank" rel="nofollow">Donate</a>
                      <a
                        href="https://github.com/ihucos/counter.dev"
@@ -233,6 +257,10 @@ Let's hope this madness stops eventually and things become more normal.
                </section>
                <base-editaccount></base-editaccount>`;
             this.loadUser();
+            simpleForm("#modal-feedback form", (msg)=>{
+                $.modal.close()
+                alert(msg)
+            })
         }
     }
 );
