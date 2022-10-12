@@ -120,6 +120,8 @@ func init() {
 			return
 		}
 
+		user.TouchDump()
+
 		archive := make(map[string]lib.QueryArchiveResult) 
 		now := utils.TimeNow(utcOffset)
 		var err error

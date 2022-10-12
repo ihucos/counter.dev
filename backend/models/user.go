@@ -175,6 +175,10 @@ func (user User) TouchAccess() {
 	user.redis.Send("HSET", "access", user.Id, utils.TimeNow(0).Format("2006-01-02"))
 }
 
+func (user User) TouchDump() {
+	user.redis.Send("HSET", "dump", user.Id, utils.TimeNow(0).Format("2006-01-02"))
+}
+
 func (user User) Create(password string) error {
 
 	if len(user.Id) < 4 {
