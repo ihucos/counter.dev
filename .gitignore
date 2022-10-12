@@ -1,3 +1,4 @@
+*.ipynb
 archive.db
 archive.db*
 tags
