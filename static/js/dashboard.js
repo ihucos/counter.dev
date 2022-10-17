@@ -423,7 +423,3 @@ function dGetNormalizedHours(hours) {
     };
 }
 
-
-
-$(()=>$('dashboard-pwyw > div').modal())
-
