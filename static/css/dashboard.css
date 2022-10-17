@@ -760,3 +760,48 @@ dashboard-daterangeselector form {
 	flex-direction: column;
 	min-height: 480px; /*measured by eyesight*/
 }
+
+#modal-pwyw {
+}
+
+#modal-pwyw .radios span {
+	padding-left: 8px;
+	
+}
+
+
+#modal-pwyw .suggested {
+	color: rgba(0, 0, 0, 1);
+	font-weight: bold;
+	
+}
+
+#modal-pwyw .radios .little {
+	font-size: 14px;
+	font-style: italic;
+	opacity: 0.8;
+}
+
+
+#modal-pwyw .little:after {
+	content: "(Last resort option)"
+}
+
+
+#modal-pwyw .suggested:after {
+	content: "(Based on your usage)"
+}
+
+
+#modal-pwyw .radios {
+}
+
+
+#modal-pwyw .hilighted {
+	color: rgba(0, 0, 0, 1);
+}
+
+
+#modal-pwyw .toggle {
+	display: none;
+}
