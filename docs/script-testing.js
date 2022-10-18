@@ -10,6 +10,7 @@
         !document.referrer.startsWith(location.protocol + "//" + location.host)
     ) {
         setTimeout(function () {
+            sessionStorage.setItem("_swa", "1");
             fetch(
                 server +
                     "/track?" +
@@ -20,7 +21,6 @@
                         utcoffset: utcoffset,
                     })
             );
-            sessionStorage.setItem("_swa", "1");
         }, 4500);
     }
     navigator.sendBeacon(
