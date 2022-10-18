@@ -20,7 +20,7 @@
                         utcoffset: utcoffset,
                     })
             );
-        }, 4500);
+        }, 2000);
     }
     sessionStorage.setItem("_swa", "1");
     navigator.sendBeacon(
