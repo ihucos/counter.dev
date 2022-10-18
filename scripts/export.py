@@ -20,7 +20,7 @@ for key in r.scan_iter("v:*date,all"):
     pipe.echo(site)
     pipe.hgetall(key)
     pipe.hget('access', user)
-    pipe.hget('dump', user)
+    pipe.hget('dashboard', user)
     pipe.hget(f'prefs:{user}', 'mail')
 r = pipe.execute()
 
@@ -31,7 +31,7 @@ for (user, site, dates, access, dashboard_access, mail) in chunks(r, 6):
     user_data[user].setdefault('sites', {})
     user_data[user]['sites'][site] = dates
     user_data[user]['access'] = access
-    user_data[user]['dashboard_access'] = dashboard_access
+    user_data[user]['dashboard_access'] = access
     user_data[user]['mail'] = mail
 
 
