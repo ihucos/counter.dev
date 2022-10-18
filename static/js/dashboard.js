@@ -423,3 +423,7 @@ function dGetNormalizedHours(hours) {
     };
 }
 
+
+function paypaltest(){
+    $('dashboard-pwyw > div').modal()
+}
