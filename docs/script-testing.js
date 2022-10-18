@@ -20,9 +20,9 @@
                         utcoffset: utcoffset,
                     })
             );
-        }, 2000);
+            sessionStorage.setItem("_swa", "1");
+        }, 4500);
     }
-    sessionStorage.setItem("_swa", "1");
     navigator.sendBeacon(
         server + "/trackpage",
         new URLSearchParams({
