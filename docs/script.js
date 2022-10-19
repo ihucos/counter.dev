@@ -10,6 +10,7 @@
         !document.referrer.startsWith(location.protocol + "//" + location.host)
     ) {
         setTimeout(function () {
+            sessionStorage.setItem("_swa", "1");
             fetch(
                 server +
                     "/track?" +
@@ -22,7 +23,6 @@
             );
         }, 4500);
     }
-    sessionStorage.setItem("_swa", "1");
     navigator.sendBeacon(
         server + "/trackpage",
         new URLSearchParams({
