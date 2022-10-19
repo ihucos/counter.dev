@@ -9,73 +9,60 @@ customElements.define(
 					  <h3 class="ml16">Pay what you want</h3>
 					  <a href="#" class="btn-close" rel="modal:close"></a>
 				   </div>
-				   <div class="modal-content" style="padding-top: 8px;">
-					  <div class="caption " style="text-align: right;">
-                         <a href="#" class="mr8 toggle-btn">More options</a>
-                         /
-						 <a href="#" class="ml8">don't pay</a>
-					  </div>
+				   <div class="modal-content">
 
-					  <div class="mt32 mb24 radios">
-						 <div class="toggle">
-							<input type="radio" name="plan" value="50" />
-                            <span>
-                              50&euro; per month (Higher traffic)
-							</span>
-						 </div>
-						 <div class="toggle">
-							<input type="radio" name="plan" value="50" />
-                            <span>
-                              30&euro; per month (Higher traffic)
-							</span>
-						 </div>
-						 <div class="toggle mb8">
-							<input type="radio" name="plan" value="50" />
-                            <span>
-                              20&euro; per month (Higher traffic)
-							</span>
-						 </div>
-						 <div>
-							<input type="radio" name="plan" value="50" />
-                            <span class="hilighted">
-                              7&euro; per month
-							</span>
-						 </div>
-						 <div>
-							<input type="radio"  name="plan" value="50" checked=checked />
-                            <span class="suggested">
-							5&euro; per month
-							</span>
-						 </div>
-						 <div>
-							<input type="radio" name="plan" value="50" />
-                            <span class="hilighted">
-							  3&euro; per month
-							</span>
-						 </div>
-						 <div class="mt8 toggle">
-							<input type="radio" name="plan" value="50" />
-                            <span class="little">
-							  2&euro; per month
-							</span>
-						 </div>
-						 <div class="toggle">
-							<input type="radio" name="plan" value="50" />
-                            <span class="little">
-							  1&euro; per month
-							</span>
-						 </div>
-					  </div>
+
 
 
                       <div>
-                        Thanks for using counter for free. Whenever you are ready, start
-            paying a service fee. Your contribution will be used to cover
-            development and maintenance.
+                        Thanks for using counter. Consider
+                        paying a service fee. Your contribution will be used to cover
+                        development and maintenance.
                       </div>
 
-                <div class="account-btn-group mt24 mb32">
-						 <div id="paypal-button-container" style="margin: 0px auto;"></div>
+
+					  <section class="mt8 mb16 plans">
+						 <div>
+							<input type="radio" name="plan" value="12y" />
+                            <label>12&euro; per year</label>
+						 </div>
+						 <div class="highlight">
+							<input type="radio" name="plan" value="3m" />
+                            <label>3&euro; per month</label>
+						 </div>
+						 <div>
+							<input type="radio" name="plan" value="5m" checked=checked />
+                            <label>5&euro; per month</label>
+						 </div>
+						 <div>
+							<input type="radio" name="plan" value="7m" />
+                            <label>7&euro; per month</label>
+						 </div>
+						 <div>
+							<input type="radio" name="plan" value="20m" />
+                            <label>20&euro; per month</label>
+						 </div>
+						 <div>
+							<input type="radio" name="plan" value="30m" />
+                            <label>30&euro; per month</label>
+						 </div>
+						 <div>
+							<input type="radio" name="plan" value="50m" />
+                            <label>50&euro; per month</label>
+						 </div>
+						 <div>
+							<input type="radio" name="plan" value="0" />
+                            <label>Don't pay</label>
+						 </div>
+					  </section>
+
+
+
+                <div class="paypal-btn-wrapper">
+                <div>
+
+
+                <div class="account-btn-group mt24 mb32" style="display: none">
                          <div id="btns" class="account-btn-group flex mt24 mb32">
                               <a href="#" class="btn-secondary mr16 full " rel="modal:close">
                                   Maybe later
@@ -87,40 +74,52 @@ customElements.define(
 				   </div>
 				</div>`;
 
-            this.querySelector(".toggle-btn").onclick = ()=>{
+            this.setupPayPalButton("12y")
+            this.setupPayPalButton("3m")
+            this.setupPayPalButton("5m")
+            this.setupPayPalButton("7m")
+            this.setupPayPalButton("10m")
+            this.setupPayPalButton("20m")
+            this.setupPayPalButton("30m")
+            this.setupPayPalButton("50m")
 
-                $(".toggle-btn").text(function(i, text){
-                    return text === "More options" ? "Less options" : "More options";
-                })
 
-                $("#modal-pwyw .toggle").toggle("fast")
-            }
+            let val = $("input[type=radio][name=plan]:checked").val()
+            $("#paypal-btn-" + val).show()
 
-            this.querySelector('button[type="submit"]').onclick = ()=>{
-                paypal.Buttons({
-                    style: {
-                      shape: 'rect',
-                      color: 'gold',
-                      layout: 'horizontal',
-                      label: 'pay'
-                    },
-                    createSubscription: function(data, actions) {
+            $("input[type=radio][name=plan]").change(function() {
+                $(".paypal-btn").hide()
+                $("#paypal-btn-" + this.value).show()
+            })
+
+
+        }
+
+        setupPayPalButton(id){
+            $(".paypal-btn-wrapper").append(`
+                    <div id="paypal-btn-${id}" class="paypal-btn mt16" style="margin: 0px auto;"></div>
+                `)
+            paypal.Buttons({
+                style: {
+                    shape: 'rect',
+                    color: 'gold',
+                    layout: 'horizontal',
+                    label: 'pay',
+                    tagline: false,
+                    color: 'blue'
+                },
+                createSubscription: function(data, actions) {
                     return actions.subscription.create({
-                      /* Creates the subscription */
-                      plan_id: 'P-60A66997B2622122KMNGEKNY',
-                      quantity: 1 // The quantity of the product for a subscription
+                        /* Creates the subscription */
+                        plan_id: 'P-60A66997B2622122KMNGEKNY',
+                        quantity: 1 // The quantity of the product for a subscription
                     });
-                    },
-                    onApprove: function(data, actions) {
+                },
+                onApprove: function(data, actions) {
                     alert(data.subscriptionID); // You can add optional success message for the subscriber here
-                    },
-                    //onInit: function(data, actions) {
-                    //      actions.disable();
-                    //}
-                }).render('#paypal-button-container'); // Renders the PayPal button
-                $("#btns").hide()
-                $("dashboard-pwyw input").attr("disabled", "disabled")
-            }
+                },
+            }).render(`#paypal-btn-${id}`); // Renders the PayPal button
+
         }
     }
 );
