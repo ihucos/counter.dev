@@ -422,4 +422,3 @@ function dGetNormalizedHours(hours) {
         ...formatedHours,
     };
 }
-
