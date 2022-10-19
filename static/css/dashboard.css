@@ -820,7 +820,7 @@ dashboard-daterangeselector form {
 	display: none;
 }
 
-#modal-pwyw .paypal-btn-wrapper {
+#modal-pwyw .paypal-btn-wrapper, #modal-pwyw .paypal-btn {
 	height: 45px;
 
 }

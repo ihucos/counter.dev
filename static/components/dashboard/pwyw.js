@@ -17,14 +17,14 @@ customElements.define(
                       <div>
                         Thanks for using counter. Consider
                         paying a service fee. Your contribution will be used to cover
-                        development and maintenance.
+                        development and maintenance. <a href="mailto:hey@counter.dev">Contact us</a> for anything.
                       </div>
 
 
 					  <section class="mt8 mb16 plans">
 						 <div>
-							<input type="radio" name="plan" value="12y" />
-                            <label>12&euro; per year</label>
+							<input type="radio" name="plan" value="2m" />
+                            <label>2&euro; per month</label>
 						 </div>
 						 <div class="highlight">
 							<input type="radio" name="plan" value="3m" />
@@ -58,23 +58,12 @@ customElements.define(
 
 
 
-                <div class="paypal-btn-wrapper">
-                <div>
 
 
-                <div class="account-btn-group mt24 mb32" style="display: none">
-                         <div id="btns" class="account-btn-group flex mt24 mb32">
-                              <a href="#" class="btn-secondary mr16 full " rel="modal:close">
-                                  Maybe later
-                              </a>
-                              <button type="submit" class="btn-primary full">Pay now</button>
-                         </div>
-
-					  </div>
-				   </div>
+                <div class="paypal-btn-wrapper mt24 mb32">
 				</div>`;
 
-            this.setupPayPalButton("12y")
+            this.setupPayPalButton("2m")
             this.setupPayPalButton("3m")
             this.setupPayPalButton("5m")
             this.setupPayPalButton("7m")
@@ -102,7 +91,6 @@ customElements.define(
             paypal.Buttons({
                 style: {
                     shape: 'rect',
-                    color: 'gold',
                     layout: 'horizontal',
                     label: 'pay',
                     tagline: false,
