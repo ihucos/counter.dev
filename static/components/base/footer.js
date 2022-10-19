@@ -51,5 +51,6 @@ customElements.define(
                       </section>
 
                     </footer>`;
+        }
     }
 );
