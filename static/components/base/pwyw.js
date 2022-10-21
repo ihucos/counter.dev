@@ -111,7 +111,7 @@ customElements.define(
 
         setupPayPalButton(qty){
             $(".paypal-btn-wrapper").append(`
-                    <div id="paypal-btn-${qty}" class="paypal-btn" style="margin: 0px auto;"></div>
+                    <div id="paypal-btn-${qty}" class="paypal-btn" style="margin: 0px auto; display: none"></div>
                 `)
 
             paypal.Buttons({
