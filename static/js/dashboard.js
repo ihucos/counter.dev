@@ -126,6 +126,7 @@ connectData("dashboard-hour", k("hour"));
 connectData("dashboard-week", k("weekday"));
 connectData("dashboard-time", k("hour"));
 connectData("dashboard-share-account", (dump) => [dump.user, dump.meta]);
+connectData("dashboard-pwyw", (dump) => [dump.user.id]);
 
 document.addEventListener("push-dump", (evt) => {
     if (Object.keys(evt.detail.sites).length === 0) {

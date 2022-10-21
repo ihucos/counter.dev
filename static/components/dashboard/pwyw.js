@@ -1,7 +1,8 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        connectedCallback() {
+        draw(username) {
+            console.log(username)
             this.innerHTML += `
                <div id="modal-pwyw" style="display: none">
 				   <div class="modal-header">
@@ -10,17 +11,11 @@ customElements.define(
 					  <a href="#" class="btn-close" rel="modal:close" style="visibility: visible;"></a>
 				   </div>
 				   <div class="modal-content">
-
-
-
-
                       <div>
-                        Thanks for using counter. Consider
+                        Thanks for using counter for free. Consider
                         paying a service fee. Your contribution will be used to cover
                         development and maintenance. <a href="mailto:hey@counter.dev">Contact us</a> for anything.
                       </div>
-
-
 					  <section class="mt8 mb16 plans">
 						 <div>
 							<input type="radio" name="plan" value="2" />
@@ -46,25 +41,14 @@ customElements.define(
 							<input type="radio" name="plan" value="30" />
                             <label>30&euro; per month</label>
 						 </div>
-						 <div>
-							<input type="radio" name="plan" value="50" />
-                            <label>50&euro; per month</label>
-						 </div>
-						 <div>
-							<input type="radio" name="plan" value="0" />
-                            <label>Don't pay</label>
-						 </div>
 					  </section>
-
-
-
-
-
-                <div class="paypal-btn-wrapper mt24 mb32">
-                    <a href="#" id="paypal-btn-0" class="paypal-btn btn-secondary width-full" style="display: none" rel="modal:close">
-                        Thanks, I don't want to pay.
-                    </a>
-				</div>`;
+                      <div class="paypal-btn-wrapper mt24">
+                          <a href="#" class="btn-primary width-full" rel="modal:close" style="margin-bottom: 14px;">
+                      I don't want to pay.
+                          </a>
+                      </div>
+                  </div>
+              </div>`;
 
             this.setupPayPalButton(2)
             this.setupPayPalButton(3)
@@ -73,7 +57,6 @@ customElements.define(
             this.setupPayPalButton(10)
             this.setupPayPalButton(20)
             this.setupPayPalButton(30)
-            this.setupPayPalButton(50)
 
 
             let val = $("input[type=radio][name=plan]:checked").val()
@@ -84,6 +67,11 @@ customElements.define(
                 $("#paypal-btn-" + this.value).css('display', 'block')
             })
 
+            window.setInterval(function(){
+                let height = $("#modal-pwyw").height()
+                $("#modal-pwyw").css('min-height', height + 'px')
+            }, 700);
+
 
         }
 
@@ -91,25 +79,20 @@ customElements.define(
             $(".paypal-btn-wrapper").append(`
                     <div id="paypal-btn-${qty}" class="paypal-btn" style="margin: 0px auto;"></div>
                 `)
-            let color = 'blue'
-            if (qty < 3) {
-                color = 'white'
-            }
-            if (qty >= 20) {
-                color = 'gold'
-            }
+
             paypal.Buttons({
                 style: {
                     shape: 'rect',
-                    layout: 'horizontal',
+                    layout: 'vertical',
                     label: 'pay',
                     tagline: false,
-                    color: color
+                    color: 'blue'
                 },
                 createSubscription: function(data, actions) {
                     return actions.subscription.create({
                         /* Creates the subscription */
                         plan_id: 'P-60A66997B2622122KMNGEKNY',
+                        custom_id: username,
                         quantity: qty // The quantity of the product for a subscription
                     });
                 },
