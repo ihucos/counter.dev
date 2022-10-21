@@ -52,12 +52,14 @@ customElements.define(
         }
 
         noUser() {
+            this.status = 'nouser'
             document
                 .querySelectorAll(".no-user")
                 .forEach((el) => (el.style.display = "block"));
         }
 
         hasUser(user) {
+            this.status = 'hasuser'
             document
                 .querySelectorAll(".has-user")
                 .forEach((el) => (el.style.display = "block"));
