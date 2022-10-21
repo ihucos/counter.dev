@@ -2,7 +2,6 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(username) {
-            console.log(username)
             this.innerHTML += `
                <div id="modal-pwyw" style="display: none">
 				   <div class="modal-header">
@@ -43,7 +42,7 @@ customElements.define(
 						 </div>
 					  </section>
                       <div class="paypal-btn-wrapper mt24">
-                          <a href="#" class="btn-primary width-full" rel="modal:close" style="margin-bottom: 14px;">
+                          <a href="#" class="btn-secondary width-full" rel="modal:close" style="margin-bottom: 14px;">
                       I don't want to pay.
                           </a>
                       </div>
@@ -97,7 +96,7 @@ customElements.define(
                     });
                 },
                 onApprove: function(data, actions) {
-                    alert(data.subscriptionID); // You can add optional success message for the subscriber here
+                    handleSubscriptionID(data.subscriptionID); // You can add optional success message for the subscriber here
                 },
             }).render(`#paypal-btn-${qty}`); // Renders the PayPal button
 
@@ -110,6 +109,12 @@ customElements.define(
                 clickClose: false,
                 showClose: false
             });
+        }
+
+        handleSubscriptionID(id){
+            $.post("/subscribed", { subscription_id: id},
+            )
+
         }
 
     }
