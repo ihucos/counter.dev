@@ -101,6 +101,7 @@ customElements.define(
                 $("#paypal-btn-" + this.value).css('display', 'block')
             })
 
+            // js hack for css stuff
             window.setInterval(function(){
                 let height = $("#modal-pwyw").height()
                 $("#modal-pwyw").css('min-height', height + 'px')
@@ -131,7 +132,7 @@ customElements.define(
                     });
                 },
                 onApprove: function(data, actions) {
-                    handleSubscriptionID(data.subscriptionID); // You can add optional success message for the subscriber here
+                    subscriptionSuccess(data.subscriptionID);
                 },
             }).render(`#paypal-btn-${qty}`); // Renders the PayPal button
 
@@ -146,8 +147,8 @@ customElements.define(
             });
         }
 
-        handleSubscriptionID(id){
-            $.post("/subscribed", { subscription_id: id},
+        subscriptionSuccess(subscriptionID){
+            $.post("/subscribed", { subscription_id: subscriptionID},
             )
 
         }
