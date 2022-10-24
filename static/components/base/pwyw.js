@@ -2,6 +2,7 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         connectedCallback() {
+
             this.innerHTML += `
                <section>
                  <div class="content">
@@ -36,8 +37,24 @@ customElements.define(
                      </a>
                    </div>
                  </div>
-               </section>
+               </section>`
 
+
+            document.querySelector('base-navbar').loggedInUserCallback(
+                (userDump)=>{
+                    this.drawPlans(userDump)
+                    this.showPayNowBtn();
+                    this.highlightPersonalizedSuggestion(userDump)
+                },
+                ()=>this.showLoginToPayBtn(),
+
+            )
+        }
+
+        drawPlans(userDump){
+
+
+            this.innerHTML += `
                <div id="modal-pwyw" style="display: none">
 				   <div class="modal-header">
 					  <img src="/img/card.svg" width="24" height="24" alt="Sources" />
@@ -81,9 +98,6 @@ customElements.define(
 						 </div>
 					  </section>
                       <div class="paypal-btn-wrapper mt24">
-                          <a href="#" class="btn-secondary width-full" rel="modal:close" style="margin-bottom: 14px;">
-                      I don't want to pay.
-                          </a>
                       </div>
                   </div>
               </div>`;
@@ -97,9 +111,9 @@ customElements.define(
             this.setupPayPalButton(25)
             this.setupPayPalButton(30)
 
-            $("input[type=radio][name=plan]", this).change(function() {
-                $(".paypal-btn", this).hide()
-                $("#paypal-btn-" + this.value, this).css('display', 'block')
+            $("input[type=radio][name=plan]").change(function() {
+                $(".paypal-btn").hide()
+                $("#paypal-btn-" + this.value).css('display', 'block')
             })
 
             // js hack for css stuff
@@ -107,19 +121,10 @@ customElements.define(
                 let height = $("#modal-pwyw").height()
                 $("#modal-pwyw").css('min-height', height + 'px')
             }, 700);
-
-            document.querySelector('base-navbar').loggedInUserCallback(
-                (userDump)=>{
-                    this.showPayNowBtn();
-                    this.highlightPersonalizedSuggestion(userDump)
-                },
-                ()=>this.showLoginToPayBtn(),
-
-            )
         }
 
         setupPayPalButton(qty){
-            $(".paypal-btn-wrapper", this).append(`
+            $(".paypal-btn-wrapper").append(`
                     <div id="paypal-btn-${qty}" class="paypal-btn" style="margin: 0px auto; display: none"></div>
                 `)
 
@@ -148,7 +153,7 @@ customElements.define(
 
 
         modal(){
-            $('dashboard-pwyw > div', this).modal({
+            $('dashboard-pwyw > div').modal({
                 escapeClose: false,
                 clickClose: false,
                 showClose: false
@@ -195,7 +200,7 @@ customElements.define(
             this.querySelectorAll('.highlightable')[suggestion].classList.add('highlight')
             this.querySelector("#modal-pwyw .highlight + div input").setAttribute('checked', 'checked')
 
-            let val = $("input[type=radio][name=plan]:checked", this).val()
+            let val = $("input[type=radio][name=plan]:checked").val()
             $("#paypal-btn-" + val).css('display', 'block')
 
         }
