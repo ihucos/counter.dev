@@ -102,14 +102,14 @@ customElements.define(
                   </div>
               </div>`;
 
-            this.setupPayPalButton(2)
-            this.setupPayPalButton(3)
-            this.setupPayPalButton(5)
-            this.setupPayPalButton(7)
-            this.setupPayPalButton(10)
-            this.setupPayPalButton(20)
-            this.setupPayPalButton(25)
-            this.setupPayPalButton(30)
+            this.setupPayPalButton(2, userDump.user.id)
+            this.setupPayPalButton(3, userDump.user.id)
+            this.setupPayPalButton(5, userDump.user.id)
+            this.setupPayPalButton(7, userDump.user.id)
+            this.setupPayPalButton(10, userDump.user.id)
+            this.setupPayPalButton(20, userDump.user.id)
+            this.setupPayPalButton(25, userDump.user.id)
+            this.setupPayPalButton(30, userDump.user.id)
 
             $("input[type=radio][name=plan]").change(function() {
                 $(".paypal-btn").hide()
@@ -123,7 +123,7 @@ customElements.define(
             }, 700);
         }
 
-        setupPayPalButton(qty){
+        setupPayPalButton(qty, username){
             $(".paypal-btn-wrapper").append(`
                     <div id="paypal-btn-${qty}" class="paypal-btn" style="margin: 0px auto; display: none"></div>
                 `)
@@ -140,7 +140,7 @@ customElements.define(
                     return actions.subscription.create({
                         /* Creates the subscription */
                         plan_id: 'P-60A66997B2622122KMNGEKNY',
-                        custom_id: 'dummytest',
+                        custom_id: username,
                         quantity: qty // The quantity of the product for a subscription
                     });
                 },
