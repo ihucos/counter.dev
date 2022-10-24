@@ -411,3 +411,12 @@ func (user User) PasswordRecovery(mailgunSecretApiKey string) error {
 	}
 	return nil
 }
+
+
+func (user User) RegisterSubscriptionID(subscriptionID string) error{
+	_, err := user.redis.Do("HSET", "subscription", user.Id, subscriptionID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
