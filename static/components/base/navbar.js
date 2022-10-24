@@ -36,7 +36,6 @@ customElements.define(
                 this.noUser();
                 // don't leave an open connection to server to save resources
                 eventSourceObj.close();
-                this.status = 'nouser'
             });
             document.addEventListener("push-navbar-dump", (evt) => {
                 let dump = evt.detail;
