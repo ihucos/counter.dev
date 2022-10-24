@@ -174,7 +174,24 @@ customElements.define(
         }
 
         highlightPersonalizedSuggestion(dump){
-            this.querySelectorAll('.highlightable')[0].classList.add('highlight')
+            var FIVE_EUROS_SUGGESTION = 0
+            var SEVEN_EUROS_SUGGESTION = 1
+            var TWENTY_EUROS_SUGGESTION = 2
+
+            var allHitsPerDay =Object.values(dump.sites).map( // for every site
+                (i) => Object.entries(i.visits.all.date).sort().slice(-7).map( // get the 7 latest dates
+                    (i) => i[1]).reduce(function(pv, cv) {return pv + cv; }, 0) / 7 // sum them and divide by 7
+            ).reduce(function(pv, cv) { return pv + cv;}, 0) // sum all sites
+
+            var suggestion = FIVE_EUROS_SUGGESTION
+            if (allHitsPerDay > 70){
+                suggestion = SEVEN_EUROS_SUGGESTION
+            }
+            if (allHitsPerDay > 300){
+                suggestion = TWENTY_EUROS_SUGGESTION
+            }
+
+            this.querySelectorAll('.highlightable')[suggestion].classList.add('highlight')
             this.querySelector("#modal-pwyw .highlight + div input").setAttribute('checked', 'checked')
         }
 
