@@ -1,0 +1,59 @@
+
+#modal-pwyw .highlight + div label {
+	font-weight: bold;
+	
+}
+
+
+#modal-pwyw .highlight + div label:after {
+	content: " (Suggestion)";
+	font-weight: normal;
+}
+
+
+#modal-pwyw .highlight label,
+#modal-pwyw .highlight + div label,
+#modal-pwyw .highlight + div + div label {
+	color: rgba(0, 0, 0, 1) !important;
+}
+
+
+
+#modal-pwyw .highlight,
+#modal-pwyw .highlight + div,
+#modal-pwyw .highlight + div + div {
+        background-color: #e7f6ff;
+}
+
+#modal-pwyw .highlight {
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+#modal-pwyw .highlight + div + div {
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+#modal-pwyw .hilighted {
+	color: rgba(0, 0, 0, 1);
+}
+
+
+#modal-pwyw .plans label {
+	color: rgba(0, 0, 0, 0.65);
+}
+
+
+#modal-pwyw .plans input {
+	margin: 8px;
+}
+
+
+#modal-pwyw .paypal-btn {
+	display: none;
+}
+
+#modal-pwyw .paypal-btn-wrapper, #modal-pwyw .paypal-btn {
+
+}
