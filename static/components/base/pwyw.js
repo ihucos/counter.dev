@@ -161,9 +161,9 @@ customElements.define(
         }
 
         subscriptionSuccess(subscriptionID){
-            $.post("/subscribed", { subscription_id: subscriptionID},
-            )
-
+            $.post("/subscribed", { subscription_id: subscriptionID})
+            alert("You are awesome. That's all there is to say.")
+            $.modal.close()
         }
 
         showPayNowBtn(){

@@ -172,7 +172,6 @@ Let's hope this madness stops eventually and things become more normal.
                    <nav class="nav-header">
                      <a href="/blog" class="mr32">Blog</a>
                      <a href="#modal-feedback" class="mr32" target="_blank" rel="modal:open">Feedback</a>
-                     <a href="https://www.paypal.com/donate/?hosted_button_id=3AV353CXCEN9E" class="mr32" target="_blank" rel="nofollow">Donate</a>
                      <a
                        href="https://github.com/ihucos/counter.dev"
                        class="github-blue mr16"
@@ -235,7 +234,6 @@ Let's hope this madness stops eventually and things become more normal.
                            <a href="mailto:hey@counter.dev" class="mb24" target="_blank" rel="nofollow"
                              >Feedback</a
                            >
-                           <a href="https://www.paypal.com/donate/?hosted_button_id=3AV353CXCEN9E" target="_blank" rel="nofollow">Donate</a>
                            <span class="mt48">
                              <a
                                href="https://github.com/ihucos/counter.dev"
