@@ -55,19 +55,19 @@ customElements.define(
 							<input type="radio" name="plan" value="2" />
                             <label>2&euro; per month</label>
 						 </div>
-						 <div class="highlight">
+						 <div class="highlightable">
 							<input type="radio" name="plan" value="3" />
                             <label>3&euro; per month</label>
 						 </div>
-						 <div>
-							<input type="radio" name="plan" value="5" checked=checked />
+						 <div class="highlightable">
+							<input type="radio" name="plan" value="5" />
                             <label>5&euro; per month</label>
 						 </div>
-						 <div>
+						 <div class="highlightable">
 							<input type="radio" name="plan" value="7" />
                             <label>7&euro; per month</label>
 						 </div>
-						 <div>
+						 <div class="highlightable">
 							<input type="radio" name="plan" value="20" />
                             <label>20&euro; per month</label>
 						 </div>
@@ -107,7 +107,14 @@ customElements.define(
                 $("#modal-pwyw").css('min-height', height + 'px')
             }, 700);
 
-            this.listenForUser()
+            document.querySelector('base-navbar').loggedInUserCallback(
+                (userDump)=>{
+                    this.showPayNowBtn();
+                    this.highlightPersonalizedSuggestion(userDump)
+                },
+                ()=>this.showLoginToPayBtn(),
+
+            )
         }
 
         setupPayPalButton(qty){
@@ -153,31 +160,22 @@ customElements.define(
 
         }
 
-        hasUser(){
-                document.querySelector("#login-to-pay").style.display = "none"
-                document.querySelector("#pay-now").style.display = "inline-block"
+        showPayNowBtn(){
+            console.log('is logged in')
+            document.querySelector("#login-to-pay").style.display = "none"
+            document.querySelector("#pay-now").style.display = "inline-block"
         }
 
 
-        noUser(){
-                document.querySelector("#login-to-pay").style.display = "inline-block"
-                document.querySelector("#pay-now").style.display = "none"
+        showLoginToPayBtn(){
+            console.log('not logged in')
+            document.querySelector("#login-to-pay").style.display = "inline-block"
+            document.querySelector("#pay-now").style.display = "none"
         }
 
-        listenForUser(){
-			switch(document.querySelector('base-navbar').status) {
-			  case 'nouser':
-                this.noUser()
-				break;
-			  case 'hasuser':
-                this.hasUser()
-			};
-            document.addEventListener("userloaded", (evt) => {
-                this.hasUser()
-            })
-            document.addEventListener("push-navbar-nouser", (evt) => {
-                this.noUser()
-            })
+        highlightPersonalizedSuggestion(dump){
+            this.querySelectorAll('.highlightable')[0].classList.add('highlight')
+            this.querySelector("#modal-pwyw .highlight + div input").setAttribute('checked', 'checked')
         }
 
     }

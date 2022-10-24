@@ -17,7 +17,6 @@ customElements.define(
         loadUser() {
             if (!document.cookie.includes("swa=")) {
                 this.noUser();
-                return;
             }
 
             // invalidates cache key when cookie changes
@@ -33,12 +32,15 @@ customElements.define(
             }
 
             document.addEventListener("push-navbar-nouser", () => {
+                this.eventPushNavbarNouserCalled = true
                 this.noUser();
                 // don't leave an open connection to server to save resources
                 eventSourceObj.close();
+                this.status = 'nouser'
             });
             document.addEventListener("push-navbar-dump", (evt) => {
                 let dump = evt.detail;
+                this.eventPushNavbarDumpCalled = true
                 this.hasUser(dump.user.id);
                 sessionStorage.setItem(usernameCacheKey, dump.user.id);
                 // the fallback is because older user's dont set the
@@ -52,14 +54,12 @@ customElements.define(
         }
 
         noUser() {
-            this.status = 'nouser'
             document
                 .querySelectorAll(".no-user")
                 .forEach((el) => (el.style.display = "block"));
         }
 
         hasUser(user) {
-            this.status = 'hasuser'
             document
                 .querySelectorAll(".has-user")
                 .forEach((el) => (el.style.display = "block"));
@@ -263,6 +263,27 @@ Let's hope this madness stops eventually and things become more normal.
                 $.modal.close()
                 alert(msg)
             })
+        }
+
+        loggedInUserCallback(loggedInCb, notLoggedInCb){
+            var calledLoggedInCb = false
+            var calledNotLoggedInCb = false
+            document.addEventListener("push-navbar-dump", (evt) => {
+                 if (!calledLoggedInCb) loggedInCb(evt.detail)
+                 calledLoggedInCb = true
+            })
+            document.addEventListener("push-navbar-nouser", (evt) => {
+                    if (!calledNotLoggedInCb) notLoggedInCb()
+                    calledNotLoggedInCb = true
+            })
+            if (this.eventPushNavbarNouserCalled){
+                if (!calledNotLoggedInCb) notLoggedInCb()
+                calledNotLoggedInCb = true
+            }
+            if (this.eventPushNavbarDumpCalled){
+                 if (!calledLoggedInCb) loggedInCb(this.savedUserDump)
+                 calledLoggedInCb = true
+			};
         }
     }
 );
