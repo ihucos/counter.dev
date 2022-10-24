@@ -97,9 +97,9 @@ customElements.define(
             this.setupPayPalButton(25)
             this.setupPayPalButton(30)
 
-            $("input[type=radio][name=plan]").change(function() {
-                $(".paypal-btn").hide()
-                $("#paypal-btn-" + this.value).css('display', 'block')
+            $("input[type=radio][name=plan]", this).change(function() {
+                $(".paypal-btn", this).hide()
+                $("#paypal-btn-" + this.value, this).css('display', 'block')
             })
 
             // js hack for css stuff
@@ -119,7 +119,7 @@ customElements.define(
         }
 
         setupPayPalButton(qty){
-            $(".paypal-btn-wrapper").append(`
+            $(".paypal-btn-wrapper", this).append(`
                     <div id="paypal-btn-${qty}" class="paypal-btn" style="margin: 0px auto; display: none"></div>
                 `)
 
@@ -148,7 +148,7 @@ customElements.define(
 
 
         modal(){
-            $('dashboard-pwyw > div').modal({
+            $('dashboard-pwyw > div', this).modal({
                 escapeClose: false,
                 clickClose: false,
                 showClose: false
@@ -195,7 +195,7 @@ customElements.define(
             this.querySelectorAll('.highlightable')[suggestion].classList.add('highlight')
             this.querySelector("#modal-pwyw .highlight + div input").setAttribute('checked', 'checked')
 
-            let val = $("input[type=radio][name=plan]:checked").val()
+            let val = $("input[type=radio][name=plan]:checked", this).val()
             $("#paypal-btn-" + val).css('display', 'block')
 
         }
