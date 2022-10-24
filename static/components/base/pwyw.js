@@ -63,13 +63,17 @@ customElements.define(
 							<input type="radio" name="plan" value="5" />
                             <label>5&euro; per month</label>
 						 </div>
-						 <div class="highlightable">
+						 <div>
 							<input type="radio" name="plan" value="7" />
                             <label>7&euro; per month</label>
 						 </div>
 						 <div class="highlightable">
 							<input type="radio" name="plan" value="20" />
                             <label>20&euro; per month</label>
+						 </div>
+						 <div>
+							<input type="radio" name="plan" value="25" />
+                            <label>25&euro; per month</label>
 						 </div>
 						 <div>
 							<input type="radio" name="plan" value="30" />
@@ -90,11 +94,8 @@ customElements.define(
             this.setupPayPalButton(7)
             this.setupPayPalButton(10)
             this.setupPayPalButton(20)
+            this.setupPayPalButton(25)
             this.setupPayPalButton(30)
-
-
-            let val = $("input[type=radio][name=plan]:checked").val()
-            $("#paypal-btn-" + val).css('display', 'block')
 
             $("input[type=radio][name=plan]").change(function() {
                 $(".paypal-btn").hide()
@@ -176,7 +177,7 @@ customElements.define(
         highlightPersonalizedSuggestion(dump){
             var FIVE_EUROS_SUGGESTION = 0
             var SEVEN_EUROS_SUGGESTION = 1
-            var TWENTY_EUROS_SUGGESTION = 2
+            var TWENTYFIVE_EUROS_SUGGESTION = 2
 
             var allHitsPerDay =Object.values(dump.sites).map( // for every site
                 (i) => Object.entries(i.visits.all.date).sort().slice(-7).map( // get the 7 latest dates
@@ -187,12 +188,16 @@ customElements.define(
             if (allHitsPerDay > 70){
                 suggestion = SEVEN_EUROS_SUGGESTION
             }
-            if (allHitsPerDay > 300){
-                suggestion = TWENTY_EUROS_SUGGESTION
+            if (allHitsPerDay > 5000){
+                suggestion = TWENTYFIVE_EUROS_SUGGESTION
             }
 
             this.querySelectorAll('.highlightable')[suggestion].classList.add('highlight')
             this.querySelector("#modal-pwyw .highlight + div input").setAttribute('checked', 'checked')
+
+            let val = $("input[type=radio][name=plan]:checked").val()
+            $("#paypal-btn-" + val).css('display', 'block')
+
         }
 
     }
