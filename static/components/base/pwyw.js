@@ -35,6 +35,14 @@ customElements.define(
                      >
                        Login to pay
                      </a>
+                     <div
+                       id="paying"
+                       href="#"
+                       style="display: none;"
+                       class="caption gray"
+                     >
+                       Thanks for paying
+                     </div>
                    </div>
                  </div>
                </section>`
@@ -44,8 +52,12 @@ customElements.define(
                 el.loggedInUserCallback(
                     (userDump)=>{
                         this.drawPlans(userDump)
-                        this.showPayNowBtn();
-                        this.highlightPersonalizedSuggestion(userDump)
+                        if (!userDump.user.isSubscribed){
+                            this.showPayNowBtn();
+                            this.highlightPersonalizedSuggestion(userDump)
+                        } else {
+                            this.showPaying()
+                        }
                     },
                     ()=>this.showLoginToPayBtn(),
 
@@ -142,7 +154,7 @@ customElements.define(
                 createSubscription: function(data, actions) {
                     return actions.subscription.create({
                         /* Creates the subscription */
-                        plan_id: 'P-7K67239874941620VMNL7KDQ',
+                        plan_id: 'P-60A66997B2622122KMNGEKNY',
                         custom_id: username,
                         quantity: qty // The quantity of the product for a subscription
                     });
@@ -171,14 +183,17 @@ customElements.define(
         }
 
         showPayNowBtn(){
-            document.querySelector("#login-to-pay").style.display = "none"
             document.querySelector("#pay-now").style.display = "inline-block"
+        }
+
+
+        showPaying(){
+            document.querySelector("#paying").style.display = "inline-block"
         }
 
 
         showLoginToPayBtn(){
             document.querySelector("#login-to-pay").style.display = "inline-block"
-            document.querySelector("#pay-now").style.display = "none"
         }
 
         highlightPersonalizedSuggestion(dump){
