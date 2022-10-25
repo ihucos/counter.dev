@@ -149,7 +149,6 @@ customElements.define(
                     layout: 'vertical',
                     label: 'pay',
                     tagline: false,
-                    color: 'blue'
                 },
                 createSubscription: function(data, actions) {
                     return actions.subscription.create({
