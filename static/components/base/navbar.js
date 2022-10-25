@@ -258,7 +258,7 @@ Let's hope this madness stops eventually and things become more normal.
             this.loadUser();
             simpleForm("#modal-feedback form", (msg)=>{
                 $.modal.close()
-                alert(msg)
+                notify(msg)
             })
         }
 

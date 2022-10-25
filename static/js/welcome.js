@@ -8,7 +8,7 @@ $(document).ready(function () {
 simpleForm("#sign-in form[action='/login']", "/dashboard.html");
 simpleForm("#modal-recover form[action='/recover']", () => {
     $.modal.close();
-    alert(
+    notify(
         "If the given mail and username matches, we will send you an mail with further instructions."
     );
 });

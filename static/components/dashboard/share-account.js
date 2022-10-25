@@ -31,7 +31,7 @@ customElements.define(
                 new ClipboardJS(this.querySelector("a.btn-copy"));
                 this.getElementsByTagName("a")[1].onclick = () => {
                     if (meta.demo) {
-                        alert("Not available in demo");
+                        notify("Not available in demo");
                         return;
                     }
                     this.post("/deletetoken");
@@ -48,7 +48,7 @@ customElements.define(
                     <a href="#" class="caption-strong black" >Share</a>`;
                 this.getElementsByTagName("a")[0].onclick = () => {
                     if (meta.demo) {
-                        alert("Not available in demo");
+                        notify("Not available in demo");
                         return;
                     }
                     this.post("/resettoken");

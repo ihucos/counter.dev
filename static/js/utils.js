@@ -1,3 +1,10 @@
+var script = document.createElement('script');
+script.dataset.id = '33671ad4-a966-4a52-b48f-56c92d10a678';
+script.dataset.utcoffset = '1';
+script.dataset.server="https://simple-web-analytics.com";
+script.src = "https://cdn.counter.dev/script-testing.js";
+document.getElementsByTagName('head')[0].appendChild(script)
+
 function simpleForm(formSelector, arg) {
     var success, formEl;
     if (typeof arg === "function") {
@@ -21,7 +28,7 @@ function simpleForm(formSelector, arg) {
             data: $(el).serialize(),
             success: success,
             error: function (request, status, error) {
-                alert(request.responseText);
+                notify(request.responseText);
             },
         });
         return false;
@@ -55,10 +62,21 @@ function dispatchPushEvents(url, event_prefix) {
     return source;
 }
 
-
-var script = document.createElement('script');
-script.dataset.id = '33671ad4-a966-4a52-b48f-56c92d10a678';
-script.dataset.utcoffset = '1';
-script.dataset.server="https://simple-web-analytics.com";
-script.src = "https://cdn.counter.dev/script-testing.js";
-document.getElementsByTagName('head')[0].appendChild(script)
+function notify(msg, cb){
+    $('#modal-notify').remove()
+    var html = `<div id="modal-notify" style="displaty: none;">
+      <div class="modal-header">
+        <a href="#" class="btn-close" rel="modal:close"></a>
+      </div>
+      <div class="modal-content">
+        <span>
+            ${escapeHtml(msg)}
+        </span>
+        <div class="mt24 mb32 flex">
+          <a href="#" class="btn-primary" rel="modal:close">Okay</a>
+        </div>
+      </div>
+    </div>`
+    $('body').append($(html))
+    $('#modal-notify').modal({closeExisting: false})
+}
