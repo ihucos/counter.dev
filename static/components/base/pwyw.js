@@ -126,6 +126,7 @@ customElements.define(
         }
 
         setupPayPalButton(qty, username){
+            var self = this // important for payment flow
             $(".paypal-btn-wrapper").append(`
                     <div id="paypal-btn-${qty}" class="paypal-btn" style="margin: 0px auto; display: none"></div>
                 `)
@@ -141,13 +142,14 @@ customElements.define(
                 createSubscription: function(data, actions) {
                     return actions.subscription.create({
                         /* Creates the subscription */
-                        plan_id: 'P-60A66997B2622122KMNGEKNY',
+                        plan_id: 'P-7K67239874941620VMNL7KDQ',
                         custom_id: username,
                         quantity: qty // The quantity of the product for a subscription
                     });
                 },
                 onApprove: function(data, actions) {
-                    this.subscriptionSuccess(data.subscriptionID);
+                    console.log('jah')
+                    self.subscriptionSuccess(data.subscriptionID);
                 },
             }).render(`#paypal-btn-${qty}`); // Renders the PayPal button
 
@@ -165,7 +167,7 @@ customElements.define(
         subscriptionSuccess(subscriptionID){
             $.post("/subscribed", { subscription_id: subscriptionID})
             $.modal.close()
-            notify("You are awesome. That's all there is to say.")
+            notify(`You are awesome. If you are not happy with the product or service let us know at any time.`)
         }
 
         showPayNowBtn(){

@@ -446,7 +446,7 @@ whenReady('base-navbar', (el)=>{
     el.loggedInUserCallback((userDump) => {
         // user loaded
         var daysTracked = Math.max(...Object.values(userDump.sites).map((i)=>Object.keys(i.visits.all.date).length))
-        if (daysTracked > 90 && sessionStorage.getItem('pwyw') === null){
+        if (daysTracked > 90 && sessionStorage.getItem('pwyw') === null && (!userDump.user.isSubscribed)){
             whenReady('base-pwyw', (el)=>el.modal())
             sessionStorage.setItem('pwyw', '1')
         }
