@@ -160,7 +160,6 @@ customElements.define(
                     });
                 },
                 onApprove: function(data, actions) {
-                    console.log('jah')
                     self.subscriptionSuccess(data.subscriptionID);
                 },
             }).render(`#paypal-btn-${qty}`); // Renders the PayPal button
