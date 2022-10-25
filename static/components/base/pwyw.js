@@ -167,14 +167,12 @@ customElements.define(
         }
 
         showPayNowBtn(){
-            console.log('is logged in')
             document.querySelector("#login-to-pay").style.display = "none"
             document.querySelector("#pay-now").style.display = "inline-block"
         }
 
 
         showLoginToPayBtn(){
-            console.log('not logged in')
             document.querySelector("#login-to-pay").style.display = "inline-block"
             document.querySelector("#pay-now").style.display = "none"
         }
