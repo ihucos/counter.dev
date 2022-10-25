@@ -40,15 +40,17 @@ customElements.define(
                </section>`
 
 
-            document.querySelector('base-navbar').loggedInUserCallback(
-                (userDump)=>{
-                    this.drawPlans(userDump)
-                    this.showPayNowBtn();
-                    this.highlightPersonalizedSuggestion(userDump)
-                },
-                ()=>this.showLoginToPayBtn(),
+            whenReady('base-navbar', (el) => {
+                el.loggedInUserCallback(
+                    (userDump)=>{
+                        this.drawPlans(userDump)
+                        this.showPayNowBtn();
+                        this.highlightPersonalizedSuggestion(userDump)
+                    },
+                    ()=>this.showLoginToPayBtn(),
 
-            )
+                )
+            })
         }
 
         drawPlans(userDump){

@@ -441,3 +441,14 @@ function dGetNormalizedHours(hours) {
         ...formatedHours,
     };
 }
+
+whenReady('base-navbar', (el)=>{
+    el.loggedInUserCallback((userDump) => {
+        // user loaded
+        var daysTracked = Math.max(...Object.values(userDump.sites).map((i)=>Object.keys(i.visits.all.date).length))
+        if (daysTracked > 90 && sessionStorage.getItem('pwyw') === null){
+            whenReady('base-pwyw', (el)=>el.modal())
+            sessionStorage.setItem('pwyw', '1')
+        }
+    }, () => {})
+})
