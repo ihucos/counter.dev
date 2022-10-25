@@ -27,7 +27,6 @@ type LogData map[string]int64
 type TimedVisits struct {
 	Day       VisitsData `json:"day"`
 	Yesterday VisitsData `json:"yesterday"`
-	Week      VisitsData `json:"week"`
 	Month     VisitsData `json:"month"`
 	Year      VisitsData `json:"year"`
 	All       VisitsData `json:"all"`
@@ -107,11 +106,6 @@ var ScreenResolutions = map[string]bool{
 	"414x896":   true,
 	"768x1024":  true}
 
-func formatWeekRedisKey(time time.Time) string {
-	year, week := time.ISOWeek()
-	return fmt.Sprintf("%d-cw%d", year, week)
-}
-
 func (site Site) saveVisitPart(timeRange string, data Visit, expireAt time.Time) {
 	var redisKey string
 	for _, field := range fieldsZet {
@@ -157,10 +151,6 @@ func (site Site) SaveVisit(visit Visit, at time.Time) {
 		0, 0, 0, 0,
 		at.Location()).AddDate(0, 0, 2)
 
-	inSevenDays := time.Date(at.Year(), at.Month(), at.Day(),
-		0, 0, 0, 0,
-		at.Location()).AddDate(0, 0, 7)
-
 	// This Year
 	site.saveVisitPart(
 		at.Format("2006"),
@@ -172,14 +162,6 @@ func (site Site) SaveVisit(visit Visit, at time.Time) {
 		at.Format("2006-01"),
 		visit,
 		nextMonth.Add(expireTolerance))
-
-	// This Week
-	site.saveVisitPart(
-		formatWeekRedisKey(at),
-		visit,
-		// this can be further optimized by actually calculating the
-		// exact date of the beginning of the next week.
-		inSevenDays.Add(expireTolerance))
 
 	// Today / Yesterday
 	site.saveVisitPart(
@@ -250,9 +232,6 @@ func (site Site) delHotVisits() error {
 	site.delVisitPart(maxDate.Format("2006-01"))
 	site.delVisitPart(minDate.Format("2006-01"))
 
-	site.delVisitPart(formatWeekRedisKey(maxDate))
-	site.delVisitPart(formatWeekRedisKey(minDate))
-
 	site.delVisitPart(maxDate.AddDate(0, 0, -1).Format("2006-01-02"))
 	site.delVisitPart(minDate.AddDate(0, 0, -1).Format("2006-01-02"))
 
@@ -290,7 +269,7 @@ func (site Site) Del() error {
 }
 
 func (site Site) GetVisits(utcOffset int) (TimedVisits, error) {
-	nullData := TimedVisits{nil, nil, nil, nil, nil, nil}
+	nullData := TimedVisits{nil, nil, nil, nil, nil}
 	now := utils.TimeNow(utcOffset)
 	allStatData, err := site.getVisitsPart("all")
 	if err != nil {
@@ -304,10 +283,6 @@ func (site Site) GetVisits(utcOffset int) (TimedVisits, error) {
 	if err != nil {
 		return nullData, err
 	}
-	weekStatData, err := site.getVisitsPart(formatWeekRedisKey(now))
-	if err != nil {
-		return nullData, err
-	}
 	dayStatData, err := site.getVisitsPart(now.Format("2006-01-02"))
 	if err != nil {
 		return nullData, err
@@ -318,7 +293,7 @@ func (site Site) GetVisits(utcOffset int) (TimedVisits, error) {
 		return nullData, err
 	}
 
-	return TimedVisits{Day: dayStatData, Yesterday: yesterdayStatData, Week: weekStatData, Month: monthStatData, Year: yearStatData, All: allStatData}, nil
+	return TimedVisits{Day: dayStatData, Yesterday: yesterdayStatData, Month: monthStatData, Year: yearStatData, All: allStatData}, nil
 }
 
 func (site Site) Log(logLine string) {

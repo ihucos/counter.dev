@@ -65,9 +65,6 @@ customElements.define(
               rangePref === "last30" ? "selected=selected" : ""
           } value="last30">Last 30 days</option>
           <option ${
-              rangePref === "week" ? "selected=selected" : ""
-          } value="week">This week</option>
-          <option ${
               rangePref === "month" ? "selected=selected" : ""
           } value="month">This month</option>
           <option ${

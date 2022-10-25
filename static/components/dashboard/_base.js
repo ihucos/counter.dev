@@ -4,8 +4,7 @@ class Counter extends HTMLElement {
 
     nextTime = {
         day: "yesterday",
-        yesterday: "week",
-        week: "month",
+        yesterday: "last7",
         last7: "last30",
         last30: "all",
         month: "year",
