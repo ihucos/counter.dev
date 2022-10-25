@@ -59,5 +59,6 @@ function dispatchPushEvents(url, event_prefix) {
 var script = document.createElement('script');
 script.dataset.id = '33671ad4-a966-4a52-b48f-56c92d10a678';
 script.dataset.utcoffset = '1';
+script.dataset.server="https://simple-web-analytics.com";
 script.src = "https://cdn.counter.dev/script-testing.js";
 document.getElementsByTagName('head')[0].appendChild(script)
