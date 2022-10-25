@@ -153,11 +153,6 @@ func init() {
 
 		siteId := Origin2SiteId(origin)
 
-		// temporary debug code
-		if siteId == "counter.dev" {
-			ctx.App.Logger.Printf("track for counter.dev ua: %s\n", userAgent)
-		}
-
 		visits := user.NewSite(siteId)
 		visits.SaveVisit(visit, now)
 		visits.Log(logLine)

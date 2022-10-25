@@ -175,9 +175,6 @@ func (ctx *Ctx) User(userId string) models.User {
 func (ctx *Ctx) UserByCachedUUID(uuid string) models.User {
 	conn := ctx.App.RedisPool.Get()
 	user, err := models.NewUserByCachedUUID(conn, uuid, ctx.App.DB, ctx.App.Config.PasswordSalt)
-	if err != nil {
-		ctx.App.Logger.Printf("debug: %s", ctx.R.Header.Get("Referer"))
-	}
 	ctx.CatchError(err)
 	ctx.OpenConns = append(ctx.OpenConns, conn)
 	return user
