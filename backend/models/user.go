@@ -420,3 +420,14 @@ func (user User) RegisterSubscriptionID(subscriptionID string) error{
 	}
 	return nil
 }
+
+
+func (user User) ReadSubscriptionID() (string, error) {
+	val, err := redis.String(user.redis.Do("HGET", "subscription", user.Id))
+	if err == redis.ErrNil {
+		return "", nil
+	} else if err != nil {
+		return "", err
+	}
+	return val, nil
+}

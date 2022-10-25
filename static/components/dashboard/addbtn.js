@@ -9,7 +9,7 @@ customElements.define(
 
             this.innerHTML = `
               <a href="#modal-add" class="btn-primary" style="width: 100%" rel="modal:open"
-                >Add a website</a
+                >Add website</a
               >`;
         }
     }

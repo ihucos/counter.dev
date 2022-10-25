@@ -14,6 +14,7 @@ type UserDump struct {
 	Id    string            `json:"id"`
 	Token string            `json:"token"`
 	UUID string            `json:"uuid"`
+	IsSubscribed bool `json:"isSubscribed"`
 	Prefs map[string]string `json:"prefs"`
 }
 
@@ -77,7 +78,11 @@ func LoadUserDump(user models.User) (UserDump, error) {
 	if err != nil {
 		return UserDump{}, err
 	}
-	return UserDump{Id: user.Id, Token: token, UUID: uuid, Prefs: prefsData}, nil
+	subscriptionId, err := user.ReadSubscriptionID()
+	if err != nil {
+		return UserDump{}, err
+	}
+	return UserDump{Id: user.Id, Token: token, UUID: uuid, Prefs: prefsData, IsSubscribed: subscriptionId != ""}, nil
 }
 
 func LoadDump(user models.User, utcOffset int) (Dump, error) {
