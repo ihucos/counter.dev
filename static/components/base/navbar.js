@@ -179,7 +179,7 @@ Let's hope this madness stops eventually and things become more normal.
                        rel="nofollow"
                      ></a>
                      <a
-                       href="https://twitter.com/NaiveTeamHQ"
+                       href="https://twitter.com/DevCounter"
                        class="twitter-blue mr32"
                        target="_blank"
                        rel="nofollow"
