@@ -145,7 +145,7 @@ customElements.define(
                     });
                 },
                 onApprove: function(data, actions) {
-                    subscriptionSuccess(data.subscriptionID);
+                    this.subscriptionSuccess(data.subscriptionID);
                 },
             }).render(`#paypal-btn-${qty}`); // Renders the PayPal button
 
@@ -153,7 +153,7 @@ customElements.define(
 
 
         modal(){
-            $('dashboard-pwyw > div').modal({
+            $('#modal-pwyw').modal({
                 escapeClose: false,
                 clickClose: false,
                 showClose: false
