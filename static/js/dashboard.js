@@ -165,6 +165,7 @@ function patchDump(dump){
 }
 
 function addArchivesToDump(archives, dump) {
+
     for (const [site, visits] of Object.entries(archives["-7:-2"])) {
         // some junk that the user configured not to see
         // would be nice to have it removed from the db sometimes
@@ -179,6 +180,24 @@ function addArchivesToDump(archives, dump) {
         ]);
         dump.sites[site].visits.last7 = completeVisits;
     }
+
+
+    // the same thing again with the last 30 days
+    for (const [site, visits] of Object.entries(archives["-30:-2"])) {
+        if (!(site in dump.sites)) {
+            continue;
+        }
+
+        let completeVisits = mergeVisits([
+            dump.sites[site].visits.day,
+            dump.sites[site].visits.yesterday,
+            visits,
+        ]);
+        dump.sites[site].visits.last30 = completeVisits;
+    }
+
+
+
     return dump;
 }
 

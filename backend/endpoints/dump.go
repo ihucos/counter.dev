@@ -125,9 +125,17 @@ func init() {
 		archive := make(map[string]lib.QueryArchiveResult) 
 		now := utils.TimeNow(utcOffset)
 		var err error
+
 		archive["-7:-2"], err = ctx.App.QueryArchive(lib.QueryArchiveArgs{
 			User:     user.Id,
 			DateFrom: now.AddDate(0, 0, -7),
+			DateTo:   now.AddDate(0, 0, -2),
+		})
+		ctx.CatchError(err)
+
+		archive["-30:-2"], err = ctx.App.QueryArchive(lib.QueryArchiveArgs{
+			User:     user.Id,
+			DateFrom: now.AddDate(0, 0, -30),
 			DateTo:   now.AddDate(0, 0, -2),
 		})
 		ctx.CatchError(err)
