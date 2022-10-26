@@ -14,7 +14,7 @@ customElements.define(
                          Our main goal is to provide the smoothest Web Analytics experience
                          possible.
                          <br />
-                         Therefore we do not enforce payments but politely ask for an
+                         Therefore we do not enforce payments but ask for an
                          affordable service fee.
                        </div>
                      </div>
@@ -35,20 +35,34 @@ customElements.define(
                      >
                        Login to pay
                      </a>
+                     <div
+                       id="paying"
+                       href="#"
+                       style="display: none;"
+                       class="caption gray"
+                     >
+                       Thanks for paying
+                     </div>
                    </div>
                  </div>
                </section>`
 
 
-            document.querySelector('base-navbar').loggedInUserCallback(
-                (userDump)=>{
-                    this.drawPlans(userDump)
-                    this.showPayNowBtn();
-                    this.highlightPersonalizedSuggestion(userDump)
-                },
-                ()=>this.showLoginToPayBtn(),
+            whenReady('base-navbar', (el) => {
+                el.loggedInUserCallback(
+                    (userDump)=>{
+                        this.drawPlans(userDump)
+                        if (!userDump.user.isSubscribed){
+                            this.showPayNowBtn();
+                            this.highlightPersonalizedSuggestion(userDump)
+                        } else {
+                            this.showPaying()
+                        }
+                    },
+                    ()=>this.showLoginToPayBtn(),
 
-            )
+                )
+            })
         }
 
         drawPlans(userDump){
@@ -124,6 +138,7 @@ customElements.define(
         }
 
         setupPayPalButton(qty, username){
+            var self = this // important for payment flow
             $(".paypal-btn-wrapper").append(`
                     <div id="paypal-btn-${qty}" class="paypal-btn" style="margin: 0px auto; display: none"></div>
                 `)
@@ -134,7 +149,6 @@ customElements.define(
                     layout: 'vertical',
                     label: 'pay',
                     tagline: false,
-                    color: 'blue'
                 },
                 createSubscription: function(data, actions) {
                     return actions.subscription.create({
@@ -145,7 +159,7 @@ customElements.define(
                     });
                 },
                 onApprove: function(data, actions) {
-                    this.subscriptionSuccess(data.subscriptionID);
+                    self.subscriptionSuccess(data.subscriptionID);
                 },
             }).render(`#paypal-btn-${qty}`); // Renders the PayPal button
 
@@ -163,18 +177,21 @@ customElements.define(
         subscriptionSuccess(subscriptionID){
             $.post("/subscribed", { subscription_id: subscriptionID})
             $.modal.close()
-            notify("You are awesome. That's all there is to say.")
+            notify(`You are awesome. If you are not happy with the product or service let us know at any time.`)
         }
 
         showPayNowBtn(){
-            document.querySelector("#login-to-pay").style.display = "none"
             document.querySelector("#pay-now").style.display = "inline-block"
+        }
+
+
+        showPaying(){
+            document.querySelector("#paying").style.display = "inline-block"
         }
 
 
         showLoginToPayBtn(){
             document.querySelector("#login-to-pay").style.display = "inline-block"
-            document.querySelector("#pay-now").style.display = "none"
         }
 
         highlightPersonalizedSuggestion(dump){

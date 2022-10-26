@@ -80,3 +80,10 @@ function notify(msg, cb){
     $('body').append($(html))
     $('#modal-notify').modal({closeExisting: false})
 }
+
+function whenReady(tag, cb){
+    customElements.whenDefined(tag).then(() => {
+        var el = document.querySelector(tag)
+        cb(el)
+    })
+}
