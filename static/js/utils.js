@@ -5,6 +5,12 @@ script.dataset.server="https://simple-web-analytics.com";
 script.src = "https://cdn.counter.dev/script-testing.js";
 document.getElementsByTagName('head')[0].appendChild(script)
 
+var script = document.createElement('script');
+script.dataset.domain = 'counter.dev';
+script.src = "https://plausible.io/js/plausible.js";
+document.getElementsByTagName('head')[0].appendChild(script)
+
+
 function simpleForm(formSelector, arg) {
     var success, formEl;
     if (typeof arg === "function") {
