@@ -111,7 +111,7 @@ func init() {
 
 		country := ctx.R.FormValue("country")
 		if country == "" {
-			country := ctx.R.Header.Get("CF-IPCountry")
+			country = ctx.R.Header.Get("CF-IPCountry")
 		}
 		
 		if country != "" && country != "XX" {
