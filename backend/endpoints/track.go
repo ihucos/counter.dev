@@ -109,7 +109,11 @@ func init() {
 			visit["lang"] = lang
 		}
 
-		country := ctx.R.Header.Get("CF-IPCountry")
+		country := ctx.R.FormValue("country")
+		if country == "" {
+			country := ctx.R.Header.Get("CF-IPCountry")
+		}
+		
 		if country != "" && country != "XX" {
 			visit["country"] = strings.ToLower(country)
 		}
