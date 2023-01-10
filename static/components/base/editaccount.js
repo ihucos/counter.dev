@@ -182,7 +182,7 @@ customElements.define(
             [3, "[UTC+03:00] Moscow, Istanbul, Riyadh"],
             [4, "[UTC+04:00] Dubai, Baku, Tbilisi"],
             [5, "[UTC+05:00] Karachi, Tashkent, Yekaterinburg"],
-            [5.5, "UTC+05:30] Mumbai, Chennai, Kolkata"],
+            [5.5, "[UTC+05:30] Mumbai, Chennai, Kolkata"],
             [6, "[UTC+06:00] Dhaka, Almaty, Omsk"],
             [7, "[UTC+07:00] Jakarta, Ho Chi Minh City, Bangkok"],
             [8, "[UTC+08:00] Shanghai, Taipei, Kuala Lumpur"],
