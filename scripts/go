@@ -1,7 +1,5 @@
 #!/usr/bin/env plash-exec
-
 --from alpine:edge
 --apk go gcc libc-dev
 --env-prefix WEBSTATS_ GO
 --entrypoint go
-
