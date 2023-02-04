@@ -212,6 +212,14 @@ customElements.define(
                 link: "marketingplatform.google.com",
                 icon: "google.com",
             },
+            "Google Gmail": {
+                match: [
+                    "com.google.android.gm",
+                    "mail.google.com",
+                ],
+                link: "mail.google.com",
+                icon: "mail.google.com",
+            },
             Twitter: {
                 match: [
                     "t.co",
