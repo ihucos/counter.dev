@@ -1,6 +1,5 @@
 
 alpineversion = edge
-go = $(abspath ./scripts/go)
 
 .DEFAULT_GOAL := all
 
@@ -11,11 +10,11 @@ export
 .PHONY: devserver
 devserver:
 	make buildlocal
-	PLASH_EXPORT=WEBSTATS_MAILGUN_SECRET_API_KEY plash --from alpine:$(alpineversion) -- sh -c ". .config/dev.sh && exec ./webstats"
+	PLASH_EXPORT=WEBSTATS_MAILGUN_SECRET_API_KEY . .config/dev.sh && exec ./webstats
 
 .PHONY: tests
 tests:
-	. .config/test.sh && $(go) test
+	. .config/test.sh && go test
 
 .PHONY: format
 format:
@@ -46,7 +45,7 @@ build:
 
 .PHONY: buildlocal
 buildlocal:
-	cd backend && $(go) build -o ../webstats
+	cd backend && go build -o ../webstats
 
 .PHONY: deploy
 deploy:
