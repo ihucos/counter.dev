@@ -10,6 +10,7 @@ import (
 
 func init() {
 	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {
+		mail := ctx.R.FormValue("mail")
 		feedback := ctx.R.FormValue("feedback")
 		if feedback == "" {
 			ctx.ReturnBadRequest("No input given.")
@@ -22,6 +23,9 @@ func init() {
 		} else {
 			title = fmt.Sprintf("User feedback received from %s", user)
 		}
+                if mail != "" {
+                    title += fmt.Sprintf(" (%s)", mail)
+                }
 		message := mg.NewMessage("hey@counter.dev", title, feedback, "hey@counter.dev")
 		c, cancel := context.WithTimeout(context.Background(), time.Second*30)
 		defer cancel()

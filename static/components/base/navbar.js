@@ -45,6 +45,13 @@ customElements.define(
                 // the fallback is because older user's dont set the
                 // utcoffset by default
                 this.drawEditaccount(dump.user.prefs);
+
+                // Adapt the feedback form mail input field
+                if (dump.user.prefs.mail){
+                    document.getElementById("feedback-mail").setAttribute("value", dump.user.prefs.mail)
+                    document.getElementById("feedback-mail").setAttribute("type", "hidden")
+                }
+
                 document.dispatchEvent(new CustomEvent("userloaded"));
                 // don't leave an open connection to server to save resources
                 eventSourceObj.close();
@@ -154,6 +161,7 @@ Let's hope this madness stops eventually and things become more normal.
                      <form action="/feedback" method="POST">
                        <label class="width-full">How can we make the service better for you?
                          <textarea class="width-full" name="feedback" style="min-height: 200px;"></textarea>
+                         <input id="feedback-mail" type="email" name="contact" placeholder="Mail to receive reply (optional)" class="width-full"></input>
                        </label>
                        <div class="account-btn-group flex mt24 mb32">
                          <a href="#" class="btn-secondary full mr16" rel="modal:close">
