@@ -10,7 +10,7 @@ import (
 
 func init() {
 	lib.Endpoint(lib.EndpointName(), func(ctx *lib.Ctx) {
-		mail := ctx.R.FormValue("mail")
+		mail := ctx.R.FormValue("contact")
 		feedback := ctx.R.FormValue("feedback")
 		if feedback == "" {
 			ctx.ReturnBadRequest("No input given.")
