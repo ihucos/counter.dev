@@ -165,62 +165,22 @@ function patchDump(dump){
 }
 
 function addArchivesToDump(archives, dump) {
-
-    // HACK: Sometimes the archives, that is last 7 days and last 30 days do
-    // not include all sites. For those cases we put in empty visits data
-    // in order to maintain the expected data format.
-    let emptyVisits = {
-        "browser": {},
-        "country": {},
-        "date": {},
-        "device": {},
-        "hour": {},
-        "lang": {},
-        "loc": {},
-        "page": {},
-        "platform": {},
-        "ref": {},
-        "screen": {},
-        "weekday": {}
-    }
     for (const site of Object.keys(dump.sites)) {
-        dump.sites[site].visits.last7 = emptyVisits
-        dump.sites[site].visits.last30 = emptyVisits
-    }
 
-    for (const [site, visits] of Object.entries(archives["-7:-2"])) {
-        // some junk that the user configured not to see
-        // would be nice to have it removed from the db sometimes
-        if (!(site in dump.sites)) {
-            continue;
-        }
-
-        let completeVisits = mergeVisits([
+        dump.sites[site].visits.last7 =  mergeVisits([
             dump.sites[site].visits.day,
             dump.sites[site].visits.yesterday,
-            visits,
+            archives["-7:-2"][site] || {},
         ]);
-        dump.sites[site].visits.last7 = completeVisits;
-    }
 
-
-    // the same thing again with the last 30 days
-    for (const [site, visits] of Object.entries(archives["-30:-2"])) {
-        if (!(site in dump.sites)) {
-            continue;
-        }
-
-        let completeVisits = mergeVisits([
+        dump.sites[site].visits.last30 =  mergeVisits([
             dump.sites[site].visits.day,
             dump.sites[site].visits.yesterday,
-            visits,
+            archives["-30:-2"][site] || {},
         ]);
-        dump.sites[site].visits.last30 = completeVisits;
+
     }
-
-
-
-    return dump;
+    return dump
 }
 
 
