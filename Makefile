@@ -94,7 +94,8 @@ out/pages:
 	mkdir -p out/pages
 
 download-archives:
-	scp root@172.104.148.60:/state/db/archive.db /tmp/archive.db
+	ssh root@172.104.148.60 cp /state/db/archive.db /tmp/archive.db
+	scp root@172.104.148.60:/tmp/archive.db /tmp/archive.db
 
 
 # Snippset needed when setting counter.dev up in new servers
