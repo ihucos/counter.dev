@@ -36,7 +36,7 @@ This project aim is to serve many users for free in a sustainable way.
 
 ### Real world validation
 
-As documented in [this issue](https://github.com/ihucos/counter.dev/issues/114) real world resource usage to serve millions of unique visits per month is roughly at 25% on small VPS that costs 5$ per month. As the service has a few hundert active users every user has non-fixed costs (Domain costs) of about one cent per month. I getting these costs covered via donations. But please donate to appreciate efforts for maintenance and further development.
+As documented in [this issue](https://github.com/ihucos/counter.dev/issues/114) real world resource usage to serve millions of unique visits per month is roughly at 25% on small VPS that costs 5$ per month. As the service has a few hundert active users every user has non-fixed costs (There is still the Domain + a extra VPS backup service) of about one cent per month. I getting these costs covered via donations. But please donate to appreciate efforts for maintenance and further development.
 
 ## Running locally
 
