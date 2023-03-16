@@ -56,7 +56,8 @@ The blog is based on [pelican](https://blog.getpelican.com/). The templates are 
 
 ### Can I avoid the cookie banner when using counter.dev?
 
-[Probably, but not proven](https://github.com/ihucos/counter.dev/issues/71)
+~~[Probably, but not proven](https://github.com/ihucos/counter.dev/issues/71)~~ [Ongoing discussion](https://github.com/ihucos/counter.dev/issues/71)
+
 
 ## Contributors
 
