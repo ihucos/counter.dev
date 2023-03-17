@@ -21,7 +21,7 @@
                         utcoffset: utcoffset,
                     })
             );
-        }, 2500);
+        }, 4500);
     }
     navigator.sendBeacon(
         server + "/trackpage",
