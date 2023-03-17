@@ -1,4 +1,7 @@
 (function () {
+    if (sessionStorage.getItem('doNotTrack') || localStorage.getItem('doNotTrack')){
+        return
+    }
     var id = document.currentScript.getAttribute("data-id");
     var utcoffset = document.currentScript.getAttribute("data-utcoffset");
     var server =
