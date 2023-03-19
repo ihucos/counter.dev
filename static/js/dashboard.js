@@ -157,6 +157,12 @@ document.addEventListener("push-oldest-archive-date", (evt) => {
     })
 })
 
+function patchArchiveVisit(visit){
+    if (!visit.ref) {visit.ref = {}}
+    return visit
+
+}
+
 
 function patchDump(dump){
     addArchivesToDump(window.state.archives, dump);
@@ -167,17 +173,17 @@ function patchDump(dump){
 function addArchivesToDump(archives, dump) {
     for (const site of Object.keys(dump.sites)) {
 
-        dump.sites[site].visits.last7 =  mergeVisits([
+        dump.sites[site].visits.last7 =  patchArchiveVisit(mergeVisits([
             dump.sites[site].visits.day,
             dump.sites[site].visits.yesterday,
             archives["-7:-2"][site] || {},
-        ]);
+        ]));
 
-        dump.sites[site].visits.last30 =  mergeVisits([
+        dump.sites[site].visits.last30 = patchArchiveVisit(mergeVisits([
             dump.sites[site].visits.day,
             dump.sites[site].visits.yesterday,
             archives["-30:-2"][site] || {},
-        ]);
+        ]));
 
     }
     return dump
