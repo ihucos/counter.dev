@@ -6,7 +6,7 @@
     var utcoffset = document.currentScript.getAttribute("data-utcoffset");
     var server =
         document.currentScript.getAttribute("data-server") ||
-        "https://counter.dev";
+        "https://t.counter.dev";
 
     if (
         !sessionStorage.getItem("_swa") &&
