@@ -12,7 +12,7 @@ Shows how many people visit your web application.
 
 ## Technology
 
-Counter is a small Go server and static assets. Everything is saved to Redis.
+Counter is a small Go server and static assets. Everything is saved to Redis. A normal SQL database is used for archiving older data.
 
 ## Performance
 
