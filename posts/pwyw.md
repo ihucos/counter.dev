@@ -41,11 +41,8 @@ the guests.
 By prioritizing user value beyond almost everything we will stick with the
 PWYW-Model for a while. In fact counter's technical architecture is build to at
 least cover operational costs with such low service fees. But should you use
-PWYW for your next project? The answer might not surprise you: probably not
-
-- except you think you know what you are doing.
-
-In the end I want to thank all paying users and say that I truly appreciate all
-donations. There are users which are onboard from the very beginning which
-makes me very happy. I hope many users start with a free service but in the end
-become paying customers.
+PWYW for your next project? The answer might not surprise you: probably not,
+except you think you know what you are doing. In the end I want to thank all
+paying users and say that I truly appreciate all donations. There are users
+which are onboard from the very beginning which makes me very happy. I hope
+many users start with a free service but in the end become paying customers.
