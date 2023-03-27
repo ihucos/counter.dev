@@ -48,9 +48,9 @@ make devserver
 
 You will need a redis server at localhost and default port.
 
-## What about self hosting?
+## Self-Hosting
 
-Working on an easy way to do it: https://github.com/ihucos/counter.dev-selfhosted
+If you want to self-host consult here: https://github.com/ihucos/counter.dev-selfhost
 
 
 ## Developing the blog
