@@ -18,7 +18,7 @@ td:first-child {
 .page .content {
   padding: 120px 0 24px 0;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start;
 }
 .page-wrap {
   width: 635px;

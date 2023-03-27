@@ -76,7 +76,10 @@ out/blog: templates/blog/* $(shell find posts)
 out/pages/%.html: templates/pages/%.html templates/pages/base.html
 	yasha -o $@ --extensions templates/ext.py $<
 
-all: out/pages out/blog out/pages/imprint.html out/pages/privacy.html out/pages/invest.html
+out/pages/help/%.html: templates/pages/help/%.html templates/pages/help/base.html
+	yasha -o $@ --extensions templates/ext.py $<
+
+all: out/pages out/pages/help out/blog out/pages/imprint.html out/pages/privacy.html out/pages/invest.html out/pages/help/integration.html
 
 
 .PHONY: clean
@@ -85,6 +88,9 @@ clean:
 
 out/pages:
 	mkdir -p out/pages
+
+out/pages/help:
+	mkdir -p out/pages/help
 
 download-archives:
 	ssh root@172.104.148.60 cp /state/db/archive.db /tmp/archive.db
