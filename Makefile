@@ -73,15 +73,8 @@ out/blog: templates/blog/* $(shell find posts)
 	touch out/blog # mark as done
 
 
-out/pages/imprint.html: templates/pages/imprint.html templates/pages/base.html
-	yasha -o out/pages/imprint.html --extensions templates/ext.py templates/pages/imprint.html
-
-out/pages/privacy.html: templates/pages/privacy.html templates/pages/base.html
-	yasha -o out/pages/privacy.html --extensions templates/ext.py templates/pages/privacy.html
-
-out/pages/invest.html: templates/pages/invest.html templates/pages/base.html
-	yasha -o out/pages/invest.html --extensions templates/ext.py templates/pages/invest.html
-
+out/pages/%.html: templates/pages/%.html templates/pages/base.html
+	yasha -o $@ --extensions templates/ext.py $<
 
 all: out/pages out/blog out/pages/imprint.html out/pages/privacy.html out/pages/invest.html
 
