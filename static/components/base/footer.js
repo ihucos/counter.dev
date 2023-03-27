@@ -19,7 +19,7 @@ customElements.define(
                             <div class="nav-footer-one">
                               <ul>
                                 <li><a href="/blog">Blog</a></li>
-                                <li><a href="mailto:hey@counter.dev" target="_blank" rel="nofollow">Feedback</a></li>
+                                <li><a href="#modal-feedback" rel="modal:open">Feedback</a></li>
                               </ul>
                             </div>
                             <div class="nav-footer-two">
