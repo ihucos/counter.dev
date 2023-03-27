@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>{% block title %} {% endblock %}</title>
+    <title>Help page - {% block title %} {% endblock %}</title>
     <meta
       name="description"
       content="Web Analytics made simple and therefore privacy-friendly."
@@ -34,12 +34,13 @@
     <section class="page">
       <div class="content">
         <div class="page-wrap bg-white shadow-lg radius-lg markdown-body">
+          <h1><a href="/pages/help">Help</a> - {{ self.title() }}</h1>
           {% block content %}{% endblock %}
         </div>
         {% if self.image() %}
         <img
           class="page-pic"
-          src="img/help.svg"
+          src="/img/help.svg"
           width="350"
           height="441"
           alt="Key"
