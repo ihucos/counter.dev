@@ -79,7 +79,7 @@ out/pages/%.html: templates/pages/%.html templates/pages/base.html
 out/pages/help/%.html: templates/pages/help/%.html templates/pages/help/base.html
 	yasha -o $@ --extensions templates/ext.py $<
 
-all: out/pages out/pages/help out/blog out/pages/imprint.html out/pages/privacy.html out/pages/invest.html out/pages/help/integration.html out/pages/help/index.html out/pages/help/wordpress.html
+all: out/pages out/pages/help out/blog out/pages/imprint.html out/pages/privacy.html out/pages/invest.html out/pages/help/integration.html out/pages/help/index.html out/pages/help/wordpress.html out/pages/help/shopify.html out/pages/help/squarespace.html out/pages/help/wix.html out/pages/help/weebly.html
 
 
 .PHONY: clean

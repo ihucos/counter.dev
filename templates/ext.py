@@ -1,5 +1,5 @@
-from jinja_markdown import MarkdownExtension
 import jinja2
+import subprocess
 import os
 import re
 
@@ -13,3 +13,25 @@ def helplink(file):
     return "[{}]({})".format(title, url)
 
 jinja2.filters.FILTERS['helplink'] = helplink
+
+def markdown_filter(text):
+    return subprocess.check_output(['markdown'], input=text.encode()).decode()
+
+# ChatGPT emmited junk
+class MarkdownExtension(jinja2.ext.Extension):
+    tags = set(['markdown'])
+
+    def __init__(self, environment):
+        super(MarkdownExtension, self).__init__(environment)
+        environment.filters['markdown'] = markdown_filter
+
+    def parse(self, parser):
+        lineno = next(parser.stream).lineno
+        body = parser.parse_statements(['name:endmarkdown'], drop_needle=True)
+        return jinja2.nodes.CallBlock(
+            self.call_method('_render_markdown', [], lineno=lineno),
+            [], [], body, lineno=lineno
+        )
+
+    def _render_markdown(self, caller):
+        return jinja2.Markup(markdown_filter(caller()))
