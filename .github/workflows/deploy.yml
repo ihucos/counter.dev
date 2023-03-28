@@ -34,6 +34,9 @@ jobs:
       - name: "Install yasha"
         run: pip3 install yasha
 
+      - name: "Python dependency hell"
+        run: pip3 install --upgrade jinja2
+
       - name: "make all"
         run: make all
 
