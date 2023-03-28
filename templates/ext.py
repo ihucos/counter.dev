@@ -1,4 +1,5 @@
 import jinja2
+from jinja2 import Markup
 import subprocess
 import os
 import re
@@ -34,4 +35,4 @@ class MarkdownExtension(jinja2.ext.Extension):
         )
 
     def _render_markdown(self, caller):
-        return jinja2.Markup(markdown_filter(caller()))
+        return Markup(markdown_filter(caller()))
