@@ -19,6 +19,7 @@ customElements.define(
                             <div class="nav-footer-one">
                               <ul>
                                 <li><a href="/blog">Blog</a></li>
+                                <li><a href="/pages/help">Help</a></li>
                                 <li><a href="#modal-feedback" rel="modal:open">Feedback</a></li>
                               </ul>
                             </div>
@@ -26,6 +27,7 @@ customElements.define(
                               <ul>
                                 <li><a href="/pages/privacy.html" rel="nofollow">Privacy</a></li>
                                 <li><a href="/pages/imprint.html" rel="nofollow">Imprint</a></li>
+                                <li><a href="mailto:hey@counter.dev">Contact</a></li>
                               </ul>
                             </div>
                           </nav>

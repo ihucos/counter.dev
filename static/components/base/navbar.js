@@ -178,6 +178,7 @@ Let's hope this madness stops eventually and things become more normal.
                    <a href="/index.html" class="logotype"></a>
                    <!-- Navigation -->
                    <nav class="nav-header">
+                     <a href="/pages/help" class="mr32">Help</a>
                      <a href="/blog" class="mr32">Blog</a>
                      <a href="#modal-feedback" class="mr32" target="_blank" rel="modal:open">Feedback</a>
                      <a

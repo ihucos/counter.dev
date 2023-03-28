@@ -34,10 +34,13 @@
     <section class="page">
       <div class="content">
         <div class="page-wrap bg-white shadow-lg radius-lg markdown-body">
-          <h1><a href="/pages/help">Help</a> - {{ self.title() }}</h1>
+          {% block title_wrapper %}
+          <h1>{{ self.title() }}</h1>
+          {% endblock %}
+          {% markdown %}
           {% block content %}{% endblock %}
+          {% endmarkdown %}
         </div>
-        {% if self.image() %}
         <img
           class="page-pic"
           src="/img/help.svg"
@@ -45,7 +48,6 @@
           height="441"
           alt="Key"
         />
-        {% endif %}
       </div>
     </section>
     <base-footer></base-footer>

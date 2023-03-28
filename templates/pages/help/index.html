@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title_wrapper %}
+<h1>Help pages</h1>
+{% endblock %}
+
+{% block content %}
+{% markdown %}
+
+- Integration
+    - {% filter helplink %}integration.html{% endfilter %}
+
+    - {% filter helplink %}wordpress.html{% endfilter %}
+
+{% endmarkdown %}
+{% endblock %}
