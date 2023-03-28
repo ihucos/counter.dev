@@ -25,6 +25,9 @@ jobs:
       - name: "Use python"
         uses: actions/setup-python@v2
 
+      - name: "Install markdown"
+        run: apt-get install -y markdown
+
       - name: "Install pelican"
         run: pip3 install pelican Markdown
 
