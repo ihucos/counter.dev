@@ -80,10 +80,10 @@ out/pages/help/%.html: templates/pages/help/%.md templates/pages/help/base.html 
 	yasha -o $@ --file $< --extensions templates/ext.py templates/pages/help/base.html
 
 
-MD_FILES := $(wildcard templates/pages/help/*.md)
-HTML_FILES := $(patsubst templates/pages/help/%.md,out/pages/help/%.html,$(MD_FILES))
+HELP_MD_FILES := $(wildcard templates/pages/help/*.md)
+HELP_HTML_FILES := $(patsubst templates/pages/help/%.md,out/pages/help/%.html,$(HELP_MD_FILES))
 
-all: out/pages out/pages/help out/blog out/pages/imprint.html out/pages/privacy.html out/pages/invest.html $(HTML_FILES)
+all: out/pages out/pages/help out/blog out/pages/imprint.html out/pages/privacy.html out/pages/invest.html $(HELP_HTML_FILES)
 
 
 .PHONY: clean
