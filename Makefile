@@ -76,8 +76,8 @@ out/blog: templates/blog/* $(shell find content/posts)
 out/pages/%.html: content/pages/%.html content/pages/base.html
 	yasha -o $@ --extensions templates/ext.py $<
 
-out/help/%.html: content/help/%.md content/help/base.html templates/ext.py
-	yasha -o $@ --file $< --extensions templates/ext.py content/help/base.html
+out/help/%.html: content/help/%.md templates/help.html templates/ext.py
+	yasha -o $@ --file $< --extensions templates/ext.py templates/help.html
 
 
 HELP_MD_FILES := $(wildcard content/help/*.md)
