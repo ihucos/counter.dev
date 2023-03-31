@@ -67,7 +67,7 @@ integrations:
 	ssh root@172.104.148.60 python3 scripts/integrations.py
 
 
-out/blog: templates/blog/* $(shell find posts)
+out/blog: templates/blog/* $(shell find content/posts)
 	mkdir -p out/blog
 	cd .pelican && pelican content
 	touch out/blog # mark as done

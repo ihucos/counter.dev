@@ -126,6 +126,7 @@ func NewApp() *App {
 			if strings.HasPrefix(r.URL.Path, "/blog/") ||
 				r.URL.Path == "/blog" ||
 				strings.HasPrefix(r.URL.Path, "/pages/") ||
+				strings.HasPrefix(r.URL.Path, "/help/") ||
 				r.URL.Path == "/blog" {
 				prefix = "./out"
 			} else {
