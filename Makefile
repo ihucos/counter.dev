@@ -73,17 +73,17 @@ out/blog: templates/blog/* $(shell find posts)
 	touch out/blog # mark as done
 
 
-out/pages/%.html: templates/pages/%.html templates/pages/base.html
+out/pages/%.html: content/pages/%.html content/pages/base.html
 	yasha -o $@ --extensions templates/ext.py $<
 
-out/pages/help/%.html: templates/pages/help/%.md templates/pages/help/base.html templates/ext.py
-	yasha -o $@ --file $< --extensions templates/ext.py templates/pages/help/base.html
+out/help/%.html: content/help/%.md content/help/base.html templates/ext.py
+	yasha -o $@ --file $< --extensions templates/ext.py content/help/base.html
 
 
-HELP_MD_FILES := $(wildcard templates/pages/help/*.md)
-HELP_HTML_FILES := $(patsubst templates/pages/help/%.md,out/pages/help/%.html,$(HELP_MD_FILES))
+HELP_MD_FILES := $(wildcard content/help/*.md)
+HELP_HTML_FILES := $(patsubst content/help/%.md,out/help/%.html,$(HELP_MD_FILES))
 
-all: out/pages out/pages/help out/blog out/pages/imprint.html out/pages/privacy.html out/pages/invest.html $(HELP_HTML_FILES)
+all: out/pages out/help out/blog out/pages/imprint.html out/pages/privacy.html out/pages/invest.html $(HELP_HTML_FILES)
 
 
 .PHONY: clean
@@ -93,8 +93,8 @@ clean:
 out/pages:
 	mkdir -p out/pages
 
-out/pages/help:
-	mkdir -p out/pages/help
+out/help:
+	mkdir -p out/help
 
 download-archives:
 	ssh root@172.104.148.60 cp /state/db/archive.db /tmp/archive.db

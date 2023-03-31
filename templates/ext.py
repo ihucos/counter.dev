@@ -38,7 +38,7 @@ jinja2.filters.FILTERS["help_title"] = help_title
 
 
 def helplink(fname):
-    title = get_title(os.path.join("templates/pages/help", fname))
+    title = get_title(os.path.join("content/help", fname))
     html_name = fname.split('.')[0] + ".html"
     return "[{}]({})".format(title, html_name)
 
