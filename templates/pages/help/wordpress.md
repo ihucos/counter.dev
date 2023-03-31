@@ -1,8 +1,5 @@
-{% extends "base.html" %}
+# Integrating Counter.dev in WordPress
 
-{% block title %}Integrating Counter.dev in WordPress{% endblock %}
-
-{% block content %}
 Integrating the Counter.dev tracking script in your WordPress website allows
 you to track visitors and gain valuable insights into your website's
 performance. Follow the steps below to integrate Counter.dev into your
@@ -30,4 +27,3 @@ if your WordPress website is being tracked.
 Congratulations! You have successfully integrated the Counter.dev tracking
 script into your WordPress website and can now start tracking visitors and
 analyzing data to improve your website's performance.
-{% endblock %}

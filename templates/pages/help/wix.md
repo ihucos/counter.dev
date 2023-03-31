@@ -1,10 +1,5 @@
-{% extends "base.html" %}
+# Integrating Counter.dev in Wix
 
-{% block title %}
-Integrating Counter.dev in Wix
-{% endblock %}
-
-{% block content %}
 Integrating Counter.dev tracking script in your Wix website is a simple process that requires adding the code to the site's header. Follow these steps to get started:
 
 1. Log in to your Wix account and navigate to the Editor.
@@ -36,5 +31,3 @@ Integrating Counter.dev tracking script in your Wix website is a simple process 
 Congratulations! You have successfully integrated the Counter.dev tracking script into your Wix website and can now start tracking visitors and analyzing data to improve your site's performance.
 
 Note that the specific steps for adding the tracking code to your Wix website may vary depending on the template you are using. If you have any difficulties with this process, please consult the Wix documentation or reach out to their support team for assistance.
-
-{% endblock %}

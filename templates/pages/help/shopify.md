@@ -1,8 +1,4 @@
-{% extends "base.html" %}
-
-{% block title %}Integrating Counter.dev in Shopify{% endblock %}
-
-{% block content %}
+# Integrating Counter.dev in Shopify
 
 Integrating the Counter.dev tracking script in your Shopify store allows you to
 track visitors and gain valuable insights into your store's performance. Follow
@@ -37,5 +33,3 @@ if your Shopify store is being tracked.
 Congratulations! You have successfully integrated the Counter.dev tracking
 script into your Shopify store and can now start tracking visitors and
 analyzing data to improve your store's performance.
-
-{% endblock %}

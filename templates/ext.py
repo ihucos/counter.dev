@@ -2,36 +2,67 @@ import jinja2
 import subprocess
 import os
 import re
+import os
 
-def helplink(file):
-    with open(os.path.join("templates/pages/help", file), 'r') as f:
-        content = f.read()
-    match = re.search(r'{% *block +title *%}(.+?){% *endblock *%}', content, re.DOTALL)
-    assert match, "No title block found for " + file
-    title = match.group(1).strip()
-    url = os.path.join("/pages/help", file)
-    return "[{}]({})".format(title, url)
+import re
 
-jinja2.filters.FILTERS['helplink'] = helplink
 
-def markdown_filter(text):
-    return subprocess.check_output(['markdown'], input=text.encode()).decode()
+def markdown_render(text):
+    return subprocess.check_output(["markdown"], input=text.encode()).decode()
+
+
+def renderstr(stri, **data):
+    from jinja2 import Environment, BaseLoader
+
+    rtemplate = Environment(loader=BaseLoader).from_string(stri)
+    return rtemplate.render(**data)
+
+
+def get_title(file_path):
+    with open(file_path, "r") as file:
+        contents = file.read()
+        match = re.search(r"^#\s+(.*)$", contents, re.MULTILINE)
+        if match:
+            return match.group(1)
+        return "*no title found ({})*".format(file_path)
+
+
+def help_content(file):
+    return markdown_render(renderstr(open(file).read()))
+
+def help_title(file):
+    return get_title(file)
+
+jinja2.filters.FILTERS["help_content"] = help_content
+jinja2.filters.FILTERS["help_title"] = help_title
+
+
+def helplink(fname):
+    title = get_title(os.path.join("templates/pages/help", fname))
+    html_name = fname.split('.')[0] + ".html"
+    return "[{}]({})".format(title, html_name)
+
+
+jinja2.filters.FILTERS["helplink"] = helplink
 
 # ChatGPT emmited junk
 class MarkdownExtension(jinja2.ext.Extension):
-    tags = set(['markdown'])
+    tags = set(["markdown"])
 
     def __init__(self, environment):
         super(MarkdownExtension, self).__init__(environment)
-        environment.filters['markdown'] = markdown_filter
+        environment.filters["markdown"] = markdown_render
 
     def parse(self, parser):
         lineno = next(parser.stream).lineno
-        body = parser.parse_statements(['name:endmarkdown'], drop_needle=True)
+        body = parser.parse_statements(["name:endmarkdown"], drop_needle=True)
         return jinja2.nodes.CallBlock(
-            self.call_method('_render_markdown', [], lineno=lineno),
-            [], [], body, lineno=lineno
+            self.call_method("_render_markdown", [], lineno=lineno),
+            [],
+            [],
+            body,
+            lineno=lineno,
         )
 
     def _render_markdown(self, caller):
-        return markdown_filter(caller())
+        return markdown_render(caller())

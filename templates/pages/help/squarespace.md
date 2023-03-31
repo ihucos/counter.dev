@@ -1,10 +1,4 @@
-{% extends "base.html" %}
-
-{% block title %}
-Integrating Counter.dev in Squarespace
-{% endblock %}
-
-{% block content %}
+# Integrating Counter.dev in Squarespace
 
 To integrate Counter.dev tracking script in your Squarespace website, you need
 to add the code to the header section of the site. Follow these steps to get
@@ -35,5 +29,3 @@ script into your Squarespace website and can now start tracking visitors and
 analyzing data to improve your site's performance.
 
 Note that the specific steps for adding the tracking code to your Squ
-
-{% endblock %}

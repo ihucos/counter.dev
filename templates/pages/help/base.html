@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Help page - {% block title %} {% endblock %}</title>
+    <title>{{ file | help_title }}</title>
     <meta
       name="description"
       content="Web Analytics made simple and therefore privacy-friendly."
@@ -34,12 +34,7 @@
     <section class="page">
       <div class="content">
         <div class="page-wrap bg-white shadow-lg radius-lg markdown-body">
-          {% block title_wrapper %}
-          <h1>{{ self.title() }}</h1>
-          {% endblock %}
-          {% markdown %}
-          {% block content %}{% endblock %}
-          {% endmarkdown %}
+          <h1>{{ file | help_content }}</h1>
         </div>
         <img
           class="page-pic"
