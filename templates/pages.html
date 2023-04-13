@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>{% block title %} {% endblock %}</title>
+    <title>{{ file|page_attr("title") }}</title>
     <meta
       name="description"
       content="Web Analytics made simple and therefore privacy-friendly."
@@ -30,16 +30,15 @@
       <counter-flash></counter-flash>
       <base-navbar></base-navbar>
     </header>
-    <!-- Privacy page -->
     <section class="page">
       <div class="content">
         <div class="page-wrap bg-white shadow-lg radius-lg markdown-body">
-          {% block content %}{% endblock %}
+          {{ file|page_content }}
         </div>
-        {% if self.image() %}
+        {% if file|page_attr("img") %}
         <img
           class="page-pic"
-          src="{% block image %}{% endblock %}"
+          src="{{ file|page_attr("img") }}"
           width="350"
           height="441"
           alt="Key"

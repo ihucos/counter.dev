@@ -1,15 +1,9 @@
-{% extends "base.html" %}
-
-{% block title %}
-Counter: Privacy Policy
-{% endblock %}
-
-{% block image %}
-/img/privacypage.svg
-{% endblock %}
-
-{% block content %}
-{% markdown %}
+<!--
+{
+  "title": "Counter: Privacy Policy",
+  "img": "/img/privacypage.svg"
+}
+-->
 
 # Privacy Policy
 
@@ -136,7 +130,3 @@ concern in a satisfactory manner, you may contact the Information Commissioner's
 
 Email: poststelle@bfdi.bund.de<br/>
 Phone: +49 (0)228-997799-0
-
-{% endmarkdown %}
-{% endblock %}
-

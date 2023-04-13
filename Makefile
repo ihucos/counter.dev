@@ -73,17 +73,20 @@ out/blog: templates/blog/* $(shell find content/posts)
 	touch out/blog # mark as done
 
 
-out/pages/%.html: content/pages/%.html content/pages/base.html
-	yasha -o $@ --extensions templates/ext.py $<
+out/pages/%.html: content/pages/%.md templates/pages.html
+	yasha -o $@  --file $< --extensions templates/ext.py templates/pages.html
 
-out/help/%.html: content/help/%.md templates/help.html templates/ext.py
+out/help/%.html: content/help/%.md templates/ext.py templates/help.html
 	yasha -o $@ --file $< --extensions templates/ext.py templates/help.html
 
 
 HELP_MD_FILES := $(wildcard content/help/*.md)
 HELP_HTML_FILES := $(patsubst content/help/%.md,out/help/%.html,$(HELP_MD_FILES))
 
-all: out/pages out/help out/blog out/pages/imprint.html out/pages/privacy.html out/pages/invest.html $(HELP_HTML_FILES)
+PAGES_MD_FILES := $(wildcard content/pages/*.md)
+PAGES_HTML_FILES := $(patsubst content/pages/%.md,out/pages/%.html,$(PAGES_MD_FILES))
+
+all: out/pages out/help out/blog  $(HELP_HTML_FILES) $(PAGES_HTML_FILES)
 
 
 .PHONY: clean

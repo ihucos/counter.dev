@@ -3,6 +3,7 @@ import subprocess
 import os
 import re
 import os
+import json
 
 import re
 
@@ -27,7 +28,19 @@ def get_title(file_path):
         return "*no title found ({})*".format(file_path)
 
 
+def page_attr(file_path, attr):
+    with open(file_path, "r") as file:
+        contents = file.read()
+        match = re.search(r"<!--(.*?)-->", contents, re.MULTILINE | re.DOTALL)
+        if match:
+            m = match.group(1)
+            return json.loads(m)[attr]
+        return "*no attributes found ({})*".format(file_path)
+
 def help_content(file):
+    return markdown_render(renderstr(open(file).read()))
+
+def page_content(file):
     return markdown_render(renderstr(open(file).read()))
 
 def help_title(file):
@@ -36,6 +49,8 @@ def help_title(file):
 jinja2.filters.FILTERS["help_content"] = help_content
 jinja2.filters.FILTERS["help_title"] = help_title
 
+jinja2.filters.FILTERS["page_attr"] = page_attr
+jinja2.filters.FILTERS["page_content"] = page_content
 
 def helplink(fname):
     title = get_title(os.path.join("content/help", fname))
