@@ -62,7 +62,8 @@ The blog is based on [pelican](https://blog.getpelican.com/). The templates are 
 ### Can I avoid the cookie banner when using counter.dev?
 
 I don't know. See https://github.com/ihucos/counter.dev/issues/71
-With the information that is possible to me to gather, it seems that due to the ePiravcy directive all SaaS Web Analytics - including counter.dev - needs consent. Even though most providers might claim the contrary.
+
+With the information that is possible for me to gather, it seems that due to the *ePrivacy Directive* all SaaS Web Analytics - including counter.dev - needs consent. Even though most providers might claim the contrary. There is a proposal for a [new ePrivacy Regulation](https://digital-strategy.ec.europa.eu/en/policies/eprivacy-regulation) that could fix that.
 
 ## Contributors
 
