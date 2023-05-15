@@ -24,7 +24,7 @@ Chart.defaults.global.tooltips = {
 };
 Chart.defaults.global.tooltips.callbacks.label = function (tooltipItem, data) {
     var value = data.datasets[0].data[tooltipItem.index];
-    return kFormat(value);
+    return numberFormat(value);
 };
 
 Chart.defaults.global.animation.duration = 0;
@@ -262,31 +262,6 @@ customElements.whenDefined(selector.localName).then(() => {
 // not used currently
 function flash(msg) {
     document.getElementsByTagName("base-flash")[0].flash(msg);
-}
-
-function kFormat(num) {
-    switch (num.toString().length) {
-        case 1:
-            return num;
-        case 2:
-            return num;
-        case 3:
-            return num;
-        case 4:
-            return "" + numberFormat(Math.round(num / 100) * 100);
-        case 5:
-            return numberFormat(Math.round(num / 1000) * 1000);
-        case 6:
-            return numberFormat(Math.round(num / 10000) * 10000);
-        case 7:
-            return numberFormat(Math.round(num / 100000) * 100000);
-        case 8:
-            return numberFormat(Math.round(num / 1000000) * 1000000);
-        case 9:
-            return numberFormat(Math.round(num / 10000000) * 10000000);
-        default:
-            return numberFormat(num);
-    }
 }
 
 function numberFormat(x) {

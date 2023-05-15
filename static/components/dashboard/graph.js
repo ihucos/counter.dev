@@ -71,7 +71,7 @@ customElements.define(
                                     beginAtZero: true,
                                     userCallback: function (label) {
                                         if (Math.floor(label) === label)
-                                            return kFormat(label);
+                                            return numberFormat(label);
                                     },
                                     fontFamily: "Nunito Sans",
                                     fontColor: "#616161",

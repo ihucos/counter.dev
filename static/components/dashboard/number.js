@@ -8,7 +8,7 @@ customElements.define(
             this.setAttribute("data-connected", "1");
             let num = Number(this.innerHTML);
             this.setAttribute("title", numberFormat(num));
-            this.innerHTML = kFormat(num);
+            this.innerHTML = numberFormat(num);
         }
     }
 );
