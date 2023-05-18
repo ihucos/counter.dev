@@ -35,15 +35,14 @@ Your personalized tracking script aggregates the following statistical informati
 -   The users preferred language
 -   Pages visited
 
-These data points are saved anonymously aggregated on a hourly, daily,
+These data points are saved anonymously in our primary database aggregated on a hourly, daily,
 weekly, monthly, yearly and overall basis. Counter deletes hourly, daily,
 weekly and monthly statistics after a certain time period. You can e.g. access
 data from this month, but not data from last month. We try to improve your
 users privacy by "forgetting" their data as time passes. We do not keep single
 data points on your users but only statistical, that is aggregated data.
 
-As of the 19. Sept 2022 we are persisting daily data permamentally. Updates on
-how this data is handled may follow.
+As of the 19. Sept 2022 we introduced historical archives persisting daily data permamentally in a separate database. This daily data can be queried aggregated by a specific date range.
 
 ## How do we collect your data?
 
@@ -116,7 +115,7 @@ website, so if you click on a link to another website, you should read their pri
 
 ## Changes to our privacy policy
 Counter keeps its privacy policy under regular review and places any updates on this web page.
-This privacy policy was last updated on 13 May 2022.
+This privacy policy was last updated on 18 May 2023.
 
 ## How to contact us
 If you have any questions about Counter's privacy policy, the data we hold on you, or you would
