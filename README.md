@@ -72,5 +72,4 @@ With the information that is possible for me to gather, it seems that due to the
 
 ## AGPL Licensed
 
-Counter is Open Source for transparency reasons. Although self
-hosting may be possible with some tinkering.
+Counter is Open Source for transparency reasons.
