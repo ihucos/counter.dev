@@ -1,7 +1,5 @@
 [![Awesome Humane Tech](https://raw.githubusercontent.com/humanetech-community/awesome-humane-tech/main/humane-tech-badge.svg?sanitize=true)](https://github.com/humanetech-community/awesome-humane-tech)
 
-### !!! Platform is unavailable due to self made troubles with DNS, see here: https://github.com/ihucos/counter.dev/issues/124 and here: https://twitter.com/DevCounter !!!
-
 # Counter
 
 Shows how many people visit your web application.
