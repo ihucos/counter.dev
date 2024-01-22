@@ -31,6 +31,9 @@ jobs:
       - name: "Install markdown"
         run: apt-get update && apt-get install -y markdown
 
+      - name: "Install pip3"
+        run: apt-get install python3-pip
+
       - name: "Install pelican"
         run: pip3 install pelican Markdown
 
