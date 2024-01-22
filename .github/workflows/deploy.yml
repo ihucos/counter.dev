@@ -9,6 +9,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    container:
+      image: ubuntu:latest
+      options: --sysctl net.ipv6.conf.all.disable_ipv6=0
     steps:
       - env:
           SSH_PRIVATE_KEY: "${{secrets.SSH_PRIVATE_KEY}}"
@@ -16,7 +19,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh/
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/private.key
-          sudo chmod 600 ~/.ssh/private.key
+          chmod 600 ~/.ssh/private.key
         shell: bash
 
       - name: "Checkout"
@@ -26,7 +29,7 @@ jobs:
         uses: actions/setup-python@v2
 
       - name: "Install markdown"
-        run: sudo apt-get update && sudo apt-get install -y markdown
+        run: apt-get update && apt-get install -y markdown
 
       - name: "Install pelican"
         run: pip3 install pelican Markdown
