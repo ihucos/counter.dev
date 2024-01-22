@@ -23,20 +23,20 @@ format:
 
 .PHONY: logs
 logs:
-	ssh root@172.104.148.60 cat log
+	ssh root@counter cat log
 
 .PHONY: logs
 get-newsletter-subscriptions:
-	ssh root@172.104.148.60 scripts/get-newsletter-subscriptions
+	ssh root@counter /state/scripts/get-newsletter-subscriptions
 
-.PHONY: chgprodpwd
-chgprodpwd:
-	ssh root@172.104.148.60 ''. .config/production.sh && python3 scripts/chgpwd.py $(user) $(password)
+# .PHONY: chgprodpwd
+# chgprodpwd:
+# 	ssh root@counter ''. .config/production.sh && python3 scripts/chgpwd.py $(user) $(password)
 
 
-.PHONY: chglocalpwd
-chglocalpwd:
-	. .config/.sh && python3 scripts/chgpwd.py $(user) $(password)
+# .PHONY: chglocalpwd
+# chglocalpwd:
+# 	. .config/.sh && python3 scripts/chgpwd.py $(user) $(password)
 
 .PHONY: build
 build:
@@ -50,21 +50,24 @@ buildlocal:
 .PHONY: deploy
 deploy:
 	make build
-	rsync .config webstats scripts root@172.104.148.60: -av
-	ssh root@172.104.148.60 "pkill -x dtach; sleep 5; dtach -n /tmp/dtach ./scripts/prodrun"
+	rsync .config/makefile.env  root@counter:/state/config/ -v
+	rsync .config/production.sh  root@counter:/state/config/ -v
+	rsync scripts/*  root@counter:/state/scripts/ -av
+	rsync webstats root@counter:/state/webstats
+	ssh root@counter "pkill -x dtach; sleep 5; dtach -n /tmp/dtach /state/scripts/prodrun"
 
 .PHONY: redis-server
 redis-server:
-	scp root@172.104.148.60:/var/lib/redis/dump.rdb /tmp/webstats-production.rdb
+	scp root@counter:/var/lib/redis/dump.rdb /tmp/webstats-production.rdb
 	plash --from alpine:$(alpineversion) --apk redis -- redis-server --dbfilename webstats-production.rdb --dir /tmp
 
 .PHONY: log
 log:
-	ssh root@172.104.148.60 tail log
+	ssh root@counter tail log
 
 .PHONY: integrations
 integrations:
-	ssh root@172.104.148.60 python3 scripts/integrations.py
+	ssh root@counter python3 /state/scripts/integrations.py
 
 
 out/blog: templates/blog/* $(shell find content/posts)
@@ -100,8 +103,8 @@ out/help:
 	mkdir -p out/help
 
 download-archives:
-	ssh root@172.104.148.60 cp /state/db/archive.db /tmp/archive.db
-	scp root@172.104.148.60:/tmp/archive.db /tmp/archive.db
+	ssh root@counter cp /state/db/archive.db /tmp/archive.db
+	scp root@counter:/tmp/archive.db /tmp/archive.db
 
 
 # Snippset needed when setting counter.dev up in new servers

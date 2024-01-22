@@ -2,7 +2,7 @@
 
 while true
 do
-  . .config/production.sh && ./webstats
+  . /state/config/production.sh && /state/webstats
   sleep 1
   echo "died, restarting..."
 done
