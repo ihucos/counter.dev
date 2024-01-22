@@ -31,8 +31,8 @@ jobs:
       - name: "Install markdown"
         run: apt-get update && apt-get install -y markdown
 
-      - name: "Install pip3"
-        run: apt-get -y install python3-pip
+      - name: "Install stuff"
+        run: apt-get -y install python3-pip rsync
 
       - name: "Install timezones stuff?"
         run: pip3 install tzdata pytz
