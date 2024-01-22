@@ -45,7 +45,7 @@ jobs:
         name: "Copy static files"
         run: |
           cd ${{github.workspace}}
-          rsync static/* out/* root@$IP:/state/static/${GITHUB_REF#refs/heads/} -av -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/private.key" --chown=root:root
+          rsync static/* out/* root@[$IP]:/state/static/${GITHUB_REF#refs/heads/} -av -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/private.key" --chown=root:root
         shell: bash
 
       - name: "Cloudflare cache reset"
