@@ -1,0 +1,43 @@
+// Add new manually here
+[
+    "/components/_base.js",
+    "/components/counter-flash.js",
+    "/components/counter-trackingcode.js",
+    "/components/base/editaccount.js",
+    "/components/base/flash.js",
+    "/components/base/footer.js",
+    "/components/base/navbar.js",
+    "/components/base/pwyw.js",
+    "/components/dashboard/_base.js",
+    "/components/dashboard/addbtn.js",
+    "/components/dashboard/connstatus.js",
+    "/components/dashboard/daterangeselector.js",
+    "/components/dashboard/demo-flash.js",
+    "/components/dashboard/download.js",
+    "/components/dashboard/dynamics.js",
+    "/components/dashboard/graph.js",
+    "/components/dashboard/hour.js",
+    "/components/dashboard/languages.js",
+    "/components/dashboard/nodata.js",
+    "/components/dashboard/number.js",
+    "/components/dashboard/pages.js",
+    "/components/dashboard/pie.js",
+    "/components/dashboard/pwyw.js",
+    "/components/dashboard/screens.js",
+    "/components/dashboard/selector.js",
+    "/components/dashboard/settings.js",
+    "/components/dashboard/share-account.js",
+    "/components/dashboard/sources-countries.js",
+    "/components/dashboard/time-graph.js",
+    "/components/dashboard/time.js",
+    "/components/dashboard/visits.js",
+    "/components/dashboard/week-graph.js",
+    "/components/dashboard/week.js",
+    "/components/dashboard/counter/direct.js",
+    "/components/dashboard/counter/search.js",
+    "/components/dashboard/counter/social.js",
+    "/components/dashboard/counter/visitors.js"
+].sort().map(file => {
+	            let script = document.createElement("script");
+	            script.src = file; script.async = false;
+	            document.head.appendChild(script)})
