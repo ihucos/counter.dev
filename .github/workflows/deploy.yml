@@ -15,7 +15,7 @@ jobs:
     steps:
 
       - name: Install packages needed by WARP action
-        run: apt-get update && apt-get install -y sudo curl
+        run: apt-get update && apt-get install -y sudo curl gnupg
 
       - name: Set up WARP
         uses: fscarmen/warp-on-actions@v1.1
