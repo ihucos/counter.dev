@@ -9,10 +9,14 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    container:
-      image: ubuntu:latest
-      options: --sysctl net.ipv6.conf.all.disable_ipv6=0
+
     steps:
+
+      - name: Install packages needed by WARP action
+        run: apt-get update && apt-get install -y sudo curl gnupg lsb-release
+
+      - name: Set up WARP
+        uses: fscarmen/warp-on-actions@v1.1
 
       - env:
           SSH_PRIVATE_KEY: "${{secrets.SSH_PRIVATE_KEY}}"
