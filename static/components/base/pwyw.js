@@ -72,25 +72,21 @@ customElements.define(
                <div id="modal-pwyw" style="display: none">
 				   <div class="modal-header">
 					  <img src="/img/card.svg" width="24" height="24" alt="Sources" />
-					  <h3 class="ml16">Pay what you want</h3>
+					  <h3 class="ml16">Pay what you can</h3>
 					  <a href="#" class="btn-close" rel="modal:close" style="visibility: visible;"></a>
 				   </div>
 				   <div class="modal-content">
                       <div>
-                        Thanks for using counter for free. Consider
-                        paying a service fee. Your contribution will be used to cover
-                        development and maintenance. <a href="mailto:hey@counter.dev">Contact us</a> for anything.
+                        Thank you for using counter for free. If you are able to, please pay for this service.
                       </div>
 					  <section class="mt8 mb16 plans">
-						 <div>
-							<input type="radio" name="plan" value="2" />
-                            <label>2&euro; per month</label>
-						 </div>
+
+                        <h5 class="mt8 gray">Starter</h5>
 						 <div class="highlightable">
 							<input type="radio" name="plan" value="3" />
                             <label>3&euro; per month</label>
 						 </div>
-						 <div class="highlightable">
+						 <div>
 							<input type="radio" name="plan" value="5" />
                             <label>5&euro; per month</label>
 						 </div>
@@ -98,6 +94,8 @@ customElements.define(
 							<input type="radio" name="plan" value="7" />
                             <label>7&euro; per month</label>
 						 </div>
+
+                        <h5 class="mt8 gray">Intermediate</h5>
 						 <div class="highlightable">
 							<input type="radio" name="plan" value="20" />
                             <label>20&euro; per month</label>
@@ -109,6 +107,19 @@ customElements.define(
 						 <div>
 							<input type="radio" name="plan" value="30" />
                             <label>30&euro; per month</label>
+
+                        <h5 class="mt8 gray">Hight Traffic</h5>
+						 <div class="highlightable">
+							<input type="radio" name="plan" value="70" />
+                            <label>70&euro; per month</label>
+						 </div>
+						 <div>
+							<input type="radio" name="plan" value="90" />
+                            <label>90&euro; per month</label>
+						 </div>
+						 <div>
+							<input type="radio" name="plan" value="120" />
+                            <label>120&euro; per month</label>
 						 </div>
 					  </section>
                       <div class="paypal-btn-wrapper mt24">
@@ -116,7 +127,6 @@ customElements.define(
                   </div>
               </div>`;
 
-            this.setupPayPalButton(2, userDump.user.id)
             this.setupPayPalButton(3, userDump.user.id)
             this.setupPayPalButton(5, userDump.user.id)
             this.setupPayPalButton(7, userDump.user.id)
@@ -124,6 +134,9 @@ customElements.define(
             this.setupPayPalButton(20, userDump.user.id)
             this.setupPayPalButton(25, userDump.user.id)
             this.setupPayPalButton(30, userDump.user.id)
+            this.setupPayPalButton(70, userDump.user.id)
+            this.setupPayPalButton(90, userDump.user.id)
+            this.setupPayPalButton(120, userDump.user.id)
 
             $("input[type=radio][name=plan]").change(function() {
                 $(".paypal-btn").hide()
@@ -195,24 +208,21 @@ customElements.define(
         }
 
         highlightPersonalizedSuggestion(dump){
-            var FIVE_EUROS_SUGGESTION = 0
-            var SEVEN_EUROS_SUGGESTION = 1
-            var TWENTYFIVE_EUROS_SUGGESTION = 2
 
             var allHitsPerDay =Object.values(dump.sites).map( // for every site
                 (i) => Object.entries(i.visits.all.date).sort().slice(-7).map( // get the 7 latest dates
                     (i) => i[1]).reduce(function(pv, cv) {return pv + cv; }, 0) / 7 // sum them and divide by 7
             ).reduce(function(pv, cv) { return pv + cv;}, 0) // sum all sites
 
-            var suggestion = FIVE_EUROS_SUGGESTION
-            if (allHitsPerDay > 70){
-                suggestion = SEVEN_EUROS_SUGGESTION
+            var suggestionTier = 0
+            if (allHitsPerDay > 1000){
+                suggestionTier = 1
             }
-            if (allHitsPerDay > 5000){
-                suggestion = TWENTYFIVE_EUROS_SUGGESTION
+            if (allHitsPerDay > 10000){
+                suggestionTier = 2
             }
 
-            this.querySelectorAll('.highlightable')[suggestion].classList.add('highlight')
+            this.querySelectorAll('.highlightable')[suggestionTier].classList.add('highlight')
             this.querySelector("#modal-pwyw .highlight + div input").setAttribute('checked', 'checked')
 
             let val = $("input[type=radio][name=plan]:checked").val()
