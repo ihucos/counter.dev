@@ -107,6 +107,7 @@ customElements.define(
 						 <div>
 							<input type="radio" name="plan" value="30" />
                             <label>30&euro; per month</label>
+                        </div>
 
                         <h5 class="mt8 gray">Hight Traffic</h5>
 						 <div class="highlightable">
