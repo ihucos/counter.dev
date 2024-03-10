@@ -13,7 +13,7 @@ customElements.define(
                               height="32"
                               alt="Logotype"
                             />
-                            <div class="caption gray">© 2023 Counter. All rights reserved.</div>
+                            <div class="caption gray">© 2024 Counter. All rights reserved.</div>
                           </div>
                           <nav class="nav-footer">
                             <div class="nav-footer-one">
