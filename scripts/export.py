@@ -56,7 +56,7 @@ user_data = {k: v for (k, v) in sorted(user_data.items(),
 
 
 # print the data
-print(f'''user,login,first_date,last_date,mail,hits''')
+print(f'''user,login,first_date,last_date,mail,hits,dashboard_access''')
 for (user, d) in user_data.items():
 
     if b',' in user:
