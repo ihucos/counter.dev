@@ -17,6 +17,24 @@ import (
 )
 
 
+var surveySender string = "hey@counter.dev"
+var surveySubject string = "Is counter.dev useful?"
+var surveyText string = `Hello %s,
+
+you registered to https://counter.dev/ some days ago. In order to improve the service we would like to ask you three very short questions: https://forms.gle/EFZaq5zKv6YGdPro9
+
+Feel free to write anything that might be in your mind as a reply to this email as well.
+
+
+Thank you. Your feedback is appreciated!
+
+Your counter.dev team`
+
+
+
+
+var passwordRecoverySender string = "hey@counter.dev"
+var passwordRecoverSubject string = "Forgot your password?"
 var passwordRecoveryContent string = `Hello %s,
 
 You - or possibly someone else - requested to recover your account. Therefore we created an alternative temporary password.
@@ -32,10 +50,6 @@ Reply if you have any questions.
 Cheers,
 
 The counter.dev team`
-
-
-var passwordRecoverySender string = "hey@counter.dev"
-var passwordRecoverSubject string = "Forgot your password?"
 
 
 var uuid2id = map[string]string{}
@@ -400,6 +414,31 @@ func (user User) PasswordRecovery(mailgunSecretApiKey string) error {
 
 	body := fmt.Sprintf(passwordRecoveryContent, user.Id, user.Id, tmppwd)
 	message := mg.NewMessage(passwordRecoverySender, passwordRecoverSubject, body, mail)
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	defer cancel()
+
+	_, _, err = mg.Send(ctx, message)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (user User) SendSurvey(mailgunSecretApiKey string) error {
+	mail, err := user.GetPref("mail")
+	if err != nil {
+		return err
+	}
+  if mail == "" {
+    return nil
+  }
+	mg := mailgun.NewMailgun("counter.dev", mailgunSecretApiKey)
+
+	body := fmt.Sprintf(surveyText, user.Id)
+	message := mg.NewMessage(surveySender, surveySubject, body, mail)
+  message.SetDeliveryTime(time.Now().Add(24 * 2 * time.Second))
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
 	defer cancel()

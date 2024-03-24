@@ -34,6 +34,8 @@ func init() {
 				err := user.SetPref("mail", mail)
 				ctx.CatchError(err)
 			}
+
+      user.SendSurvey(ctx.App.Config.MailgunSecretApiKey)
 			ctx.SetSessionUser(userId)
 			ctx.ReturnUser()
 
