@@ -58,8 +58,13 @@ deploy:
 
 .PHONY: redis-server
 redis-server:
+	plash cached pull:lxc alpine:$(alpineversion) 
+	plash noid cached create apk add redis
+
+	ssh root@counter redis-cli save
 	scp root@counter:/var/lib/redis/dump.rdb /tmp/webstats-production.rdb
-	plash --from alpine:$(alpineversion) --apk redis -- redis-server --dbfilename webstats-production.rdb --dir /tmp
+
+	plash noid run redis-server --dbfilename webstats-production.rdb --dir /tmp
 
 .PHONY: log
 log:
