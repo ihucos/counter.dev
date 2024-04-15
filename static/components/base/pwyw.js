@@ -9,7 +9,7 @@ customElements.define(
                    <div class="donate-wrap">
                      <div class="donate-icon"></div>
                      <div class="donate-description">
-                       <div class="h3 mb8">Pay what you want</div>
+                       <div class="h3 mb8">Pay when ready</div>
                        <div class="gray">
                          Our main goal is to provide the smoothest Web Analytics experience
                          possible.
@@ -72,7 +72,7 @@ customElements.define(
                <div id="modal-pwyw" style="display: none">
 				   <div class="modal-header">
 					  <img src="/img/card.svg" width="24" height="24" alt="Sources" />
-					  <h3 class="ml16">Pay what you can</h3>
+					  <h3 class="ml16">Pay when ready</h3>
 					  <a href="#" class="btn-close" rel="modal:close" style="visibility: visible;"></a>
 				   </div>
 				   <div class="modal-content">
