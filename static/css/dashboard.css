@@ -483,10 +483,13 @@
   .graph,
   .metrics-headline,
   .sources-countries-data,
-  .visits-date,
+  /* .visits-date, */
   .headline-right img,
   .project img {
     display: none;
+  }
+  .visits-referrer {
+    width: 140px;
   }
   .metrics-one {
     margin: 8px 0 16px 0;
@@ -550,6 +553,11 @@
   }
   .metrics-three-data {
     margin: 0;
+  }
+  .metrics-three-data-content,
+  .metrics-three-data-headline {
+    padding-left: 16px;
+    padding-right: 16px;
   }
   .languages-screens-group {
     width: 100%;
