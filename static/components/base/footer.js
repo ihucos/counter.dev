@@ -39,7 +39,6 @@ customElements.define(
                                 target="_blank"
                                 rel="nofollow"
                               ></a>
-                              <a href="https://twitter.com/DevCounter" class="twitter" target="_blank" rel="nofollow"></a>
                             </div>
                             <div class="caption gray">
                               Have a question? –

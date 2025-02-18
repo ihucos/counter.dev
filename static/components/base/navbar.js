@@ -187,12 +187,6 @@ Let's hope this madness stops eventually and things become more normal.
                        target="_blank"
                        rel="nofollow"
                      ></a>
-                     <a
-                       href="https://twitter.com/DevCounter"
-                       class="twitter-blue mr32"
-                       target="_blank"
-                       rel="nofollow"
-                     ></a>
                      <div class="has-user dropdown" style="display: none">
                        <div class="profile-user fill-username"></div>
                        <div class="dropdown-content">
