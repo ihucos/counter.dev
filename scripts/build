@@ -10,5 +10,7 @@
 
 
 cd backend
-# exec env GOOS=linux GOARCH=amd64  CC=x86_64-linux-gnu-gcc CGO_ENABLED=1 \
-go build -a -ldflags '-linkmode external -extldflags "-static"'  -o ../webstats
+# exec env GOOS=linux GOARCH=amd64  CC=aarch64-unknown-linux-gnu-gcc CGO_ENABLED=1 \
+# go build -a -ldflags '-linkmode external -extldflags "-static"'  -o ../webstats
+#
+exec env GOOS=linux go build -o ../webstats

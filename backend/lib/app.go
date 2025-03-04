@@ -17,7 +17,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 	"github.com/gorilla/sessions"
 
-	"gorm.io/driver/sqlite"
+	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 )
 
