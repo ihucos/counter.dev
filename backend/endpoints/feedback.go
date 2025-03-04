@@ -1,11 +1,9 @@
 package endpoints
 
 import (
-	"context"
 	"fmt"
 	"github.com/ihucos/counter.dev/lib"
-	"github.com/mailgun/mailgun-go/v4"
-	"time"
+	"gopkg.in/gomail.v2"
 )
 
 func init() {
@@ -16,21 +14,26 @@ func init() {
 			ctx.ReturnBadRequest("No input given.")
 		}
 		user := ctx.GetUserId()
-		mg := mailgun.NewMailgun("counter.dev", ctx.App.Config.MailgunSecretApiKey)
+		m := gomail.NewMessage()
+
+		m.SetHeader("From", "hey@counter.dev")
+		m.SetHeader("To", "hey@counter.dev")
+		m.SetBody("text/plain", feedback)
+
 		var title string
 		if user == "" {
 			title = "User feedback received"
 		} else {
 			title = fmt.Sprintf("User feedback received from %s", user)
 		}
-                if mail != "" {
-                    title += fmt.Sprintf(" (%s)", mail)
-                }
-		message := mg.NewMessage("hey@counter.dev", title, feedback, "hey@counter.dev")
-		c, cancel := context.WithTimeout(context.Background(), time.Second*30)
-		defer cancel()
-		_, _, err := mg.Send(c, message)
+		if mail != "" {
+			title += fmt.Sprintf(" (%s)", mail)
+		}
+		m.SetHeader("Subject", title)
 
+		d := gomail.NewDialer("smtp.protonmail.ch", 587, "hey@counter.dev", ctx.App.Config.SMTPSecret)
+
+		err := d.DialAndSend(m)
 		if err != nil {
 			ctx.CatchError(err)
 		}

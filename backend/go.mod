@@ -9,6 +9,8 @@ require (
 	github.com/mailgun/mailgun-go/v4 v4.8.1
 	github.com/xavivars/uasurfer v0.0.0-20210227184249-298e5855ffd5
 	golang.org/x/text v0.3.8
+	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
+	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df // indirect
 	gorm.io/driver/sqlite v1.3.2
 	gorm.io/gorm v1.23.5
 )

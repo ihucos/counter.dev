@@ -14,6 +14,7 @@ type Config struct {
 	ArchiveDatabase string
 	ArchiveMaxAge time.Duration
 	MailgunSecretApiKey string
+	SMTPSecret string
 }
 
 func env(env string) string {
@@ -50,6 +51,6 @@ func NewConfigFromEnv() Config {
 		ArchiveDatabase: env("WEBSTATS_ARCHIVE_DATABASE"),
 		ArchiveMaxAge: envDuration("WEBSTATS_ARCHIVE_MAX_AGE"),
 		MailgunSecretApiKey:     envDefault("WEBSTATS_MAILGUN_SECRET_API_KEY", "dummy"),
+		SMTPSecret:     envDefault("WEBSTATS_SMTP_SECREET", "dummy"),
 	}
-
 }
