@@ -17,12 +17,12 @@ started:
 6. Save the changes to the Header section.
 
 7. Verify that the tracking code has been properly installed by visiting your
-website and opening the developer console (usually done by pressing F12). The
-console should not display any errors and the network tab should show that the
-Counter.dev script has been loaded.
+   website and opening the developer console (usually done by pressing F12). The
+   console should not display any errors and the network tab should show that the
+   Counter.dev script has been loaded.
 
 8. Log in to your Counter.dev account and check the analytics dashboard to see
-if your Squarespace website is being tracked.
+   if your Squarespace website is being tracked.
 
 Congratulations! You have successfully integrated the Counter.dev tracking
 script into your Squarespace website and can now start tracking visitors and

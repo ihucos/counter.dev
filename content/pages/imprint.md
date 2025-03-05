@@ -7,17 +7,14 @@
 
 # Imprint
 
-*Information in accordance with section 5 TMG:*
+_Information in accordance with section 5 TMG:_
 
 Irae Hueck Costa<br/>
 10829 Berlin<br/>
 E-Mail: hey@counter.dev
 
-
-
 Person responsible for content in accordance with 55 Abs. 2 RStV<br/>
 Irae Hueck Costa
-
 
 ## Accountability for content
 
@@ -30,8 +27,6 @@ parties, or investigate circumstances pointing to illegal activity. Our
 obligations to remove or block the use of information under generally
 applicable laws remain unaffected by this as per §§ 8 to 10 of the Telemedia
 Act (TMG).
-
-
 
 ## Accountability for links
 
