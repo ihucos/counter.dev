@@ -18,8 +18,8 @@ tests:
 
 .PHONY: format
 format:
-	plash --from alpine:$(alpineversion) --apk npm --run 'npm i prettier --global' -- prettier --html-whitespace-sensitivity ignore --write .
 	find -type f -name \*.go | xargs -L1 go fmt
+	prettier --html-whitespace-sensitivity ignore --write .
 
 .PHONY: logs
 logs:
