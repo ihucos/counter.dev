@@ -35,7 +35,6 @@ func init() {
 				ctx.CatchError(err)
 			}
 
-      user.SendSurvey(ctx.App.Config.SMTPSecret)
 			ctx.SetSessionUser(userId)
 			ctx.ReturnUser()
 

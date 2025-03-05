@@ -353,6 +353,13 @@ function dGroupDates(dates) {
         return acc;
     }, {});
 
+
+    let groupedByYear = Object.entries(dates).reduce((acc, val) => {
+        let group = moment(val[0]).format("YYYY");
+        acc[group] = (acc[group] || 0) + val[1];
+        return acc;
+    }, {});
+
     var groupedDates = dates;
     if (Object.keys(groupedDates).length > 31) {
         groupedDates = groupedByWeek;
@@ -361,6 +368,8 @@ function dGroupDates(dates) {
             groupedDates = groupedByMonth;
         }
     }
+
+    groupedDates = groupedByYear
 
     return [Object.keys(groupedDates), Object.values(groupedDates)];
 }

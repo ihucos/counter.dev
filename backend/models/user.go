@@ -6,16 +6,13 @@ import (
 	"encoding/base64"
 	"fmt"
 	"strings"
-	"time"
-	"context"
 
 	"github.com/gomodule/redigo/redis"
-	"github.com/ihucos/counter.dev/utils"
-	"gorm.io/gorm"
 	uuidLib "github.com/google/uuid"
-	"github.com/mailgun/mailgun-go/v4"
+	"github.com/ihucos/counter.dev/utils"
+	"gopkg.in/gomail.v2"
+	"gorm.io/gorm"
 )
-
 
 var surveySender string = "hey@counter.dev"
 var surveySubject string = "Is counter.dev useful?"
@@ -29,9 +26,6 @@ Feel free to write anything that might be in your mind as a reply to this email 
 Thank you. Your feedback is appreciated!
 
 Your counter.dev team`
-
-
-
 
 var passwordRecoverySender string = "hey@counter.dev"
 var passwordRecoverSubject string = "Forgot your password?"
@@ -51,13 +45,12 @@ Cheers,
 
 The counter.dev team`
 
-
 var uuid2id = map[string]string{}
 
 type User struct {
-	redis redis.Conn
-	db    *gorm.DB
-	Id    string
+	redis        redis.Conn
+	db           *gorm.DB
+	Id           string
 	passwordSalt string
 }
 
@@ -93,13 +86,13 @@ func NewUser(conn redis.Conn, userId string, db *gorm.DB, passwordSalt []byte) U
 	return User{redis: conn, Id: truncate(userId), passwordSalt: string(passwordSalt), db: db}
 }
 
-func NewUserByCachedUUID(conn redis.Conn, uuid string, db *gorm.DB, passwordSalt []byte) (User, error){
+func NewUserByCachedUUID(conn redis.Conn, uuid string, db *gorm.DB, passwordSalt []byte) (User, error) {
 	var err error
 	// Basically we must 'id' here so it can be set inside the if clause
 	var id string
 	var ok bool
 	id, ok = uuid2id[uuid]
-	if ! ok {
+	if !ok {
 		// hit the redis db
 		id, err = redis.String(conn.Do("HGET", "uuid2id", uuid))
 		if err == redis.ErrNil {
@@ -150,9 +143,8 @@ func (user User) ReadToken() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return  base64.URLEncoding.EncodeToString([]byte(token)), nil
+	return base64.URLEncoding.EncodeToString([]byte(token)), nil
 }
-
 
 func (user User) ReadUUID() (string, error) {
 	return redis.String(user.redis.Do("HGET", "id2uuid", user.Id))
@@ -253,7 +245,6 @@ func (user User) VerifyTmpPassword(tmpPassword string) (bool, error) {
 	return hashedTmpPassword != "" && hashedTmpPassword == user.hashPassword(tmpPassword), nil
 }
 
-
 func (user User) VerifyPasswordOrTmpPassword(password string) (bool, error) {
 
 	// validate as password
@@ -277,7 +268,7 @@ func (user User) VerifyPasswordOrTmpPassword(password string) (bool, error) {
 }
 
 func (user User) NewTmpPassword() (string, error) {
-	expire := 60 * 15  // 15 minutes
+	expire := 60 * 15 // 15 minutes
 	tmpPassword := base64.URLEncoding.EncodeToString([]byte(randToken()[:8]))
 	_, err := user.redis.Do("SETEX",
 		fmt.Sprintf("tmppwd:%s", user.Id), expire, user.hashPassword(tmpPassword))
@@ -400,8 +391,7 @@ func (user User) HandleSignals(conn redis.Conn, cb func(error)) {
 	}
 }
 
-
-func (user User) PasswordRecovery(mailgunSecretApiKey string) error {
+func (user User) PasswordRecovery(SMTPSecret string) error {
 	mail, err := user.GetPref("mail")
 	if err != nil {
 		return err
@@ -410,56 +400,30 @@ func (user User) PasswordRecovery(mailgunSecretApiKey string) error {
 	if err != nil {
 		return err
 	}
-	mg := mailgun.NewMailgun("counter.dev", mailgunSecretApiKey)
 
 	body := fmt.Sprintf(passwordRecoveryContent, user.Id, user.Id, tmppwd)
-	message := mg.NewMessage(passwordRecoverySender, passwordRecoverSubject, body, mail)
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
-	defer cancel()
+	m := gomail.NewMessage()
+	m.SetHeader("From", passwordRecoverySender)
+	m.SetHeader("To", mail)
+	m.SetHeader("Subject", passwordRecoverSubject)
+	m.SetBody("text/plain", body)
 
-	_, _, err = mg.Send(ctx, message)
-
+	d := gomail.NewDialer("smtp.protonmail.ch", 587, "hey@counter.dev", SMTPSecret)
+	err = d.DialAndSend(m)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (user User) SendSurvey(mailgunSecretApiKey string) error {
-	mail, err := user.GetPref("mail")
-	if err != nil {
-		return err
-	}
-  if mail == "" {
-    return nil
-  }
-	mg := mailgun.NewMailgun("counter.dev", mailgunSecretApiKey)
-
-	body := fmt.Sprintf(surveyText, user.Id)
-	message := mg.NewMessage(surveySender, surveySubject, body, mail)
-  message.SetDeliveryTime(time.Now().Add(24 * 2 * time.Second))
-
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
-	defer cancel()
-
-	_, _, err = mg.Send(ctx, message)
-
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-
-func (user User) RegisterSubscriptionID(subscriptionID string) error{
+func (user User) RegisterSubscriptionID(subscriptionID string) error {
 	_, err := user.redis.Do("HSET", "subscription", user.Id, subscriptionID)
 	if err != nil {
 		return err
 	}
 	return nil
 }
-
 
 func (user User) ReadSubscriptionID() (string, error) {
 	val, err := redis.String(user.redis.Do("HGET", "subscription", user.Id))

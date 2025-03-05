@@ -24,7 +24,7 @@ func init() {
 			ctx.NoAutoCleanup()
 			go func(){
 				defer ctx.Cleanup()
-				err = claimedUser.PasswordRecovery(ctx.App.Config.MailgunSecretApiKey)
+				err = claimedUser.PasswordRecovery(ctx.App.Config.SMTPSecret)
 				if err != nil {
 					ctx.App.Logger.Printf("password recovery: %s\n", err)
 				}
