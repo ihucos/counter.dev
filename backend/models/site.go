@@ -2,11 +2,11 @@ package models
 
 import (
 	"fmt"
+	"gorm.io/gorm"
 	"math/rand"
 	"net/url"
-	"time"
 	"strings"
-	"gorm.io/gorm"
+	"time"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/utils"
@@ -62,24 +62,24 @@ func NewVisitItemKey(key string) VisitItemKey {
 }
 
 func (vik VisitItemKey) RedisType() string {
-    for _, i := range fieldsHash {
-        if i == vik.Field {
-            return "hash"
-        }
-    }
-    for _, i := range fieldsZet {
-        if i == vik.Field {
-            return "zet"
-        }
-    }
-    return ""
+	for _, i := range fieldsHash {
+		if i == vik.Field {
+			return "hash"
+		}
+	}
+	for _, i := range fieldsZet {
+		if i == vik.Field {
+			return "zet"
+		}
+	}
+	return ""
 }
 
 type Site struct {
 	redis  redis.Conn
 	id     string
 	userId string
-	db *gorm.DB
+	db     *gorm.DB
 }
 
 // taken from here at August 2020:
@@ -240,7 +240,6 @@ func (site Site) delHotVisits() error {
 	site.delVisitPart("all")
 	return nil
 }
-
 
 func (site Site) delArchiveVisits() error {
 	err := site.db.Table("records").Where("origin = ?", site.id).Delete(nil).Error

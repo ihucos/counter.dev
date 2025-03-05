@@ -1,4 +1,3 @@
-
 package endpoints
 
 import (

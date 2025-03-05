@@ -113,7 +113,7 @@ func init() {
 		if country == "" {
 			country = ctx.R.Header.Get("CF-IPCountry")
 		}
-		
+
 		if country != "" && country != "XX" {
 			visit["country"] = strings.ToLower(country)
 		}

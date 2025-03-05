@@ -5,17 +5,17 @@ import (
 	"time"
 
 	"github.com/gomodule/redigo/redis"
-	"github.com/ihucos/counter.dev/utils"
 	"github.com/ihucos/counter.dev/lib"
 	"github.com/ihucos/counter.dev/models"
+	"github.com/ihucos/counter.dev/utils"
 )
 
 type UserDump struct {
-	Id    string            `json:"id"`
-	Token string            `json:"token"`
-	UUID string            `json:"uuid"`
-	IsSubscribed bool `json:"isSubscribed"`
-	Prefs map[string]string `json:"prefs"`
+	Id           string            `json:"id"`
+	Token        string            `json:"token"`
+	UUID         string            `json:"uuid"`
+	IsSubscribed bool              `json:"isSubscribed"`
+	Prefs        map[string]string `json:"prefs"`
 }
 
 type SitesDumpVal struct {
@@ -127,7 +127,7 @@ func init() {
 
 		user.TouchDump()
 
-		archive := make(map[string]lib.QueryArchiveResult) 
+		archive := make(map[string]lib.QueryArchiveResult)
 		now := utils.TimeNow(utcOffset)
 		var err error
 
@@ -147,7 +147,6 @@ func init() {
 
 		oldestArchiveDate, err := ctx.App.QueryArchiveOldestDate(user.Id)
 		ctx.CatchError(err)
-
 
 		ctx.SendEventSourceData(EventSourceData{
 			Type:    "oldest-archive-date",

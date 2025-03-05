@@ -19,10 +19,10 @@ type UserDataResp struct {
 }
 
 type Ctx struct {
-	W         http.ResponseWriter
-	R         *http.Request
-	OpenConns []io.Closer
-	App       *App
+	W             http.ResponseWriter
+	R             *http.Request
+	OpenConns     []io.Closer
+	App           *App
 	noAutoCleanup bool
 }
 
@@ -205,7 +205,6 @@ func (ctx *Ctx) CheckMethod(methods ...string) {
 	}
 }
 
-
 func (ctx *Ctx) SendEventSourceData(data interface{}) {
 	jsonBin, err := json.Marshal(data)
 	ctx.CatchError(err)
@@ -216,7 +215,6 @@ func (ctx *Ctx) SendEventSourceData(data interface{}) {
 	}
 	f.Flush()
 }
-
 
 func (ctx *Ctx) NoAutoCleanup() {
 	ctx.noAutoCleanup = true

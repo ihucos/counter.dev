@@ -18,7 +18,7 @@ tests:
 
 .PHONY: format
 format:
-	find -type f -name \*.go | xargs -L1 go fmt
+	find backend -type f -name \*.go | xargs -L1 go fmt
 	prettier --html-whitespace-sensitivity ignore --write .
 
 .PHONY: logs

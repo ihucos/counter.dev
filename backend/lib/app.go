@@ -7,10 +7,10 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strings"
 	"time"
-	"regexp"
 
 	"log"
 
@@ -44,7 +44,7 @@ func (ah appAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := ah.App.NewContext(w, r)
 	go func() {
 		<-r.Context().Done()
-		if ! ctx.noAutoCleanup {
+		if !ctx.noAutoCleanup {
 			ctx.Cleanup()
 		}
 	}()
@@ -132,7 +132,7 @@ func NewApp() *App {
 			} else {
 				prefix = "./static"
 			}
-		} else if r.Host == "counter.dev"|| r.Host == "counter" || r.Host == "simple-web-analytics.com" {
+		} else if r.Host == "counter.dev" || r.Host == "counter" || r.Host == "simple-web-analytics.com" {
 			prefix = "/state/static/master"
 		} else if r.Host == "www.counter.dev" || r.Host == "www.simple-web-analytics.com" {
 			prefix = "/state/static/master"

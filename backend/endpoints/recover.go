@@ -22,7 +22,7 @@ func init() {
 			ctx.LogEvent("recovery")
 
 			ctx.NoAutoCleanup()
-			go func(){
+			go func() {
 				defer ctx.Cleanup()
 				err = claimedUser.PasswordRecovery(ctx.App.Config.SMTPSecret)
 				if err != nil {

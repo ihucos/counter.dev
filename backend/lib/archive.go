@@ -86,10 +86,10 @@ func (app *App) archiveHotVisitsPartForce(cursor int) int {
 	app.Logger.Printf(
 		"archiving visits failed, will retry later: %s\n", err)
 	time.Sleep(30 * time.Second)
-	app.Logger.Printf( "archiving visits will retry now")
+	app.Logger.Printf("archiving visits will retry now")
 	cursor, err = app.archiveHotVisitsPart(cursor)
 	if err == nil {
-		app.Logger.Printf( "archiving visits recovered")
+		app.Logger.Printf("archiving visits recovered")
 		return cursor
 	}
 	panic(err)
@@ -212,7 +212,6 @@ func (app *App) QueryArchive(queryArgs QueryArchiveArgs) (QueryArchiveResult, er
 	}
 	return visits, nil
 }
-
 
 func (app *App) QueryArchiveOldestDate(userId string) (string, error) {
 	var date string

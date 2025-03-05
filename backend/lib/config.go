@@ -7,14 +7,14 @@ import (
 )
 
 type Config struct {
-	RedisUrl     string
-	Bind         string
-	CookieSecret []byte
-	PasswordSalt []byte
-	ArchiveDatabase string
-	ArchiveMaxAge time.Duration
+	RedisUrl            string
+	Bind                string
+	CookieSecret        []byte
+	PasswordSalt        []byte
+	ArchiveDatabase     string
+	ArchiveMaxAge       time.Duration
 	MailgunSecretApiKey string
-	SMTPSecret string
+	SMTPSecret          string
 }
 
 func env(env string) string {
@@ -32,7 +32,6 @@ func envDefault(env string, fallback string) string {
 	return v
 }
 
-
 func envDuration(envName string) time.Duration {
 	strVal := env(envName)
 	duration, err := time.ParseDuration(strVal)
@@ -44,13 +43,13 @@ func envDuration(envName string) time.Duration {
 
 func NewConfigFromEnv() Config {
 	return Config{
-		RedisUrl:     envDefault("WEBSTATS_REDIS_URL", "redis://localhost:6379"),
-		Bind:         envDefault("WEBSTATS_BIND", ":8000"),
-		CookieSecret: []byte(env("WEBSTATS_COOKIE_SECRET")),
-		PasswordSalt: []byte(env("WEBSTATS_PASSWORD_SALT")),
-		ArchiveDatabase: env("WEBSTATS_ARCHIVE_DATABASE"),
-		ArchiveMaxAge: envDuration("WEBSTATS_ARCHIVE_MAX_AGE"),
-		MailgunSecretApiKey:     envDefault("WEBSTATS_MAILGUN_SECRET_API_KEY", "dummy"),
-		SMTPSecret:     envDefault("WEBSTATS_SMTP_SECRET", "dummy"),
+		RedisUrl:            envDefault("WEBSTATS_REDIS_URL", "redis://localhost:6379"),
+		Bind:                envDefault("WEBSTATS_BIND", ":8000"),
+		CookieSecret:        []byte(env("WEBSTATS_COOKIE_SECRET")),
+		PasswordSalt:        []byte(env("WEBSTATS_PASSWORD_SALT")),
+		ArchiveDatabase:     env("WEBSTATS_ARCHIVE_DATABASE"),
+		ArchiveMaxAge:       envDuration("WEBSTATS_ARCHIVE_MAX_AGE"),
+		MailgunSecretApiKey: envDefault("WEBSTATS_MAILGUN_SECRET_API_KEY", "dummy"),
+		SMTPSecret:          envDefault("WEBSTATS_SMTP_SECRET", "dummy"),
 	}
 }
