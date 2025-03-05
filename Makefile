@@ -10,7 +10,7 @@ export
 .PHONY: devserver
 devserver:
 	make buildlocal
-	PLASH_EXPORT=WEBSTATS_MAILGUN_SECRET_API_KEY . .config/dev.sh && exec ./webstats
+	. .config/dev.sh && exec ./webstats
 
 .PHONY: tests
 tests:
@@ -56,15 +56,17 @@ deploy:
 	rsync webstats root@counter:/state/webstats
 	ssh root@counter "pkill -x dtach; sleep 5; dtach -n /tmp/dtach /state/scripts/prodrun"
 
+
+.PHONY: redis-server-download
+redis-server-download:
+	ssh root@counter cp /var/lib/redis/dump.rdb  /tmp	
+	rsync -avP --append root@counter:/tmp/dump.rdb /tmp/webstats-production.rdb
+
+
+
 .PHONY: redis-server
 redis-server:
-	plash cached pull:lxc alpine:$(alpineversion) 
-	plash noid cached create apk add redis
-
-	ssh root@counter redis-cli save
-	scp root@counter:/var/lib/redis/dump.rdb /tmp/webstats-production.rdb
-
-	plash noid run redis-server --dbfilename webstats-production.rdb --dir /tmp
+	docker run -v /tmp/:/tmp -ti redis redis-server --dbfilename webstats-production.rdb --dir /tmp
 
 .PHONY: log
 log:
