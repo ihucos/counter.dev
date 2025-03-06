@@ -15,10 +15,26 @@ customElements.define(
                     labels: ["Mo.", "Tu.", "We.", "Th.", "Fr.", "Sa.", "Su."],
                     datasets: [
                         {
-                            data: this.emptyIfSumZero([entries[1] || 0, entries[2] || 0, entries[3] || 0, entries[4] || 0, entries[5] || 0, entries[6] || 0, entries[0] || 0]),
+                            data: this.emptyIfSumZero([
+                                entries[1] || 0,
+                                entries[2] || 0,
+                                entries[3] || 0,
+                                entries[4] || 0,
+                                entries[5] || 0,
+                                entries[6] || 0,
+                                entries[0] || 0,
+                            ]),
                             label: "Visits",
                             borderWidth: 0,
-                            backgroundColor: ["#147EFB", "#FC3158", "#53D769", "#FECB2E", "#FD9426", "#5FC9F8", "#9E9E9E"],
+                            backgroundColor: [
+                                "#147EFB",
+                                "#FC3158",
+                                "#53D769",
+                                "#FECB2E",
+                                "#FD9426",
+                                "#5FC9F8",
+                                "#9E9E9E",
+                            ],
                         },
                     ],
                 },
@@ -60,5 +76,5 @@ customElements.define(
                 },
             };
         }
-    },
+    }
 );

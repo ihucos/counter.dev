@@ -1,5 +1,6 @@
 class Counter extends HTMLElement {
-    topLevelDomainRe = /(?:www\.){0,1}([-\w]+\.(?:[-\w]+\.xn--[-\w]+|[-\w]{2,}|[-\w]+\.[-\w]{2})$)/i;
+    topLevelDomainRe =
+        /(?:www\.){0,1}([-\w]+\.(?:[-\w]+\.xn--[-\w]+|[-\w]{2,}|[-\w]+\.[-\w]{2})$)/i;
 
     nextTime = {
         day: "yesterday",
@@ -17,8 +18,13 @@ class Counter extends HTMLElement {
         let nextCurTime = this.nextTime[curTime];
         let nextCount = this.count(allVisits[nextCurTime]);
 
-        let datesPassedCurTime = Object.keys(dFillDatesToNow(allVisits[curTime].date, utcoffset), utcoffset).length;
-        let datesPassedNextTime = Object.keys(dFillDatesToNow(allVisits[nextCurTime].date, utcoffset)).length;
+        let datesPassedCurTime = Object.keys(
+            dFillDatesToNow(allVisits[curTime].date, utcoffset),
+            utcoffset
+        ).length;
+        let datesPassedNextTime = Object.keys(
+            dFillDatesToNow(allVisits[nextCurTime].date, utcoffset)
+        ).length;
 
         // hotfix: yesteday is special because it is a point in time and not time range
         // starting from now
@@ -31,7 +37,9 @@ class Counter extends HTMLElement {
 
         let perThisTimeRange = count / datesPassedCurTime;
         let perNextTimeRange = nextCount / datesPassedNextTime;
-        let percent = Math.round((perThisTimeRange / perNextTimeRange - 1) * 100);
+        let percent = Math.round(
+            (perThisTimeRange / perNextTimeRange - 1) * 100
+        );
 
         let trend;
         let percentRepr;
@@ -65,7 +73,10 @@ class Counter extends HTMLElement {
     }
 
     count(visits) {
-        return Object.entries(visits.ref).reduce((acc, next) => acc + (this.isMatch(next[0]) ? next[1] : 0), 0);
+        return Object.entries(visits.ref).reduce(
+            (acc, next) => acc + (this.isMatch(next[0]) ? next[1] : 0),
+            0
+        );
     }
 
     isMatch(ref) {

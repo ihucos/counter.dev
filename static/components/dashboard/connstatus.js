@@ -9,5 +9,5 @@ customElements.define(
             </div>
             `;
         }
-    },
+    }
 );

@@ -26,12 +26,22 @@ customElements.define(
                       (logEntry) => `
                 <div class="hour-item">
                   <span class="visits-date">${logEntry.date}</span>
-                  <span class="visits-time caption-strong">${logEntry.time}</span>
-                  <img class="visits-ip" title="${logEntry.country}" src="/img/famfamfam_flags/gif/${logEntry.country}.gif" width="16" height="11" alt="${logEntry.country}">
-                  <img class="visits-device" title="${logEntry.device}" src="/img/visits/devices/${(logEntry.device || "").toLowerCase()}.svg"></img>
-                  <img class="visits-platform" title="${logEntry.platform}" src="/img/visits/platforms/${logEntry.platform.toLowerCase()}.svg"></img>
+                  <span class="visits-time caption-strong">${
+                      logEntry.time
+                  }</span>
+                  <img class="visits-ip" title="${
+                      logEntry.country
+                  }" src="/img/famfamfam_flags/gif/${
+                          logEntry.country
+                      }.gif" width="16" height="11" alt="${logEntry.country}">
+                  <img class="visits-device" title="${
+                      logEntry.device
+                  }" src="/img/visits/devices/${(logEntry.device || '').toLowerCase()}.svg"></img>
+                  <img class="visits-platform" title="${
+                      logEntry.platform
+                  }" src="/img/visits/platforms/${logEntry.platform.toLowerCase()}.svg"></img>
                   <span class="visits-referrer">${logEntry.referrerHtml}</span>
-                </div>`,
+                </div>`
                   )
                   .join("")}
 
@@ -65,7 +75,9 @@ customElements.define(
                 if (url === null) {
                     logReferrer = "?";
                 } else {
-                    logReferrer = `<a target="_blank" class="visits-referrer black" href="${escapeHtml(logReferrer)}">${url.host}</a>`;
+                    logReferrer = `<a target="_blank" class="visits-referrer black" href="${escapeHtml(
+                        logReferrer
+                    )}">${url.host}</a>`;
                 }
             }
             return {
@@ -77,5 +89,5 @@ customElements.define(
                 platform: platform || "Unknown",
             };
         }
-    },
+    }
 );

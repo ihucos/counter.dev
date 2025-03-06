@@ -10,11 +10,11 @@ customElements.define(
         }
 
         getChart(rawdates, hour, utcoffset, range) {
-            if (range == "daterange") {
-                var dates = rawdates;
-            } else {
-                var dates = dFillDatesToNow(rawdates, utcoffset);
-            }
+			if (range == 'daterange'){
+				var dates = rawdates
+			} else {
+				var dates = dFillDatesToNow(rawdates, utcoffset);
+			}
             let vals = dGroupDates(dates);
             let labels = vals[0];
             let data = vals[1];
@@ -70,7 +70,8 @@ customElements.define(
                                 ticks: {
                                     beginAtZero: true,
                                     userCallback: function (label) {
-                                        if (Math.floor(label) === label) return numberFormat(label);
+                                        if (Math.floor(label) === label)
+                                            return numberFormat(label);
                                     },
                                     fontFamily: "Nunito Sans",
                                     fontColor: "#616161",
@@ -93,17 +94,18 @@ customElements.define(
                                     fontColor: "#616161",
                                     fontSize: 14,
                                     userCallback: function (label) {
-                                        if (label.split("-").length - 1 === 2) {
-                                            if (range == "last7") {
-                                                return moment(label).format("dddd");
-                                            } else if (range == "daterange") {
-                                                return moment(label).format("DD MMM");
-                                            } else {
-                                                return moment(label).format("Do");
-                                            }
-                                        }
-                                        return label;
-                                    },
+										if (label.split("-").length - 1 === 2) {
+											if (range == "last7") {
+												return moment(label).format("dddd")
+											} else if (range == "daterange"){
+												return moment(label).format("DD MMM");
+
+											} else {
+												return moment(label).format("Do");
+											}
+										}
+										return label;
+									},
                                 },
                             },
                         ],
@@ -114,5 +116,5 @@ customElements.define(
                 },
             };
         }
-    },
+    }
 );

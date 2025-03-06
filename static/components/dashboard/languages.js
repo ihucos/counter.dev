@@ -4,7 +4,10 @@ customElements.define(
         draw(lang) {
             var lang = this.group(lang);
             var langEntries = Object.entries(lang).sort((a, b) => b[1] - a[1]);
-            this.totalCount = Object.values(lang).reduce((acc, next) => acc + next, 0);
+            this.totalCount = Object.values(lang).reduce(
+                (acc, next) => acc + next,
+                0
+            );
             this.innerHTML = `
           <div class="metrics-three-item">
             <div class="metrics-headline">
@@ -17,8 +20,14 @@ customElements.define(
                 <span>Visits</span>
               </div>
               <div class="metrics-three-data-content" data-simplebar data-simplebar-auto-hide="false">
-                ${langEntries.map((item) => this.drawItem(item[0], item[1])).join("")}
-                ${langEntries.length === 0 ? "<dashboard-nodata></dashboard-nodata>" : ""}
+                ${langEntries
+                    .map((item) => this.drawItem(item[0], item[1]))
+                    .join("")}
+                ${
+                    langEntries.length === 0
+                        ? "<dashboard-nodata></dashboard-nodata>"
+                        : ""
+                }
               </div>
               <div class="metrics-three-data-footer bg-white"></div>
             </div>
@@ -32,7 +41,8 @@ customElements.define(
                 // Canadian English -> English
                 // Taking the last word works
                 let simpleLangName = langName.split(" ").pop();
-                newLang[simpleLangName] = (newLang[simpleLangName] || 0) + count;
+                newLang[simpleLangName] =
+                    (newLang[simpleLangName] || 0) + count;
             }
             return newLang;
         }
@@ -43,10 +53,13 @@ customElements.define(
                   ${escapeHtml(lang)}
                   <span>
                     <dashboard-number class="strong mr16">${count}</dashboard-number>
-                    <span class="item-percent bg-blue blue caption">${percentRepr(count, this.totalCount)}</span>
+                    <span class="item-percent bg-blue blue caption">${percentRepr(
+                        count,
+                        this.totalCount
+                    )}</span>
                   </span>
                 </div>
             `;
         }
-    },
+    }
 );

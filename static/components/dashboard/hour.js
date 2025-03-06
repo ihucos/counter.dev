@@ -15,12 +15,14 @@ customElements.define(
                         (entry) => `
                 <div class="hour-item">
                   ${("0" + (parseInt(entry[0]) + 1)).slice(-2)}:00
-                  <dashboard-number class="caption-strong">${entry[1]}</dashboard-number>
-                </div>`,
+                  <dashboard-number class="caption-strong">${
+                      entry[1]
+                  }</dashboard-number>
+                </div>`
                     )
                     .join("")}
               </div>
               <div class="metrics-three-data-footer bg-white"></div>`;
         }
-    },
+    }
 );

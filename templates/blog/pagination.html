@@ -1,8 +1,35 @@
 <!-- Pagination -->
-{% if DEFAULT_PAGINATION %} {% set first_page = articles_paginator.page(1) %} {% set last_page = articles_paginator.page(articles_paginator.num_pages) %}
+{% if DEFAULT_PAGINATION %} {% set first_page = articles_paginator.page(1) %} {%
+set last_page = articles_paginator.page(articles_paginator.num_pages) %}
 <div class="flex blog-pagination">
-  <a href="{{ SITEURL }}/{{ articles_previous_page.url }}" class="btn-secondary" {% if not articles_page.has_previous() %}style="visibility: hidden" {% endif %}>Newer</a>
+  <a
+    href="{{ SITEURL }}/{{ articles_previous_page.url }}"
+    class="btn-secondary"
+    {%
+    if
+    not
+    articles_page.has_previous()
+    %}style="visibility: hidden"
+    {%
+    endif
+    %}
+  >
+    Newer
+  </a>
 
-  <a href="{{ SITEURL }}/{{ articles_next_page.url }}" class="btn-secondary" {% if not articles_page.has_next() %}style="visibility: hidden" {% endif %}>Older</a>
+  <a
+    href="{{ SITEURL }}/{{ articles_next_page.url }}"
+    class="btn-secondary"
+    {%
+    if
+    not
+    articles_page.has_next()
+    %}style="visibility: hidden"
+    {%
+    endif
+    %}
+  >
+    Older
+  </a>
 </div>
 {% endif %}

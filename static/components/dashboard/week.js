@@ -64,5 +64,5 @@ customElements.define(
             </div>`;
             this.getElementsByTagName("dashboard-week-graph")[0].draw(weekday);
         }
-    },
+    }
 );

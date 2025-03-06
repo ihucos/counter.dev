@@ -52,5 +52,5 @@ customElements.define(
 
                     </footer>`;
         }
-    },
+    }
 );

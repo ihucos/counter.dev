@@ -7,7 +7,10 @@ customElements.define(
                 if (b[0] == "Other") return -1;
                 return b[1] - a[1];
             });
-            this.totalCount = Object.values(screen).reduce((acc, next) => acc + next, 0);
+            this.totalCount = Object.values(screen).reduce(
+                (acc, next) => acc + next,
+                0
+            );
             this.innerHTML = `
           <div class="metrics-three-item">
             <div class="metrics-headline">
@@ -20,8 +23,14 @@ customElements.define(
                 <span>Visits</span>
               </div>
               <div class="metrics-three-data-content" data-simplebar data-simplebar-auto-hide="false">
-                ${screenEntries.map((item) => this.drawItem(item[0], item[1])).join("")}
-                ${screenEntries.length === 0 ? "<dashboard-nodata></dashboard-nodata>" : ""}
+                ${screenEntries
+                    .map((item) => this.drawItem(item[0], item[1]))
+                    .join("")}
+                ${
+                    screenEntries.length === 0
+                        ? "<dashboard-nodata></dashboard-nodata>"
+                        : ""
+                }
               </div>
               <div class="metrics-three-data-footer bg-white"></div>
             </div>
@@ -35,9 +44,12 @@ customElements.define(
                   ${escapeHtml(screen)}
                   <span>
                     <dashboard-number class="strong mr16">${count}</dashboard-number>
-                    <span class="item-percent bg-blue blue caption">${percentRepr(count, this.totalCount)}</span>
+                    <span class="item-percent bg-blue blue caption">${percentRepr(
+                        count,
+                        this.totalCount
+                    )}</span>
                   </span>
                 </div>`;
         }
-    },
+    }
 );

@@ -183,12 +183,7 @@
 .markdown-body kbd {
   display: inline-block;
   padding: 3px 5px;
-  font:
-    11px SFMono-Regular,
-    Consolas,
-    Liberation Mono,
-    Menlo,
-    monospace;
+  font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
   line-height: 10px;
   color: #444d56;
   vertical-align: middle;
@@ -281,12 +276,7 @@
 
 .markdown-body code,
 .markdown-body pre {
-  font-family:
-    SFMono-Regular,
-    Consolas,
-    Liberation Mono,
-    Menlo,
-    monospace;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
   font-size: 12px;
 }
 
@@ -605,12 +595,7 @@
 .markdown-body kbd {
   display: inline-block;
   padding: 3px 5px;
-  font:
-    11px SFMono-Regular,
-    Consolas,
-    Liberation Mono,
-    Menlo,
-    monospace;
+  font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
   line-height: 10px;
   color: #444d56;
   vertical-align: middle;
@@ -851,12 +836,7 @@
 
 .markdown-body .commit-tease-sha {
   display: inline-block;
-  font-family:
-    SFMono-Regular,
-    Consolas,
-    Liberation Mono,
-    Menlo,
-    monospace;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
   font-size: 90%;
   color: #444d56;
 }
@@ -881,12 +861,7 @@
   min-width: 50px;
   padding-right: 10px;
   padding-left: 10px;
-  font-family:
-    SFMono-Regular,
-    Consolas,
-    Liberation Mono,
-    Menlo,
-    monospace;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
   font-size: 12px;
   line-height: 20px;
   color: rgba(27, 31, 35, 0.3);
@@ -918,12 +893,7 @@
 
 .markdown-body .blob-code-inner {
   overflow: visible;
-  font-family:
-    SFMono-Regular,
-    Consolas,
-    Liberation Mono,
-    Menlo,
-    monospace;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
   font-size: 12px;
   color: #24292e;
   word-wrap: normal;

@@ -13,5 +13,5 @@ customElements.define(
                  </div>
                </section>`;
         }
-    },
+    }
 );

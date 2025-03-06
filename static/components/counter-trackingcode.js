@@ -34,5 +34,5 @@ customElements.define(
                   >`;
             new ClipboardJS(this.querySelector(".btn-copy"));
         }
-    },
+    }
 );

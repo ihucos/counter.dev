@@ -20,7 +20,8 @@ customElements.define(
             }
 
             // invalidates cache key when cookie changes
-            var usernameCacheKey = "navbar-username-cache-" + this.hash(document.cookie);
+            var usernameCacheKey =
+                "navbar-username-cache-" + this.hash(document.cookie);
 
             var cachedUsername = sessionStorage.getItem(usernameCacheKey);
             if (cachedUsername !== null) {
@@ -31,14 +32,14 @@ customElements.define(
             }
 
             document.addEventListener("push-navbar-nouser", () => {
-                this.eventPushNavbarNouserCalled = true;
+                this.eventPushNavbarNouserCalled = true
                 this.noUser();
                 // don't leave an open connection to server to save resources
                 eventSourceObj.close();
             });
             document.addEventListener("push-navbar-dump", (evt) => {
                 let dump = evt.detail;
-                this.eventPushNavbarDumpCalled = true;
+                this.eventPushNavbarDumpCalled = true
                 this.hasUser(dump.user.id);
                 sessionStorage.setItem(usernameCacheKey, dump.user.id);
                 // the fallback is because older user's dont set the
@@ -46,9 +47,9 @@ customElements.define(
                 this.drawEditaccount(dump.user.prefs);
 
                 // Adapt the feedback form mail input field
-                if (dump.user.prefs.mail) {
-                    document.getElementById("feedback-mail").setAttribute("value", dump.user.prefs.mail);
-                    document.getElementById("feedback-mail").setAttribute("type", "hidden");
+                if (dump.user.prefs.mail){
+                    document.getElementById("feedback-mail").setAttribute("value", dump.user.prefs.mail)
+                    document.getElementById("feedback-mail").setAttribute("type", "hidden")
                 }
 
                 document.dispatchEvent(new CustomEvent("userloaded"));
@@ -59,12 +60,18 @@ customElements.define(
         }
 
         noUser() {
-            document.querySelectorAll(".no-user").forEach((el) => (el.style.display = "block"));
+            document
+                .querySelectorAll(".no-user")
+                .forEach((el) => (el.style.display = "block"));
         }
 
         hasUser(user) {
-            document.querySelectorAll(".has-user").forEach((el) => (el.style.display = "block"));
-            Array.from(document.getElementsByClassName("fill-username")).forEach((el) => {
+            document
+                .querySelectorAll(".has-user")
+                .forEach((el) => (el.style.display = "block"));
+            Array.from(
+                document.getElementsByClassName("fill-username")
+            ).forEach((el) => {
                 el.innerHTML = escapeHtml(user);
             });
         }
@@ -109,7 +116,11 @@ Let's hope this madness stops eventually and things become more normal.
 
                            </div>`;
 
-                        $("<table id='overlay'><tbody><tr><td>" + text + "</td></tr></tbody></table>")
+                        $(
+                            "<table id='overlay'><tbody><tr><td>" +
+                                text +
+                                "</td></tr></tbody></table>"
+                        )
                             .css({
                                 position: "fixed",
                                 top: 0,
@@ -248,31 +259,31 @@ Let's hope this madness stops eventually and things become more normal.
                </section>
                <base-editaccount></base-editaccount>`;
             this.loadUser();
-            simpleForm("#modal-feedback form", (msg) => {
-                $.modal.close();
-                notify(msg);
-            });
+            simpleForm("#modal-feedback form", (msg)=>{
+                $.modal.close()
+                notify(msg)
+            })
         }
 
-        loggedInUserCallback(loggedInCb, notLoggedInCb) {
-            var calledLoggedInCb = false;
-            var calledNotLoggedInCb = false;
+        loggedInUserCallback(loggedInCb, notLoggedInCb){
+            var calledLoggedInCb = false
+            var calledNotLoggedInCb = false
             document.addEventListener("push-navbar-dump", (evt) => {
-                if (!calledLoggedInCb) loggedInCb(evt.detail);
-                calledLoggedInCb = true;
-            });
+                 if (!calledLoggedInCb) loggedInCb(evt.detail)
+                 calledLoggedInCb = true
+            })
             document.addEventListener("push-navbar-nouser", (evt) => {
-                if (!calledNotLoggedInCb) notLoggedInCb();
-                calledNotLoggedInCb = true;
-            });
-            if (this.eventPushNavbarNouserCalled) {
-                if (!calledNotLoggedInCb) notLoggedInCb();
-                calledNotLoggedInCb = true;
+                    if (!calledNotLoggedInCb) notLoggedInCb()
+                    calledNotLoggedInCb = true
+            })
+            if (this.eventPushNavbarNouserCalled){
+                if (!calledNotLoggedInCb) notLoggedInCb()
+                calledNotLoggedInCb = true
             }
-            if (this.eventPushNavbarDumpCalled) {
-                if (!calledLoggedInCb) loggedInCb(this.savedUserDump);
-                calledLoggedInCb = true;
-            }
+            if (this.eventPushNavbarDumpCalled){
+                 if (!calledLoggedInCb) loggedInCb(this.savedUserDump)
+                 calledLoggedInCb = true
+			};
         }
-    },
+    }
 );

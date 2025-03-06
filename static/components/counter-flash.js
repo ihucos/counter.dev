@@ -19,5 +19,5 @@ customElements.define(
                 });
             }
         }
-    },
+    }
 );

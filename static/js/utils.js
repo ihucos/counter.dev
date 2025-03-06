@@ -1,9 +1,9 @@
-var script = document.createElement("script");
-script.dataset.id = "33671ad4-a966-4a52-b48f-56c92d10a678";
-script.dataset.utcoffset = "1";
-script.dataset.server = "https://simple-web-analytics.com";
+var script = document.createElement('script');
+script.dataset.id = '33671ad4-a966-4a52-b48f-56c92d10a678';
+script.dataset.utcoffset = '1';
+script.dataset.server="https://simple-web-analytics.com";
 script.src = "https://cdn.counter.dev/script-testing.js";
-document.getElementsByTagName("head")[0].appendChild(script);
+document.getElementsByTagName('head')[0].appendChild(script)
 
 function simpleForm(formSelector, arg) {
     var success, formEl;
@@ -14,10 +14,10 @@ function simpleForm(formSelector, arg) {
             window.location.href = arg;
         };
     }
-    if (typeof formSelector === "string") {
-        formEl = document.querySelector(formSelector);
+    if (typeof formSelector === 'string'){
+        formEl = document.querySelector(formSelector)
     } else {
-        formEl = formSelector;
+        formEl = formSelector
     }
 
     formEl.onsubmit = (evt) => {
@@ -40,7 +40,12 @@ function getUTCOffset() {
 }
 
 function escapeHtml(unsafe) {
-    return (unsafe + "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    return (unsafe + "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 function dispatchPushEvents(url, event_prefix) {
@@ -51,14 +56,14 @@ function dispatchPushEvents(url, event_prefix) {
         document.dispatchEvent(
             new CustomEvent(prefix + serverData.type, {
                 detail: serverData.payload,
-            }),
+            })
         );
     };
     return source;
 }
 
-function notify(msg, cb) {
-    $("#modal-notify").remove();
+function notify(msg, cb){
+    $('#modal-notify').remove()
     var html = `<div id="modal-notify" style="displaty: none;">
       <div class="modal-header">
         <a href="#" class="btn-close" rel="modal:close"></a>
@@ -71,14 +76,14 @@ function notify(msg, cb) {
           <a href="#" class="btn-primary" rel="modal:close">Okay</a>
         </div>
       </div>
-    </div>`;
-    $("body").append($(html));
-    $("#modal-notify").modal({ closeExisting: false });
+    </div>`
+    $('body').append($(html))
+    $('#modal-notify').modal({closeExisting: false})
 }
 
-function whenReady(tag, cb) {
+function whenReady(tag, cb){
     customElements.whenDefined(tag).then(() => {
-        var el = document.querySelector(tag);
-        cb(el);
-    });
+        var el = document.querySelector(tag)
+        cb(el)
+    })
 }
