@@ -2,7 +2,6 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         connectedCallback() {
-
             this.innerHTML += `
                <section>
                  <div class="content">
@@ -45,29 +44,25 @@ customElements.define(
                      </div>
                    </div>
                  </div>
-               </section>`
+               </section>`;
 
-
-            whenReady('base-navbar', (el) => {
+            whenReady("base-navbar", (el) => {
                 el.loggedInUserCallback(
-                    (userDump)=>{
-                        this.drawPlans(userDump)
-                        if (!userDump.user.isSubscribed){
+                    (userDump) => {
+                        this.drawPlans(userDump);
+                        if (!userDump.user.isSubscribed) {
                             this.showPayNowBtn();
-                            this.highlightPersonalizedSuggestion(userDump)
+                            this.highlightPersonalizedSuggestion(userDump);
                         } else {
-                            this.showPaying()
+                            this.showPaying();
                         }
                     },
-                    ()=>this.showLoginToPayBtn(),
-
-                )
-            })
+                    () => this.showLoginToPayBtn(),
+                );
+            });
         }
 
-        drawPlans(userDump){
-
-
+        drawPlans(userDump) {
             this.innerHTML += `
                <div id="modal-pwyw" style="display: none">
 				   <div class="modal-header">
@@ -128,108 +123,117 @@ customElements.define(
                   </div>
               </div>`;
 
-            this.setupPayPalButton(3, userDump.user.id)
-            this.setupPayPalButton(5, userDump.user.id)
-            this.setupPayPalButton(7, userDump.user.id)
-            this.setupPayPalButton(10, userDump.user.id)
-            this.setupPayPalButton(20, userDump.user.id)
-            this.setupPayPalButton(25, userDump.user.id)
-            this.setupPayPalButton(30, userDump.user.id)
-            this.setupPayPalButton(70, userDump.user.id)
-            this.setupPayPalButton(90, userDump.user.id)
-            this.setupPayPalButton(120, userDump.user.id)
+            this.setupPayPalButton(3, userDump.user.id);
+            this.setupPayPalButton(5, userDump.user.id);
+            this.setupPayPalButton(7, userDump.user.id);
+            this.setupPayPalButton(10, userDump.user.id);
+            this.setupPayPalButton(20, userDump.user.id);
+            this.setupPayPalButton(25, userDump.user.id);
+            this.setupPayPalButton(30, userDump.user.id);
+            this.setupPayPalButton(70, userDump.user.id);
+            this.setupPayPalButton(90, userDump.user.id);
+            this.setupPayPalButton(120, userDump.user.id);
 
-            $("input[type=radio][name=plan]").change(function() {
-                $(".paypal-btn").hide()
-                $("#paypal-btn-" + this.value).css('display', 'block')
-            })
+            $("input[type=radio][name=plan]").change(function () {
+                $(".paypal-btn").hide();
+                $("#paypal-btn-" + this.value).css("display", "block");
+            });
 
             // js hack for css stuff
-            window.setInterval(function(){
-                let height = $("#modal-pwyw").height()
-                $("#modal-pwyw").css('min-height', height + 'px')
+            window.setInterval(function () {
+                let height = $("#modal-pwyw").height();
+                $("#modal-pwyw").css("min-height", height + "px");
             }, 700);
         }
 
-        setupPayPalButton(qty, username){
-            var self = this // important for payment flow
+        setupPayPalButton(qty, username) {
+            var self = this; // important for payment flow
             $(".paypal-btn-wrapper").append(`
                     <div id="paypal-btn-${qty}" class="paypal-btn" style="margin: 0px auto; display: none"></div>
-                `)
+                `);
 
-            paypal.Buttons({
-                style: {
-                    shape: 'rect',
-                    layout: 'vertical',
-                    label: 'pay',
-                    tagline: false,
-                },
-                createSubscription: function(data, actions) {
-                    return actions.subscription.create({
-                        /* Creates the subscription */
-                        plan_id: 'P-60A66997B2622122KMNGEKNY',
-                        custom_id: username,
-                        quantity: qty // The quantity of the product for a subscription
-                    });
-                },
-                onApprove: function(data, actions) {
-                    self.subscriptionSuccess(data.subscriptionID);
-                },
-            }).render(`#paypal-btn-${qty}`); // Renders the PayPal button
-
+            paypal
+                .Buttons({
+                    style: {
+                        shape: "rect",
+                        layout: "vertical",
+                        label: "pay",
+                        tagline: false,
+                    },
+                    createSubscription: function (data, actions) {
+                        return actions.subscription.create({
+                            /* Creates the subscription */
+                            plan_id: "P-60A66997B2622122KMNGEKNY",
+                            custom_id: username,
+                            quantity: qty, // The quantity of the product for a subscription
+                        });
+                    },
+                    onApprove: function (data, actions) {
+                        self.subscriptionSuccess(data.subscriptionID);
+                    },
+                })
+                .render(`#paypal-btn-${qty}`); // Renders the PayPal button
         }
 
-
-        modal(){
-            $('#modal-pwyw').modal({
+        modal() {
+            $("#modal-pwyw").modal({
                 escapeClose: false,
                 clickClose: false,
-                showClose: false
+                showClose: false,
             });
         }
 
-        subscriptionSuccess(subscriptionID){
-            $.post("/subscribed", { subscription_id: subscriptionID})
-            $.modal.close()
-            notify(`You are awesome. If you are not happy with the product or service let us know at any time.`)
+        subscriptionSuccess(subscriptionID) {
+            $.post("/subscribed", { subscription_id: subscriptionID });
+            $.modal.close();
+            notify(`You are awesome. If you are not happy with the product or service let us know at any time.`);
         }
 
-        showPayNowBtn(){
-            document.querySelector("#pay-now").style.display = "inline-block"
+        showPayNowBtn() {
+            document.querySelector("#pay-now").style.display = "inline-block";
         }
 
-
-        showPaying(){
-            document.querySelector("#paying").style.display = "inline-block"
+        showPaying() {
+            document.querySelector("#paying").style.display = "inline-block";
         }
 
-
-        showLoginToPayBtn(){
-            document.querySelector("#login-to-pay").style.display = "inline-block"
+        showLoginToPayBtn() {
+            document.querySelector("#login-to-pay").style.display = "inline-block";
         }
 
-        highlightPersonalizedSuggestion(dump){
+        highlightPersonalizedSuggestion(dump) {
+            var allHitsPerDay = Object.values(dump.sites)
+                .map(
+                    // for every site
+                    (i) =>
+                        Object.entries(i.visits.all.date)
+                            .sort()
+                            .slice(-7)
+                            .map(
+                                // get the 7 latest dates
+                                (i) => i[1],
+                            )
+                            .reduce(function (pv, cv) {
+                                return pv + cv;
+                            }, 0) / 7, // sum them and divide by 7
+                )
+                .reduce(function (pv, cv) {
+                    return pv + cv;
+                }, 0); // sum all sites
 
-            var allHitsPerDay =Object.values(dump.sites).map( // for every site
-                (i) => Object.entries(i.visits.all.date).sort().slice(-7).map( // get the 7 latest dates
-                    (i) => i[1]).reduce(function(pv, cv) {return pv + cv; }, 0) / 7 // sum them and divide by 7
-            ).reduce(function(pv, cv) { return pv + cv;}, 0) // sum all sites
-
-            var suggestionTier = 0
-            if (allHitsPerDay > 1000){
-                suggestionTier = 1
+            var suggestionTier = 0;
+            if (allHitsPerDay > 1000) {
+                suggestionTier = 1;
             }
-            if (allHitsPerDay > 10000){
-                suggestionTier = 2
+            if (allHitsPerDay > 10000) {
+                suggestionTier = 2;
             }
 
-            this.querySelectorAll('.highlightable')[suggestionTier].classList.add('highlight')
-            this.querySelector("#modal-pwyw .highlight + div input").setAttribute('checked', 'checked')
+            this.querySelectorAll(".highlightable")[suggestionTier].classList.add("highlight");
+            this.querySelector("#modal-pwyw .highlight + div input").setAttribute("checked", "checked");
 
-            let val = $("input[type=radio][name=plan]:checked").val()
-            $("#paypal-btn-" + val).css('display', 'block')
-
+            let val = $("input[type=radio][name=plan]:checked").val();
+            $("#paypal-btn-" + val).css("display", "block");
         }
-
-    }
+    },
 );

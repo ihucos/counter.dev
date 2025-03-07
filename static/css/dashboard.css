@@ -763,9 +763,8 @@ dashboard-dynamics dashboard-nodata {
 }
 
 dashboard-daterangeselector form {
-	display: flex;
-	justify-content: space-between;
-	flex-direction: column;
-	min-height: 480px; /*measured by eyesight*/
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  min-height: 480px; /*measured by eyesight*/
 }
-

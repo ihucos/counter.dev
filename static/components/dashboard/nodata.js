@@ -26,5 +26,5 @@ customElements.define(
                 </style>
                 <img src="/img/nodata.svg"></img><span>No data</span>`;
         }
-    }
+    },
 );

@@ -10,5 +10,5 @@ customElements.define(
             this.setAttribute("title", numberFormat(num));
             this.innerHTML = numberFormat(num);
         }
-    }
+    },
 );

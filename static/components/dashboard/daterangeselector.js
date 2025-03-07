@@ -1,8 +1,8 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        draw(oldestArchiveDate, isDemo){
-            this.style.display = 'none'
+        draw(oldestArchiveDate, isDemo) {
+            this.style.display = "none";
             this.innerHTML = `
                   <div class="modal-header">
                     <img
@@ -35,79 +35,70 @@ customElements.define(
                       </div>
 
                     </form>
-                  </div>`
+                  </div>`;
 
-            this.querySelector('form').setAttribute("action", this.getQueryUrl())
-            this.fromInputEl = this.querySelector('input[name="from"]')
-            this.toInputEl = this.querySelector('input[name="to"]')
+            this.querySelector("form").setAttribute("action", this.getQueryUrl());
+            this.fromInputEl = this.querySelector('input[name="from"]');
+            this.toInputEl = this.querySelector('input[name="to"]');
 
             this.picker = new easepick.create({
                 element: this.querySelector('input[name="from"]'),
-                css: [
-                    'https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.0/dist/index.css',
-                    'https://cdn.jsdelivr.net/npm/@easepick/lock_plugin@1.2.0/dist/index.css',
-                    '/css/daterangepicker.css',
-                ],
+                css: ["https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.0/dist/index.css", "https://cdn.jsdelivr.net/npm/@easepick/lock_plugin@1.2.0/dist/index.css", "/css/daterangepicker.css"],
                 plugins: ["RangePlugin", "AmpPlugin", "LockPlugin"],
-				RangePlugin: {
+                RangePlugin: {
                     elementEnd: this.querySelector('input[name="to"]'),
-                    tooltip: true
+                    tooltip: true,
                 },
-                AmpPlugin: {
-                },
+                AmpPlugin: {},
                 LockPlugin: {
                     minDate: oldestArchiveDate,
-                    maxDate: moment().subtract(2, "days").format("YYYY-MM-DD")
+                    maxDate: moment().subtract(2, "days").format("YYYY-MM-DD"),
                 },
                 inline: true,
                 //calendars: 2,
                 //grid: 2
-
             });
 
-            this.picker.on('select', ()=>{
-                this.querySelector('form button[type="submit"]').removeAttribute('disabled')
-            })
+            this.picker.on("select", () => {
+                this.querySelector('form button[type="submit"]').removeAttribute("disabled");
+            });
 
-
-            simpleForm(this.querySelector('form'), (resp) => {
-                let data = JSON.parse(resp)
-                let from = moment(this.fromInputEl.value)
-                let to = moment(this.toInputEl.value)
-                let detail = {resp: data, to: to, from: from}
+            simpleForm(this.querySelector("form"), (resp) => {
+                let data = JSON.parse(resp);
+                let from = moment(this.fromInputEl.value);
+                let to = moment(this.toInputEl.value);
+                let detail = { resp: data, to: to, from: from };
                 document.dispatchEvent(new CustomEvent("selector-daterange-fetched", { detail: detail }));
-                this.closeSuccess = true
+                this.closeSuccess = true;
                 $.modal.close();
-            })
-
+            });
 
             document.addEventListener("selector-daterange-fetch", (evt) => {
-                this.popup()
+                this.popup();
             });
 
-			$(this).on($.modal.AFTER_CLOSE, (event, modal) => {
-                if (!this.closeSuccess){
+            $(this).on($.modal.AFTER_CLOSE, (event, modal) => {
+                if (!this.closeSuccess) {
                     // select anything that is not the invalid "daterangesel" val
-                   $('#range-select').val('all').change()
+                    $("#range-select").val("all").change();
                 }
-                this.closeSuccess = false
-			});
-
-
+                this.closeSuccess = false;
+            });
         }
 
-        popup(){
+        popup() {
             // reset states
-            this.querySelector('form button[type="submit"]').setAttribute('disabled', 'disabled')
-            this.picker.clear()
+            this.querySelector('form button[type="submit"]').setAttribute("disabled", "disabled");
+            this.picker.clear();
 
             $(this).modal();
         }
 
-        getQueryUrl(){
+        getQueryUrl() {
             let url = new URL(window.location.href);
             let params = new URLSearchParams(url.search);
             //params.set("utcoffset", getUTCOffset());
             return "/query?" + params.toString();
         }
-})
+    },
+);

@@ -16,12 +16,7 @@ customElements.define(
                     <div class="title mb16">Time Zone</div>
                     <form action="/accountedit" id="account-edit" method="POST">
                         <select class="width-full" name="utcoffset">
-                          ${this.TIMEZONES.map(
-                              (i) =>
-                                  `<option value="${escapeHtml(
-                                      i[0]
-                                  )}">${escapeHtml(i[1])}</option>`
-                          ).join("")}
+                          ${this.TIMEZONES.map((i) => `<option value="${escapeHtml(i[0])}">${escapeHtml(i[1])}</option>`).join("")}
                         </select>
                         <!-- Change password -->
                         <div class="title mb8 mt24">Change Password</div>
@@ -113,10 +108,7 @@ customElements.define(
             var utcoffset = prefs.utcoffset || getUTCOffset();
 
             if (!isNaN(utcoffset)) {
-                this.querySelector(`option[value="${utcoffset}"]`).setAttribute(
-                    "selected",
-                    "selected"
-                );
+                this.querySelector(`option[value="${utcoffset}"]`).setAttribute("selected", "selected");
             }
 
             var sites = prefs.sites || "";
@@ -138,11 +130,7 @@ customElements.define(
                 }
             };
             showHidePrefferedSites();
-            useSitesEl.addEventListener(
-                "change",
-                showHidePrefferedSites,
-                false
-            );
+            useSitesEl.addEventListener("change", showHidePrefferedSites, false);
 
             var deleteRequest = this.querySelector(".delete-request");
             var deleteConfirm = this.querySelector(".delete-confirm");
@@ -155,12 +143,9 @@ customElements.define(
             simpleForm(".delete-account .delete-confirm", "/");
 
             // redraw modal if it is closed
-            $("#modal-account", this).on(
-                $.modal.AFTER_CLOSE,
-                (event, modal) => {
-                    this.draw(prefs);
-                }
-            );
+            $("#modal-account", this).on($.modal.AFTER_CLOSE, (event, modal) => {
+                this.draw(prefs);
+            });
         }
 
         TIMEZONES = [
@@ -192,5 +177,5 @@ customElements.define(
             [13, "[UTC+13:00] Phoenix Islands, Samoa"],
             [14, "[UTC+14:00] Line Islands"],
         ];
-    }
+    },
 );

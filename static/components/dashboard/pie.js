@@ -4,11 +4,7 @@ customElements.define(
         draw(obj) {
             this.innerHTML = `
                 <div class="metrics-headline">
-                  <img src="${this.getAttribute(
-                      "image"
-                  )}" width="24" height="24" alt="${this.getAttribute(
-                "caption"
-            )}">
+                  <img src="${this.getAttribute("image")}" width="24" height="24" alt="${this.getAttribute("caption")}">
                   <h3 class="ml16">${this.getAttribute("caption")}</h3>
                 </div>
                 <div class="metrics-two-data bg-white shadow-sm radius-lg">
@@ -35,36 +31,28 @@ customElements.define(
             let aggrVals = Object.values(aggr);
             return `
             <div class="caption mt24">
-              <span class="graph-dot mb8" style="visibility: ${
-                  aggrKeys.length < 1 ? "hidden" : "visible"
-              }">
+              <span class="graph-dot mb8" style="visibility: ${aggrKeys.length < 1 ? "hidden" : "visible"}">
                 <span class="graph-dot-ellipse bg-dark-blue mr8"></span>
                 ${escapeHtml(aggrKeys[0])}
                 <dashboard-number class="caption-strong">
                     ${escapeHtml(aggrVals[0])}
                 </dashboard-number>
               </span>
-              <span class="graph-dot mb8" style="visibility: ${
-                  aggrKeys.length < 2 ? "hidden" : "visible"
-              }">
+              <span class="graph-dot mb8" style="visibility: ${aggrKeys.length < 2 ? "hidden" : "visible"}">
                 <span class="graph-dot-ellipse bg-red mr8"></span>
                 ${escapeHtml(aggrKeys[1])}
                 <dashboard-number class="caption-strong">
                     ${escapeHtml(aggrVals[1])}
                 </dashboard-number>
               </span>
-              <span class="graph-dot mb8" style="visibility: ${
-                  aggrKeys.length < 3 ? "hidden" : "visible"
-              }">
+              <span class="graph-dot mb8" style="visibility: ${aggrKeys.length < 3 ? "hidden" : "visible"}">
                 <span class="graph-dot-ellipse bg-green mr8"></span>
                 ${escapeHtml(aggrKeys[2])}
                 <dashboard-number class="caption-strong">
                     ${escapeHtml(aggrVals[2])}
                 </dashboard-number>
               </span>
-              <span class="graph-dot"     style="visibility: ${
-                  aggrKeys.length < 4 ? "hidden" : "visible"
-              }">
+              <span class="graph-dot"     style="visibility: ${aggrKeys.length < 4 ? "hidden" : "visible"}">
                 <span class="graph-dot-ellipse bg-yellow mr8"></span>
                 ${escapeHtml(aggrKeys[3])}
                 <dashboard-number class="caption-strong">
@@ -82,12 +70,7 @@ customElements.define(
                     labels: Object.keys(aggr),
                     datasets: [
                         {
-                            backgroundColor: [
-                                "#147EFB",
-                                "#FC3158",
-                                "#53D769",
-                                "#FECB2E",
-                            ],
+                            backgroundColor: ["#147EFB", "#FC3158", "#53D769", "#FECB2E"],
                             hoverBorderColor: "#ffffff",
                             borderWidth: 2,
                             data: Object.values(aggr),
@@ -103,5 +86,5 @@ customElements.define(
                 },
             };
         }
-    }
+    },
 );

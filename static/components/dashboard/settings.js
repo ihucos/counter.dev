@@ -27,9 +27,7 @@ customElements.define(
                   <div class="title mb16">Tracking code</div>
                   <counter-trackingcode></counter-trackingcode>
                   <!-- Danger -->
-                  <div class="title mt24 mb16">Delete ${escapeHtml(
-                      opts.cursite
-                  )}</div>
+                  <div class="title mt24 mb16">Delete ${escapeHtml(opts.cursite)}</div>
                   <div class="danger gradient-red radius-lg">
                     <!-- Request delete -->
                     <div class="delete-request">
@@ -65,20 +63,15 @@ customElements.define(
             $(`#modal-settings .btn-confirm`).click(function () {
                 $(`#modal-settings .delete-request`).hide();
                 $(`#modal-settings .delete-confirm`).show();
-                $(`#modal-settings .danger`).toggleClass(
-                    "gradient-red bg-blue"
-                );
+                $(`#modal-settings .danger`).toggleClass("gradient-red bg-blue");
                 $(`#modal-settings .confirm-input`).focus();
             });
 
             // redraw modal if it is closed
             var parentThis = this;
-            $("#modal-settings", this).on(
-                $.modal.AFTER_CLOSE,
-                function (event, modal) {
-                    parentThis.draw(opts);
-                }
-            );
+            $("#modal-settings", this).on($.modal.AFTER_CLOSE, function (event, modal) {
+                parentThis.draw(opts);
+            });
 
             simpleForm("#site-delete", "/dashboard");
 
@@ -86,5 +79,5 @@ customElements.define(
             customElements.upgrade(tc);
             tc.draw(opts.uuid, opts.utcoffset);
         }
-    }
+    },
 );

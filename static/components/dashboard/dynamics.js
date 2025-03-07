@@ -57,9 +57,7 @@ customElements.define(
                 this.innerHTML = `
                  <img src="/img/rocket.png" srcset="img/rocket@2x.png 2x" width="60" height="60" alt="Rocket">
                  <div class="graph-dynamics-content gradient-green radius-lg">
-                   <div class="dynamics positive caption" title="${escapeHtml(
-                       text
-                   )}">
+                   <div class="dynamics positive caption" title="${escapeHtml(text)}">
                      ${escapeHtml(percentAbs)}
                    </div>
                    <div class="strong mt16 mb8">Positive dynamics</div>
@@ -73,9 +71,7 @@ customElements.define(
                 this.innerHTML = `
                  <img src="/img/volcano.png" srcset="img/volcano@2x.png 2x" width="60" height="60" alt="Volcano">
                  <div class="graph-dynamics-content gradient-red radius-lg">
-                   <div class="dynamics negative caption" title="${escapeHtml(
-                       text
-                   )}">
+                   <div class="dynamics negative caption" title="${escapeHtml(text)}">
                      ${escapeHtml(percentAbs)}
                    </div>
                    <div class="strong mt16 mb8">Negative dynamics</div>
@@ -89,9 +85,7 @@ customElements.define(
                 this.innerHTML = `
                  <img src="/img/grow.png" srcset="img/grow@2x.png 2x" width="60" height="60" alt="Grow">
                  <div class="graph-dynamics-content bg-gray radius-lg">
-                   <div class="dynamics stability caption" title="${escapeHtml(
-                       text
-                   )}">
+                   <div class="dynamics stability caption" title="${escapeHtml(text)}">
                      ${escapeHtml(percentAbs)}
                    </div>
                    <div class="strong mt16 mb8">Good stability</div>
@@ -105,5 +99,5 @@ customElements.define(
                 alert("unknown trend " + trend);
             }
         }
-    }
+    },
 );

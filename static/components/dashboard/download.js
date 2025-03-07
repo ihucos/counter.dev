@@ -10,16 +10,12 @@ customElements.define(
                 <img src="/img/download.svg" width="24" height="24" alt="Download"/>
                 </a>`;
 
-            this.querySelector("a").onclick = () =>
-                this.downloadData(siteData, siteName, timeRange);
+            this.querySelector("a").onclick = () => this.downloadData(siteData, siteName, timeRange);
         }
 
         download(filename, text) {
             var element = document.createElement("a");
-            element.setAttribute(
-                "href",
-                "data:text/plain;charset=utf-8," + encodeURIComponent(text)
-            );
+            element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
             element.setAttribute("download", filename);
             element.style.display = "none";
             document.body.appendChild(element);
@@ -38,19 +34,8 @@ customElements.define(
             });
 
             var today = new Date();
-            var dateStr =
-                today.getFullYear() +
-                "-" +
-                (today.getMonth() + 1) +
-                "-" +
-                today.getDate();
-            this.download(
-                `counter_stats_${timeRange}_${dateStr}_${siteName.replace(
-                    ".",
-                    "-"
-                )}.csv`,
-                csv
-            );
+            var dateStr = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+            this.download(`counter_stats_${timeRange}_${dateStr}_${siteName.replace(".", "-")}.csv`, csv);
         }
-    }
+    },
 );

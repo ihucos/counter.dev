@@ -2,9 +2,7 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(page) {
-            var entries = Object.entries(page || {}).sort(
-                (a, b) => b[1] - a[1]
-            );
+            var entries = Object.entries(page || {}).sort((a, b) => b[1] - a[1]);
             this.innerHTML = `
         <div class="metrics-four-item">
           <div class="metrics-headline">
@@ -26,21 +24,15 @@ customElements.define(
                       (item) => `
               <div class="hour-item">
                 <span class="page">${escapeHtml(item[0])}</span>
-                <dashboard-number class="caption-strong">${
-                    item[1]
-                }</dashboard-number>
-              </div>`
+                <dashboard-number class="caption-strong">${item[1]}</dashboard-number>
+              </div>`,
                   )
                   .join("")}
-            ${
-                entries.length === 0
-                    ? "<dashboard-nodata></dashboard-nodata>"
-                    : ""
-            }
+            ${entries.length === 0 ? "<dashboard-nodata></dashboard-nodata>" : ""}
             </div>
             <div class="metrics-three-data-footer bg-white"></div>
           </div>
         </div>`;
         }
-    }
+    },
 );

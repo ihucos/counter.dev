@@ -110,5 +110,5 @@ customElements.define(
             "dev.to",
             "t.co",
         ]);
-    }
+    },
 );
