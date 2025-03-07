@@ -318,7 +318,7 @@ function dGroupDates(dates) {
         }
     }
 
-    // groupedDates = groupedByYear;
+    groupedDates = groupedByYear;
 
     return [Object.keys(groupedDates), Object.values(groupedDates)];
 }

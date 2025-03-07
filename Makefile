@@ -66,7 +66,7 @@ redis-server-download:
 
 .PHONY: redis-server
 redis-server:
-	docker run -v /tmp/:/tmp -ti redis redis-server --dbfilename webstats-production.rdb --dir /tmp
+	docker run -p 6379:6379 -v /tmp/:/tmp -ti redis redis-server --dbfilename webstats-production.rdb --dir /tmp
 
 .PHONY: log
 log:
