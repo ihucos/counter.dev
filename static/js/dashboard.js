@@ -315,8 +315,8 @@ function dGroupDates(dates) {
         // if it's still to big, use months. 16 is a magic number to swap to the per month view
         if (Object.keys(groupedDates).length > 16) {
             groupedDates = groupedByMonth;
-            // Use years if we are displaying more than 16 month.
-            if (Object.keys(groupedDates).length > 16) {
+            // Use years if we are displaying more than 32 month.
+            if (Object.keys(groupedDates).length > 32) {
                 groupedDates = groupedByYear
             }
         }
