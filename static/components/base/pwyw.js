@@ -13,8 +13,8 @@ customElements.define(
                          Our main goal is to provide the smoothest Web Analytics experience
                          possible.
                          <br />
-                         Therefore we do not enforce payments but ask for an
-                         affordable service fee.
+                         Therefore we do not enforce payments but ask for you to consider
+                         paying what you want.
                        </div>
                      </div>
                      <a
