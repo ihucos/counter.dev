@@ -14,7 +14,7 @@ customElements.define(
                     .map(
                         (entry) => `
                 <div class="hour-item">
-                  ${("0" + (parseInt(entry[0]) + 1)).slice(-2)}:00
+                  ${("0" + parseInt(entry[0])).slice(-2)}:00
                   <dashboard-number class="caption-strong">${entry[1]}</dashboard-number>
                 </div>`,
                     )
