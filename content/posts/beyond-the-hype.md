@@ -10,19 +10,19 @@ Tech CEOs of big companies and other famous personalities do not seem shy to pro
 
 Sundar Pichai, CEO of Google:
 
-> "AI could be more profound than fire or electricity."
+*> "AI could be more profound than fire or electricity."*
 
 Elon Musk, CEO of Tesla and other companies:
 
-> "AI will be the best or worst thing ever for humanity."
+*> "AI will be the best or worst thing ever for humanity."*
 
 Sam Altman, CEO of OpenAI:
 
-> "AI will probably most likely lead to the end of the world, but in the meantime, there'll be great companies."
+*> "AI will probably most likely lead to the end of the world, but in the meantime, there'll be great companies."*
 
 Bill Gates, Co-founder of Microsoft and Philanthropist
 
-> "The First technology that has no limit"
+*> "The First technology that has no limit"*
 
 
 
