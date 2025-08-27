@@ -36,9 +36,9 @@ function getSelectorEl() {
 		throw `connectData: tag dashboard-selector not found`;
 	}
 }
-selector = getSelectorEl(); // very import element
+const selector = getSelectorEl(); // very important element
 
-allConnectedData = [];
+const allConnectedData = [];
 function connectData(selector, getData) {
 	Array.from(document.querySelectorAll(selector)).forEach((el) => {
 		allConnectedData.push([el, getData]);
