@@ -390,8 +390,9 @@ window.dFillDatesToNow = function dFillDatesToNow(myDates, utcoffset) {
 }
 
 window.dGroupDates = function dGroupDates(dates) {
+	// Normalize month/week grouping to UTC to avoid local-TZ drift
 	const allMonths = Object.entries(dates).reduce((acc, val) => {
-		const group = moment(val[0]).format("MMMM YYYY");
+		const group = moment.utc(val[0]).format("MMMM YYYY");
 		acc.add(group);
 		return acc;
 	}, new Set());
@@ -399,22 +400,23 @@ window.dGroupDates = function dGroupDates(dates) {
 	const groupedByMonth = Object.entries(dates).reduce((acc, val) => {
 		let group;
 		if (allMonths.size <= 12) {
-			group = moment(val[0]).format("MMMM");
+			group = moment.utc(val[0]).format("MMMM");
 		} else {
-			group = moment(val[0]).format("MMM YYYY");
+			group = moment.utc(val[0]).format("MMM YYYY");
 		}
 		acc[group] = (acc[group] || 0) + val[1];
 		return acc;
 	}, {});
 
 	const groupedByWeek = Object.entries(dates).reduce((acc, val) => {
-		const group = moment(val[0]).format("[CW]w");
+		// Use ISO week (W) to better match "calendar week" intent
+		const group = moment.utc(val[0]).format("[CW]W");
 		acc[group] = (acc[group] || 0) + val[1];
 		return acc;
 	}, {});
 
 	const groupedByYear = Object.entries(dates).reduce((acc, val) => {
-		const group = moment(val[0]).format("YYYY");
+		const group = moment.utc(val[0]).format("YYYY");
 		acc[group] = (acc[group] || 0) + val[1];
 		return acc;
 	}, {});
