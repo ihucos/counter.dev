@@ -9,7 +9,7 @@ simpleForm("#sign-in form[action='/login']", "/dashboard.html");
 simpleForm("#modal-recover form[action='/recover']", () => {
 	$.modal.close();
 	notify(
-		"If the given mail and username matches, we will send you an mail with further instructions.",
+		"If the given email and username match, we will send you an email with further instructions.",
 	);
 });
 simpleForm("#sign-up form", "/setup.html");
