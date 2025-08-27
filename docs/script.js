@@ -22,8 +22,10 @@
 				referrer: document.referrer,
 				screen: `${screen.width}x${screen.height}`,
 				id: id,
-				utcoffset: utcoffset,
 			});
+			if (utcoffset) {
+				params.set("utcoffset", utcoffset);
+			}
 			if (timezone) {
 				params.set("timezone", timezone);
 			}
