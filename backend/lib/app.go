@@ -147,6 +147,28 @@ func NewApp() *App {
 			fmt.Fprintf(w, "Bad Host")
 			return
 		}
+
+		// Set proper MIME types for common file extensions
+		ext := filepath.Ext(r.URL.Path)
+		switch ext {
+		case ".js":
+			w.Header().Set("Content-Type", "application/javascript")
+		case ".css":
+			w.Header().Set("Content-Type", "text/css")
+		case ".html":
+			w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		case ".svg":
+			w.Header().Set("Content-Type", "image/svg+xml")
+		case ".png":
+			w.Header().Set("Content-Type", "image/png")
+		case ".jpg", ".jpeg":
+			w.Header().Set("Content-Type", "image/jpeg")
+		case ".gif":
+			w.Header().Set("Content-Type", "image/gif")
+		case ".ico":
+			w.Header().Set("Content-Type", "image/x-icon")
+		}
+
 		http.ServeFile(w, r, prefix+r.URL.Path)
 	})
 	app := &App{

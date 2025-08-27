@@ -5,12 +5,13 @@ script.dataset.server = "https://simple-web-analytics.com";
 script.src = "https://cdn.counter.dev/script-testing.js";
 document.getElementsByTagName("head")[0].appendChild(script);
 
+
 function simpleForm(formSelector, arg) {
     var success, formEl;
     if (typeof arg === "function") {
         success = arg;
     } else {
-        success = function (response) {
+        success = (_response) => {
             window.location.href = arg;
         };
     }
@@ -27,7 +28,7 @@ function simpleForm(formSelector, arg) {
             url: el.getAttribute("action"),
             data: $(el).serialize(),
             success: success,
-            error: function (request, status, error) {
+            error: (request, _status, _errorr) => {
                 notify(request.responseText);
             },
         });
@@ -40,14 +41,21 @@ function getUTCOffset() {
 }
 
 function escapeHtml(unsafe) {
-    return (unsafe + "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    return (`${unsafe}`)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
+
+
 
 function dispatchPushEvents(url, event_prefix) {
     var prefix = event_prefix || "push-";
     var source = new EventSource(url);
     source.onmessage = (event) => {
-        let serverData = JSON.parse(event.data);
+        const serverData = JSON.parse(event.data);
         document.dispatchEvent(
             new CustomEvent(prefix + serverData.type, {
                 detail: serverData.payload,
@@ -57,7 +65,7 @@ function dispatchPushEvents(url, event_prefix) {
     return source;
 }
 
-function notify(msg, cb) {
+function notify(msg, _cb) {
     $("#modal-notify").remove();
     var html = `<div id="modal-notify" style="displaty: none;">
       <div class="modal-header">
@@ -75,6 +83,7 @@ function notify(msg, cb) {
     $("body").append($(html));
     $("#modal-notify").modal({ closeExisting: false });
 }
+
 
 function whenReady(tag, cb) {
     customElements.whenDefined(tag).then(() => {

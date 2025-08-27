@@ -2,7 +2,7 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(page) {
-            var entries = Object.entries(page || {}).sort((a, b) => b[1] - a[1]);
+            const entries = Object.entries(page || {}).sort((a, b) => b[1] - a[1]);
             this.innerHTML = `
         <div class="metrics-four-item">
           <div class="metrics-headline">

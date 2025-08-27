@@ -1,11 +1,14 @@
 customElements.define(
-    tagName(),
-    class extends HTMLElement {
-        draw(lang) {
-            var lang = this.group(lang);
-            var langEntries = Object.entries(lang).sort((a, b) => b[1] - a[1]);
-            this.totalCount = Object.values(lang).reduce((acc, next) => acc + next, 0);
-            this.innerHTML = `
+	tagName(),
+	class extends HTMLElement {
+		draw(lang) {
+			const groupedLang = this.group(lang);
+			var langEntries = Object.entries(groupedLang).sort((a, b) => b[1] - a[1]);
+			this.totalCount = Object.values(groupedLang).reduce(
+				(acc, next) => acc + next,
+				0,
+			);
+			this.innerHTML = `
           <div class="metrics-three-item">
             <div class="metrics-headline">
               <img src="/img/languages.svg" width="24" height="24" alt="Languages">
@@ -24,21 +27,21 @@ customElements.define(
             </div>
           </div>
             `;
-        }
+		}
 
-        group(lang) {
-            var newLang = {};
-            for (const [langName, count] of Object.entries(lang)) {
-                // Canadian English -> English
-                // Taking the last word works
-                let simpleLangName = langName.split(" ").pop();
-                newLang[simpleLangName] = (newLang[simpleLangName] || 0) + count;
-            }
-            return newLang;
-        }
+		group(lang) {
+			var newLang = {};
+			for (const [langName, count] of Object.entries(lang)) {
+				// Canadian English -> English
+				// Taking the last word works
+				const simpleLangName = langName.split(" ").pop();
+				newLang[simpleLangName] = (newLang[simpleLangName] || 0) + count;
+			}
+			return newLang;
+		}
 
-        drawItem(lang, count) {
-            return `
+		drawItem(lang, count) {
+			return `
                 <div class="metrics-three-data-content-item">
                   ${escapeHtml(lang)}
                   <span>
@@ -47,6 +50,6 @@ customElements.define(
                   </span>
                 </div>
             `;
-        }
-    },
+		}
+	},
 );

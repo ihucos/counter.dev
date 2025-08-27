@@ -273,7 +273,7 @@ function numberFormat(x) {
 	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function _percentRepr(value, total) {
+function percentRepr(value, total) {
 	var percentRepr = `${Math.round((value / total) * 100)}%`;
 	if (percentRepr === "0%") {
 		percentRepr = "<1%";

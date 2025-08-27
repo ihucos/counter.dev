@@ -1,11 +1,11 @@
 customElements.define(
-    tagName(),
-    class extends HTMLElement {
-        draw(logs) {
-            var entries = Object.entries(logs).sort((a, b) => b[1] - a[1]);
-            var parsedLogs = entries.map((e) => this.parseLogEntry(e[0]));
-            parsedLogs = parsedLogs.filter((n) => n); // filter out null values (parse errors)
-            this.innerHTML = `
+	tagName(),
+	class extends HTMLElement {
+		draw(logs) {
+			var entries = Object.entries(logs).sort((a, b) => b[1] - a[1]);
+			var parsedLogs = entries.map((e) => this.parseLogEntry(e[0]));
+			parsedLogs = parsedLogs.filter((n) => n); // filter out null values (parse errors)
+			this.innerHTML = `
         <div class="metrics-four-item">
           <div class="metrics-headline">
             <img src="/img/visit.svg" width="24" height="24" alt="Visits">
@@ -22,8 +22,8 @@ customElements.define(
             </div>
             <div class="metrics-three-data-content caption" data-simplebar data-simplebar-auto-hide="false">
               ${parsedLogs
-                  .map(
-                      (logEntry) => `
+								.map(
+									(logEntry) => `
                 <div class="hour-item">
                   <span class="visits-date">${logEntry.date}</span>
                   <span class="visits-time caption-strong">${logEntry.time}</span>
@@ -32,50 +32,51 @@ customElements.define(
                   <img class="visits-platform" title="${logEntry.platform}" src="/img/visits/platforms/${logEntry.platform.toLowerCase()}.svg"></img>
                   <span class="visits-referrer">${logEntry.referrerHtml}</span>
                 </div>`,
-                  )
-                  .join("")}
+								)
+								.join("")}
 
             </div>
             <div class="metrics-three-data-footer bg-white"></div>
           </div>
         </div>`;
-        }
+		}
 
-        parseLogEntry(visit) {
-            var match = visit.split(" ");
-            var logDate = match[0].slice(1);
-            var logTime = match[1].slice(0, -4);
-            var logCountry = match[2].toLowerCase();
-            var logReferrer = match[3];
-            var logDevice = match[4];
-            var platform = match[5];
+		parseLogEntry(visit) {
+			const match = visit.split(" ");
+			const logDate = match[0].slice(1);
+			const logTime = match[1].slice(0, -4);
+			let logCountry = match[2].toLowerCase();
+			let logReferrer = match[3];
+			const logDevice = match[4];
+			const platform = match[5];
 
-            if (logCountry === "") {
-                logCountry = "xx";
-            }
+			if (logCountry === "") {
+				logCountry = "xx";
+			}
 
-            if (logReferrer === "") {
-                logReferrer = "-";
-            } else {
-                try {
-                    var url = new URL(logReferrer);
-                } catch (err) {
-                    var url = null;
-                }
-                if (url === null) {
-                    logReferrer = "?";
-                } else {
-                    logReferrer = `<a target="_blank" class="visits-referrer black" href="${escapeHtml(logReferrer)}">${url.host}</a>`;
-                }
-            }
-            return {
-                date: logDate,
-                time: logTime,
-                country: logCountry,
-                referrerHtml: logReferrer,
-                device: logDevice,
-                platform: platform || "Unknown",
-            };
-        }
-    },
+			if (logReferrer === "") {
+				logReferrer = "-";
+			} else {
+                let url
+				try {
+					url = new URL(logReferrer);
+				} catch (_err) {
+					url = null;
+				}
+				if (url === null) {
+					logReferrer = "?";
+				} else {
+					logReferrer = `<a target="_blank" class="visits-referrer black" href="${escapeHtml(logReferrer)}">${url.host}</a>`;
+				}
+			}
+			return {
+				date: logDate,
+				time: logTime,
+				country: logCountry,
+				referrerHtml: logReferrer,
+				device: logDevice,
+				platform: platform || "Unknown",
+			};
+		}
+	},
 );

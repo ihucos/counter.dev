@@ -1,13 +1,13 @@
 customElements.define(
-    tagName(),
-    class extends HTMLElement {
-        draw(opts) {
-            if (opts.meta.sessionless) {
-                $(this).css("margin", "0");
-                return;
-            }
+	tagName(),
+	class extends HTMLElement {
+		draw(opts) {
+			if (opts.meta.sessionless) {
+				$(this).css("margin", "0");
+				return;
+			}
 
-            this.innerHTML = `
+			this.innerHTML = `
               <a
                 href="#modal-settings"
                 class="btn-secondary btn-icon"
@@ -60,24 +60,22 @@ customElements.define(
                 </div>
               </div>`;
 
-            $(`#modal-settings .btn-confirm`).click(function () {
-                $(`#modal-settings .delete-request`).hide();
-                $(`#modal-settings .delete-confirm`).show();
-                $(`#modal-settings .danger`).toggleClass("gradient-red bg-blue");
-                $(`#modal-settings .confirm-input`).focus();
-            });
+			$(`#modal-settings .btn-confirm`).click(() => {
+				$(`#modal-settings .delete-request`).hide();
+				$(`#modal-settings .delete-confirm`).show();
+				$(`#modal-settings .danger`).toggleClass("gradient-red bg-blue");
+				$(`#modal-settings .confirm-input`).focus();
+			});
+			
+			$("#modal-settings", this).on($.modal.AFTER_CLOSE, (_event,_modall) => {
+				this.draw(opts);
+			});
 
-            // redraw modal if it is closed
-            var parentThis = this;
-            $("#modal-settings", this).on($.modal.AFTER_CLOSE, function (event, modal) {
-                parentThis.draw(opts);
-            });
+			simpleForm("#site-delete", "/dashboard");
 
-            simpleForm("#site-delete", "/dashboard");
-
-            let tc = this.querySelector("counter-trackingcode");
-            customElements.upgrade(tc);
-            tc.draw(opts.uuid, opts.utcoffset);
-        }
-    },
+			const tc = this.querySelector("counter-trackingcode");
+			customElements.upgrade(tc);
+			tc.draw(opts.uuid, opts.utcoffset);
+		}
+	},
 );

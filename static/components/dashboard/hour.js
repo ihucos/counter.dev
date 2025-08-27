@@ -2,20 +2,20 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(hour) {
-            let allHours = {
+            const allHours = {
                 ...Object.fromEntries([...Array(24).keys()].map((i) => [i, 0])),
                 ...hour,
             };
             //let hourSum = Object.values(hour).reduce((acc, next) => acc + next, 0)
-            let allHoursEntries = Object.entries(allHours);
+            const allHoursEntries = Object.entries(allHours);
             this.innerHTML = `
               <div class="metrics-three-data-content caption" data-simplebar data-simplebar-auto-hide="false">
                 ${allHoursEntries
                     .map(
-                        (entry) => `
+                        ([hour, count]) => `
                 <div class="hour-item">
-                  ${("0" + parseInt(entry[0])).slice(-2)}:00
-                  <dashboard-number class="caption-strong">${entry[1]}</dashboard-number>
+                  ${hour.padStart(2, '0')}:00
+                  <dashboard-number class="caption-strong">${count}</dashboard-number>
                 </div>`,
                     )
                     .join("")}
