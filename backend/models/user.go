@@ -381,18 +381,12 @@ func (user User) CurrentLocation() (*time.Location, error) {
 		return nil, err
 	}
 	if tz == "" {
-		return time.LoadLocation("UTC")
+		return time.UTC, nil
 	}
-
-	// Try to load the stored timezone, fall back to UTC if invalid
-	location, err := time.LoadLocation(tz)
-	if err != nil {
-		// If the stored timezone is invalid, fall back to UTC
-		location, _ = time.LoadLocation("UTC")
-		return location, nil
+	if loc, err := time.LoadLocation(tz); err == nil {
+		return loc, nil
 	}
-
-	return location, nil
+	return time.UTC, nil
 }
 
 // SuggestTimezoneFromOffset suggests IANA timezones based on UTC offset
