@@ -40,6 +40,7 @@ customElements.define(
 			document.addEventListener("push-navbar-dump", (evt) => {
 				const dump = evt.detail;
 				this.eventPushNavbarDumpCalled = true;
+				this.savedUserDump = dump;
 				this.hasUser(dump.user.id);
 				sessionStorage.setItem(usernameCacheKey, dump.user.id);
 				// the fallback is because older user's dont set the
