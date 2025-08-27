@@ -13,13 +13,13 @@ customElements.define(
                   </div>
                   <div class="modal-content">
                     <!-- Time zone -->
-                    <div class="title mb16">Time Zone</div>
+                    <div class="title mb16" id="timezone-label">Time Zone</div>
                     <form action="/accountedit" id="account-edit" method="POST">
-                        <select class="width-full" name="timezone" id="timezone-select">
+                        <select class="width-full" name="timezone" id="timezone-select" aria-labelledby="timezone-label" aria-describedby="timezone-help">
                           <option value="">Select your timezone</option>
                           ${this.TIMEZONES.map((tz) => `<option value="${escapeHtml(tz.value)}">${escapeHtml(tz.label)}</option>`).join("")}
                         </select>
-                        <div class="caption mt8 text-muted">Choose your IANA timezone for accurate DST handling</div>
+                        <div class="caption mt8 text-muted" id="timezone-help">Choose your IANA timezone for accurate DST handling</div>
                         <!-- Hidden field for backward compatibility -->
                          <input type="hidden" name="utcoffset" value="${escapeHtml(String(prefs.utcoffset ?? getUTCOffset()))}" />
                         <!-- Change password -->
