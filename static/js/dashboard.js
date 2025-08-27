@@ -186,12 +186,13 @@ function patchDump(dump) {
 }
 
 function addArchivesToDump(archives, dump) {
+	if (!archives) return dump;
 	for (const site of Object.keys(dump.sites)) {
 		dump.sites[site].visits.last7 = patchArchiveVisit(
 			mergeVisits([
 				dump.sites[site].visits.day,
 				dump.sites[site].visits.yesterday,
-				archives["-7:-2"][site] || {},
+				(archives["-7:-2"]?.[site]) || {},
 			]),
 		);
 
@@ -199,7 +200,7 @@ function addArchivesToDump(archives, dump) {
 			mergeVisits([
 				dump.sites[site].visits.day,
 				dump.sites[site].visits.yesterday,
-				archives["-30:-2"][site] || {},
+				(archives["-30:-2"]?.[site]) || {},
 			]),
 		);
 	}
