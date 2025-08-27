@@ -74,13 +74,13 @@ connectData("counter-trackingcode", (dump) => [
 
 connectData("dashboard-dynamics", (dump) => [
 	dump.sites[selector.site].visits[selector.range].date,
-	dump.user.prefs.utcoffset || getUTCOffset(),
+	dump.meta?.offsetMinutesNow ? Math.round(dump.meta.offsetMinutesNow / 60) : (dump.user.prefs.utcoffset || getUTCOffset()),
 ]);
 
 connectData("dashboard-graph", (dump) => [
 	dump.sites[selector.site].visits[selector.range].date,
 	dump.sites[selector.site].visits[selector.range].hour,
-	dump.user.prefs.utcoffset || getUTCOffset(),
+	dump.meta?.offsetMinutesNow ? Math.round(dump.meta.offsetMinutesNow / 60) : (dump.user.prefs.utcoffset || getUTCOffset()),
 	selector.range,
 ]);
 
@@ -89,29 +89,29 @@ connectData("dashboard-settings", (dump) => [
 		cursite: selector.site,
 		uuid: dump.user.uuid,
 		meta: dump.meta,
-		utcoffset: dump.user.prefs.utcoffset || getUTCOffset(),
+		utcoffset: dump.meta?.offsetMinutesNow ? Math.round(dump.meta.offsetMinutesNow / 60) : (dump.user.prefs.utcoffset || getUTCOffset()),
 	},
 ]);
 
 connectData("dashboard-counter-visitors", (dump) => [
 	dump.sites[selector.site].visits,
 	selector.range,
-	dump.user.prefs.utcoffset || getUTCOffset(), // getUTCOffset() is a fallback for older users
+	dump.meta?.offsetMinutesNow ? Math.round(dump.meta.offsetMinutesNow / 60) : (dump.user.prefs.utcoffset || getUTCOffset()), // getUTCOffset() is a fallback for older users
 ]);
 connectData("dashboard-counter-search", (dump) => [
 	dump.sites[selector.site].visits,
 	selector.range,
-	dump.user.prefs.utcoffset || getUTCOffset(),
+	dump.meta?.offsetMinutesNow ? Math.round(dump.meta.offsetMinutesNow / 60) : (dump.user.prefs.utcoffset || getUTCOffset()),
 ]);
 connectData("dashboard-counter-social", (dump) => [
 	dump.sites[selector.site].visits,
 	selector.range,
-	dump.user.prefs.utcoffset || getUTCOffset(),
+	dump.meta?.offsetMinutesNow ? Math.round(dump.meta.offsetMinutesNow / 60) : (dump.user.prefs.utcoffset || getUTCOffset()),
 ]);
 connectData("dashboard-counter-direct", (dump) => [
 	dump.sites[selector.site].visits,
 	selector.range,
-	dump.user.prefs.utcoffset || getUTCOffset(),
+	dump.meta?.offsetMinutesNow ? Math.round(dump.meta.offsetMinutesNow / 60) : (dump.user.prefs.utcoffset || getUTCOffset()),
 ]);
 connectData("#devices dashboard-pie", k("device"));
 connectData("#platforms dashboard-pie ", k("platform"));
