@@ -2,11 +2,12 @@ package models
 
 import (
 	"fmt"
-	"gorm.io/gorm"
 	"math/rand"
 	"net/url"
 	"strings"
 	"time"
+
+	"gorm.io/gorm"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/utils"

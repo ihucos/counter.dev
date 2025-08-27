@@ -222,7 +222,8 @@ func (ctx *Ctx) NoAutoCleanup() {
 }
 
 // UserNow returns the current time in the user's preferred timezone if set,
-// otherwise it falls back to UTC plus the provided utcoffset from the request.
+// otherwise it falls back to UTC plus an offset in hours. It prefers the
+// stored user utcoffset when available; otherwise it uses the request param.
 func (ctx *Ctx) UserNow(user models.User) time.Time {
 	tz, err := user.ReadTimezone()
 	if err == nil && tz != "" {
@@ -231,6 +232,21 @@ func (ctx *Ctx) UserNow(user models.User) time.Time {
 		}
 	}
 	// fallback to legacy utc offset handling
+	// 1) try stored utcoffset pref
+	if storedOffsetStr, err := user.GetPref("utcoffset"); err == nil && storedOffsetStr != "" {
+		if off, err := strconv.Atoi(storedOffsetStr); err == nil {
+			if off > 14 {
+				off = 14
+			}
+			if off < -12 {
+				off = -12
+			}
+			loc, _ := time.LoadLocation("UTC")
+			utcnow := time.Now().In(loc)
+			return utcnow.Add(time.Hour * time.Duration(off))
+		}
+	}
+	// 2) use request param utcoffset
 	loc, _ := time.LoadLocation("UTC")
 	utcnow := time.Now().In(loc)
 	return utcnow.Add(time.Hour * time.Duration(ctx.ParseUTCOffset("utcoffset")))
