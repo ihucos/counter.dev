@@ -3,6 +3,7 @@ package endpoints
 import (
 	"strings"
 	"time"
+	"strconv"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/lib"
@@ -155,8 +156,14 @@ func init() {
 			Payload: archive})
 
 		sendDump := func() {
+			now := ctx.UserNow(user)
 			dump, err := LoadDump(user, now)
 			ctx.CatchError(err)
+			_, offsetSeconds := now.Zone()
+			meta["offsetMinutesNow"] = strconv.Itoa(offsetSeconds / 60)
+			tz, err := user.ReadTimezone()
+			ctx.CatchError(err)
+			meta["timezone"] = tz
 			dump.Meta = meta
 			ctx.SendEventSourceData(EventSourceData{
 				Type:    "dump",
