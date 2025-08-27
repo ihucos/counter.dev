@@ -90,7 +90,7 @@ customElements.define(
                               collected!</span
                             >
                           </div>
-                          <button class="btn-white btn-danger btn-confirm">
+                          <button type="button" class="btn-white btn-danger btn-confirm">
                             Delete account
                           </button>
                         </div>
