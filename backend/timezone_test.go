@@ -475,9 +475,10 @@ func TestDSTBoundaryConditions(t *testing.T) {
 			isDST := false
 
 			// Common DST patterns
-			if tt.timezone == "America/New_York" {
+			switch tt.timezone {
+			case "America/New_York":
 				isDST = zoneName == "EDT" // Eastern Daylight Time
-			} else if tt.timezone == "Europe/Berlin" {
+			case "Europe/Berlin":
 				isDST = zoneName == "CEST" // Central European Summer Time
 			}
 
