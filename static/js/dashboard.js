@@ -282,7 +282,7 @@ function _percentRepr(value, total) {
 	return percentRepr;
 }
 
-function dGroupData(entries, cutAt) {
+window.dGroupData = function dGroupData(entries, cutAt) {
 	var entrs = Object.entries(entries);
 	entrs = entrs.sort((a, b) => b[1] - a[1]);
 	var top = entrs.slice(0, cutAt);
@@ -310,7 +310,7 @@ function getUTCNow(utcoffset) {
 	return moment().add(parseInt(offset, 10), "hours").toDate();
 }
 
-function dFillDatesToNow(myDates, utcoffset) {
+window.dFillDatesToNow = function dFillDatesToNow(myDates, utcoffset) {
 	// Hack, sort the keys in the object
 	var dates = Object.keys(myDates)
 		.sort()
@@ -344,7 +344,7 @@ function dFillDatesToNow(myDates, utcoffset) {
 	};
 }
 
-function dGroupDates(dates) {
+window.dGroupDates = function dGroupDates(dates) {
 	const allMonths = Object.entries(dates).reduce((acc, val) => {
 		const group = moment(val[0]).format("MMMM YYYY");
 		acc.add(group);
@@ -417,7 +417,7 @@ HOUR_AM_PM = {
 	23: "11 p.m.",
 };
 
-function dGetNormalizedHours(hours) {
+window.dGetNormalizedHours = function dGetNormalizedHours(hours) {
 	const pad = Object.fromEntries(
 		[...Array(24).keys()].map((i) => [HOUR_AM_PM[i], 0]),
 	);
