@@ -279,7 +279,9 @@ function _dGroupData(entries, cutAt) {
 	var bottom = entrs.slice(cutAt);
 
 	var otherVal = 0;
-	bottom.forEach((el) => (otherVal += el[1]));
+	bottom.forEach((el) => {
+		otherVal += el[1];
+	});
 	if (otherVal) {
 		top.push(["Other", otherVal]);
 	}
