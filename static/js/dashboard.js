@@ -79,7 +79,10 @@ connectData("dashboard-dynamics", (dump) => [
 connectData("dashboard-graph", (dump) => [
 	dump.sites[selector.site].visits[selector.range].date,
 	dump.sites[selector.site].visits[selector.range].hour,
-	dump.meta?.offsetMinutesNow ? Math.round(dump.meta.offsetMinutesNow / 60) : (dump.user.prefs.utcoffset || getUTCOffset()),
+	// Prefer precise minute offset; fallback is legacy hours*60
+	(Number.isFinite(dump.meta?.offsetMinutesNow)
+		? dump.meta.offsetMinutesNow
+		: (dump.user.prefs.utcoffset || getUTCOffset()) * 60),
 	selector.range,
 ]);
 
@@ -88,29 +91,40 @@ connectData("dashboard-settings", (dump) => [
 		cursite: selector.site,
 		uuid: dump.user.uuid,
 		meta: dump.meta,
-		utcoffset: dump.meta?.offsetMinutesNow ? Math.round(dump.meta.offsetMinutesNow / 60) : (dump.user.prefs.utcoffset || getUTCOffset()),
+		// Keep legacy hours for UI but compute from minutes if available
+		utcoffset: Number.isFinite(dump.meta?.offsetMinutesNow)
+			? (dump.meta.offsetMinutesNow / 60)
+			: (dump.user.prefs.utcoffset || getUTCOffset()),
 	},
 ]);
 
 connectData("dashboard-counter-visitors", (dump) => [
 	dump.sites[selector.site].visits,
 	selector.range,
-	dump.meta?.offsetMinutesNow ? Math.round(dump.meta.offsetMinutesNow / 60) : (dump.user.prefs.utcoffset || getUTCOffset()), // getUTCOffset() is a fallback for older users
+	Number.isFinite(dump.meta?.offsetMinutesNow)
+		? dump.meta.offsetMinutesNow
+		: (dump.user.prefs.utcoffset || getUTCOffset()) * 60, // fallback
 ]);
 connectData("dashboard-counter-search", (dump) => [
 	dump.sites[selector.site].visits,
 	selector.range,
-	dump.meta?.offsetMinutesNow ? Math.round(dump.meta.offsetMinutesNow / 60) : (dump.user.prefs.utcoffset || getUTCOffset()),
+	Number.isFinite(dump.meta?.offsetMinutesNow)
+		? dump.meta.offsetMinutesNow
+		: (dump.user.prefs.utcoffset || getUTCOffset()) * 60,
 ]);
 connectData("dashboard-counter-social", (dump) => [
 	dump.sites[selector.site].visits,
 	selector.range,
-	dump.meta?.offsetMinutesNow ? Math.round(dump.meta.offsetMinutesNow / 60) : (dump.user.prefs.utcoffset || getUTCOffset()),
+	Number.isFinite(dump.meta?.offsetMinutesNow)
+		? dump.meta.offsetMinutesNow
+		: (dump.user.prefs.utcoffset || getUTCOffset()) * 60,
 ]);
 connectData("dashboard-counter-direct", (dump) => [
 	dump.sites[selector.site].visits,
 	selector.range,
-	dump.meta?.offsetMinutesNow ? Math.round(dump.meta.offsetMinutesNow / 60) : (dump.user.prefs.utcoffset || getUTCOffset()),
+	Number.isFinite(dump.meta?.offsetMinutesNow)
+		? dump.meta.offsetMinutesNow
+		: (dump.user.prefs.utcoffset || getUTCOffset()) * 60,
 ]);
 connectData("#devices dashboard-pie", k("device"));
 connectData("#platforms dashboard-pie ", k("platform"));
@@ -136,8 +150,8 @@ document.addEventListener("push-dump", (evt) => {
 	var dump = evt.detail;
 
 	// Store server-provided offset for future use
-	if (dump.meta?.offsetMinutesNow) {
-		window.state.currentOffset = Math.round(dump.meta.offsetMinutesNow / 60);
+	if (Number.isFinite(dump.meta?.offsetMinutesNow)) {
+		window.state.currentOffsetMinutes = dump.meta.offsetMinutesNow;
 	}
 
 	patchDump(dump);
@@ -253,9 +267,12 @@ function getDumpURL() {
 	const url = new URL(window.location.href);
 	const params = new URLSearchParams(url.search);
 
-	// Use server-provided offset if available, fallback to client calculation
-	const offset = window.state.currentOffset || getUTCOffset();
-	params.set("utcoffset", offset);
+	// Send precise minutes for new backends while preserving legacy hours param
+	const offsetMinutes = Number.isFinite(window.state.currentOffsetMinutes)
+		? window.state.currentOffsetMinutes
+		: (getUTCOffset() * 60);
+	params.set("offsetMinutes", offsetMinutes);
+	params.set("utcoffset", Math.round(offsetMinutes / 60));
 	return `/dump?${params.toString()}`;
 }
 
@@ -309,9 +326,11 @@ window.dGroupData = function dGroupData(entries, cutAt) {
 }
 
 function getUTCNow(utcoffset) {
-	// Use server-provided offset if available, fallback to legacy utcoffset
-	const offset = window.state.currentOffset || utcoffset;
-	return moment().add(parseInt(offset, 10), "hours").toDate();
+	// Prefer minutes; derive from utcoffset(hours) if needed
+	const minutes = Number.isFinite(window.state.currentOffsetMinutes)
+		? window.state.currentOffsetMinutes
+		: (Number.isFinite(utcoffset) ? Math.round(Number(utcoffset) * 60) : (getUTCOffset() * 60));
+	return moment().add(minutes, "minutes").toDate();
 }
 
 window.dFillDatesToNow = function dFillDatesToNow(myDates, utcoffset) {
@@ -432,6 +451,10 @@ window.dGetNormalizedHours = function dGetNormalizedHours(hours) {
 		...pad,
 		...formatedHours,
 	};
+}
+
+function getClientOffsetMinutes() {
+	return -new Date().getTimezoneOffset(); // minutes east of UTC
 }
 
 whenReady("base-navbar", (el) => {
