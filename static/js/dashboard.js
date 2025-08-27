@@ -335,6 +335,11 @@ function getUTCNow(utcoffset) {
 }
 
 window.dFillDatesToNow = function dFillDatesToNow(myDates, utcoffset) {
+	// Guard against empty or undefined myDates
+	if (!myDates || Object.keys(myDates).length === 0) {
+		return {};
+	}
+
 	// Hack, sort the keys in the object
 	var dates = Object.keys(myDates)
 		.sort()
