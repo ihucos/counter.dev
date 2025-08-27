@@ -112,6 +112,7 @@ customElements.define(
 			// Handle timezone selection
 			var timezone = prefs.timezone || "";
 			var timezoneSelect = this.querySelector("#timezone-select");
+			var utcoffsetInput = this.querySelector('input[name="utcoffset"]');
 
 			if (timezone) {
 				timezoneSelect.value = timezone;
@@ -121,6 +122,9 @@ customElements.define(
 					timezoneSelect.value = guess;
 				}
 			}
+			timezoneSelect.addEventListener("change", () => {
+				if (timezoneSelect.value) utcoffsetInput.value = "";
+			});
 
 			var sites = prefs.sites || "";
 			var mail = prefs.mail || "";
