@@ -134,6 +134,12 @@ document.addEventListener("push-dump", (evt) => {
 
 document.addEventListener("push-dump", (evt) => {
 	var dump = evt.detail;
+	
+	// Store server-provided offset for future use
+	if (dump.meta?.offsetMinutesNow) {
+		window.state.currentOffset = Math.round(dump.meta.offsetMinutesNow / 60);
+	}
+	
 	patchDump(dump);
 	document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
 });
@@ -246,7 +252,10 @@ document.addEventListener("redraw", (evt) => {
 function getDumpURL() {
 	const url = new URL(window.location.href);
 	const params = new URLSearchParams(url.search);
-	params.set("utcoffset", getUTCOffset());
+	
+	// Use server-provided offset if available, fallback to client calculation
+	const offset = window.state.currentOffset || getUTCOffset();
+	params.set("utcoffset", offset);
 	return `/dump?${params.toString()}`;
 }
 
