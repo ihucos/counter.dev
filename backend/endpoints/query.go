@@ -14,10 +14,16 @@ func init() {
 		} else {
 			user = ctx.ForceUser()
 		}
-		from, err := time.Parse("2006-01-02", ctx.R.FormValue("from"))
+		
+		// Parse dates in user's timezone, not UTC
+		userLocation, err := user.CurrentLocation()
 		ctx.CatchError(err)
-		to, err := time.Parse("2006-01-02", ctx.R.FormValue("to"))
+		
+		from, err := time.ParseInLocation("2006-01-02", ctx.R.FormValue("from"), userLocation)
 		ctx.CatchError(err)
+		to, err := time.ParseInLocation("2006-01-02", ctx.R.FormValue("to"), userLocation)
+		ctx.CatchError(err)
+		
 		fetched, err := ctx.App.QueryArchive(lib.QueryArchiveArgs{
 			User:     user.Id,
 			DateFrom: from,

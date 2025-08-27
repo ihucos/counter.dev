@@ -282,7 +282,7 @@ function _percentRepr(value, total) {
 	return percentRepr;
 }
 
-function _dGroupData(entries, cutAt) {
+function dGroupData(entries, cutAt) {
 	var entrs = Object.entries(entries);
 	entrs = entrs.sort((a, b) => b[1] - a[1]);
 	var top = entrs.slice(0, cutAt);
@@ -305,10 +305,12 @@ function _dGroupData(entries, cutAt) {
 }
 
 function getUTCNow(utcoffset) {
-	return moment().add(parseInt(utcoffset, 10), "hours").toDate();
+	// Use server-provided offset if available, fallback to legacy utcoffset
+	const offset = window.state.currentOffset || utcoffset;
+	return moment().add(parseInt(offset, 10), "hours").toDate();
 }
 
-function _dFillDatesToNow(myDates, utcoffset) {
+function dFillDatesToNow(myDates, utcoffset) {
 	// Hack, sort the keys in the object
 	var dates = Object.keys(myDates)
 		.sort()
@@ -342,7 +344,7 @@ function _dFillDatesToNow(myDates, utcoffset) {
 	};
 }
 
-function _dGroupDates(dates) {
+function dGroupDates(dates) {
 	const allMonths = Object.entries(dates).reduce((acc, val) => {
 		const group = moment(val[0]).format("MMMM YYYY");
 		acc.add(group);
@@ -415,7 +417,7 @@ HOUR_AM_PM = {
 	23: "11 p.m.",
 };
 
-function _dGetNormalizedHours(hours) {
+function dGetNormalizedHours(hours) {
 	const pad = Object.fromEntries(
 		[...Array(24).keys()].map((i) => [HOUR_AM_PM[i], 0]),
 	);
