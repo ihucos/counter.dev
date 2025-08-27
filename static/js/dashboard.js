@@ -60,7 +60,11 @@ connectData("dashboard-addbtn", (dump) => [dump.meta.sessionless]);
 
 connectData("dashboard-download", (dump) => [dump.sites[selector.site].visits[selector.range], selector.site, selector.range, dump.meta.sessionless]);
 
-connectData("counter-trackingcode", (dump) => [dump.user.uuid, dump.user.prefs.utcoffset || getUTCOffset()]);
+connectData("counter-trackingcode", (dump) => [
+    dump.user.uuid,
+    dump.user.prefs.utcoffset || getUTCOffset(),
+    dump.user.prefs.timezone || (dump.meta && dump.meta.timezone) || "",
+]);
 
 connectData("dashboard-dynamics", (dump) => [dump.sites[selector.site].visits[selector.range]["date"], dump.user.prefs.utcoffset || getUTCOffset()]);
 

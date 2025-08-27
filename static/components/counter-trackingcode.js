@@ -1,15 +1,16 @@
 customElements.define(
     tagName(),
     class extends HTMLElement {
-        getTrackingCode(uuid, utcoffset) {
-            if (String(uuid).includes('"') || String(utcoffset).includes('"')) {
+        getTrackingCode(uuid, utcoffset, timezone) {
+            if (String(uuid).includes('"') || String(utcoffset).includes('"') || String(timezone || '').includes('"')) {
                 console.log("Sanity input validation test failed");
                 return "error, contact support";
             }
-            return `<script src="https://cdn.counter.dev/script.js" data-id="${uuid}" data-utcoffset="${utcoffset}"></script>`;
+            const tzAttr = timezone ? ` data-timezone="${timezone}"` : "";
+            return `<script src="https://cdn.counter.dev/script.js" data-id="${uuid}" data-utcoffset="${utcoffset}"${tzAttr}></script>`;
         }
 
-        draw(uuid, utcoffset) {
+        draw(uuid, utcoffset, timezone) {
             this.style.display = "block";
             var randId = "tracking-" + Math.floor(Math.random() * 1000000 + 1);
             this.innerHTML = `
@@ -18,7 +19,7 @@ customElements.define(
                       type="text"
                       id="${randId}"
                       class="full"
-                      value='${this.getTrackingCode(uuid, utcoffset)}'
+                      value='${this.getTrackingCode(uuid, utcoffset, timezone)}'
                       readonly
                     />
                     <button
