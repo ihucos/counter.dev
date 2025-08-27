@@ -21,7 +21,7 @@ customElements.define(
                         </select>
                         <div class="caption mt8 text-muted">Choose your IANA timezone for accurate DST handling</div>
                         <!-- Hidden field for backward compatibility -->
-                        <input type="hidden" name="utcoffset" value="${prefs.utcoffset || getUTCOffset()}" />
+                         <input type="hidden" name="utcoffset" value="${escapeHtml(String(prefs.utcoffset ?? getUTCOffset()))}" />
                         <!-- Change password -->
                         <div class="title mb8 mt24">Change Password</div>
                         <label class="old-pass width-full"
