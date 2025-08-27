@@ -21,6 +21,33 @@ import (
 	"gorm.io/gorm"
 )
 
+// noDirectoryListingFS wraps an http.FileSystem to disable directory listings
+type noDirectoryListingFS struct {
+	fs http.FileSystem
+}
+
+func (fs noDirectoryListingFS) Open(name string) (http.File, error) {
+	file, err := fs.fs.Open(name)
+	if err != nil {
+		return nil, err
+	}
+
+	// Check if the opened file is a directory
+	stat, err := file.Stat()
+	if err != nil {
+		file.Close()
+		return nil, err
+	}
+
+	if stat.IsDir() {
+		// Close the directory file and return a 404-like error
+		file.Close()
+		return nil, os.ErrNotExist
+	}
+
+	return file, nil
+}
+
 type appAdapter struct {
 	App *App
 	fn  func(*Ctx)
@@ -152,9 +179,9 @@ func NewApp() *App {
 			return
 		}
 
-		// Create a file server rooted at the specified directory
+		// Create a file server rooted at the specified directory with no directory listings
 		// This prevents path traversal attacks and automatically sets Content-Type
-		fileServer = http.FileServer(http.Dir(prefix))
+		fileServer = http.FileServer(noDirectoryListingFS{http.Dir(prefix)})
 
 		// Serve the file using the secure file server
 		fileServer.ServeHTTP(w, r)
