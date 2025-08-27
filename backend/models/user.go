@@ -97,7 +97,7 @@ func NewUserByCachedUUID(conn redis.Conn, uuid string, db *gorm.DB, passwordSalt
 		// hit the redis db
 		id, err = redis.String(conn.Do("HGET", "uuid2id", uuid))
 		if err == redis.ErrNil {
-			return User{}, fmt.Errorf("No such user with uuid: %s", uuid)
+			return User{}, fmt.Errorf("no such user with uuid: %s", uuid)
 		} else if err != nil {
 			return User{}, err
 		}
