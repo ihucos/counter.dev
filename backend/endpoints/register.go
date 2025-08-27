@@ -28,13 +28,20 @@ func init() {
 
 			ctx.LogEvent("register")
 
-			utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
-			err := user.SetPref("utcoffset", utcoffset)
-			ctx.CatchError(err)
+			// Prioritize IANA timezone for new users
 			if timezone != "" {
 				if err := user.SetTimezone(timezone); err != nil {
 					ctx.ReturnBadRequest("Invalid timezone")
 				}
+				// Still store utcoffset for backwards compatibility
+				utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
+				err := user.SetPref("utcoffset", utcoffset)
+				ctx.CatchError(err)
+			} else {
+				// Fallback to utcoffset-only for older browsers or when timezone detection fails
+				utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
+				err := user.SetPref("utcoffset", utcoffset)
+				ctx.CatchError(err)
 			}
 			if mail != "" {
 				err := user.SetPref("mail", mail)

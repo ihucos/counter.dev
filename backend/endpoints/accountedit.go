@@ -27,13 +27,18 @@ func init() {
 		ctx.SetPref("usesites", useSites)
 		ctx.SetPref("mail", mail)
 
+		// Handle timezone preferences - prioritize IANA timezone
 		if timezone != "" {
 			if err := user.SetTimezone(timezone); err != nil {
 				ctx.ReturnBadRequest("Invalid timezone")
 			}
-		}
-
-		if ctx.R.FormValue("utcoffset") != "" {
+			// Also update utcoffset for backwards compatibility when timezone is set
+			if ctx.R.FormValue("utcoffset") != "" {
+				utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
+				ctx.SetPref("utcoffset", utcoffset)
+			}
+		} else if ctx.R.FormValue("utcoffset") != "" {
+			// Only set utcoffset if no timezone is provided (legacy users)
 			utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
 			ctx.SetPref("utcoffset", utcoffset)
 		}

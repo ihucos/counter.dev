@@ -40,6 +40,29 @@ function getUTCOffset() {
     return Math.round((-1 * new Date().getTimezoneOffset()) / 60);
 }
 
+function detectTimezone() {
+    try {
+        // Use Intl.DateTimeFormat to get IANA timezone
+        return Intl.DateTimeFormat().resolvedOptions().timeZone;
+    } catch (e) {
+        // Fallback for older browsers - return null to use UTC offset
+        return null;
+    }
+}
+
+function getTimezoneInfo() {
+    const timezone = detectTimezone();
+    const utcOffset = getUTCOffset();
+
+    return {
+        timezone: timezone,
+        utcOffset: utcOffset,
+        hasTimezone: timezone !== null,
+        // For backwards compatibility with existing code
+        preferTimezone: timezone !== null
+    };
+}
+
 function escapeHtml(unsafe) {
     return (`${unsafe}`)
         .replace(/&/g, "&amp;")
