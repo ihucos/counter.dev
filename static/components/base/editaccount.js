@@ -15,9 +15,13 @@ customElements.define(
                     <!-- Time zone -->
                     <div class="title mb16">Time Zone</div>
                     <form action="/accountedit" id="account-edit" method="POST">
-                        <select class="width-full" name="utcoffset">
-                          ${this.TIMEZONES.map((i) => `<option value="${escapeHtml(i[0])}">${escapeHtml(i[1])}</option>`).join("")}
+                        <select class="width-full" name="timezone" id="timezone-select">
+                          <option value="">Select your timezone</option>
+                          ${this.TIMEZONES.map((tz) => `<option value="${escapeHtml(tz.value)}">${escapeHtml(tz.label)}</option>`).join("")}
                         </select>
+                        <div class="caption mt8 text-muted">Choose your IANA timezone for accurate DST handling</div>
+                        <!-- Hidden field for backward compatibility -->
+                        <input type="hidden" name="utcoffset" value="${prefs.utcoffset || getUTCOffset()}" />
                         <!-- Change password -->
                         <div class="title mb8 mt24">Change Password</div>
                         <label class="old-pass width-full"
@@ -105,10 +109,12 @@ customElements.define(
                   </div>
                 </div>`;
 
-            var utcoffset = prefs.utcoffset || getUTCOffset();
-
-            if (!isNaN(utcoffset)) {
-                this.querySelector(`option[value="${utcoffset}"]`).setAttribute("selected", "selected");
+            // Handle timezone selection
+            var timezone = prefs.timezone || "";
+            var timezoneSelect = this.querySelector('#timezone-select');
+            
+            if (timezone) {
+                timezoneSelect.value = timezone;
             }
 
             var sites = prefs.sites || "";
@@ -149,33 +155,34 @@ customElements.define(
         }
 
         TIMEZONES = [
-            [-12, "[UTC-12:00] United States Minor Outlying Islands"],
-            [-11, "[UTC-11:00] United States Minor Outlying Islands"],
-            [-10, "[UTC-10:00] Honolulu"],
-            [-9, "[UTC-09:00] Anchorage"],
-            [-8, "[UTC-08:00] Los Angeles, Vancouver, Tijuana"],
-            [-7, "[UTC-07:00] Denver, Edmonton, Ciudad Juárez"],
-            [-6, "[UTC-06:00] Mexico City, Chicago, Guatemala City"],
-            [-5, "[UTC-05:00] New York, Toronto, Bogotá"],
-            [-4, "[UTC-04:00] Santiago, Santo Domingo, Manaus"],
-            [-3, "[UTC-03:00] São Paulo, Buenos Aires, Montevideo"],
-            [-2, "[UTC-02:00] Fernando de Noronha"],
-            [-1, "[UTC-01:00] Cape Verde, Azores islands"],
-            [0, "[UTC+00:00] London, Dublin, Lisbon"],
-            [1, "[UTC+01:00] Berlin, Rome, Paris"],
-            [2, "[UTC+02:00] Cairo, Johannesburg, Khartoum"],
-            [3, "[UTC+03:00] Moscow, Istanbul, Riyadh"],
-            [4, "[UTC+04:00] Dubai, Baku, Tbilisi"],
-            [5, "[UTC+05:00] Karachi, Tashkent, Yekaterinburg"],
-            [6, "[UTC+06:00] Dhaka, Almaty, Omsk"],
-            [7, "[UTC+07:00] Jakarta, Ho Chi Minh City, Bangkok"],
-            [8, "[UTC+08:00] Shanghai, Taipei, Kuala Lumpur"],
-            [9, "[UTC+09:00] Tokyo, Seoul, Pyongyang, Ambon"],
-            [10, "[UTC+10:00] Sydney, Port Moresby, Vladivostok"],
-            [11, "[UTC+11:00] Nouméa, Magadan"],
-            [12, "[UTC+12:00] Auckland, Suva, Petropavlovsk-Kamchatsky"],
-            [13, "[UTC+13:00] Phoenix Islands, Samoa"],
-            [14, "[UTC+14:00] Line Islands"],
+            { value: "America/New_York", label: "Eastern Time (US & Canada)" },
+            { value: "America/Chicago", label: "Central Time (US & Canada)" },
+            { value: "America/Denver", label: "Mountain Time (US & Canada)" },
+            { value: "America/Los_Angeles", label: "Pacific Time (US & Canada)" },
+            { value: "America/Anchorage", label: "Alaska" },
+            { value: "Pacific/Honolulu", label: "Hawaii" },
+            { value: "America/Toronto", label: "Eastern Time (Canada)" },
+            { value: "America/Vancouver", label: "Pacific Time (Canada)" },
+            { value: "Europe/London", label: "London" },
+            { value: "Europe/Paris", label: "Paris" },
+            { value: "Europe/Berlin", label: "Berlin" },
+            { value: "Europe/Rome", label: "Rome" },
+            { value: "Europe/Moscow", label: "Moscow" },
+            { value: "Asia/Tokyo", label: "Tokyo" },
+            { value: "Asia/Shanghai", label: "Shanghai" },
+            { value: "Asia/Seoul", label: "Seoul" },
+            { value: "Asia/Singapore", label: "Singapore" },
+            { value: "Asia/Dubai", label: "Dubai" },
+            { value: "Asia/Kolkata", label: "Kolkata" },
+            { value: "Australia/Sydney", label: "Sydney" },
+            { value: "Australia/Melbourne", label: "Melbourne" },
+            { value: "Pacific/Auckland", label: "Auckland" },
+            { value: "America/Sao_Paulo", label: "São Paulo" },
+            { value: "America/Argentina/Buenos_Aires", label: "Buenos Aires" },
+            { value: "America/Mexico_City", label: "Mexico City" },
+            { value: "Africa/Cairo", label: "Cairo" },
+            { value: "Africa/Johannesburg", label: "Johannesburg" },
+            { value: "UTC", label: "UTC (Coordinated Universal Time)" },
         ];
     },
 );
