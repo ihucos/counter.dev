@@ -5,11 +5,11 @@ customElements.define(
         STABILITY = "stability";
         NEGATIVE = "negative";
 
-        draw(dates, utcoffset) {
+        draw(dates) {
             let text;
-            let groupdedDates = dGroupDates(dates);
-            let keys = groupdedDates[0];
-            let vals = groupdedDates[1];
+            const groupdedDates = dGroupDates(dates);
+            const keys = groupdedDates[0];
+            const vals = groupdedDates[1];
             this.classList.add("graph-dynamics");
             if (vals.length === 0) {
                 this.classList.add("nodata");
@@ -17,10 +17,10 @@ customElements.define(
             } else if (vals.length < 3) {
                 this.drawTrend(this.STABILITY, null, "Not enough data");
             } else {
-                let labelPrev = keys[keys.length - 2];
-                let labelPrevPrev = keys[keys.length - 3];
-                let valPrev = vals[vals.length - 2];
-                let valPrevPrev = vals[vals.length - 3];
+                const labelPrev = keys[keys.length - 2];
+                const labelPrevPrev = keys[keys.length - 3];
+                const valPrev = vals[vals.length - 2];
+                const valPrevPrev = vals[vals.length - 3];
                 text = `Comparing ${labelPrev} and ${labelPrevPrev}`;
 
                 if (valPrevPrev + valPrevPrev <= 2) {
@@ -30,7 +30,7 @@ customElements.define(
                     return;
                 }
 
-                let percent = Math.round((valPrev / valPrevPrev - 1) * 100);
+                const percent = Math.round((valPrev / valPrevPrev - 1) * 100);
                 //let dd = vals.slice(0, -1)
 
                 if (percent > 10) {
@@ -49,7 +49,7 @@ customElements.define(
         drawTrend(trend, percent, text) {
             let percentAbs;
             if (percent !== null) {
-                percentAbs = Math.abs(percent) + "%";
+                percentAbs = `${Math.abs(percent)}%`;
             } else {
                 percentAbs = "";
             }
@@ -96,7 +96,7 @@ customElements.define(
                    <a href="#modal-tips" class="btn-white" rel="modal:open">Our tips</a>
                  </div>`;
             } else {
-                alert("unknown trend " + trend);
+                alert(`unknown trend ${trend}`);
             }
         }
     },

@@ -6,7 +6,7 @@ customElements.define(
                 console.log("Sanity input validation test failed");
                 return "error, contact support";
             }
-            
+
             // Prefer timezone over utcoffset when both are available
             if (timezone) {
                 return `<script src="https://cdn.counter.dev/script.js" data-id="${uuid}" data-timezone="${timezone}"></script>`;

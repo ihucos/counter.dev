@@ -74,7 +74,6 @@ connectData("counter-trackingcode", (dump) => [
 
 connectData("dashboard-dynamics", (dump) => [
 	dump.sites[selector.site].visits[selector.range].date,
-	dump.meta?.offsetMinutesNow ? Math.round(dump.meta.offsetMinutesNow / 60) : (dump.user.prefs.utcoffset || getUTCOffset()),
 ]);
 
 connectData("dashboard-graph", (dump) => [

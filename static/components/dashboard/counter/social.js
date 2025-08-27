@@ -105,7 +105,7 @@ customElements.define(
             "ello.co",
             "vimeo.com",
 
-            // addedd manually.
+            // added manually.
             "indiehackers.com",
             "dev.to",
             "t.co",
