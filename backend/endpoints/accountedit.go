@@ -16,6 +16,7 @@ func init() {
 		sites := ctx.R.FormValue("sites")
 		useSites := ctx.R.FormValue("usesites")
 		mail := ctx.R.FormValue("mail")
+		timezone := ctx.R.FormValue("timezone")
 
 		user := ctx.ForceUser()
 
@@ -25,6 +26,12 @@ func init() {
 		ctx.SetPref("sites", sites)
 		ctx.SetPref("usesites", useSites)
 		ctx.SetPref("mail", mail)
+
+		if timezone != "" {
+			if err := user.SetTimezone(timezone); err != nil {
+				ctx.ReturnBadRequest("Invalid timezone")
+			}
+		}
 
 		if ctx.R.FormValue("utcoffset") != "" {
 			utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))

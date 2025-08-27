@@ -12,6 +12,7 @@ func init() {
 		userId := ctx.R.FormValue("user")
 		mail := ctx.R.FormValue("mail")
 		password := ctx.R.FormValue("password")
+		timezone := ctx.R.FormValue("timezone")
 		if userId == "" {
 			ctx.ReturnBadRequest("Missing Input: user")
 		}
@@ -30,6 +31,11 @@ func init() {
 			utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
 			err := user.SetPref("utcoffset", utcoffset)
 			ctx.CatchError(err)
+			if timezone != "" {
+				if err := user.SetTimezone(timezone); err != nil {
+					ctx.ReturnBadRequest("Invalid timezone")
+				}
+			}
 			if mail != "" {
 				err := user.SetPref("mail", mail)
 				ctx.CatchError(err)
