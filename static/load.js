@@ -8,6 +8,7 @@
 	"/components/base/footer.js",
 	"/components/base/navbar.js",
 	"/components/base/pwyw.js",
+	"/components/base/timezone-migration.js",
 	"/components/dashboard/_base.js",
 	"/components/dashboard/addbtn.js",
 	"/components/dashboard/connstatus.js",

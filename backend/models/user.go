@@ -386,6 +386,51 @@ func (user User) CurrentLocation() (*time.Location, error) {
 	return time.LoadLocation(tz)
 }
 
+// SuggestTimezoneFromOffset suggests IANA timezones based on UTC offset
+func SuggestTimezoneFromOffset(utcOffset int) []string {
+	offsetToTimezones := map[int][]string{
+		-12: {"Pacific/Kwajalein"},
+		-11: {"Pacific/Midway"},
+		-10: {"Pacific/Honolulu"},
+		-9:  {"America/Anchorage"},
+		-8:  {"America/Los_Angeles", "America/Vancouver"},
+		-7:  {"America/Denver", "America/Phoenix"},
+		-6:  {"America/Chicago", "America/Mexico_City"},
+		-5:  {"America/New_York", "America/Toronto", "America/Bogota"},
+		-4:  {"America/Halifax", "America/Santiago"},
+		-3:  {"America/Sao_Paulo", "America/Argentina/Buenos_Aires"},
+		-2:  {"Atlantic/South_Georgia"},
+		-1:  {"Atlantic/Azores"},
+		0:   {"UTC", "Europe/London"},
+		1:   {"Europe/Paris", "Europe/Berlin", "Europe/Rome"},
+		2:   {"Europe/Helsinki", "Africa/Cairo", "Africa/Johannesburg"},
+		3:   {"Europe/Moscow", "Asia/Kuwait", "Africa/Nairobi"},
+		4:   {"Asia/Dubai", "Asia/Baku"},
+		5:   {"Asia/Karachi", "Asia/Tashkent"},
+		6:   {"Asia/Dhaka", "Asia/Almaty"},
+		7:   {"Asia/Bangkok", "Asia/Ho_Chi_Minh"},
+		8:   {"Asia/Shanghai", "Asia/Singapore", "Australia/Perth"},
+		9:   {"Asia/Tokyo", "Asia/Seoul"},
+		10:  {"Australia/Sydney", "Australia/Brisbane", "Pacific/Guam"},
+		11:  {"Pacific/Noumea"},
+		12:  {"Pacific/Auckland", "Pacific/Fiji"},
+		13:  {"Pacific/Tongatapu"},
+		14:  {"Pacific/Kiritimati"},
+	}
+	
+	if timezones, exists := offsetToTimezones[utcOffset]; exists {
+		return timezones
+	}
+	return []string{"UTC"} // fallback
+}
+
+// NeedsTimezoneUpdate checks if user needs to update from utcoffset to timezone
+func (user User) NeedsTimezoneUpdate() bool {
+	timezone, _ := user.ReadTimezone()
+	utcoffset, _ := user.GetPref("utcoffset")
+	return timezone == "" && utcoffset != ""
+}
+
 func (user User) NewSite(Id string) Site {
 	return Site{redis: user.redis, userId: user.Id, id: Id, db: user.db}
 }

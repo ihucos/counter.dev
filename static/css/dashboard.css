@@ -3,6 +3,48 @@
 /* Import */
 @import url("styles.css");
 
+/* Timezone Migration Banner */
+.timezone-migration-banner {
+  margin: 16px auto;
+  max-width: 1200px;
+}
+
+.timezone-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.timezone-suggestion {
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  background: #f5f5f5;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.timezone-suggestion:hover {
+  background: #147EFB;
+  color: white;
+  border-color: #147EFB;
+}
+
+.btn-secondary-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  background: #f5f5f5;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary-sm:hover {
+  background: #e0e0e0;
+}
+
 /* Headline */
 .headline {
   margin: 48px 0 16px 0;

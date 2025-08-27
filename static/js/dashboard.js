@@ -125,6 +125,7 @@ connectData("dashboard-hour", k("hour"));
 connectData("dashboard-week", k("weekday"));
 connectData("dashboard-time", k("hour"));
 connectData("dashboard-share-account", (dump) => [dump.user, dump.meta]);
+connectData("base-timezone-migration", (dump) => [dump.user]);
 
 document.addEventListener("push-dump", (evt) => {
 	if (Object.keys(evt.detail.sites).length === 0) {
