@@ -307,14 +307,19 @@ function _dFillDatesToNow(myDates, utcoffset) {
 			return acc;
 		}, {});
 
-	var daysRange = (startDate, endDate) => {
+		var daysRange = (startDate, endDate) => {
 		var start = new Date(startDate);
 		var end = new Date(endDate);
-		var o = {};
-		for (var a = [], d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-			o[new Date(d).toISOString().substring(0, 10)] = 0;
-		}
-		return o;
+		var daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+
+		return Array.from({ length: daysDiff + 1 }, (_, i) => {
+			var date = new Date(start);
+			date.setDate(start.getDate() + i);
+			return date.toISOString().substring(0, 10);
+		}).reduce((acc, date) => {
+			acc[date] = 0;
+			return acc;
+		}, {});
 	};
 
 	var sortedAvailableDates = Object.keys(dates).sort((a, b) => {
