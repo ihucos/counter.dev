@@ -6,7 +6,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"strings"
-    "time"
+	"time"
 
 	"github.com/gomodule/redigo/redis"
 	uuidLib "github.com/google/uuid"
@@ -117,7 +117,7 @@ func (user User) DelAllSites() error {
 	if err != nil {
 		return err
 	}
-	for siteId, _ := range linkedSites {
+	for siteId := range linkedSites {
 		err := user.NewSite(siteId).Del()
 		if err != nil {
 			return err
@@ -359,31 +359,31 @@ func (user User) SetPref(key string, value string) error {
 // SetTimezone validates and persists the user's IANA timezone name in prefs.
 // Pass an empty string to unset the timezone preference.
 func (user User) SetTimezone(timezone string) error {
-    if timezone == "" {
-        return user.SetPref("timezone", "")
-    }
-    if _, err := time.LoadLocation(timezone); err != nil {
-        return err
-    }
-    return user.SetPref("timezone", timezone)
+	if timezone == "" {
+		return user.SetPref("timezone", "")
+	}
+	if _, err := time.LoadLocation(timezone); err != nil {
+		return err
+	}
+	return user.SetPref("timezone", timezone)
 }
 
 // ReadTimezone returns the stored IANA timezone name or an empty string if unset.
 func (user User) ReadTimezone() (string, error) {
-    return user.GetPref("timezone")
+	return user.GetPref("timezone")
 }
 
 // CurrentLocation resolves the user's preferred timezone to a *time.Location.
 // Falls back to UTC when no valid timezone preference is set.
 func (user User) CurrentLocation() (*time.Location, error) {
-    tz, err := user.ReadTimezone()
-    if err != nil {
-        return nil, err
-    }
-    if tz == "" {
-        return time.LoadLocation("UTC")
-    }
-    return time.LoadLocation(tz)
+	tz, err := user.ReadTimezone()
+	if err != nil {
+		return nil, err
+	}
+	if tz == "" {
+		return time.LoadLocation("UTC")
+	}
+	return time.LoadLocation(tz)
 }
 
 func (user User) NewSite(Id string) Site {
