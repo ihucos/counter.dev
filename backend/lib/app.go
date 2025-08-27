@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path"
 	"path/filepath"
 	"regexp"
 	"runtime"
@@ -40,9 +41,29 @@ func (fs noDirectoryListingFS) Open(name string) (http.File, error) {
 	}
 
 	if stat.IsDir() {
-		// Close the directory file and return a 404-like error
+		// Close the directory file
 		file.Close()
-		return nil, os.ErrNotExist
+
+		// Attempt to open index.html inside the directory
+		indexPath := path.Join(name, "index.html")
+		indexFile, err := fs.fs.Open(indexPath)
+		if err != nil {
+			return nil, os.ErrNotExist
+		}
+
+		// Check if the index file is actually a file (not a directory)
+		indexStat, err := indexFile.Stat()
+		if err != nil {
+			indexFile.Close()
+			return nil, os.ErrNotExist
+		}
+
+		if indexStat.IsDir() {
+			indexFile.Close()
+			return nil, os.ErrNotExist
+		}
+
+		return indexFile, nil
 	}
 
 	return file, nil
