@@ -1,9 +1,9 @@
 package endpoints
 
 import (
+	"strconv"
 	"strings"
 	"time"
-	"strconv"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/lib"
