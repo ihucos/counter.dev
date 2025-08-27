@@ -6,7 +6,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"path"
 	"path/filepath"
 	"regexp"
 	"runtime"
@@ -21,53 +20,6 @@ import (
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 )
-
-// noDirectoryListingFS wraps an http.FileSystem to disable directory listings
-type noDirectoryListingFS struct {
-	fs http.FileSystem
-}
-
-func (fs noDirectoryListingFS) Open(name string) (http.File, error) {
-	file, err := fs.fs.Open(name)
-	if err != nil {
-		return nil, err
-	}
-
-	// Check if the opened file is a directory
-	stat, err := file.Stat()
-	if err != nil {
-		file.Close()
-		return nil, err
-	}
-
-	if stat.IsDir() {
-		// Close the directory file
-		file.Close()
-
-		// Attempt to open index.html inside the directory
-		indexPath := path.Join(name, "index.html")
-		indexFile, err := fs.fs.Open(indexPath)
-		if err != nil {
-			return nil, os.ErrNotExist
-		}
-
-		// Check if the index file is actually a file (not a directory)
-		indexStat, err := indexFile.Stat()
-		if err != nil {
-			indexFile.Close()
-			return nil, os.ErrNotExist
-		}
-
-		if indexStat.IsDir() {
-			indexFile.Close()
-			return nil, os.ErrNotExist
-		}
-
-		return indexFile, nil
-	}
-
-	return file, nil
-}
 
 type appAdapter struct {
 	App *App
@@ -168,11 +120,8 @@ func NewApp() *App {
 
 	serveMux := http.NewServeMux()
 
-	// Create file server handlers for different host configurations
 	serveMux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		var prefix string
-		var fileServer http.Handler
-
 		if r.Host == "localhost:8080" {
 			if strings.HasPrefix(r.URL.Path, "/blog/") ||
 				r.URL.Path == "/blog" ||
@@ -199,13 +148,12 @@ func NewApp() *App {
 			fmt.Fprintf(w, "Bad Host")
 			return
 		}
-
-		// Create a file server rooted at the specified directory with no directory listings
-		// This prevents path traversal attacks and automatically sets Content-Type
-		fileServer = http.FileServer(noDirectoryListingFS{http.Dir(prefix)})
-
-		// Serve the file using the secure file server
-		fileServer.ServeHTTP(w, r)
+		// Handle root path explicitly to avoid directory listing issues
+		if r.URL.Path == "/" {
+			http.ServeFile(w, r, prefix+"/index.html")
+		} else {
+			http.ServeFile(w, r, prefix+r.URL.Path)
+		}
 	})
 	app := &App{
 		RedisPool:    redisPool,
