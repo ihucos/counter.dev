@@ -22,7 +22,7 @@ Chart.defaults.global.tooltips = {
 	},
 };
 Chart.defaults.global.tooltips.callbacks.label = (tooltipItem, data) => {
-	var value = data.datasets[0].data[tooltipItem.index];
+	var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
 	return numberFormat(value);
 };
 
