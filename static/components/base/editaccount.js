@@ -137,15 +137,15 @@ customElements.define(
 			sitesEl.value = sites;
 			mailEl.value = mail;
 
-			const showHidePrefferedSites = () => {
+			const showHidePreferredSites = () => {
 				if (useSitesEl.value === "") {
 					$(sitesEl.parentElement).slideUp();
 				} else {
 					$(sitesEl.parentElement).slideDown();
 				}
 			};
-			showHidePrefferedSites();
-			useSitesEl.addEventListener("change", showHidePrefferedSites, false);
+			showHidePreferredSites();
+			useSitesEl.addEventListener("change", showHidePreferredSites, false);
 
 			var deleteRequest = this.querySelector(".delete-request");
 			var deleteConfirm = this.querySelector(".delete-confirm");
