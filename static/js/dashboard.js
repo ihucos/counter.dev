@@ -274,6 +274,11 @@ function numberFormat(x) {
 }
 
 function percentRepr(value, total) {
+	// Input validation to prevent Infinity%, NaN%, or division by zero
+	if (typeof value !== 'number' || typeof total !== 'number' || !isFinite(total) || total === 0) {
+		return "0%";
+	}
+
 	var percentRepr = `${Math.round((value / total) * 100)}%`;
 	if (percentRepr === "0%") {
 		percentRepr = "<1%";
