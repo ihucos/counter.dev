@@ -32,6 +32,7 @@ func init() {
 			if timezone != "" {
 				if err := user.SetTimezone(timezone); err != nil {
 					ctx.ReturnBadRequest("Invalid timezone")
+					return
 				}
 				// Still store utcoffset for backwards compatibility
 				utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
