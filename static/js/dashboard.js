@@ -271,7 +271,7 @@ function getDumpURL() {
 	// Send precise minutes for new backends while preserving legacy hours param
 	const offsetMinutes = Number.isFinite(window.state.currentOffsetMinutes)
 		? window.state.currentOffsetMinutes
-		: (getUTCOffset() * 60);
+		: getClientOffsetMinutes();
 	params.set("offsetMinutes", offsetMinutes);
 	params.set("utcoffset", Math.round(offsetMinutes / 60));
 	return `/dump?${params.toString()}`;
