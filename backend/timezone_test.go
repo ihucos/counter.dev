@@ -62,7 +62,7 @@ func TestDSTTransitions(t *testing.T) {
 		{
 			name:           "Europe/Berlin DST transition fall back",
 			timezone:       "Europe/Berlin",
-			date:           "2024-10-27 02:00", // 3AM becomes 2AM
+			date:           "2024-10-27 03:00", // After DST fallback, unambiguous standard time
 			expectedOffset: 60,                 // Should be back to standard time
 		},
 
