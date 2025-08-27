@@ -374,7 +374,7 @@ func (user User) ReadTimezone() (string, error) {
 }
 
 // CurrentLocation resolves the user's preferred timezone to a *time.Location.
-// Falls back to UTC when no valid timezone preference is set.
+// Falls back to UTC when no valid timezone preference is set or when the stored timezone is invalid.
 func (user User) CurrentLocation() (*time.Location, error) {
 	tz, err := user.ReadTimezone()
 	if err != nil {
@@ -383,7 +383,16 @@ func (user User) CurrentLocation() (*time.Location, error) {
 	if tz == "" {
 		return time.LoadLocation("UTC")
 	}
-	return time.LoadLocation(tz)
+
+	// Try to load the stored timezone, fall back to UTC if invalid
+	location, err := time.LoadLocation(tz)
+	if err != nil {
+		// If the stored timezone is invalid, fall back to UTC
+		location, _ = time.LoadLocation("UTC")
+		return location, nil
+	}
+
+	return location, nil
 }
 
 // SuggestTimezoneFromOffset suggests IANA timezones based on UTC offset
