@@ -31,15 +31,15 @@ func TestDSTTransitions(t *testing.T) {
 			name:           "US/Eastern DST transition spring forward",
 			timezone:       "America/New_York",
 			date:           "2024-03-10 07:00", // 2AM becomes 3AM
-			expectedOffset: -240,                // Should be in DST
+			expectedOffset: -240,               // Should be in DST
 		},
 		{
 			name:           "US/Eastern DST transition fall back",
 			timezone:       "America/New_York",
 			date:           "2024-11-03 06:00", // 2AM becomes 1AM
-			expectedOffset: -300,                // Should be back to standard time
+			expectedOffset: -300,               // Should be back to standard time
 		},
-		
+
 		// European Time DST transitions
 		{
 			name:           "Europe/Berlin before DST (winter)",
@@ -57,13 +57,13 @@ func TestDSTTransitions(t *testing.T) {
 			name:           "Europe/Berlin DST transition spring forward",
 			timezone:       "Europe/Berlin",
 			date:           "2024-03-31 03:00", // 2AM becomes 3AM
-			expectedOffset: 120,                 // Should be in DST
+			expectedOffset: 120,                // Should be in DST
 		},
 		{
 			name:           "Europe/Berlin DST transition fall back",
 			timezone:       "Europe/Berlin",
 			date:           "2024-10-27 02:00", // 3AM becomes 2AM
-			expectedOffset: 60,                  // Should be back to standard time
+			expectedOffset: 60,                 // Should be back to standard time
 		},
 
 		// Australia DST (opposite hemisphere)
@@ -216,7 +216,7 @@ func TestUserTimezoneResolution(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			// Test timezone loading directly
 			location, err := time.LoadLocation(tt.timezone)
-			
+
 			if tt.shouldError {
 				if err == nil {
 					t.Errorf("Expected error for invalid timezone %s, got none", tt.timezone)
@@ -244,25 +244,25 @@ func TestTimezoneAwareDateParsing(t *testing.T) {
 			name:         "New York midnight becomes 5 AM UTC (EST)",
 			timezone:     "America/New_York",
 			dateString:   "2024-01-15", // Winter (EST)
-			expectedHour: 5,             // 00:00 EST = 05:00 UTC
+			expectedHour: 5,            // 00:00 EST = 05:00 UTC
 		},
 		{
 			name:         "New York midnight becomes 4 AM UTC (EDT)",
 			timezone:     "America/New_York",
 			dateString:   "2024-07-15", // Summer (EDT)
-			expectedHour: 4,             // 00:00 EDT = 04:00 UTC
+			expectedHour: 4,            // 00:00 EDT = 04:00 UTC
 		},
 		{
 			name:         "Berlin midnight becomes 11 PM UTC (CET)",
 			timezone:     "Europe/Berlin",
 			dateString:   "2024-01-15", // Winter (CET)
-			expectedHour: 23,            // 00:00 CET = 23:00 UTC (previous day)
+			expectedHour: 23,           // 00:00 CET = 23:00 UTC (previous day)
 		},
 		{
 			name:         "Berlin midnight becomes 10 PM UTC (CEST)",
 			timezone:     "Europe/Berlin",
 			dateString:   "2024-07-15", // Summer (CEST)
-			expectedHour: 22,            // 00:00 CEST = 22:00 UTC (previous day)
+			expectedHour: 22,           // 00:00 CEST = 22:00 UTC (previous day)
 		},
 		{
 			name:         "India midnight with fractional offset",
@@ -436,25 +436,25 @@ func TestDSTBoundaryConditions(t *testing.T) {
 			name:     "US Eastern just before spring DST",
 			timezone: "America/New_York",
 			dateTime: "2024-03-10 01:59", // 1:59 AM EST, before 2 AM jump
-			expected: false,               // Still standard time
+			expected: false,              // Still standard time
 		},
 		{
 			name:     "US Eastern just after spring DST",
 			timezone: "America/New_York",
 			dateTime: "2024-03-10 03:01", // 3:01 AM EDT, after 2 AM jump
-			expected: true,                // Now daylight time
+			expected: true,               // Now daylight time
 		},
 		{
 			name:     "Europe Berlin just before spring DST",
 			timezone: "Europe/Berlin",
 			dateTime: "2024-03-31 00:59", // 1:59 AM CET, before 2 AM jump
-			expected: false,               // Still standard time
+			expected: false,              // Still standard time
 		},
 		{
 			name:     "Europe Berlin just after spring DST",
 			timezone: "Europe/Berlin",
 			dateTime: "2024-03-31 03:01", // 3:01 AM CEST, after 2 AM jump
-			expected: true,                // Now daylight time
+			expected: true,               // Now daylight time
 		},
 	}
 
@@ -473,7 +473,7 @@ func TestDSTBoundaryConditions(t *testing.T) {
 			// Check if DST is active by examining the zone abbreviation
 			zoneName, _ := testTime.Zone()
 			isDST := false
-			
+
 			// Common DST patterns
 			if tt.timezone == "America/New_York" {
 				isDST = zoneName == "EDT" // Eastern Daylight Time

@@ -16,7 +16,8 @@ the steps below to integrate Counter.dev into your Shopify store:
 4. Find the closing `</head>` tag in the theme.liquid file.
 
 5. Copy the Counter.dev tracking script provided in your Counter.dev account
-   and paste it just before the closing `</head>` tag.
+   and paste it just before the closing `</head>` tag. We recommend using the
+   script with `data-timezone` for better accuracy (e.g., `data-timezone="America/New_York"`).
 
 6. Save the changes to the theme.liquid file.
 

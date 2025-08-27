@@ -10,7 +10,8 @@ WordPress site:
 2. Open the header.php file and find the closing `</head>` tag.
 
 3. Copy the Counter.dev tracking script provided in your Counter.dev account
-   and paste it just before the closing `</head>` tag.
+   and paste it just before the closing `</head>` tag. We recommend using the
+   script with `data-timezone` for better accuracy (e.g., `data-timezone="America/New_York"`).
 
 4. Save the changes to the header.php file.
 

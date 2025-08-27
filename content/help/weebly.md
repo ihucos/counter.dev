@@ -13,6 +13,8 @@ started:
 4. Scroll down to the Header Code section and click on the Edit button.
 
 5. Copy the Counter.dev tracking script provided in your Counter.dev account.
+   We recommend using the script with `data-timezone` for better accuracy
+   (e.g., `data-timezone="America/New_York"`).
 
 6. Paste the script into the Header Code section.
 

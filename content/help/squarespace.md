@@ -11,6 +11,8 @@ started:
 3. Scroll down to the Code Injection section and click on the Header field.
 
 4. Copy the Counter.dev tracking script provided in your Counter.dev account.
+   We recommend using the script with `data-timezone` for better accuracy
+   (e.g., `data-timezone="America/New_York"`).
 
 5. Paste the script into the Header section.
 

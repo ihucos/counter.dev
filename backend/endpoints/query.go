@@ -1,9 +1,10 @@
 package endpoints
 
 import (
+	"time"
+
 	"github.com/ihucos/counter.dev/lib"
 	"github.com/ihucos/counter.dev/models"
-	"time"
 )
 
 func init() {
@@ -14,16 +15,16 @@ func init() {
 		} else {
 			user = ctx.ForceUser()
 		}
-		
+
 		// Parse dates in user's timezone, not UTC
 		userLocation, err := user.CurrentLocation()
 		ctx.CatchError(err)
-		
+
 		from, err := time.ParseInLocation("2006-01-02", ctx.R.FormValue("from"), userLocation)
 		ctx.CatchError(err)
 		to, err := time.ParseInLocation("2006-01-02", ctx.R.FormValue("to"), userLocation)
 		ctx.CatchError(err)
-		
+
 		fetched, err := ctx.App.QueryArchive(lib.QueryArchiveArgs{
 			User:     user.Id,
 			DateFrom: from,

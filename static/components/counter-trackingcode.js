@@ -6,8 +6,14 @@ customElements.define(
                 console.log("Sanity input validation test failed");
                 return "error, contact support";
             }
-            const tzAttr = timezone ? ` data-timezone="${timezone}"` : "";
-            return `<script src="https://cdn.counter.dev/script.js" data-id="${uuid}" data-utcoffset="${utcoffset}"${tzAttr}></script>`;
+            
+            // Prefer timezone over utcoffset when both are available
+            if (timezone) {
+                return `<script src="https://cdn.counter.dev/script.js" data-id="${uuid}" data-timezone="${timezone}"></script>`;
+            } else {
+                // Fallback to utcoffset for backward compatibility
+                return `<script src="https://cdn.counter.dev/script.js" data-id="${uuid}" data-utcoffset="${utcoffset}"></script>`;
+            }
         }
 
         draw(uuid, utcoffset, timezone) {

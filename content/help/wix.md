@@ -15,6 +15,8 @@ Integrating Counter.dev tracking script in your Wix website is a simple process 
 6. Select the Custom option.
 
 7. In the HTML Code field, paste the Counter.dev tracking script provided in your Counter.dev account.
+   We recommend using the script with `data-timezone` for better accuracy
+   (e.g., `data-timezone="America/New_York"`).
 
 8. In the Name field, enter a descriptive name for the tracking tool.
 

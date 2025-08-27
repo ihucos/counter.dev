@@ -16,9 +16,19 @@ We do now offer a vanilla tracking script, example:
 ```
 <script src="https://cdn.counter.dev/script.js"
   data-id="93671ad4-a966-4a52-b48f-56c92d10a671"
+  data-timezone="Europe/Berlin"
+</script>
+```
+
+**Legacy format** (still supported):
+```
+<script src="https://cdn.counter.dev/script.js"
+  data-id="93671ad4-a966-4a52-b48f-56c92d10a671"
   data-utcoffset="1"
 </script>
 ```
+
+**Note:** We recommend using `data-timezone` with IANA timezone names (like "Europe/Berlin", "America/New_York") instead of `data-utcoffset` for better accuracy, especially with Daylight Saving Time transitions.
 
 ## How to migrate
 

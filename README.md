@@ -14,6 +14,14 @@ Shows how many people visit your web application.
 
 Counter is a small Go server and static assets. Everything is saved to Redis. A normal SQL database is used for archiving older data.
 
+## Features
+
+- **Privacy-focused analytics** with no user tracking
+- **IANA timezone support** with automatic DST handling
+- **Real-time dashboard** with visitor statistics
+- **Easy integration** with a simple script tag
+- **Self-hosting option** available
+
 ## Performance
 
 This project aim is to serve many users for free in a sustainable way.
