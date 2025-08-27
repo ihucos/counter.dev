@@ -12,7 +12,7 @@ customElements.define(
 
         draw(uuid, utcoffset, timezone) {
             this.style.display = "block";
-            var randId = "tracking-" + Math.floor(Math.random() * 1000000 + 1);
+            var randId = `tracking-${Math.floor(Math.random() * 1000000 + 1)}`;
             this.innerHTML = `
                   <div class="tracking-code mb8">
                     <input
