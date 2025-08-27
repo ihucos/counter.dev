@@ -462,7 +462,7 @@ func (user User) Signal() {
 }
 
 func (user User) HandleSignals(conn redis.Conn, cb func(error)) {
-	psc := redis.PubSubConn{conn}
+	psc := redis.PubSubConn{Conn: conn}
 	psc.Subscribe(fmt.Sprintf("user:%s", user.Id))
 	defer psc.Unsubscribe()
 	defer psc.Close()
