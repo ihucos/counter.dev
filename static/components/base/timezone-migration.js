@@ -18,7 +18,7 @@ customElements.define(
 						<div class="ml16 flex-1">
 							<div class="font-bold mb4">Upgrade to Better Timezone Handling</div>
 							<div class="caption mb8">
-								Your current timezone is set to UTC${currentOffset >= 0 ? '+' : ''}${currentOffset}. 
+								Your current timezone is set to UTC${currentOffset >= 0 ? '+' : ''}${currentOffset}.
 								We now support precise IANA timezones with automatic daylight saving time adjustments.
 							</div>
 							${suggestions.length > 0 ? `

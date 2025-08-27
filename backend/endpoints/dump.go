@@ -82,7 +82,7 @@ func LoadUserDump(user models.User) (UserDump, error) {
 	if err != nil {
 		return UserDump{}, err
 	}
-	
+
 	// Add timezone migration suggestions if needed
 	if user.NeedsTimezoneUpdate() {
 		if utcoffsetStr, exists := prefsData["utcoffset"]; exists {
@@ -95,7 +95,7 @@ func LoadUserDump(user models.User) (UserDump, error) {
 			}
 		}
 	}
-	
+
 	return UserDump{Id: user.Id, Token: token, UUID: uuid, Prefs: prefsData, IsSubscribed: subscriptionId != ""}, nil
 }
 

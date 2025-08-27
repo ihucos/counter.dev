@@ -417,7 +417,7 @@ func SuggestTimezoneFromOffset(utcOffset int) []string {
 		13:  {"Pacific/Tongatapu"},
 		14:  {"Pacific/Kiritimati"},
 	}
-	
+
 	if timezones, exists := offsetToTimezones[utcOffset]; exists {
 		return timezones
 	}
