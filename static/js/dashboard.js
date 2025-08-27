@@ -69,7 +69,7 @@ connectData("dashboard-download", (dump) => [
 connectData("counter-trackingcode", (dump) => [
 	dump.user.uuid,
 	dump.user.prefs.utcoffset || getUTCOffset(),
-	dump.user.prefs.timezone || (dump.meta?.timezone) || "",
+    (dump.meta?.timezone) || dump.user.prefs.timezone || "",
 ]);
 
 connectData("dashboard-dynamics", (dump) => [
