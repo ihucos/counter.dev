@@ -349,13 +349,13 @@ window.dFillDatesToNow = function dFillDatesToNow(myDates, utcoffset) {
 		}, {});
 
 		var daysRange = (startDate, endDate) => {
-		var start = new Date(startDate);
-		var end = new Date(endDate);
+		// Compute day ranges in UTC to prevent DST/off-by-one drift
+		var start = new Date(startDate + 'T00:00:00.000Z');
+		var end = new Date(endDate + 'T00:00:00.000Z');
 		var daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
 
 		return Array.from({ length: daysDiff + 1 }, (_, i) => {
-			var date = new Date(start);
-			date.setDate(start.getDate() + i);
+			var date = new Date(start.getTime() + (i * 24 * 60 * 60 * 1000));
 			return date.toISOString().substring(0, 10);
 		}).reduce((acc, date) => {
 			acc[date] = 0;
