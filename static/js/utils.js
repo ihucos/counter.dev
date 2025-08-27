@@ -28,7 +28,7 @@ function simpleForm(formSelector, arg) {
             url: el.getAttribute("action"),
             data: $(el).serialize(),
             success: success,
-            error: (request, _status, _errorr) => {
+            error: (request, _status, _error) => {
                 notify(request.responseText);
             },
         });
