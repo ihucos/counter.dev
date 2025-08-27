@@ -48,6 +48,37 @@ The counter.dev team`
 
 var uuid2id = map[string]string{}
 
+// offsetToTimezones maps UTC offsets to IANA timezone suggestions
+var offsetToTimezones = map[int][]string{
+	-12: {"Etc/GMT+12"},
+	-11: {"Pacific/Pago_Pago"},
+	-10: {"Pacific/Honolulu"},
+	-9:  {"America/Anchorage"},
+	-8:  {"America/Los_Angeles", "America/Vancouver", "America/Tijuana"},
+	-7:  {"America/Denver", "America/Phoenix", "America/Hermosillo", "America/Chihuahua", "America/Mazatlan", "America/Ciudad_Juarez"},
+	-6:  {"America/Chicago", "America/Mexico_City", "America/Regina", "America/Guatemala"},
+	-5:  {"America/New_York", "America/Toronto", "America/Bogota", "America/Lima", "America/Guayaquil", "America/Indiana/Indianapolis"},
+	-4:  {"America/Halifax", "America/Santiago", "America/Puerto_Rico", "America/Caracas"},
+	-3:  {"America/Sao_Paulo", "America/Argentina/Buenos_Aires", "America/Montevideo"},
+	-2:  {"Atlantic/South_Georgia", "America/Noronha"},
+	-1:  {"Atlantic/Azores", "Atlantic/Cape_Verde"},
+	0:   {"Etc/UTC", "Europe/London", "Europe/Dublin", "Europe/Lisbon", "Atlantic/Canary", "Africa/Monrovia"},
+	1:   {"Europe/Paris", "Europe/Berlin", "Europe/Rome", "Europe/Amsterdam", "Africa/Lagos", "Africa/Casablanca"},
+	2:   {"Europe/Helsinki", "Africa/Cairo", "Africa/Johannesburg", "Europe/Kyiv", "Europe/Riga", "Europe/Athens", "Asia/Jerusalem"},
+	3:   {"Europe/Moscow", "Asia/Kuwait", "Africa/Nairobi", "Europe/Istanbul", "Asia/Baghdad", "Asia/Riyadh"},
+	4:   {"Asia/Dubai", "Asia/Baku", "Asia/Tbilisi", "Asia/Yerevan"},
+	5:   {"Asia/Karachi", "Asia/Tashkent", "Asia/Almaty"},
+	6:   {"Asia/Dhaka"},
+	7:   {"Asia/Bangkok", "Asia/Ho_Chi_Minh", "Asia/Jakarta", "Asia/Novosibirsk"},
+	8:   {"Asia/Shanghai", "Asia/Singapore", "Australia/Perth", "Asia/Hong_Kong", "Asia/Taipei"},
+	9:   {"Asia/Tokyo", "Asia/Seoul"},
+	10:  {"Australia/Sydney", "Australia/Brisbane", "Pacific/Guam", "Australia/Hobart", "Pacific/Port_Moresby"},
+	11:  {"Pacific/Noumea"},
+	12:  {"Pacific/Auckland", "Pacific/Fiji", "Pacific/Kwajalein"},
+	13:  {"Pacific/Tongatapu", "Pacific/Apia"},
+	14:  {"Pacific/Kiritimati"},
+}
+
 type User struct {
 	redis        redis.Conn
 	db           *gorm.DB
@@ -391,40 +422,10 @@ func (user User) CurrentLocation() (*time.Location, error) {
 
 // SuggestTimezoneFromOffset suggests IANA timezones based on UTC offset
 func SuggestTimezoneFromOffset(utcOffset int) []string {
-	offsetToTimezones := map[int][]string{
-		-12: {"Pacific/Kwajalein"},
-		-11: {"Pacific/Midway"},
-		-10: {"Pacific/Honolulu"},
-		-9:  {"America/Anchorage"},
-		-8:  {"America/Los_Angeles", "America/Vancouver"},
-		-7:  {"America/Denver", "America/Phoenix"},
-		-6:  {"America/Chicago", "America/Mexico_City"},
-		-5:  {"America/New_York", "America/Toronto", "America/Bogota"},
-		-4:  {"America/Halifax", "America/Santiago"},
-		-3:  {"America/Sao_Paulo", "America/Argentina/Buenos_Aires"},
-		-2:  {"Atlantic/South_Georgia"},
-		-1:  {"Atlantic/Azores"},
-		0:   {"UTC", "Europe/London"},
-		1:   {"Europe/Paris", "Europe/Berlin", "Europe/Rome"},
-		2:   {"Europe/Helsinki", "Africa/Cairo", "Africa/Johannesburg"},
-		3:   {"Europe/Moscow", "Asia/Kuwait", "Africa/Nairobi"},
-		4:   {"Asia/Dubai", "Asia/Baku"},
-		5:   {"Asia/Karachi", "Asia/Tashkent"},
-		6:   {"Asia/Dhaka", "Asia/Almaty"},
-		7:   {"Asia/Bangkok", "Asia/Ho_Chi_Minh"},
-		8:   {"Asia/Shanghai", "Asia/Singapore", "Australia/Perth"},
-		9:   {"Asia/Tokyo", "Asia/Seoul"},
-		10:  {"Australia/Sydney", "Australia/Brisbane", "Pacific/Guam"},
-		11:  {"Pacific/Noumea"},
-		12:  {"Pacific/Auckland", "Pacific/Fiji"},
-		13:  {"Pacific/Tongatapu"},
-		14:  {"Pacific/Kiritimati"},
-	}
-
 	if timezones, exists := offsetToTimezones[utcOffset]; exists {
 		return timezones
 	}
-	return []string{"UTC"} // fallback
+	return []string{"Etc/UTC"}
 }
 
 // NeedsTimezoneUpdate checks if user needs to update from utcoffset to timezone

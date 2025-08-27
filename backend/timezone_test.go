@@ -114,9 +114,14 @@ func TestFractionalTimezones(t *testing.T) {
 	}{
 		// Half-hour offsets
 		{
-			name:           "India Standard Time (+5:30)",
-			timezone:       "Asia/Kolkata",
-			expectedOffset: 330, // UTC+5:30 = 330 minutes
+			name:           "Marquesas Time (-9:30)",
+			timezone:       "Pacific/Marquesas",
+			expectedOffset: -570, // UTC-9:30 = -570 minutes
+		},
+		{
+			name:           "Newfoundland Standard Time (-3:30)",
+			timezone:       "America/St_Johns",
+			expectedOffset: -210, // UTC-3:30 = -210 minutes (winter)
 		},
 		{
 			name:           "Iran Standard Time (+3:30)",
@@ -129,14 +134,24 @@ func TestFractionalTimezones(t *testing.T) {
 			expectedOffset: 270, // UTC+4:30 = 270 minutes
 		},
 		{
+			name:           "India Standard Time (+5:30)",
+			timezone:       "Asia/Kolkata",
+			expectedOffset: 330, // UTC+5:30 = 330 minutes
+		},
+		{
 			name:           "Myanmar Time (+6:30)",
 			timezone:       "Asia/Yangon",
 			expectedOffset: 390, // UTC+6:30 = 390 minutes
 		},
 		{
-			name:           "Newfoundland Standard Time (-3:30)",
-			timezone:       "America/St_Johns",
-			expectedOffset: -210, // UTC-3:30 = -210 minutes (winter)
+			name:           "Australia Central Daylight Time (+10:30)",
+			timezone:       "Australia/Adelaide",
+			expectedOffset: 630, // UTC+10:30 = 630 minutes (summer DST in January)
+		},
+		{
+			name:           "Australia Central Standard Time - Darwin (+9:30)",
+			timezone:       "Australia/Darwin",
+			expectedOffset: 570, // UTC+9:30 = 570 minutes (no DST)
 		},
 
 		// Quarter-hour offsets
@@ -149,6 +164,13 @@ func TestFractionalTimezones(t *testing.T) {
 			name:           "Chatham Daylight Time (+13:45)",
 			timezone:       "Pacific/Chatham",
 			expectedOffset: 825, // UTC+13:45 = 825 minutes (summer DST)
+		},
+
+		// 30-minute offsets
+		{
+			name:           "Lord Howe Daylight Time (+11:00)",
+			timezone:       "Australia/Lord_Howe",
+			expectedOffset: 660, // UTC+11:00 = 660 minutes (summer DST in January)
 		},
 	}
 
@@ -203,6 +225,24 @@ func TestUserTimezoneResolution(t *testing.T) {
 			name:             "US Eastern timezone",
 			timezone:         "America/New_York",
 			expectedTimezone: "America/New_York",
+			shouldError:      false,
+		},
+		{
+			name:             "Updated UTC-12 timezone",
+			timezone:         "Etc/GMT+12",
+			expectedTimezone: "Etc/GMT+12",
+			shouldError:      false,
+		},
+		{
+			name:             "Updated UTC-11 timezone",
+			timezone:         "Pacific/Pago_Pago",
+			expectedTimezone: "Pacific/Pago_Pago",
+			shouldError:      false,
+		},
+		{
+			name:             "Fractional timezone Marquesas",
+			timezone:         "Pacific/Marquesas",
+			expectedTimezone: "Pacific/Marquesas",
 			shouldError:      false,
 		},
 		{
@@ -305,7 +345,7 @@ func TestTimezoneOffsetCalculation(t *testing.T) {
 	}{
 		{
 			name:               "UTC should have 0 offset",
-			timezone:           "UTC",
+			timezone:           "Etc/UTC",
 			testTime:           "2024-01-15 12:00",
 			expectedOffsetMins: 0,
 		},
@@ -366,6 +406,20 @@ func TestUserTimezoneMigration(t *testing.T) {
 		expectedSuggestions []string
 	}{
 		{
+			name:      "UTC-12 should suggest international date line",
+			utcOffset: -12,
+			expectedSuggestions: []string{
+				"Etc/GMT+12",
+			},
+		},
+		{
+			name:      "UTC-11 should suggest American Samoa",
+			utcOffset: -11,
+			expectedSuggestions: []string{
+				"Pacific/Pago_Pago",
+			},
+		},
+		{
 			name:      "UTC-5 should suggest US Eastern",
 			utcOffset: -5,
 			expectedSuggestions: []string{
@@ -392,9 +446,17 @@ func TestUserTimezoneMigration(t *testing.T) {
 			},
 		},
 		{
+			name:      "UTC+12 should suggest Pacific zones",
+			utcOffset: 12,
+			expectedSuggestions: []string{
+				"Pacific/Auckland",
+				"Pacific/Fiji",
+			},
+		},
+		{
 			name:                "Invalid offset should return UTC fallback",
 			utcOffset:           25, // Invalid
-			expectedSuggestions: []string{"UTC"},
+			expectedSuggestions: []string{"Etc/UTC"},
 		},
 	}
 
