@@ -331,7 +331,7 @@ function getUTCNow(utcoffset) {
 	const minutes = Number.isFinite(window.state.currentOffsetMinutes)
 		? window.state.currentOffsetMinutes
 		: (Number.isFinite(utcoffset) ? Math.round(Number(utcoffset) * 60) : (getUTCOffset() * 60));
-	return moment().add(minutes, "minutes").toDate();
+    return moment.utc().add(minutes, "minutes").toDate();
 }
 
 window.dFillDatesToNow = function dFillDatesToNow(myDates, utcoffset) {
