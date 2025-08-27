@@ -288,7 +288,23 @@ function _flash(msg) {
 }
 
 function numberFormat(x) {
-	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	// Harden against non-numeric inputs
+	if (x == null || typeof x === 'undefined') {
+		return "0";
+	}
+
+	const num = Number(x);
+	if (!isFinite(num)) {
+		return "0";
+	}
+
+	// Use Intl.NumberFormat for proper i18n support with fallback
+	try {
+		return new Intl.NumberFormat().format(num);
+	} catch (e) {
+		// Fallback to manual formatting if Intl is not available
+		return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 }
 
 function percentRepr(value, total) {
