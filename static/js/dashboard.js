@@ -339,7 +339,7 @@ window.dFillDatesToNow = function dFillDatesToNow(myDates, utcoffset) {
 	};
 
 	var sortedAvailableDates = Object.keys(dates).sort((a, b) => {
-		return a > b;
+		return new Date(a) - new Date(b);
 	});
 
 	return {
