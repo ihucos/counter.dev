@@ -35,7 +35,9 @@ customElements.define(
 				this.eventPushNavbarNouserCalled = true;
 				this.noUser();
 				// don't leave an open connection to server to save resources
-				eventSourceObj.close();
+				if (eventSourceObj && eventSourceObj.readyState !== EventSource.CLOSED) {
+					eventSourceObj.close();
+				}
 			});
 			document.addEventListener("push-navbar-dump", (evt) => {
 				const dump = evt.detail;
@@ -59,7 +61,9 @@ customElements.define(
 
 				document.dispatchEvent(new CustomEvent("userloaded"));
 				// don't leave an open connection to server to save resources
-				eventSourceObj.close();
+				if (eventSourceObj && eventSourceObj.readyState !== EventSource.CLOSED) {
+					eventSourceObj.close();
+				}
 			});
 			var eventSourceObj = dispatchPushEvents("/dump", "push-navbar-");
 		}
