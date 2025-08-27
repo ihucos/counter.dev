@@ -67,7 +67,7 @@ function dispatchPushEvents(url, event_prefix) {
 
 function notify(msg, _cb) {
     $("#modal-notify").remove();
-    var html = `<div id="modal-notify" style="displaty: none;">
+    var html = `<div id="modal-notify" style="display: none;">
       <div class="modal-header">
         <a href="#" class="btn-close" rel="modal:close"></a>
       </div>
