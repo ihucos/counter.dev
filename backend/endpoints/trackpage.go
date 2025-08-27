@@ -3,7 +3,6 @@ package endpoints
 import (
 	"github.com/ihucos/counter.dev/lib"
 	"github.com/ihucos/counter.dev/models"
-	"github.com/ihucos/counter.dev/utils"
 )
 
 func init() {
@@ -11,7 +10,7 @@ func init() {
 		visit := make(models.Visit)
 
 		user := ctx.UserByCachedUUID(ctx.R.FormValue("id"))
-		now := utils.TimeNow(ctx.ParseUTCOffset("utcoffset"))
+		now := ctx.UserNow(user)
 
 		// visit is a weird name, I should rename that to something
 		// else. It must not be necessarily a visit, it's just a

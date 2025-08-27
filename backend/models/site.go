@@ -267,9 +267,8 @@ func (site Site) Del() error {
 	return nil
 }
 
-func (site Site) GetVisits(utcOffset int) (TimedVisits, error) {
+func (site Site) GetVisits(now time.Time) (TimedVisits, error) {
 	nullData := TimedVisits{nil, nil, nil, nil, nil}
-	now := utils.TimeNow(utcOffset)
 	allStatData, err := site.getVisitsPart("all")
 	if err != nil {
 		return nullData, err

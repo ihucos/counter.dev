@@ -8,7 +8,6 @@ import (
 
 	"github.com/ihucos/counter.dev/lib"
 	"github.com/ihucos/counter.dev/models"
-	"github.com/ihucos/counter.dev/utils"
 	"github.com/xavivars/uasurfer"
 	"golang.org/x/text/language"
 	"golang.org/x/text/language/display"
@@ -51,7 +50,7 @@ func init() {
 		//
 		// variables
 		//
-		now := utils.TimeNow(ctx.ParseUTCOffset("utcoffset"))
+		now := ctx.UserNow(user)
 		userAgent := ctx.R.Header.Get("User-Agent")
 		ua := uasurfer.Parse(userAgent)
 		origin := ctx.R.Header.Get("Origin")

@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"runtime"
 	"strconv"
+	"time"
 
 	"github.com/ihucos/counter.dev/models"
 	"github.com/ihucos/counter.dev/utils"
@@ -218,4 +219,19 @@ func (ctx *Ctx) SendEventSourceData(data interface{}) {
 
 func (ctx *Ctx) NoAutoCleanup() {
 	ctx.noAutoCleanup = true
+}
+
+// UserNow returns the current time in the user's preferred timezone if set,
+// otherwise it falls back to UTC plus the provided utcoffset from the request.
+func (ctx *Ctx) UserNow(user models.User) time.Time {
+	tz, err := user.ReadTimezone()
+	if err == nil && tz != "" {
+		if loc, err := time.LoadLocation(tz); err == nil {
+			return time.Now().In(loc)
+		}
+	}
+	// fallback to legacy utc offset handling
+	loc, _ := time.LoadLocation("UTC")
+	utcnow := time.Now().In(loc)
+	return utcnow.Add(time.Hour * time.Duration(ctx.ParseUTCOffset("utcoffset")))
 }

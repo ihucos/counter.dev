@@ -7,7 +7,6 @@ import (
 	"github.com/gomodule/redigo/redis"
 	"github.com/ihucos/counter.dev/lib"
 	"github.com/ihucos/counter.dev/models"
-	"github.com/ihucos/counter.dev/utils"
 )
 
 type UserDump struct {
@@ -38,7 +37,7 @@ type EventSourceData struct {
 	Payload interface{} `json:"payload"`
 }
 
-func LoadSitesDump(user models.User, utcOffset int) (SitesDump, error) {
+func LoadSitesDump(user models.User, now time.Time) (SitesDump, error) {
 	sitesDump := make(SitesDump)
 
 	sitesLink, err := user.GetPreferredSiteLinks()
@@ -52,7 +51,7 @@ func LoadSitesDump(user models.User, utcOffset int) (SitesDump, error) {
 		if err != nil {
 			return SitesDump{}, err
 		}
-		visits, err := site.GetVisits(utcOffset)
+		visits, err := site.GetVisits(now)
 		if err != nil {
 			return SitesDump{}, err
 		}
@@ -85,9 +84,9 @@ func LoadUserDump(user models.User) (UserDump, error) {
 	return UserDump{Id: user.Id, Token: token, UUID: uuid, Prefs: prefsData, IsSubscribed: subscriptionId != ""}, nil
 }
 
-func LoadDump(user models.User, utcOffset int) (Dump, error) {
+func LoadDump(user models.User, now time.Time) (Dump, error) {
 
-	sitesDump, err := LoadSitesDump(user, utcOffset)
+	sitesDump, err := LoadSitesDump(user, now)
 	if err != nil {
 		return Dump{}, err
 	}
@@ -105,7 +104,6 @@ func init() {
 		ctx.W.Header().Set("Cache-Control", "no-cache")
 		ctx.W.Header().Set("Connection", "keep-alive")
 
-		utcOffset := ctx.ParseUTCOffset("utcoffset")
 		sessionlessUserId := ctx.GetSessionlessUserId()
 		userId := ctx.GetUserId()
 		var user models.User
@@ -128,7 +126,7 @@ func init() {
 		user.TouchDump()
 
 		archive := make(map[string]lib.QueryArchiveResult)
-		now := utils.TimeNow(utcOffset)
+		now := ctx.UserNow(user)
 		var err error
 
 		archive["-7:-2"], err = ctx.App.QueryArchive(lib.QueryArchiveArgs{
@@ -157,7 +155,7 @@ func init() {
 			Payload: archive})
 
 		sendDump := func() {
-			dump, err := LoadDump(user, utcOffset)
+			dump, err := LoadDump(user, now)
 			ctx.CatchError(err)
 			dump.Meta = meta
 			ctx.SendEventSourceData(EventSourceData{
