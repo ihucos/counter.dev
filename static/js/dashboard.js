@@ -288,8 +288,8 @@ function _dGroupData(entries, cutAt) {
 
 	var res = Object.fromEntries(top);
 	if ("Unknown" in res) {
-		res["Other"] = (res["Other"] || 0) + res["Unknown"];
-		delete res["Unknown"];
+		res.Other = (res.Other || 0) + res.Unknown;
+		delete res.Unknown;
 	}
 	return res;
 }
