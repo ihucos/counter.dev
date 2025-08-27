@@ -119,9 +119,12 @@ func NewApp() *App {
 	}
 
 	serveMux := http.NewServeMux()
-	//fs := http.FileServer(http.Dir("./static"))
+
+	// Create file server handlers for different host configurations
 	serveMux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		var prefix string
+		var fileServer http.Handler
+
 		if r.Host == "localhost:8080" {
 			if strings.HasPrefix(r.URL.Path, "/blog/") ||
 				r.URL.Path == "/blog" ||
@@ -140,6 +143,7 @@ func NewApp() *App {
 			branch := strings.TrimSuffix(r.Host, ".counter.dev")
 			if !FileComponentLookOk(branch) {
 				w.WriteHeader(http.StatusForbidden)
+				return
 			}
 			prefix = "/state/static/" + branch
 		} else {
@@ -148,28 +152,12 @@ func NewApp() *App {
 			return
 		}
 
-		// Set proper MIME types for common file extensions
-		ext := filepath.Ext(r.URL.Path)
-		switch ext {
-		case ".js":
-			w.Header().Set("Content-Type", "application/javascript")
-		case ".css":
-			w.Header().Set("Content-Type", "text/css")
-		case ".html":
-			w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		case ".svg":
-			w.Header().Set("Content-Type", "image/svg+xml")
-		case ".png":
-			w.Header().Set("Content-Type", "image/png")
-		case ".jpg", ".jpeg":
-			w.Header().Set("Content-Type", "image/jpeg")
-		case ".gif":
-			w.Header().Set("Content-Type", "image/gif")
-		case ".ico":
-			w.Header().Set("Content-Type", "image/x-icon")
-		}
+		// Create a file server rooted at the specified directory
+		// This prevents path traversal attacks and automatically sets Content-Type
+		fileServer = http.FileServer(http.Dir(prefix))
 
-		http.ServeFile(w, r, prefix+r.URL.Path)
+		// Serve the file using the secure file server
+		fileServer.ServeHTTP(w, r)
 	})
 	app := &App{
 		RedisPool:    redisPool,
