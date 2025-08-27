@@ -9,7 +9,7 @@ document.addEventListener("push-dump", (evt) => {
 	}
 	customElements.whenDefined("counter-trackingcode").then(() => {
 		const el = document.querySelector("counter-trackingcode");
-		el.draw(dump.user.uuid, dump.user.prefs.utcoffset || getUTCOffset());
+		el.draw(dump.user.uuid, dump.user.prefs.utcoffset || getUTCOffset(), dump.meta?.timezone || dump.user.prefs.utcoffset || getUTCOffset());
 	});
 });
 
