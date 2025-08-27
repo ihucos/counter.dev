@@ -1,7 +1,7 @@
 customElements.define(
 	tagName(),
 	class extends BaseGraph {
-		makeGradient(_alpha1,_alpha22) {
+		makeGradient() {
 			var ctx = this.canvas.getContext("2d");
 			var gradientStroke = ctx.createLinearGradient(0, 0, 0, 400);
 			gradientStroke.addColorStop(0, "rgba(231, 246, 255, 1)");
@@ -10,10 +10,11 @@ customElements.define(
 		}
 
 		getChart(rawdates, hour, utcoffset, range) {
+			var dates;
 			if (range === "daterange") {
-				var _dates = rawdates;
+				dates = rawdates;
 			} else {
-				var dates = dFillDatesToNow(rawdates, utcoffset);
+				dates = dFillDatesToNow(rawdates, utcoffset);
 			}
 			const vals = dGroupDates(dates);
 			let labels = vals[0];
@@ -21,9 +22,9 @@ customElements.define(
 
 			// Only one day to show, show hours instead
 			if (labels.length === 1 || range === "yesterday") {
-				hour = dGetNormalizedHours(hour);
-				labels = Object.keys(hour);
-				data = Object.values(hour);
+				const normalizedHour = dGetNormalizedHours(hour);
+				labels = Object.keys(normalizedHour);
+				data = Object.values(normalizedHour);
 			}
 
 			return {
@@ -70,7 +71,9 @@ customElements.define(
 								ticks: {
 									beginAtZero: true,
 									userCallback: (label) => {
-										if (Math.floor(label) === label) return numberFormat(label);
+										if (Math.floor(label) === label) {
+											return numberFormat(label);
+										}
 									},
 									fontFamily: "Nunito Sans",
 									fontColor: "#616161",
