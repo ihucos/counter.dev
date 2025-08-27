@@ -43,7 +43,12 @@ function getUTCOffset() {
 function detectTimezone() {
     try {
         // Use Intl.DateTimeFormat to get IANA timezone
-        return Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        // Normalize absent values - return null for undefined or non-string values
+        if (typeof timeZone !== 'string' || !timeZone) {
+            return null;
+        }
+        return timeZone;
     } catch (e) {
         // Fallback for older browsers - return null to use UTC offset
         return null;
