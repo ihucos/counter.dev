@@ -115,6 +115,11 @@ customElements.define(
 
 			if (timezone) {
 				timezoneSelect.value = timezone;
+			} else if (Intl && Intl.DateTimeFormat) {
+				const guess = Intl.DateTimeFormat().resolvedOptions().timeZone;
+				if (this.TIMEZONES.some(t => t.value === guess)) {
+					timezoneSelect.value = guess;
+				}
 			}
 
 			var sites = prefs.sites || "";
