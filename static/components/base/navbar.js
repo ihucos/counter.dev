@@ -87,11 +87,12 @@ customElements.define(
 		}
 
 		connectedCallback() {
+			var text;
 			fetch("/lang")
 				.then((response) => response.text())
 				.then((response) => {
 					if (response === "RU") {
-						var text = `
+						text = `
 <div style="width: 80%; padding: 0.75em;">
  ❤️
 🇷🇺
