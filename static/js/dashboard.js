@@ -1,57 +1,55 @@
 window.state = {};
 Chart.defaults.global.tooltips = {
-	...Chart.defaults.global.tooltips,
-	...{
-		enabled: true,
-		mode: "index",
-		borderWidth: 1,
-		cornerRadius: 2,
-		xPadding: 8,
-		yPadding: 12,
-		backgroundColor: "#ffffff",
-		borderColor: "#121212",
+    ...Chart.defaults.global.tooltips,
+    ...{
+        enabled: true,
+        mode: "index",
+        borderWidth: 1,
+        cornerRadius: 2,
+        xPadding: 8,
+        yPadding: 12,
+        backgroundColor: "#ffffff",
+        borderColor: "#121212",
 
-		titleFontSize: 12,
-		titleFontFamily: "Nunito Sans",
-		titleFontColor: "#121212",
+        titleFontSize: 12,
+        titleFontFamily: "Nunito Sans",
+        titleFontColor: "#121212",
 
-		bodyFontSize: 12,
-		bodyFontFamily: "Nunito Sans",
-		bodyFontColor: "#121212",
-		displayColors: false,
-	},
+        bodyFontSize: 12,
+        bodyFontFamily: "Nunito Sans",
+        bodyFontColor: "#121212",
+        displayColors: false,
+    },
 };
 Chart.defaults.global.tooltips.callbacks.label = (tooltipItem, data) => {
-	var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-	return numberFormat(value);
+    var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+    return numberFormat(value);
 };
 
 Chart.defaults.global.animation.duration = 0;
 
 function getSelectorEl() {
-	const selectorMatch = document.getElementsByTagName("dashboard-selector");
-	if (selectorMatch.length > 0) {
-		return selectorMatch[0];
-	} else {
-		throw `connectData: tag dashboard-selector not found`;
-	}
+    const selectorMatch = document.getElementsByTagName("dashboard-selector");
+    if (selectorMatch.length > 0) {
+        return selectorMatch[0];
+    } else {
+        throw `connectData: tag dashboard-selector not found`;
+    }
 }
 const selector = getSelectorEl(); // very important element
 
 const allConnectedData = [];
 function connectData(selector, getData) {
-	Array.from(document.querySelectorAll(selector)).forEach((el) => {
-		allConnectedData.push([el, getData]);
-	});
+    Array.from(document.querySelectorAll(selector)).forEach((el) => {
+        allConnectedData.push([el, getData]);
+    });
 }
 
 // helper function for working with connectData
 function k(...keys) {
-	return (dump) => {
-		return keys.map(
-			(key) => dump.sites[selector.site].visits[selector.range][key],
-		);
-	};
+    return (dump) => {
+        return keys.map((key) => dump.sites[selector.site].visits[selector.range][key]);
+    };
 }
 
 // this one must be first
@@ -59,73 +57,38 @@ connectData("dashboard-selector", (dump) => [dump]);
 
 connectData("dashboard-addbtn", (dump) => [dump.meta.sessionless]);
 
-connectData("dashboard-download", (dump) => [
-	dump.sites[selector.site].visits[selector.range],
-	selector.site,
-	selector.range,
-	dump.meta.sessionless,
-]);
+connectData("dashboard-download", (dump) => [dump.sites[selector.site].visits[selector.range], selector.site, selector.range, dump.meta.sessionless]);
 
-connectData("counter-trackingcode", (dump) => [
-	dump.user.uuid,
-	dump.user.prefs.utcoffset || getUTCOffset(),
-    (dump.meta?.timezone) || dump.user.prefs.timezone || "",
-]);
+connectData("counter-trackingcode", (dump) => [dump.user.uuid, dump.user.prefs.utcoffset || getUTCOffset(), dump.meta?.timezone || dump.user.prefs.timezone || ""]);
 
-connectData("dashboard-dynamics", (dump) => [
-	dump.sites[selector.site].visits[selector.range].date,
-]);
+connectData("dashboard-dynamics", (dump) => [dump.sites[selector.site].visits[selector.range].date]);
 
 connectData("dashboard-graph", (dump) => [
-	dump.sites[selector.site].visits[selector.range].date,
-	dump.sites[selector.site].visits[selector.range].hour,
-	// Prefer precise minute offset; fallback is legacy hours*60
-	(Number.isFinite(dump.meta?.offsetMinutesNow)
-		? dump.meta.offsetMinutesNow
-		: (dump.user.prefs.utcoffset || getUTCOffset()) * 60),
-	selector.range,
+    dump.sites[selector.site].visits[selector.range].date,
+    dump.sites[selector.site].visits[selector.range].hour,
+    // Prefer precise minute offset; fallback is legacy hours*60
+    Number.isFinite(dump.meta?.offsetMinutesNow) ? dump.meta.offsetMinutesNow : (dump.user.prefs.utcoffset || getUTCOffset()) * 60,
+    selector.range,
 ]);
 
 connectData("dashboard-settings", (dump) => [
-	{
-		cursite: selector.site,
-		uuid: dump.user.uuid,
-		meta: dump.meta,
-		// Keep legacy hours for UI but compute from minutes if available
-		utcoffset: Number.isFinite(dump.meta?.offsetMinutesNow)
-			? (dump.meta.offsetMinutesNow / 60)
-			: (dump.user.prefs.utcoffset || getUTCOffset()),
-	},
+    {
+        cursite: selector.site,
+        uuid: dump.user.uuid,
+        meta: dump.meta,
+        // Keep legacy hours for UI but compute from minutes if available
+        utcoffset: Number.isFinite(dump.meta?.offsetMinutesNow) ? dump.meta.offsetMinutesNow / 60 : dump.user.prefs.utcoffset || getUTCOffset(),
+    },
 ]);
 
 connectData("dashboard-counter-visitors", (dump) => [
-	dump.sites[selector.site].visits,
-	selector.range,
-	Number.isFinite(dump.meta?.offsetMinutesNow)
-		? dump.meta.offsetMinutesNow
-		: (dump.user.prefs.utcoffset || getUTCOffset()) * 60, // fallback
+    dump.sites[selector.site].visits,
+    selector.range,
+    Number.isFinite(dump.meta?.offsetMinutesNow) ? dump.meta.offsetMinutesNow : (dump.user.prefs.utcoffset || getUTCOffset()) * 60, // fallback
 ]);
-connectData("dashboard-counter-search", (dump) => [
-	dump.sites[selector.site].visits,
-	selector.range,
-	Number.isFinite(dump.meta?.offsetMinutesNow)
-		? dump.meta.offsetMinutesNow
-		: (dump.user.prefs.utcoffset || getUTCOffset()) * 60,
-]);
-connectData("dashboard-counter-social", (dump) => [
-	dump.sites[selector.site].visits,
-	selector.range,
-	Number.isFinite(dump.meta?.offsetMinutesNow)
-		? dump.meta.offsetMinutesNow
-		: (dump.user.prefs.utcoffset || getUTCOffset()) * 60,
-]);
-connectData("dashboard-counter-direct", (dump) => [
-	dump.sites[selector.site].visits,
-	selector.range,
-	Number.isFinite(dump.meta?.offsetMinutesNow)
-		? dump.meta.offsetMinutesNow
-		: (dump.user.prefs.utcoffset || getUTCOffset()) * 60,
-]);
+connectData("dashboard-counter-search", (dump) => [dump.sites[selector.site].visits, selector.range, Number.isFinite(dump.meta?.offsetMinutesNow) ? dump.meta.offsetMinutesNow : (dump.user.prefs.utcoffset || getUTCOffset()) * 60]);
+connectData("dashboard-counter-social", (dump) => [dump.sites[selector.site].visits, selector.range, Number.isFinite(dump.meta?.offsetMinutesNow) ? dump.meta.offsetMinutesNow : (dump.user.prefs.utcoffset || getUTCOffset()) * 60]);
+connectData("dashboard-counter-direct", (dump) => [dump.sites[selector.site].visits, selector.range, Number.isFinite(dump.meta?.offsetMinutesNow) ? dump.meta.offsetMinutesNow : (dump.user.prefs.utcoffset || getUTCOffset()) * 60]);
 connectData("#devices dashboard-pie", k("device"));
 connectData("#platforms dashboard-pie ", k("platform"));
 connectData("#browsers dashboard-pie", k("browser"));
@@ -141,364 +104,332 @@ connectData("dashboard-share-account", (dump) => [dump.user, dump.meta]);
 connectData("base-timezone-migration", (dump) => [dump.user]);
 
 document.addEventListener("push-dump", (evt) => {
-	if (Object.keys(evt.detail.sites).length === 0) {
-		window.location.href = "setup.html";
-	}
+    if (Object.keys(evt.detail.sites).length === 0) {
+        window.location.href = "setup.html";
+    }
 });
 
 document.addEventListener("push-dump", (evt) => {
-	var dump = evt.detail;
+    var dump = evt.detail;
 
-	// Store server-provided offset for future use
-	if (Number.isFinite(dump.meta?.offsetMinutesNow)) {
-		window.state.currentOffsetMinutes = dump.meta.offsetMinutesNow;
-	}
+    // Store server-provided offset for future use
+    if (Number.isFinite(dump.meta?.offsetMinutesNow)) {
+        window.state.currentOffsetMinutes = dump.meta.offsetMinutesNow;
+    }
 
-	patchDump(dump);
-	document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
+    patchDump(dump);
+    document.dispatchEvent(new CustomEvent("redraw", { detail: dump }));
 });
 
 document.addEventListener("push-archive", (evt) => {
-	window.state.archives = evt.detail;
+    window.state.archives = evt.detail;
 });
 
 document.addEventListener("push-nouser", () => {
-	window.location.href = "welcome.html";
+    window.location.href = "welcome.html";
 });
 
 document.addEventListener("push-oldest-archive-date", (evt) => {
-	customElements.whenDefined("dashboard-daterangeselector").then((_el) => {
-		const drs = document.getElementsByTagName("dashboard-daterangeselector")[0];
-		drs.draw(evt.detail || moment().format("YYYY-MM-DD"));
-	});
+    customElements.whenDefined("dashboard-daterangeselector").then((_el) => {
+        const drs = document.getElementsByTagName("dashboard-daterangeselector")[0];
+        drs.draw(evt.detail || moment().format("YYYY-MM-DD"));
+    });
 });
 
 function patchArchiveVisit(visit) {
-	if (!visit.ref) {
-		visit.ref = {};
-	}
-	return visit;
+    if (!visit.ref) {
+        visit.ref = {};
+    }
+    return visit;
 }
 
 function patchDump(dump) {
-	addArchivesToDump(window.state.archives, dump);
-	addDaterangeToDump(window.state.daterange || {}, dump);
+    addArchivesToDump(window.state.archives, dump);
+    addDaterangeToDump(window.state.daterange || {}, dump);
 }
 
 function addArchivesToDump(archives, dump) {
-	if (!archives) return dump;
-	for (const site of Object.keys(dump.sites)) {
-		dump.sites[site].visits.last7 = patchArchiveVisit(
-			mergeVisits([
-				dump.sites[site].visits.day,
-				dump.sites[site].visits.yesterday,
-				(archives["-7:-2"]?.[site]) || {},
-			]),
-		);
+    if (!archives) return dump;
+    for (const site of Object.keys(dump.sites)) {
+        dump.sites[site].visits.last7 = patchArchiveVisit(mergeVisits([dump.sites[site].visits.day, dump.sites[site].visits.yesterday, archives["-7:-2"]?.[site] || {}]));
 
-		dump.sites[site].visits.last30 = patchArchiveVisit(
-			mergeVisits([
-				dump.sites[site].visits.day,
-				dump.sites[site].visits.yesterday,
-				(archives["-30:-2"]?.[site]) || {},
-			]),
-		);
-	}
-	return dump;
+        dump.sites[site].visits.last30 = patchArchiveVisit(mergeVisits([dump.sites[site].visits.day, dump.sites[site].visits.yesterday, archives["-30:-2"]?.[site] || {}]));
+    }
+    return dump;
 }
 
 function addDaterangeToDump(daterange, dump) {
-	for (const site of Object.keys(dump.sites)) {
-		const siteData = daterange[site];
-		const nildata = Object.fromEntries(
-			Object.keys(dump.sites[site].visits.all).map((k) => [k, {}]),
-		);
-		if (siteData) {
-			dump.sites[site].visits.daterange = { ...nildata, ...siteData };
-		} else {
-			dump.sites[site].visits.daterange = nildata;
-		}
-	}
+    for (const site of Object.keys(dump.sites)) {
+        const siteData = daterange[site];
+        const nildata = Object.fromEntries(Object.keys(dump.sites[site].visits.all).map((k) => [k, {}]));
+        if (siteData) {
+            dump.sites[site].visits.daterange = { ...nildata, ...siteData };
+        } else {
+            dump.sites[site].visits.daterange = nildata;
+        }
+    }
 }
 
 function mergeVisits(visits) {
-	const merged = {};
-	for (const visit of visits) {
-		for (const [dimension, typesWithCount] of Object.entries(visit)) {
-			for (const [type, count] of Object.entries(typesWithCount)) {
-				if (!(dimension in merged)) {
-					merged[dimension] = {};
-				}
-				if (!(type in merged[dimension])) {
-					merged[dimension][type] = 0;
-				}
-				merged[dimension][type] += count;
-			}
-		}
-	}
-	return merged;
+    const merged = {};
+    for (const visit of visits) {
+        for (const [dimension, typesWithCount] of Object.entries(visit)) {
+            for (const [type, count] of Object.entries(typesWithCount)) {
+                if (!(dimension in merged)) {
+                    merged[dimension] = {};
+                }
+                if (!(type in merged[dimension])) {
+                    merged[dimension][type] = 0;
+                }
+                merged[dimension][type] += count;
+            }
+        }
+    }
+    return merged;
 }
 
 function drawComponents() {
-	var source = dispatchPushEvents(getDumpURL());
+    var source = dispatchPushEvents(getDumpURL());
 
-	customElements.whenDefined("dashboard-connstatus").then((_el) => {
-		const connstatus = document.getElementsByTagName("dashboard-connstatus")[0];
-		connstatus.message("Connecting...");
-		source.onopen = () => connstatus.message("Live");
-		source.onerror = (_err) => connstatus.message("Disconnected");
-	});
+    customElements.whenDefined("dashboard-connstatus").then((_el) => {
+        const connstatus = document.getElementsByTagName("dashboard-connstatus")[0];
+        connstatus.message("Connecting...");
+        source.onopen = () => connstatus.message("Live");
+        source.onerror = (_err) => connstatus.message("Disconnected");
+    });
 }
 
 document.addEventListener("redraw", (evt) => {
-	const dump = evt.detail;
-	console.log("redraw", dump);
-	allConnectedData.forEach(([el, getData]) => {
-		if (customElements.get(el.localName)) {
-			el.draw(...getData(dump));
-		} else {
-			customElements
-				.whenDefined(el.localName)
-				.then(() => el.draw(...getData(dump)));
-		}
-	});
+    const dump = evt.detail;
+    console.log("redraw", dump);
+    allConnectedData.forEach(([el, getData]) => {
+        if (customElements.get(el.localName)) {
+            el.draw(...getData(dump));
+        } else {
+            customElements.whenDefined(el.localName).then(() => el.draw(...getData(dump)));
+        }
+    });
 });
 
 function getDumpURL() {
-	const url = new URL(window.location.href);
-	const params = new URLSearchParams(url.search);
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
 
-	// Send precise minutes for new backends while preserving legacy hours param
-	const offsetMinutes = Number.isFinite(window.state.currentOffsetMinutes)
-		? window.state.currentOffsetMinutes
-		: getClientOffsetMinutes();
-	params.set("offsetMinutes", offsetMinutes);
-	params.set("utcoffset", Math.round(offsetMinutes / 60));
-	return `/dump?${params.toString()}`;
+    // Send precise minutes for new backends while preserving legacy hours param
+    const offsetMinutes = Number.isFinite(window.state.currentOffsetMinutes) ? window.state.currentOffsetMinutes : getClientOffsetMinutes();
+    params.set("offsetMinutes", offsetMinutes);
+    params.set("utcoffset", Math.round(offsetMinutes / 60));
+    return `/dump?${params.toString()}`;
 }
 
 customElements.whenDefined(selector.localName).then(() => {
-	customElements.upgrade(selector);
-	drawComponents();
+    customElements.upgrade(selector);
+    drawComponents();
 });
 
 // not used currently
 function _flash(msg) {
-	document.getElementsByTagName("base-flash")[0].flash(msg);
+    document.getElementsByTagName("base-flash")[0].flash(msg);
 }
 
 function numberFormat(x) {
-	// Harden against non-numeric inputs
-	if (x == null || typeof x === 'undefined') {
-		return "0";
-	}
+    // Harden against non-numeric inputs
+    if (x == null || typeof x === "undefined") {
+        return "0";
+    }
 
-	const num = Number(x);
-	if (!isFinite(num)) {
-		return "0";
-	}
+    const num = Number(x);
+    if (!isFinite(num)) {
+        return "0";
+    }
 
-	// Use Intl.NumberFormat for proper i18n support with fallback
-	try {
-		return new Intl.NumberFormat().format(num);
-	} catch (e) {
-		// Fallback to manual formatting if Intl is not available
-		return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	}
+    // Use Intl.NumberFormat for proper i18n support with fallback
+    try {
+        return new Intl.NumberFormat().format(num);
+    } catch (e) {
+        // Fallback to manual formatting if Intl is not available
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 }
 
 function percentRepr(value, total) {
-	// Input validation to prevent Infinity%, NaN%, or division by zero
-	if (typeof value !== 'number' || typeof total !== 'number' || !isFinite(total) || total === 0) {
-		return "0%";
-	}
+    // Input validation to prevent Infinity%, NaN%, or division by zero
+    if (typeof value !== "number" || typeof total !== "number" || !isFinite(total) || total === 0) {
+        return "0%";
+    }
 
-	var percentRepr = `${Math.round((value / total) * 100)}%`;
-	if (percentRepr === "0%") {
-		percentRepr = "<1%";
-	}
-	return percentRepr;
+    var percentRepr = `${Math.round((value / total) * 100)}%`;
+    if (percentRepr === "0%") {
+        percentRepr = "<1%";
+    }
+    return percentRepr;
 }
 
 window.dGroupData = function dGroupData(entries, cutAt) {
-	var entrs = Object.entries(entries);
-	entrs = entrs.sort((a, b) => b[1] - a[1]);
-	var top = entrs.slice(0, cutAt);
-	var bottom = entrs.slice(cutAt);
+    var entrs = Object.entries(entries);
+    entrs = entrs.sort((a, b) => b[1] - a[1]);
+    var top = entrs.slice(0, cutAt);
+    var bottom = entrs.slice(cutAt);
 
-	var otherVal = 0;
-	bottom.forEach((el) => {
-		otherVal += el[1];
-	});
-	if (otherVal) {
-		top.push(["Other", otherVal]);
-	}
+    var otherVal = 0;
+    bottom.forEach((el) => {
+        otherVal += el[1];
+    });
+    if (otherVal) {
+        top.push(["Other", otherVal]);
+    }
 
-	var res = Object.fromEntries(top);
-	if ("Unknown" in res) {
-		res.Other = (res.Other || 0) + res.Unknown;
-		delete res.Unknown;
-	}
-	return res;
-}
+    var res = Object.fromEntries(top);
+    if ("Unknown" in res) {
+        res.Other = (res.Other || 0) + res.Unknown;
+        delete res.Unknown;
+    }
+    return res;
+};
 
 function getUTCNow(utcoffset) {
-	// Prefer minutes; derive from utcoffset(hours) if needed
-	const minutes = Number.isFinite(window.state.currentOffsetMinutes)
-		? window.state.currentOffsetMinutes
-		: (Number.isFinite(utcoffset) ? Math.round(Number(utcoffset) * 60) : (getUTCOffset() * 60));
+    // Prefer minutes; derive from utcoffset(hours) if needed
+    const minutes = Number.isFinite(window.state.currentOffsetMinutes) ? window.state.currentOffsetMinutes : Number.isFinite(utcoffset) ? Math.round(Number(utcoffset) * 60) : getUTCOffset() * 60;
     return moment.utc().add(minutes, "minutes").toDate();
 }
 
 window.dFillDatesToNow = function dFillDatesToNow(myDates, utcoffset) {
-	// Guard against empty or undefined myDates
-	if (!myDates || Object.keys(myDates).length === 0) {
-		return {};
-	}
+    // Guard against empty or undefined myDates
+    if (!myDates || Object.keys(myDates).length === 0) {
+        return {};
+    }
 
-	// Hack, sort the keys in the object
-	var dates = Object.keys(myDates)
-		.sort()
-		.reduce((acc, key) => {
-			acc[key] = myDates[key];
-			return acc;
-		}, {});
+    // Hack, sort the keys in the object
+    var dates = Object.keys(myDates)
+        .sort()
+        .reduce((acc, key) => {
+            acc[key] = myDates[key];
+            return acc;
+        }, {});
 
-		var daysRange = (startDate, endDate) => {
-		// Compute day ranges in UTC to prevent DST/off-by-one drift
-		var start = new Date(startDate + 'T00:00:00.000Z');
-		var end = new Date(endDate + 'T00:00:00.000Z');
-		var daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+    var daysRange = (startDate, endDate) => {
+        // Compute day ranges in UTC to prevent DST/off-by-one drift
+        var start = new Date(startDate + "T00:00:00.000Z");
+        var end = new Date(endDate + "T00:00:00.000Z");
+        var daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
 
-		return Array.from({ length: daysDiff + 1 }, (_, i) => {
-			var date = new Date(start.getTime() + (i * 24 * 60 * 60 * 1000));
-			return date.toISOString().substring(0, 10);
-		}).reduce((acc, date) => {
-			acc[date] = 0;
-			return acc;
-		}, {});
-	};
+        return Array.from({ length: daysDiff + 1 }, (_, i) => {
+            var date = new Date(start.getTime() + i * 24 * 60 * 60 * 1000);
+            return date.toISOString().substring(0, 10);
+        }).reduce((acc, date) => {
+            acc[date] = 0;
+            return acc;
+        }, {});
+    };
 
-	var sortedAvailableDates = Object.keys(dates).sort((a, b) => {
-		return new Date(a) - new Date(b);
-	});
+    var sortedAvailableDates = Object.keys(dates).sort((a, b) => {
+        return new Date(a) - new Date(b);
+    });
 
-	return {
-		...daysRange(sortedAvailableDates[0], getUTCNow(utcoffset)),
-		...dates,
-	};
-}
+    return {
+        ...daysRange(sortedAvailableDates[0], getUTCNow(utcoffset)),
+        ...dates,
+    };
+};
 
 window.dGroupDates = function dGroupDates(dates) {
-	// Normalize month/week grouping to UTC to avoid local-TZ drift
-	const allMonths = Object.entries(dates).reduce((acc, val) => {
-		const group = moment.utc(val[0]).format("MMMM YYYY");
-		acc.add(group);
-		return acc;
-	}, new Set());
+    // Normalize month/week grouping to UTC to avoid local-TZ drift
+    const allMonths = Object.entries(dates).reduce((acc, val) => {
+        const group = moment.utc(val[0]).format("MMMM YYYY");
+        acc.add(group);
+        return acc;
+    }, new Set());
 
-	const groupedByMonth = Object.entries(dates).reduce((acc, val) => {
-		let group;
-		if (allMonths.size <= 12) {
-			group = moment.utc(val[0]).format("MMMM");
-		} else {
-			group = moment.utc(val[0]).format("MMM YYYY");
-		}
-		acc[group] = (acc[group] || 0) + val[1];
-		return acc;
-	}, {});
+    const groupedByMonth = Object.entries(dates).reduce((acc, val) => {
+        let group;
+        if (allMonths.size <= 12) {
+            group = moment.utc(val[0]).format("MMMM");
+        } else {
+            group = moment.utc(val[0]).format("MMM YYYY");
+        }
+        acc[group] = (acc[group] || 0) + val[1];
+        return acc;
+    }, {});
 
-	const groupedByWeek = Object.entries(dates).reduce((acc, val) => {
-		// Use ISO week (W) to better match "calendar week" intent
-		const group = moment.utc(val[0]).format("[CW]W");
-		acc[group] = (acc[group] || 0) + val[1];
-		return acc;
-	}, {});
+    const groupedByWeek = Object.entries(dates).reduce((acc, val) => {
+        // Use ISO week (W) to better match "calendar week" intent
+        const group = moment.utc(val[0]).format("[CW]W");
+        acc[group] = (acc[group] || 0) + val[1];
+        return acc;
+    }, {});
 
-	const groupedByYear = Object.entries(dates).reduce((acc, val) => {
-		const group = moment.utc(val[0]).format("YYYY");
-		acc[group] = (acc[group] || 0) + val[1];
-		return acc;
-	}, {});
+    const groupedByYear = Object.entries(dates).reduce((acc, val) => {
+        const group = moment.utc(val[0]).format("YYYY");
+        acc[group] = (acc[group] || 0) + val[1];
+        return acc;
+    }, {});
 
-	var groupedDates = dates;
-	if (Object.keys(groupedDates).length > 31) {
-		groupedDates = groupedByWeek;
-		// if it's still to big, use months. 16 is a magic number to swap to the per month view
-		if (Object.keys(groupedDates).length > 16) {
-			groupedDates = groupedByMonth;
-			// Use years if we are displaying more than 32 month.
-			if (Object.keys(groupedDates).length > 32) {
-				groupedDates = groupedByYear;
-			}
-		}
-	}
+    var groupedDates = dates;
+    if (Object.keys(groupedDates).length > 31) {
+        groupedDates = groupedByWeek;
+        // if it's still to big, use months. 16 is a magic number to swap to the per month view
+        if (Object.keys(groupedDates).length > 16) {
+            groupedDates = groupedByMonth;
+            // Use years if we are displaying more than 32 month.
+            if (Object.keys(groupedDates).length > 32) {
+                groupedDates = groupedByYear;
+            }
+        }
+    }
 
-	return [Object.keys(groupedDates), Object.values(groupedDates)];
-}
+    return [Object.keys(groupedDates), Object.values(groupedDates)];
+};
 
 HOUR_AM_PM = {
-	0: "12 a.m.",
-	1: "1 a.m.",
-	2: "2 a.m.",
-	3: "3 a.m.",
-	4: "4 a.m.",
-	5: "5 a.m.",
-	6: "6 a.m.",
-	7: "7 a.m.",
-	8: "8 a.m.",
-	9: "9 a.m.",
-	10: "10 a.m.",
-	11: "11 a.m.",
-	12: "12 noon",
-	13: "1 p.m.",
-	14: "2 p.m.",
-	15: "3 p.m.",
-	16: "4 p.m.",
-	17: "5 p.m.",
-	18: "6 p.m.",
-	19: "7 p.m.",
-	20: "8 p.m.",
-	21: "9 p.m.",
-	22: "10 p.m.",
-	23: "11 p.m.",
+    0: "12 a.m.",
+    1: "1 a.m.",
+    2: "2 a.m.",
+    3: "3 a.m.",
+    4: "4 a.m.",
+    5: "5 a.m.",
+    6: "6 a.m.",
+    7: "7 a.m.",
+    8: "8 a.m.",
+    9: "9 a.m.",
+    10: "10 a.m.",
+    11: "11 a.m.",
+    12: "12 noon",
+    13: "1 p.m.",
+    14: "2 p.m.",
+    15: "3 p.m.",
+    16: "4 p.m.",
+    17: "5 p.m.",
+    18: "6 p.m.",
+    19: "7 p.m.",
+    20: "8 p.m.",
+    21: "9 p.m.",
+    22: "10 p.m.",
+    23: "11 p.m.",
 };
 
 window.dGetNormalizedHours = function dGetNormalizedHours(hours) {
-	const pad = Object.fromEntries(
-		[...Array(24).keys()].map((i) => [HOUR_AM_PM[i], 0]),
-	);
-	const formatedHours = Object.fromEntries(
-		Object.entries(hours).map((i) => [HOUR_AM_PM[i[0]], i[1]]),
-	);
-	return {
-		...pad,
-		...formatedHours,
-	};
-}
+    const pad = Object.fromEntries([...Array(24).keys()].map((i) => [HOUR_AM_PM[i], 0]));
+    const formatedHours = Object.fromEntries(Object.entries(hours).map((i) => [HOUR_AM_PM[i[0]], i[1]]));
+    return {
+        ...pad,
+        ...formatedHours,
+    };
+};
 
 function getClientOffsetMinutes() {
-	return -new Date().getTimezoneOffset(); // minutes east of UTC
+    return -new Date().getTimezoneOffset(); // minutes east of UTC
 }
 
 whenReady("base-navbar", (el) => {
-	el.loggedInUserCallback(
-		(userDump) => {
-			// user loaded
-			var daysTracked = Math.max(
-				...Object.values(userDump.sites).map(
-					(i) => Object.keys(i.visits.all.date).length,
-				),
-			);
-			if (
-				daysTracked > 90 &&
-				sessionStorage.getItem("pwyw") === null &&
-				!userDump.user.isSubscribed
-			) {
-				whenReady("base-pwyw", (el) => el.modal());
-				sessionStorage.setItem("pwyw", "1");
-			}
-		},
-		() => {},
-	);
+    el.loggedInUserCallback(
+        (userDump) => {
+            // user loaded
+            var daysTracked = Math.max(...Object.values(userDump.sites).map((i) => Object.keys(i.visits.all.date).length));
+            if (daysTracked > 90 && sessionStorage.getItem("pwyw") === null && !userDump.user.isSubscribed) {
+                whenReady("base-pwyw", (el) => el.modal());
+                sessionStorage.setItem("pwyw", "1");
+            }
+        },
+        () => {},
+    );
 });

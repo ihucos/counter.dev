@@ -1,8 +1,8 @@
 customElements.define(
-	tagName(),
-	class extends HTMLElement {
-		draw(prefs) {
-			this.innerHTML = `
+    tagName(),
+    class extends HTMLElement {
+        draw(prefs) {
+            this.innerHTML = `
 
                 <!-- Edit account modal -->
                 <div id="modal-account" style="display: none">
@@ -109,59 +109,59 @@ customElements.define(
                   </div>
                 </div>`;
 
-			// Handle timezone selection
-			var timezone = prefs.timezone || "";
-			var timezoneSelect = this.querySelector("#timezone-select");
-			var utcoffsetInput = this.querySelector('input[name="utcoffset"]');
+            // Handle timezone selection
+            var timezone = prefs.timezone || "";
+            var timezoneSelect = this.querySelector("#timezone-select");
+            var utcoffsetInput = this.querySelector('input[name="utcoffset"]');
 
-			if (timezone) {
-				timezoneSelect.value = timezone;
-			} else if (Intl && Intl.DateTimeFormat) {
-				const guess = Intl.DateTimeFormat().resolvedOptions().timeZone;
-				if (this.TIMEZONES.some(t => t.value === guess)) {
-					timezoneSelect.value = guess;
-				}
-			}
-			timezoneSelect.addEventListener("change", () => {
-				if (timezoneSelect.value) utcoffsetInput.value = "";
-			});
+            if (timezone) {
+                timezoneSelect.value = timezone;
+            } else if (Intl && Intl.DateTimeFormat) {
+                const guess = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                if (this.TIMEZONES.some((t) => t.value === guess)) {
+                    timezoneSelect.value = guess;
+                }
+            }
+            timezoneSelect.addEventListener("change", () => {
+                if (timezoneSelect.value) utcoffsetInput.value = "";
+            });
 
-			var sites = prefs.sites || "";
-			var mail = prefs.mail || "";
-			var useSites = prefs.usesites || "";
-			var sitesEl = this.querySelector('textarea[name="sites"]');
-			var useSitesEl = this.querySelector('select[name="usesites"]');
-			var mailEl = this.querySelector('input[name="mail"]');
+            var sites = prefs.sites || "";
+            var mail = prefs.mail || "";
+            var useSites = prefs.usesites || "";
+            var sitesEl = this.querySelector('textarea[name="sites"]');
+            var useSitesEl = this.querySelector('select[name="usesites"]');
+            var mailEl = this.querySelector('input[name="mail"]');
 
-			useSitesEl.value = useSites;
-			sitesEl.value = sites;
-			mailEl.value = mail;
+            useSitesEl.value = useSites;
+            sitesEl.value = sites;
+            mailEl.value = mail;
 
-			const showHidePreferredSites = () => {
-				if (useSitesEl.value === "") {
-					$(sitesEl.parentElement).slideUp();
-				} else {
-					$(sitesEl.parentElement).slideDown();
-				}
-			};
-			showHidePreferredSites();
-			useSitesEl.addEventListener("change", showHidePreferredSites, false);
+            const showHidePreferredSites = () => {
+                if (useSitesEl.value === "") {
+                    $(sitesEl.parentElement).slideUp();
+                } else {
+                    $(sitesEl.parentElement).slideDown();
+                }
+            };
+            showHidePreferredSites();
+            useSitesEl.addEventListener("change", showHidePreferredSites, false);
 
-			var deleteRequest = this.querySelector(".delete-request");
-			var deleteConfirm = this.querySelector(".delete-confirm");
-			this.querySelector(".delete-request button").onclick = () => {
-				deleteRequest.style.display = "none";
-				deleteConfirm.style.display = "flex";
-			};
+            var deleteRequest = this.querySelector(".delete-request");
+            var deleteConfirm = this.querySelector(".delete-confirm");
+            this.querySelector(".delete-request button").onclick = () => {
+                deleteRequest.style.display = "none";
+                deleteConfirm.style.display = "flex";
+            };
 
-			simpleForm("#account-edit", window.location.href.split("#")[0]);
-			simpleForm(".delete-account .delete-confirm", "/");
+            simpleForm("#account-edit", window.location.href.split("#")[0]);
+            simpleForm(".delete-account .delete-confirm", "/");
 
-			// redraw modal if it is closed
-			$("#modal-account", this).on($.modal.AFTER_CLOSE, (_event,_modall) => {
-				this.draw(prefs);
-			});
-		}
+            // redraw modal if it is closed
+            $("#modal-account", this).on($.modal.AFTER_CLOSE, (_event, _modall) => {
+                this.draw(prefs);
+            });
+        }
 
         TIMEZONES = [
             // UTC-12
@@ -337,6 +337,5 @@ customElements.define(
             // UTC+14
             { value: "Pacific/Kiritimati", label: "Kiritimati" },
         ];
-
-	},
+    },
 );

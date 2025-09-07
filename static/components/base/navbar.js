@@ -1,103 +1,96 @@
 customElements.define(
-	tagName(),
-	class extends HTMLElement {
-		hash(str) {
-			var hash = 0,
-				i,
-				chr;
-			if (str.length === 0) return hash;
-			for (i = 0; i < str.length; i++) {
-				chr = str.charCodeAt(i);
-				hash = (hash << 5) - hash + chr;
-				hash |= 0; // Convert to 32bit integer
-			}
-			return hash;
-		}
+    tagName(),
+    class extends HTMLElement {
+        hash(str) {
+            var hash = 0,
+                i,
+                chr;
+            if (str.length === 0) return hash;
+            for (i = 0; i < str.length; i++) {
+                chr = str.charCodeAt(i);
+                hash = (hash << 5) - hash + chr;
+                hash |= 0; // Convert to 32bit integer
+            }
+            return hash;
+        }
 
-		loadUser() {
-			if (!document.cookie.includes("swa=")) {
-				this.noUser();
-			}
+        loadUser() {
+            if (!document.cookie.includes("swa=")) {
+                this.noUser();
+            }
 
-			// invalidates cache key when cookie changes
-			var usernameCacheKey =
-				`navbar-username-cache-${this.hash(document.cookie)}`;
+            // invalidates cache key when cookie changes
+            var usernameCacheKey = `navbar-username-cache-${this.hash(document.cookie)}`;
 
-			var cachedUsername = sessionStorage.getItem(usernameCacheKey);
-			if (cachedUsername !== null) {
-				// call hasUser before the uncached call with the value from
-				// the server arrives in order to not cause the frontend to
-				// flicker
-				this.hasUser(cachedUsername);
-			}
+            var cachedUsername = sessionStorage.getItem(usernameCacheKey);
+            if (cachedUsername !== null) {
+                // call hasUser before the uncached call with the value from
+                // the server arrives in order to not cause the frontend to
+                // flicker
+                this.hasUser(cachedUsername);
+            }
 
-			document.addEventListener("push-navbar-nouser", () => {
-				this.eventPushNavbarNouserCalled = true;
-				this.noUser();
-				// don't leave an open connection to server to save resources
-				if (eventSourceObj && eventSourceObj.readyState !== EventSource.CLOSED) {
-					eventSourceObj.close();
-				}
-			});
-			document.addEventListener("push-navbar-dump", (evt) => {
-				const dump = evt.detail;
-				this.eventPushNavbarDumpCalled = true;
-				this.savedUserDump = dump;
-				this.hasUser(dump.user.id);
-				sessionStorage.setItem(usernameCacheKey, dump.user.id);
-				// the fallback is because older user's dont set the
-				// utcoffset by default
-				this.drawEditaccount(dump.user.prefs);
+            document.addEventListener("push-navbar-nouser", () => {
+                this.eventPushNavbarNouserCalled = true;
+                this.noUser();
+                // don't leave an open connection to server to save resources
+                if (eventSourceObj && eventSourceObj.readyState !== EventSource.CLOSED) {
+                    eventSourceObj.close();
+                }
+            });
+            document.addEventListener("push-navbar-dump", (evt) => {
+                const dump = evt.detail;
+                this.eventPushNavbarDumpCalled = true;
+                this.savedUserDump = dump;
+                this.hasUser(dump.user.id);
+                sessionStorage.setItem(usernameCacheKey, dump.user.id);
+                // the fallback is because older user's dont set the
+                // utcoffset by default
+                this.drawEditaccount(dump.user.prefs);
 
-				// Adapt the feedback form mail input field
-				if (dump.user.prefs.mail) {
-					document
-						.getElementById("feedback-mail")
-						.setAttribute("value", dump.user.prefs.mail);
-					document
-						.getElementById("feedback-mail")
-						.setAttribute("type", "hidden");
-				}
+                // Adapt the feedback form mail input field
+                if (dump.user.prefs.mail) {
+                    document.getElementById("feedback-mail").setAttribute("value", dump.user.prefs.mail);
+                    document.getElementById("feedback-mail").setAttribute("type", "hidden");
+                }
 
-				document.dispatchEvent(new CustomEvent("userloaded"));
-				// don't leave an open connection to server to save resources
-				if (eventSourceObj && eventSourceObj.readyState !== EventSource.CLOSED) {
-					eventSourceObj.close();
-				}
-			});
-			var eventSourceObj = dispatchPushEvents("/dump", "push-navbar-");
-		}
+                document.dispatchEvent(new CustomEvent("userloaded"));
+                // don't leave an open connection to server to save resources
+                if (eventSourceObj && eventSourceObj.readyState !== EventSource.CLOSED) {
+                    eventSourceObj.close();
+                }
+            });
+            var eventSourceObj = dispatchPushEvents("/dump", "push-navbar-");
+        }
 
-		noUser() {
-			document.querySelectorAll(".no-user").forEach((el) => {
-				el.style.display = "block";
-			});
-		}
+        noUser() {
+            document.querySelectorAll(".no-user").forEach((el) => {
+                el.style.display = "block";
+            });
+        }
 
-		hasUser(user) {
-			document.querySelectorAll(".has-user").forEach((el) => {
-				el.style.display = "block";
-			});
-			Array.from(document.getElementsByClassName("fill-username")).forEach(
-				(el) => {
-					el.innerHTML = escapeHtml(user);
-				},
-			);
-		}
+        hasUser(user) {
+            document.querySelectorAll(".has-user").forEach((el) => {
+                el.style.display = "block";
+            });
+            Array.from(document.getElementsByClassName("fill-username")).forEach((el) => {
+                el.innerHTML = escapeHtml(user);
+            });
+        }
 
-		drawEditaccount(prefs) {
-			var ea = this.querySelector("base-editaccount");
-			customElements.upgrade(ea);
-			ea.draw(prefs);
-		}
+        drawEditaccount(prefs) {
+            var ea = this.querySelector("base-editaccount");
+            customElements.upgrade(ea);
+            ea.draw(prefs);
+        }
 
-		connectedCallback() {
-			var text;
-			fetch("/lang")
-				.then((response) => response.text())
-				.then((response) => {
-					if (response === "RU") {
-						text = `
+        connectedCallback() {
+            var text;
+            fetch("/lang")
+                .then((response) => response.text())
+                .then((response) => {
+                    if (response === "RU") {
+                        text = `
 <div style="width: 80%; padding: 0.75em;">
  ❤️
 🇷🇺
@@ -126,37 +119,33 @@ Let's hope this madness stops eventually and things become more normal.
 
                            </div>`;
 
-						$(
-							"<table id='overlay'><tbody><tr><td>" +
-								text +
-								"</td></tr></tbody></table>",
-						)
-							.css({
-								position: "fixed",
-								top: 0,
-								left: 0,
-								width: "100%",
-								height: "100%",
-								"background-color": "rgba(0,0,0,.9)",
-								"z-index": 10000,
-								"vertical-align": "middle",
-								"text-align": "left",
-								color: "#fff",
-								"font-size": "30px",
-								"font-weight": "bold",
-								cursor: "wait",
-							})
-							.appendTo("body");
-					}
-				})
-				.catch((err) => console.log(err));
+                        $("<table id='overlay'><tbody><tr><td>" + text + "</td></tr></tbody></table>")
+                            .css({
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%",
+                                "background-color": "rgba(0,0,0,.9)",
+                                "z-index": 10000,
+                                "vertical-align": "middle",
+                                "text-align": "left",
+                                color: "#fff",
+                                "font-size": "30px",
+                                "font-weight": "bold",
+                                cursor: "wait",
+                            })
+                            .appendTo("body");
+                    }
+                })
+                .catch((err) => console.log(err));
 
-			// HACK: this should obviously not be in the navbar
-			if (location.href.startsWith("https://simple-web-analytics.com")) {
-				location.href = "https://counter.dev/";
-			}
+            // HACK: this should obviously not be in the navbar
+            if (location.href.startsWith("https://simple-web-analytics.com")) {
+                location.href = "https://counter.dev/";
+            }
 
-			this.innerHTML = `
+            this.innerHTML = `
                <!-- Navbar -->
                <section class="navbar">
 
@@ -268,32 +257,32 @@ Let's hope this madness stops eventually and things become more normal.
                  </div>
                </section>
                <base-editaccount></base-editaccount>`;
-			this.loadUser();
-			simpleForm("#modal-feedback form", (msg) => {
-				$.modal.close();
-				notify(msg);
-			});
-		}
+            this.loadUser();
+            simpleForm("#modal-feedback form", (msg) => {
+                $.modal.close();
+                notify(msg);
+            });
+        }
 
-		loggedInUserCallback(loggedInCb, notLoggedInCb) {
-			var calledLoggedInCb = false;
-			var calledNotLoggedInCb = false;
-			document.addEventListener("push-navbar-dump", (evt) => {
-				if (!calledLoggedInCb) loggedInCb(evt.detail);
-				calledLoggedInCb = true;
-			});
-			document.addEventListener("push-navbar-nouser", (_evt) => {
-				if (!calledNotLoggedInCb) notLoggedInCb();
-				calledNotLoggedInCb = true;
-			});
-			if (this.eventPushNavbarNouserCalled) {
-				if (!calledNotLoggedInCb) notLoggedInCb();
-				calledNotLoggedInCb = true;
-			}
-			if (this.eventPushNavbarDumpCalled) {
-				if (!calledLoggedInCb) loggedInCb(this.savedUserDump);
-				calledLoggedInCb = true;
-			}
-		}
-	},
+        loggedInUserCallback(loggedInCb, notLoggedInCb) {
+            var calledLoggedInCb = false;
+            var calledNotLoggedInCb = false;
+            document.addEventListener("push-navbar-dump", (evt) => {
+                if (!calledLoggedInCb) loggedInCb(evt.detail);
+                calledLoggedInCb = true;
+            });
+            document.addEventListener("push-navbar-nouser", (_evt) => {
+                if (!calledNotLoggedInCb) notLoggedInCb();
+                calledNotLoggedInCb = true;
+            });
+            if (this.eventPushNavbarNouserCalled) {
+                if (!calledNotLoggedInCb) notLoggedInCb();
+                calledNotLoggedInCb = true;
+            }
+            if (this.eventPushNavbarDumpCalled) {
+                if (!calledLoggedInCb) loggedInCb(this.savedUserDump);
+                calledLoggedInCb = true;
+            }
+        }
+    },
 );

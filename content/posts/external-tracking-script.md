@@ -21,6 +21,7 @@ We do now offer a vanilla tracking script, example:
 ```
 
 **Legacy format** (still supported):
+
 ```
 <script src="https://cdn.counter.dev/script.js"
   data-id="93671ad4-a966-4a52-b48f-56c92d10a671"

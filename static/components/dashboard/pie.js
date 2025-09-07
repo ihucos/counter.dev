@@ -1,35 +1,35 @@
 customElements.define(
-	tagName(),
-	class extends HTMLElement {
-		draw(obj) {
-			this.innerHTML = `
+    tagName(),
+    class extends HTMLElement {
+        draw(obj) {
+            this.innerHTML = `
 				<div class="metrics-headline">
 				  <img src="${this.getAttribute("image")}" width="24" height="24" alt="${this.getAttribute("caption")}">
 				  <h3 class="ml16">${this.getAttribute("caption")}</h3>
 				</div>
 				<div class="metrics-two-data bg-white shadow-sm radius-lg">
 				  ${
-						Object.keys(obj).length > 0
-							? `
+                      Object.keys(obj).length > 0
+                          ? `
 						  <div class="metrics-two-graph-wrap">
 							<canvas></canvas>
 						  </div>
 					  ${this.getLegend(obj)}`
-							: `<dashboard-nodata></dashboard-nodata>`
-				  }
+                          : `<dashboard-nodata></dashboard-nodata>`
+                  }
 				</div>`;
-			const canvas = this.getElementsByTagName("canvas")[0];
-			if (canvas) {
-				const chartData = this.getChart(obj);
-				new Chart(canvas, chartData);
-			}
-		}
+            const canvas = this.getElementsByTagName("canvas")[0];
+            if (canvas) {
+                const chartData = this.getChart(obj);
+                new Chart(canvas, chartData);
+            }
+        }
 
-		getLegend(obj) {
-			const aggr = dGroupData(obj, 3);
-			const aggrKeys = Object.keys(aggr);
-			const aggrVals = Object.values(aggr);
-			return `
+        getLegend(obj) {
+            const aggr = dGroupData(obj, 3);
+            const aggrKeys = Object.keys(aggr);
+            const aggrVals = Object.values(aggr);
+            return `
 			<div class="caption mt24">
 			  <span class="graph-dot mb8" style="visibility: ${aggrKeys.length < 1 ? "hidden" : "visible"}">
 				<span class="graph-dot-ellipse bg-dark-blue mr8"></span>
@@ -60,31 +60,31 @@ customElements.define(
 				</dashboard-number>
 			  </span>
 			</div>`;
-		}
+        }
 
-		getChart(obj) {
-			const aggr = dGroupData(obj, 3);
-			return {
-				type: "pie",
-				data: {
-					labels: Object.keys(aggr),
-					datasets: [
-						{
-							backgroundColor: ["#147EFB", "#FC3158", "#53D769", "#FECB2E"],
-							hoverBorderColor: "#ffffff",
-							borderWidth: 2,
-							data: Object.values(aggr),
-						},
-					],
-				},
-				options: {
-					cutoutPercentage: 33.33,
-					aspectRatio: 1,
-					legend: {
-						display: false,
-					},
-				},
-			};
-		}
-	},
+        getChart(obj) {
+            const aggr = dGroupData(obj, 3);
+            return {
+                type: "pie",
+                data: {
+                    labels: Object.keys(aggr),
+                    datasets: [
+                        {
+                            backgroundColor: ["#147EFB", "#FC3158", "#53D769", "#FECB2E"],
+                            hoverBorderColor: "#ffffff",
+                            borderWidth: 2,
+                            data: Object.values(aggr),
+                        },
+                    ],
+                },
+                options: {
+                    cutoutPercentage: 33.33,
+                    aspectRatio: 1,
+                    legend: {
+                        display: false,
+                    },
+                },
+            };
+        }
+    },
 );

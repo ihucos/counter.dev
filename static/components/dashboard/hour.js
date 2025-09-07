@@ -14,7 +14,7 @@ customElements.define(
                     .map(
                         ([hour, count]) => `
                 <div class="hour-item">
-                  ${hour.padStart(2, '0')}:00
+                  ${hour.padStart(2, "0")}:00
                   <dashboard-number class="caption-strong">${count}</dashboard-number>
                 </div>`,
                     )

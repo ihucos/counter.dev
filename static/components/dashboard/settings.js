@@ -1,13 +1,13 @@
 customElements.define(
-	tagName(),
-	class extends HTMLElement {
-		draw(opts) {
-			if (opts.meta.sessionless) {
-				$(this).css("margin", "0");
-				return;
-			}
+    tagName(),
+    class extends HTMLElement {
+        draw(opts) {
+            if (opts.meta.sessionless) {
+                $(this).css("margin", "0");
+                return;
+            }
 
-			this.innerHTML = `
+            this.innerHTML = `
               <a
                 href="#modal-settings"
                 class="btn-secondary btn-icon"
@@ -60,22 +60,22 @@ customElements.define(
                 </div>
               </div>`;
 
-			$(`#modal-settings .btn-confirm`).click(() => {
-				$(`#modal-settings .delete-request`).hide();
-				$(`#modal-settings .delete-confirm`).show();
-				$(`#modal-settings .danger`).toggleClass("gradient-red bg-blue");
-				$(`#modal-settings .confirm-input`).focus();
-			});
-			
-			$("#modal-settings", this).on($.modal.AFTER_CLOSE, (_event,_modall) => {
-				this.draw(opts);
-			});
+            $(`#modal-settings .btn-confirm`).click(() => {
+                $(`#modal-settings .delete-request`).hide();
+                $(`#modal-settings .delete-confirm`).show();
+                $(`#modal-settings .danger`).toggleClass("gradient-red bg-blue");
+                $(`#modal-settings .confirm-input`).focus();
+            });
 
-			simpleForm("#site-delete", "/dashboard");
+            $("#modal-settings", this).on($.modal.AFTER_CLOSE, (_event, _modall) => {
+                this.draw(opts);
+            });
 
-			const tc = this.querySelector("counter-trackingcode");
-			customElements.upgrade(tc);
-			tc.draw(opts.uuid, opts.utcoffset);
-		}
-	},
+            simpleForm("#site-delete", "/dashboard");
+
+            const tc = this.querySelector("counter-trackingcode");
+            customElements.upgrade(tc);
+            tc.draw(opts.uuid, opts.utcoffset);
+        }
+    },
 );

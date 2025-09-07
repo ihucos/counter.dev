@@ -1,40 +1,40 @@
 customElements.define(
-	tagName(),
-	class extends HTMLElement {
-		constructor() {
-			super();
-			this.last_sites = null;
-			document.addEventListener("selector-daterange-fetched", (evt) => {
-				this.handleDateRangeFetched(evt.detail);
-			});
-		}
+    tagName(),
+    class extends HTMLElement {
+        constructor() {
+            super();
+            this.last_sites = null;
+            document.addEventListener("selector-daterange-fetched", (evt) => {
+                this.handleDateRangeFetched(evt.detail);
+            });
+        }
 
-		draw(dump) {
-			// we need the whole drump because we resend it via the redraw event to
-			// all other components
-			this.dump = dump;
+        draw(dump) {
+            // we need the whole drump because we resend it via the redraw event to
+            // all other components
+            this.dump = dump;
 
-			var sites = Object.entries(dump.sites)
-				.sort((a, b) => b[1].count - a[1].count)
-				.map((i) => i[0]);
+            var sites = Object.entries(dump.sites)
+                .sort((a, b) => b[1].count - a[1].count)
+                .map((i) => i[0]);
 
-			// We don't redraw if nothing changed for this component because
-			// redrawing closes the dropdown for the user.
-			if (JSON.stringify(this.last_sites) === JSON.stringify(sites)) {
-				return;
-			}
-			this.last_sites = sites;
+            // We don't redraw if nothing changed for this component because
+            // redrawing closes the dropdown for the user.
+            if (JSON.stringify(this.last_sites) === JSON.stringify(sites)) {
+                return;
+            }
+            this.last_sites = sites;
 
-			if (dump.meta.demo) {
-				sites = ["counter.dev"];
-			}
+            if (dump.meta.demo) {
+                sites = ["counter.dev"];
+            }
 
-			var sitePref = dump.user.prefs.site;
-			var rangePref = dump.user.prefs.range;
+            var sitePref = dump.user.prefs.site;
+            var rangePref = dump.user.prefs.range;
 
-			this.style.display = "flex";
+            this.style.display = "flex";
 
-			this.innerHTML = `
+            this.innerHTML = `
         <div class="project mr16">
           <img width="16" height="16" alt="Favicon" id="selector-favicon">
           <select onchange="onSiteChanged()" id="site-select">
@@ -52,94 +52,81 @@ customElements.define(
         <option ${rangePref === "daterangeset" ? "selected=selected" : ""} value="daterangeset">Custom date range...</option>
         </select>`;
 
-			this.updateFavicon();
+            this.updateFavicon();
 
-			document.getElementById("site-select").onchange = (evt) =>
-				this.onSiteSelChanged(evt);
-			document.getElementById("range-select").onchange = (evt) =>
-				this.onRangeSelChanged(evt);
-		}
+            document.getElementById("site-select").onchange = (evt) => this.onSiteSelChanged(evt);
+            document.getElementById("range-select").onchange = (evt) => this.onRangeSelChanged(evt);
+        }
 
-		updateFavicon() {
-			const favicon = document.getElementById("selector-favicon");
-			favicon.src = `https://icons.duckduckgo.com/ip3/${this.site}.ico`;
-		}
+        updateFavicon() {
+            const favicon = document.getElementById("selector-favicon");
+            favicon.src = `https://icons.duckduckgo.com/ip3/${this.site}.ico`;
+        }
 
-		onSiteSelChanged(_evt) {
-			this.updateFavicon();
+        onSiteSelChanged(_evt) {
+            this.updateFavicon();
 
-			// request change up in the cloud and then also apply that change down
-			// here in the client
-			fetch(`/setPrefSite?${encodeURIComponent(this.site)}`);
-			this.dump.user.prefs.site = this.site;
+            // request change up in the cloud and then also apply that change down
+            // here in the client
+            fetch(`/setPrefSite?${encodeURIComponent(this.site)}`);
+            this.dump.user.prefs.site = this.site;
 
-			document.dispatchEvent(
-				new CustomEvent("redraw", {
-					detail: this.dump,
-				}),
-			);
-		}
+            document.dispatchEvent(
+                new CustomEvent("redraw", {
+                    detail: this.dump,
+                }),
+            );
+        }
 
-		onRangeSelChanged(_evt) {
-			if (this.range === "daterangeset") {
-				document.dispatchEvent(new Event("selector-daterange-fetch"));
-				return;
-			}
+        onRangeSelChanged(_evt) {
+            if (this.range === "daterangeset") {
+                document.dispatchEvent(new Event("selector-daterange-fetch"));
+                return;
+            }
 
-			// request change up in the cloud and then also apply that change down
-			// here in the client
-			if (this.range !== "daterange") {
-				fetch(`/setPrefRange?${encodeURIComponent(this.range)}`);
-			}
-			this.dump.user.prefs.range = this.range;
-			document.dispatchEvent(
-				new CustomEvent("redraw", {
-					detail: this.dump,
-				}),
-			);
-		}
+            // request change up in the cloud and then also apply that change down
+            // here in the client
+            if (this.range !== "daterange") {
+                fetch(`/setPrefRange?${encodeURIComponent(this.range)}`);
+            }
+            this.dump.user.prefs.range = this.range;
+            document.dispatchEvent(
+                new CustomEvent("redraw", {
+                    detail: this.dump,
+                }),
+            );
+        }
 
-		get site() {
-			return (
-				this.innerHTML !== "" && document.getElementById("site-select").value
-			);
-		}
+        get site() {
+            return this.innerHTML !== "" && document.getElementById("site-select").value;
+        }
 
-		get range() {
-			return (
-				this.innerHTML !== "" && document.getElementById("range-select").value
-			);
-		}
+        get range() {
+            return this.innerHTML !== "" && document.getElementById("range-select").value;
+        }
 
-		handleDateRangeFetched(obj) {
-			const resp = obj.resp;
-			const from = obj.from;
-			const to = obj.to;
-			let tofrom;
-			if (from.isSame(to, "day")) {
-				tofrom = from.format("DD MMM");
-			} else {
-				tofrom = `${from.format("DD MMM")} - ${to.format("DD MMM")}`;
-			}
-			const origArchiveTxt = $(
-				'#range-select option[value="daterangeset"]',
-			).text();
-			$('#range-select option[value="daterange"]').remove();
-			$('#range-select option[value="daterangeset"]')
-				.val("daterange")
-				.text(tofrom)
-				.after(
-					$("<option/>").attr("value", "daterangeset").text(origArchiveTxt),
-				);
+        handleDateRangeFetched(obj) {
+            const resp = obj.resp;
+            const from = obj.from;
+            const to = obj.to;
+            let tofrom;
+            if (from.isSame(to, "day")) {
+                tofrom = from.format("DD MMM");
+            } else {
+                tofrom = `${from.format("DD MMM")} - ${to.format("DD MMM")}`;
+            }
+            const origArchiveTxt = $('#range-select option[value="daterangeset"]').text();
+            $('#range-select option[value="daterange"]').remove();
+            $('#range-select option[value="daterangeset"]').val("daterange").text(tofrom).after($("<option/>").attr("value", "daterangeset").text(origArchiveTxt));
 
-			window.state.daterange = resp;
-			patchDump(this.dump);
+            window.state.daterange = resp;
+            patchDump(this.dump);
 
-			document.dispatchEvent(
-				new CustomEvent("redraw", {
-					detail: this.dump,
-				}),
-			);
-		}
-	},
+            document.dispatchEvent(
+                new CustomEvent("redraw", {
+                    detail: this.dump,
+                }),
+            );
+        }
+    },
 );

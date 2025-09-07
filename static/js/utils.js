@@ -5,7 +5,6 @@ script.dataset.server = "https://simple-web-analytics.com";
 script.src = "https://cdn.counter.dev/script-testing.js";
 document.getElementsByTagName("head")[0].appendChild(script);
 
-
 function simpleForm(formSelector, arg) {
     var success, formEl;
     if (typeof arg === "function") {
@@ -45,7 +44,7 @@ function detectTimezone() {
         // Use Intl.DateTimeFormat to get IANA timezone
         const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         // Normalize absent values - return null for undefined or non-string values
-        if (typeof timeZone !== 'string' || !timeZone) {
+        if (typeof timeZone !== "string" || !timeZone) {
             return null;
         }
         return timeZone;
@@ -64,20 +63,13 @@ function getTimezoneInfo() {
         utcOffset: utcOffset,
         hasTimezone: timezone !== null,
         // For backwards compatibility with existing code
-        preferTimezone: timezone !== null
+        preferTimezone: timezone !== null,
     };
 }
 
 function escapeHtml(unsafe) {
-    return (`${unsafe}`)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    return `${unsafe}`.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
-
-
 
 function dispatchPushEvents(url, event_prefix) {
     var prefix = event_prefix || "push-";
@@ -111,7 +103,6 @@ function notify(msg, _cb) {
     $("body").append($(html));
     $("#modal-notify").modal({ closeExisting: false });
 }
-
 
 function whenReady(tag, cb) {
     customElements.whenDefined(tag).then(() => {

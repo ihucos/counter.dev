@@ -2,7 +2,7 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         getTrackingCode(uuid, utcoffset, timezone) {
-            if (String(uuid).includes('"') || String(utcoffset).includes('"') || String(timezone || '').includes('"')) {
+            if (String(uuid).includes('"') || String(utcoffset).includes('"') || String(timezone || "").includes('"')) {
                 console.log("Sanity input validation test failed");
                 return "error, contact support";
             }

@@ -34,18 +34,21 @@ The tracking script supports two methods for timezone configuration:
 ### Recommended: IANA Timezone (Preferred)
 
 ```html
-<script src="https://cdn.counter.dev/script.js"
+<script
+  src="https://cdn.counter.dev/script.js"
   data-id="YOUR-UUID-HERE"
-  data-timezone="America/New_York">
-</script>
+  data-timezone="America/New_York"
+></script>
 ```
 
 **Benefits:**
+
 - Automatically handles Daylight Saving Time (DST) transitions
 - More accurate time zone representation
 - Supports fractional offsets (e.g., India +5:30, Nepal +5:45)
 
 **Common timezone examples:**
+
 - `America/New_York` (US Eastern Time)
 - `America/Los_Angeles` (US Pacific Time)
 - `Europe/London` (UK)
@@ -56,10 +59,11 @@ The tracking script supports two methods for timezone configuration:
 ### Legacy: UTC Offset (Still Supported)
 
 ```html
-<script src="https://cdn.counter.dev/script.js"
+<script
+  src="https://cdn.counter.dev/script.js"
   data-id="YOUR-UUID-HERE"
-  data-utcoffset="1">
-</script>
+  data-utcoffset="1"
+></script>
 ```
 
 **Note:** UTC offset does not handle DST transitions automatically. We recommend migrating to the timezone parameter for better accuracy.
@@ -71,6 +75,7 @@ If you're currently using `data-utcoffset`, we recommend upgrading to `data-time
 ### Step 1: Find Your IANA Timezone
 
 Common conversions:
+
 - **UTC-8** → `America/Los_Angeles` (US Pacific)
 - **UTC-7** → `America/Denver` (US Mountain)
 - **UTC-6** → `America/Chicago` (US Central)
@@ -86,19 +91,23 @@ Common conversions:
 ### Step 2: Update Your Script
 
 Replace:
+
 ```html
-<script src="https://cdn.counter.dev/script.js"
+<script
+  src="https://cdn.counter.dev/script.js"
   data-id="YOUR-UUID"
-  data-utcoffset="1">
-</script>
+  data-utcoffset="1"
+></script>
 ```
 
 With:
+
 ```html
-<script src="https://cdn.counter.dev/script.js"
+<script
+  src="https://cdn.counter.dev/script.js"
   data-id="YOUR-UUID"
-  data-timezone="Europe/Berlin">
-</script>
+  data-timezone="Europe/Berlin"
+></script>
 ```
 
 ### Benefits of Migration

@@ -5,30 +5,27 @@ Author: Irae Hueck Costa
 
 # Beyond the hype
 
-
 Tech CEOs of big companies and other famous personalities do not seem shy to proclaim the disruptive nature of AI. Here is short, incomplete selection
 
 Sundar Pichai, CEO of Google:
 
-*> "AI could be more profound than fire or electricity."*
+_> "AI could be more profound than fire or electricity."_
 
 Elon Musk, CEO of Tesla and other companies:
 
-*> "AI will be the best or worst thing ever for humanity."*
+_> "AI will be the best or worst thing ever for humanity."_
 
 Sam Altman, CEO of OpenAI:
 
-*> "AI will probably most likely lead to the end of the world, but in the meantime, there'll be great companies."*
+_> "AI will probably most likely lead to the end of the world, but in the meantime, there'll be great companies."_
 
 Bill Gates, Co-founder of Microsoft and Philanthropist
 
-*> "The First technology that has no limit"*
-
-
+_> "The First technology that has no limit"_
 
 It seems difficult to counter the weight of the narratives that regularly make it to the headlines. Undoubtedly, spaces previously only left to science fiction authors are being filled by others.
 
-But meanwhile, in the real world, the public discourse seems not to be focused on more mundane and ordinary questions that are the ones that actually matter. 
+But meanwhile, in the real world, the public discourse seems not to be focused on more mundane and ordinary questions that are the ones that actually matter.
 
 Building reliable and safe software was always important. It is unprecedented that established tech-cooperations release software products that can cause outputs which are harmful, discriminatory, addictive and in parts simply quite awful in such a quality as with chatbots. Tech-companies are actually still liable and responsible for their software products. In the same way that a malfunctioning toaster cannot be blamed on the wonders of electricity, software with unexpected behaviour cannot be excused by the underlying algorithms.
 
@@ -43,4 +40,3 @@ We already have enough new and old technology to make our lives miserable withou
 The future is not predetermined by spontaneous technological disruptions, economic fluctuations or self-proclaimed tech-prophets, it is made. Our future problems may not be engineering problems, they will be challenges solved by a healthy public discourse, good legitimized governance, enforcing the law on everyone equally and regulations for industries that can’t handle it by themselves.
 
 We should not listen to dramatic rhetorics offering no second choices. My personal impression is that some already seem to be living in a new imagined sphere where inconvenient rules and conventions can be blatantly ignored. We should stop listening to the doomers. It is not a technology that is challenging the status quo, big tech companies are.
-
