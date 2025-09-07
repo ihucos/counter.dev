@@ -3,26 +3,26 @@ customElements.define(
     class extends HTMLElement {
         draw(prefs) {
             // Load dynamic timezone list (with offsets) once, then redraw
-            if (this._tzReady !== 'loaded') {
-                if (this._tzReady !== 'loading') {
-                    this._tzReady = 'loading';
-                    fetch('/timezones.json', { cache: 'no-store' })
+            if (this._tzReady !== "loaded") {
+                if (this._tzReady !== "loading") {
+                    this._tzReady = "loading";
+                    fetch("/timezones.json", { cache: "no-store" })
                         .then((r) => r.json())
                         .then((data) => {
                             const parseOffsetMinutes = (currentOffset) => {
-                                const token = (currentOffset || '').split(' ')[0];
+                                const token = (currentOffset || "").split(" ")[0];
                                 const m = token.match(/^([+-])(\d{2})(?::?(\d{2}))?$/);
                                 if (!m) return 0;
-                                const sign = m[1] === '-' ? -1 : 1;
-                                const hours = parseInt(m[2] || '0', 10);
-                                const mins = parseInt(m[3] || '0', 10);
+                                const sign = m[1] === "-" ? -1 : 1;
+                                const hours = parseInt(m[2] || "0", 10);
+                                const mins = parseInt(m[3] || "0", 10);
                                 return sign * (hours * 60 + mins);
                             };
                             const buildLabel = (id, currentOffset) => {
-                                const token = (currentOffset || '').split(' ')[0] || '+00';
-                                const rest = (currentOffset || '').split(' ').slice(1).join(' ').trim();
+                                const token = (currentOffset || "").split(" ")[0] || "+00";
+                                const rest = (currentOffset || "").split(" ").slice(1).join(" ").trim();
                                 const pretty = `UTC${token}`;
-                                const suffix = rest ? ` ${rest}` : '';
+                                const suffix = rest ? ` ${rest}` : "";
                                 return `${pretty}${suffix} — ${id}`;
                             };
                             const list = Array.isArray(data?.zones) ? data.zones : [];
@@ -32,15 +32,15 @@ customElements.define(
                                     label: buildLabel(z.id, z.currentOffset),
                                     _minutes: parseOffsetMinutes(z.currentOffset),
                                 }))
-                                .filter((z) => typeof z.value === 'string' && z.value)
-                                .sort((a, b) => (a._minutes - b._minutes) || a.value.localeCompare(b.value));
+                                .filter((z) => typeof z.value === "string" && z.value)
+                                .sort((a, b) => a._minutes - b._minutes || a.value.localeCompare(b.value));
                             if (enriched.length > 0) {
                                 this.TIMEZONES = enriched.map(({ value, label }) => ({ value, label }));
                             }
                         })
                         .catch(() => {})
                         .finally(() => {
-                            this._tzReady = 'loaded';
+                            this._tzReady = "loaded";
                             this.draw(prefs);
                         });
                 }
