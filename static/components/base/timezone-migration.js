@@ -47,21 +47,30 @@ customElements.define(
                     <div class="caption mb8">
                       Your current timezone is set to UTC${offsetSign}${escapeHtml(currentOffsetRaw)}. We now support precise IANA timezones with automatic daylight saving time adjustments.
                     </div>
-                    ${
-                        suggestions.length > 0
-                            ? `
+                    ${(() => {
+                        if (suggestions.length === 0) return "";
+                        const initial = this._pickOnePerContinent(suggestions);
+                        const remainingCount = Math.max(0, suggestions.length - initial.length);
+                        return `
                         <div class="mb8">
                           <span class="caption-strong">Suggested timezones for your region:</span>
                         </div>
-                        <div class="timezone-suggestions flex flex-wrap gap8 mb12">
-                          ${this._renderSuggestions(suggestions)}
+                        <div class="timezone-suggestions flex flex-wrap gap8 mb12" id="tz-suggestions-initial">
+                          ${this._renderSuggestions(initial)}
                         </div>
-                        `
-                            : ""
-                    }
+                        ${remainingCount > 0 ? `
+                          <div class="timezone-suggestions flex flex-wrap gap8 mb12" id="tz-suggestions-more" style="display:none;">
+                            ${this._renderSuggestions(suggestions)}
+                          </div>
+                          <div class="mb16">
+                            <button class="btn-secondary-sm" type="button" id="timezone-show-more">Show more (${remainingCount})</button>
+                          </div>
+                        ` : ""}
+                        `;
+                    })()}
                     <div class="flex gap8">
-                      <button class="btn-secondary-sm" id="timezone-update-manual">Choose Different Timezone</button>
-                      <button class="btn-secondary-sm" id="timezone-dismiss">Keep Current Setting</button>
+                      <button class="btn-secondary-sm" id="timezone-update-manual" type="button" style="white-space: nowrap;">Choose Different Timezone</button>
+                      <button class="btn-secondary-sm" id="timezone-dismiss" type="button" style="white-space: nowrap;">Keep Current Setting</button>
                     </div>
                   </div>
                 </div>`;
@@ -84,12 +93,44 @@ customElements.define(
                 .on("click.timezone-migration", "#modal-timezone-migration #timezone-dismiss", () => {
                     this.dismissMigration();
                     $.modal.close();
+                })
+                .on("click.timezone-migration", "#modal-timezone-migration #timezone-show-more", (e) => {
+                    const btn = e.currentTarget;
+                    const initial = document.getElementById("tz-suggestions-initial");
+                    const more = document.getElementById("tz-suggestions-more");
+                    if (!initial || !more) return;
+                    if (more.style.display === "none") {
+                        more.style.display = "flex";
+                        initial.style.display = "none";
+                        btn.textContent = "Show less";
+                    } else {
+                        more.style.display = "none";
+                        initial.style.display = "flex";
+                        // Recompute remaining count from data attribute if needed
+                        const remaining = (more.querySelectorAll(".timezone-suggestion").length - initial.querySelectorAll(".timezone-suggestion").length);
+                        btn.textContent = remaining > 0 ? `Show more (${remaining})` : "Show more";
+                    }
                 });
 
             // Cleanup listeners after close
             $(document).on("modal:after-close.timezone-migration", "#modal-timezone-migration", () => {
                 $(document).off(".timezone-migration");
             });
+        }
+
+        _pickOnePerContinent(ids) {
+            const seen = new Set();
+            const picked = [];
+            for (const id of ids) {
+                const info = this._tzInfo?.[id];
+                const continent = info?.continent || (id.includes("/") ? id.split("/")[0] : "");
+                if (!continent) continue;
+                if (!seen.has(continent)) {
+                    seen.add(continent);
+                    picked.push(id);
+                }
+            }
+            return picked;
         }
 
         _renderSuggestions(list) {
