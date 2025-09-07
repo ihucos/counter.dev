@@ -48,35 +48,48 @@ The counter.dev team`
 
 var uuid2id = map[string]string{}
 
-// offsetToTimezones maps UTC offsets to IANA timezone suggestions
+// offsetToTimezones maps UTC offsets in minutes to IANA timezone suggestions
 var offsetToTimezones = map[int][]string{
-	-12: {"Etc/GMT+12"},
-	-11: {"Pacific/Pago_Pago"},
-	-10: {"Pacific/Honolulu"},
-	-9:  {"America/Anchorage"},
-	-8:  {"America/Los_Angeles", "America/Vancouver", "America/Tijuana"},
-	-7:  {"America/Denver", "America/Phoenix", "America/Hermosillo", "America/Chihuahua", "America/Mazatlan", "America/Ciudad_Juarez"},
-	-6:  {"America/Chicago", "America/Mexico_City", "America/Regina", "America/Guatemala"},
-	-5:  {"America/New_York", "America/Toronto", "America/Bogota", "America/Lima", "America/Guayaquil", "America/Indiana/Indianapolis"},
-	-4:  {"America/Halifax", "America/Santiago", "America/Puerto_Rico", "America/Caracas"},
-	-3:  {"America/Sao_Paulo", "America/Argentina/Buenos_Aires", "America/Montevideo"},
-	-2:  {"Atlantic/South_Georgia", "America/Noronha"},
-	-1:  {"Atlantic/Azores", "Atlantic/Cape_Verde"},
-	0:   {"Etc/UTC", "Europe/London", "Europe/Dublin", "Europe/Lisbon", "Atlantic/Canary", "Africa/Monrovia"},
-	1:   {"Europe/Paris", "Europe/Berlin", "Europe/Rome", "Europe/Amsterdam", "Africa/Lagos", "Africa/Casablanca"},
-	2:   {"Europe/Helsinki", "Africa/Cairo", "Africa/Johannesburg", "Europe/Kyiv", "Europe/Riga", "Europe/Athens", "Asia/Jerusalem"},
-	3:   {"Europe/Moscow", "Asia/Kuwait", "Africa/Nairobi", "Europe/Istanbul", "Asia/Baghdad", "Asia/Riyadh"},
-	4:   {"Asia/Dubai", "Asia/Baku", "Asia/Tbilisi", "Asia/Yerevan"},
-	5:   {"Asia/Karachi", "Asia/Tashkent", "Asia/Almaty"},
-	6:   {"Asia/Dhaka"},
-	7:   {"Asia/Bangkok", "Asia/Ho_Chi_Minh", "Asia/Jakarta", "Asia/Novosibirsk"},
-	8:   {"Asia/Shanghai", "Asia/Singapore", "Australia/Perth", "Asia/Hong_Kong", "Asia/Taipei"},
-	9:   {"Asia/Tokyo", "Asia/Seoul"},
-	10:  {"Australia/Sydney", "Australia/Brisbane", "Pacific/Guam", "Australia/Hobart", "Pacific/Port_Moresby"},
-	11:  {"Pacific/Noumea"},
-	12:  {"Pacific/Auckland", "Pacific/Fiji", "Pacific/Kwajalein"},
-	13:  {"Pacific/Tongatapu", "Pacific/Apia"},
-	14:  {"Pacific/Kiritimati"},
+	// whole-hour offsets (minutes)
+	-720: {"Etc/GMT+12"},
+	-660: {"Pacific/Pago_Pago"},
+	-600: {"Pacific/Honolulu"},
+	-540: {"America/Anchorage"},
+	-480: {"America/Los_Angeles", "America/Vancouver", "America/Tijuana"},
+	-420: {"America/Denver", "America/Phoenix", "America/Hermosillo", "America/Chihuahua", "America/Mazatlan", "America/Ciudad_Juarez"},
+	-360: {"America/Chicago", "America/Mexico_City", "America/Regina", "America/Guatemala"},
+	-300: {"America/New_York", "America/Toronto", "America/Bogota", "America/Lima", "America/Guayaquil", "America/Indiana/Indianapolis"},
+	-240: {"America/Halifax", "America/Santiago", "America/Puerto_Rico", "America/Caracas"},
+	-180: {"America/Sao_Paulo", "America/Argentina/Buenos_Aires", "America/Montevideo"},
+	-120: {"Atlantic/South_Georgia", "America/Noronha"},
+	-60:  {"Atlantic/Azores", "Atlantic/Cape_Verde"},
+	0:    {"Etc/UTC", "Europe/London", "Europe/Dublin", "Europe/Lisbon", "Atlantic/Canary", "Africa/Monrovia"},
+	60:   {"Europe/Paris", "Europe/Berlin", "Europe/Rome", "Europe/Amsterdam", "Africa/Lagos", "Africa/Casablanca"},
+	120:  {"Europe/Helsinki", "Africa/Cairo", "Africa/Johannesburg", "Europe/Kyiv", "Europe/Riga", "Europe/Athens", "Asia/Jerusalem"},
+	180:  {"Europe/Moscow", "Asia/Kuwait", "Africa/Nairobi", "Europe/Istanbul", "Asia/Baghdad", "Asia/Riyadh"},
+	240:  {"Asia/Dubai", "Asia/Baku", "Asia/Tbilisi", "Asia/Yerevan"},
+	300:  {"Asia/Karachi", "Asia/Tashkent", "Asia/Almaty"},
+	360:  {"Asia/Dhaka"},
+	420:  {"Asia/Bangkok", "Asia/Ho_Chi_Minh", "Asia/Jakarta", "Asia/Novosibirsk"},
+	480:  {"Asia/Shanghai", "Asia/Singapore", "Australia/Perth", "Asia/Hong_Kong", "Asia/Taipei"},
+	540:  {"Asia/Tokyo", "Asia/Seoul"},
+	600:  {"Australia/Sydney", "Australia/Brisbane", "Pacific/Guam", "Australia/Hobart", "Pacific/Port_Moresby"},
+	660:  {"Pacific/Noumea"},
+	720:  {"Pacific/Auckland", "Pacific/Fiji", "Pacific/Kwajalein"},
+	780:  {"Pacific/Tongatapu", "Pacific/Apia"},
+	840:  {"Pacific/Kiritimati"},
+
+	// fractional offsets in minutes
+	-570: {"Pacific/Marquesas"},                      // UTC-09:30
+	-210: {"America/St_Johns"},                       // UTC-03:30
+	210:  {"Asia/Tehran"},                            // UTC+03:30
+	270:  {"Asia/Kabul"},                             // UTC+04:30
+	330:  {"Asia/Kolkata", "Asia/Colombo"},           // UTC+05:30
+	345:  {"Asia/Kathmandu"},                         // UTC+05:45
+	390:  {"Asia/Yangon"},                            // UTC+06:30
+	570:  {"Australia/Adelaide", "Australia/Darwin"}, // UTC+09:30
+	630:  {"Australia/Lord_Howe"},                    // UTC+10:30
+	765:  {"Pacific/Chatham"},                        // UTC+12:45
 }
 
 type User struct {
@@ -420,9 +433,16 @@ func (user User) CurrentLocation() (*time.Location, error) {
 	return time.UTC, nil
 }
 
-// SuggestTimezoneFromOffset suggests IANA timezones based on UTC offset
-func SuggestTimezoneFromOffset(utcOffset int) []string {
-	if timezones, exists := offsetToTimezones[utcOffset]; exists {
+// SuggestTimezoneFromOffset suggests IANA timezones based on UTC offset.
+// The input is treated as minutes by default. For backwards compatibility,
+// if the absolute value is <= 14, it's interpreted as hours and converted
+// to minutes.
+func SuggestTimezoneFromOffset(offset int) []string {
+	minutes := offset
+	if minutes >= -14 && minutes <= 14 {
+		minutes = minutes * 60
+	}
+	if timezones, exists := offsetToTimezones[minutes]; exists {
 		return timezones
 	}
 	return []string{"Etc/UTC"}
