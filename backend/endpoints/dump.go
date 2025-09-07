@@ -85,12 +85,12 @@ func LoadUserDump(user models.User) (UserDump, error) {
 
 	// Add timezone migration suggestions if needed
 	if user.NeedsTimezoneUpdate() {
+		prefsData["needsTimezoneUpdate"] = "true"
 		if utcoffsetStr, exists := prefsData["utcoffset"]; exists {
 			if utcoffset, err := strconv.Atoi(utcoffsetStr); err == nil {
 				suggestions := models.SuggestTimezoneFromOffset(utcoffset)
 				if len(suggestions) > 0 {
 					prefsData["suggestedTimezones"] = strings.Join(suggestions, ",")
-					prefsData["needsTimezoneUpdate"] = "true"
 				}
 			}
 		}
