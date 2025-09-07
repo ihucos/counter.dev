@@ -463,6 +463,11 @@ func (user User) IncrSiteLink(siteId string) {
 	user.redis.Send("HINCRBY", fmt.Sprintf("sites:%s", user.Id), siteId, 1)
 }
 
+// EnsureSiteLink ensures the site exists in the user's site links without incrementing the counter
+func (user User) EnsureSiteLink(siteId string) {
+	user.redis.Send("HSETNX", fmt.Sprintf("sites:%s", user.Id), siteId, 0)
+}
+
 func (user User) DelSiteLink(siteId string) (bool, error) {
 	deleted, err := redis.Int64(user.redis.Do("HDEL", fmt.Sprintf("sites:%s", user.Id), siteId))
 	return deleted == 1, err

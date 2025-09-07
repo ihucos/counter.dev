@@ -25,6 +25,7 @@ func init() {
 		siteId := Origin2SiteId(origin)
 		visits := user.NewSite(siteId)
 		visits.SaveVisit(visit, now)
+		user.EnsureSiteLink(siteId) // Ensure site exists for dashboard without incrementing visit counter
 		// user.Signal() - uncommented to save some resources I guess.
 
 		//
