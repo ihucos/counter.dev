@@ -3,10 +3,10 @@ customElements.define(
     class extends HTMLElement {
         draw(userDump) {
             // Load timezone list once for nice labels with offsets
-            if (this._tzReady !== 'loaded') {
-                if (this._tzReady !== 'loading') {
-                    this._tzReady = 'loading';
-                    fetch('/timezones.json', { cache: 'no-store' })
+            if (this._tzReady !== "loaded") {
+                if (this._tzReady !== "loading") {
+                    this._tzReady = "loading";
+                    fetch("/timezones.json", { cache: "no-store" })
                         .then((r) => r.json())
                         .then((data) => {
                             const zones = Array.isArray(data?.zones) ? data.zones : [];
@@ -16,7 +16,7 @@ customElements.define(
                         })
                         .catch(() => {})
                         .finally(() => {
-                            this._tzReady = 'loaded';
+                            this._tzReady = "loaded";
                             this.draw(userDump);
                         });
                 }
@@ -44,7 +44,7 @@ customElements.define(
                     </div>
                     ${
                         suggestions.length > 0
-                        ? `
+                            ? `
                         <div class="mb8">
                           <span class="caption-strong">Suggested timezones for your region:</span>
                         </div>
@@ -52,7 +52,7 @@ customElements.define(
                           ${this._renderSuggestions(suggestions)}
                         </div>
                         `
-                        : ""
+                            : ""
                     }
                     <div class="flex gap8">
                       <button class="btn-secondary-sm" id="timezone-update-manual">Choose Different Timezone</button>
@@ -95,27 +95,27 @@ customElements.define(
                     // If this is a canonical row and we have an alias with a friendlier displayId, use that
                     const displayId = info.displayId || id;
                     // Map to currentOffset using the displayId/id we have
-                    const offset = this._currentOffsetById?.[displayId] || this._currentOffsetById?.[id] || '';
-                    const token = (offset || '').split(' ')[0] || '+00';
-                    const rest = (offset || '').split(' ').slice(1).join(' ').trim();
+                    const offset = this._currentOffsetById?.[displayId] || this._currentOffsetById?.[id] || "";
+                    const token = (offset || "").split(" ")[0] || "+00";
+                    const rest = (offset || "").split(" ").slice(1).join(" ").trim();
                     const pretty = `UTC${token}`;
-                    const suffix = rest ? ` ${rest}` : '';
+                    const suffix = rest ? ` ${rest}` : "";
                     const label = `${pretty}${suffix} — ${displayId}`;
                     // Submit the canonical-or-alias IANA id that the backend accepts
                     const submitId = displayId;
                     return `<button class="btn-secondary-sm timezone-suggestion" data-timezone="${submitId}">${label}</button>`;
                 })
-                .join('');
+                .join("");
         }
 
         formatTimezone(timezone) {
             // Prefer rich label with current offset if available
             const currentOffset = this._currentOffsetById?.[timezone];
             if (currentOffset) {
-                const token = (currentOffset || '').split(' ')[0] || '+00';
-                const rest = (currentOffset || '').split(' ').slice(1).join(' ').trim();
+                const token = (currentOffset || "").split(" ")[0] || "+00";
+                const rest = (currentOffset || "").split(" ").slice(1).join(" ").trim();
                 const pretty = `UTC${token}`;
-                const suffix = rest ? ` ${rest}` : '';
+                const suffix = rest ? ` ${rest}` : "";
                 return `${pretty}${suffix} — ${timezone}`;
             }
 

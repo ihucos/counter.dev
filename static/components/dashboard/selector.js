@@ -115,7 +115,7 @@ customElements.define(
             } else {
                 tofrom = `${from.format("DD MMM")} - ${to.format("DD MMM")}`;
             }
-            const $rangeSelect = $(this).find('#range-select');
+            const $rangeSelect = $(this).find("#range-select");
             const origArchiveTxt = $rangeSelect.find('option[value="daterangeset"]').text();
             $rangeSelect.find('option[value="daterange"]').remove();
             $rangeSelect.find('option[value="daterangeset"]').val("daterange").text(tofrom).after($("<option/>").attr("value", "daterangeset").text(origArchiveTxt));
