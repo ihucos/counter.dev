@@ -67,7 +67,7 @@ connectData("dashboard-graph", (dump) => [
     dump.sites[selector.site].visits[selector.range].date,
     dump.sites[selector.site].visits[selector.range].hour,
     // Prefer precise minute offset; fallback is legacy hours*60
-    Number.isFinite(dump.meta?.offsetMinutesNow) ? dump.meta.offsetMinutesNow : (dump.user.prefs.utcoffset || getUTCOffset()) * 60,
+    Number.isFinite(Number(dump.meta?.offsetMinutesNow)) ? Number(dump.meta.offsetMinutesNow) : (dump.user.prefs.utcoffset || getUTCOffset()) * 60,
     selector.range,
 ]);
 
@@ -77,18 +77,18 @@ connectData("dashboard-settings", (dump) => [
         uuid: dump.user.uuid,
         meta: dump.meta,
         // Keep legacy hours for UI but compute from minutes if available
-        utcoffset: Number.isFinite(dump.meta?.offsetMinutesNow) ? dump.meta.offsetMinutesNow / 60 : dump.user.prefs.utcoffset || getUTCOffset(),
+        utcoffset: Number.isFinite(Number(dump.meta?.offsetMinutesNow)) ? Number(dump.meta.offsetMinutesNow) / 60 : dump.user.prefs.utcoffset || getUTCOffset(),
     },
 ]);
 
 connectData("dashboard-counter-visitors", (dump) => [
     dump.sites[selector.site].visits,
     selector.range,
-    Number.isFinite(dump.meta?.offsetMinutesNow) ? dump.meta.offsetMinutesNow : (dump.user.prefs.utcoffset || getUTCOffset()) * 60, // fallback
+    Number.isFinite(Number(dump.meta?.offsetMinutesNow)) ? Number(dump.meta.offsetMinutesNow) : (dump.user.prefs.utcoffset || getUTCOffset()) * 60, // fallback
 ]);
-connectData("dashboard-counter-search", (dump) => [dump.sites[selector.site].visits, selector.range, Number.isFinite(dump.meta?.offsetMinutesNow) ? dump.meta.offsetMinutesNow : (dump.user.prefs.utcoffset || getUTCOffset()) * 60]);
-connectData("dashboard-counter-social", (dump) => [dump.sites[selector.site].visits, selector.range, Number.isFinite(dump.meta?.offsetMinutesNow) ? dump.meta.offsetMinutesNow : (dump.user.prefs.utcoffset || getUTCOffset()) * 60]);
-connectData("dashboard-counter-direct", (dump) => [dump.sites[selector.site].visits, selector.range, Number.isFinite(dump.meta?.offsetMinutesNow) ? dump.meta.offsetMinutesNow : (dump.user.prefs.utcoffset || getUTCOffset()) * 60]);
+connectData("dashboard-counter-search", (dump) => [dump.sites[selector.site].visits, selector.range, Number.isFinite(Number(dump.meta?.offsetMinutesNow)) ? Number(dump.meta.offsetMinutesNow) : (dump.user.prefs.utcoffset || getUTCOffset()) * 60]);
+connectData("dashboard-counter-social", (dump) => [dump.sites[selector.site].visits, selector.range, Number.isFinite(Number(dump.meta?.offsetMinutesNow)) ? Number(dump.meta.offsetMinutesNow) : (dump.user.prefs.utcoffset || getUTCOffset()) * 60]);
+connectData("dashboard-counter-direct", (dump) => [dump.sites[selector.site].visits, selector.range, Number.isFinite(Number(dump.meta?.offsetMinutesNow)) ? Number(dump.meta.offsetMinutesNow) : (dump.user.prefs.utcoffset || getUTCOffset()) * 60]);
 connectData("#devices dashboard-pie", k("device"));
 connectData("#platforms dashboard-pie ", k("platform"));
 connectData("#browsers dashboard-pie", k("browser"));
@@ -113,8 +113,8 @@ document.addEventListener("push-dump", (evt) => {
     var dump = evt.detail;
 
     // Store server-provided offset for future use
-    if (Number.isFinite(dump.meta?.offsetMinutesNow)) {
-        window.state.currentOffsetMinutes = dump.meta.offsetMinutesNow;
+    if (Number.isFinite(Number(dump.meta?.offsetMinutesNow))) {
+        window.state.currentOffsetMinutes = Number(dump.meta.offsetMinutesNow);
     }
 
     patchDump(dump);
