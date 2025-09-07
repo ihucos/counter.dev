@@ -10,7 +10,9 @@ customElements.define(
                         .then((r) => r.json())
                         .then((data) => {
                             const zones = Array.isArray(data?.zones) ? data.zones : [];
-                            this._tzMap = Object.fromEntries(zones.map((z) => [z.id, z.currentOffset]));
+                            // Build maps for label rendering
+                            this._tzInfo = Object.fromEntries(zones.map((z) => [z.id, z]));
+                            this._currentOffsetById = Object.fromEntries(zones.map((z) => [z.id, z.currentOffset]));
                         })
                         .catch(() => {})
                         .finally(() => {
@@ -30,82 +32,85 @@ customElements.define(
             const currentOffset = userDump.prefs.utcoffset || "0";
 
             this.innerHTML = `
-				<div class="timezone-migration-banner gradient-blue radius-lg p16 mb16">
-					<div class="flex items-center">
-						<img src="/img/info.svg" width="24" height="24" alt="Info" />
-						<div class="ml16 flex-1">
-							<div class="font-bold mb4">Upgrade to Better Timezone Handling</div>
-							<div class="caption mb8">
-								Your current timezone is set to UTC${currentOffset >= 0 ? "+" : ""}${currentOffset}.
-								We now support precise IANA timezones with automatic daylight saving time adjustments.
-							</div>
-							${
-                suggestions.length > 0
-                    ? `
-							<div class="mb8">
-								<span class="caption-strong">Suggested timezones for your region:</span>
-							</div>
-							<div class="timezone-suggestions flex flex-wrap gap8 mb12">
-								${suggestions
-                                .map(
-                                    (tz) => `
-									<button class="btn-secondary-sm timezone-suggestion" data-timezone="${tz}">
-										${this.formatTimezone(tz)}
-									</button>
-								`,
-                                )
-                                .join("")}
-							</div>
-						`
-                    : ""
-            }
-							<div class="flex gap8">
-								<button class="btn-secondary-sm" id="timezone-update-manual">
-									Choose Different Timezone
-								</button>
-								<button class="btn-secondary-sm" id="timezone-dismiss">
-									Keep Current Setting
-								</button>
-							</div>
-						</div>
-						<button class="btn-close ml16" id="timezone-close">×</button>
-					</div>
-				</div>
-			`;
+                <div id="modal-timezone-migration" style="display: none">
+                  <div class="modal-header">
+                    <img src="/img/info.svg" width="24" height="24" alt="Timezone migration" />
+                    <h3 class="ml16">Upgrade to Better Timezone Handling</h3>
+                    <a href="#" class="btn-close" rel="modal:close"></a>
+                  </div>
+                  <div class="modal-content">
+                    <div class="caption mb8">
+                      Your current timezone is set to UTC${currentOffset >= 0 ? "+" : ""}${currentOffset}. We now support precise IANA timezones with automatic daylight saving time adjustments.
+                    </div>
+                    ${
+                        suggestions.length > 0
+                        ? `
+                        <div class="mb8">
+                          <span class="caption-strong">Suggested timezones for your region:</span>
+                        </div>
+                        <div class="timezone-suggestions flex flex-wrap gap8 mb12">
+                          ${this._renderSuggestions(suggestions)}
+                        </div>
+                        `
+                        : ""
+                    }
+                    <div class="flex gap8">
+                      <button class="btn-secondary-sm" id="timezone-update-manual">Choose Different Timezone</button>
+                      <button class="btn-secondary-sm" id="timezone-dismiss">Keep Current Setting</button>
+                    </div>
+                  </div>
+                </div>`;
 
-            // Add event listeners
-            this.querySelectorAll(".timezone-suggestion").forEach((btn) => {
-                btn.addEventListener("click", (e) => {
-                    const timezone = e.target.dataset.timezone;
+            // Open modal
+            const $modal = $("#modal-timezone-migration", this);
+            $modal.modal({ closeExisting: false });
+
+            // Use delegated handlers because jquery-modal may move the element in the DOM
+            $(document)
+                .off("click.timezone-migration")
+                .on("click.timezone-migration", "#modal-timezone-migration .timezone-suggestion", (e) => {
+                    const timezone = e.currentTarget.dataset.timezone;
                     this.updateTimezone(timezone);
-                });
-            });
-
-            const manualBtn = this.querySelector("#timezone-update-manual");
-            if (manualBtn) {
-                manualBtn.addEventListener("click", () => {
-                    this.openAccountSettings();
-                });
-            }
-
-            const dismissBtn = this.querySelector("#timezone-dismiss");
-            if (dismissBtn) {
-                dismissBtn.addEventListener("click", () => {
+                })
+                .on("click.timezone-migration", "#modal-timezone-migration #timezone-update-manual", () => {
+                    $.modal.close();
+                    setTimeout(() => this.openAccountSettings(), 0);
+                })
+                .on("click.timezone-migration", "#modal-timezone-migration #timezone-dismiss", () => {
                     this.dismissMigration();
+                    $.modal.close();
                 });
-            }
 
-            const closeBtn = this.querySelector("#timezone-close");
-            if (closeBtn) {
-                closeBtn.addEventListener("click", () => {
-                    this.hide();
-                });
-            }
+            // Cleanup listeners after close
+            $(document).on("modal:after-close.timezone-migration", "#modal-timezone-migration", () => {
+                $(document).off(".timezone-migration");
+            });
+        }
+
+        _renderSuggestions(list) {
+            const uniq = Array.from(new Set(list));
+            return uniq
+                .map((id) => {
+                    const info = this._tzInfo?.[id] || {};
+                    // If this is a canonical row and we have an alias with a friendlier displayId, use that
+                    const displayId = info.displayId || id;
+                    // Map to currentOffset using the displayId/id we have
+                    const offset = this._currentOffsetById?.[displayId] || this._currentOffsetById?.[id] || '';
+                    const token = (offset || '').split(' ')[0] || '+00';
+                    const rest = (offset || '').split(' ').slice(1).join(' ').trim();
+                    const pretty = `UTC${token}`;
+                    const suffix = rest ? ` ${rest}` : '';
+                    const label = `${pretty}${suffix} — ${displayId}`;
+                    // Submit the canonical-or-alias IANA id that the backend accepts
+                    const submitId = displayId;
+                    return `<button class="btn-secondary-sm timezone-suggestion" data-timezone="${submitId}">${label}</button>`;
+                })
+                .join('');
         }
 
         formatTimezone(timezone) {
             // Prefer rich label with current offset if available
-            const currentOffset = this._tzMap?.[timezone];
+            const currentOffset = this._currentOffsetById?.[timezone];
             if (currentOffset) {
                 const token = (currentOffset || '').split(' ')[0] || '+00';
                 const rest = (currentOffset || '').split(' ').slice(1).join(' ').trim();
