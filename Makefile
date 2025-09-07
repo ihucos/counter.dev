@@ -1,6 +1,8 @@
 
 alpineversion = edge
 
+TZDB_VERSION ?= 2025b
+
 .DEFAULT_GOAL := all
 
 include .config/makefile*.env
@@ -19,12 +21,15 @@ tests:
 .PHONY: format
 format:
 	find backend -type f -name \*.go | xargs -L1 go fmt
+	npx prettier --html-whitespace-sensitivity ignore --write .
 
 .PHONY: gen-timezones
 gen-timezones:
 	@echo "Generating slim timezone list from Noda Time TZDB..."
-	@curl -sSL "https://nodatime.org/TimeZones?version=2025b&format=json" \
-		| jq -f scripts/timezones.jq > static/timezones.json
+	@mkdir -p static
+	@curl -fSL "https://nodatime.org/TimeZones?version=$(TZDB_VERSION)&format=json" -o static/timezones.raw.json \
+		&& jq -e -f scripts/timezones.jq static/timezones.raw.json > static/timezones.json \
+		&& rm -f static/timezones.raw.json
 	@echo "Written static/timezones.json"
 	@echo "Generating backend/models/timezones_gen.go from static/timezones.json..."
 	@./scripts/gen_timezones_go.sh static/timezones.json backend/models/timezones_gen.go
@@ -68,7 +73,7 @@ deploy:
 
 .PHONY: redis-server-download
 redis-server-download:
-	ssh root@counter cp /var/lib/redis/dump.rdb  /tmp	
+	ssh root@counter cp /var/lib/redis/dump.rdb  /tmp
 	rsync -avP --append root@counter:/tmp/dump.rdb /tmp/webstats-production.rdb
 
 
