@@ -290,7 +290,8 @@ window.dGroupData = function dGroupData(entries, cutAt) {
 function getUTCNow(utcoffset) {
     // Prefer minutes; derive from utcoffset(hours) if needed
     const minutes = Number.isFinite(window.state.currentOffsetMinutes) ? window.state.currentOffsetMinutes : Number.isFinite(utcoffset) ? Math.round(Number(utcoffset) * 60) : getUTCOffset() * 60;
-    return moment.utc().add(minutes, "minutes").toDate();
+    // Return YYYY-MM-DD in UTC to match daysRange expectations
+    return moment.utc().add(minutes, "minutes").format("YYYY-MM-DD");
 }
 
 window.dFillDatesToNow = function dFillDatesToNow(myDates, utcoffset) {
@@ -326,8 +327,10 @@ window.dFillDatesToNow = function dFillDatesToNow(myDates, utcoffset) {
         return new Date(a) - new Date(b);
     });
 
+    const startStr = typeof sortedAvailableDates[0] === "string" ? sortedAvailableDates[0] : new Date(sortedAvailableDates[0]).toISOString().substring(0, 10);
+    const endStr = getUTCNow(utcoffset);
     return {
-        ...daysRange(sortedAvailableDates[0], getUTCNow(utcoffset)),
+        ...daysRange(startStr, endStr),
         ...dates,
     };
 };
