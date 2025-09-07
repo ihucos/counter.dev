@@ -45,7 +45,7 @@ customElements.define(
                   </div>
                   <div class="modal-content">
                     <div class="caption mb8">
-                      Your current timezone is set to UTC${offsetSign}${escapeHtml(currentOffsetRaw)}. We now support precise IANA timezones with automatic daylight saving time adjustments.
+                      Your current timezone is set to UTC${offsetSign}${this.escapeHtml(currentOffsetRaw)}. We now support precise IANA timezones with automatic daylight saving time adjustments.
                     </div>
                     ${(() => {
                         if (suggestions.length === 0) return "";
@@ -146,12 +146,19 @@ customElements.define(
                     const rest = (offset || "").split(" ").slice(1).join(" ").trim();
                     const pretty = `UTC${token}`;
                     const suffix = rest ? ` ${rest}` : "";
-                    const label = `${escapeHtml(pretty)}${escapeHtml(suffix ? ` ${suffix}` : "")} — ${escapeHtml(displayId)}`;
+                    const label = `${this.escapeHtml(pretty)}${this.escapeHtml(suffix ? ` ${suffix}` : "")} — ${this.escapeHtml(displayId)}`;
                     // Submit the canonical-or-alias IANA id that the backend accepts
                     const submitId = displayId;
-                    return `<button class="btn-secondary-sm timezone-suggestion" type="button" data-timezone="${escapeHtml(submitId)}">${label}</button>`;
+                    return `<button class="btn-secondary-sm timezone-suggestion" type="button" data-timezone="${this.escapeHtml(submitId)}">${label}</button>`;
                 })
                 .join("");
+        }
+
+        // Local HTML-escaping helper to avoid ReferenceError and XSS
+        escapeHtml(val) {
+            const str = `${val}`;
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return str.replace(/[&<>"']/g, (ch) => map[ch]);
         }
 
         formatTimezone(timezone) {
