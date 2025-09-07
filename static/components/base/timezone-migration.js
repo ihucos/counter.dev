@@ -2,6 +2,24 @@ customElements.define(
     tagName(),
     class extends HTMLElement {
         draw(userDump) {
+            // Load timezone list once for nice labels with offsets
+            if (this._tzReady !== 'loaded') {
+                if (this._tzReady !== 'loading') {
+                    this._tzReady = 'loading';
+                    fetch('/timezones.json', { cache: 'no-store' })
+                        .then((r) => r.json())
+                        .then((data) => {
+                            const zones = Array.isArray(data?.zones) ? data.zones : [];
+                            this._tzMap = Object.fromEntries(zones.map((z) => [z.id, z.currentOffset]));
+                        })
+                        .catch(() => {})
+                        .finally(() => {
+                            this._tzReady = 'loaded';
+                            this.draw(userDump);
+                        });
+                }
+                return;
+            }
             // Only show if user needs timezone update
             if (!userDump.prefs.needsTimezoneUpdate) {
                 this.style.display = "none";
@@ -22,25 +40,25 @@ customElements.define(
 								We now support precise IANA timezones with automatic daylight saving time adjustments.
 							</div>
 							${
-                                suggestions.length > 0
-                                    ? `
-								<div class="mb8">
-									<span class="caption-strong">Suggested timezones for your region:</span>
-								</div>
-								<div class="timezone-suggestions flex flex-wrap gap8 mb12">
-									${suggestions
-                                        .map(
-                                            (tz) => `
-										<button class="btn-secondary-sm timezone-suggestion" data-timezone="${tz}">
-											${this.formatTimezone(tz)}
-										</button>
-									`,
-                                        )
-                                        .join("")}
-								</div>
-							`
-                                    : ""
-                            }
+                suggestions.length > 0
+                    ? `
+							<div class="mb8">
+								<span class="caption-strong">Suggested timezones for your region:</span>
+							</div>
+							<div class="timezone-suggestions flex flex-wrap gap8 mb12">
+								${suggestions
+                                .map(
+                                    (tz) => `
+									<button class="btn-secondary-sm timezone-suggestion" data-timezone="${tz}">
+										${this.formatTimezone(tz)}
+									</button>
+								`,
+                                )
+                                .join("")}
+							</div>
+						`
+                    : ""
+            }
 							<div class="flex gap8">
 								<button class="btn-secondary-sm" id="timezone-update-manual">
 									Choose Different Timezone
@@ -86,7 +104,17 @@ customElements.define(
         }
 
         formatTimezone(timezone) {
-            // Convert IANA timezone to readable format
+            // Prefer rich label with current offset if available
+            const currentOffset = this._tzMap?.[timezone];
+            if (currentOffset) {
+                const token = (currentOffset || '').split(' ')[0] || '+00';
+                const rest = (currentOffset || '').split(' ').slice(1).join(' ').trim();
+                const pretty = `UTC${token}`;
+                const suffix = rest ? ` ${rest}` : '';
+                return `${pretty}${suffix} — ${timezone}`;
+            }
+
+            // Fallback: Convert IANA timezone to a readable city name
             const cityMapping = {
                 "America/New_York": "New York",
                 "America/Chicago": "Chicago",
