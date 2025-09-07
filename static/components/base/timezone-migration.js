@@ -114,27 +114,8 @@ customElements.define(
                 return `${pretty}${suffix} — ${timezone}`;
             }
 
-            // Fallback: Convert IANA timezone to a readable city name
-            const cityMapping = {
-                "America/New_York": "New York",
-                "America/Chicago": "Chicago",
-                "America/Denver": "Denver",
-                "America/Los_Angeles": "Los Angeles",
-                "America/Toronto": "Toronto",
-                "America/Vancouver": "Vancouver",
-                "Europe/London": "London",
-                "Europe/Paris": "Paris",
-                "Europe/Berlin": "Berlin",
-                "Europe/Rome": "Rome",
-                "Europe/Moscow": "Moscow",
-                "Asia/Tokyo": "Tokyo",
-                "Asia/Shanghai": "Shanghai",
-                "Asia/Dubai": "Dubai",
-                "Australia/Sydney": "Sydney",
-                UTC: "UTC",
-            };
-
-            return cityMapping[timezone] || timezone.split("/").pop().replace(/_/g, " ");
+            // Fallback: humanize the zone id
+            return timezone.split("/").pop().replace(/_/g, " ");
         }
 
         updateTimezone(timezone) {
