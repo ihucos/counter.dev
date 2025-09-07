@@ -31,6 +31,7 @@ func init() {
 		if timezone != "" {
 			if err := user.SetTimezone(timezone); err != nil {
 				ctx.ReturnBadRequest("Invalid timezone")
+				return
 			}
 			// Also update utcoffset for backwards compatibility when timezone is set
 			if ctx.R.FormValue("utcoffset") != "" {
