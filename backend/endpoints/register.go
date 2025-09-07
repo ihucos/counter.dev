@@ -28,21 +28,26 @@ func init() {
 
 			ctx.LogEvent("register")
 
+			// Helper: set legacy utcoffset only if request provided it
+			setUTCOffsetIfPresent := func() {
+				if _, ok := ctx.R.Form["utcoffset"]; ok {
+					utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
+					err := user.SetPref("utcoffset", utcoffset)
+					ctx.CatchError(err)
+				}
+			}
+
 			// Prioritize IANA timezone for new users
 			if timezone != "" {
 				if err := user.SetTimezone(timezone); err != nil {
 					ctx.ReturnBadRequest("Invalid timezone")
 					return
 				}
-				// Still store utcoffset for backwards compatibility
-				utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
-				err := user.SetPref("utcoffset", utcoffset)
-				ctx.CatchError(err)
+				// Best-effort legacy storage only when provided
+				setUTCOffsetIfPresent()
 			} else {
-				// Fallback to utcoffset-only for older browsers or when timezone detection fails
-				utcoffset := fmt.Sprintf("%d", ctx.ParseUTCOffset("utcoffset"))
-				err := user.SetPref("utcoffset", utcoffset)
-				ctx.CatchError(err)
+				// Fallback: only store utcoffset if provided by client
+				setUTCOffsetIfPresent()
 			}
 			if mail != "" {
 				err := user.SetPref("mail", mail)
