@@ -78,6 +78,8 @@ connectData("dashboard-settings", (dump) => [
         meta: dump.meta,
         // Keep legacy hours for UI but compute from minutes if available
         utcoffset: Number.isFinite(Number(dump.meta?.offsetMinutesNow)) ? Number(dump.meta.offsetMinutesNow) / 60 : dump.user.prefs.utcoffset || getUTCOffset(),
+        // Pass timezone so tracking code prefers data-timezone over utcoffset
+        timezone: dump.meta?.timezone || dump.user.prefs.timezone || "",
     },
 ]);
 
