@@ -88,25 +88,40 @@
               </div>
 
               <script>
-                // New timezone-first registration approach
-                const timezoneInfo = getTimezoneInfo();
+                // New timezone-first registration approach using safe DOM APIs
+                (function () {
+                  const scriptEl = document.currentScript;
+                  const formEl = scriptEl.closest("form");
+                  const timezoneInfo = getTimezoneInfo();
 
-                // Always include timezone if available (IANA timezone preferred)
-                if (timezoneInfo.hasTimezone) {
-                  document.write(`<input type="hidden" name="timezone" value="${timezoneInfo.timezone}">`);
-                  // Show user-friendly timezone info
-                  document.write(`<div class="timezone-info mb8" style="font-size: 12px; color: #666;">
-                    ✅ Timezone detected: ${timezoneInfo.timezone}
-                  </div>`);
-                } else {
-                  // Show fallback info
-                  document.write(`<div class="timezone-info mb8" style="font-size: 12px; color: #666;">
-                    📍 Using UTC offset: ${timezoneInfo.utcOffset >= 0 ? "+" : ""}${timezoneInfo.utcOffset}
-                  </div>`);
-                }
+                  // Create info banner
+                  const infoDiv = document.createElement("div");
+                  infoDiv.className = "timezone-info mb8";
+                  infoDiv.style.cssText = "font-size: 12px; color: #666;";
 
-                // Include UTC offset for backwards compatibility and fallback
-                document.write(`<input type="hidden" name="utcoffset" value="${timezoneInfo.utcOffset}">`);
+                  // Conditionally add timezone hidden input and message
+                  if (timezoneInfo.hasTimezone) {
+                    const tzInput = document.createElement("input");
+                    tzInput.type = "hidden";
+                    tzInput.name = "timezone";
+                    tzInput.value = timezoneInfo.timezone || "";
+                    formEl.appendChild(tzInput);
+                    infoDiv.textContent = `✅ Timezone detected: ${timezoneInfo.timezone}`;
+                  } else {
+                    const sign = timezoneInfo.utcOffset >= 0 ? "+" : "";
+                    infoDiv.textContent = `📍 Using UTC offset: ${sign}${timezoneInfo.utcOffset}`;
+                  }
+
+                  // Always include legacy/fallback utcoffset hidden input
+                  const offsetInput = document.createElement("input");
+                  offsetInput.type = "hidden";
+                  offsetInput.name = "utcoffset";
+                  offsetInput.value = String(timezoneInfo.utcOffset);
+                  formEl.appendChild(offsetInput);
+
+                  // Insert the info banner near where the script lives for layout parity
+                  scriptEl.parentNode.insertBefore(infoDiv, scriptEl);
+                })();
               </script>
               <label class="width-full">
                 Password
