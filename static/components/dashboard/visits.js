@@ -76,7 +76,7 @@ customElements.define(
                 } catch (_err) {
                     url = null;
                 }
-                if (url === null) {
+                if (!url || !/^https?:$/.test(url.protocol)) {
                     logReferrer = "?";
                 } else {
                     logReferrer = `<a target="_blank" rel="noopener noreferrer nofollow" class="visits-referrer black" href="${escapeHtml(logReferrer)}">${escapeHtml(url.host)}</a>`;
