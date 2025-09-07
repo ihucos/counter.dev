@@ -27,9 +27,9 @@ customElements.define(
                 <div class="hour-item">
                   <span class="visits-date">${logEntry.date}</span>
                   <span class="visits-time caption-strong">${logEntry.time}</span>
-                  <img class="visits-ip" title="${logEntry.country}" src="/img/famfamfam_flags/gif/${logEntry.country}.gif" width="16" height="11" alt="${logEntry.country}">
-                  <img class="visits-device" title="${logEntry.device}" src="/img/visits/devices/${(logEntry.device || "").toLowerCase()}.svg"></img>
-                  <img class="visits-platform" title="${logEntry.platform}" src="/img/visits/platforms/${logEntry.platform.toLowerCase()}.svg"></img>
+                  <img class="visits-ip" title="${logEntry.country}" src="/img/famfamfam_flags/gif/${logEntry.countryCode}.gif" width="16" height="11" alt="${logEntry.country}">
+                  <img class="visits-device" title="${logEntry.device}" src="/img/visits/devices/${logEntry.deviceSlug}.svg"></img>
+                  <img class="visits-platform" title="${logEntry.platform}" src="/img/visits/platforms/${logEntry.platformSlug}.svg"></img>
                   <span class="visits-referrer">${logEntry.referrerHtml}</span>
                 </div>`,
                   )
@@ -42,13 +42,26 @@ customElements.define(
         }
 
         parseLogEntry(visit) {
+            if (!visit || typeof visit !== "string") return null;
             const match = visit.split(" ");
-            const logDate = match[0].slice(1);
-            const logTime = match[1].slice(0, -4);
-            let logCountry = match[2].toLowerCase();
-            let logReferrer = match[3];
-            const logDevice = match[4];
-            const platform = match[5];
+            if (match.length < 6) return null;
+
+            const rawDate = String(match[0] || "");
+            const rawTime = String(match[1] || "");
+            const logDate = rawDate ? rawDate.slice(1) : "";
+            const logTime = rawTime ? rawTime.slice(0, -4) : "";
+
+            let logCountry = String(match[2] || "").toLowerCase();
+            let logReferrer = String(match[3] || "");
+            const logDevice = String(match[4] || "Unknown");
+            const platform = String(match[5] || "Unknown");
+
+            // sanitize for asset paths
+            const slug = (s) => s.toLowerCase().replace(/[^a-z0-9_-]/g, "");
+            const deviceSlug = slug(logDevice) || "unknown";
+            const platformSlug = slug(platform) || "unknown";
+            // normalize country code for flag assets
+            const countryCode = /^[a-z]{2}$/.test(logCountry) ? logCountry : "xx";
 
             if (logCountry === "") {
                 logCountry = "xx";
@@ -66,16 +79,19 @@ customElements.define(
                 if (url === null) {
                     logReferrer = "?";
                 } else {
-                    logReferrer = `<a target="_blank" class="visits-referrer black" href="${escapeHtml(logReferrer)}">${url.host}</a>`;
+                    logReferrer = `<a target="_blank" rel="noopener noreferrer nofollow" class="visits-referrer black" href="${escapeHtml(logReferrer)}">${escapeHtml(url.host)}</a>`;
                 }
             }
             return {
                 date: logDate,
                 time: logTime,
-                country: logCountry,
+                country: logCountry || "Unknown",
+                countryCode,
                 referrerHtml: logReferrer,
                 device: logDevice,
+                deviceSlug,
                 platform: platform || "Unknown",
+                platformSlug,
             };
         }
     },
