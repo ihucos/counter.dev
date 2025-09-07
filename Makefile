@@ -21,13 +21,14 @@ tests:
 .PHONY: format
 format:
 	find backend -type f -name \*.go | xargs -L1 go fmt
-	npx prettier --html-whitespace-sensitivity ignore --write .
+	prettier --html-whitespace-sensitivity ignore --write .
 
 .PHONY: gen-timezones
 gen-timezones:
 	@echo "Generating slim timezone list from Noda Time TZDB..."
+	@set -euo pipefail
 	@mkdir -p static
-	@curl -fSL "https://nodatime.org/TimeZones?version=$(TZDB_VERSION)&format=json" -o static/timezones.raw.json \
+	@curl -fsSL "https://nodatime.org/TimeZones?version=$(TZDB_VERSION)&format=json" -o static/timezones.raw.json \
 		&& jq -e -f scripts/timezones.jq static/timezones.raw.json > static/timezones.json \
 		&& rm -f static/timezones.raw.json
 	@echo "Written static/timezones.json"
