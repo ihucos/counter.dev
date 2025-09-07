@@ -26,6 +26,8 @@ gen-timezones:
 	@curl -sSL "https://nodatime.org/TimeZones?version=2025b&format=json" \
 		| jq -f scripts/timezones.jq > static/timezones.json
 	@echo "Written static/timezones.json"
+	@echo "Generating backend/models/timezones_gen.go from static/timezones.json..."
+	@./scripts/gen_timezones_go.sh static/timezones.json backend/models/timezones_gen.go
 
 
 .PHONY: logs

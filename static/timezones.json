@@ -1,0 +1,3587 @@
+{
+  "ianaVersion": "2025b",
+  "zones": [
+    {
+      "id": "Etc/GMT+12",
+      "currentOffset": "-12 (-12)",
+      "canonical": null,
+      "minutes": -720
+    },
+    {
+      "id": "Etc/GMT+11",
+      "currentOffset": "-11 (-11)",
+      "canonical": null,
+      "minutes": -660
+    },
+    {
+      "id": "Pacific/Midway",
+      "currentOffset": "-11 (SST)",
+      "canonical": "Pacific/Pago_Pago",
+      "minutes": -660
+    },
+    {
+      "id": "Pacific/Niue",
+      "currentOffset": "-11 (-11)",
+      "canonical": null,
+      "minutes": -660
+    },
+    {
+      "id": "Pacific/Pago_Pago",
+      "currentOffset": "-11 (SST)",
+      "canonical": null,
+      "minutes": -660
+    },
+    {
+      "id": "Pacific/Samoa",
+      "currentOffset": "-11 (SST)",
+      "canonical": "Pacific/Pago_Pago",
+      "minutes": -660
+    },
+    {
+      "id": "US/Samoa",
+      "currentOffset": "-11 (SST)",
+      "canonical": "Pacific/Pago_Pago",
+      "minutes": -660
+    },
+    {
+      "id": "Etc/GMT+10",
+      "currentOffset": "-10 (-10)",
+      "canonical": null,
+      "minutes": -600
+    },
+    {
+      "id": "HST",
+      "currentOffset": "-10 (HST)",
+      "canonical": "Pacific/Honolulu",
+      "minutes": -600
+    },
+    {
+      "id": "Pacific/Honolulu",
+      "currentOffset": "-10 (HST)",
+      "canonical": null,
+      "minutes": -600
+    },
+    {
+      "id": "Pacific/Johnston",
+      "currentOffset": "-10 (HST)",
+      "canonical": "Pacific/Honolulu",
+      "minutes": -600
+    },
+    {
+      "id": "Pacific/Rarotonga",
+      "currentOffset": "-10 (-10)",
+      "canonical": null,
+      "minutes": -600
+    },
+    {
+      "id": "Pacific/Tahiti",
+      "currentOffset": "-10 (-10)",
+      "canonical": null,
+      "minutes": -600
+    },
+    {
+      "id": "US/Hawaii",
+      "currentOffset": "-10 (HST)",
+      "canonical": "Pacific/Honolulu",
+      "minutes": -600
+    },
+    {
+      "id": "Pacific/Marquesas",
+      "currentOffset": "-09:30 (-0930)",
+      "canonical": null,
+      "minutes": -570
+    },
+    {
+      "id": "America/Adak",
+      "currentOffset": "-09 (HDT)",
+      "canonical": null,
+      "minutes": -540
+    },
+    {
+      "id": "America/Atka",
+      "currentOffset": "-09 (HDT)",
+      "canonical": "America/Adak",
+      "minutes": -540
+    },
+    {
+      "id": "Etc/GMT+9",
+      "currentOffset": "-09 (-09)",
+      "canonical": null,
+      "minutes": -540
+    },
+    {
+      "id": "Pacific/Gambier",
+      "currentOffset": "-09 (-09)",
+      "canonical": null,
+      "minutes": -540
+    },
+    {
+      "id": "US/Aleutian",
+      "currentOffset": "-09 (HDT)",
+      "canonical": "America/Adak",
+      "minutes": -540
+    },
+    {
+      "id": "America/Anchorage",
+      "currentOffset": "-08 (AKDT)",
+      "canonical": null,
+      "minutes": -480
+    },
+    {
+      "id": "America/Juneau",
+      "currentOffset": "-08 (AKDT)",
+      "canonical": null,
+      "minutes": -480
+    },
+    {
+      "id": "America/Metlakatla",
+      "currentOffset": "-08 (AKDT)",
+      "canonical": null,
+      "minutes": -480
+    },
+    {
+      "id": "America/Nome",
+      "currentOffset": "-08 (AKDT)",
+      "canonical": null,
+      "minutes": -480
+    },
+    {
+      "id": "America/Sitka",
+      "currentOffset": "-08 (AKDT)",
+      "canonical": null,
+      "minutes": -480
+    },
+    {
+      "id": "America/Yakutat",
+      "currentOffset": "-08 (AKDT)",
+      "canonical": null,
+      "minutes": -480
+    },
+    {
+      "id": "Etc/GMT+8",
+      "currentOffset": "-08 (-08)",
+      "canonical": null,
+      "minutes": -480
+    },
+    {
+      "id": "Pacific/Pitcairn",
+      "currentOffset": "-08 (-08)",
+      "canonical": null,
+      "minutes": -480
+    },
+    {
+      "id": "US/Alaska",
+      "currentOffset": "-08 (AKDT)",
+      "canonical": "America/Anchorage",
+      "minutes": -480
+    },
+    {
+      "id": "America/Creston",
+      "currentOffset": "-07 (MST)",
+      "canonical": "America/Phoenix",
+      "minutes": -420
+    },
+    {
+      "id": "America/Dawson",
+      "currentOffset": "-07 (MST)",
+      "canonical": null,
+      "minutes": -420
+    },
+    {
+      "id": "America/Dawson_Creek",
+      "currentOffset": "-07 (MST)",
+      "canonical": null,
+      "minutes": -420
+    },
+    {
+      "id": "America/Ensenada",
+      "currentOffset": "-07 (PDT)",
+      "canonical": "America/Tijuana",
+      "minutes": -420
+    },
+    {
+      "id": "America/Fort_Nelson",
+      "currentOffset": "-07 (MST)",
+      "canonical": null,
+      "minutes": -420
+    },
+    {
+      "id": "America/Hermosillo",
+      "currentOffset": "-07 (MST)",
+      "canonical": null,
+      "minutes": -420
+    },
+    {
+      "id": "America/Los_Angeles",
+      "currentOffset": "-07 (PDT)",
+      "canonical": null,
+      "minutes": -420
+    },
+    {
+      "id": "America/Mazatlan",
+      "currentOffset": "-07 (MST)",
+      "canonical": null,
+      "minutes": -420
+    },
+    {
+      "id": "America/Phoenix",
+      "currentOffset": "-07 (MST)",
+      "canonical": null,
+      "minutes": -420
+    },
+    {
+      "id": "America/Santa_Isabel",
+      "currentOffset": "-07 (PDT)",
+      "canonical": "America/Tijuana",
+      "minutes": -420
+    },
+    {
+      "id": "America/Tijuana",
+      "currentOffset": "-07 (PDT)",
+      "canonical": null,
+      "minutes": -420
+    },
+    {
+      "id": "America/Vancouver",
+      "currentOffset": "-07 (PDT)",
+      "canonical": null,
+      "minutes": -420
+    },
+    {
+      "id": "America/Whitehorse",
+      "currentOffset": "-07 (MST)",
+      "canonical": null,
+      "minutes": -420
+    },
+    {
+      "id": "Canada/Pacific",
+      "currentOffset": "-07 (PDT)",
+      "canonical": "America/Vancouver",
+      "minutes": -420
+    },
+    {
+      "id": "Canada/Yukon",
+      "currentOffset": "-07 (MST)",
+      "canonical": "America/Whitehorse",
+      "minutes": -420
+    },
+    {
+      "id": "Etc/GMT+7",
+      "currentOffset": "-07 (-07)",
+      "canonical": null,
+      "minutes": -420
+    },
+    {
+      "id": "MST",
+      "currentOffset": "-07 (MST)",
+      "canonical": "America/Phoenix",
+      "minutes": -420
+    },
+    {
+      "id": "Mexico/BajaNorte",
+      "currentOffset": "-07 (PDT)",
+      "canonical": "America/Tijuana",
+      "minutes": -420
+    },
+    {
+      "id": "Mexico/BajaSur",
+      "currentOffset": "-07 (MST)",
+      "canonical": "America/Mazatlan",
+      "minutes": -420
+    },
+    {
+      "id": "PST8PDT",
+      "currentOffset": "-07 (PDT)",
+      "canonical": "America/Los_Angeles",
+      "minutes": -420
+    },
+    {
+      "id": "US/Arizona",
+      "currentOffset": "-07 (MST)",
+      "canonical": "America/Phoenix",
+      "minutes": -420
+    },
+    {
+      "id": "US/Pacific",
+      "currentOffset": "-07 (PDT)",
+      "canonical": "America/Los_Angeles",
+      "minutes": -420
+    },
+    {
+      "id": "America/Bahia_Banderas",
+      "currentOffset": "-06 (CST)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Belize",
+      "currentOffset": "-06 (CST)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Boise",
+      "currentOffset": "-06 (MDT)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Cambridge_Bay",
+      "currentOffset": "-06 (MDT)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Chihuahua",
+      "currentOffset": "-06 (CST)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Ciudad_Juarez",
+      "currentOffset": "-06 (MDT)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Costa_Rica",
+      "currentOffset": "-06 (CST)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Denver",
+      "currentOffset": "-06 (MDT)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Edmonton",
+      "currentOffset": "-06 (MDT)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/El_Salvador",
+      "currentOffset": "-06 (CST)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Guatemala",
+      "currentOffset": "-06 (CST)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Inuvik",
+      "currentOffset": "-06 (MDT)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Managua",
+      "currentOffset": "-06 (CST)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Merida",
+      "currentOffset": "-06 (CST)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Mexico_City",
+      "currentOffset": "-06 (CST)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Monterrey",
+      "currentOffset": "-06 (CST)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Regina",
+      "currentOffset": "-06 (CST)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Shiprock",
+      "currentOffset": "-06 (MDT)",
+      "canonical": "America/Denver",
+      "minutes": -360
+    },
+    {
+      "id": "America/Swift_Current",
+      "currentOffset": "-06 (CST)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Tegucigalpa",
+      "currentOffset": "-06 (CST)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "America/Yellowknife",
+      "currentOffset": "-06 (MDT)",
+      "canonical": "America/Edmonton",
+      "minutes": -360
+    },
+    {
+      "id": "Canada/Mountain",
+      "currentOffset": "-06 (MDT)",
+      "canonical": "America/Edmonton",
+      "minutes": -360
+    },
+    {
+      "id": "Canada/Saskatchewan",
+      "currentOffset": "-06 (CST)",
+      "canonical": "America/Regina",
+      "minutes": -360
+    },
+    {
+      "id": "Etc/GMT+6",
+      "currentOffset": "-06 (-06)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "MST7MDT",
+      "currentOffset": "-06 (MDT)",
+      "canonical": "America/Denver",
+      "minutes": -360
+    },
+    {
+      "id": "Mexico/General",
+      "currentOffset": "-06 (CST)",
+      "canonical": "America/Mexico_City",
+      "minutes": -360
+    },
+    {
+      "id": "Navajo",
+      "currentOffset": "-06 (MDT)",
+      "canonical": "America/Denver",
+      "minutes": -360
+    },
+    {
+      "id": "Pacific/Galapagos",
+      "currentOffset": "-06 (-06)",
+      "canonical": null,
+      "minutes": -360
+    },
+    {
+      "id": "US/Mountain",
+      "currentOffset": "-06 (MDT)",
+      "canonical": "America/Denver",
+      "minutes": -360
+    },
+    {
+      "id": "America/Atikokan",
+      "currentOffset": "-05 (EST)",
+      "canonical": "America/Panama",
+      "minutes": -300
+    },
+    {
+      "id": "America/Bogota",
+      "currentOffset": "-05 (-05)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Cancun",
+      "currentOffset": "-05 (EST)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Cayman",
+      "currentOffset": "-05 (EST)",
+      "canonical": "America/Panama",
+      "minutes": -300
+    },
+    {
+      "id": "America/Chicago",
+      "currentOffset": "-05 (CDT)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Coral_Harbour",
+      "currentOffset": "-05 (EST)",
+      "canonical": "America/Panama",
+      "minutes": -300
+    },
+    {
+      "id": "America/Eirunepe",
+      "currentOffset": "-05 (-05)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Guayaquil",
+      "currentOffset": "-05 (-05)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Indiana/Knox",
+      "currentOffset": "-05 (CDT)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Indiana/Tell_City",
+      "currentOffset": "-05 (CDT)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Jamaica",
+      "currentOffset": "-05 (EST)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Knox_IN",
+      "currentOffset": "-05 (CDT)",
+      "canonical": "America/Indiana/Knox",
+      "minutes": -300
+    },
+    {
+      "id": "America/Lima",
+      "currentOffset": "-05 (-05)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Matamoros",
+      "currentOffset": "-05 (CDT)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Menominee",
+      "currentOffset": "-05 (CDT)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/North_Dakota/Beulah",
+      "currentOffset": "-05 (CDT)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/North_Dakota/Center",
+      "currentOffset": "-05 (CDT)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/North_Dakota/New_Salem",
+      "currentOffset": "-05 (CDT)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Ojinaga",
+      "currentOffset": "-05 (CDT)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Panama",
+      "currentOffset": "-05 (EST)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Porto_Acre",
+      "currentOffset": "-05 (-05)",
+      "canonical": "America/Rio_Branco",
+      "minutes": -300
+    },
+    {
+      "id": "America/Rainy_River",
+      "currentOffset": "-05 (CDT)",
+      "canonical": "America/Winnipeg",
+      "minutes": -300
+    },
+    {
+      "id": "America/Rankin_Inlet",
+      "currentOffset": "-05 (CDT)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Resolute",
+      "currentOffset": "-05 (CDT)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Rio_Branco",
+      "currentOffset": "-05 (-05)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "America/Winnipeg",
+      "currentOffset": "-05 (CDT)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "Brazil/Acre",
+      "currentOffset": "-05 (-05)",
+      "canonical": "America/Rio_Branco",
+      "minutes": -300
+    },
+    {
+      "id": "CST6CDT",
+      "currentOffset": "-05 (CDT)",
+      "canonical": "America/Chicago",
+      "minutes": -300
+    },
+    {
+      "id": "Canada/Central",
+      "currentOffset": "-05 (CDT)",
+      "canonical": "America/Winnipeg",
+      "minutes": -300
+    },
+    {
+      "id": "Chile/EasterIsland",
+      "currentOffset": "-05 (-05)",
+      "canonical": "Pacific/Easter",
+      "minutes": -300
+    },
+    {
+      "id": "EST",
+      "currentOffset": "-05 (EST)",
+      "canonical": "America/Panama",
+      "minutes": -300
+    },
+    {
+      "id": "Etc/GMT+5",
+      "currentOffset": "-05 (-05)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "Jamaica",
+      "currentOffset": "-05 (EST)",
+      "canonical": "America/Jamaica",
+      "minutes": -300
+    },
+    {
+      "id": "Pacific/Easter",
+      "currentOffset": "-05 (-05)",
+      "canonical": null,
+      "minutes": -300
+    },
+    {
+      "id": "US/Central",
+      "currentOffset": "-05 (CDT)",
+      "canonical": "America/Chicago",
+      "minutes": -300
+    },
+    {
+      "id": "US/Indiana-Starke",
+      "currentOffset": "-05 (CDT)",
+      "canonical": "America/Indiana/Knox",
+      "minutes": -300
+    },
+    {
+      "id": "America/Anguilla",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/Antigua",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/Aruba",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/Barbados",
+      "currentOffset": "-04 (AST)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Blanc-Sablon",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/Boa_Vista",
+      "currentOffset": "-04 (-04)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Campo_Grande",
+      "currentOffset": "-04 (-04)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Caracas",
+      "currentOffset": "-04 (-04)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Cuiaba",
+      "currentOffset": "-04 (-04)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Curacao",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/Detroit",
+      "currentOffset": "-04 (EDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Dominica",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/Fort_Wayne",
+      "currentOffset": "-04 (EDT)",
+      "canonical": "America/Indiana/Indianapolis",
+      "minutes": -240
+    },
+    {
+      "id": "America/Grand_Turk",
+      "currentOffset": "-04 (EDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Grenada",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/Guadeloupe",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/Guyana",
+      "currentOffset": "-04 (-04)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Havana",
+      "currentOffset": "-04 (CDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Indiana/Indianapolis",
+      "currentOffset": "-04 (EDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Indiana/Marengo",
+      "currentOffset": "-04 (EDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Indiana/Petersburg",
+      "currentOffset": "-04 (EDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Indiana/Vevay",
+      "currentOffset": "-04 (EDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Indiana/Vincennes",
+      "currentOffset": "-04 (EDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Indiana/Winamac",
+      "currentOffset": "-04 (EDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Indianapolis",
+      "currentOffset": "-04 (EDT)",
+      "canonical": "America/Indiana/Indianapolis",
+      "minutes": -240
+    },
+    {
+      "id": "America/Iqaluit",
+      "currentOffset": "-04 (EDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Kentucky/Louisville",
+      "currentOffset": "-04 (EDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Kentucky/Monticello",
+      "currentOffset": "-04 (EDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Kralendijk",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/La_Paz",
+      "currentOffset": "-04 (-04)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Louisville",
+      "currentOffset": "-04 (EDT)",
+      "canonical": "America/Kentucky/Louisville",
+      "minutes": -240
+    },
+    {
+      "id": "America/Lower_Princes",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/Manaus",
+      "currentOffset": "-04 (-04)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Marigot",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/Martinique",
+      "currentOffset": "-04 (AST)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Montreal",
+      "currentOffset": "-04 (EDT)",
+      "canonical": "America/Toronto",
+      "minutes": -240
+    },
+    {
+      "id": "America/Montserrat",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/Nassau",
+      "currentOffset": "-04 (EDT)",
+      "canonical": "America/Toronto",
+      "minutes": -240
+    },
+    {
+      "id": "America/New_York",
+      "currentOffset": "-04 (EDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Nipigon",
+      "currentOffset": "-04 (EDT)",
+      "canonical": "America/Toronto",
+      "minutes": -240
+    },
+    {
+      "id": "America/Pangnirtung",
+      "currentOffset": "-04 (EDT)",
+      "canonical": "America/Iqaluit",
+      "minutes": -240
+    },
+    {
+      "id": "America/Port-au-Prince",
+      "currentOffset": "-04 (EDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Port_of_Spain",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/Porto_Velho",
+      "currentOffset": "-04 (-04)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Puerto_Rico",
+      "currentOffset": "-04 (AST)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Santo_Domingo",
+      "currentOffset": "-04 (AST)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/St_Barthelemy",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/St_Kitts",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/St_Lucia",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/St_Thomas",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/St_Vincent",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/Thunder_Bay",
+      "currentOffset": "-04 (EDT)",
+      "canonical": "America/Toronto",
+      "minutes": -240
+    },
+    {
+      "id": "America/Toronto",
+      "currentOffset": "-04 (EDT)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "America/Tortola",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "America/Virgin",
+      "currentOffset": "-04 (AST)",
+      "canonical": "America/Puerto_Rico",
+      "minutes": -240
+    },
+    {
+      "id": "Brazil/West",
+      "currentOffset": "-04 (-04)",
+      "canonical": "America/Manaus",
+      "minutes": -240
+    },
+    {
+      "id": "Canada/Eastern",
+      "currentOffset": "-04 (EDT)",
+      "canonical": "America/Toronto",
+      "minutes": -240
+    },
+    {
+      "id": "Cuba",
+      "currentOffset": "-04 (CDT)",
+      "canonical": "America/Havana",
+      "minutes": -240
+    },
+    {
+      "id": "EST5EDT",
+      "currentOffset": "-04 (EDT)",
+      "canonical": "America/New_York",
+      "minutes": -240
+    },
+    {
+      "id": "Etc/GMT+4",
+      "currentOffset": "-04 (-04)",
+      "canonical": null,
+      "minutes": -240
+    },
+    {
+      "id": "US/East-Indiana",
+      "currentOffset": "-04 (EDT)",
+      "canonical": "America/Indiana/Indianapolis",
+      "minutes": -240
+    },
+    {
+      "id": "US/Eastern",
+      "currentOffset": "-04 (EDT)",
+      "canonical": "America/New_York",
+      "minutes": -240
+    },
+    {
+      "id": "US/Michigan",
+      "currentOffset": "-04 (EDT)",
+      "canonical": "America/Detroit",
+      "minutes": -240
+    },
+    {
+      "id": "America/Araguaina",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Argentina/Buenos_Aires",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Argentina/Catamarca",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Argentina/ComodRivadavia",
+      "currentOffset": "-03 (-03)",
+      "canonical": "America/Argentina/Catamarca",
+      "minutes": -180
+    },
+    {
+      "id": "America/Argentina/Cordoba",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Argentina/Jujuy",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Argentina/La_Rioja",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Argentina/Mendoza",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Argentina/Rio_Gallegos",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Argentina/Salta",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Argentina/San_Juan",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Argentina/San_Luis",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Argentina/Tucuman",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Argentina/Ushuaia",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Asuncion",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Bahia",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Belem",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Buenos_Aires",
+      "currentOffset": "-03 (-03)",
+      "canonical": "America/Argentina/Buenos_Aires",
+      "minutes": -180
+    },
+    {
+      "id": "America/Catamarca",
+      "currentOffset": "-03 (-03)",
+      "canonical": "America/Argentina/Catamarca",
+      "minutes": -180
+    },
+    {
+      "id": "America/Cayenne",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Cordoba",
+      "currentOffset": "-03 (-03)",
+      "canonical": "America/Argentina/Cordoba",
+      "minutes": -180
+    },
+    {
+      "id": "America/Coyhaique",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Fortaleza",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Glace_Bay",
+      "currentOffset": "-03 (ADT)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Goose_Bay",
+      "currentOffset": "-03 (ADT)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Halifax",
+      "currentOffset": "-03 (ADT)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Jujuy",
+      "currentOffset": "-03 (-03)",
+      "canonical": "America/Argentina/Jujuy",
+      "minutes": -180
+    },
+    {
+      "id": "America/Maceio",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Mendoza",
+      "currentOffset": "-03 (-03)",
+      "canonical": "America/Argentina/Mendoza",
+      "minutes": -180
+    },
+    {
+      "id": "America/Moncton",
+      "currentOffset": "-03 (ADT)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Montevideo",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Paramaribo",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Punta_Arenas",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Recife",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Rosario",
+      "currentOffset": "-03 (-03)",
+      "canonical": "America/Argentina/Cordoba",
+      "minutes": -180
+    },
+    {
+      "id": "America/Santarem",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Santiago",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Sao_Paulo",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/Thule",
+      "currentOffset": "-03 (ADT)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "Antarctica/Palmer",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "Antarctica/Rothera",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "Atlantic/Bermuda",
+      "currentOffset": "-03 (ADT)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "Atlantic/Stanley",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "Brazil/East",
+      "currentOffset": "-03 (-03)",
+      "canonical": "America/Sao_Paulo",
+      "minutes": -180
+    },
+    {
+      "id": "Canada/Atlantic",
+      "currentOffset": "-03 (ADT)",
+      "canonical": "America/Halifax",
+      "minutes": -180
+    },
+    {
+      "id": "Chile/Continental",
+      "currentOffset": "-03 (-03)",
+      "canonical": "America/Santiago",
+      "minutes": -180
+    },
+    {
+      "id": "Etc/GMT+3",
+      "currentOffset": "-03 (-03)",
+      "canonical": null,
+      "minutes": -180
+    },
+    {
+      "id": "America/St_Johns",
+      "currentOffset": "-02:30 (NDT)",
+      "canonical": null,
+      "minutes": -150
+    },
+    {
+      "id": "Canada/Newfoundland",
+      "currentOffset": "-02:30 (NDT)",
+      "canonical": "America/St_Johns",
+      "minutes": -150
+    },
+    {
+      "id": "America/Miquelon",
+      "currentOffset": "-02 (-02)",
+      "canonical": null,
+      "minutes": -120
+    },
+    {
+      "id": "America/Noronha",
+      "currentOffset": "-02 (-02)",
+      "canonical": null,
+      "minutes": -120
+    },
+    {
+      "id": "Atlantic/South_Georgia",
+      "currentOffset": "-02 (-02)",
+      "canonical": null,
+      "minutes": -120
+    },
+    {
+      "id": "Brazil/DeNoronha",
+      "currentOffset": "-02 (-02)",
+      "canonical": "America/Noronha",
+      "minutes": -120
+    },
+    {
+      "id": "Etc/GMT+2",
+      "currentOffset": "-02 (-02)",
+      "canonical": null,
+      "minutes": -120
+    },
+    {
+      "id": "America/Godthab",
+      "currentOffset": "-01 (-01)",
+      "canonical": "America/Nuuk",
+      "minutes": -60
+    },
+    {
+      "id": "America/Nuuk",
+      "currentOffset": "-01 (-01)",
+      "canonical": null,
+      "minutes": -60
+    },
+    {
+      "id": "America/Scoresbysund",
+      "currentOffset": "-01 (-01)",
+      "canonical": null,
+      "minutes": -60
+    },
+    {
+      "id": "Atlantic/Cape_Verde",
+      "currentOffset": "-01 (-01)",
+      "canonical": null,
+      "minutes": -60
+    },
+    {
+      "id": "Etc/GMT+1",
+      "currentOffset": "-01 (-01)",
+      "canonical": null,
+      "minutes": -60
+    },
+    {
+      "id": "Africa/Abidjan",
+      "currentOffset": "+00 (GMT)",
+      "canonical": null,
+      "minutes": 0
+    },
+    {
+      "id": "Africa/Accra",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Africa/Abidjan",
+      "minutes": 0
+    },
+    {
+      "id": "Africa/Bamako",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Africa/Abidjan",
+      "minutes": 0
+    },
+    {
+      "id": "Africa/Banjul",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Africa/Abidjan",
+      "minutes": 0
+    },
+    {
+      "id": "Africa/Bissau",
+      "currentOffset": "+00 (GMT)",
+      "canonical": null,
+      "minutes": 0
+    },
+    {
+      "id": "Africa/Conakry",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Africa/Abidjan",
+      "minutes": 0
+    },
+    {
+      "id": "Africa/Dakar",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Africa/Abidjan",
+      "minutes": 0
+    },
+    {
+      "id": "Africa/Freetown",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Africa/Abidjan",
+      "minutes": 0
+    },
+    {
+      "id": "Africa/Lome",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Africa/Abidjan",
+      "minutes": 0
+    },
+    {
+      "id": "Africa/Monrovia",
+      "currentOffset": "+00 (GMT)",
+      "canonical": null,
+      "minutes": 0
+    },
+    {
+      "id": "Africa/Nouakchott",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Africa/Abidjan",
+      "minutes": 0
+    },
+    {
+      "id": "Africa/Ouagadougou",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Africa/Abidjan",
+      "minutes": 0
+    },
+    {
+      "id": "Africa/Sao_Tome",
+      "currentOffset": "+00 (GMT)",
+      "canonical": null,
+      "minutes": 0
+    },
+    {
+      "id": "Africa/Timbuktu",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Africa/Abidjan",
+      "minutes": 0
+    },
+    {
+      "id": "America/Danmarkshavn",
+      "currentOffset": "+00 (GMT)",
+      "canonical": null,
+      "minutes": 0
+    },
+    {
+      "id": "Atlantic/Azores",
+      "currentOffset": "+00 (+00)",
+      "canonical": null,
+      "minutes": 0
+    },
+    {
+      "id": "Atlantic/Reykjavik",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Africa/Abidjan",
+      "minutes": 0
+    },
+    {
+      "id": "Atlantic/St_Helena",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Africa/Abidjan",
+      "minutes": 0
+    },
+    {
+      "id": "Etc/GMT",
+      "currentOffset": "+00 (GMT)",
+      "canonical": null,
+      "minutes": 0
+    },
+    {
+      "id": "Etc/GMT+0",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Etc/GMT",
+      "minutes": 0
+    },
+    {
+      "id": "Etc/GMT-0",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Etc/GMT",
+      "minutes": 0
+    },
+    {
+      "id": "Etc/GMT0",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Etc/GMT",
+      "minutes": 0
+    },
+    {
+      "id": "Etc/Greenwich",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Etc/GMT",
+      "minutes": 0
+    },
+    {
+      "id": "Etc/UCT",
+      "currentOffset": "+00 (UTC)",
+      "canonical": "Etc/UTC",
+      "minutes": 0
+    },
+    {
+      "id": "Etc/UTC",
+      "currentOffset": "+00 (UTC)",
+      "canonical": null,
+      "minutes": 0
+    },
+    {
+      "id": "Etc/Universal",
+      "currentOffset": "+00 (UTC)",
+      "canonical": "Etc/UTC",
+      "minutes": 0
+    },
+    {
+      "id": "Etc/Zulu",
+      "currentOffset": "+00 (UTC)",
+      "canonical": "Etc/UTC",
+      "minutes": 0
+    },
+    {
+      "id": "GMT",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Etc/GMT",
+      "minutes": 0
+    },
+    {
+      "id": "GMT+0",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Etc/GMT",
+      "minutes": 0
+    },
+    {
+      "id": "GMT-0",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Etc/GMT",
+      "minutes": 0
+    },
+    {
+      "id": "GMT0",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Etc/GMT",
+      "minutes": 0
+    },
+    {
+      "id": "Greenwich",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Etc/GMT",
+      "minutes": 0
+    },
+    {
+      "id": "Iceland",
+      "currentOffset": "+00 (GMT)",
+      "canonical": "Africa/Abidjan",
+      "minutes": 0
+    },
+    {
+      "id": "UCT",
+      "currentOffset": "+00 (UTC)",
+      "canonical": "Etc/UTC",
+      "minutes": 0
+    },
+    {
+      "id": "UTC",
+      "currentOffset": "+00 (UTC)",
+      "canonical": "Etc/UTC",
+      "minutes": 0
+    },
+    {
+      "id": "Universal",
+      "currentOffset": "+00 (UTC)",
+      "canonical": "Etc/UTC",
+      "minutes": 0
+    },
+    {
+      "id": "Zulu",
+      "currentOffset": "+00 (UTC)",
+      "canonical": "Etc/UTC",
+      "minutes": 0
+    },
+    {
+      "id": "Africa/Algiers",
+      "currentOffset": "+01 (CET)",
+      "canonical": null,
+      "minutes": 60
+    },
+    {
+      "id": "Africa/Bangui",
+      "currentOffset": "+01 (WAT)",
+      "canonical": "Africa/Lagos",
+      "minutes": 60
+    },
+    {
+      "id": "Africa/Brazzaville",
+      "currentOffset": "+01 (WAT)",
+      "canonical": "Africa/Lagos",
+      "minutes": 60
+    },
+    {
+      "id": "Africa/Casablanca",
+      "currentOffset": "+01 (+01)",
+      "canonical": null,
+      "minutes": 60
+    },
+    {
+      "id": "Africa/Douala",
+      "currentOffset": "+01 (WAT)",
+      "canonical": "Africa/Lagos",
+      "minutes": 60
+    },
+    {
+      "id": "Africa/El_Aaiun",
+      "currentOffset": "+01 (+01)",
+      "canonical": null,
+      "minutes": 60
+    },
+    {
+      "id": "Africa/Kinshasa",
+      "currentOffset": "+01 (WAT)",
+      "canonical": "Africa/Lagos",
+      "minutes": 60
+    },
+    {
+      "id": "Africa/Lagos",
+      "currentOffset": "+01 (WAT)",
+      "canonical": null,
+      "minutes": 60
+    },
+    {
+      "id": "Africa/Libreville",
+      "currentOffset": "+01 (WAT)",
+      "canonical": "Africa/Lagos",
+      "minutes": 60
+    },
+    {
+      "id": "Africa/Luanda",
+      "currentOffset": "+01 (WAT)",
+      "canonical": "Africa/Lagos",
+      "minutes": 60
+    },
+    {
+      "id": "Africa/Malabo",
+      "currentOffset": "+01 (WAT)",
+      "canonical": "Africa/Lagos",
+      "minutes": 60
+    },
+    {
+      "id": "Africa/Ndjamena",
+      "currentOffset": "+01 (WAT)",
+      "canonical": null,
+      "minutes": 60
+    },
+    {
+      "id": "Africa/Niamey",
+      "currentOffset": "+01 (WAT)",
+      "canonical": "Africa/Lagos",
+      "minutes": 60
+    },
+    {
+      "id": "Africa/Porto-Novo",
+      "currentOffset": "+01 (WAT)",
+      "canonical": "Africa/Lagos",
+      "minutes": 60
+    },
+    {
+      "id": "Africa/Tunis",
+      "currentOffset": "+01 (CET)",
+      "canonical": null,
+      "minutes": 60
+    },
+    {
+      "id": "Atlantic/Canary",
+      "currentOffset": "+01 (WEST)",
+      "canonical": null,
+      "minutes": 60
+    },
+    {
+      "id": "Atlantic/Faeroe",
+      "currentOffset": "+01 (WEST)",
+      "canonical": "Atlantic/Faroe",
+      "minutes": 60
+    },
+    {
+      "id": "Atlantic/Faroe",
+      "currentOffset": "+01 (WEST)",
+      "canonical": null,
+      "minutes": 60
+    },
+    {
+      "id": "Atlantic/Madeira",
+      "currentOffset": "+01 (WEST)",
+      "canonical": null,
+      "minutes": 60
+    },
+    {
+      "id": "Eire",
+      "currentOffset": "+01 (IST)",
+      "canonical": "Europe/Dublin",
+      "minutes": 60
+    },
+    {
+      "id": "Etc/GMT-1",
+      "currentOffset": "+01 (+01)",
+      "canonical": null,
+      "minutes": 60
+    },
+    {
+      "id": "Europe/Belfast",
+      "currentOffset": "+01 (BST)",
+      "canonical": "Europe/London",
+      "minutes": 60
+    },
+    {
+      "id": "Europe/Dublin",
+      "currentOffset": "+01 (IST)",
+      "canonical": null,
+      "minutes": 60
+    },
+    {
+      "id": "Europe/Guernsey",
+      "currentOffset": "+01 (BST)",
+      "canonical": "Europe/London",
+      "minutes": 60
+    },
+    {
+      "id": "Europe/Isle_of_Man",
+      "currentOffset": "+01 (BST)",
+      "canonical": "Europe/London",
+      "minutes": 60
+    },
+    {
+      "id": "Europe/Jersey",
+      "currentOffset": "+01 (BST)",
+      "canonical": "Europe/London",
+      "minutes": 60
+    },
+    {
+      "id": "Europe/Lisbon",
+      "currentOffset": "+01 (WEST)",
+      "canonical": null,
+      "minutes": 60
+    },
+    {
+      "id": "Europe/London",
+      "currentOffset": "+01 (BST)",
+      "canonical": null,
+      "minutes": 60
+    },
+    {
+      "id": "GB",
+      "currentOffset": "+01 (BST)",
+      "canonical": "Europe/London",
+      "minutes": 60
+    },
+    {
+      "id": "GB-Eire",
+      "currentOffset": "+01 (BST)",
+      "canonical": "Europe/London",
+      "minutes": 60
+    },
+    {
+      "id": "Portugal",
+      "currentOffset": "+01 (WEST)",
+      "canonical": "Europe/Lisbon",
+      "minutes": 60
+    },
+    {
+      "id": "WET",
+      "currentOffset": "+01 (WEST)",
+      "canonical": "Europe/Lisbon",
+      "minutes": 60
+    },
+    {
+      "id": "Africa/Blantyre",
+      "currentOffset": "+02 (CAT)",
+      "canonical": "Africa/Maputo",
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Bujumbura",
+      "currentOffset": "+02 (CAT)",
+      "canonical": "Africa/Maputo",
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Ceuta",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Gaborone",
+      "currentOffset": "+02 (CAT)",
+      "canonical": "Africa/Maputo",
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Harare",
+      "currentOffset": "+02 (CAT)",
+      "canonical": "Africa/Maputo",
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Johannesburg",
+      "currentOffset": "+02 (SAST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Juba",
+      "currentOffset": "+02 (CAT)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Khartoum",
+      "currentOffset": "+02 (CAT)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Kigali",
+      "currentOffset": "+02 (CAT)",
+      "canonical": "Africa/Maputo",
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Lubumbashi",
+      "currentOffset": "+02 (CAT)",
+      "canonical": "Africa/Maputo",
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Lusaka",
+      "currentOffset": "+02 (CAT)",
+      "canonical": "Africa/Maputo",
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Maputo",
+      "currentOffset": "+02 (CAT)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Maseru",
+      "currentOffset": "+02 (SAST)",
+      "canonical": "Africa/Johannesburg",
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Mbabane",
+      "currentOffset": "+02 (SAST)",
+      "canonical": "Africa/Johannesburg",
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Tripoli",
+      "currentOffset": "+02 (EET)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Windhoek",
+      "currentOffset": "+02 (CAT)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Antarctica/Troll",
+      "currentOffset": "+02 (+02)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Arctic/Longyearbyen",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Berlin",
+      "minutes": 120
+    },
+    {
+      "id": "Atlantic/Jan_Mayen",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Berlin",
+      "minutes": 120
+    },
+    {
+      "id": "CET",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Brussels",
+      "minutes": 120
+    },
+    {
+      "id": "Etc/GMT-2",
+      "currentOffset": "+02 (+02)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Amsterdam",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Brussels",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Andorra",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Belgrade",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Berlin",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Bratislava",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Prague",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Brussels",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Budapest",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Busingen",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Zurich",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Copenhagen",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Berlin",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Gibraltar",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Kaliningrad",
+      "currentOffset": "+02 (EET)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Ljubljana",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Belgrade",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Luxembourg",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Brussels",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Madrid",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Malta",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Monaco",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Paris",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Oslo",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Berlin",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Paris",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Podgorica",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Belgrade",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Prague",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Rome",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/San_Marino",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Rome",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Sarajevo",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Belgrade",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Skopje",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Belgrade",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Stockholm",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Berlin",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Tirane",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Vaduz",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Zurich",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Vatican",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Rome",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Vienna",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Warsaw",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Zagreb",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Belgrade",
+      "minutes": 120
+    },
+    {
+      "id": "Europe/Zurich",
+      "currentOffset": "+02 (CEST)",
+      "canonical": null,
+      "minutes": 120
+    },
+    {
+      "id": "Libya",
+      "currentOffset": "+02 (EET)",
+      "canonical": "Africa/Tripoli",
+      "minutes": 120
+    },
+    {
+      "id": "MET",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Brussels",
+      "minutes": 120
+    },
+    {
+      "id": "Poland",
+      "currentOffset": "+02 (CEST)",
+      "canonical": "Europe/Warsaw",
+      "minutes": 120
+    },
+    {
+      "id": "Africa/Addis_Ababa",
+      "currentOffset": "+03 (EAT)",
+      "canonical": "Africa/Nairobi",
+      "minutes": 180
+    },
+    {
+      "id": "Africa/Asmara",
+      "currentOffset": "+03 (EAT)",
+      "canonical": "Africa/Nairobi",
+      "minutes": 180
+    },
+    {
+      "id": "Africa/Asmera",
+      "currentOffset": "+03 (EAT)",
+      "canonical": "Africa/Nairobi",
+      "minutes": 180
+    },
+    {
+      "id": "Africa/Cairo",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Africa/Dar_es_Salaam",
+      "currentOffset": "+03 (EAT)",
+      "canonical": "Africa/Nairobi",
+      "minutes": 180
+    },
+    {
+      "id": "Africa/Djibouti",
+      "currentOffset": "+03 (EAT)",
+      "canonical": "Africa/Nairobi",
+      "minutes": 180
+    },
+    {
+      "id": "Africa/Kampala",
+      "currentOffset": "+03 (EAT)",
+      "canonical": "Africa/Nairobi",
+      "minutes": 180
+    },
+    {
+      "id": "Africa/Mogadishu",
+      "currentOffset": "+03 (EAT)",
+      "canonical": "Africa/Nairobi",
+      "minutes": 180
+    },
+    {
+      "id": "Africa/Nairobi",
+      "currentOffset": "+03 (EAT)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Antarctica/Syowa",
+      "currentOffset": "+03 (+03)",
+      "canonical": "Asia/Riyadh",
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Aden",
+      "currentOffset": "+03 (+03)",
+      "canonical": "Asia/Riyadh",
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Amman",
+      "currentOffset": "+03 (+03)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Baghdad",
+      "currentOffset": "+03 (+03)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Bahrain",
+      "currentOffset": "+03 (+03)",
+      "canonical": "Asia/Qatar",
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Beirut",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Damascus",
+      "currentOffset": "+03 (+03)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Famagusta",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Gaza",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Hebron",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Istanbul",
+      "currentOffset": "+03 (+03)",
+      "canonical": "Europe/Istanbul",
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Jerusalem",
+      "currentOffset": "+03 (IDT)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Kuwait",
+      "currentOffset": "+03 (+03)",
+      "canonical": "Asia/Riyadh",
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Nicosia",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Qatar",
+      "currentOffset": "+03 (+03)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Riyadh",
+      "currentOffset": "+03 (+03)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Tel_Aviv",
+      "currentOffset": "+03 (IDT)",
+      "canonical": "Asia/Jerusalem",
+      "minutes": 180
+    },
+    {
+      "id": "EET",
+      "currentOffset": "+03 (EEST)",
+      "canonical": "Europe/Athens",
+      "minutes": 180
+    },
+    {
+      "id": "Egypt",
+      "currentOffset": "+03 (EEST)",
+      "canonical": "Africa/Cairo",
+      "minutes": 180
+    },
+    {
+      "id": "Etc/GMT-3",
+      "currentOffset": "+03 (+03)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Athens",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Bucharest",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Chisinau",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Helsinki",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Istanbul",
+      "currentOffset": "+03 (+03)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Kiev",
+      "currentOffset": "+03 (EEST)",
+      "canonical": "Europe/Kyiv",
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Kirov",
+      "currentOffset": "+03 (MSK)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Kyiv",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Mariehamn",
+      "currentOffset": "+03 (EEST)",
+      "canonical": "Europe/Helsinki",
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Minsk",
+      "currentOffset": "+03 (+03)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Moscow",
+      "currentOffset": "+03 (MSK)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Nicosia",
+      "currentOffset": "+03 (EEST)",
+      "canonical": "Asia/Nicosia",
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Riga",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Simferopol",
+      "currentOffset": "+03 (MSK)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Sofia",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Tallinn",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Tiraspol",
+      "currentOffset": "+03 (EEST)",
+      "canonical": "Europe/Chisinau",
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Uzhgorod",
+      "currentOffset": "+03 (EEST)",
+      "canonical": "Europe/Kyiv",
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Vilnius",
+      "currentOffset": "+03 (EEST)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Volgograd",
+      "currentOffset": "+03 (MSK)",
+      "canonical": null,
+      "minutes": 180
+    },
+    {
+      "id": "Europe/Zaporozhye",
+      "currentOffset": "+03 (EEST)",
+      "canonical": "Europe/Kyiv",
+      "minutes": 180
+    },
+    {
+      "id": "Indian/Antananarivo",
+      "currentOffset": "+03 (EAT)",
+      "canonical": "Africa/Nairobi",
+      "minutes": 180
+    },
+    {
+      "id": "Indian/Comoro",
+      "currentOffset": "+03 (EAT)",
+      "canonical": "Africa/Nairobi",
+      "minutes": 180
+    },
+    {
+      "id": "Indian/Mayotte",
+      "currentOffset": "+03 (EAT)",
+      "canonical": "Africa/Nairobi",
+      "minutes": 180
+    },
+    {
+      "id": "Israel",
+      "currentOffset": "+03 (IDT)",
+      "canonical": "Asia/Jerusalem",
+      "minutes": 180
+    },
+    {
+      "id": "Turkey",
+      "currentOffset": "+03 (+03)",
+      "canonical": "Europe/Istanbul",
+      "minutes": 180
+    },
+    {
+      "id": "W-SU",
+      "currentOffset": "+03 (MSK)",
+      "canonical": "Europe/Moscow",
+      "minutes": 180
+    },
+    {
+      "id": "Asia/Tehran",
+      "currentOffset": "+03:30 (+0330)",
+      "canonical": null,
+      "minutes": 210
+    },
+    {
+      "id": "Iran",
+      "currentOffset": "+03:30 (+0330)",
+      "canonical": "Asia/Tehran",
+      "minutes": 210
+    },
+    {
+      "id": "Asia/Baku",
+      "currentOffset": "+04 (+04)",
+      "canonical": null,
+      "minutes": 240
+    },
+    {
+      "id": "Asia/Dubai",
+      "currentOffset": "+04 (+04)",
+      "canonical": null,
+      "minutes": 240
+    },
+    {
+      "id": "Asia/Muscat",
+      "currentOffset": "+04 (+04)",
+      "canonical": "Asia/Dubai",
+      "minutes": 240
+    },
+    {
+      "id": "Asia/Tbilisi",
+      "currentOffset": "+04 (+04)",
+      "canonical": null,
+      "minutes": 240
+    },
+    {
+      "id": "Asia/Yerevan",
+      "currentOffset": "+04 (+04)",
+      "canonical": null,
+      "minutes": 240
+    },
+    {
+      "id": "Etc/GMT-4",
+      "currentOffset": "+04 (+04)",
+      "canonical": null,
+      "minutes": 240
+    },
+    {
+      "id": "Europe/Astrakhan",
+      "currentOffset": "+04 (+04)",
+      "canonical": null,
+      "minutes": 240
+    },
+    {
+      "id": "Europe/Samara",
+      "currentOffset": "+04 (+04)",
+      "canonical": null,
+      "minutes": 240
+    },
+    {
+      "id": "Europe/Saratov",
+      "currentOffset": "+04 (+04)",
+      "canonical": null,
+      "minutes": 240
+    },
+    {
+      "id": "Europe/Ulyanovsk",
+      "currentOffset": "+04 (+04)",
+      "canonical": null,
+      "minutes": 240
+    },
+    {
+      "id": "Indian/Mahe",
+      "currentOffset": "+04 (+04)",
+      "canonical": "Asia/Dubai",
+      "minutes": 240
+    },
+    {
+      "id": "Indian/Mauritius",
+      "currentOffset": "+04 (+04)",
+      "canonical": null,
+      "minutes": 240
+    },
+    {
+      "id": "Indian/Reunion",
+      "currentOffset": "+04 (+04)",
+      "canonical": "Asia/Dubai",
+      "minutes": 240
+    },
+    {
+      "id": "Asia/Kabul",
+      "currentOffset": "+04:30 (+0430)",
+      "canonical": null,
+      "minutes": 270
+    },
+    {
+      "id": "Antarctica/Mawson",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Antarctica/Vostok",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Almaty",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Aqtau",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Aqtobe",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Ashgabat",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Ashkhabad",
+      "currentOffset": "+05 (+05)",
+      "canonical": "Asia/Ashgabat",
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Atyrau",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Dushanbe",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Karachi",
+      "currentOffset": "+05 (PKT)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Oral",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Qostanay",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Qyzylorda",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Samarkand",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Tashkent",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Yekaterinburg",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Etc/GMT-5",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Indian/Kerguelen",
+      "currentOffset": "+05 (+05)",
+      "canonical": "Indian/Maldives",
+      "minutes": 300
+    },
+    {
+      "id": "Indian/Maldives",
+      "currentOffset": "+05 (+05)",
+      "canonical": null,
+      "minutes": 300
+    },
+    {
+      "id": "Asia/Calcutta",
+      "currentOffset": "+05:30 (IST)",
+      "canonical": "Asia/Kolkata",
+      "minutes": 330
+    },
+    {
+      "id": "Asia/Colombo",
+      "currentOffset": "+05:30 (+0530)",
+      "canonical": null,
+      "minutes": 330
+    },
+    {
+      "id": "Asia/Kolkata",
+      "currentOffset": "+05:30 (IST)",
+      "canonical": null,
+      "minutes": 330
+    },
+    {
+      "id": "Asia/Kathmandu",
+      "currentOffset": "+05:45 (+0545)",
+      "canonical": null,
+      "minutes": 345
+    },
+    {
+      "id": "Asia/Katmandu",
+      "currentOffset": "+05:45 (+0545)",
+      "canonical": "Asia/Kathmandu",
+      "minutes": 345
+    },
+    {
+      "id": "Asia/Bishkek",
+      "currentOffset": "+06 (+06)",
+      "canonical": null,
+      "minutes": 360
+    },
+    {
+      "id": "Asia/Dacca",
+      "currentOffset": "+06 (+06)",
+      "canonical": "Asia/Dhaka",
+      "minutes": 360
+    },
+    {
+      "id": "Asia/Dhaka",
+      "currentOffset": "+06 (+06)",
+      "canonical": null,
+      "minutes": 360
+    },
+    {
+      "id": "Asia/Kashgar",
+      "currentOffset": "+06 (+06)",
+      "canonical": "Asia/Urumqi",
+      "minutes": 360
+    },
+    {
+      "id": "Asia/Omsk",
+      "currentOffset": "+06 (+06)",
+      "canonical": null,
+      "minutes": 360
+    },
+    {
+      "id": "Asia/Thimbu",
+      "currentOffset": "+06 (+06)",
+      "canonical": "Asia/Thimphu",
+      "minutes": 360
+    },
+    {
+      "id": "Asia/Thimphu",
+      "currentOffset": "+06 (+06)",
+      "canonical": null,
+      "minutes": 360
+    },
+    {
+      "id": "Asia/Urumqi",
+      "currentOffset": "+06 (+06)",
+      "canonical": null,
+      "minutes": 360
+    },
+    {
+      "id": "Etc/GMT-6",
+      "currentOffset": "+06 (+06)",
+      "canonical": null,
+      "minutes": 360
+    },
+    {
+      "id": "Indian/Chagos",
+      "currentOffset": "+06 (+06)",
+      "canonical": null,
+      "minutes": 360
+    },
+    {
+      "id": "Asia/Rangoon",
+      "currentOffset": "+06:30 (+0630)",
+      "canonical": "Asia/Yangon",
+      "minutes": 390
+    },
+    {
+      "id": "Asia/Yangon",
+      "currentOffset": "+06:30 (+0630)",
+      "canonical": null,
+      "minutes": 390
+    },
+    {
+      "id": "Indian/Cocos",
+      "currentOffset": "+06:30 (+0630)",
+      "canonical": "Asia/Yangon",
+      "minutes": 390
+    },
+    {
+      "id": "Antarctica/Davis",
+      "currentOffset": "+07 (+07)",
+      "canonical": null,
+      "minutes": 420
+    },
+    {
+      "id": "Asia/Bangkok",
+      "currentOffset": "+07 (+07)",
+      "canonical": null,
+      "minutes": 420
+    },
+    {
+      "id": "Asia/Barnaul",
+      "currentOffset": "+07 (+07)",
+      "canonical": null,
+      "minutes": 420
+    },
+    {
+      "id": "Asia/Ho_Chi_Minh",
+      "currentOffset": "+07 (+07)",
+      "canonical": null,
+      "minutes": 420
+    },
+    {
+      "id": "Asia/Hovd",
+      "currentOffset": "+07 (+07)",
+      "canonical": null,
+      "minutes": 420
+    },
+    {
+      "id": "Asia/Jakarta",
+      "currentOffset": "+07 (WIB)",
+      "canonical": null,
+      "minutes": 420
+    },
+    {
+      "id": "Asia/Krasnoyarsk",
+      "currentOffset": "+07 (+07)",
+      "canonical": null,
+      "minutes": 420
+    },
+    {
+      "id": "Asia/Novokuznetsk",
+      "currentOffset": "+07 (+07)",
+      "canonical": null,
+      "minutes": 420
+    },
+    {
+      "id": "Asia/Novosibirsk",
+      "currentOffset": "+07 (+07)",
+      "canonical": null,
+      "minutes": 420
+    },
+    {
+      "id": "Asia/Phnom_Penh",
+      "currentOffset": "+07 (+07)",
+      "canonical": "Asia/Bangkok",
+      "minutes": 420
+    },
+    {
+      "id": "Asia/Pontianak",
+      "currentOffset": "+07 (WIB)",
+      "canonical": null,
+      "minutes": 420
+    },
+    {
+      "id": "Asia/Saigon",
+      "currentOffset": "+07 (+07)",
+      "canonical": "Asia/Ho_Chi_Minh",
+      "minutes": 420
+    },
+    {
+      "id": "Asia/Tomsk",
+      "currentOffset": "+07 (+07)",
+      "canonical": null,
+      "minutes": 420
+    },
+    {
+      "id": "Asia/Vientiane",
+      "currentOffset": "+07 (+07)",
+      "canonical": "Asia/Bangkok",
+      "minutes": 420
+    },
+    {
+      "id": "Etc/GMT-7",
+      "currentOffset": "+07 (+07)",
+      "canonical": null,
+      "minutes": 420
+    },
+    {
+      "id": "Indian/Christmas",
+      "currentOffset": "+07 (+07)",
+      "canonical": "Asia/Bangkok",
+      "minutes": 420
+    },
+    {
+      "id": "Antarctica/Casey",
+      "currentOffset": "+08 (+08)",
+      "canonical": null,
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Brunei",
+      "currentOffset": "+08 (+08)",
+      "canonical": "Asia/Kuching",
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Choibalsan",
+      "currentOffset": "+08 (+08)",
+      "canonical": "Asia/Ulaanbaatar",
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Chongqing",
+      "currentOffset": "+08 (CST)",
+      "canonical": "Asia/Shanghai",
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Chungking",
+      "currentOffset": "+08 (CST)",
+      "canonical": "Asia/Shanghai",
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Harbin",
+      "currentOffset": "+08 (CST)",
+      "canonical": "Asia/Shanghai",
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Hong_Kong",
+      "currentOffset": "+08 (HKT)",
+      "canonical": null,
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Irkutsk",
+      "currentOffset": "+08 (+08)",
+      "canonical": null,
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Kuala_Lumpur",
+      "currentOffset": "+08 (+08)",
+      "canonical": "Asia/Singapore",
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Kuching",
+      "currentOffset": "+08 (+08)",
+      "canonical": null,
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Macao",
+      "currentOffset": "+08 (CST)",
+      "canonical": "Asia/Macau",
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Macau",
+      "currentOffset": "+08 (CST)",
+      "canonical": null,
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Makassar",
+      "currentOffset": "+08 (WITA)",
+      "canonical": null,
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Manila",
+      "currentOffset": "+08 (PST)",
+      "canonical": null,
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Shanghai",
+      "currentOffset": "+08 (CST)",
+      "canonical": null,
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Singapore",
+      "currentOffset": "+08 (+08)",
+      "canonical": null,
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Taipei",
+      "currentOffset": "+08 (CST)",
+      "canonical": null,
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Ujung_Pandang",
+      "currentOffset": "+08 (WITA)",
+      "canonical": "Asia/Makassar",
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Ulaanbaatar",
+      "currentOffset": "+08 (+08)",
+      "canonical": null,
+      "minutes": 480
+    },
+    {
+      "id": "Asia/Ulan_Bator",
+      "currentOffset": "+08 (+08)",
+      "canonical": "Asia/Ulaanbaatar",
+      "minutes": 480
+    },
+    {
+      "id": "Australia/Perth",
+      "currentOffset": "+08 (AWST)",
+      "canonical": null,
+      "minutes": 480
+    },
+    {
+      "id": "Australia/West",
+      "currentOffset": "+08 (AWST)",
+      "canonical": "Australia/Perth",
+      "minutes": 480
+    },
+    {
+      "id": "Etc/GMT-8",
+      "currentOffset": "+08 (+08)",
+      "canonical": null,
+      "minutes": 480
+    },
+    {
+      "id": "Hongkong",
+      "currentOffset": "+08 (HKT)",
+      "canonical": "Asia/Hong_Kong",
+      "minutes": 480
+    },
+    {
+      "id": "PRC",
+      "currentOffset": "+08 (CST)",
+      "canonical": "Asia/Shanghai",
+      "minutes": 480
+    },
+    {
+      "id": "ROC",
+      "currentOffset": "+08 (CST)",
+      "canonical": "Asia/Taipei",
+      "minutes": 480
+    },
+    {
+      "id": "Singapore",
+      "currentOffset": "+08 (+08)",
+      "canonical": "Asia/Singapore",
+      "minutes": 480
+    },
+    {
+      "id": "Australia/Eucla",
+      "currentOffset": "+08:45 (+0845)",
+      "canonical": null,
+      "minutes": 525
+    },
+    {
+      "id": "Asia/Chita",
+      "currentOffset": "+09 (+09)",
+      "canonical": null,
+      "minutes": 540
+    },
+    {
+      "id": "Asia/Dili",
+      "currentOffset": "+09 (+09)",
+      "canonical": null,
+      "minutes": 540
+    },
+    {
+      "id": "Asia/Jayapura",
+      "currentOffset": "+09 (WIT)",
+      "canonical": null,
+      "minutes": 540
+    },
+    {
+      "id": "Asia/Khandyga",
+      "currentOffset": "+09 (+09)",
+      "canonical": null,
+      "minutes": 540
+    },
+    {
+      "id": "Asia/Pyongyang",
+      "currentOffset": "+09 (KST)",
+      "canonical": null,
+      "minutes": 540
+    },
+    {
+      "id": "Asia/Seoul",
+      "currentOffset": "+09 (KST)",
+      "canonical": null,
+      "minutes": 540
+    },
+    {
+      "id": "Asia/Tokyo",
+      "currentOffset": "+09 (JST)",
+      "canonical": null,
+      "minutes": 540
+    },
+    {
+      "id": "Asia/Yakutsk",
+      "currentOffset": "+09 (+09)",
+      "canonical": null,
+      "minutes": 540
+    },
+    {
+      "id": "Etc/GMT-9",
+      "currentOffset": "+09 (+09)",
+      "canonical": null,
+      "minutes": 540
+    },
+    {
+      "id": "Japan",
+      "currentOffset": "+09 (JST)",
+      "canonical": "Asia/Tokyo",
+      "minutes": 540
+    },
+    {
+      "id": "Pacific/Palau",
+      "currentOffset": "+09 (+09)",
+      "canonical": null,
+      "minutes": 540
+    },
+    {
+      "id": "ROK",
+      "currentOffset": "+09 (KST)",
+      "canonical": "Asia/Seoul",
+      "minutes": 540
+    },
+    {
+      "id": "Australia/Adelaide",
+      "currentOffset": "+09:30 (ACST)",
+      "canonical": null,
+      "minutes": 570
+    },
+    {
+      "id": "Australia/Broken_Hill",
+      "currentOffset": "+09:30 (ACST)",
+      "canonical": null,
+      "minutes": 570
+    },
+    {
+      "id": "Australia/Darwin",
+      "currentOffset": "+09:30 (ACST)",
+      "canonical": null,
+      "minutes": 570
+    },
+    {
+      "id": "Australia/North",
+      "currentOffset": "+09:30 (ACST)",
+      "canonical": "Australia/Darwin",
+      "minutes": 570
+    },
+    {
+      "id": "Australia/South",
+      "currentOffset": "+09:30 (ACST)",
+      "canonical": "Australia/Adelaide",
+      "minutes": 570
+    },
+    {
+      "id": "Australia/Yancowinna",
+      "currentOffset": "+09:30 (ACST)",
+      "canonical": "Australia/Broken_Hill",
+      "minutes": 570
+    },
+    {
+      "id": "Antarctica/DumontDUrville",
+      "currentOffset": "+10 (+10)",
+      "canonical": "Pacific/Port_Moresby",
+      "minutes": 600
+    },
+    {
+      "id": "Antarctica/Macquarie",
+      "currentOffset": "+10 (AEST)",
+      "canonical": null,
+      "minutes": 600
+    },
+    {
+      "id": "Asia/Ust-Nera",
+      "currentOffset": "+10 (+10)",
+      "canonical": null,
+      "minutes": 600
+    },
+    {
+      "id": "Asia/Vladivostok",
+      "currentOffset": "+10 (+10)",
+      "canonical": null,
+      "minutes": 600
+    },
+    {
+      "id": "Australia/ACT",
+      "currentOffset": "+10 (AEST)",
+      "canonical": "Australia/Sydney",
+      "minutes": 600
+    },
+    {
+      "id": "Australia/Brisbane",
+      "currentOffset": "+10 (AEST)",
+      "canonical": null,
+      "minutes": 600
+    },
+    {
+      "id": "Australia/Canberra",
+      "currentOffset": "+10 (AEST)",
+      "canonical": "Australia/Sydney",
+      "minutes": 600
+    },
+    {
+      "id": "Australia/Currie",
+      "currentOffset": "+10 (AEST)",
+      "canonical": "Australia/Hobart",
+      "minutes": 600
+    },
+    {
+      "id": "Australia/Hobart",
+      "currentOffset": "+10 (AEST)",
+      "canonical": null,
+      "minutes": 600
+    },
+    {
+      "id": "Australia/Lindeman",
+      "currentOffset": "+10 (AEST)",
+      "canonical": null,
+      "minutes": 600
+    },
+    {
+      "id": "Australia/Melbourne",
+      "currentOffset": "+10 (AEST)",
+      "canonical": null,
+      "minutes": 600
+    },
+    {
+      "id": "Australia/NSW",
+      "currentOffset": "+10 (AEST)",
+      "canonical": "Australia/Sydney",
+      "minutes": 600
+    },
+    {
+      "id": "Australia/Queensland",
+      "currentOffset": "+10 (AEST)",
+      "canonical": "Australia/Brisbane",
+      "minutes": 600
+    },
+    {
+      "id": "Australia/Sydney",
+      "currentOffset": "+10 (AEST)",
+      "canonical": null,
+      "minutes": 600
+    },
+    {
+      "id": "Australia/Tasmania",
+      "currentOffset": "+10 (AEST)",
+      "canonical": "Australia/Hobart",
+      "minutes": 600
+    },
+    {
+      "id": "Australia/Victoria",
+      "currentOffset": "+10 (AEST)",
+      "canonical": "Australia/Melbourne",
+      "minutes": 600
+    },
+    {
+      "id": "Etc/GMT-10",
+      "currentOffset": "+10 (+10)",
+      "canonical": null,
+      "minutes": 600
+    },
+    {
+      "id": "Pacific/Chuuk",
+      "currentOffset": "+10 (+10)",
+      "canonical": "Pacific/Port_Moresby",
+      "minutes": 600
+    },
+    {
+      "id": "Pacific/Guam",
+      "currentOffset": "+10 (ChST)",
+      "canonical": null,
+      "minutes": 600
+    },
+    {
+      "id": "Pacific/Port_Moresby",
+      "currentOffset": "+10 (+10)",
+      "canonical": null,
+      "minutes": 600
+    },
+    {
+      "id": "Pacific/Saipan",
+      "currentOffset": "+10 (ChST)",
+      "canonical": "Pacific/Guam",
+      "minutes": 600
+    },
+    {
+      "id": "Pacific/Truk",
+      "currentOffset": "+10 (+10)",
+      "canonical": "Pacific/Port_Moresby",
+      "minutes": 600
+    },
+    {
+      "id": "Pacific/Yap",
+      "currentOffset": "+10 (+10)",
+      "canonical": "Pacific/Port_Moresby",
+      "minutes": 600
+    },
+    {
+      "id": "Australia/LHI",
+      "currentOffset": "+10:30 (+1030)",
+      "canonical": "Australia/Lord_Howe",
+      "minutes": 630
+    },
+    {
+      "id": "Australia/Lord_Howe",
+      "currentOffset": "+10:30 (+1030)",
+      "canonical": null,
+      "minutes": 630
+    },
+    {
+      "id": "Asia/Magadan",
+      "currentOffset": "+11 (+11)",
+      "canonical": null,
+      "minutes": 660
+    },
+    {
+      "id": "Asia/Sakhalin",
+      "currentOffset": "+11 (+11)",
+      "canonical": null,
+      "minutes": 660
+    },
+    {
+      "id": "Asia/Srednekolymsk",
+      "currentOffset": "+11 (+11)",
+      "canonical": null,
+      "minutes": 660
+    },
+    {
+      "id": "Etc/GMT-11",
+      "currentOffset": "+11 (+11)",
+      "canonical": null,
+      "minutes": 660
+    },
+    {
+      "id": "Pacific/Bougainville",
+      "currentOffset": "+11 (+11)",
+      "canonical": null,
+      "minutes": 660
+    },
+    {
+      "id": "Pacific/Efate",
+      "currentOffset": "+11 (+11)",
+      "canonical": null,
+      "minutes": 660
+    },
+    {
+      "id": "Pacific/Guadalcanal",
+      "currentOffset": "+11 (+11)",
+      "canonical": null,
+      "minutes": 660
+    },
+    {
+      "id": "Pacific/Kosrae",
+      "currentOffset": "+11 (+11)",
+      "canonical": null,
+      "minutes": 660
+    },
+    {
+      "id": "Pacific/Norfolk",
+      "currentOffset": "+11 (+11)",
+      "canonical": null,
+      "minutes": 660
+    },
+    {
+      "id": "Pacific/Noumea",
+      "currentOffset": "+11 (+11)",
+      "canonical": null,
+      "minutes": 660
+    },
+    {
+      "id": "Pacific/Pohnpei",
+      "currentOffset": "+11 (+11)",
+      "canonical": "Pacific/Guadalcanal",
+      "minutes": 660
+    },
+    {
+      "id": "Pacific/Ponape",
+      "currentOffset": "+11 (+11)",
+      "canonical": "Pacific/Guadalcanal",
+      "minutes": 660
+    },
+    {
+      "id": "Antarctica/McMurdo",
+      "currentOffset": "+12 (NZST)",
+      "canonical": "Pacific/Auckland",
+      "minutes": 720
+    },
+    {
+      "id": "Antarctica/South_Pole",
+      "currentOffset": "+12 (NZST)",
+      "canonical": "Pacific/Auckland",
+      "minutes": 720
+    },
+    {
+      "id": "Asia/Anadyr",
+      "currentOffset": "+12 (+12)",
+      "canonical": null,
+      "minutes": 720
+    },
+    {
+      "id": "Asia/Kamchatka",
+      "currentOffset": "+12 (+12)",
+      "canonical": null,
+      "minutes": 720
+    },
+    {
+      "id": "Etc/GMT-12",
+      "currentOffset": "+12 (+12)",
+      "canonical": null,
+      "minutes": 720
+    },
+    {
+      "id": "Kwajalein",
+      "currentOffset": "+12 (+12)",
+      "canonical": "Pacific/Kwajalein",
+      "minutes": 720
+    },
+    {
+      "id": "NZ",
+      "currentOffset": "+12 (NZST)",
+      "canonical": "Pacific/Auckland",
+      "minutes": 720
+    },
+    {
+      "id": "Pacific/Auckland",
+      "currentOffset": "+12 (NZST)",
+      "canonical": null,
+      "minutes": 720
+    },
+    {
+      "id": "Pacific/Fiji",
+      "currentOffset": "+12 (+12)",
+      "canonical": null,
+      "minutes": 720
+    },
+    {
+      "id": "Pacific/Funafuti",
+      "currentOffset": "+12 (+12)",
+      "canonical": "Pacific/Tarawa",
+      "minutes": 720
+    },
+    {
+      "id": "Pacific/Kwajalein",
+      "currentOffset": "+12 (+12)",
+      "canonical": null,
+      "minutes": 720
+    },
+    {
+      "id": "Pacific/Majuro",
+      "currentOffset": "+12 (+12)",
+      "canonical": "Pacific/Tarawa",
+      "minutes": 720
+    },
+    {
+      "id": "Pacific/Nauru",
+      "currentOffset": "+12 (+12)",
+      "canonical": null,
+      "minutes": 720
+    },
+    {
+      "id": "Pacific/Tarawa",
+      "currentOffset": "+12 (+12)",
+      "canonical": null,
+      "minutes": 720
+    },
+    {
+      "id": "Pacific/Wake",
+      "currentOffset": "+12 (+12)",
+      "canonical": "Pacific/Tarawa",
+      "minutes": 720
+    },
+    {
+      "id": "Pacific/Wallis",
+      "currentOffset": "+12 (+12)",
+      "canonical": "Pacific/Tarawa",
+      "minutes": 720
+    },
+    {
+      "id": "NZ-CHAT",
+      "currentOffset": "+12:45 (+1245)",
+      "canonical": "Pacific/Chatham",
+      "minutes": 765
+    },
+    {
+      "id": "Pacific/Chatham",
+      "currentOffset": "+12:45 (+1245)",
+      "canonical": null,
+      "minutes": 765
+    },
+    {
+      "id": "Etc/GMT-13",
+      "currentOffset": "+13 (+13)",
+      "canonical": null,
+      "minutes": 780
+    },
+    {
+      "id": "Pacific/Apia",
+      "currentOffset": "+13 (+13)",
+      "canonical": null,
+      "minutes": 780
+    },
+    {
+      "id": "Pacific/Enderbury",
+      "currentOffset": "+13 (+13)",
+      "canonical": "Pacific/Kanton",
+      "minutes": 780
+    },
+    {
+      "id": "Pacific/Fakaofo",
+      "currentOffset": "+13 (+13)",
+      "canonical": null,
+      "minutes": 780
+    },
+    {
+      "id": "Pacific/Kanton",
+      "currentOffset": "+13 (+13)",
+      "canonical": null,
+      "minutes": 780
+    },
+    {
+      "id": "Pacific/Tongatapu",
+      "currentOffset": "+13 (+13)",
+      "canonical": null,
+      "minutes": 780
+    },
+    {
+      "id": "Etc/GMT-14",
+      "currentOffset": "+14 (+14)",
+      "canonical": null,
+      "minutes": 840
+    },
+    {
+      "id": "Pacific/Kiritimati",
+      "currentOffset": "+14 (+14)",
+      "canonical": null,
+      "minutes": 840
+    }
+  ]
+}
