@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 	"time"
+	_ "time/tzdata"
 
 	"github.com/ihucos/counter.dev/models"
 )
@@ -420,21 +421,21 @@ func TestUserTimezoneMigration(t *testing.T) {
 			},
 		},
 		{
-			name:      "UTC-5 should suggest US Eastern",
+			name:      "UTC-5 should suggest mixed Americas",
 			utcOffset: -5,
 			expectedSuggestions: []string{
-				"America/New_York",
-				"America/Toronto",
+				"America/Chicago",
+				"America/Winnipeg",
 				"America/Bogota",
 			},
 		},
 		{
-			name:      "UTC+1 should suggest European zones",
+			name:      "UTC+1 should suggest WET/UK/Ireland zones",
 			utcOffset: 1,
 			expectedSuggestions: []string{
-				"Europe/Paris",
-				"Europe/Berlin",
-				"Europe/Rome",
+				"Europe/London",
+				"Europe/Dublin",
+				"WET",
 			},
 		},
 		{
