@@ -27,9 +27,14 @@ customElements.define(
                 this.style.display = "none";
                 return;
             }
+            if (localStorage.getItem("timezone-migration-dismissed") === "true") {
+                this.style.display = "none";
+                return;
+            }
 
-            const suggestions = userDump.prefs.suggestedTimezones?.split(",") || [];
-            const currentOffset = userDump.prefs.utcoffset || "0";
+            const suggestions = userDump.prefs.suggestedTimezones?.split(",").filter(Boolean) || [];
+            const currentOffsetRaw = String(userDump.prefs.utcoffset ?? "0");
+            const offsetSign = currentOffsetRaw.startsWith("-") ? "" : "+";
 
             this.innerHTML = `
                 <div id="modal-timezone-migration" style="display: none">
@@ -40,7 +45,7 @@ customElements.define(
                   </div>
                   <div class="modal-content">
                     <div class="caption mb8">
-                      Your current timezone is set to UTC${currentOffset >= 0 ? "+" : ""}${currentOffset}. We now support precise IANA timezones with automatic daylight saving time adjustments.
+                      Your current timezone is set to UTC${offsetSign}${escapeHtml(currentOffsetRaw)}. We now support precise IANA timezones with automatic daylight saving time adjustments.
                     </div>
                     ${
                         suggestions.length > 0
@@ -100,10 +105,10 @@ customElements.define(
                     const rest = (offset || "").split(" ").slice(1).join(" ").trim();
                     const pretty = `UTC${token}`;
                     const suffix = rest ? ` ${rest}` : "";
-                    const label = `${pretty}${suffix} — ${displayId}`;
+                    const label = `${escapeHtml(pretty)}${escapeHtml(suffix ? ` ${suffix}` : "")} — ${escapeHtml(displayId)}`;
                     // Submit the canonical-or-alias IANA id that the backend accepts
                     const submitId = displayId;
-                    return `<button class="btn-secondary-sm timezone-suggestion" data-timezone="${submitId}">${label}</button>`;
+                    return `<button class="btn-secondary-sm timezone-suggestion" type="button" data-timezone="${escapeHtml(submitId)}">${label}</button>`;
                 })
                 .join("");
         }
@@ -127,9 +132,12 @@ customElements.define(
             // Send timezone update to server
             const formData = new FormData();
             formData.append("timezone", timezone);
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.content;
+            if (csrf) formData.append("csrf_token", csrf);
 
             fetch("/accountedit", {
                 method: "POST",
+                credentials: "same-origin",
                 body: formData,
             })
                 .then((response) => {
