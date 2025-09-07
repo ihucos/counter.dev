@@ -115,9 +115,10 @@ customElements.define(
             } else {
                 tofrom = `${from.format("DD MMM")} - ${to.format("DD MMM")}`;
             }
-            const origArchiveTxt = $('#range-select option[value="daterangeset"]').text();
-            $('#range-select option[value="daterange"]').remove();
-            $('#range-select option[value="daterangeset"]').val("daterange").text(tofrom).after($("<option/>").attr("value", "daterangeset").text(origArchiveTxt));
+            const $rangeSelect = $(this).find('#range-select');
+            const origArchiveTxt = $rangeSelect.find('option[value="daterangeset"]').text();
+            $rangeSelect.find('option[value="daterange"]').remove();
+            $rangeSelect.find('option[value="daterangeset"]').val("daterange").text(tofrom).after($("<option/>").attr("value", "daterangeset").text(origArchiveTxt));
 
             window.state.daterange = resp;
             patchDump(this.dump);
