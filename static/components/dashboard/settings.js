@@ -74,8 +74,10 @@ customElements.define(
             simpleForm("#site-delete", "/dashboard");
 
             const tc = this.querySelector("counter-trackingcode");
-            customElements.upgrade(tc);
-            tc.draw(opts.uuid, opts.utcoffset);
+            if (tc) {
+                customElements.upgrade(tc);
+                tc.draw(opts.uuid, opts.utcoffset, opts.timezone);
+            }
         }
     },
 );
