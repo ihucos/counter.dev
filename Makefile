@@ -19,7 +19,14 @@ tests:
 .PHONY: format
 format:
 	find backend -type f -name \*.go | xargs -L1 go fmt
-	prettier --html-whitespace-sensitivity ignore --write .
+
+.PHONY: gen-timezones
+gen-timezones:
+	@echo "Generating slim timezone list from Noda Time TZDB..."
+	@curl -sSL "https://nodatime.org/TimeZones?version=2025b&format=json" \
+		| jq -f scripts/timezones.jq > static/timezones.json
+	@echo "Written static/timezones.json"
+
 
 .PHONY: logs
 logs:
