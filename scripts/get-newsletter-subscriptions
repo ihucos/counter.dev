@@ -1,3 +1,0 @@
-#!/bin/bash
-
-grep ': newsletter mail:' log | cut -d' ' -f1,2,6

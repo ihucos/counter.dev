@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "core",
+    "api",
     "rest_framework",
 ]
 
@@ -118,10 +118,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-
-#
-# Third party stuff here
-#
+AUTH_USER_MODEL = "api.User"
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
