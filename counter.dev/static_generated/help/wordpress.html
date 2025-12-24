@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Integrating Counter.dev in WordPress</title>
+    <meta name="description" content="Web Analytics made simple and therefore privacy-friendly." />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="/css/page.css" />
+    <link rel="stylesheet" type="text/css" href="/css/markdown.css" />
+    <link rel="shortcut icon" href="/img/favicon.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&family=Poppins:wght@700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/load.js"></script>
+  </head>
+  <body>
+    <header>
+      <counter-flash></counter-flash>
+      <base-navbar></base-navbar>
+    </header>
+    <!-- Privacy page -->
+    <section class="page">
+      <div class="content">
+        <div class="page-wrap bg-white shadow-lg radius-lg markdown-body"><h1>Integrating Counter.dev in WordPress</h1>
+
+<p>Integrating the Counter.dev tracking script in your WordPress website allows
+you to track visitors and gain valuable insights into your website's
+performance. Follow the steps below to integrate Counter.dev into your
+WordPress site:</p>
+
+<ol>
+<li><p>Log in to your WordPress dashboard and navigate to Appearance > Editor.</p></li>
+<li><p>Open the header.php file and find the closing <code>&lt;/head&gt;</code> tag.</p></li>
+<li><p>Copy the Counter.dev tracking script provided in your Counter.dev account
+and paste it just before the closing <code>&lt;/head&gt;</code> tag.</p></li>
+<li><p>Save the changes to the header.php file.</p></li>
+<li><p>Clear any caching plugins you may have installed on your WordPress site.</p></li>
+<li><p>Verify that the tracking code has been properly installed by visiting your
+website and opening the developer console (usually done by pressing F12). The
+console should not display any errors and the network tab should show that the
+Counter.dev script has been loaded.</p></li>
+<li><p>Log in to your Counter.dev account and check the analytics dashboard to see
+if your WordPress website is being tracked.</p></li>
+</ol>
+
+<p>Congratulations! You have successfully integrated the Counter.dev tracking
+script into your WordPress website and can now start tracking visitors and
+analyzing data to improve your website's performance.</p>
+</div>
+        <img class="page-pic" src="/img/help.svg" width="350" height="441" alt="Key" />
+      </div>
+    </section>
+    <base-footer></base-footer>
+  </body>
+</html>

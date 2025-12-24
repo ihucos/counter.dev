@@ -4,7 +4,6 @@ archive.db*
 tags
 log
 out
-counter.dev
 webstats
 *.swp
 .config/production.sh

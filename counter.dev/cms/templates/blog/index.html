@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <!-- Articles -->
+        <div class="blog-articles">
+            <h1 class="h2 mb32">Blog</h1>
+
+            {% for article in articles_page.object_list %}
+            <!-- Article -->
+            <a href="{{ SITEURL }}/{{ article.url }}"" class="blog-article bg-white shadow-sm mb32">
+
+                {% if article.image %}
+                <div class="blog-preview">
+                  <img src="{{ SITEURL }}/images/{{ article.image }}" width="258" height="200" alt="{{ article.title }}">
+                </div>
+                {% endif %}
+                <div class="blog-article-content">
+                  <h2 class="h3 mb16 black">{{ article.title }}</h2>
+                    <div class="blog-description gray mb24">
+                      {{ article.caption }}
+                    </div>
+                    <div class="blog-article-content-info flex caption gray">
+                        <div class="flex">
+                            <img src="{{ SITEURL }}/images/{{ article.author | slugify }}.png" width="24" height="24" alt="author"><span class="ml8 mr24">{{ article.author }}</span>
+                            {{ article.date.strftime('%b %-d, %Y') }}
+                        </div>
+                        <div class="flex">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 6V12L16 14" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="ml8">{{ article.content | readtime }} min read</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+
+            {% include 'pagination.html' %}
+
+        </div>
+        <div class="blog-sidebar">
+            <!-- Featured posts -->
+            <div class="posts-list mb32 mt80">
+                <h3 class="mb8">Featured posts</h3>
+                {% for article in articles %}
+                {% if article.featured %}
+                  <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <!-- Newsletter -->
+            {% include 'newsletter.html' %}
+        </div>
+{% endblock content %}

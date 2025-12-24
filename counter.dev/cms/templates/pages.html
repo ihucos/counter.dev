@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ file|page_attr("title") }}</title>
+    <meta
+      name="description"
+      content="Web Analytics made simple and therefore privacy-friendly."
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="/css/page.css" />
+    <link rel="stylesheet" type="text/css" href="/css/markdown.css" />
+    <link rel="shortcut icon" href="/img/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&family=Poppins:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/load.js"></script>
+  </head>
+  <body>
+    <header>
+      <counter-flash></counter-flash>
+      <base-navbar></base-navbar>
+    </header>
+    <section class="page">
+      <div class="content">
+        <div class="page-wrap bg-white shadow-lg radius-lg markdown-body">
+          {{ file|page_content }}
+        </div>
+        {% if file|page_attr("img") %}
+        <img
+          class="page-pic"
+          src="{{ file|page_attr("img") }}"
+          width="350"
+          height="441"
+          alt="Key"
+        />
+        {% endif %}
+      </div>
+    </section>
+    <base-footer></base-footer>
+  </body>
+</html>

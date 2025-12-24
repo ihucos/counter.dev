@@ -1,0 +1,43 @@
+/* =========== Privacy page =========== */
+
+/* Import */
+@import url("styles.css");
+
+td {
+  padding-bottom: 0.5em;
+}
+
+td:first-child {
+  font-weight: bold;
+  white-space: nowrap;
+  vertical-align: top;
+  padding-right: 1em;
+}
+
+/* Body */
+.page .content {
+  padding: 120px 0 24px 0;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.page-wrap {
+  width: 635px;
+  padding: 48px;
+}
+
+/* Mobile */
+@media (max-width: 1110px) {
+  .page .content {
+    padding: 24px 15px 0 15px;
+  }
+  .page-wrap {
+    padding: 0;
+    box-shadow: unset;
+  }
+  .page-pic {
+    display: none;
+  }
+  .page-wrap .h2 {
+    margin-bottom: 16px;
+  }
+}
