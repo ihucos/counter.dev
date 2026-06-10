@@ -130,4 +130,5 @@ Add `?projeto=x` (American English: `?project=x`) parameter to URL with hybrid a
 
 **Author:** Ricardo Camilo
 **Created:** June 10, 2026
-**Status:** Open Design - Awaiting Implementation
+**Status:** ✅ Implemented - Awaiting Merge
+**Commits:** 79c2613
