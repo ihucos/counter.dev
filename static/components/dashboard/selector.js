@@ -4,9 +4,6 @@ customElements.define(
         constructor() {
             super();
             this.last_sites = null;
-            // Read project parameter from URL
-            const urlParams = new URL(window.location).searchParams;
-            this.projectFromUrl = urlParams.get("project");
             
             document.addEventListener("selector-daterange-fetched", (evt) => {
                 this.handleDateRangeFetched(evt.detail);
@@ -18,7 +15,7 @@ customElements.define(
                     const select = document.getElementById("site-select");
                     if (select) {
                         select.value = evt.state.site;
-                        this.onSiteSelChanged();
+                        this.onSiteSelChanged(false); // Skip pushState for popstate navigation
                     }
                 }
             });
@@ -29,7 +26,7 @@ customElements.define(
             // all other components
             this.dump = dump;
 
-            const sites = Object.entries(dump.sites)
+            let sites = Object.entries(dump.sites)
                 .sort((a, b) => b[1].count - a[1].count)
                 .map((i) => i[0]);
 
@@ -79,7 +76,7 @@ customElements.define(
             favicon.src = `https://icons.duckduckgo.com/ip3/${this.site}.ico`;
         }
 
-        onSiteSelChanged(evt) {
+        onSiteSelChanged(updateHistory = true) {
             this.updateFavicon();
 
             // request change up in the cloud and then also apply that change down
@@ -87,10 +84,12 @@ customElements.define(
             fetch("/setPrefSite?" + encodeURIComponent(this.site));
             this.dump.user.prefs.site = this.site;
 
-            // Update URL with project parameter
-            const newUrl = new URL(window.location);
-            newUrl.searchParams.set("project", this.site);
-            window.history.pushState({site: this.site}, "", newUrl);
+            // Update URL with project parameter (skip for popstate navigation)
+            if (updateHistory) {
+                const newUrl = new URL(window.location);
+                newUrl.searchParams.set("project", this.site);
+                window.history.pushState({site: this.site}, "", newUrl);
+            }
 
             document.dispatchEvent(
                 new CustomEvent("redraw", {

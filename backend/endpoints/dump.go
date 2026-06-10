@@ -109,14 +109,15 @@ func init() {
 		sessionlessUserId := ctx.GetSessionlessUserId()
 		userId := ctx.GetUserId()
 	
-		// Read project parameter from URL (American English: "project")
+		var user models.User
+		meta := map[string]string{}
+	
+		// Read project parameter from URL
 		projectFromUrl := ctx.R.FormValue("project")
 		if projectFromUrl != "" {
 			meta["project"] = projectFromUrl
 		}
 	
-		var user models.User
-		meta := map[string]string{}
 		if ctx.R.FormValue("demo") != "" {
 			user = ctx.User("counter") // counter is the magic demo user
 			meta = map[string]string{"demo": "1"}
