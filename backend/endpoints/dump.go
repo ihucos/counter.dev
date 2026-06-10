@@ -108,6 +108,13 @@ func init() {
 		utcOffset := ctx.ParseUTCOffset("utcoffset")
 		sessionlessUserId := ctx.GetSessionlessUserId()
 		userId := ctx.GetUserId()
+	
+		// Read project parameter from URL (American English: "project")
+		projectFromUrl := ctx.R.FormValue("project")
+		if projectFromUrl != "" {
+			meta["project"] = projectFromUrl
+		}
+	
 		var user models.User
 		meta := map[string]string{}
 		if ctx.R.FormValue("demo") != "" {

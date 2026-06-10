@@ -4,8 +4,23 @@ customElements.define(
         constructor() {
             super();
             this.last_sites = null;
+            // Read project parameter from URL
+            const urlParams = new URL(window.location).searchParams;
+            this.projectFromUrl = urlParams.get("project");
+            
             document.addEventListener("selector-daterange-fetched", (evt) => {
                 this.handleDateRangeFetched(evt.detail);
+            });
+            
+            // Handle browser back/forward
+            window.addEventListener("popstate", (evt) => {
+                if (evt.state && evt.state.site) {
+                    const select = document.getElementById("site-select");
+                    if (select) {
+                        select.value = evt.state.site;
+                        this.onSiteSelChanged();
+                    }
+                }
             });
         }
 
@@ -14,7 +29,7 @@ customElements.define(
             // all other components
             this.dump = dump;
 
-            var sites = Object.entries(dump.sites)
+            const sites = Object.entries(dump.sites)
                 .sort((a, b) => b[1].count - a[1].count)
                 .map((i) => i[0]);
 
@@ -29,8 +44,9 @@ customElements.define(
                 sites = ["counter.dev"];
             }
 
-            var sitePref = dump.user.prefs.site;
-            var rangePref = dump.user.prefs.range;
+            // Use meta.project if available (from URL parameter), otherwise use prefs.site
+            let sitePref = dump.meta.project || dump.user.prefs.site;
+            const rangePref = dump.user.prefs.range;
 
             this.style.display = "flex";
 
@@ -70,6 +86,11 @@ customElements.define(
             // here in the client
             fetch("/setPrefSite?" + encodeURIComponent(this.site));
             this.dump.user.prefs.site = this.site;
+
+            // Update URL with project parameter
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set("project", this.site);
+            window.history.pushState({site: this.site}, "", newUrl);
 
             document.dispatchEvent(
                 new CustomEvent("redraw", {
