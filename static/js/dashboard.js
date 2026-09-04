@@ -22,7 +22,7 @@ Chart.defaults.global.tooltips = {
     },
 };
 Chart.defaults.global.tooltips.callbacks.label = function (tooltipItem, data) {
-    var value = data.datasets[0].data[tooltipItem.index];
+    const value = data.datasets[0].data[tooltipItem.index];
     return numberFormat(value);
 };
 
@@ -37,9 +37,8 @@ function getSelectorEl() {
         return;
     }
 }
-selector = getSelectorEl(); // very import element
-
-allConnectedData = [];
+const selector = getSelectorEl(); // very important element
+const allConnectedData = [];
 function connectData(selector, getData) {
     Array.from(document.querySelectorAll(selector)).forEach((el) => {
         allConnectedData.push([el, getData]);
