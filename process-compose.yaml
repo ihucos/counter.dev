@@ -1,4 +1,0 @@
-processes:
-  static-serve:
-    command: 'nix-shell -p nodejs --command "npx http-serve static static_generated"'
-    working_dir: ./frontend
