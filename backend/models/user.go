@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"strings"
+	"sync"
 
 	"github.com/gomodule/redigo/redis"
 	uuidLib "github.com/google/uuid"
@@ -45,7 +46,13 @@ Cheers,
 
 The counter.dev team`
 
+// uuid2id caches the Redis "uuid2id" hash in memory. It is read and written
+// from every request goroutine (see NewUserByCachedUUID below), so it needs
+// its own lock: a plain map has no built-in concurrency safety, and the Go
+// runtime treats a concurrent map read/write as a fatal error that crashes
+// the whole process rather than something recover() can catch.
 var uuid2id = map[string]string{}
+var uuid2idMu sync.RWMutex
 
 type User struct {
 	redis        redis.Conn
@@ -91,7 +98,11 @@ func NewUserByCachedUUID(conn redis.Conn, uuid string, db *gorm.DB, passwordSalt
 	// Basically we must 'id' here so it can be set inside the if clause
 	var id string
 	var ok bool
+
+	uuid2idMu.RLock()
 	id, ok = uuid2id[uuid]
+	uuid2idMu.RUnlock()
+
 	if !ok {
 		// hit the redis db
 		id, err = redis.String(conn.Do("HGET", "uuid2id", uuid))
@@ -102,7 +113,9 @@ func NewUserByCachedUUID(conn redis.Conn, uuid string, db *gorm.DB, passwordSalt
 		}
 
 		// cache the value in memory
+		uuid2idMu.Lock()
 		uuid2id[uuid] = id
+		uuid2idMu.Unlock()
 	}
 	return NewUser(conn, id, db, passwordSalt), nil
 }
